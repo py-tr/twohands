@@ -100,13 +100,13 @@ The gate does not guess. It sends this one field to a person.
 
 <div class="cols">
 <div><div class="big">52</div>fields where the official capture does not match the paper<br><span class="small">17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo.</span></div>
-<div><div class="big">1 in 605</div>fields wrong on the 18% of forms the paper's gate accepts<br><span class="small">alone, the model mis-keys about 1 field in 37</span></div>
+<div>One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary.<br><span class="small">Note: the two-reader tier checks words = digits and row sums, without the section checks.</span></div>
 <div><div class="big">1 in 5</div>disputed fields is a confirmed capture error (52 of 267)<br><span class="small">the capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far); more than ten times the yield of a random check</span></div>
 </div>
 
-**Alone, the model mis-keys about 1 field in 37; the official two-person capture typed a wrong number in 1 field in 374. That is why the model never decides. The paper does, and a person sees the rest.**
+**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.**
 
-<p class="small">Gemma-4-31B-IT on AMD. Protocol committed (a93294c, Amendment 1 b0e443c) before any model read. The first capture is preliminary by design; the certified count is the official result. Recall: on forms the certified count settled by comparison, 16 of its 23 differences from the first capture are council corrections or blank rows; the model disputed all 7 others (small n).</p>
+<p class="small">One reader: about 1 in 605 accepted fields wrong. Gemma-4-31B-IT on AMD. Protocol committed (a93294c, Amendment 1 b0e443c) before any model read. The first capture is preliminary by design; the certified count is the official result. Recall: on forms the certified count settled by comparison, 16 of its 23 differences from the first capture are council corrections or blank rows; the model disputed all 7 others (small n).</p>
 
 ---
 
@@ -154,6 +154,8 @@ If the paper contradicts itself, the person escalates it. Nothing is corrected s
 | Tokens in / out | ~2,609 / 804 | ~8,739 / 1,667 |
 | Cost per form | $0.000144 | $0.000507 |
 
+Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
+
 AMD Token Factory, the organisers' hosted AMD GPUs. One request per form. ~2 forms/min under our shared-key pacing.
 
 <p class="small">Gemma: means over the 289 reads of the pre-registered run. Qwen: pilot, 43 forms. Locating, masking and the gate run on CPU.</p>
@@ -170,14 +172,14 @@ Gemma-4-31B-IT reads every value twice, the **handwritten digits** and the **amo
 - **Frozen prompt** (sha256 `3664253035b9…`), rows not named: Gemma reports each row's label, a shifted row is caught.
 - **Junk after the answer:** first complete JSON parsed, `max_tokens` 2000, `length` never accepted. 289/289 `stop`.
 
-| Same 259 forms, same prompt and gate | Gemma | Qwen3.8-27B |
+| Same 300 forms, same prompt and gate | Gemma | Qwen3.8-27B |
 |---|---|---|
-| Accepted, no person | **44** | 26 |
-| Accepted fields wrong | 2 of 968 | 1 of 572 |
-| Cost per form | **$0.000144** | $0.000580 |
-| Mean latency | **89 s** | 257 s |
+| Accepted, no person | **55** | 31 |
+| Accepted fields wrong | 2 of 1,210 | 1 of 682 |
+| Cost per form | **$0.000144** | $0.000597 |
+| Mean latency | **87 s** | 241 s |
 
-<p class="small">results/gemma_vs_qwen.md (scripts/gemma_vs_qwen.py; Qwen pass still running at writing). Gemma was withdrawn from AMD Token Factory on 2026-10-15 ~15:41 UTC; live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs. docs/GEMMA.md.</p>
+<p class="small">results/gemma_vs_qwen.md (scripts/gemma_vs_qwen.py; both passes complete). Gemma was withdrawn from AMD Token Factory on 2026-10-15 ~15:41 UTC; live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs. docs/GEMMA.md.</p>
 
 ---
 

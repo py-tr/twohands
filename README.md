@@ -19,11 +19,11 @@ Others check the model against the source. We check the record against the paper
 **Audit report sample:** add at submission (in the repo: [the 52, each with its crop](results/adjudication/SUMMARY.md)) ·
 **How to reproduce:** [`make eval`](#reproduce-every-number)
 
-| 52 | 1 in 605 | 1 in 5 |
+| 52 | 18% · 30% | 1 in 5 |
 |---|---|---|
-| fields where the official capture does not match the paper, each with its photo | fields wrong on the 18% of forms the paper's gate accepts with no person | disputed fields is a confirmed capture error (52 of 267) |
+| fields where the official capture does not match the paper, each with its photo | One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary. (Note: the two-reader tier checks words = digits and row sums, without the section checks.) | disputed fields is a confirmed capture error (52 of 267) |
 
-**Alone, the model mis-keys about 1 field in 37; the official two-person capture typed a wrong number in 1 field in 374. That is why the model never decides. The paper does, and a person sees the rest.**
+**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.**
 
 ![Option 07 on form 050815B0100: the words say "ciento setenta y cinco", the boxes say 1 7 5](slides/receipt_050815B0100.jpg)
 
@@ -67,7 +67,8 @@ official two-person capture (PREP); every disagreement was settled on a crop of 
 | Fields compared with the official capture | 6,358; the model agrees on 95.80% and disputes **267 (4.2%)** |
 | **Fields where the official capture does not match the paper** | **52**: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. The certified count covers 31 and confirms the paper on 22; all 9 differences were recounts |
 | The model alone | wrong on 173 of 6,358 fields: about **1 in 37** |
-| Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** |
+| Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** (one reader, the primary) |
+| Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong** (Amendment 2, pre-registered; the two-reader tier checks words = digits and row sums, without the section checks) |
 | Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). More than ten times the yield of a random check. |
 | Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n). |
 
@@ -83,13 +84,15 @@ verdict and crop: [`results/adjudication/`](results/adjudication/SUMMARY.md).
 |---|---|
 | Hardware | AMD GPUs behind **AMD Token Factory**, the organisers' hosted AMD inference endpoint (OpenAI-compatible) |
 | Primary reader | **Gemma-4-31B-IT**, temperature 0, one request per form; every measured read of the 300 |
-| Second reader | **Qwen3.8-27B**, reasoning effort low, on every form |
+| Second reader | **Qwen3.8-27B**, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
 | Measured on the 300 | Gemma: **87 s** mean latency on the shared endpoint, **$0.000144** per form, ~2,609 tokens in / 804 out, 289 of 289 replies `stop` |
 | Pilot (43 forms) | Gemma 49 s, $0.000118 per form; Qwen 85 s, $0.000507 per form |
 | Throughput | ~2 forms/min under our 6 req/min, 2-in-flight pacing on the shared endpoint |
 | Cost | **$0.14 per 1,000 forms** (Gemma); $20 to $86 compute cost to audit all 169,005 forms (Gemma, Qwen) |
 | Live reads | Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15; live reads in the app now fall back to Qwen on AMD, with a banner |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
+
+Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
 
 Full detail and the raw result files: [docs/AMD.md](docs/AMD.md). How Gemma is made to work here, and Gemma vs
 Qwen on the same forms: [docs/GEMMA.md](docs/GEMMA.md).

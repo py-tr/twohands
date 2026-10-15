@@ -5,6 +5,8 @@ Two Hands' reader is **Gemma-4-31B-IT**, served on AMD GPUs by AMD Token Factory
 is the engineering behind that: what the model has to do, the one limit we had to work around, how the reply is
 made safe to accept, what it costs, and how it compares with Qwen3.8-27B on the same forms.
 
+**Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.**
+
 ## 1. A job only a vision-language model can do
 
 A Mexican polling-station tally sheet (INE 2024, Presidencia) carries 23 quantities. Each is written **twice by

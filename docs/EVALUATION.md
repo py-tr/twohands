@@ -53,7 +53,7 @@ reads the same file) from `results/calls_gemma.jsonl` (last read per form) and `
 | Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). More than ten times the yield of a random check. |
 | Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n). (`results/adjudication/RECALL.md`) |
 
-**Alone, the model mis-keys about 1 field in 37; the official two-person capture typed a wrong number in 1 field in 374. That is why the model never decides. The paper does, and a person sees the rest.** On accepted fields the
+**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.** On accepted fields the
 pair made 1 error and the model 2; we never claim the model beats the pair. The first capture is preliminary by
 design; the certified count is the official result.
 

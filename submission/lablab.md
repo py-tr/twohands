@@ -7,9 +7,9 @@ recomputes them.
 
 Two Hands: receipts for every keyed number
 
-## Short description (244 characters)
+## Short description (253 characters)
 
-Every number keyed from paper, checked against the photo, with the photo as proof. Gemma on AMD read 300 random handwritten tally sheets and found 52 fields where the official capture differs from the paper, 22 confirmed by the certified count.
+Gemma on AMD read 300 random handwritten tally sheets: 52 fields where the official capture differs from the paper, each with its photo. One reader accepts 18% of forms with no person, 2 wrong fields in 1,210; two that must agree: 30%, 0 wrong in 1,958.
 
 ## Long description
 
@@ -28,15 +28,17 @@ of AMD compute per 1,000 forms, offered at $100 per 1,000 audited. A state's cou
 
 Others check the model against the source. We check the record against the paper.
 
-Alone, the model mis-keys about 1 field in 37; the official two-person capture typed a wrong number in 1 field in
-374. That is why the model never decides. The paper does, and a person sees the rest.
+One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary.
+(The two-reader tier checks words = digits and row sums, without the section checks.)
+
+Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.
 
 What runs on AMD: every measured read of the 300 is Gemma-4-31B-IT on AMD GPUs through AMD Token Factory, one
-request per form, at $0.000144 and 87 s per form on the shared endpoint. Qwen3.8-27B on the same endpoint is the second reader. The organisers withdrew Gemma from the endpoint on 15
+request per form, at $0.000144 and 87 s per form on the shared endpoint. Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance. The organisers withdrew Gemma from the endpoint on 15
 October, so live reads in the app now use Qwen3.8-27B on AMD. Page locating, the privacy mask and the gate run on
 CPU.
 
-Limits: the gate accepts only 18% of forms with no person (1 field in 605 wrong on those);
+Limits: one reader accepts only 18% of forms with no person (1 field in 605 wrong on those), two readers 30%;
 the rest are routed. The row-label check is costly: it routed 86 forms, and on 68 of them the read matched the paper on every field. 11 of the 300 pages could not be located and went to a person before
 any model call. Recall is measured on a small set (7 of 7).
 

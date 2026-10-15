@@ -68,9 +68,9 @@
   <div class="sec-head"><div><h2>Measured on a pre-registered random sample of {{ H.forms }} forms</h2><p>Sample, prompt and gate were committed before any model read. Graded field by field against the official two-person capture; every disagreement settled on the photo.</p></div><a class="btn sm" href="/results">Method and caveats {{ icon('arrow') }}</a></div>
   <div class="grid3">
     {% for h in n.headline %}
-    <div class="card stat">
-      <div class="v">{{ h.value }}</div>
-      <div class="l">{{ h.label }}</div>
+    <div class="card stat"{% if not h.value %} title="{{ L.gate_note }}"{% endif %}>
+      {% if h.value %}<div class="v">{{ h.value }}</div>{% endif %}
+      <div class="l"{% if not h.value %} style="font-size:1.05rem;line-height:1.45"{% endif %}>{{ h.label }}</div>
       {% if h.small %}<div class="s">{{ h.small }}</div>{% endif %}
       {% if h.small2 %}<div class="s">{{ h.small2 }}</div>{% endif %}
       {% if loop.first %}<div class="s"><b>{{ L.preliminary }}</b></div>{% endif %}
@@ -145,6 +145,7 @@
       {% if gq %}
       <div class="gemma-amd" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line, rgba(127,127,127,.25))">
         <div class="eyebrow" style="margin-bottom:6px">Gemma on AMD</div>
+        {% if L.gemma_role %}<p class="small" style="margin:0 0 8px"><b>{{ L.gemma_role }}</b></p>{% endif %}
         <p class="small" style="margin:0 0 8px">Gemma-4-31B-IT reads each field twice, the handwritten digits and the amount written in Spanish words, plus the printed label of each row, on phone photos and faint pencil. It gets a fixed ~{{ gq.img_g }} tokens per image whatever the resolution, so each request is the page plus 6 zoomed tiles (the vote rows at ~8x the page's token density); on rainfall ledgers that took Gemma from 79% to 97% of cells right. Frozen prompt <code>{{ gq.prompt }}…</code>; the first complete JSON is parsed, a reply cut at <code>max_tokens</code> is never accepted.</p>
         <dl class="kv small">
           <dt>Same {{ gq.n }} forms{% if not gq.complete %} <span class="muted">(Qwen pass running)</span>{% endif %}</dt><dd>Gemma / Qwen3.8-27B</dd>

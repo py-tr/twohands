@@ -126,11 +126,49 @@ def tier_lines(T: dict | None) -> dict:
     }
 
 
+_FRACTION = {2: "half", 3: "a third", 4: "a quarter", 5: "a fifth"}
+
+
+def gate_lines(H: dict, T: dict | None) -> dict:
+    """The hero's gate line (both pre-registered tiers in one sentence, the one-reader primary first), the honest
+    sentence, and Gemma's role. Two-reader wording only when the tier file is loaded; else the one-reader sentences."""
+    g_one = (f"One reader: {H['accepted_pct']}% of forms with no person, {H['acc_model_wrong']} wrong fields in "
+             f"{H['acc_fields']:,}.")
+    note = "the two-reader tier checks words = digits and row sums, without the section checks"
+    if not T or "tiers" not in T:
+        return {"gate": {"value": None, "label": g_one + " The one-reader figure is the primary.", "small": None},
+                "honest": (f"Alone, the model mis-keys about 1 field in {H['model_one_in']}; the official two-person capture "
+                           f"typed a wrong number in 1 field in {H['wrong_number_one_in']}. That is why the model never "
+                           f"decides. The paper does, and a person sees the rest."),
+                "gemma_role": None}
+    t2, tg, tq = T["tiers"]["two_reader"], T["tiers"]["gemma"], T["tiers"]["qwen"]
+    gq = storemod._jload(storemod.DATA / "gemma_vs_qwen.json", None) or {}
+    share = gq.get("gemma_cost_share_of_qwen")
+    k = round(1 / share) if share else None
+    cost = (f", and costs {_FRACTION.get(k, f'1/{k}')} of the second reader" if k else "")
+    return {
+        "gate": {"value": None,
+                 "label": (f"{g_one} Two readers that must agree, with the paper's sums as referee: "
+                           f"{pct(t2['accepted'], T['forms'])}, {t2['errors']} wrong in {t2['fields']:,}. Both "
+                           f"pre-registered; the one-reader figure is the primary."),
+                 "small": f"Note: {note}."},
+        "gate_note": note,
+        "honest": (f"Alone, one model mis-keys 1 field in {H['model_one_in']}. Two models that agree, refereed by the paper, "
+                   f"mis-keyed {t2['errors']} of {t2['fields']:,}."),
+        "gemma_role": (f"Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms "
+                       f"alone ({tg['accepted']} against Qwen's {tq['accepted']}){cost}. In two-reader mode a second "
+                       f"model must agree with Gemma field by field before the paper's arithmetic accepts; the second "
+                       f"reader never overrides Gemma, it only withholds acceptance."),
+    }
+
+
 def lines(H: dict, T: dict | None = None) -> dict:
     """The sentences built from the summary, word for word as the pages show them."""
     if not H:
         return {}
-    TL = tier_lines(T if T is not None else tiers())
+    T = T if T is not None else tiers()
+    TL = tier_lines(T)
+    GL = gate_lines(H, T)
     r, v, rc, fa = H["recall"], H["verdicts"], H["receipt"], H["faint"]
     ci2 = r.get("ci2") or [0, 0]
     bt = {t["type"]: t["n"] for t in H["by_type"]}
@@ -158,9 +196,10 @@ def lines(H: dict, T: dict | None = None) -> dict:
                             f"{H['fields']:,} found so far).")
                            + (" More than ten times the yield of a random check." if high else ""),
                   "small": None},
-        "honest": (f"Alone, the model mis-keys about 1 field in {H['model_one_in']}; the official two-person capture typed "
-                   f"a wrong number in 1 field in {H['wrong_number_one_in']}. That is why the model never decides. The "
-                   f"paper does, and a person sees the rest."),
+        "honest": GL["honest"],
+        "gate": GL["gate"],
+        "gemma_role": GL["gemma_role"],
+        "gate_note": GL.get("gate_note"),
         "preliminary": "The first capture is preliminary by design; the certified count is the official result.",
         "recall": (f"On the forms the certified count settled by comparison, it differs from the first capture on {r['E']} "
                    f"fields; judged on the paper, {r['corrections']} of them are council corrections or blank rows (the "
@@ -193,7 +232,7 @@ def home(st: storemod.Store) -> dict:
     L = lines(H)
     headline_cards = [dict(L[k], source=src) for k, src in (
         ("keying", "results/adjudication/SUMMARY.md + CERTIFIED.md (app/data/headline.json)"),
-        ("rate", "results/adjudication/SUMMARY.md (app/data/headline.json)"),
+        ("gate", "app/data/headline.json (one reader, primary) + app/data/two_reader_300.json (two readers, Amendment 2 d)"),
         ("yield", "results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md, \"Behind more than ten times the yield of a random check\""))] if H else []
     q = st.run_metrics("spike-qwen") if "spike-qwen" in st.runs else None
     g = st.run_metrics("spike-gemma-v2")
