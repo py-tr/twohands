@@ -642,3 +642,11 @@ footer .brand { margin-bottom: var(--s-3); }
   .au-bar .mono { grid-column: 2; }
   .au-maprow { grid-template-columns: minmax(0, 1fr); gap: 4px; }
 }
+
+/* narrow phones: the brand keeps its room; a long AMD status shortens instead of running under it */
+@media (max-width: 480px) {
+  .top .wrap { gap: 10px; }
+  .brand { flex: none; }
+  .amdpill { min-width: 0; overflow: hidden; text-overflow: ellipsis; display: block; line-height: 1.5; }
+  .amdpill .pdot { display: inline-block; margin-right: 6px; vertical-align: 0; }
+}

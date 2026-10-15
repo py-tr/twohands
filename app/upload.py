@@ -5,7 +5,9 @@ queued through the same live-read path (budget guard, one at a time).
 Privacy rules (tests/test_app_upload.py):
   * The raw upload is never written to disk: the request body is read into memory (no multipart spooling, no
     temp file), decoded with PIL, and dropped.
-  * A page the core cannot locate is not stored at all (NotLocated -> a friendly message, nothing on disk).
+  * A page the core cannot locate is not stored at all (NotLocated -> a friendly message, nothing on disk). The
+    person may then click the four corner markers on the photo (shown from the browser's own copy, never re-served);
+    the photo is sent again with those points and registered from them in memory (twohands.corners), same mask.
   * What is stored is the masked canonical page (names-and-signatures column blacked out) plus a small JSON
     note (locator scores, time). Upload ids are random; uploads live under app/state/uploads/ (git-ignored).
 """
@@ -93,11 +95,27 @@ NOT_LOCATED_MSG = ("We could not find the form's frame on this photo, so nothing
                    "A page that cannot be located always goes to a person; for a demo read, try another photo.")
 
 
-def locate_and_mask(data: bytes, layout: str = "movil"):
+NOT_LOCATED_CORNERS_MSG = ("Those four points did not give us the form, so nothing was stored or sent. Click the centre of "
+                           "each black corner square once, then try again.")
+
+
+def parse_corners(raw: Optional[str]) -> Optional[list]:
+    """'x1,y1,x2,y2,x3,y3,x4,y4' (photo pixels) -> [[x, y] * 4]; None when absent. Raises ValueError when malformed."""
+    if raw is None or not str(raw).strip():
+        return None
+    v = [float(x) for x in str(raw).split(",")]
+    if len(v) != 8:
+        raise ValueError("need four corner points")
+    return [[v[i], v[i + 1]] for i in range(0, 8, 2)]
+
+
+def locate_and_mask(data: bytes, layout: str = "movil", corners: Optional[list] = None):
     """Bytes in memory -> (masked canonical page, info), all in memory, through the core (twohands.mask.prepare,
     imported, not changed). Nothing is written. Returns (None, error dict) when it is not a photo or not located.
-    Shared by the photo upload and the audit's ZIP of scans: the only way an image reaches app/state."""
-    from twohands import mask, register  # the core, imported and used as is
+    Shared by the photo upload and the audit's ZIP of scans: the only way an image reaches app/state.
+    With ``corners`` (four marker centres a person clicked, for a page the locator missed) the page is registered
+    from those points by the core (twohands.corners.prepare: same canonical page, same mask)."""
+    from twohands import corners as cornersmod, mask, register  # the core, imported and used as is
 
     try:
         img = decode(data)
@@ -106,9 +124,12 @@ def locate_and_mask(data: bytes, layout: str = "movil"):
     finally:
         data = None  # noqa: F841  drop our reference to the raw bytes
     try:
+        if corners is not None:
+            return cornersmod.prepare(img, corners, layout)
         return mask.prepare(img, layout)
     except register.NotLocated as e:
-        return None, {"ok": False, "code": "not_located", "detail": str(e)[:160], "message": NOT_LOCATED_MSG}
+        return None, {"ok": False, "code": "not_located", "detail": str(e)[:160], "manual": corners is not None,
+                      "message": NOT_LOCATED_CORNERS_MSG if corners is not None else NOT_LOCATED_MSG}
     finally:
         del img
 
@@ -119,10 +140,11 @@ def save_masked(page, path: Path) -> None:
     mask.save(page, path)
 
 
-def process(data: bytes, source: str = "upload", sample_of: Optional[str] = None, layout: str = "movil") -> dict:
+def process(data: bytes, source: str = "upload", sample_of: Optional[str] = None, layout: str = "movil",
+            corners: Optional[list] = None) -> dict:
     """Locate, straighten and mask in memory; store only the masked page. Returns a result dict:
     {"ok": True, "id": ..., "info": ...} or {"ok": False, "code": "not_located"|"not_a_photo", "message": ...}."""
-    page, info = locate_and_mask(data, layout)
+    page, info = locate_and_mask(data, layout, corners)
     data = None  # noqa: F841
     if page is None:
         return info

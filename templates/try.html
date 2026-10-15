@@ -92,7 +92,13 @@
         <div class="big" style="background:var(--warn-soft);color:var(--warn)">{{ icon('alert') }}</div>
         <h2 id="failTitle">We could not find the form on that photo</h2>
         <p class="small" id="failMsg" style="margin:6px auto 0;max-width:30em;color:var(--ink-2)"></p>
-        <div class="actions"><button class="btn primary" id="again">{{ icon('camera') }}Try another photo</button></div>
+        <div class="actions"><button class="btn primary" id="pickGo" hidden>{{ icon('image') }}Click the four corners</button><button class="btn" id="again">{{ icon('camera') }}Try another photo</button></div>
+      </div>
+      <div id="dropPick" hidden>
+        <h2 style="margin-bottom:4px">Click the four corner markers</h2>
+        <p class="small muted" style="margin:0 auto 10px;max-width:34em">Click the centre of each solid black square at the corners of the form, in any order. Your photo is shown from your own browser; it is not stored. Only the straightened, masked page is kept.</p>
+        <div class="cpick" id="cpick"><img id="cpImg" alt="Your photo: click the four corner markers"><div id="cpDots"></div></div>
+        <div class="actions" style="margin-top:12px"><span class="small" id="cpN">0 of 4 corners</span><button class="btn" id="cpUndo" disabled>Undo</button><button class="btn primary" id="cpUse" disabled>{{ icon('check') }}Use these corners</button><button class="btn" id="cpCancel">Cancel</button></div>
       </div>
     </div>
 
@@ -114,6 +120,11 @@
     <div class="privacy" style="margin-top:var(--s-5)">{{ icon('shield') }}<div><b>Privacy.</b> Your photo is processed in memory and never written to disk. If the form is found, only the straightened page with the names-and-signatures column blacked out is kept and sent to the model. If it is not found, nothing is kept.</div></div>
   </div>
 </div>
+<style>
+.cpick { position: relative; display: inline-block; max-width: 100%; cursor: crosshair; line-height: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; touch-action: manipulation; }
+.cpick img { display: block; max-width: 100%; max-height: 62vh; width: auto; height: auto; user-select: none; -webkit-user-drag: none; }
+.cpick .dot { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; border: 3px solid #fff; background: var(--accent); box-shadow: 0 0 0 2px var(--accent), 0 2px 6px rgba(0,0,0,.4); color: #fff; font: 700 11px/16px var(--sans); text-align: center; pointer-events: none; }
+</style>
 {% endif %}
 {% endblock %}
 {% block scripts %}
@@ -129,8 +140,9 @@
     return;
   }
   var drop = document.getElementById('drop'), idle = document.getElementById('dropIdle'), busy = document.getElementById('dropBusy'),
-      fail = document.getElementById('dropFail');
-  function show(which) { idle.hidden = which !== 'idle'; busy.hidden = which !== 'busy'; fail.hidden = which !== 'fail'; }
+      fail = document.getElementById('dropFail'), pickEl = document.getElementById('dropPick');
+  var lastFile = null, lastUrl = null, pts = [];
+  function show(which) { idle.hidden = which !== 'idle'; busy.hidden = which !== 'busy'; fail.hidden = which !== 'fail'; pickEl.hidden = which !== 'pick'; }
   function mark(id, cls) { document.getElementById(id).className = cls; }
   function done(res) {
     if (res.ok && res.j.ok) {
@@ -143,8 +155,40 @@
     show('fail');
     var j = res.j || {};
     document.getElementById('failTitle').textContent = j.code === 'not_located' ? 'We could not find the form on that photo' : 'That file did not work';
-    document.getElementById('failMsg').textContent = (j.message || 'Something went wrong.') + (j.code === 'not_located' ? ' Check the list on the right: all four corners in the frame, flat, even light.' : '');
+    document.getElementById('failMsg').textContent = (j.message || 'Something went wrong.') + (j.code === 'not_located' && !j.manual ? ' Check the list on the right: all four corners in the frame, flat, even light. Or click the four corner markers yourself.' : '');
+    document.getElementById('pickGo').hidden = !(j.code === 'not_located' && lastFile);
   }
+  // manual four-corner pick: the photo is shown from the browser's own copy (an object URL), never from the server
+  var cpImg = document.getElementById('cpImg'), cpDots = document.getElementById('cpDots');
+  function drawDots() {
+    cpDots.innerHTML = '';
+    pts.forEach(function (p, i) {
+      var d = document.createElement('div'); d.className = 'dot'; d.textContent = i + 1;
+      d.style.left = (100 * p[0] / cpImg.naturalWidth) + '%'; d.style.top = (100 * p[1] / cpImg.naturalHeight) + '%';
+      cpDots.appendChild(d);
+    });
+    document.getElementById('cpN').textContent = pts.length + ' of 4 corners';
+    document.getElementById('cpUndo').disabled = !pts.length;
+    document.getElementById('cpUse').disabled = pts.length !== 4;
+  }
+  document.getElementById('pickGo').addEventListener('click', function () {
+    if (!lastFile) return;
+    if (lastUrl) URL.revokeObjectURL(lastUrl);
+    lastUrl = URL.createObjectURL(lastFile); pts = [];
+    cpImg.onload = drawDots; cpImg.src = lastUrl; show('pick');
+  });
+  cpImg.addEventListener('click', function (e) {
+    if (pts.length >= 4) return;
+    var r = cpImg.getBoundingClientRect();
+    pts.push([Math.round((e.clientX - r.left) * cpImg.naturalWidth / r.width), Math.round((e.clientY - r.top) * cpImg.naturalHeight / r.height)]);
+    drawDots();
+  });
+  document.getElementById('cpUndo').addEventListener('click', function () { pts.pop(); drawDots(); });
+  document.getElementById('cpCancel').addEventListener('click', function () { show('fail'); });
+  document.getElementById('cpUse').addEventListener('click', function () {
+    if (pts.length !== 4) return;
+    send(lastFile, '/api/upload?corners=' + pts.map(function (p) { return p.join(','); }).join(','));
+  });
   function send(body, url) {
     show('busy'); mark('stUp', 'now'); mark('stLoc', ''); mark('stMask', ''); mark('stQ', '');
     var t = setTimeout(function () { mark('stUp', 'did'); mark('stLoc', 'now'); }, 400);
@@ -153,15 +197,15 @@
       .then(function (res) { clearTimeout(t); done(res); })
       .catch(function () { clearTimeout(t); done({ok: false, j: {message: 'Could not reach the server.'}}); });
   }
-  function pick(e) { var f = e.target.files && e.target.files[0]; if (f) send(f, '/api/upload'); e.target.value = ''; }
+  function pick(e) { var f = e.target.files && e.target.files[0]; if (f) { lastFile = f; send(f, '/api/upload'); } e.target.value = ''; }
   document.getElementById('camIn').addEventListener('change', pick);
   document.getElementById('fileIn').addEventListener('change', pick);
   document.getElementById('again').addEventListener('click', function () { show('idle'); });
   ['dragenter', 'dragover'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
   ['dragleave', 'drop'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
-  drop.addEventListener('drop', function (e) { var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) send(f, '/api/upload'); });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) { lastFile = f; send(f, '/api/upload'); } });
   document.querySelectorAll('[data-sample]').forEach(function (b) {
-    b.addEventListener('click', function () { window.scrollTo({top: 0, behavior: 'smooth'}); send(null, '/api/upload/sample/' + b.dataset.sample); });
+    b.addEventListener('click', function () { window.scrollTo({top: 0, behavior: 'smooth'}); lastFile = null; send(null, '/api/upload/sample/' + b.dataset.sample); });
   });
 })();
 </script>

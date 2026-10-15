@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Be the second keyer · Two Hands{% endblock %}
+{% block content %}
+<style>
+.kz { max-width: 860px; }
+.kz .bar { height: 6px; background: var(--line); border-radius: 3px; margin: 0 0 var(--s-4); overflow: hidden; }
+.kz .bar span { display: block; height: 100%; background: var(--accent); transition: width .25s; }
+.kz .crop { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); background: #000; }
+.kz .slot-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.kz .slot-head b { font-size: var(--t-lg); }
+.kz label.in { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: var(--t-sm); margin-top: var(--s-4); max-width: 340px; }
+.kz input[type=text] { font: 600 26px/1.2 var(--mono); padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); width: 100%; }
+.kz input[type=text]:focus { outline: 2px solid var(--accent); border-color: transparent; }
+.kz .slot + .slot { margin-top: var(--s-5); }
+.kz.js .slot + .slot { margin-top: 0; }
+.kz .nav-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: var(--s-4); }
+.kz kbd { font: 12px var(--mono); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+.kz .score { font-size: var(--t-xl); font-weight: 650; line-height: 1.35; letter-spacing: -.01em; margin: 0; }
+.kz .tally { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: var(--s-4); }
+.kz .tally div { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.kz .tally b { display: block; font: 700 var(--t-2xl)/1.1 var(--mono); }
+.kz .tally span { display: block; font-size: var(--t-xs); line-height: 1.35; color: var(--muted); margin-top: 4px; }
+.kz .res .crop { margin-bottom: 6px; }
+.kz .res .rh { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0 0 10px; }
+.kz .vals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.kz .vals > div { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.kz .vals .k { font-size: var(--t-xs); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.kz .vals .v { font: 650 var(--t-lg)/1.3 var(--mono); }
+.kz .vals .s { font-size: var(--t-xs); color: var(--muted); line-height: 1.4; }
+.kz .vals .ok { border-color: var(--ok-line); background: var(--ok-soft); }
+.kz .vals .no { border-color: var(--bad-line); background: var(--bad-soft); }
+.kz .vals .truth { grid-column: 1 / -1; border-color: var(--ink); }
+.kz .tag { display: inline-block; font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: .05em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); vertical-align: 2px; }
+.kz .tag.err { color: var(--bad); border-color: var(--bad-line); background: var(--bad-soft); }
+.kz .tag.easy { color: var(--ok); border-color: var(--ok-line); background: var(--ok-soft); }
+@media (max-width: 760px) { .kz .vals { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .kz .score { font-size: var(--t-lg); }
+  .kz .tally b { font-size: var(--t-xl); }
+}
+</style>
+<div class="kz{{ ' js' if items }}" id="kz">
+<div class="page-head">
+  <div class="eyebrow">Be the second keyer</div>
+  {% if items %}
+  <h1>Key five fields from the paper</h1>
+  <p class="lede">Each crop is one field of a real tally sheet, privacy-masked. Type the number the paper shows, as a capture clerk would. You see nothing else until the end: then your value sits next to the official capture, the model's read with the paper's arithmetic, and what the photo says.</p>
+  {% else %}
+  <h1>How your keying compares</h1>
+  {% endif %}
+</div>
+
+{% if items %}
+<form class="card" id="kf" method="get" action="/keyer/reveal" autocomplete="off">
+  <input type="hidden" name="s" value="{{ seed }}">
+  <div class="bar"><span id="kbar" style="width:0%"></span></div>
+  {% for it in items %}
+  <div class="slot" data-slot="{{ it.slot }}">
+    <div class="slot-head"><b>Field {{ it.slot + 1 }} of {{ items|length }} · {{ it.field }}</b><span class="small muted">the band framed in pink</span></div>
+    <img class="crop" src="/keyer/img/{{ seed }}/{{ it.slot }}.jpg" alt="masked crop of one field: {{ it.field }}" {% if it.slot > 0 %}loading="lazy"{% endif %}>
+    <label class="in">The paper says<input type="text" name="a" inputmode="numeric" placeholder="e.g. 175"><span class="tiny" style="font-weight:400">Type b if the field is blank, ? if you can't tell.</span></label>
+  </div>
+  {% endfor %}
+  <div class="nav-row">
+    <button type="button" class="btn" id="kback" style="display:none">Back</button>
+    <button type="submit" class="btn primary" id="knext">{{ icon('check') }}<span>Reveal</span></button>
+    <span class="tiny">Enter goes to the next field. Nothing you type is stored.</span>
+  </div>
+</form>
+<p class="small muted" style="margin-top:var(--s-4)">The five fields are drawn at random from the fields our photo adjudication settled: some where the official capture was wrong, some where it was right. "Capture error" means the keyed value does not match the paper, nothing more.</p>
+{% else %}
+{% set S = R.score %}
+<div class="card">
+  <p class="score" id="scoreline">{{ S.line }}</p>
+  <div class="tally">
+    <div><b>{{ S.you }}/{{ S.n }}</b><span>you matched the paper</span></div>
+    <div><b>{{ S.official }}/{{ S.n }}</b><span>the official capture matched</span></div>
+    <div><b>{{ S.routed }}/{{ S.n }}</b><span>routed to a person; {{ S.accepted }} accepted</span></div>
+  </div>
+  <div class="actions"><a class="btn primary" href="/keyer">{{ icon('refresh') }}Play another five</a><a class="btn" href="/audit">{{ icon('audit') }}See every capture error</a></div>
+</div>
+{% for r in R.rows %}
+<div class="card res" style="margin-top:var(--s-4)">
+  <div class="rh"><div><b>Field {{ r.slot + 1 }} · {{ r.field }}</b> {% if r.verdict == 'model_right' %}<span class="tag err">capture error</span>{% else %}<span class="tag easy">capture right</span>{% endif %}</div><span class="tiny">Form <span class="mono">{{ r.form }}</span></span></div>
+  <img class="crop" src="/keyer/img/{{ R.seed }}/{{ r.slot }}.jpg" alt="masked crop: {{ r.field }} on form {{ r.form }}" loading="lazy">
+  <div>
+    <div class="vals">
+      <div class="{{ 'ok' if r.you_ok else 'no' }}"><div class="k">You</div><div class="v">{{ r.you_raw or '–' }}</div><div class="s">{{ 'matches the paper' if r.you_ok else 'differs from the paper' }}</div></div>
+      <div class="{{ 'ok' if r.official_ok else 'no' }}"><div class="k">Official capture</div><div class="v">{{ r.official }}</div><div class="s">{{ 'matches the paper' if r.official_ok else 'a capture error' }}</div></div>
+      <div class="{{ 'ok' if r.gate == 'accepted' and r.model_ok else ('no' if r.gate == 'accepted' else '') }}"><div class="k">Model read</div><div class="v">{{ r.model_n if r.model_n is not none else 'blank' }}{% if r.model_w is not none and r.model_w != r.model_n %} <span class="small muted">words {{ r.model_w }}</span>{% endif %}</div><div class="s">digits{% if r.model_w is not none and r.model_w == r.model_n %} and words agree{% endif %}; {{ 'matches' if r.model_ok else 'differs from' }} the paper</div></div>
+      <div><div class="k">Gate</div><div class="v" style="font-family:var(--sans);font-size:var(--t-base)">{{ 'Accepted' if r.gate == 'accepted' else 'Routed to a person' }}</div><div class="s">{{ r.gate_why }}</div></div>
+      <div class="truth"><div class="k">The paper, from the photo</div><div class="v">{{ r.paper }}</div><div class="s">{{ r.evidence }}</div></div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<p class="small muted" style="margin-top:var(--s-4)">The paper's value is the photo adjudication of each field (words and digit boxes read on the masked page). The gate accepts a form only when every identity on the paper holds with the model's read; anything else goes to a person. Share this round: <a href="/keyer?s={{ R.seed }}">/keyer?s={{ R.seed }}</a></p>
+{% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+{% if items %}
+<script>
+(function () {
+  var f = document.getElementById('kf'), slots = f.querySelectorAll('.slot'), n = slots.length, i = 0,
+      back = document.getElementById('kback'), next = document.getElementById('knext'), bar = document.getElementById('kbar');
+  function go(k) {
+    i = Math.max(0, Math.min(n - 1, k));
+    slots.forEach(function (s, j) { s.hidden = j !== i; });
+    back.style.display = i === 0 ? 'none' : '';
+    next.querySelector('span').textContent = i === n - 1 ? 'Reveal' : 'Next';
+    bar.style.width = (100 * i / n) + '%';
+    var inp = slots[i].querySelector('input'); inp.focus(); inp.select();
+  }
+  f.addEventListener('submit', function (e) { if (i < n - 1) { e.preventDefault(); go(i + 1); } else { bar.style.width = '100%'; } });
+  back.addEventListener('click', function () { go(i - 1); });
+  go(0);
+})();
+</script>
+{% endif %}
+{% endblock %}

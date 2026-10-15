@@ -43,9 +43,22 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
 .evo .fd { margin: 4px 0 6px; }
 .evo button { font: 600 12.5px Inter, sans-serif; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 4px 10px; cursor: pointer; margin-right: 6px; }
 .evo button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.toggle { display: inline-flex; align-items: center; gap: 8px; }
+.toggle .sw { width: 30px; height: 18px; border-radius: 999px; background: var(--line); position: relative; flex: none; }
+.toggle .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.3); }
+.toggle.on .sw { background: var(--ok); } .toggle.on .sw::after { left: 14px; }
+.second { font-size: 13px; margin-top: 4px; } .second.agree { color: var(--ok); font-weight: 600; } .second.na { color: var(--muted); font-style: italic; }
+.demoted { font-size: 11px; color: var(--muted); }
+.strictnote { border: 1px solid var(--line); border-left: 3px solid var(--ok); border-radius: 8px; padding: 10px 12px; font-size: 13.5px; margin-top: 14px; }
+.fp { margin-top: 28px; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 12.5px; color: var(--muted); }
+.fp .h { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 650; color: var(--ink); }
+.fp .hash { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; color: var(--ink); word-break: break-all; font-weight: 600; margin: 4px 0 8px; }
+.fp table { border-collapse: collapse; width: 100%; } .fp td { padding: 3px 0; vertical-align: top; border-top: 1px solid var(--line); }
+.fp td.hv { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; word-break: break-all; padding-left: 12px; width: 62%; }
+.metafp { font-family: "JetBrains Mono", ui-monospace, monospace; }
 #evomsg { font-size: 13px; color: var(--muted); max-width: 920px; margin: 6px auto 0; padding: 0 16px; text-align: right; }
 @media (max-width: 640px) {
-  .bar { padding: 0 16px; gap: 8px; } .bar a, .bar button { padding: 7px 11px; font-size: 13px; white-space: nowrap; }
+  .bar { padding: 0 16px; gap: 8px; flex-wrap: wrap; justify-content: flex-start; } .bar a, .bar button { padding: 7px 11px; font-size: 13px; white-space: nowrap; }
   .sheet { margin: 12px 0; border-radius: 0; border-left: 0; border-right: 0; padding: 24px 16px; }
   h1 { font-size: 22px; }
   .item { grid-template-columns: 26px minmax(0, 1fr); }
@@ -61,12 +74,13 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
 </style>
 </head>
 <body>
-<div class="bar">{% if R.tiers.strong %}<a href="#" id="evogo" title="Send each strong-evidence field to the Evolus workflow 'Audit finding' (at most 18, paced)">Open as Evolus cases</a>{% endif %}<a href="/audit/{{ a.id }}">Back to the audit</a><a href="/audit/{{ a.id }}/report.csv" download>CSV</a><button onclick="window.print()">Print / PDF</button></div>
+<div class="bar">{% if R.tiers.strong %}<a href="#" id="evogo" title="Send each strong-evidence field to the Evolus workflow 'Audit finding' (at most 18, paced)">Open as Evolus cases</a>{% endif %}<a class="toggle{{ ' on' if strict }}" href="/audit/{{ a.id }}/report{{ '' if strict else '?strict=1' }}{% if only %}{{ '&' if not strict else '?' }}only={{ only }}{% endif %}" title="Strict mode: a field is strong only if two readers, Gemma and Qwen, both read the same value that differs from the keyed one" role="switch" aria-checked="{{ 'true' if strict else 'false' }}"><span class="sw"></span>Strict mode</a><a href="/audit/{{ a.id }}">Back to the audit</a><a href="/audit/{{ a.id }}/report.csv{{ '?strict=1' if strict }}" download>CSV</a><button onclick="window.print()">Print / PDF</button></div>
 <div id="evomsg">{% if EV %}{{ EV|length }} Evolus audit case{{ 's' if EV|length != 1 }} for this audit.{% endif %}</div>
 <article class="sheet">
   <div class="eyebrow">Two Hands · audit of a keyed capture against its paper</div>
   <h1>Audit report: {{ R.checked|int }} fields checked, {{ R.disputed|int }} disputed, each with its photo</h1>
-  <div class="meta">{{ a.name }} · {{ R.forms_keyed|int }} forms in the keyed file, {{ R.forms_read|int }} compared · audit <span class="mono">{{ a.id }}</span> · {{ today }}</div>
+  <div class="meta">{{ a.name }} · {{ R.forms_keyed|int }} forms in the keyed file, {{ R.forms_read|int }} compared · audit <span class="mono">{{ a.id }}</span> · {{ today }}{% if strict %} · strict mode{% endif %} · fingerprint <span class="metafp">{{ FP.sha256[:16] }}</span></div>
+  {% if strict and R.second %}<div class="strictnote"><b>Strict mode.</b> A field counts as strong evidence only if two readers, Gemma-4-31B-IT and {{ R.second.name }}, both read the same value and it differs from the keyed one. A second read was available for {{ R.second.available }} of {{ R.disputed|int }} disputed fields ("second reader not available" on the rest); the two agreed against the keyed value on {{ R.second.agree }}; {{ R.second.demoted }} field{{ 's' if R.second.demoted != 1 }} that would be strong on one reader {{ 'are' if R.second.demoted != 1 else 'is' }} listed as medium.</div>{% endif %}
 
   <h2>Summary</h2>
   <table class="sum">
@@ -96,6 +110,7 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
       <div class="hd"><span class="mono">{{ d.form }}</span> · {{ d.name }} <span class="tier {{ d.tier }}">{{ d.tier }}</span>{% if d.mark %} <span class="mk {{ d.mark }}">{{ MARKS[d.mark] }}</span>{% endif %}</div>
       <div class="vals"><div class="k"><span>Keyed</span><b>{{ d.keyed }}</b></div><div><span>Model digits</span><b>{{ d.model if d.model is not none else 'blank' }}</b></div><div><span>Model words</span><b>{{ d.words if d.words is not none else '–' }}</b></div></div>
       <ul class="ev">{% for s in d.signals %}<li>{{ s.text }}</li>{% endfor %}</ul>
+      {% if d.second %}<div class="second {{ 'agree' if d.second.agrees else ('na' if not d.second.available else '') }}">{{ d.second.text[:1]|upper }}{{ d.second.text[1:] }}{% if d.demoted %} <span class="demoted">(strong on one reader; medium in strict mode)</span>{% endif %}</div>{% endif %}
       {% if d.tier == 'strong' %}{% set c = EV.get(d.key) %}
       <div class="evo" data-k="{{ d.key }}"{% if not c %} hidden{% endif %}>
         <div class="st">Evolus audit case · run <span class="mono rid">{{ (c.execution_id or '')[:8] if c else '' }}</span> · <span class="rs">{{ c.run_status if c else '' }}</span> · status <b class="cs">{{ c.case_status if c else 'open' }}</b></div>
@@ -105,6 +120,15 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
     </div>
   </div>
   {% endfor %}
+  <div class="fp">
+    <div class="h">Report fingerprint</div>
+    <div class="hash" id="fingerprint">{{ FP.sha256 }}</div>
+    <div>SHA-256 over this report's content ({{ 'strict mode' if strict else 'standard mode' }}{{ ', unrefuted fields only' if only }}: every listed field in order, with its values, evidence, {% if strict %}second reader, {% endif %}auditor mark) and the hash of each input file. The same inputs and marks give the same fingerprint; the CSV export ends with the same one.</div>
+    <table style="margin-top:8px">
+      <tr><td>Report content</td><td class="hv">{{ FP.content_sha256 }}</td></tr>
+      {% for i in FP.inputs %}<tr><td>Input: {{ i.name }} <span class="metafp">({{ i.file }})</span></td><td class="hv">{{ i.sha256 }}</td></tr>{% endfor %}
+    </table>
+  </div>
   <p class="foot">Crops are cut from masked pages only.{% if a.source == 'sample' %} Keyed data of the sample: INE PREP 2024, reused under INE's free-use terms (Libre-Uso-MX); an independent demonstration of clerical capture quality, not an official INE product.{% endif %}</p>
 </article>
 <script>

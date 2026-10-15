@@ -19,6 +19,7 @@ own column names are shown neutralised (an INE column is shown as the field it h
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import json
 import re
@@ -36,6 +37,7 @@ from app import upload as uploadmod
 AUDITS = storemod.STATE / "audits"
 SAMPLE_CSV = storemod.DATA / "audit_sample_prep300.csv"
 STORED_RUN = storemod.RESULTS / "calls_gemma.jsonl"
+SECOND_RUN = storemod.RESULTS / "calls_qwen.jsonl"   # the second reader (Qwen3.8-27B) for strict mode; read only
 VERDICTS = storemod.RESULTS / "adjudication" / "verdicts.json"
 ADJ_LEDGER = storemod.RESULTS / "adjudication" / "adjudication.jsonl"
 
@@ -178,24 +180,43 @@ class View:
 _STORED: dict = {}
 
 
-def stored_reads() -> dict[str, dict]:
-    """The pre-registered Gemma pass, last row per form (as scripts/build_headline.py counts it)."""
+def _last_rows(path: Path) -> dict[str, dict]:
+    """A results/calls_<model>.jsonl file, last row per form (cached on its mtime and size; read only)."""
     try:
-        mt = STORED_RUN.stat().st_mtime_ns
+        st = path.stat()
     except OSError:
         return {}
-    if _STORED.get("mt") != mt:
+    c = _STORED.get(str(path))
+    if c is None or c[0] != (st.st_mtime_ns, st.st_size):
         rows = {}
-        for ln in STORED_RUN.read_text(encoding="utf-8", errors="replace").splitlines():
+        for ln in path.read_text(encoding="utf-8", errors="replace").splitlines():
             try:
                 r = json.loads(ln)
             except ValueError:
-                continue
-            if r.get("clave"):
+                continue  # a line still being written by a running batch
+            if isinstance(r, dict) and r.get("clave"):
                 rows[r["clave"]] = r
-        _STORED.clear()
-        _STORED.update(mt=mt, rows=rows)
-    return _STORED["rows"]
+        c = ((st.st_mtime_ns, st.st_size), rows)
+        _STORED[str(path)] = c
+    return c[1]
+
+
+def stored_reads() -> dict[str, dict]:
+    """The pre-registered Gemma pass, last row per form (as scripts/build_headline.py counts it)."""
+    return _last_rows(STORED_RUN)
+
+
+def second_reads() -> dict[str, dict]:
+    """The stored Qwen reads (second reader for strict mode), last row per form."""
+    return _last_rows(SECOND_RUN)
+
+
+def second_value(fid: str, key: str):
+    """(available, value) of the second reader (Qwen) for one field: available only when its read of the form parsed."""
+    row = second_reads().get(fid)
+    if not row or row.get("no_call") or row.get("not_located") or row.get("error") or not row.get("parsed_ok"):
+        return False, None
+    return True, storemod.iv(((row.get("fields") or {}).get(key) or {}).get("n"))
 
 
 def _view_from_row(row: dict, source: str, page) -> View:
@@ -436,8 +457,28 @@ def _verdicts() -> tuple[dict, dict]:
     return V, prep
 
 
-def run(a: dict, job_state=None) -> dict:
-    """Compare every mapped field of every keyed form with its read. Returns the summary and the order disputes."""
+SECOND_NAME = "Qwen3.8-27B"
+
+
+def _strict(d: dict, kv, m, fid: str, key: str) -> None:
+    """Strict mode: a field is a strong dispute only if two readers (Gemma and Qwen) both read the same value and it
+    differs from the keyed one. A strong field without that agreement is shown as medium, with the reason."""
+    ok, q = second_value(fid, key)
+    d["second"] = {"available": ok, "value": q, "agrees": ok and q == m and m is not None and m != kv}
+    if not ok:
+        d["second"]["text"] = "second reader not available"
+    elif d["second"]["agrees"]:
+        d["second"]["text"] = f"both readers read {m} (Gemma and Qwen)"
+    else:
+        d["second"]["text"] = f"second reader (Qwen) read {'blank' if q is None else q}"
+    if d["tier"] == "strong" and not d["second"]["agrees"]:
+        d["tier"] = "medium"
+        d["demoted"] = True
+
+
+def run(a: dict, job_state=None, strict: bool = False) -> dict:
+    """Compare every mapped field of every keyed form with its read. Returns the summary and the order disputes.
+    strict=True: strong only when Gemma and Qwen (stored reads) agree on a value that differs from the keyed one."""
     by_code = {storemod.code_of(f["key"]): f for f in graded()}
     mapped = [(c, i) for c, i in a["mapping"].items() if i is not None and c in by_code]
     mapped.sort(key=lambda x: list(by_code).index(x[0]))
@@ -485,8 +526,11 @@ def run(a: dict, job_state=None) -> dict:
                 "mark": (a.get("marks") or {}).get(key),
                 "adjudicated": ({"verdict": adj["verdict"], "label": VERDICT_LABEL.get(adj["verdict"], adj["verdict"]),
                                  "paper": adj.get("paper")} if adj else None)})
+            if strict:
+                _strict(disputes[-1], kv, m, fid, k)
     order = list(by_code)
-    disputes.sort(key=lambda d: (-d["score"], d["form"], order.index(d["code"])))
+    rank = {t: i for i, (t, _) in enumerate(TIERS)}
+    disputes.sort(key=lambda d: ((rank[d["tier"]] if strict else 0), -d["score"], d["form"], order.index(d["code"])))
     for i, d in enumerate(disputes, 1):
         d["pos"] = i
     tiers = {t: sum(d["tier"] == t for d in disputes) for t, _ in TIERS}
@@ -501,7 +545,11 @@ def run(a: dict, job_state=None) -> dict:
             "checked": checked, "disputed": len(disputes), "disputed_forms": len({d["form"] for d in disputes}),
             "tiers": tiers, "marks": marks, "unread": unread, "disputes": disputes,
             "queueable": sum(p["can_queue"] for p in unread), "order_check": check,
-            "adjudicated": len(adj)}
+            "adjudicated": len(adj), "strict": strict,
+            "second": ({"name": SECOND_NAME, "available": sum(d["second"]["available"] for d in disputes),
+                        "missing": sum(not d["second"]["available"] for d in disputes),
+                        "agree": sum(d["second"]["agrees"] for d in disputes),
+                        "demoted": sum(bool(d.get("demoted")) for d in disputes)} if strict else None)}
 
 
 def mark(a: dict, key: str, value: Optional[str]) -> dict:
@@ -518,15 +566,79 @@ def mark(a: dict, key: str, value: Optional[str]) -> dict:
     return a
 
 
-def report_csv(a: dict, R: dict) -> str:
+# ------------------------------------------------------------------------------------------- report fingerprint
+_HASHES: dict = {}
+
+
+def file_sha256(path: Path) -> Optional[str]:
+    """SHA-256 of a file (cached on mtime and size); None when it does not exist."""
+    try:
+        st = path.stat()
+    except OSError:
+        return None
+    k = (str(path), st.st_mtime_ns, st.st_size)
+    if k not in _HASHES:
+        h = hashlib.sha256()
+        with path.open("rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        _HASHES[k] = h.hexdigest()
+    return _HASHES[k]
+
+
+def report_inputs(a: dict, strict: bool) -> list[dict]:
+    """The input files a report is computed from, each with its SHA-256."""
+    out = [("keyed file", adir(a["id"]) / "keyed.csv"), ("stored Gemma reads", STORED_RUN)]
+    if strict:
+        out.append(("stored Qwen reads (second reader)", SECOND_RUN))
+    out.append(("photo adjudication", VERDICTS))
+    res = [{"name": n, "file": p.name, "sha256": file_sha256(p)} for n, p in out]
+    pages = adir(a["id"]) / "pages"
+    if pages.is_dir():
+        ph = hashlib.sha256()
+        for p in sorted(pages.glob("*.jpg")):
+            ph.update(f"{p.name}:{file_sha256(p)}\n".encode())
+        res.append({"name": "masked pages of this audit", "file": "pages/*.jpg", "sha256": ph.hexdigest()})
+    return [r for r in res if r["sha256"]]
+
+
+def fingerprint(a: dict, R: dict, only: Optional[str] = None) -> dict:
+    """Report fingerprint: SHA-256 over the report's content (summary and every listed field, in order, with its
+    values, evidence tier, second reader and auditor mark) plus the SHA-256 of each input file. The same audit, mode
+    and inputs always give the same fingerprint; the HTML report and its CSV print the same one."""
+    content = {"audit": a["id"], "strict": bool(R.get("strict")), "only": only or "",
+               "summary": {k: R.get(k) for k in ("forms_keyed", "forms_read", "fields_mapped", "checked", "disputed")},
+               "tiers": R.get("tiers"),
+               "fields": [[d["pos"], d["form"], d["code"], d["keyed"], d["model"], d["words"], d["tier"], d["score"],
+                           (d.get("second") or {}).get("text"), d.get("mark")] for d in R["disputes"]]}
+    csha = hashlib.sha256(json.dumps(content, sort_keys=True, ensure_ascii=False,
+                                     separators=(",", ":")).encode()).hexdigest()
+    inputs = report_inputs(a, bool(R.get("strict")))
+    top = hashlib.sha256(json.dumps({"content": csha, "inputs": [[i["file"], i["sha256"]] for i in inputs]},
+                                    sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return {"sha256": top, "content_sha256": csha, "inputs": inputs}
+
+
+def report_csv(a: dict, R: dict, fp: Optional[dict] = None) -> str:
+    """The report as CSV: one row per disputed field, then the report fingerprint and the input hashes (rows whose
+    first cell starts with '#')."""
     buf = io.StringIO()
     w = csv.writer(buf)
+    strict = bool(R.get("strict"))
     w.writerow(["position", "form", "field", "keyed value", "model digits", "model words", "evidence", "score",
-                "evidence signals", "auditor mark", "crop"])
+                "evidence signals", "auditor mark", "crop"] + (["second reader (Qwen)"] if strict else []))
     for d in R["disputes"]:
         w.writerow([d["pos"], d["form"], d["name"], d["keyed"], "" if d["model"] is None else d["model"],
                     "" if d["words"] is None else d["words"], d["tier"], d["score"],
-                    "; ".join(s["text"] for s in d["signals"]), MARKS.get(d["mark"], ""), d["img"] or ""])
+                    "; ".join(s["text"] for s in d["signals"]), MARKS.get(d["mark"], ""), d["img"] or ""]
+                   + ([d["second"]["text"]] if strict else []))
+    fp = fp or fingerprint(a, R)
+    w.writerow([])
+    w.writerow(["# report fingerprint (SHA-256)", fp["sha256"]])
+    w.writerow(["# mode", "strict: strong only when Gemma and Qwen agree" if strict else "standard"])
+    w.writerow(["# report content (SHA-256)", fp["content_sha256"]])
+    for i in fp["inputs"]:
+        w.writerow([f"# input: {i['name']} ({i['file']})", i["sha256"]])
     return buf.getvalue()
 
 

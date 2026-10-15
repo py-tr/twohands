@@ -27,13 +27,13 @@ def _audit_or_404(aid: str) -> dict:
     return a
 
 
-def _run(request: Request, a: dict) -> dict:
+def _run(request: Request, a: dict, strict: bool = False) -> dict:
     mgr = request.app.state.live
 
     def js(job_id):
         j = mgr.job_status(job_id)
         return j["state"] if j else None
-    return ca.run(a, job_state=js)
+    return ca.run(a, job_state=js, strict=strict)
 
 
 def _flist():
@@ -205,8 +205,8 @@ def api_audit(aid: str, request: Request):
     return storemod.public({k: v for k, v in R.items()})
 
 
-def _ctx(request: Request, a: dict) -> dict:
-    R = _run(request, a)
+def _ctx(request: Request, a: dict, strict: bool = False) -> dict:
+    R = _run(request, a, strict)
     H = numbersmod.headline()
     from evolus import audit as auditmod
     EV = {k: v for k, v in auditmod.load_cases(a["id"]).items() if not k.startswith("_")}
@@ -229,19 +229,26 @@ def audit_view(aid: str, request: Request):
 
 
 @router.get("/audit/{aid}/report", response_class=HTMLResponse)
-def audit_report(aid: str, request: Request, only: Optional[str] = None):
+def audit_report(aid: str, request: Request, only: Optional[str] = None, strict: int = 0):
+    """The printable report. ?strict=1: a field is strong only if Gemma and Qwen both read the same value that
+    differs from the keyed one (stored Qwen reads; "second reader not available" where there is none)."""
     a = _audit_or_404(aid)
-    ctx = _ctx(request, a)
-    if only == "unrefuted":
+    ctx = _ctx(request, a, bool(strict))
+    only = "unrefuted" if only == "unrefuted" else None
+    if only:
         ctx["R"]["disputes"] = [d for d in ctx["R"]["disputes"] if d["mark"] != "not_error"]
+    ctx.update(FP=ca.fingerprint(a, ctx["R"], only), strict=bool(strict), only=only)
     return _t().TemplateResponse(request, "audit_report.html", ctx)
 
 
 @router.get("/audit/{aid}/report.csv")
-def audit_report_csv(aid: str, request: Request):
+def audit_report_csv(aid: str, request: Request, strict: int = 0):
+    """The report as CSV, with the report fingerprint and the input file hashes at the end (rows starting '#')."""
     a = _audit_or_404(aid)
-    return Response(ca.report_csv(a, _run(request, a)), media_type="text/csv; charset=utf-8",
-                    headers={"Content-Disposition": f"attachment; filename=audit-report-{aid}.csv"})
+    R = _run(request, a, bool(strict))
+    sfx = "-strict" if strict else ""
+    return Response(ca.report_csv(a, R, ca.fingerprint(a, R)), media_type="text/csv; charset=utf-8",
+                    headers={"Content-Disposition": f"attachment; filename=audit-report-{aid}{sfx}.csv"})
 
 
 @router.get("/audit/{aid}/crop/{fid}/{code}.jpg")

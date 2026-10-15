@@ -25,7 +25,7 @@ def _clean(text, where):
 def _all_urls():
     s = storemod.get_store()
     urls = ["/", "/forms", "/review", "/audit", "/results", "/healthz", "/api/live/status", "/try", "/inbox", "/api",
-            "/api/export.csv", "/api/export.json", "/api/export.csv?status=accepted", "/openapi.json", "/audit/new"]
+            "/api/export.csv", "/api/export.json", "/api/export.csv?status=accepted", "/openapi.json", "/audit/new", "/keyer?s=1"]
     for k in s.ine_claves():
         urls += [f"/form/{k}", f"/api/form/{k}"]
         for rid in s.runs:
@@ -103,6 +103,23 @@ def test_spot_check_pages_are_neutral(tmp_path, monkeypatch):
         assert r.status_code == 200
         _clean(r.text, u)
     assert "Option " in client.get("/check/results").text
+
+
+def test_keyer_pages_are_neutral():
+    """Be the second keyer: the blind page, every crop, and the reveal (with its evidence lines) show Option NN or a
+    plain name, never a party, for many rounds; no title says 'election'."""
+    from app import keyer
+    covered = set()
+    for s in range(1, 41):
+        for u in (f"/keyer?s={s}", f"/keyer/reveal?s={s}&a=1&a=b&a=%3F&a=&a=12"):
+            r = client.get(u)
+            assert r.status_code == 200, u
+            _clean(r.text, u)
+            assert "election" not in r.text.split("</title>")[0].lower()
+        covered.update(keyer.draw(s))
+        assert client.get(f"/keyer/img/{s}/0.jpg").status_code == 200
+    assert "Option " in "".join(client.get(f"/keyer/reveal?s={s}").text for s in range(1, 41))
+    assert len(covered) > 100
 
 
 def test_audit_page_is_neutral_and_complete():

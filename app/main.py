@@ -64,6 +64,10 @@ templates.env.globals["evolus_case"] = evolusweb.panel
 from app import spotcheck as spotcheckmod  # noqa: E402
 app.include_router(spotcheckmod.router)
 
+# Be the second keyer (additive): a visitor keys 5 masked crops blind, then sees capture, model, gate and paper: /keyer
+from app import keyer as keyermod  # noqa: E402
+app.include_router(keyermod.router)
+
 # Audit your capture (additive): keyed CSV + scans in, disputes ordered by evidence, with crops out: /audit/new, /audit/{id}
 from app import audit_web as auditwebmod  # noqa: E402
 app.include_router(auditwebmod.router)
@@ -340,16 +344,23 @@ def _queue_upload(request: Request, res: dict) -> dict:
 
 
 @app.post("/api/upload")
-async def api_upload(request: Request):
+async def api_upload(request: Request, corners: Optional[str] = None):
     """Body: the photo itself (image/jpeg or image/png), not multipart, so it is never spooled to disk.
-    Located and masked in memory; only the masked page is stored; a live read is queued."""
+    Located and masked in memory; only the masked page is stored; a live read is queued.
+    ?corners=x1,y1,...,x4,y4: the four corner markers a person clicked (photo pixels, any order), for a page the
+    locator missed; the page is registered from them (same canonical page, same mask)."""
+    try:
+        pts = uploadmod.parse_corners(corners)
+    except ValueError:
+        return JSONResponse({"ok": False, "code": "bad_corners", "message": "Click the four corner markers."},
+                            status_code=422)
     data = bytearray()
     async for chunk in request.stream():
         data += chunk
         if len(data) > uploadmod.MAX_BYTES:
             return JSONResponse({"ok": False, "code": "not_a_photo", "message": "The photo is larger than 20 MB."},
                                 status_code=413)
-    res = uploadmod.process(bytes(data))
+    res = uploadmod.process(bytes(data), corners=pts)
     del data
     if not res["ok"]:
         return JSONResponse(res, status_code=422)
@@ -424,3 +435,4 @@ def api_page(request: Request):
 @app.get("/favicon.ico")
 def favicon():
     return FileResponse(REPO / "static" / "favicon.png", media_type="image/png")
+

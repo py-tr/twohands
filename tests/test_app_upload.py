@@ -163,3 +163,85 @@ def test_try_page_renders_and_is_neutral():
     assert "Take a photo" in html and 'capture="environment"' in html and "Use a sample photo" in html
     assert "What a good photo looks like" in html
     _clean(html, "/try")
+
+
+# ------------------------------------------------------------------ manual four-corner pick (locator missed the page)
+def _photo_with_known_corners():
+    """A synthetic 'phone photo': a page whose names-and-signatures column is NOT masked (fake handwriting drawn
+    in), warped in perspective onto a cluttered background, with no corner markers the locator could find (they
+    are painted over). Returns (jpeg bytes, the four marker centres in photo pixels, in a shuffled order)."""
+    import cv2
+    import numpy as np
+    from twohands import schema as schemamod
+    im = Image.open(_masked_page()).convert("RGB")
+    W, H = im.size
+    d = ImageDraw.Draw(im)
+    d.rectangle([int(0.70 * W), int(0.05 * H), int(0.97 * W), int(0.95 * H)], fill=(255, 255, 255))
+    for i in range(12):
+        y = int((0.1 + 0.07 * i) * H)
+        d.line([int(0.72 * W), y, int(0.95 * W), y + 15], fill=(20, 20, 160), width=6)
+    mk = np.array(schemamod.load()["layout"]["canonical"]["markers"]) * [W, H]
+    for x, y in mk:  # grey the markers: the automatic locator cannot use them
+        d.rectangle([x - 40, y - 40, x + 40, y + 40], fill=(150, 150, 150))
+    src = np.float32([[0, 0], [W, 0], [W, H], [0, H]])
+    dst = np.float32([[310, 190], [2690, 400], [2610, 1880], [240, 1720]])
+    Hm = cv2.getPerspectiveTransform(src, dst)
+    photo = cv2.warpPerspective(np.asarray(im), Hm, (3000, 2200), borderValue=(70, 60, 50))
+    pts = cv2.perspectiveTransform(mk.reshape(-1, 1, 2).astype(np.float32), Hm).reshape(-1, 2)
+    pts = pts[[2, 0, 3, 1]] + np.float32([[6, -5], [-4, 7], [5, 4], [-6, -3]])  # any order, a few px off
+    return _jpeg(Image.fromarray(photo)), [[float(x), float(y)] for x, y in pts]
+
+
+def test_core_registers_from_given_corners():
+    from twohands import corners, register
+    raw, pts = _photo_with_known_corners()
+    img = uploadmod.decode(raw)
+    page, info = corners.prepare(img, pts)
+    assert info["locator"] == "manual_corners" and page.size == (2400, 1552)
+    col = page.convert("L").crop((int(0.657 * 2400) + 4, 0, 2400, 1552))
+    assert max(col.getextrema()) < 40, "the same privacy mask as the locator's"
+    ref = Image.open(_masked_page()).convert("L").resize(page.size)
+    import numpy as np
+    assert np.abs(np.asarray(page.convert("L"), float) - np.asarray(ref, float)).mean() < 20  # lands on the page
+    with pytest.raises(register.NotLocated):
+        corners.prepare(img, [[1, 1], [2, 2], [3, 3], [4, 4]])
+    with pytest.raises(register.NotLocated):
+        corners.prepare(img, [[1, 1], [2, 2], [3, 3]])
+
+
+def test_manual_corners_upload_stores_only_the_masked_page(env, monkeypatch):
+    from twohands import mask, register
+    raw, pts = _photo_with_known_corners()
+
+    def miss(*a, **k):  # the automatic locator misses this page (its SIFT fallback would otherwise find it)
+        raise register.NotLocated("corner markers not found")
+    monkeypatch.setattr(mask, "prepare", miss)
+    r = client.post("/api/upload", content=raw, headers={"Content-Type": "image/jpeg"})
+    assert r.status_code == 422 and r.json()["code"] == "not_located" and r.json()["manual"] is False
+    assert _files(env["up"]) == [] and _files(env["tmp"]) == []
+    # bad points: nothing stored either
+    q = "1,1,2,2,3,3,4,4"
+    r = client.post(f"/api/upload?corners={q}", content=raw, headers={"Content-Type": "image/jpeg"})
+    assert r.status_code == 422 and r.json()["manual"] is True
+    assert client.post("/api/upload?corners=1,2,3", content=raw, headers={"Content-Type": "image/jpeg"}).status_code == 422
+    assert _files(env["up"]) == [] and _files(env["tmp"]) == []
+    # the clicked corners: registered, masked, only the masked page and its note stored, a live read queued
+    q = ",".join(f"{v:.1f}" for p in pts for v in p)
+    r = client.post(f"/api/upload?corners={q}", content=raw, headers={"Content-Type": "image/jpeg"})
+    assert r.status_code == 200, r.text
+    j = r.json()
+    uid = j["id"]
+    assert j["job"] and j["locator"]["locator"] == "manual_corners"
+    assert _files(env["up"]) == sorted([f"{uid}.jpg", f"{uid}.json"]) and _files(env["tmp"]) == []
+    for p in env["up"].iterdir():
+        assert p.read_bytes() != raw
+    saved = Image.open(env["up"] / f"{uid}.jpg").convert("L")
+    assert saved.size == (2400, 1552)
+    col = saved.crop((int(0.657 * 2400) + 4, 0, 2400, 1552))
+    assert max(col.getextrema()) < 40, "no unmasked page is written"
+    env["gate"].set()
+
+
+def test_try_page_has_the_corner_picker():
+    html = client.get("/try").text
+    assert "Click the four corner markers" in html and "createObjectURL" in html and "corners=" in html
