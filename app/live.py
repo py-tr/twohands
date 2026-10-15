@@ -43,6 +43,33 @@ BUSY_MARKERS = ("503", "502", "504", "timeout", "timed out", "gave up", "gaveup"
                 "connectionreset", "connection reset", "temporarily unavailable")
 
 
+_BUDGET_LOCK = threading.RLock()
+
+
+def _read_budget() -> dict:
+    try:
+        return json.loads(BUDGET_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _write_atomic(path: Path, text: str) -> None:
+    """Write a sibling temp file, then os.replace it over ``path``: readers see the old file or the new one, never a
+    truncated one. On Windows the replace fails while another handle has the file open; retry briefly."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
+    tmp.write_text(text, encoding="utf-8")
+    for i in range(50):
+        try:
+            os.replace(tmp, path)
+            return
+        except PermissionError:
+            if i == 49:
+                tmp.unlink(missing_ok=True)
+                raise
+            time.sleep(0.01)
+
+
 class Refused(Exception):
     def __init__(self, code: str, message: str):
         super().__init__(message)
@@ -109,24 +136,21 @@ class LiveManager:
         self.jobs: dict[str, Job] = {}
         self.current: Optional[Job] = None
 
-    # ---- budget
+    # ---- budget (one file per process group; read and written under _BUDGET_LOCK, replaced atomically so a reader
+    # never sees a half-written file: a torn read used to count as "0 reads today")
     def _today(self) -> dict:
         d = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        try:
-            b = json.loads(BUDGET_FILE.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            b = {}
+        with _BUDGET_LOCK:
+            b = _read_budget()
         return b.get(d, {"reads": 0, "usd": 0.0}) | {"date": d}
 
     def _spend(self, usd: float) -> None:
-        t = self._today()
-        try:
-            b = json.loads(BUDGET_FILE.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            b = {}
-        b[t["date"]] = {"reads": t["reads"] + 1, "usd": round(t["usd"] + (usd or 0.0), 6)}
-        BUDGET_FILE.parent.mkdir(parents=True, exist_ok=True)
-        BUDGET_FILE.write_text(json.dumps(b, indent=1), encoding="utf-8")
+        d = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        with _BUDGET_LOCK:
+            b = _read_budget()
+            t = b.get(d, {"reads": 0, "usd": 0.0})
+            b[d] = {"reads": t["reads"] + 1, "usd": round(t["usd"] + (usd or 0.0), 6)}
+            _write_atomic(BUDGET_FILE, json.dumps(b, indent=1))
 
     def _running(self) -> Optional[Job]:
         return self.current if self.current is not None and not self.current.done else None

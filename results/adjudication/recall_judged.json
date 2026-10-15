@@ -1,0 +1,82 @@
+{
+ "112747C0100__PT_MORENA": {
+  "paper_shows": "capture",
+  "paper": 3,
+  "evidence": "words \"tres\", boxes 0 0 3 = the capture; certified 0"
+ },
+ "112747C0100__TOTAL": {
+  "paper_shows": "capture",
+  "paper": 379,
+  "evidence": "words \"trescientos setenta y nueve\", boxes 3 7 9 = the capture; certified calculated total 376"
+ },
+ "112879B0100__NO_REGISTRADAS": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "112879B0100__PAN_PRD": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "112879B0100__PAN_PRI": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "112879B0100__PRI_PRD": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "112879B0100__PT_MORENA": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "150512C0100__TOTAL": {
+  "paper_shows": "capture",
+  "paper": 340,
+  "evidence": "words \"trecientos cuarenta\", boxes 3 4 0 = the capture; certified calculated total 345"
+ },
+ "153717B0100__NO_REGISTRADAS": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper; captured as no data, certified 0"
+ },
+ "153906C0300__TOTAL": {
+  "paper_shows": "capture",
+  "paper": 458,
+  "evidence": "words \"Cuatrocientos cincuenta y ocho\", boxes 4 5 8 = the capture; certified calculated total 451"
+ },
+ "251701B0100__TOTAL": {
+  "paper_shows": "capture",
+  "paper": 301,
+  "evidence": "words \"trecientos uno\", boxes 3 0 1 = the capture; certified calculated total 299"
+ },
+ "253749C0100__NO_REGISTRADAS": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "253749C0100__PAN_PRD": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "253749C0100__PAN_PRI": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "253749C0100__PRI_PRD": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ },
+ "253749C0100__PVEM_PT": {
+  "paper_shows": "capture",
+  "paper": "blank",
+  "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
+ }
+}

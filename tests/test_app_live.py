@@ -92,14 +92,13 @@ def test_live_read_streams_fields_and_verdict(mgr):
     v = next(e for e in evs if e["type"] == "verdict")
     assert v["accepted"] and v["line"] == "Accepted: 0 fields to key"
     assert kinds[-1] == "done"
+    # the queued second read now runs and writes the same budget file: wait for it before reading any file
+    drain(mgr)
+    assert not mgr.status()["busy"]
+    assert len(mgr.calls) == 2  # the second read reached the model only after the first finished
     assert storemod.MASKED in Path(mgr.calls[0][1]).resolve().parents  # only the masked page is sent
     assert (livemod.LIVE_DIR / f"{FORM}.json").exists()
-    assert json.loads(livemod.BUDGET_FILE.read_text())  # spend recorded
-    for _ in range(50):
-        if not mgr.status()["busy"]:
-            break
-        time.sleep(0.05)
-    assert not mgr.status()["busy"]
+    assert next(iter(json.loads(livemod.BUDGET_FILE.read_text()).values()))["reads"] == 2  # both spends recorded
 
 
 def test_live_refuses_when_shared_budget_low(mgr):

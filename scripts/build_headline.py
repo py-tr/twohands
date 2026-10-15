@@ -36,21 +36,12 @@ TYPES = [("wrong_value", "Wrong numbers typed"),
          ("keyed_blank", "Numbers typed where the paper is blank"),
          ("other", "Other (readable field captured as \"no data\")")]
 FAINT = ("070207C0100", "093831B0100")   # the two faint-pencil forms
-# Recall tightening: the E fields the model did NOT dispute, each judged on a crop of the masked page (no model call).
+# Recall tightening: the E fields the model did NOT dispute, each judged on a crop of the masked page (no model call),
+# in results/adjudication/recall_judged.json ({"<clave>__<FIELD>": {paper_shows, paper, evidence}}).
 # "capture" = the paper shows the capture's value: the certified value is a council correction or the blank = 0
 # convention, not a capture error. "certified" = the paper shows the certified value: a capture error the model missed.
-RECALL_JUDGED = {
-    **{f"112879B0100__{f}": ("capture", "blank", "row left blank on the paper (no words, empty boxes); captured as no data, certified 0")
-       for f in ("PAN_PRI", "PAN_PRD", "PRI_PRD", "PT_MORENA", "NO_REGISTRADAS")},
-    **{f"253749C0100__{f}": ("capture", "blank", "row left blank on the paper (no words, empty boxes); captured as no data, certified 0")
-       for f in ("PAN_PRI", "PAN_PRD", "PRI_PRD", "PVEM_PT", "NO_REGISTRADAS")},
-    "153717B0100__NO_REGISTRADAS": ("capture", "blank", "row left blank on the paper; captured as no data, certified 0"),
-    "112747C0100__PT_MORENA": ("capture", 3, 'words "tres", boxes 0 0 3 = the capture; certified 0'),
-    "112747C0100__TOTAL": ("capture", 379, 'words "trescientos setenta y nueve", boxes 3 7 9 = the capture; certified calculated total 376'),
-    "153906C0300__TOTAL": ("capture", 458, 'words "Cuatrocientos cincuenta y ocho", boxes 4 5 8 = the capture; certified calculated total 451'),
-    "150512C0100__TOTAL": ("capture", 340, 'words "trecientos cuarenta", boxes 3 4 0 = the capture; certified calculated total 345'),
-    "251701B0100__TOTAL": ("capture", 301, 'words "trecientos uno", boxes 3 0 1 = the capture; certified calculated total 299'),
-}
+RECALL_JUDGED = {k: (v["paper_shows"], v["paper"], v["evidence"])
+                 for k, v in json.loads((ADJ / "recall_judged.json").read_text(encoding="utf-8")).items()}
 
 
 def one_in(k: int, n: int) -> int:

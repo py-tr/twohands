@@ -63,6 +63,19 @@ Tests:
 python -m pytest -q
 ```
 
+Reproduce every number on the site from the raw results (no key, no model call, no network):
+
+```bash
+make eval        # or: python -m twohands.eval
+```
+
+`make eval` → "every number on the site recomputed from raw results in 2 seconds". It recomputes the headline numbers,
+the 52 by type, 1 in 37 / 1 in 374 / 1 in 605, 1 in 5 vs at least 1 in 122, the certified 22 of 31, recall 7 of 7,
+the post-hoc v2/v2b lines, the touchless count and the cost per form from `results/calls_*.jsonl`, the adjudication
+verdicts and the official values in `app/data/`, checks each against what the app displays, checks the manifest
+sha256s and that PROTOCOL.md and each amendment were committed before the first model read they govern, writes
+`results/eval_report.md` and exits non-zero on any mismatch.
+
 Reproduce the pre-registered run (needs the AMD key; resumable):
 
 ```bash
