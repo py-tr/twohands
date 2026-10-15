@@ -153,7 +153,7 @@
           <dt>Cost per form</dt><dd>{{ gq.g.cost_per_read_usd|usd(6) }} / {{ gq.q.cost_per_read_usd|usd(6) }}{% if gq.cost_ratio %} <span class="muted">(about 1/{{ gq.cost_ratio }})</span>{% endif %}</dd>
           <dt>Mean latency</dt><dd>{{ '%.0f'|format(gq.g.mean_latency_s) }} s / {{ '%.0f'|format(gq.q.mean_latency_s) }} s</dd>
         </dl>
-        <p class="tiny muted" style="margin:8px 0 0">Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15 at about 16:20 UTC ("Requested model Gemma-4-31B-IT not supported"), so live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
+        <p class="tiny muted" style="margin:8px 0 0">Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15 at about 15:41 UTC ("Requested model Gemma-4-31B-IT not supported"), so live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
         <div style="margin-top:10px">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl, last read per form, via scripts/gemma_vs_qwen.py (results/gemma_vs_qwen.md). Tiling: spikes/ledger-rescue/README.md. docs/GEMMA.md.") }}</div>
       </div>
       {% endif %}

@@ -148,7 +148,7 @@ accurate reader (97.4% vs 96.5% fields exact) at 4.3x the cost (`spikes/tally-wi
 
 ## 4. Gemma withdrawn from the endpoint (2026-10-15)
 
-At about 16:20 UTC on 2026-10-15 AMD Token Factory stopped offering Gemma-4-31B-IT: `GET /models` no longer lists
+At about 15:41 UTC on 2026-10-15 AMD Token Factory stopped offering Gemma-4-31B-IT: `GET /models` no longer lists
 it, and a call answers HTTP 400 `"Requested model Gemma-4-31B-IT not supported"` (`results/endpoint_health.jsonl`,
 [AMD.md](AMD.md)). Since then the **live** read button falls back to Qwen3.8-27B on AMD, with Qwen's own frozen
 parameters, and says so in a banner; it switches back by itself when Gemma is listed again (`app/livemodel.py`).

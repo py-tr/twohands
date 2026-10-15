@@ -177,7 +177,7 @@ Gemma-4-31B-IT reads every value twice, the **handwritten digits** and the **amo
 | Cost per form | **$0.000144** | $0.000580 |
 | Mean latency | **89 s** | 257 s |
 
-<p class="small">results/gemma_vs_qwen.md (scripts/gemma_vs_qwen.py; Qwen pass still running at writing). Gemma was withdrawn from AMD Token Factory on 2026-10-15 ~16:20 UTC; live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs. docs/GEMMA.md.</p>
+<p class="small">results/gemma_vs_qwen.md (scripts/gemma_vs_qwen.py; Qwen pass still running at writing). Gemma was withdrawn from AMD Token Factory on 2026-10-15 ~15:41 UTC; live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs. docs/GEMMA.md.</p>
 
 ---
 

@@ -60,9 +60,9 @@ Second form type, same model on the same endpoint: rainfall ledgers, whole sheet
   (two Gemma attempts) and 451 s (Qwen, 2 forms) (`results/verify_spike_*.jsonl`, shown on the app's results
   page). We report these as they are.
 
-### 2026-10-15 ~16:20 UTC: Gemma-4-31B-IT withdrawn from the endpoint
+### 2026-10-15 ~15:41 UTC: Gemma-4-31B-IT withdrawn from the endpoint
 
-- **What happened.** Since about 16:20 UTC on 2026-10-15, AMD Token Factory no longer offers Gemma-4-31B-IT.
+- **What happened.** Since about 15:41 UTC on 2026-10-15, AMD Token Factory no longer offers Gemma-4-31B-IT.
   `GET /models` (17:35 UTC) lists `DeepSeek-V4.1-Flash, DeepSeek-V4-Flash, DeepSeek-V4-Flash-Vision-Exp,
   GLM-5.3-Flash, MiMo-V2.6-Flash, MinerU2.5-Pro, MiniCPM5-2B, MiniCPM-V-4.7-1B, MiniCPM-V-4.7-35B-A3B, Qwen3.8-27B,
   Qwen3.8-Flash-Next`, without Gemma. A Gemma call answers HTTP 400:

@@ -38,7 +38,7 @@ def test_gemma_missing_uses_qwen_with_banner_and_records_withdrawn():
     rec = []
     p = chooser(["DeepSeek-V4-Flash", QWEN], rec).choose()
     assert p["key"] == "qwen" and p["model"] == QWEN and p["fallback"]
-    assert p["banner"] == ("Gemma-4-31B-IT is currently not offered by the AMD endpoint (since 2026-10-15 16:20 UTC). "
+    assert p["banner"] == ("Gemma-4-31B-IT is currently not offered by the AMD endpoint (since 2026-10-15 15:41 UTC). "
                            "This live read uses Qwen3.8-27B on AMD; the stored results above were read by Gemma on AMD.")
     assert rec and rec[-1][0] == GEMMA and rec[-1][1] == "withdrawn"
 

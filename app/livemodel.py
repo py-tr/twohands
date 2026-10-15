@@ -24,7 +24,7 @@ PRIMARY = "gemma"
 FALLBACK = "qwen"
 CONFIGURED = os.environ.get("TWOHANDS_LIVE_MODEL", PRIMARY)
 TTL_S = 300.0
-WITHDRAWN_SINCE = "2026-10-15 16:20 UTC"
+WITHDRAWN_SINCE = "2026-10-15 15:41 UTC"
 BANNER = ("Gemma-4-31B-IT is currently not offered by the AMD endpoint (since " + WITHDRAWN_SINCE + "). "
           "This live read uses Qwen3.8-27B on AMD; the stored results above were read by Gemma on AMD.")
 BANNER_TRY = ("Gemma-4-31B-IT is currently not offered by the AMD endpoint (since " + WITHDRAWN_SINCE + "). "
