@@ -101,7 +101,7 @@ state (about 4,150 sheets) is about $415. One federal district, the free pilot w
 sheets.
 
 For comparison, Mexico's federal budget for 2026 sets the most a federal agency may award directly, without a
-tender, per operation: **MXN 309,000 to 1,145,000** excluding VAT, depending on the agency's budget (PEF 2026,
+tender, per operation: **MXN 309,000 to 1,145,000** excluding VAT, according to the agency's budget (PEF 2026,
 art. 2 fr. X and Anexo 9, adquisiciones, arrendamientos y servicios;
 [DOF](https://dof.gob.mx/2025/SHCP/PEF_2026.html)). The largest state audit, $2,100, is under the lowest ceiling
 at any rate below 147 pesos per dollar. Caveat: that ceiling binds federal agencies. State electoral institutes
