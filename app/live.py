@@ -11,6 +11,9 @@ Safety rails (the AMD Token Factory key is shared with the core's batch job: 20 
   * Only a privacy-masked page is ever sent; a form without one cannot be read live.
   * AMD 503 / timeout: the job ends with code "endpoint_busy"; the browser shows the last measured read of the
     form (when it has one) under an honest banner, with a retry button.
+  * The model comes from the endpoint's own model list (app/livemodel.py, cached 5 min): Gemma-4-31B-IT when it is
+    listed; otherwise Qwen3.8-27B through the core reader's own frozen qwen path, with a banner saying so. A Gemma
+    call answering 400 "not supported" switches the same job to Qwen at once.
 """
 from __future__ import annotations
 
@@ -24,9 +27,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Optional
 
+from app import livemodel
 from app import store as storemod
 
-LIVE_MODEL = os.environ.get("TWOHANDS_LIVE_MODEL", "gemma")
+LIVE_MODEL = livemodel.CONFIGURED
 MIN_REMAINING_USD = float(os.environ.get("LIVE_MIN_REMAINING_USD", "0.25"))
 MAX_READS_PER_DAY = int(os.environ.get("LIVE_MAX_READS_PER_DAY", "40"))
 MAX_USD_PER_DAY = float(os.environ.get("LIVE_MAX_USD_PER_DAY", "0.05"))
@@ -93,8 +97,9 @@ class Job:
 
 class LiveManager:
     def __init__(self, reader_fn: Optional[Callable] = None, usage_fn: Optional[Callable] = None,
-                 reveal_delay: float = 0.09):
+                 reveal_delay: float = 0.09, chooser: Optional[livemodel.Chooser] = None):
         self.reader_fn = reader_fn or _default_reader
+        self.chooser = chooser or livemodel.chooser
         self.usage_fn = usage_fn or _default_usage
         self.reveal_delay = reveal_delay
         self._lock = threading.Lock()
@@ -134,7 +139,10 @@ class LiveManager:
         cur = None
         if running is not None:
             cur = running.clave if running.kind == "form" else "a photo upload"
+        pick = self.chooser.choose(block=False)  # never waits on AMD; a stale list refreshes in the background
         return {"busy": running is not None or queued > 0, "running": running is not None, "queued": queued,
+                "model": pick["model"], "fallback": pick["fallback"], "banner": pick["banner"],
+                "banner_try": pick["banner_try"],
                 "queue_max": QUEUE_MAX, "reads_today": t["reads"], "usd_today": t["usd"],
                 "max_reads": MAX_READS_PER_DAY, "max_usd": MAX_USD_PER_DAY, "current": cur}
 
@@ -219,19 +227,34 @@ class LiveManager:
         job.emit(type="error", code=code, msg=msg, fallback=job.fallback)
 
     def _run(self, job: Job) -> None:
-        from twohands.reader import MODELS
         try:
             try:  # the allowance may have changed while the job waited in line
                 self.check_budget()
             except Refused as e:
                 self._fail(job, "endpoint_busy" if e.code == "endpoint" else e.code, e.message)
                 return
-            model_name = MODELS.get(LIVE_MODEL, LIVE_MODEL)
+            pick = self.chooser.choose(block=True)
+            if pick["fallback"]:
+                job.emit(type="notice", code="model_withdrawn", model=pick["model"],
+                         msg=pick["banner"] if job.kind == "form" else pick["banner_try"])
+            model_name = pick["model"]
             job.emit(type="stage", stage="prepare", msg="Masked page and zoomed tiles prepared")
             job.emit(type="stage", stage="send", msg=f"Sent to {model_name} on AMD, one request")
-            row = self.reader_fn(LIVE_MODEL, job.page)
+            row = self.reader_fn(pick["key"], job.page)
             cost = ((row.get("usage") or {}).get("cost") or 0.0) if isinstance(row.get("usage"), dict) else 0.0
             self._spend(cost)
+            if livemodel.is_withdrawn_error(row.get("error")) and not pick["fallback"]:
+                # the endpoint dropped the model between list refreshes: switch this job, and the next ones, now
+                self.chooser.mark_withdrawn(model_name)
+                pick = self.chooser.choose(block=False)
+                if pick["fallback"]:
+                    model_name = pick["model"]
+                    job.emit(type="notice", code="model_withdrawn", model=model_name,
+                             msg=pick["banner"] if job.kind == "form" else pick["banner_try"])
+                    job.emit(type="stage", stage="send", msg=f"Sent to {model_name} on AMD, one request")
+                    row = self.reader_fn(pick["key"], job.page)
+                    cost = ((row.get("usage") or {}).get("cost") or 0.0) if isinstance(row.get("usage"), dict) else 0.0
+                    self._spend(cost)
             if row.get("error") and endpoint_busy(row.get("error")):
                 self._fail(job, "endpoint_busy", "AMD endpoint busy (503 or timeout)"
                            + (", showing the last measured read of this form; retry in a minute." if job.fallback
@@ -256,14 +279,14 @@ class LiveManager:
                 job.emit(type="identity", name=i["name"], ok=i["ok"], lhs=i["lhs"], rhs=i["rhs"])
             out_dir = job.out_dir or LIVE_DIR
             out_dir.mkdir(parents=True, exist_ok=True)
-            out = {"clave": job.clave, "model": model_name, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            out = {"clave": job.clave, "model": model_name, "model_fallback": pick["fallback"], "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                    "secs": row.get("secs"), "usage": u, "cost": cost, "finish_reason": row.get("finish_reason"),
                    "parsed": row["parsed"], "accepted": ev["accepted"], "reasons": ev["reasons"]}
             name = f"{job.clave}.json" if job.out_dir is None else f"{job.clave}.read.json"
             (out_dir / name).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
             job.state = "done"
             job.emit(type="verdict", accepted=ev["accepted"], line=ev["line"], reasons=[storemod.neutralize(x) for x in ev["reasons"]],
-                     secs=row.get("secs"), cost=cost, model=model_name)
+                     secs=row.get("secs"), cost=cost, model=model_name, fallback=pick["fallback"])
         except Exception as e:  # noqa: BLE001
             self._fail(job, "internal", f"Live read failed ({type(e).__name__})."
                        + (" Showing the last measured read." if job.fallback else ""))

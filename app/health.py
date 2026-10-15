@@ -7,6 +7,12 @@ retries (kind = read) are deliberately ignored: they say the batch is being pace
   AMD slow  (amber)   the last one answered but took more than 60 s, or failed once
   AMD down, showing stored reads (grey)   the last 2 probes both failed
   AMD (grey)          nothing in the last 15 min
+  AMD live · Gemma unavailable (amber)   the endpoint answers, but Gemma-4-31B-IT is withdrawn: missing from
+                      GET /models (app/livemodel.py) or its latest probe / live / models row is "withdrawn"
+
+"Withdrawn" is not "down": an HTTP 400 on a probe or live row (the probe's 5-token text call cannot be a malformed
+request; the endpoint answers 400 "Requested model ... not supported" for a dropped model) and the "withdrawn" rows
+app/livemodel.py writes (kind "models") mark that model as withdrawn and are left out of the up / slow / down rules.
 """
 from __future__ import annotations
 
@@ -19,7 +25,20 @@ from twohands import REPO
 from twohands.amd import HEALTH  # noqa: E402  (same file the core writes; TWOHANDS_HEALTH_FILE overrides)
 WINDOW_S = 15 * 60
 SLOW_S = 60.0
+SLOW_QWEN_LIVE_S = 180.0  # a whole Qwen read (it reasons first) takes 75-150 s on a healthy endpoint
 KINDS = ("probe", "live")
+GEMMA = "Gemma-4-31B-IT"
+
+
+def withdrawn(row: dict) -> bool:
+    st = row.get("status")
+    return st == "withdrawn" or (st == 400 and row.get("kind") in KINDS)
+
+
+def gemma_withdrawn(rows: list[dict], now: float) -> bool:
+    """Gemma's latest probe / live / models row in the window says withdrawn."""
+    g = [r for r in rows if r.get("model") == GEMMA and r.get("kind") in KINDS + ("models",) and _age(r, now) <= WINDOW_S]
+    return bool(g) and withdrawn(g[-1])
 _cache: dict = {"at": 0.0, "v": None, "key": None}
 
 
@@ -47,7 +66,21 @@ def _age(row: dict, now: float) -> float:
         return 1e12
 
 
-def classify(rows: list[dict], now: float) -> dict:
+def classify(rows: list[dict], now: float, gemma_listed=None) -> dict:
+    """gemma_listed: True / False from the cached model list, None when unknown (then the log alone decides)."""
+    v = _classify([r for r in rows if not withdrawn(r)], now)
+    out = gemma_listed is False or (gemma_listed is None and gemma_withdrawn(rows, now))
+    if not out or v["state"] == "down":
+        return v
+    if v["state"] == "busy":
+        return {"state": "busy", "label": "AMD slow · Gemma unavailable",
+                "detail": v["detail"] + " Gemma-4-31B-IT is not offered by the endpoint now; live reads use Qwen3.8-27B."}
+    return {"state": "degraded", "label": "AMD live · Gemma unavailable",
+            "detail": "The AMD endpoint answers, but Gemma-4-31B-IT is not in its model list now; live reads use "
+                      "Qwen3.8-27B on AMD. Stored results were read by Gemma on AMD."}
+
+
+def _classify(rows: list[dict], now: float) -> dict:
     recent = [r for r in rows if r.get("kind") in KINDS and _age(r, now) <= WINDOW_S]
     if not recent:
         return {"state": "quiet", "label": "AMD", "detail": "No probe of the AMD endpoint in the last 15 minutes."}
@@ -59,7 +92,8 @@ def classify(rows: list[dict], now: float) -> dict:
         return {"state": "down", "label": "AMD down, showing stored reads",
                 "detail": f"The last two probes of the AMD endpoint failed (last {ago}). Every form still opens from its measured read."}
     lat = last.get("latency_s") or 0
-    if last.get("status") != 200 or lat > SLOW_S:
+    slow = SLOW_QWEN_LIVE_S if last.get("kind") == "live" and str(last.get("model", "")).startswith("Qwen") else SLOW_S
+    if last.get("status") != 200 or lat > slow:
         return {"state": "busy", "label": "AMD slow",
                 "detail": f"Last probe {ago}: " + (f"answered in {lat:.0f} s." if last.get("status") == 200 else "no answer.")
                           + " Live reads may queue longer; measured reads open instantly."}
@@ -72,8 +106,10 @@ def status(now: float | None = None) -> dict:
         key = HEALTH.stat().st_mtime_ns
     except OSError:
         key = None
-    if _cache["v"] is not None and _cache["key"] == key and now - _cache["at"] < 30:
+    from app import livemodel
+    listed = livemodel.chooser.gemma_listed(livemodel.chooser.listed(block=False))  # cached, never waits on AMD
+    if _cache["v"] is not None and _cache["key"] == (key, listed) and now - _cache["at"] < 30:
         return _cache["v"]
-    v = classify(_tail(), now)
-    _cache.update(at=now, v=v, key=key)
+    v = classify(_tail(), now, gemma_listed=listed)
+    _cache.update(at=now, v=v, key=(key, listed))
     return v

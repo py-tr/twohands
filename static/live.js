@@ -87,6 +87,10 @@ window.LiveJob = function (root) {
         if (ev.stage === 'answer') { step('send', 'did', ev.secs != null ? esc(ev.secs) + ' s' : ''); step('answer', 'now', ''); }
       } else if (ev.type === 'field') field(ev, false);
       else if (ev.type === 'identity') ident(ev);
+      else if (ev.type === 'notice') {
+        var mb = root.querySelector('[data-live-model]');
+        if (mb) mb.innerHTML = '<div class="banner" role="note">' + ICON_ALERT + '<div class="grow">' + esc(ev.msg) + '</div></div>';
+      }
       else if (ev.type === 'verdict') {
         step('answer', 'did', ''); step('verdict', 'did', '');
         banner(ev.accepted ? 'ok' : 'warn', '<b>' + esc(ev.line) + '</b><br><span class="small">Read live by ' + esc(ev.model) + ' on AMD in ' + esc(ev.secs) +

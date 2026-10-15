@@ -44,6 +44,7 @@
         <li class="did"><span class="ic"></span><span class="lb">Form located and straightened</span><span class="tt">in memory</span></li>
         <li class="did"><span class="ic"></span><span class="lb">Names and signatures blacked out</span><span class="tt">before storing</span></li>
       </ul>
+      <div data-live-model>{% if live and live.banner %}<div class="banner" role="note">{{ icon('alert') }}<div class="grow">{{ live.banner_try }}</div></div>{% endif %}</div>
       <ul class="jobsteps" data-live-steps style="margin-top:2px" hidden></ul>
       {% if not ev %}<div data-live-msg></div>{% endif %}
       {% if ev %}
@@ -116,7 +117,7 @@
 {% endif %}
 {% endblock %}
 {% block scripts %}
-<script src="/static/live.js?v=4"></script>
+<script src="/static/live.js?v=5"></script>
 <script>
 (function () {
   var live = document.getElementById('live');

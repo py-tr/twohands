@@ -306,7 +306,7 @@ def _flist():
 @app.get("/try", response_class=HTMLResponse)
 def try_page(request: Request):
     return page(request, "try.html", "try", samples=uploadmod.SAMPLES, good=uploadmod.GOOD_PHOTO, up=None, ev=None,
-                flist=_flist())
+                flist=_flist(), live=request.app.state.live.status())
 
 
 @app.get("/try/{uid}", response_class=HTMLResponse)
@@ -320,7 +320,7 @@ def try_result(request: Request, uid: str):
         ev = storemod.evaluate(storemod.read_from_core(uid, "live", {"clave": uid, "parsed": rd.get("parsed"),
                                                                      "usage": rd.get("usage"), "secs": rd.get("secs")}))
     return page(request, "try.html", "try", samples=uploadmod.SAMPLES, good=uploadmod.GOOD_PHOTO, up=m, ev=ev,
-                flist=_flist())
+                flist=_flist(), live=request.app.state.live.status())
 
 
 def _queue_upload(request: Request, res: dict) -> dict:

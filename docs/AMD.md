@@ -57,6 +57,27 @@ Second form type, same model on the same endpoint: rainfall ledgers, whole sheet
   (two Gemma attempts) and 451 s (Qwen, 2 forms) (`results/verify_spike_*.jsonl`, shown on the app's results
   page). We report these as they are.
 
+### 2026-10-15 ~16:20 UTC: Gemma-4-31B-IT withdrawn from the endpoint
+
+- **What happened.** Since about 16:20 UTC on 2026-10-15, AMD Token Factory no longer offers Gemma-4-31B-IT.
+  `GET /models` (17:35 UTC) lists `DeepSeek-V4.1-Flash, DeepSeek-V4-Flash, DeepSeek-V4-Flash-Vision-Exp,
+  GLM-5.3-Flash, MiMo-V2.6-Flash, MinerU2.5-Pro, MiniCPM5-2B, MiniCPM-V-4.7-1B, MiniCPM-V-4.7-35B-A3B, Qwen3.8-27B,
+  Qwen3.8-Flash-Next`, without Gemma. A Gemma call answers HTTP 400:
+  `{"error":{"message":"Requested model Gemma-4-31B-IT not supported","type":"invalid_request_error","param":null,"code":null}}`.
+  The health probe logs it as status 400 on every Gemma probe since then (`results/endpoint_health.jsonl`); the app
+  reads those rows, and its own `kind: "models"` rows, as **withdrawn**, not as an outage. Qwen3.8-27B still answers.
+- **Live demo.** The live read checks `GET /models` (cached 5 min, `app/livemodel.py`). While Gemma is not listed it
+  reads with Qwen3.8-27B using Qwen's own frozen prompt and parameters from the 300 run (the core reader's `qwen`
+  path: temperature 0, `reasoning_effort: "low"`, `max_tokens` 6000), and the live panel says so in a banner; the
+  header chip shows "AMD live · Gemma unavailable". When Gemma is listed again the live read switches back by itself.
+  Check after the switch: one live read of masked form 201720E0100 with Qwen on AMD, 89.1 s, $0.000518
+  (6,612 tokens in, 2,369 out), accepted by the gate.
+- **Stored results are unchanged.** Every Gemma number in this repo (pilot and the pre-registered 300) was read by
+  Gemma on AMD before the withdrawal.
+- **The 100-form confirmation (PROTOCOL.md, Amendment 3) specifies Gemma first.** We do not substitute Qwen for
+  Gemma in it. It waits for Gemma to return to the endpoint; if Gemma does not return before the deadline, it is
+  reported as **not run**.
+
 ## Pre-registered run on AMD: 300 forms (measured)
 
 | | Gemma-4-31B-IT |

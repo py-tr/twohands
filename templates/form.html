@@ -40,14 +40,15 @@
         <div>
           <div class="eyebrow" style="margin-bottom:6px">Live on AMD</div>
           <h3 style="margin:0">Read this form again, now</h3>
-          <p class="small muted" style="margin:6px 0 0">{{ run.model if run.model else 'Gemma-4-31B-IT' }} reads the masked page; the gate checks it as the answer arrives.</p>
+          <p class="small muted" style="margin:6px 0 0">{{ live.model if live and live.model else (run.model if run.model else 'Gemma-4-31B-IT') }} reads the masked page; the gate checks it as the answer arrives.</p>
         </div>
         <div class="live-act">
           <div class="timer" data-live-timer hidden>0.0 s</div>
           <button class="btn primary" data-live-btn {{ 'disabled' if not has_image }}>{{ icon('play') }}Read live on AMD</button>
         </div>
       </div>
-      <div class="note">About a minute. One live read runs at a time for the whole site; yours waits in a short queue and shows its place. The shared endpoint also runs our measured batch, so if it is busy you see the last measured read instead.{% if not has_image %} <b>This form has no masked page yet, so it cannot be sent.</b>{% endif %}</div>
+      <div data-live-model>{% if live and live.banner %}<div class="banner" role="note">{{ icon('alert') }}<div class="grow">{{ live.banner }}</div></div>{% endif %}</div>
+      <div class="note">{{ 'About two to four minutes (Qwen reasons before it answers).' if live and live.fallback else 'About a minute.' }} One live read runs at a time for the whole site; yours waits in a short queue and shows its place. The shared endpoint also runs our measured batch, so if it is busy you see the last measured read instead.{% if not has_image %} <b>This form has no masked page yet, so it cannot be sent.</b>{% endif %}</div>
       <ul class="jobsteps" data-live-steps hidden></ul>
       <div data-live-msg></div>
       <div class="tiles" data-live-tiles hidden></div>
@@ -125,6 +126,6 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script src="/static/live.js?v=4"></script>
+<script src="/static/live.js?v=5"></script>
 <script src="/static/form.js?v=5"></script>
 {% endblock %}
