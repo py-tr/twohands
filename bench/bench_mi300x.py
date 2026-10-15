@@ -16,7 +16,7 @@ machine (--local-smi) or over SSH (--ssh user@host).
 
 Writes results/bench_mi300x_<ts>.json and results/bench_mi300x_<ts>.md (the table in the buyer's units:
 seconds per form single stream; forms/min at 8 and 16; cost per 1,000 forms at --price-per-hour; "a state count of
-20,927 forms in H hours for $X"; tokens/s). The key is read from the env and never printed or written.
+20,908 forms in H hours for $X"; tokens/s). The key is read from the env and never printed or written.
 """
 from __future__ import annotations
 
@@ -42,7 +42,7 @@ sys.path.insert(0, str(REPO))
 from twohands import reader, schema  # noqa: E402
 
 PAGES = REPO / "data" / "masked" / "spike"
-STATE_FORMS = 20927   # Estado de Mexico, presidential casilla actas in the PREP 2024 CSV (the largest state)
+STATE_FORMS = 20908   # Estado de Mexico, presidential casilla actas in the PREP 2024 CSV (the largest state)
 SMI_CMD = ["rocm-smi", "--showuse", "--showmemuse", "--showmeminfo", "vram", "--json"]
 
 

@@ -148,7 +148,7 @@ def test_bench_sweep_against_mock(isolate, server, monkeypatch, tmp_path):
     assert res["levels"][0]["mean_prompt_tokens"] == 2600 and res["levels"][0]["decode_tok_s"] > 0
     assert res["meta"]["prompt_sha256"] == reader.prompt_sha256()
     text = md[0].read_text()
-    assert "A state count of 20,927 forms in" in text and "Seconds per form, single stream" in text
+    assert "A state count of 20,908 forms in" in text and "Seconds per form, single stream" in text
     assert KEY not in js[0].read_text() + text
     assert len(server.seen) == 1 + 3 + 4  # warm-up + levels
 
@@ -170,11 +170,11 @@ def test_buyer_units():
     lv = [{"concurrency": 1, "mean_s_per_form": 20.0, "forms_per_min": 3.0, "errors": 0},
           {"concurrency": 8, "mean_s_per_form": 30.0, "forms_per_min": 16.0, "errors": 0},
           {"concurrency": 16, "mean_s_per_form": 40.0, "forms_per_min": 24.0, "errors": 0}]
-    b = B.buyer(lv, 2.4, 20927)
+    b = B.buyer(lv, 2.4, 20908)
     assert b["single_stream_s_per_form"] == 20.0 and b["forms_per_min_at_16"] == 24.0
     assert b["best_concurrency"] == 16
     assert b["usd_per_1000_forms_best"] == pytest.approx(2.4 / (24 * 60) * 1000, abs=1e-3)
-    assert b["state_hours"] == pytest.approx(20927 / (24 * 60), abs=0.01)
+    assert b["state_hours"] == pytest.approx(20908 / (24 * 60), abs=0.01)
     assert b["state_usd"] == pytest.approx(b["state_hours"] * 2.4, abs=0.02)
 
 
