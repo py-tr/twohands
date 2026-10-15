@@ -60,6 +60,10 @@ from evolus import web as evolusweb  # noqa: E402
 app.include_router(evolusweb.router)
 templates.env.globals["evolus_case"] = evolusweb.panel
 
+# Blind spot-check of the AI adjudication by a person (additive): /check, /check/results
+from app import spotcheck as spotcheckmod  # noqa: E402
+app.include_router(spotcheckmod.router)
+
 
 def page(request: Request, name: str, nav: str, **ctx):
     return templates.TemplateResponse(request, name, {"nav": nav, **ctx})
