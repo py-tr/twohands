@@ -138,22 +138,22 @@ transcribe tables; none we found gives a per-form proof of when to trust the rea
 
 ## Evolus
 
-The same process runs as a case on **Evolus** (Evolus Business Agents track): an Evolus **document extractor** reads
-the masked page as an independent third reader (its read is gated and compared, never trusted blindly); accepted
-forms are filed in an Evolus **knowledge library** (the office's register); routed forms get a clerk's note drafted
-by an Evolus **agent running on Gemma-4-31B-IT on AMD**, translated to Spanish by the **AI Tool** `translate`, and
-are handed to a person by the Evolus **workflow** "Review hand-off". Our gate is exposed as `POST /api/gate` so an
-Evolus agent can check the paper's arithmetic. The form page and the review desk show each form's Evolus case: run
-id, steps and status. Endpoints, setup clicks and limits: [docs/EVOLUS.md](docs/EVOLUS.md).
+The same process runs as a case on **Evolus** (Evolus Business Agents track). The masked page is the input, and an
+open model on AMD reasons over it. An accepted form starts the workflow **"Record filing"**: a deterministic Script
+re-checks the paper's identities inside Evolus and files the record. A routed form starts the workflow **"Review
+hand-off"**: the agent **"Intake clerk"** (an open model on the AMD Token Factory, connected under "Your models")
+writes the review task, the AI Tool `translate` turns it into Spanish, and the task reaches a person on our review
+desk. An Evolus extractor ("Tally sheet reader") is a third, independent reader, gated and compared, never trusted
+blindly. The form page and the review desk show each form's Evolus run: id, steps and status. Details, endpoints and
+the real run: [docs/EVOLUS.md](docs/EVOLUS.md).
 
 ```bash
-python -m evolus check            # which blocks are configured (keys shown only as set / not set)
+python -m evolus setup            # find or create every Evolus block (idempotent) -> evolus/ids.json
 python -m evolus run --pick 2,3   # run the case on 2 accepted + 3 routed forms -> results/evolus_runs.jsonl
 ```
 
-Environment: `EVOLUS_KEY`, `EVOLUS_APP_ID`, `EVOLUS_AGENT`, `EVOLUS_EXTRACTOR_AGENT_ID`, `EVOLUS_EXTRACTOR_ID`,
-`EVOLUS_LIBRARY_ID`, `EVOLUS_WORKFLOW_ID`; optional `TWOHANDS_GATE_TOKEN`, `TWOHANDS_PUBLIC_URL`,
-`EVOLUS_CALLBACK_KEY`.
+Environment: `EVOLUS_KEY`, `EVOLUS_APP_ID`; optional `EVOLUS_USER_KEY` (needed to create the extractor schema and
+the library), `EVOLUS_REVIEWER_EMAIL`, `TWOHANDS_GATE_TOKEN`, `TWOHANDS_PUBLIC_URL`, `EVOLUS_CALLBACK_KEY`.
 
 ## Run with Docker
 

@@ -46,6 +46,22 @@ class EvolusClient:
             raise NotConfigured("EVOLUS_KEY and EVOLUS_APP_ID are needed for the REST API")
         return {"X-ApiKey": self.s.key, "X-Application-Id": self.s.app_id, "Accept": "application/json"}
 
+    def _user_headers(self) -> dict:
+        if not self.s.user_key or not self.s.app_id:
+            raise NotConfigured("EVOLUS_USER_KEY (a personal User API key) is needed for this call")
+        return {"X-User-ApiKey": self.s.user_key, "X-Application-Id": self.s.app_id, "Accept": "application/json"}
+
+    def rest(self, method: str, path: str, endpoint: str = "", body: Any = None, params: Optional[dict] = None,
+             user: bool = False) -> Any:
+        """Generic JSON call. user=True: the operation needs a personal User API key (per the spec)."""
+        h = self._user_headers() if user else self._rest_headers()
+        kw: dict = {"params": params} if params else {}
+        if body is not None:
+            h = h | {"Content-Type": "application/json"}
+            kw["content"] = json.dumps(body, ensure_ascii=False).encode("utf-8")
+        r = self._call(method, path, endpoint or f"{method} {path}", h, **kw)
+        return self._json(r) if r.content else {}
+
     def _chat_headers(self) -> dict:
         if not self.s.key:
             raise NotConfigured("EVOLUS_KEY is needed for agent chat")
@@ -106,7 +122,11 @@ class EvolusClient:
             r = self._call("POST", f"/api/v1/agents/{agent_id}/{output}/{extractor_id}/ask-file", ep,
                            self._rest_headers(), params={"useWebhook": "false"},
                            files={"file": (Path(path).name, fh, "image/jpeg")})
-        return self._json(r)
+        d = self._json(r)
+        if isinstance(d, dict):
+            d.setdefault("_auditId", r.headers.get("X-AskFile-Audit-Id"))
+            d.setdefault("_executionId", r.headers.get("X-AskFile-Execution-Id"))
+        return d
 
     # ------------------------------------------------------------------ AI Tools
     def ai_tools(self) -> Any:
@@ -144,7 +164,10 @@ class EvolusClient:
                           ("callbackApiKeyName", (None, b"X-Callback-Key"))]
         r = self._call("POST", f"/api/v1/workflows/{workflow_id}/execute",
                        "POST /api/v1/workflows/{workflowId}/execute", self._rest_headers(), files=parts)
-        return self._json(r)
+        d = self._json(r) if r.content else {}
+        d = d if isinstance(d, dict) else {"body": d}
+        d.setdefault("executionId", r.headers.get("X-Workflow-Execution-Id"))
+        return d
 
     def workflow_status(self, workflow_id: str, execution_id: str) -> Any:
         return self._json(self._call("GET", f"/api/v1/workflows/{workflow_id}/executions/{execution_id}",

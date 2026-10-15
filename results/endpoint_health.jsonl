@@ -603,3 +603,58 @@
 {"ts": "2026-10-15T08:56:37Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 146.5, "kind": "read", "pid": 20940}
 {"ts": "2026-10-15T08:57:12Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 34.3, "kind": "read", "pid": 20940}
 {"ts": "2026-10-15T08:57:18Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 62.2, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T09:00:48Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 1.5, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:01:01Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 218.9, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T09:01:01Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 4.6, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:01:04Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 232.4, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T09:03:58Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 171.2, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T09:06:18Z", "model": "Gemma-4-31B-IT", "status": "TimeoutError", "latency_s": 301.7, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T09:06:44Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 165.9, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:06:52Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.1, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:06:55Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 31.0, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:07:06Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.1, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:07:17Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.6, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:07:32Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.7, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:07:42Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.4, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:08:18Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.3, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:08:28Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.2, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:09:46Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 17.2, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:09:52Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.0, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:11:02Z", "model": "Gemma-4-31B-IT", "status": "TimeoutError", "latency_s": 300.4, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:11:13Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 7.1, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:16:15Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 1.4, "kind": "probe", "pid": 53884, "note": "provider 503"}
+{"ts": "2026-10-15T09:16:26Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 2.2, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:19:53Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 134.3, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:20:01Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.8, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:20:15Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 4.4, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:20:49Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 16.9, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:21:27Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 1.3, "kind": "probe", "pid": 53884, "note": "provider 503"}
+{"ts": "2026-10-15T09:21:37Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 1.8, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:21:49Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.3, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:22:35Z", "model": "Gemma-4-31B-IT", "status": "TimeoutError", "latency_s": 306.3, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T09:22:44Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.1, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:22:59Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.4, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:23:29Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 12.7, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:23:30Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.4, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:24:44Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 25.3, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:26:15Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 20.3, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:31:38Z", "model": "Gemma-4-31B-IT", "status": "TimeoutError", "latency_s": 300.5, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:31:44Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 2.2, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:33:15Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 82.5, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:33:24Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.5, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:33:37Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 5.1, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:33:56Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 13.4, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:34:11Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 19.0, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:34:17Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 5.2, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:34:25Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.5, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:34:51Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.2, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:35:01Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.1, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:35:46Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 9.6, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:36:22Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 2.9, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:36:46Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 1.9, "kind": "probe", "pid": 53884, "note": "provider 503"}
+{"ts": "2026-10-15T09:36:56Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 1.8, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:37:09Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.5, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T09:41:58Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 1.9, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:42:08Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 1.5, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T09:45:09Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 62.3, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T09:45:26Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 52.8, "kind": "read", "pid": 20940}

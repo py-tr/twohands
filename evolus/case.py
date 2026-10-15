@@ -141,7 +141,7 @@ def text_of(obj: Any) -> str:
     return ""
 
 
-def translate_options(catalog: Any, lang: str = "es") -> dict:
+def translate_options(catalog: Any, lang: str = "Spanish") -> dict:
     """Pick the target-language option of the 'translate' tool from GET /api/v1/ai-tools."""
     tools = catalog if isinstance(catalog, list) else (catalog or {}).get("tools") or (catalog or {}).get("data") or []
     for t in tools if isinstance(tools, list) else []:
@@ -154,10 +154,10 @@ def translate_options(catalog: Any, lang: str = "es") -> dict:
                 allowed = (spec or {}).get("values") or (spec or {}).get("enum") or [] if isinstance(spec, dict) else []
                 for a in allowed:
                     av = a.get("value") if isinstance(a, dict) else a
-                    if str(av).lower() in (lang, "spanish", "es-es", "es-mx"):
+                    if str(av).lower() in (lang.lower(), "spanish", "es", "es-es", "es-mx"):
                         return {name: av}
                 return {name: lang}
-    return {"targetLanguage": lang}
+    return {"target": lang}
 
 
 # ------------------------------------------------------------------------------------------- the case
@@ -235,7 +235,7 @@ class Case:
             else:
                 extractor = {"status": "error"}
         else:
-            self.skip("document extractor", "EVOLUS_EXTRACTOR_AGENT_ID / EVOLUS_EXTRACTOR_ID not set")
+            self.skip("document extractor", "no extractor schema yet (creating it needs a User API key; see docs/EVOLUS.md)")
 
         # 3. decision: the paper decides
         if primary is None:
@@ -258,11 +258,23 @@ class Case:
                      "primary": primary, "extractor": extractor, "decision": decision, "decision_reason": why}
 
         if decision == "accepted":
+            rec["filing"] = self.file_via_workflow(pvals)
             rec["library"] = self.file_record(pvals, primary)
         else:
             fail = (primary or {}).get("failing") or [d["code"] for d in extractor.get("disagree", [])]
-            rec["handoff"] = self.handoff(fail, why, pvals, extractor)
-            rec["workflow"] = self.start_workflow(rec)
+            if not fail and primary:  # identity-only failure: the fields of the failing identity
+                r0 = self.st.default_read(self.clave)
+                bad = [i for i in storemod.evaluate(r0)["identities"] if i["ok"] is False] if r0 else []
+                bad.sort(key=lambda i: len(i["keys"]))
+                fail = [storemod.code_of(k) for k in dict.fromkeys(bad[0]["keys"])] if bad else []
+            facts = self.facts(fail, why, pvals, extractor)
+            if self.s.workflow_id:
+                rec["workflow"] = self.start_workflow(rec, facts, fail)
+                rec["handoff"] = self.handoff_from_workflow(rec["workflow"], facts, fail)
+            else:
+                self.skip("workflow: review hand-off", "no workflow id (run python -m evolus setup)")
+                rec["workflow"] = {"status": "skipped"}
+                rec["handoff"] = self.handoff_direct(facts, fail)
         rec["steps"] = self.steps
         rec["evolus_calls"] = self.c.calls[n0:]
         rec["amd_calls_via_evolus"] = self.amd_calls_via_evolus
@@ -272,7 +284,7 @@ class Case:
     # ----------------------------------------------------------------------------- accepted: file the record
     def file_record(self, pvals: dict, primary: dict) -> dict:
         if not self.s.library_id:
-            self.skip("knowledge library", "EVOLUS_LIBRARY_ID not set")
+            self.skip("knowledge library", "no library id (creating one needs a User API key; see docs/EVOLUS.md)")
             return {"status": "skipped"}
         lines = [f"Record {self.clave}", "Form type: tally sheet, type 2 (paper form intake)",
                  "Status: accepted with no human touch - every identity on the paper holds.",
@@ -288,79 +300,135 @@ class Case:
                 "id": (out or {}).get("id") if isinstance(out, dict) else None}
 
     # ----------------------------------------------------------------------------- routed: hand to a person
-    def handoff(self, fail: list[str], why: str, pvals: dict, extractor: dict) -> dict:
+    def facts(self, fail: list[str], why: str, pvals: dict, extractor: dict) -> dict:
         names = [storemod.name_of(storemod.key_of(c)) for c in fail if storemod.key_of(c)]
-        facts = {"form": self.clave, "why_routed": why, "fields_to_check": names[:6],
-                 "model_read": {n: pvals.get(c) for n, c in zip(names, fail)},
-                 "extractor_read": {n: (extractor.get("read") or {}).get(c) for n, c in zip(names, fail)}
-                 if extractor.get("status") == "ok" else None}
-        note_en = ""
-        model = self.s.agent
-        if not model:
-            ms = self.step("agent chat", "GET /v1/models", self.c.models, lambda o: f"{len(o)} agent(s)")
-            model = (ms or [{}])[0].get("id", "") if ms else ""
+        return {"case_id": None, "form": self.clave, "why_routed": why, "fields_to_check": names[:6],
+                "model_read": {n: pvals.get(c) for n, c in zip(names, fail)},
+                "extractor_read": {n: (extractor.get("read") or {}).get(c) for n, c in zip(names, fail)}
+                if extractor.get("status") == "ok" else None}
+
+    def handoff_direct(self, facts: dict, fail: list[str]) -> dict:
+        """Fallback without a workflow: agent chat (OpenAI-compatible) + AI Tool translate, called by our app."""
+        names = facts["fields_to_check"]
+        note_en, model = "", self.s.agent
         if model:
-            msgs = [{"role": "user", "content":
-                     "You prepare review tasks in a records office that captures paper forms. A form could not be "
-                     "accepted automatically. Write a note of at most two sentences for the clerk: which field(s) to "
-                     "look at on the page and why. Do not guess the correct value. Facts (JSON): "
+            msgs = [{"role": "user", "content": "Write the review task for this routed paper form in at most two "
+                     "sentences: the field(s) to check on the page and why. Do not guess the correct value. Case (JSON): "
                      + json.dumps(facts, ensure_ascii=False)}]
-            out = self.step("agent chat (Gemma-4-31B-IT on AMD)", "POST /v1/chat/completions",
+            out = self.step("agent chat (Intake clerk)", "POST /v1/chat/completions",
                             lambda: self.c.chat(model, msgs), lambda o: (o or {}).get("text", "")[:120])
             self.amd_calls_via_evolus += 1
             note_en = storemod.neutralize(((out or {}).get("text") or "").strip())
         else:
-            self.skip("agent chat (Gemma-4-31B-IT on AMD)", "no agent in the workspace (GET /v1/models is empty)")
+            self.skip("agent chat (Intake clerk)", "no agent id (run python -m evolus setup)")
         if not note_en:
-            note_en = f"Check {', '.join(names[:3]) or 'the rows'} on the page: {why}."
+            note_en = f"Check {', '.join(names[:3]) or 'the rows'} on the page: {facts['why_routed']}."
         note_es = ""
         if self.s.app_id:
-            cat = self.step("AI Tools catalog", "GET /api/v1/ai-tools", self.c.ai_tools, lambda o: "catalog read")
-            opts = translate_options(cat)
             out = self.step("AI Tool: translate", "POST /api/v1/ai-tools/{tool}/run",
-                            lambda: self.c.run_tool("translate", note_en, options=opts),
+                            lambda: self.c.run_tool("translate", note_en, options={"target": "Spanish"}),
                             lambda o: text_of(o)[:120])
             note_es = storemod.neutralize(text_of(out).strip()) if out is not None else ""
         else:
             self.skip("AI Tool: translate", "EVOLUS_APP_ID not set")
-        return {"fields": names, "note_en": note_en, "note_es": note_es, "crop_urls": self.crop_urls(fail)}
+        return {"fields": names, "note_en": note_en, "note_es": note_es, "crop_urls": self.crop_urls(fail),
+                "drafted_by": "agent chat + AI Tool (called by the app)"}
 
-    def start_workflow(self, rec: dict) -> dict:
-        if not self.s.workflow_id:
-            self.skip("workflow: review hand-off", "EVOLUS_WORKFLOW_ID not set")
+    def handoff_from_workflow(self, wf: dict, facts: dict, fail: list[str]) -> dict:
+        out = wf.get("output") if isinstance(wf.get("output"), dict) else {}
+        note_en = storemod.neutralize(str(out.get("note_en") or "").strip())
+        note_es = storemod.neutralize(str(out.get("note_es") or "").strip())
+        if not note_en:
+            note_en = f"Check {', '.join(facts['fields_to_check'][:3]) or 'the rows'} on the page: {facts['why_routed']}."
+        return {"fields": facts["fields_to_check"], "note_en": note_en, "note_es": note_es,
+                "crop_urls": self.crop_urls(fail),
+                "drafted_by": "workflow 'Review hand-off' (Intake clerk on the AMD-hosted model + AI Tool translate)"
+                if out.get("note_en") else "fallback text (the workflow gave no note)"}
+
+    def _step_names(self, wid: str) -> dict:
+        cache = getattr(self.c, "_wf_names", None)
+        if cache is None:
+            cache = self.c._wf_names = {}
+        if wid not in cache:
+            self.c._wf_steps = {}
+            try:
+                w = self.c.rest("GET", f"/api/v1/workflows/{wid}", "GET /api/v1/workflows/{workflowId}")
+                steps = w.get("steps") or []
+                self.c._wf_steps = {str(s.get("id")): (s.get("name") or "") for s in steps}
+                self.c._wf_steps |= {str(s.get("order")): (s.get("name") or "") for s in steps if s.get("order") is not None}
+            except (EvolusError, NotConfigured, AttributeError):
+                self.c._wf_steps = {}
+            cache[wid] = self.c._wf_steps
+        return cache[wid]
+
+    def file_via_workflow(self, pvals: dict) -> dict:
+        """Accepted: the 'Record filing' workflow re-checks the arithmetic in Evolus (Script, no AI) and files it."""
+        if not self.s.filing_workflow_id:
+            self.skip("workflow: record filing", "no filing workflow id (run python -m evolus setup)")
             return {"status": "skipped"}
-        h = rec["handoff"]
-        task = {"case_id": rec["case_id"], "form": self.clave, "why_routed": rec["decision_reason"],
-                "fields_to_check": h["fields"], "note_en": h["note_en"], "note_es": h["note_es"],
-                "crop_urls": h["crop_urls"], "assign_to": "records office reviewer"}
+        body = json.dumps({"form": self.clave, "values": {c: pvals.get(c) for c in codes()}})
+        res = self.run_workflow(self.s.filing_workflow_id, "workflow: record filing", body, None)
+        out = res.get("output") if isinstance(res.get("output"), dict) else {}
+        res["filed"] = out.get("status") == "filed"
+        res["identities_ok"] = all(i.get("ok") for i in out.get("identities") or [{}])
+        return res
+
+    def start_workflow(self, rec: dict, facts: dict, fail: list[str]) -> dict:
+        facts = dict(facts, case_id=rec["case_id"])
+        crops = self.crop_urls(fail)
+        params = {"form": self.clave, "case_id": rec["case_id"], "fields": ", ".join(facts["fields_to_check"]),
+                  "crop_url": crops[0] if crops else ""}
+        res = self.run_workflow(self.s.workflow_id, "workflow: review hand-off", json.dumps(facts, ensure_ascii=False), params)
+        if res.get("execution_id"):
+            self.amd_calls_via_evolus += 1  # the AgentCall step (one model call; Evolus retries a failing call up to 3 times)
+        return res
+
+    def run_workflow(self, wid: str, label: str, input_text: str, params: Optional[dict]) -> dict:
         cb = f"{self.s.public_url}/api/evolus/callback" if self.s.public_url and self.s.callback_key else None
-        out = self.step("workflow: review hand-off", "POST /api/v1/workflows/{workflowId}/execute",
-                        lambda: self.c.execute_workflow(self.s.workflow_id, json.dumps(task, ensure_ascii=False),
-                                                        parameters={"form": self.clave, "case_id": rec["case_id"]},
-                                                        callback_url=cb, callback_key=self.s.callback_key or None),
+        out = self.step(label, "POST /api/v1/workflows/{workflowId}/execute",
+                        lambda: self.c.execute_workflow(wid, input_text, parameters=params, callback_url=cb,
+                                                        callback_key=self.s.callback_key or None),
                         lambda o: f"execution {(o or {}).get('executionId')}")
         eid = (out or {}).get("executionId") if isinstance(out, dict) else None
         if not eid:
             return {"status": "error" if out is None else "no execution id"}
-        status, result, waited = "Pending", None, 0.0
+        status, st, waited = "Pending", None, 0.0
         while waited < self.poll_s:
             self.sleep(self.poll_every)
             waited += self.poll_every
-            st = self.step("workflow: status", "GET /api/v1/workflows/{workflowId}/executions/{executionId}",
-                           lambda: self.c.workflow_status(self.s.workflow_id, eid),
-                           lambda o: str((o or {}).get("status")))
-            if st is None:
+            got = self.step("workflow: status", "GET /api/v1/workflows/{workflowId}/executions/{executionId}",
+                            lambda: self.c.workflow_status(wid, eid),
+                            lambda o: str((o or {}).get("status")))
+            if got is None:
                 break
+            st = got
             status = str(st.get("status") or status)
             if status.lower() in FINAL:
-                result = text_of({k: v for k, v in st.items() if k not in ("status", "executionId")})[:800]
                 break
-        # collapse the repeated status polls into the last one
         polls = [s for s in self.steps if s["block"] == "workflow: status"]
         if len(polls) > 1:
             last = polls[-1] | {"summary": f"{polls[-1]['summary']} after {len(polls)} polls"}
             self.steps = [s for s in self.steps if s["block"] != "workflow: status"] + [last]
-        return {"status": status, "execution_id": eid, "result": result}
+        res: dict = {"status": status, "execution_id": eid}
+        if isinstance(st, dict):
+            raw = st.get("output")
+            try:
+                res["output"] = json.loads(raw) if isinstance(raw, str) and raw.strip().startswith("{") else raw
+            except ValueError:
+                res["output"] = raw
+            if st.get("error"):
+                res["error"] = str(st["error"])[:300]
+            names = self._step_names(wid)
+            states = st.get("stepStates") or {}
+            res["steps"] = [{"step": names.get(str(k), str(k)[:8]), "status": (v or {}).get("status"),
+                             "ms": (v or {}).get("durationMs")} for k, v in states.items()] if isinstance(states, dict) else []
+            res["total_tokens"] = st.get("totalTokenCount")
+            for s in res["steps"]:
+                ok = str(s["status"]).lower() in ("completed", "succeeded", "success", "done")
+                self.steps.append({"block": f"workflow step: {s['step']}", "status": "ok" if ok else str(s["status"]).lower(),
+                                   "summary": f"{s['status']}" + (f", {s['ms']} ms" if s.get("ms") else "")})
+        return res
+
 
 
 # ------------------------------------------------------------------------------------------- records

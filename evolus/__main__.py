@@ -1,5 +1,6 @@
 """Command line for the Evolus integration (run from the twohands/ folder).
 
+    python -m evolus setup [--model M]         find or create agent, extractor, library, workflow -> evolus/ids.json
     python -m evolus check                     which blocks are configured; lists agents, AI Tools, library docs
     python -m evolus fields                    the extractor field list to paste into the Evolus extractor editor
     python -m evolus run --forms A,B,C         run the intake case on these masked forms -> results/evolus_runs.jsonl
@@ -32,7 +33,7 @@ def cmd_check(_a) -> int:
         if s.app_id:
             cat = c.ai_tools()
             tools = cat if isinstance(cat, list) else (cat or {}).get("tools") or (cat or {}).get("data") or cat
-            names = [t.get("id") or t.get("name") for t in tools] if isinstance(tools, list) else str(tools)[:300]
+            names = [t.get("slug") or t.get("id") or t.get("name") for t in tools] if isinstance(tools, list) else str(tools)[:300]
             print("AI Tools (GET /api/v1/ai-tools):", names)
             print("translate options picked:", casemod.translate_options(cat))
         if s.app_id and s.library_id:
@@ -43,6 +44,20 @@ def cmd_check(_a) -> int:
         return 1
     finally:
         print("calls:", json.dumps(c.calls))
+    return 0
+
+
+def cmd_setup(a) -> int:
+    from evolus.setup import Setup
+    c = EvolusClient(Settings.load())
+    try:
+        ids = Setup(c, model=a.model, model_key=a.model_key, reviewer_email=a.reviewer_email, rebuild=a.rebuild).run()
+    except (EvolusError, NotConfigured) as e:
+        print("error:", redact(str(e)))
+        print("calls:", len(c.calls))
+        return 1
+    print("ids saved to evolus/ids.json:", json.dumps({k: v for k, v in ids.items() if k != "names"}))
+    print(f"Evolus API calls: {len(c.calls)} (no model calls)")
     return 0
 
 
@@ -95,11 +110,17 @@ def main(argv=None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("check").set_defaults(fn=cmd_check)
     sub.add_parser("fields").set_defaults(fn=cmd_fields)
+    su = sub.add_parser("setup")
+    su.add_argument("--model", default="Qwen3.8-27B", help="the connected model (Your models), e.g. Gemma-4-31B-IT")
+    su.add_argument("--model-key", default="", help="exact Evolus model key, e.g. own/<alias>, if the guess fails")
+    su.add_argument("--reviewer-email", default=Settings.load().reviewer_email, help="adds an Email hand-off step")
+    su.add_argument("--rebuild", action="store_true", help="delete and recreate the workflow")
+    su.set_defaults(fn=cmd_setup)
     r = sub.add_parser("run")
     r.add_argument("--forms", default="")
     r.add_argument("--pick", default="2,3", help="accepted,routed counts when --forms is not given")
     r.add_argument("--out", default=str(casemod.RUNS_FILE))
-    r.add_argument("--poll", type=float, default=90.0, help="seconds to wait for each workflow run")
+    r.add_argument("--poll", type=float, default=240.0, help="seconds to wait for each workflow run")
     r.set_defaults(fn=cmd_run)
     a = ap.parse_args(argv)
     return a.fn(a)

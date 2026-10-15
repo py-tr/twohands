@@ -9,11 +9,12 @@
     <span class="chip {{ 'ok' if ec.decision == 'accepted' else 'warn' }}">{{ ec.decision }}</span>
   </div>
   <p class="small" style="margin:8px 0 6px">{{ ec.decision_reason }}</p>
-  <p class="tiny" style="margin:0 0 8px">Case <span class="mono">{{ ec.case_id }}</span> · {{ ec.at }}{% if ec.workflow and ec.workflow.execution_id %} · workflow run <span class="mono">{{ ec.workflow.execution_id }}</span>: <b>{{ ec.workflow.status }}</b>{% endif %}{% if ec.library and ec.library.document %} · filed as <span class="mono">{{ ec.library.document }}</span>{% endif %} · <a href="{{ ec.workspace_url or 'https://app.evolus.ai' }}" target="_blank" rel="noopener">open the workspace</a></p>
+  <p class="tiny" style="margin:0 0 8px">Case <span class="mono">{{ ec.case_id }}</span> · {{ ec.at }}{% if ec.workflow and ec.workflow.execution_id %} · workflow run <span class="mono">{{ ec.workflow.execution_id }}</span>: <b>{{ ec.workflow.status }}</b>{% endif %}{% if ec.filing and ec.filing.execution_id %} · "Record filing" run <span class="mono">{{ ec.filing.execution_id }}</span>: <b>{{ ec.filing.status }}</b>{% if ec.filing.filed %}, arithmetic re-checked in Evolus and filed{% endif %}{% endif %}{% if ec.library and ec.library.document %} · filed as <span class="mono">{{ ec.library.document }}</span>{% endif %} · <a href="{{ ec.workspace_url or 'https://app.evolus.ai' }}" target="_blank" rel="noopener">open the workspace</a></p>
   {% if ec.handoff %}
   <div class="evo-notes small">
     <div><b>EN</b> {{ ec.handoff.note_en }}</div>
     {% if ec.handoff.note_es %}<div><b>ES</b> {{ ec.handoff.note_es }}</div>{% endif %}
+    {% if ec.handoff.drafted_by and not compact %}<div class="tiny">Drafted by {{ ec.handoff.drafted_by }}.</div>{% endif %}
   </div>
   {% endif %}
   {% if not compact %}

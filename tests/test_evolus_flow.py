@@ -19,8 +19,8 @@ CB = "cb_KEY_987654321zyx"
 
 def settings(**kw):
     base = dict(key=SECRET, app_id="app-1", extractor_agent_id="ag-1", extractor_id="ex-1", library_id="lib-1",
-                workflow_id="wf-1", agent="app-1:agent-7", public_url="https://twohands.example",
-                gate_token=GATE, callback_key=CB)
+                workflow_id="wf-1", filing_workflow_id="wf-file", agent="app-1:agent-7",
+                public_url="https://twohands.example", gate_token=GATE, callback_key=CB)
     return Settings(**(base | kw))
 
 
@@ -51,6 +51,7 @@ class Fake:
     def __init__(self, extract, echo_secret=False, wf_status="Completed"):
         self.extract, self.echo, self.wf_status = extract, echo_secret, wf_status
         self.reqs = []
+        self.filing_input = None
 
     def __call__(self, req: httpx.Request):
         self.reqs.append(req)
@@ -58,26 +59,39 @@ class Fake:
         if p.endswith("/ask-file"):
             assert req.headers["x-apikey"] == SECRET and req.headers["x-application-id"] == "app-1"
             assert req.url.params.get("useWebhook") == "false"
-            return httpx.Response(200, json={"result": json.dumps(self.extract)})
+            return httpx.Response(200, json={"result": json.dumps(self.extract)},
+                                  headers={"X-AskFile-Audit-Id": "aud-1"})
         if p == "/v1/chat/completions":
             assert req.headers["authorization"] == "Bearer " + SECRET
             body = json.loads(req.content)
             assert body["model"] == "app-1:agent-7"
             return httpx.Response(200, json={"choices": [{"message": {"content": "Check the TOTAL box against the rows."}}]})
-        if p == "/api/v1/ai-tools":
-            return httpx.Response(200, json=[{"id": "translate", "options": [{"name": "targetLanguage", "values": ["en", "es"]}]}])
         if p == "/api/v1/ai-tools/translate/run":
             body = json.loads(req.content)
-            assert body["options"] == {"targetLanguage": "es"}
-            return httpx.Response(200, json={"text": "Revise la casilla TOTAL contra las filas."})
+            assert body["options"] == {"target": "Spanish"}
+            return httpx.Response(200, json={"tool": "translate", "output": "Revise la casilla TOTAL contra las filas."})
         if p.endswith("/execute"):
             assert req.headers["content-type"].startswith("multipart/form-data")
-            assert b'name="input"' in req.content and b"note_es" in req.content
+            assert b'name="input"' in req.content
             if self.echo:
                 return httpx.Response(500, text=f"bad key {SECRET}")
-            return httpx.Response(202, json={"executionId": "exe-42"})
-        if "/executions/" in p:
-            return httpx.Response(200, json={"status": self.wf_status, "executionId": "exe-42", "output": "task created for reviewer"})
+            eid = "exe-file" if "/wf-file/" in p else "exe-42"
+            if eid == "exe-file":
+                self.filing_input = req.content
+            return httpx.Response(202, headers={"X-Workflow-Execution-Id": eid})
+        if p.endswith("/executions/exe-42"):
+            out = {"note_en": "Check the TOTAL box against the rows.", "note_es": "Revise la casilla TOTAL contra las filas.",
+                   "status": "awaiting review"}
+            return httpx.Response(200, json={"status": self.wf_status, "output": json.dumps(out),
+                                              "stepStates": {"1": {"status": "done", "durationMs": 900},
+                                                             "2": {"status": "done", "durationMs": 80}}})
+        if p.endswith("/executions/exe-file"):
+            out = {"status": "filed", "identities": [{"name": "rows sum to TOTAL", "ok": True}]}
+            return httpx.Response(200, json={"status": "Completed", "output": json.dumps(out), "stepStates": {}})
+        if p in ("/api/v1/workflows/wf-1", "/api/v1/workflows/wf-file"):
+            return httpx.Response(200, json={"id": p.rsplit("/", 1)[-1], "steps": [
+                {"id": "s1", "order": 1, "name": "Draft the review task (Intake clerk)"},
+                {"id": "s2", "order": 2, "name": "Translate the task to Spanish"}]})
         if "/memories/" in p and req.method == "POST":
             assert b"record_" in req.content
             return httpx.Response(201, json={"id": "doc-9"})
@@ -91,25 +105,44 @@ def run_case(clave, fake, **kw):
 
 def test_routed_form_hands_off_through_workflow():
     _, (k, r) = forms()
-    rec, c = run_case(k, Fake(codes_of(r)))
+    fake = Fake(codes_of(r))
+    rec, c = run_case(k, fake)
     assert rec["decision"] == "routed"
     blocks = [s["block"] for s in rec["steps"]]
-    assert "document extractor" in blocks and "AI Tool: translate" in blocks and "workflow: review hand-off" in blocks
-    assert any(b.startswith("agent chat") for b in blocks)
-    assert rec["workflow"] == {"status": "Completed", "execution_id": "exe-42", "result": "task created for reviewer"}
-    assert rec["handoff"]["note_es"].startswith("Revise") and rec["handoff"]["note_en"]
+    assert "document extractor" in blocks and "workflow: review hand-off" in blocks
+    assert "workflow step: Draft the review task (Intake clerk)" in blocks
+    # the workflow drafts and translates: the app makes no chat or translate call of its own
+    assert not any(q.url.path in ("/v1/chat/completions", "/api/v1/ai-tools/translate/run") for q in fake.reqs)
+    assert rec["workflow"]["execution_id"] == "exe-42" and rec["workflow"]["status"] == "Completed"
+    assert rec["handoff"]["note_es"].startswith("Revise") and rec["handoff"]["note_en"].startswith("Check")
+    assert "workflow 'Review hand-off'" in rec["handoff"]["drafted_by"]
     assert rec["handoff"]["crop_urls"][0].startswith("https://twohands.example/crop/" + k + "/")
     assert rec["extractor"]["status"] == "ok" and rec["extractor"]["disagree"] == []
     assert rec["amd_calls_via_evolus"] == 1
     assert all(s["status"] in ("ok", "skipped") for s in rec["steps"])
+    ex = next(q for q in fake.reqs if q.url.path.endswith("/execute"))
+    assert b'name="parameters"' in ex.content and k.encode() in ex.content
 
 
-def test_accepted_form_is_filed_in_library():
+def test_routed_form_without_workflow_uses_agent_chat_and_ai_tool():
+    _, (k, r) = forms()
+    rec, c = run_case(k, Fake(codes_of(r)), workflow_id="")
+    blocks = {s["block"]: s["status"] for s in rec["steps"]}
+    assert blocks["agent chat (Intake clerk)"] == "ok" and blocks["AI Tool: translate"] == "ok"
+    assert blocks["workflow: review hand-off"] == "skipped"
+    assert rec["handoff"]["note_es"].startswith("Revise")
+
+
+def test_accepted_form_is_rechecked_and_filed():
     (k, r), _ = forms()
-    rec, c = run_case(k, Fake(codes_of(r)))
+    fake = Fake(codes_of(r))
+    rec, c = run_case(k, fake)
     assert rec["decision"] == "accepted"
+    assert rec["filing"]["execution_id"] == "exe-file" and rec["filing"]["filed"] and rec["filing"]["identities_ok"]
+    sent = fake.filing_input.decode("utf-8")
+    assert '"TOTAL"' in sent and k in sent  # the record goes to Evolus by neutral codes
     assert rec["library"]["status"] == "ok" and rec["library"]["document"] == f"record_{k}.txt"
-    assert "workflow" not in rec and rec["amd_calls_via_evolus"] == 0
+    assert "handoff" not in rec and rec["amd_calls_via_evolus"] == 0
 
 
 def test_extractor_never_trusted_blindly():
@@ -135,6 +168,10 @@ def test_unconfigured_blocks_are_skipped_not_faked():
     assert st["document extractor"] == "skipped" and st["workflow: review hand-off"] == "skipped"
     assert st["AI Tool: translate"] == "skipped"
     assert rec["workflow"] == {"status": "skipped"}
+    (k2, r2), _ = forms()
+    rec, _ = run_case(k2, Fake(codes_of(r2)), library_id="", filing_workflow_id="")
+    st = {s["block"]: s["status"] for s in rec["steps"]}
+    assert st["knowledge library"] == "skipped" and st["workflow: record filing"] == "skipped"
 
 
 def test_no_secret_in_records_or_logs(tmp_path, capsys):
@@ -152,6 +189,18 @@ def test_no_secret_in_records_or_logs(tmp_path, capsys):
     for s in Settings.load().secrets():
         assert s not in text
     assert redact(f"x {SECRET} y", [SECRET]) == "x *** y"
+
+
+def test_saved_evidence_has_no_secret():
+    p = casemod.RUNS_FILE
+    if not p.is_file():
+        pytest.skip("no evidence file yet")
+    text = p.read_text(encoding="utf-8")
+    for s in Settings.load().secrets():
+        assert s not in text
+    for line in text.splitlines():
+        row = json.loads(line)
+        assert not any(x in row for x in storemod.READ_KEYS)
 
 
 def test_execute_is_multipart_and_carries_callback():

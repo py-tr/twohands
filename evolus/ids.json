@@ -1,0 +1,19 @@
+{
+ "agent_id": "d2df2a29-89dc-4974-aa65-f44b97716e75",
+ "agent": "798f7408-9506-4b31-81c0-83fb588cd417:d2df2a29-89dc-4974-aa65-f44b97716e75",
+ "model_key": "own/Qwen3.8-27B",
+ "extractor_agent_id": "c0f02cca-8ee6-4cee-84f1-1eac3ea22cce",
+ "extractor_id": "",
+ "library_id": "",
+ "workflow_id": "07ccb91f-9d18-4560-aa2b-432463d53042",
+ "names": {
+  "agent": "Intake clerk",
+  "extractor_agent": "Tally sheet reader",
+  "extractor": "Tally sheet type 2",
+  "library": "Records register",
+  "workflow": "Review hand-off",
+  "filing_workflow": "Record filing"
+ },
+ "updated_at": "2026-10-15T09:40:04+00:00",
+ "filing_workflow_id": "7f665314-5ce3-40af-a10f-ebfe5ac7531f"
+}

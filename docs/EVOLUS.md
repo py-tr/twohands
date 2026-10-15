@@ -2,104 +2,107 @@
 
 **User:** the records-office clerk who today double-keys every paper form. **Process:** a scanned form arrives; it is
 read, checked and either filed as a record or handed to a person with the failing field named. **Gain:** forms whose
-own arithmetic holds are filed with no keying (49% on our difficult pilot, 0 of 462 accepted fields wrong); the rest
-reach the clerk with one field, its crop and a note in Spanish and English.
+own arithmetic holds are filed with no keying (49% on our difficult pilot, 0 of 462 accepted fields wrong). The rest
+reach the clerk with the field, its crop and a task written in English and Spanish.
 
-Evolus is where the case lives. Our code (`evolus/`) drives it over the Evolus REST API; the decision stays with the
-paper's arithmetic (our gate), never with a model.
+Evolus is where the case lives. Our code (`evolus/`) builds the workspace and drives it over the Evolus REST API
+(spec: [`docs/evolus-openapi.json`](evolus-openapi.json), OpenAPI 3.0.4). The decision stays with the paper's
+arithmetic, never with a model.
 
 ```
-masked page ──► primary read (Gemma-4-31B-IT on AMD, measured) ──► gate ─┐
-           └──► Evolus document extractor (independent reader) ──► gate ─┤ compare
-                                                                          ▼
-                       accepted ──► Evolus knowledge library "Records register" (record_<form>.txt)
-                       routed   ──► Evolus agent on Gemma-4-31B-IT/AMD drafts the clerk's note (EN)
-                                    ──► AI Tool "translate" (ES)
-                                    ──► Evolus workflow "Review hand-off" (case JSON: field, crop link, notes)
-                                    ──► poll the run (or receive its callback) ──► status shown in our app
+masked page ──► primary read (Gemma-4-31B-IT on AMD, measured) ──► our gate ─┐
+           └──► Evolus extractor "Tally sheet reader" (independent) ──► gate ─┤ compare
+                                                                               ▼
+  accepted ──► workflow "Record filing": Script re-checks the paper's identities in Evolus (no AI)
+               ──► CreateFile (JSON record) ──► Output                 [+ library "Records register"]
+  routed   ──► workflow "Review hand-off": AgentCall "Intake clerk" (open model on AMD Token Factory)
+               ──► AI Tool translate (Spanish) ──► Script (assemble the task) ──► [Email] ──► Output
+               ──► the task lands on the Two Hands review desk (notes EN/ES, crop link, run status)
 ```
 
-## Building blocks and what each does
+## What a judge sees in the workspace
 
-| Block | Real work it does | Called from |
+| Name in the workspace | Block | What it does |
 |---|---|---|
-| **Document extractor** | Reads the masked page into the 23 schema fields: a third, independent reader. Its read goes through our gate and is compared field by field. A different read that fails the paper's arithmetic is overruled; a different read that *also* passes every identity sends the form to a person. | `evolus/case.py` `Case.run` |
-| **Agent (OpenAI-compatible chat), on Gemma-4-31B-IT via AMD Token Factory** | Drafts the two-sentence note for the clerk from the gate's facts (which field, why). Told never to guess the value. | `Case.handoff` |
-| **AI Tool `translate`** | Turns the note into Spanish for the Mexican records office. | `Case.handoff` |
-| **Knowledge library** | The office's register: each accepted form is filed as a text record (neutral field names, values). An Evolus agent can then answer questions over the register. | `Case.file_record` |
-| **Workflow "Review hand-off"** | Takes a routed case (JSON: form, fields to check, crop links, EN/ES notes) and hands it to a person; we poll its execution and show the status. Optional callback to our app. | `Case.start_workflow` |
+| **Intake clerk** | agent, model `own/Qwen3.8-27B` (AMD Token Factory, under "Your models") | Writes the review task for a routed form: which field to check and why. Never guesses a value. |
+| **Tally sheet reader** | agent marked as data extractor | Independent third reader of the masked page (schema "Tally sheet type 2", 23 fields). |
+| **Review hand-off** | workflow, 4 steps, on | AgentCall (Intake clerk) → AI Tool `translate` → Script (assemble) → Output. Optional Email step to a reviewer. |
+| **Record filing** | workflow, 3 steps, on | Script: the form's 4 identities, generated from our schema, re-checked in Evolus with zero AI → CreateFile → Output. |
+| **Records register** | knowledge library | Accepted records, one document per form (needs a User API key to create, see below). |
 
-Our gate is also exposed to Evolus: `POST /api/gate` (Bearer `TWOHANDS_GATE_TOKEN`) so an Evolus agent or workflow
-step can check a form's arithmetic instead of guessing (needs the app reachable from the internet, e.g. the Docker
-image on a host, and `TWOHANDS_PUBLIC_URL`).
+The tags on every block are `two-hands` and `paper-form-intake`.
+
+## The real run (2026-10-15, `results/evolus_runs.jsonl`)
+
+`python -m evolus run --pick 2,3` ran on 5 masked forms. The model was Qwen3.8-27B: Gemma-4-31B-IT was down on the
+Token Factory (provider 503).
+
+| Form | Decision | Evolus run | Steps (ms) |
+|---|---|---|---|
+| 010441C0100 | accepted | Record filing `338e6f6a…` Completed, 4/4 identities hold, filed | Script 1, CreateFile, Output |
+| 010452B0100 | accepted | Record filing `c672ff73…` Completed, filed | Script 1, CreateFile, Output |
+| 010445C0100 | routed (3 fields) | Review hand-off `cb72ff73…` Completed | Intake clerk 47,768; translate 2,780; Script; Output |
+| 080305B0100 | routed (section 5 ≠ section 7) | Review hand-off `f61d4b9b…` Completed | Intake clerk 20,940; translate 1,465; Script; Output |
+| 010469C0400 | routed (6 fields unreadable) | Review hand-off `bdd761a7…` Completed | Intake clerk 24,333; translate 1,756; Script; Output |
+
+The Spanish notes are real AI Tool output, for example: *"Verifica los valores en papel de «Votantes +
+representantes» y «Papeletas extraídas de las urnas». El formulario se derivó porque esas secciones no coinciden…"*.
+In this run the extractor and the library were **skipped**, not simulated: creating them needs a User API key (below).
 
 ## Endpoints used
 
-All are documented on the one public Evolus API page, **https://evolus.ai/developers** (fetched 2026-10-15; the full
-interactive reference is only inside a workspace at https://app.evolus.ai). Base: `https://api.evolus.ai`.
-Auth: REST = `X-ApiKey` + `X-Application-Id`; agent chat = `Authorization: Bearer <application API key>`.
+Base `https://api.evolus.ai`. Auth: REST `X-ApiKey` + `X-Application-Id` (application key); the operations marked
+**U** need a personal `X-User-ApiKey` according to the spec. Agent chat uses `Authorization: Bearer`. Sources: the
+spec in this folder, and https://evolus.ai/developers (public summary).
 
-| Endpoint | Used for | Doc | Verified live |
-|---|---|---|---|
-| `GET /v1/models` | find the agent id (`applicationId:agentId`) | https://evolus.ai/developers (Agent chat) | yes, 200 (list empty until an agent exists) |
-| `POST /v1/chat/completions` | agent drafts the clerk's note | https://evolus.ai/developers (Agent chat) | mocked in tests; needs an agent |
-| `POST /api/v1/agents/{agentId}/json/{extractorId}/ask-file?useWebhook=false` | extractor reads the masked page | https://evolus.ai/developers (Document extractors) | mocked; needs EVOLUS_APP_ID + extractor |
-| `GET /api/v1/ai-tools` | catalog; picks the translate option name | https://evolus.ai/developers (AI Tools) | mocked; needs EVOLUS_APP_ID |
-| `POST /api/v1/ai-tools/translate/run` | EN → ES note | https://evolus.ai/developers (AI Tools) | mocked; needs EVOLUS_APP_ID |
-| `POST /api/v1/memories/{libraryId}/documents?language=en` | file an accepted record | https://evolus.ai/developers (Knowledge libraries) | mocked; needs library |
-| `GET /api/v1/memories/{libraryId}/documents` | `check`: list filed records | https://evolus.ai/developers (Knowledge libraries) | mocked |
-| `POST /api/v1/workflows/{workflowId}/execute` (multipart: `input`, `parameters`, `callbackUrl`, `callbackMethod`, `callbackApiKey`, `callbackApiKeyName`) | start the hand-off | https://evolus.ai/developers (Workflows) | mocked; needs workflow |
-| `GET /api/v1/workflows/{workflowId}/executions/{executionId}` | poll Pending / Running / Completed / Failed | https://evolus.ai/developers (Workflows) | mocked |
+| Endpoint | Used by | Note |
+|---|---|---|
+| `GET/POST /api/v1/agents`, `PUT /api/v1/agents/{agentId}` | setup | find or create the agents and set `modelKey` (`own/<alias>`) |
+| `GET/POST/PUT /api/v1/agents/{agentId}/json[/{id}]` | setup | extractor schema "Tally sheet type 2" (**U**) |
+| `POST /api/v1/agents/{agentId}/json/{id}/ask-file?useWebhook=false` | run | extract the masked page |
+| `GET /api/v1/memories`, `POST /api/v1/memories/simple`, `POST /api/v1/agents/{agentId}/memories` | setup | library (**U**) |
+| `POST /api/v1/memories/{memoryId}/documents` | run | file an accepted record |
+| `GET /api/v1/workflows/step-catalog[/{key}]` | development | block docs: step types, placeholders, own models |
+| `GET/POST /api/v1/workflows`, `GET/PUT/DELETE /api/v1/workflows/{id}`, `POST /api/v1/workflows/{id}/steps` | setup | build both workflows and switch them on (`isActive`) |
+| `POST /api/v1/workflows/{id}/execute` (multipart: `input`, `parameters`, optional `callbackUrl`…) | run | execution id from the `X-Workflow-Execution-Id` header |
+| `GET /api/v1/workflows/{id}/executions/{executionId}` | run | `status`, `output`, `stepStates` |
+| `GET /api/v1/ai-tools`, `POST /api/v1/ai-tools/translate/run` | check, fallback | `translate` takes `target` (free text: `"Spanish"`; `"es"` gave Italian) |
+| `GET /v1/models`, `POST /v1/chat/completions` | check, fallback | OpenAI-compatible agent chat, model `{applicationId}:{agentId}` |
 
-What the public docs do **not** offer: endpoints to *create* agents, extractors, libraries or workflows, or to
-register a model. Those are set up once in the workspace UI (below); our code then drives them. We did not invent
-endpoints for them.
+Our side: `POST /api/gate` (Bearer `TWOHANDS_GATE_TOKEN`), `GET /api/evolus/case/{form}`, `POST /api/evolus/callback`
+(header `X-Callback-Key`).
 
-Our side: `POST /api/gate`, `GET /api/evolus/case/{form}`, `POST /api/evolus/callback` (header `X-Callback-Key`).
+## Setup
 
-## One-time setup in the Evolus workspace (UI)
-
-1. **API keys page** of the AMDACT3 workspace: copy the **space ID** into `.env` as `EVOLUS_APP_ID`. (The
-   application API key is already `EVOLUS_KEY`.)
-2. **Connect the model** (Evolus: "Add the model in your workspace: base URL, model name and API key", then
-   "Test the connection"): Base URL = your `AMD_BASE_URL`; Model = `Gemma-4-31B-IT`; API key = your `AMD_KEY`.
-   Paste them yourself; they are never sent by our code. We checked that Gemma-4-31B-IT on the Token Factory
-   returns proper `tool_calls` (function calling, which Evolus requires).
-3. **Create an agent** "Intake clerk" and select that model. Instructions: *"You prepare review tasks for a
-   records office that captures paper tally forms. Name the fields to check and why, in at most two sentences.
-   Never guess a value; the form's arithmetic decides."* Run `python -m evolus check`; copy the listed id into
-   `EVOLUS_AGENT`.
-4. **Document extractor** on that agent, output JSON, named "Tally sheet type 2": add the 23 integer fields printed by
-   `python -m evolus fields` (names `SOBRANTES` … `OPT01` … `TOTAL`, with their descriptions). Put the agent id and
-   extractor id (from the extractor's page URL or its API tab) in `EVOLUS_EXTRACTOR_AGENT_ID` and `EVOLUS_EXTRACTOR_ID`.
-5. **Knowledge library** "Records register": its id into `EVOLUS_LIBRARY_ID`.
-6. **Workflow** "Review hand-off": input = text (the case JSON). Step 1: the Intake clerk agent, prompt *"Create a
-   review task for the records-office reviewer from this case: {input}. Include the fields to check, the crop links
-   and both notes."* Step 2: the hand-off to a person (assignment / approval / email step, whichever the workflow
-   editor offers). Switch it **on** (a switched-off workflow answers 409). Its id into `EVOLUS_WORKFLOW_ID`.
-7. Optional: `TWOHANDS_GATE_TOKEN` (any long random string) to enable `POST /api/gate`; `TWOHANDS_PUBLIC_URL` (where the
-   app is reachable) for crop links and the workflow callback; `EVOLUS_CALLBACK_KEY` for the callback header.
-
-Then:
+The one manual step is **connecting the model**, done once in the Evolus UI under "Your models": an
+OpenAI-compatible server with the AMD Token Factory base URL and key, models `Gemma-4-31B-IT` and `Qwen3.8-27B`.
+Everything else is one command:
 
 ```bash
-python -m evolus check            # which blocks are configured; lists agents, AI Tools, library documents
-python -m evolus run --pick 2,3   # 2 accepted + 3 routed masked forms -> results/evolus_runs.jsonl
+python -m evolus setup                          # find or create agents, extractor, library, workflows; switch on
+python -m evolus setup --model Gemma-4-31B-IT   # move both agents to Gemma (one command, idempotent)
+python -m evolus check                          # which blocks are configured; agents; AI Tools
+python -m evolus run --pick 2,3                 # 2 accepted + 3 routed forms -> results/evolus_runs.jsonl
 ```
 
-A block that is not configured is recorded as `skipped`, never simulated.
+Ids go to `evolus/ids.json`. It holds no secrets and is safe to commit; the config reads it before the environment.
+Keys come only from the environment or an untracked `.env`: `EVOLUS_KEY`, `EVOLUS_APP_ID`, and optionally
+`EVOLUS_USER_KEY` and `EVOLUS_REVIEWER_EMAIL` (adds an Email hand-off step).
 
-## AMD calls caused through Evolus
+**For the extractor and the library:** create a personal User API key (Evolus API reference page, "API Keys" tab),
+put it in `.env` as `EVOLUS_USER_KEY`, and run `python -m evolus setup` again. Without it, setup creates everything
+else and lists these two as not created.
 
-Our own limiter (6 req/min, `cache/ratelimit.json`) cannot see calls Evolus makes from its servers with the same key.
-Per form: agent chat = 1 call on a routed form, 0 on an accepted form; the workflow's agent step = 1 per routed form;
-the extractor = 0 or 1 depending on which model Evolus reads documents with. A 5-form run is therefore at most about
-11 Token Factory calls, spread over a few minutes. Each record stores `amd_calls_via_evolus` (the chat calls we
-triggered directly).
+## AMD calls
+
+Our limiter (6 req/min) cannot see calls that Evolus makes from its servers. Per routed form there is 1 AgentCall
+(Evolus retries a failing call up to 3 times); an accepted form makes none (the filing Script is not AI). The
+extractor adds 1 per form once configured. The run above made 3 Token Factory calls through Evolus. During
+development we made 2 more: 1 direct function-calling probe of Gemma and 1 trial hand-off.
 
 ## Privacy and framing
 
-Only masked pages (`data/masked/**`) are sent; the case refuses a form without one. Vote rows are `OPT01`…`OPT15`
-("Option 01"…); notes pass through the app's neutralizer; nothing is totalled by option. Keys are loaded by
-`evolus/config.py`, never printed, and every log line and record is passed through `redact()`
-(tests: `tests/test_evolus_flow.py`).
+Only masked pages (`data/masked/**`) are sent, and a form without one is refused. Vote rows are `OPT01`…`OPT15`
+("Option 01"…). Notes pass through the app's neutralizer, and nothing is totalled by option. Keys are never printed.
+Every log line, record and `ids.json` passes through `redact()` (`tests/test_evolus_flow.py`,
+`tests/test_evolus_setup.py`).
