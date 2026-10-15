@@ -616,7 +616,69 @@ def fingerprint(a: dict, R: dict, only: Optional[str] = None) -> dict:
     inputs = report_inputs(a, bool(R.get("strict")))
     top = hashlib.sha256(json.dumps({"content": csha, "inputs": [[i["file"], i["sha256"]] for i in inputs]},
                                     sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-    return {"sha256": top, "content_sha256": csha, "inputs": inputs}
+    return {"sha256": top, "content_sha256": csha, "inputs": inputs, "merkle_root": merkle_tree(a, R)["root"],
+            "merkle_n": len(R["disputes"])}
+
+
+# ------------------------------------------------------------------------------------------- Merkle receipts
+_CROP_SHA: dict = {}
+
+
+def crop_of(a: dict, d: dict) -> Optional[bytes]:
+    """The crop image bytes the report shows for a disputed field (the audit's own masked page, else this site's
+    masked page; pad 0.02, no row label): the same bytes /audit/<id>/crop/... and /crop/... serve. None: no crop."""
+    from app import crops
+    if not d.get("img"):
+        return None
+    p = page_of(a["id"], d["form"]) or storemod.get_store().masked_image(d["form"])
+    key = storemod.key_of(d["code"])
+    if p is None or key is None:
+        return None
+    return crops.crop_bytes(str(p), p.stat().st_mtime, key, 0.02, False)
+
+
+def crop_sha256(a: dict, d: dict) -> Optional[str]:
+    if not d.get("img"):
+        return None
+    p = page_of(a["id"], d["form"]) or storemod.get_store().masked_image(d["form"])
+    if p is None:
+        return None
+    st = p.stat()
+    k = (str(p), st.st_mtime_ns, st.st_size, d["code"])
+    if k not in _CROP_SHA:
+        b = crop_of(a, d)
+        _CROP_SHA[k] = hashlib.sha256(b).hexdigest() if b is not None else None
+    return _CROP_SHA[k]
+
+
+def leaf_of(a: dict, d: dict) -> dict:
+    from twohands import merkle
+    return merkle.leaf_record(d["form"], d["code"], d["keyed"], d["model"], d["words"], d["tier"], crop_sha256(a, d))
+
+
+def merkle_tree(a: dict, R: dict) -> dict:
+    """The report's Merkle root over its listed disputes, in report order (twohands/merkle.py)."""
+    from twohands import merkle
+    records = [leaf_of(a, d) for d in R["disputes"]]
+    leaves = [merkle.leaf_hash(r) for r in records]
+    return {"root": merkle.root(leaves), "n": len(leaves), "leaves": leaves, "records": records,
+            "keys": [d["key"] for d in R["disputes"]]}
+
+
+def receipt(a: dict, R: dict, key: str, only: Optional[str] = None) -> Optional[dict]:
+    """One disputed field's receipt: its leaf record and hash, the proof path and the report's root."""
+    from twohands import merkle
+    T = merkle_tree(a, R)
+    if key not in T["keys"]:
+        return None
+    i = T["keys"].index(key)
+    d = R["disputes"][i]
+    return {"receipt": "Two Hands audit receipt v1", "audit": a["id"],
+            "mode": "strict" if R.get("strict") else "standard", "only": only or "all",
+            "key": key, "position": d["pos"], "index": i, "n_leaves": T["n"],
+            "leaf": T["records"][i], "leaf_hash": T["leaves"][i], "proof": merkle.proof(T["leaves"], i),
+            "root": T["root"], "crop": d["img"],
+            "check": "python -m twohands.verify_receipt receipt.json --crop crop.jpg"}
 
 
 def report_csv(a: dict, R: dict, fp: Optional[dict] = None) -> str:
@@ -637,6 +699,8 @@ def report_csv(a: dict, R: dict, fp: Optional[dict] = None) -> str:
     w.writerow(["# report fingerprint (SHA-256)", fp["sha256"]])
     w.writerow(["# mode", "strict: strong only when Gemma and Qwen agree" if strict else "standard"])
     w.writerow(["# report content (SHA-256)", fp["content_sha256"]])
+    if fp.get("merkle_root"):
+        w.writerow(["# Merkle root of the disputes (SHA-256)", fp["merkle_root"]])
     for i in fp["inputs"]:
         w.writerow([f"# input: {i['name']} ({i['file']})", i["sha256"]])
     return buf.getvalue()

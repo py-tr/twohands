@@ -1,0 +1,5 @@
+e56a8ef4f011b9e5a3b7bd91dd708580fe1a8912e3bd65f51d780a6dd5898721
+
+# Merkle root of the sample audit report (/audit/new -> "Try the sample", standard mode, all 267 disputed fields).
+# Leaf per field: SHA-256(0x00 || canonical JSON {form, field, keyed, model, words, tier, crop_sha256}); see twohands/merkle.py.
+# Rebuilt and checked by make eval (twohands/eval.py: sample_audit_root) over the stored Gemma reads and the committed masked pages.

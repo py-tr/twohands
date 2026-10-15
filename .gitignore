@@ -17,6 +17,7 @@ app/state/live_budget.json
 out/
 !deploy/.env.prod.example
 app/state/audits/
+app/state/requests.jsonl
 # whole-state staging for the MI300X stretch goal (scripts/stage_state.py): large, not committed yet
 data/masked/state*/
 # Senate masked pages (PROTOCOL_SENADO): ~41 MB, kept local, not committed

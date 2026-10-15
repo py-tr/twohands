@@ -23,7 +23,8 @@ from app import numbers as numbersmod
 from app import review as reviewmod
 from app import store as storemod
 from app import upload as uploadmod
-from app.crops import field_boxes, mask_left_edge
+from app import crops
+from app.crops import field_boxes, mask_left_edge  # noqa: F401
 from app.live import LiveManager, Refused
 from twohands import REPO
 
@@ -67,6 +68,10 @@ app.include_router(spotcheckmod.router)
 # Be the second keyer (additive): a visitor keys 5 masked crops blind, then sees capture, model, gate and paper: /keyer
 from app import keyer as keyermod  # noqa: E402
 app.include_router(keyermod.router)
+
+# Request an audit (additive): a short form, stored in app/state/requests.jsonl; before /audit/{id} so it matches first
+from app import request as requestmod  # noqa: E402
+app.include_router(requestmod.router)
 
 # Audit your capture (additive): keyed CSV + scans in, disputes ordered by evidence, with crops out: /audit/new, /audit/{id}
 from app import audit_web as auditwebmod  # noqa: E402
@@ -188,26 +193,8 @@ def masked(clave: str):
     return FileResponse(p, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=3600"})
 
 
-LABEL_X1 = 0.39   # right edge of the printed row-label (logo) column on vote rows
-
-
-@lru_cache(maxsize=256)
-def _crop_bytes(path: str, mtime: float, key: str, pad: float, label: bool = True) -> bytes:
-    s = storemod.schema()
-    box = field_boxes(s).get(key)
-    if box is None:
-        raise KeyError(key)
-    x0, y0, x1, y1 = box
-    if not label and x0 < LABEL_X1 < x1:
-        x0 = LABEL_X1  # start right of the printed row label: words and digit boxes only, no logo
-    edge = mask_left_edge(s)
-    x1 = min(x1, edge - 0.002)
-    im = Image.open(path)
-    W, H = im.size
-    c = im.crop((int(x0 * W), int(max(0, y0 - pad) * H), int(x1 * W), int(min(1, y1 + pad) * H))).convert("RGB")
-    buf = io.BytesIO()
-    c.save(buf, "JPEG", quality=85)
-    return buf.getvalue()
+LABEL_X1 = crops.LABEL_X1
+_crop_bytes = crops.crop_bytes   # moved to app/crops.py (the audit receipts hash the same bytes)
 
 
 @app.get("/crop/{clave}/{code}.jpg")

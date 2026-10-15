@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Request an audit · Two Hands{% endblock %}
+{% block content %}
+<section class="page-head au-head">
+  <div class="eyebrow">Request an audit</div>
+  {% if done %}
+  <h1>Request received</h1>
+  <p class="lede">We have your request. We reply by email to confirm the files and the deadline before any work starts.</p>
+  {% else %}
+  <h1>We audit your keyed capture against its paper</h1>
+  <p class="lede">Tell us what you have. Every keyed field is compared with the paper; you get the disputed fields ordered by evidence, each with its photo and a Merkle receipt, and a person decides each one.</p>
+  {% endif %}
+</section>
+
+{% if done %}
+<section class="rq-grid">
+  <div class="card rq-done">
+    <div class="eyebrow">Request id</div>
+    <div class="rq-id" id="rid">{{ done.id }}</div>
+    <dl class="kv">
+      {% if done.forms %}<dt>Forms</dt><dd>{{ '{:,}'.format(done.forms) }}</dd>
+      <dt>Price</dt><dd><b>${{ '{:,}'.format(done.price_usd) }}</b> <span class="muted small">(${{ PRICE }} per 1,000 forms audited)</span></dd>
+      <dt>Deadline</dt><dd>{{ done.deadline }}</dd>{% endif %}
+      <dt>Turnaround</dt><dd>{{ TURNAROUND[:1]|upper }}{{ TURNAROUND[1:] }} of receiving the keyed data and scans</dd>
+      <dt>Status</dt><dd>Received{% if notified %}; the operator has been notified by email{% endif %}</dd>
+    </dl>
+    <p class="small muted" style="margin:14px 0 0">No payment now. Keep the request id for any message about it.</p>
+    <div class="actions" style="margin-top:16px"><a class="btn sm" href="/audit/new">{{ icon('play') }}Run the sample audit meanwhile</a></div>
+  </div>
+</section>
+{% else %}
+<section class="rq-grid">
+  <form class="card rq-form" method="post" action="/audit/request" novalidate>
+    {% if err._ %}<p class="rq-err rq-top" role="alert">{{ err._ }}</p>{% endif %}
+    <div class="rq-row2">
+      <label class="rq-f"><span>Organisation</span><input name="org" required maxlength="200" value="{{ f.org or '' }}" autocomplete="organization">{% if err.org %}<em class="rq-err">{{ err.org }}</em>{% endif %}</label>
+      <label class="rq-f"><span>Contact email</span><input name="email" type="email" required maxlength="254" value="{{ f.email or '' }}" autocomplete="email">{% if err.email %}<em class="rq-err">{{ err.email }}</em>{% endif %}</label>
+    </div>
+    <div class="rq-row2">
+      <label class="rq-f"><span>Number of forms</span><input name="forms" id="forms" inputmode="numeric" required value="{{ f.forms or '' }}" placeholder="e.g. 2,500">{% if err.forms %}<em class="rq-err">{{ err.forms }}</em>{% endif %}</label>
+      <label class="rq-f"><span>Form type</span><select name="form_type" required><option value="">Choose…</option>{% for k, lab in FORM_TYPES %}<option value="{{ k }}"{{ ' selected' if f.form_type == k }}>{{ lab }}</option>{% endfor %}</select>{% if err.form_type %}<em class="rq-err">{{ err.form_type }}</em>{% endif %}</label>
+    </div>
+    <fieldset class="rq-f rq-where">
+      <legend>Where are the keyed capture and the scans?</legend>
+      {% for k, lab in WHERE %}<label class="au-radio"><input type="radio" name="where" value="{{ k }}"{{ ' checked' if (f.where or 'upload') == k }}><span>{{ lab }}</span></label>{% endfor %}
+      <input name="link" id="link" type="url" maxlength="500" placeholder="https://…" value="{{ f.link or '' }}" aria-label="Link to the files">
+      {% if err.where %}<em class="rq-err">{{ err.where }}</em>{% endif %}{% if err.link %}<em class="rq-err">{{ err.link }}</em>{% endif %}
+    </fieldset>
+    <div class="rq-row2">
+      <label class="rq-f"><span>Deadline</span><input name="deadline" type="date" min="{{ today }}" required value="{{ f.deadline or '' }}">{% if err.deadline %}<em class="rq-err">{{ err.deadline }}</em>{% endif %}</label>
+      <div class="rq-f rq-quote"><span>Price</span><b id="quote">{% if f.forms %}&nbsp;{% else %}${{ PRICE }} per 1,000 forms{% endif %}</b></div>
+    </div>
+    <label class="rq-f"><span>Anything we should know <i class="muted">(optional)</i></span><textarea name="notes" rows="3" maxlength="1000">{{ f.notes or '' }}</textarea></label>
+    <label class="rq-hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+    <div class="actions" style="margin-top:6px;align-items:center"><button class="btn dark" type="submit">{{ icon('arrow') }}Send the request</button><span class="small muted">No payment now. We reply by email.</span></div>
+  </form>
+
+  <aside class="card au-what">
+    <div class="rq-price"><span class="big-num">${{ PRICE }}</span><span class="small muted">per 1,000 forms audited, two readers and the report included</span></div>
+    <div class="rq-turn">{{ icon('check') }}<b>{{ TURNAROUND[:1]|upper }}{{ TURNAROUND[1:] }}</b></div>
+    <h3 style="margin-top:16px">What you get</h3>
+    <ul class="au-list">
+      <li>Every keyed field compared with the paper: digits, amount in words, and the form's own arithmetic.</li>
+      <li>The disputed fields ordered by evidence, each with its crop of the masked page.</li>
+      <li>A printable report and CSV, with a Merkle root; each field has a receipt anyone can check on its own.</li>
+    </ul>
+    <p class="tiny muted" style="margin:12px 0 0">Scans are privacy-masked on arrival (names and signatures blacked out) before anything is stored. Try it first on the <a href="/audit/new">sample audit</a>.</p>
+  </aside>
+</section>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var f = document.getElementById('forms'), q = document.getElementById('quote'), P = {{ PRICE }};
+  var link = document.getElementById('link');
+  function where() {
+    var c = document.querySelector('input[name="where"]:checked');
+    if (link) link.hidden = !(c && c.value === 'link');
+  }
+  document.querySelectorAll('input[name="where"]').forEach(function (r) { r.addEventListener('change', where); });
+  where();
+  if (!f || !q) return;
+  function upd() {
+    var n = parseInt((f.value || '').replace(/[\s,._]/g, ''), 10);
+    q.textContent = n > 0 ? '$' + Math.ceil(n * P / 1000).toLocaleString('en-US') + ' for ' + n.toLocaleString('en-US') + ' forms' : '$' + P + ' per 1,000 forms';
+  }
+  f.addEventListener('input', upd); upd();
+})();
+</script>
+{% endblock %}

@@ -650,3 +650,27 @@ footer .brand { margin-bottom: var(--s-3); }
   .amdpill { min-width: 0; overflow: hidden; text-overflow: ellipsis; display: block; line-height: 1.5; }
   .amdpill .pdot { display: inline-block; margin-right: 6px; vertical-align: 0; }
 }
+
+/* Request an audit (/audit/request) */
+.rq-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: var(--s-5); align-items: start; }
+.rq-form { display: grid; gap: 16px; }
+.rq-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rq-f { display: grid; gap: 6px; margin: 0; min-width: 0; }
+.rq-f > span, .rq-f legend { font-size: .82rem; font-weight: 600; color: var(--ink-2); }
+.rq-f input:not([type=radio]), .rq-f select, .rq-f textarea { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; min-height: 40px; padding: 8px 11px; font: 500 .92rem var(--sans); color: var(--ink); }
+.rq-f textarea { resize: vertical; min-height: 76px; }
+.rq-f input:focus, .rq-f select:focus, .rq-f textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
+.rq-where { border: 0; padding: 0; }
+.rq-where legend { margin-bottom: 6px; padding: 0; }
+.rq-where .au-radio { margin-bottom: 6px; font-size: .9rem; }
+.rq-where input[type=url][hidden] { display: none; }
+.rq-quote b { min-height: 40px; display: flex; align-items: center; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.rq-err { color: var(--bad); font-size: .8rem; font-style: normal; font-weight: 550; }
+.rq-top { background: var(--bad-soft); border: 1px solid var(--bad-line); border-radius: 10px; padding: 10px 12px; margin: 0; }
+.rq-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.rq-price { display: grid; gap: 4px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.rq-turn { display: flex; align-items: center; gap: 8px; margin-top: 14px; color: var(--ok); }
+.rq-turn svg { width: 18px; height: 18px; }
+.rq-done { grid-column: 1 / -1; max-width: 640px; }
+.rq-id { font-family: var(--mono); font-size: 1.6rem; font-weight: 650; letter-spacing: -.01em; margin: 4px 0 16px; }
+@media (max-width: 860px) { .rq-grid, .rq-row2 { grid-template-columns: minmax(0, 1fr); } }

@@ -556,6 +556,31 @@ def displayed(Hd: dict, path: str):
     return get(Hd, path)
 
 
+def sample_audit_root() -> str:
+    """The Merkle root of the sample audit's report (standard mode, every disputed field), rebuilt from scratch in a
+    temporary directory over the stored pre-registered Gemma reads only (a live read on this machine is ignored),
+    with each crop cut from the committed masked page. Published in results/sample_audit_root.txt."""
+    import shutil
+    import tempfile
+    from app import capture_audit as ca
+    old_dir, old_find = ca.AUDITS, ca.find_read
+    tmp = Path(tempfile.mkdtemp(prefix="twohands-eval-"))
+
+    def stored_only(a, fid):
+        v, page = old_find(a, fid)
+        return (v, page) if v is None or v.source.startswith("stored read") else (None, page)
+    try:
+        ca.AUDITS, ca.find_read = tmp / "audits", stored_only
+        a = ca.sample()
+        return ca.merkle_tree(a, ca.run(a))["root"]
+    finally:
+        ca.AUDITS, ca.find_read = old_dir, old_find
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+SAMPLE_ROOT = R / "sample_audit_root.txt"
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--out", default=str(REPORT), help="where to write the markdown report")
@@ -625,6 +650,15 @@ def main(argv=None) -> int:
         ok = L1[k] == L2[k]
         table.append((f"Rendered sentence '{k}'", "rebuilt", "as rendered", "app/numbers.py lines()", ok))
         bad += [] if ok else [f"rendered sentence '{k}' differs when rebuilt from recomputed numbers"]
+
+    root = sample_audit_root()
+    try:
+        pub = SAMPLE_ROOT.read_text(encoding="utf-8").split()[0]
+    except (OSError, IndexError):
+        pub = "(missing)"
+    ok = root == pub
+    table.append(("Sample audit Merkle root", root[:16], pub[:16], "results/sample_audit_root.txt", ok))
+    bad += [] if ok else [f"sample audit Merkle root: recomputed {root}, published {pub}"]
 
     for k, v in rec["integrity"].items():
         table.append((k, "ok" if not v else f"{len(v)} off", "", "integrity", not v))

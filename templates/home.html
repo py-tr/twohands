@@ -117,7 +117,7 @@
         <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">proposed price per 1,000 forms audited, two readers and the report included</div></div>
       </div>
       <p class="small" style="margin-bottom:6px">A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field; 1 in {{ H.yield_one_in }} of those is a confirmed capture error. Keying twice copies the paper; it cannot say which paper is wrong: {{ cited.base_rate.text }} of nationally captured forms fail their own row sum.</p>
-      <div class="actions" style="margin:10px 0 4px"><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a></div>
+      <div class="actions" style="margin:10px 0 4px"><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/audit/request">{{ icon('audit') }}Request an audit</a></div>
       <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". 2027: " ~ cited.window_2027.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". Price: " ~ cited.price_proposal.source ~ ". Row sums: " ~ cited.base_rate.source ~ ".") }}</div>
     </div>
 

@@ -36,7 +36,7 @@ capture keyed 75, the certified count says 175. One of the 52.*
 2. [Headline: the pre-registered 300](#headline-the-pre-registered-300)
 3. [What ran on AMD](#what-ran-on-amd)
 4. [Run it](#run-it) · [Reproduce every number](#reproduce-every-number)
-5. [Audit your capture](#audit-your-capture)
+5. [Audit your capture](#audit-your-capture) · [Verify a receipt](#verify-a-receipt)
 6. [How it works](#how-it-works)
 7. [Limits and failure cases](#limits-and-failure-cases)
 8. [Business detail](#business-detail)
@@ -148,6 +148,13 @@ budget guard.
 (`app/data/audit_sample_prep300.csv`, built by `scripts/build_audit_sample.py`) against the stored Gemma reads. No
 model call; 6,358 fields checked; the same 267 disputes as `results/adjudication/`. 12 of the 18 ranked strong are
 confirmed capture errors, 13 of the 169 ranked weak (the rule was written before that check, on the same forms).
+To have us run one on your forms: `/audit/request` ($100 per 1,000 forms, report within 24 hours).
+
+## Verify a receipt
+
+Each report prints a Merkle root over its disputed fields; each field's "receipt" link (`/audit/<id>/receipt/<key>`) gives its leaf (form, field, keyed value, model digits and words, tier, crop SHA-256) and the path to that root.
+Check one field alone: `python -m twohands.verify_receipt receipt.json --crop crop.jpg` (a changed value or crop fails).
+The sample audit's root is published in `results/sample_audit_root.txt`, and `make eval` rebuilds it so it cannot drift.
 
 ## How it works
 

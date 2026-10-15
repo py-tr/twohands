@@ -237,8 +237,24 @@ def audit_report(aid: str, request: Request, only: Optional[str] = None, strict:
     only = "unrefuted" if only == "unrefuted" else None
     if only:
         ctx["R"]["disputes"] = [d for d in ctx["R"]["disputes"] if d["mark"] != "not_error"]
-    ctx.update(FP=ca.fingerprint(a, ctx["R"], only), strict=bool(strict), only=only)
+    q = [k for k, v in (("strict=1", strict), (f"only={only}", only)) if v]
+    ctx.update(FP=ca.fingerprint(a, ctx["R"], only), strict=bool(strict), only=only, RQ=("?" + "&".join(q)) if q else "")
     return _t().TemplateResponse(request, "audit_report.html", ctx)
+
+
+@router.get("/audit/{aid}/receipt/{key}")
+def audit_receipt(aid: str, key: str, request: Request, only: Optional[str] = None, strict: int = 0):
+    """One disputed field's Merkle receipt (JSON): its leaf record and hash, the proof path and the report's root, for
+    the same report view (?strict=1, ?only=unrefuted). Check it with python -m twohands.verify_receipt."""
+    a = _audit_or_404(aid)
+    R = _run(request, a, bool(strict))
+    only = "unrefuted" if only == "unrefuted" else None
+    if only:
+        R["disputes"] = [d for d in R["disputes"] if d["mark"] != "not_error"]
+    r = ca.receipt(a, R, key, only)
+    if r is None:
+        raise HTTPException(404, "no disputed field with that key in this report")
+    return JSONResponse(r, headers={"Content-Disposition": f'inline; filename="receipt-{key}.json"'})
 
 
 @router.get("/audit/{aid}/report.csv")
