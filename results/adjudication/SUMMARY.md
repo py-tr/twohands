@@ -41,7 +41,7 @@ Routed forms only:
 
 - The model alone is wrong (paper shows it wrong) on 173 of 6358 fields (156 capture right + 17 neither): about 1 in 37.
 - On the 55 forms the gate accepted (18% of 300): 2 of 1210 fields wrong, about 1 in 605.
-- Of the 267 fields the model disputes, 52 are confirmed keying errors (19.5%, about 1 in 5); at random it would be 52 of 6358 (about 1 in 122): up to 24x the yield. Recall is bounded in `RECALL.md`.
+- Of the 267 fields the model disputes, 52 are confirmed capture errors (the official capture does not match the paper; 19.5%, about 1 in 5). The capture's overall error rate is at least 52 of 6358 (about 1 in 122); it typed a wrong number in 1 field in 374. Recall: `RECALL.md`.
 
 ## Disagreements on ACCEPTED forms (3 fields on 3 of 55 accepted forms)
 
@@ -51,14 +51,14 @@ Routed forms only:
 | 080310B0100 | Unused ballots | 180 | 480 | - | model_right | words "CIENTO OCHENTA", boxes 1 8 0 (PREP keyed 480) | [crop](080310B0100__SOBRANTES.jpg) |
 | 212668C0300 | Unused ballots | 300 | 379 | - | capture_right | no words written, boxes 3 7 9 | [crop](212668C0300__SOBRANTES.jpg) |
 
-## The 52 keying errors by type
+## The 52 capture errors by type
 
 | type | fields |
 |---|---|
-| Wrong value keyed | 17 |
-| Legible field marked illegible | 27 |
-| Value keyed where the paper is blank | 6 |
-| Other (legible field captured as "no data") | 2 |
+| Wrong numbers typed | 17 |
+| Readable fields recorded as illegible | 27 |
+| Numbers typed where the paper is blank | 6 |
+| Other (readable field captured as "no data") | 2 |
 
 Certified count: covers 31 of the 52, agrees with the image on 22; all 9 differences were recounts (`CERTIFIED.md`).
 

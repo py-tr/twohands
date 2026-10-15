@@ -40,7 +40,7 @@ def loop_data(st: storemod.Store) -> dict | None:
 
 
 def receipt(st: storemod.Store, H: dict) -> dict | None:
-    """The red card the hero ends on: one keying error from the pre-registered run, with its crop and its proof."""
+    """The red card the hero ends on: one capture error from the pre-registered run, with its crop and its proof."""
     rc = (H or {}).get("receipt")
     if not rc:
         return None

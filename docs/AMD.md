@@ -69,7 +69,7 @@ Second form type, same model on the same endpoint: rainfall ledgers, whole sheet
 
 Source: `results/calls_gemma.jsonl` (fields `latency_s`, `cost_usd`, `usage`, `finish_reason`; last read per form),
 summarised in `app/data/headline.json` by `scripts/build_headline.py`. What it measured: the headline in
-[EVALUATION.md](EVALUATION.md) (52 keying errors found in 6,358 fields of the official capture).
+[EVALUATION.md](EVALUATION.md) (52 fields where the official capture does not match the paper, in 6,358).
 
 ## Cost at scale
 

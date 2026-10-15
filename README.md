@@ -19,14 +19,13 @@ official two-person capture (PREP), and every disagreement was settled on a crop
 |---|---|
 | Pages located and read | 289 (11 went to a person before any model call) |
 | Fields compared with the official capture | 6,358; the model agrees on 95.80% and disputes **267 (4.2%)** |
-| **Keying errors found in the official capture** | **52**, each with its photo. The certified count covers 31 and confirms the image on 22; all 9 differences were recounts |
+| **Fields where the official capture does not match the paper** | **52**: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. The certified count covers 31 and confirms the paper on 22; all 9 differences were recounts |
 | The model alone | wrong on 173 of 6,358 fields: about **1 in 37** |
 | Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** |
-| Yield of a disputed field | **1 in 5** is a confirmed keying error (52 of 267), against about 1 in 122 at random: up to 24x |
-| Recall bound | on the forms the certified count settled without a recount, the model had disputed **7 of the 23** fields where the certified count disagrees with the first capture (a bound, not a measurement) |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). More than ten times the yield of a random check. |
+| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n). |
 
-**The model alone is a worse keyer than the official two-person capture: 156 misreads against 52 keying errors in
-6,358 fields. That is why it never decides. The paper does, and a person sees the rest.** The first capture is
+**Alone, the model mis-keys about 1 field in 37; the official two-person capture typed a wrong number in 1 field in 374. That is why the model never decides. The paper does, and a person sees the rest.** The first capture is
 preliminary by design; the certified count is the official result.
 
 Every number above is computed by `scripts/build_headline.py` into `app/data/headline.json`, which the web app
@@ -91,7 +90,7 @@ ledgers from 1850-1960, where twelve months must add up to the clerk's annual to
 ## Evaluation at a glance
 
 - **Business result.** On 289 random forms already keyed twice, the model sent 267 of 6,358 fields (4.2%) to a
-  person, and 52 of those were confirmed keying errors in the official capture, each with its photo.
+  person, and 52 of those were fields where the official capture does not match the paper: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo.
 - **Known limitations.** One reader, one adjudicator (an AI agent working on published crops, which anyone can
   re-check), recall only bounded. The row-label check is costly: it routed 86 forms, and on 68 of them the read
   matched the paper on every field (all 15 routed for a label alone). In one call the model can harmonise words
@@ -115,7 +114,7 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
   PREPs of Querétaro, Aguascalientes, Puebla and Mexico City, among others
   ([INE](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf),
   [IEEQ](https://ieeq.mx/contenido/prensa/sintesis/2024/13469.pdf)). On our 300, one disputed field in five was a
-  confirmed keying error, and re-reading every national tally form costs about $24 of AMD compute.
+  confirmed capture error, and re-reading every national tally form costs about $24 of AMD compute.
 - **Clinical-trial source-data verification, next (not measured).** Peer-reviewed estimates put monitoring,
   including source-data verification, at 15-30% of trial costs
   ([Ball, Clinical Trials 2014](https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf)).
@@ -137,7 +136,7 @@ transcribe tables; none we found gives a per-form proof of when to trust the rea
   (computos2024.ine.mx), consulted 2026-10-14, reused under INE's free-use terms (Libre-Uso-MX). This is an
   independent demonstration of clerical capture quality. **It is not an official INE product** and does not
   represent INE or any government. Vote rows are shown as "Option 01" to "Option 15"; no party is named,
-  compared or totalled. "Keying error" means a typing mistake in the capture, nothing more.
+  compared or totalled. "Capture error" means the capture does not match the paper, nothing more.
 - **Machine files use INE's column names** (the schema YAML, `results/*.jsonl`, `verdicts.json` keys); every
   human-readable file and page uses "Option NN".
 - **Personal data:** the names-and-signatures column is masked before any image is stored or sent to a model.

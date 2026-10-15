@@ -99,27 +99,27 @@ The gate does not guess. It sends this one field to a person.
 ## Results: a pre-registered random 300
 
 <div class="cols">
-<div><div class="big">52</div>keying errors in 6,358 fields, each with its photo<br><span class="small">the certified count covers 31 and confirms the image on 22; all 9 differences were recounts</span></div>
+<div><div class="big">52</div>fields where the official capture does not match the paper<br><span class="small">17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo.</span></div>
 <div><div class="big">1 in 605</div>fields wrong on the 18% of forms the paper's gate accepts<br><span class="small">alone, the model mis-keys about 1 field in 37</span></div>
-<div><div class="big">1 in 5</div>disputed fields is a confirmed keying error (52 of 267)<br><span class="small">about 1 in 122 at random: up to 24x the yield</span></div>
+<div><div class="big">1 in 5</div>disputed fields is a confirmed capture error (52 of 267)<br><span class="small">the capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far); more than ten times the yield of a random check</span></div>
 </div>
 
-**The model alone is a worse keyer than the official two-person capture: 156 misreads against 52 keying errors in 6,358 fields. That is why it never decides. The paper does, and a person sees the rest.**
+**Alone, the model mis-keys about 1 field in 37; the official two-person capture typed a wrong number in 1 field in 374. That is why the model never decides. The paper does, and a person sees the rest.**
 
-<p class="small">Gemma-4-31B-IT on AMD. Protocol committed (a93294c, Amendment 1 b0e443c) before any model read. The first capture is preliminary by design; the certified count is the official result. Recall is bounded: on forms the certified count settled without a recount, the model had disputed 7 of the 23 fields where it disagrees with the first capture.</p>
+<p class="small">Gemma-4-31B-IT on AMD. Protocol committed (a93294c, Amendment 1 b0e443c) before any model read. The first capture is preliminary by design; the certified count is the official result. Recall: on forms the certified count settled by comparison, 16 of its 23 differences from the first capture are council corrections or blank rows; the model disputed all 7 others (small n).</p>
 
 ---
 
 <!-- Slide 6: audit mode -->
 
-## Audit mode: the receipt
+## Audit mode: one capture error
 
 <div class="two">
 <div>
 
 Form 050815B0100, Option 07. **The paper says 175, the first capture keyed 75, the certified count says 175.**
 
-Of the 52: 17 wrong values keyed, 27 legible fields marked illegible, 6 values keyed where the paper is blank, 2 other. On 250767B0100 the capture shifted a whole column by one row.
+The 52: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. On 250767B0100 the capture shifted a whole column by one row.
 
 </div>
 <div>

@@ -7,7 +7,7 @@
   <div>
     <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap">
       <div><a class="mono" style="font-weight:650" href="/form/{{ e.clave }}">{{ e.clave }}</a> · <span>{{ e.name }}</span></div>
-      <span class="chip {{ 'warn' if rule or e.status != 'confirmed' else 'bad' }}">{{ 'paper inconsistency' if rule else ('keying error' if e.status == 'confirmed' else 'candidate') }}</span>
+      <span class="chip {{ 'warn' if rule or e.status != 'confirmed' else 'bad' }}">{{ 'paper inconsistency' if rule else ('capture error' if e.status == 'confirmed' else 'candidate') }}</span>
     </div>
     <div class="vals" style="margin-top:12px">
       <div class="box right"><div class="l">{{ 'The digits show' if rule else 'The image shows' }}</div><div class="v">{{ e.image_value if e.image_value is not none else '?' }}</div></div>
@@ -17,8 +17,8 @@
     </div>
     <p class="small" style="margin:12px 0 0">
       {% if e.status == 'confirmed' %}
-        {% if rule %}Verdict: not a keying error. The TOTAL words say {{ e.words }} and the digits {{ e.image_value }}; the capture applied the words-prevail rule. The rows and section 7 support {{ e.image_value }}{% if e.cert_agrees %}, and the certified count is {{ e.certified }}{% endif %}.
-        {% else %}Verdict: the capture mis-keyed this field{% if e.cert_agrees %}; the certified count agrees with the image{% endif %}.{% endif %}
+        {% if rule %}Verdict: not a capture error. The TOTAL words say {{ e.words }} and the digits {{ e.image_value }}; the capture applied the words-prevail rule. The rows and section 7 support {{ e.image_value }}{% if e.cert_agrees %}, and the certified count is {{ e.certified }}{% endif %}.
+        {% else %}Verdict: the capture does not match the paper here{% if e.cert_agrees %}; the certified count agrees with the paper{% endif %}.{% endif %}
         {% if e.accepted_by %}<span class="muted">Form accepted by {{ e.accepted_by|join(' and ') }}.</span>{% endif %}
       {% else %}Awaiting an eye check (run <span class="mono">{{ e.run }}</span>).{% endif %}
     </p>

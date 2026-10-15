@@ -58,15 +58,15 @@
     {% set perr = errors|selectattr('kind', 'equalto', 'paper')|list %}
     {% if kerr %}
     <div class="card" style="margin-top:16px;padding:18px">
-      <h3>Keying error{{ 's' if kerr|length > 1 }} in the official capture</h3>
+      <h3>Capture error{{ 's' if kerr|length > 1 }}: the official capture does not match the paper</h3>
       {% for e in kerr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: the image shows <b class="mono">{{ e.image_value }}</b>; the official capture keyed <b class="mono" style="color:var(--bad)">{{ e.official }}</b>{% if e.certified is not none %}; certified count <b class="mono">{{ e.certified }}</b>{% endif %}.</p>{% endfor %}
-      <a class="small" href="/audit">All keying errors →</a>
+      <a class="small" href="/audit">All capture errors →</a>
     </div>
     {% endif %}
     {% if perr %}
     <div class="card" style="margin-top:16px;padding:18px">
       <h3>Paper inconsistency</h3>
-      {% for e in perr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: on the paper the words say <b class="mono">{{ e.words }}</b> and the digits <b class="mono">{{ e.image_value }}</b>. The official capture applied its words-prevail rule and keyed {{ e.official }}; the rows and section 7{% if e.certified is not none %}, and the certified count ({{ e.certified }}),{% endif %} support {{ e.image_value }}. Not a keying error: a person should settle it, which is why the gate routed this form.</p>{% endfor %}
+      {% for e in perr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: on the paper the words say <b class="mono">{{ e.words }}</b> and the digits <b class="mono">{{ e.image_value }}</b>. The official capture applied its words-prevail rule and keyed {{ e.official }}; the rows and section 7{% if e.certified is not none %}, and the certified count ({{ e.certified }}),{% endif %} support {{ e.image_value }}. Not a capture error: a person should settle it, which is why the gate routed this form.</p>{% endfor %}
     </div>
     {% endif %}
   </div>

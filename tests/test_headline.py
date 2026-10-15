@@ -38,11 +38,16 @@ def _text(url):
 
 def test_overview_inbox_results_audit_agree_to_the_digit():
     home, inbox, res, aud = (_text(u) for u in ("/", "/inbox", "/results", "/audit"))
+    for t in (home, res, aud, inbox):
+        assert "keying error" not in t.lower()
     for t in (home, res, aud):
-        assert f"{H['keying_errors']} keying errors" in t or f"{H['keying_errors']} on" in t
+        assert L["breakdown"] in t
     assert L["honest"] in home and L["preliminary"] in home and L["receipt"] in home
     for k in ("keying", "rate", "yield"):
-        assert L[k]["label"] in home and L[k]["small"] in home
+        assert L[k]["label"] in home and (L[k]["small"] or "") in home
+    assert L["keying"]["small2"] in home and L["faint"] in aud
+    assert "1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far)." in home
+    assert "x the yield" not in home and "24" not in L["yield"]["label"]
     assert L["recall"] in home and L["recall"] in res
     assert f"{H['agree_pct']}%" in inbox and f"{H['agree_pct']}%" in res
     assert f"{H['accepted']} of {H['forms']} forms" in inbox and f"{H['accepted']} of {H['forms']} forms" in res
@@ -61,8 +66,11 @@ def test_docs_quote_the_summary():
         assert L["honest"].replace("\n", " ") in re.sub(r"\s+", " ", doc.replace("**", ""))
         assert f"{H['fields']:,}" in doc and f"1 in {H['acc_one_in']}" in doc
     for doc in (readme, ev):
-        assert f"{H['recall']['C']} of the {H['recall']['E']}" in doc
+        assert L["recall"] in re.sub(r"\s+", " ", doc)
         assert f"{H['label_gate']['read_right']} of them" in doc
+    for doc in (readme, ev, slides):
+        assert L["breakdown"] in re.sub(r"\s+", " ", doc) and "keying error" not in doc.lower()
+    assert "about 12 to 24 times" in ev
 
 
 def test_no_placeholders_or_pending_judge_facing():

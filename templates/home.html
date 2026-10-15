@@ -12,7 +12,7 @@
     <p class="lede">An open vision model on AMD re-reads every field of forms that were already keyed. The form's own arithmetic decides what it can accept; every field where the model and the keyed data disagree goes to a person, with its photo.</p>
     <p class="product">{{ L.product }}</p>
     <div class="actions">
-      <a class="btn primary lg" href="/audit">{{ icon('audit') }}See the {{ H.keying_errors }} keying errors</a>
+      <a class="btn primary lg" href="/audit">{{ icon('audit') }}See the {{ H.keying_errors }} capture errors</a>
       <a class="btn lg" href="/form/211294C0100">{{ icon('play') }}Try a form</a>
       <a class="btn lg" href="/try">{{ icon('camera') }}Use your own photo</a>
     </div>
@@ -24,7 +24,7 @@
   </div>
 
   {% if heroloop %}
-  <div class="reader" id="reader" aria-label="A real form being read: fields fill in, the paper's identities are checked, one field is routed to a person; then a keying error the model found">
+  <div class="reader" id="reader" aria-label="A real form being read: fields fill in, the paper's identities are checked, one field is routed to a person; then a capture error the model found">
     <div class="reader-top">
       <span class="live-dot"></span><span class="id" id="rId">{{ heroloop.clave }}</span><span class="chip ghost" id="rChip">phone photo</span>
       <span class="stage" id="rStage">Reading on AMD</span>
@@ -46,7 +46,7 @@
     {% if receipt %}
     <div class="receipt" id="rReceipt" aria-hidden="true">
       <div class="rc-card">
-        <div class="rc-head"><span class="chip bad"><span class="dot"></span>keying error</span><span class="mono">{{ receipt.clave }} · {{ receipt.name }}</span></div>
+        <div class="rc-head"><span class="chip bad"><span class="dot"></span>capture error</span><span class="mono">{{ receipt.clave }} · {{ receipt.name }}</span></div>
         {% if receipt.img %}<img src="{{ receipt.img }}" alt="crop of {{ receipt.name }} on {{ receipt.clave }}" loading="lazy">{% endif %}
         <p class="rc-line">{{ L.receipt }}</p>
         <div class="rc-vals">
@@ -71,7 +71,8 @@
     <div class="card stat">
       <div class="v">{{ h.value }}</div>
       <div class="l">{{ h.label }}</div>
-      <div class="s">{{ h.small }}</div>
+      {% if h.small %}<div class="s">{{ h.small }}</div>{% endif %}
+      {% if h.small2 %}<div class="s">{{ h.small2 }}</div>{% endif %}
       {% if loop.first %}<div class="s"><b>{{ L.preliminary }}</b></div>{% endif %}
       <div class="src">{{ source(h.source) }}</div>
     </div>
@@ -80,7 +81,7 @@
   <div class="card honest">
     <p>{{ L.honest }}</p>
   </div>
-  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them. The gate accepted {{ H.accepted }} forms ({{ H.accepted_pct }}%) with no person. {{ L.recall }} That is a bound, not a measurement: council corrections can move certified values.</p>
+  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them. The gate accepted {{ H.accepted }} forms ({{ H.accepted_pct }}%) with no person. Recall: {{ L.recall }}</p>
 </section>
 {% endif %}
 
@@ -107,7 +108,7 @@
       <h3>Auditors of keyed data</h3>
       <p style="margin:8px 0 12px"><b>{{ L.product }}</b></p>
       <ul class="buyers">
-        <li><b>Election-capture audits, now.</b> {{ cited.prep_audit.text }}. {{ cited.unam_2024.text[:1]|upper }}{{ cited.unam_2024.text[1:] }}. Two Hands hands the auditor the {{ '%.0f'|format(H.flag_pct) }}% of fields where the model and the capture disagree, each with its photo: on our {{ H.forms }}, 1 in {{ H.yield_one_in }} of them was a confirmed keying error.</li>
+        <li><b>Election-capture audits, now.</b> {{ cited.prep_audit.text }}. {{ cited.unam_2024.text[:1]|upper }}{{ cited.unam_2024.text[1:] }}. Two Hands hands the auditor the {{ '%.0f'|format(H.flag_pct) }}% of fields where the model and the capture disagree, each with its photo: on our {{ H.forms }}, 1 in {{ H.yield_one_in }} of them was a confirmed capture error.</li>
         <li><b>Clinical-trial source-data verification, next (not measured).</b> Monitoring, including checking keyed case-report data against the source, takes {{ cited.sdv_cost.text }} in peer-reviewed estimates. We have not run a case-report form.</li>
         <li><b>Internal audit of any keyed file</b> that has the scans: registries, surveys, archives.</li>
       </ul>
@@ -156,7 +157,7 @@
         <dt>Forms</dt><dd>{{ H.forms }} ({{ H.read }} read, {{ H.fields|int }} fields)</dd>
         <dt>Agree with the capture</dt><dd>{{ H.agree_pct }}% of fields ({{ H.disagree }} to look at, {{ H.flag_pct }}%)</dd>
         <dt>Accepted, no person</dt><dd>{{ H.accepted }} forms ({{ H.accepted_pct }}%), {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong</dd>
-        <dt>Keying errors found</dt><dd>{{ H.keying_errors }}, each with its photo</dd>
+        <dt>Capture errors found</dt><dd>{{ H.keying_errors }} fields where the capture does not match the paper, each with its photo</dd>
       </dl>
       <div class="actions" style="margin-top:16px"><a class="btn sm" href="/form/211294C0100">TOTAL: digits 262, words 162</a><a class="btn sm" href="/form/201720E0100">An accepted form</a></div>
     </div>

@@ -65,10 +65,10 @@
     D.identities.forEach(function (i, k) { p = p.then(function () { showIdent(i, k); return wait(420, my); }); });
     // end on the receipt: a field the model read right and the first capture mis-keyed, certified by comparison
     p.then(function () { finish(); return wait(2600, my); })
-     .then(function () { stage.textContent = 'A keying error the model found'; showReceipt(true); return wait(9000, my); })
+     .then(function () { stage.textContent = 'A capture error the model found'; showReceipt(true); return wait(9000, my); })
      .then(play).catch(function () {});
   }
-  function still() { build(); D.fields.forEach(showField); D.identities.forEach(showIdent); finish(); if (receipt) stage.textContent = 'A keying error the model found'; showReceipt(true); }
+  function still() { build(); D.fields.forEach(showField); D.identities.forEach(showIdent); finish(); if (receipt) stage.textContent = 'A capture error the model found'; showReceipt(true); }
 
   if (reduce) { still(); return; }
   // play only while visible; restart from the top when it scrolls back into view

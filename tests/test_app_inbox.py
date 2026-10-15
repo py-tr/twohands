@@ -164,7 +164,7 @@ def test_inbox_kpis_lead_with_fields_and_agreement(tmp_review):
     html = client.get("/inbox").text
     strip = html[html.index('<div class="kpis">'):html.index('<div class="toolbar">')]
     order = [strip.index(x) for x in ("Forms in", "Fields read", "Agree with official capture", "Accepted, no person",
-                                     "Keying errors found", "Routed to review", "Paper inconsistencies", "AMD cost so far")]
+                                     "Capture errors found", "Routed to review", "Paper inconsistencies", "AMD cost so far")]
     assert order == sorted(order)
     assert "fields to key" in html and "Waiting for a person" not in html
     # the measured rates come from the one computed summary (the same numbers as Overview and Results)

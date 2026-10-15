@@ -14,13 +14,13 @@
   <div class="grid2">
     <div class="card callout ok" style="border-left-width:4px">
       <div class="eyebrow" style="color:var(--ok)">Business result</div>
-      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">On {{ H.read }} random forms already keyed twice, the model sent {{ H.disagree }} of {{ H.fields|int }} fields ({{ H.flag_pct }}%) to a person, and {{ H.keying_errors }} of those were confirmed keying errors in the official capture, each with its photo.</p>
+      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">On {{ H.read }} random forms already keyed twice, the model sent {{ H.disagree }} of {{ H.fields|int }} fields ({{ H.flag_pct }}%) to a person, and {{ H.keying_errors }} of those were fields where the official capture does not match the paper, each with its photo: {{ L.breakdown }}</p>
       <p class="small muted">{{ L.honest }} Cost {{ n.business.cpf_g|usd(6) }} per form on AMD, so {{ n.business.per_1000_g }} per 1,000 forms.</p>
     </div>
     <div class="card callout warn" style="border-left-width:4px">
       <div class="eyebrow" style="color:var(--warn)">Known limitation</div>
       <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One reader, one adjudicator, and recall only bounded.</p>
-      <p class="small muted">Every disagreement was settled by one reviewer (an AI agent) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted: {{ L.recall|lower }} The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
+      <p class="small muted">Every disagreement was settled by one reviewer (an AI agent) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; recall is measured on only 7 fields. The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
     </div>
   </div>
 </section>
@@ -33,12 +33,12 @@
       <tbody>
         <tr class="hl"><td><b>Forms</b></td><td>{{ H.forms }} drawn; {{ H.read }} located and read; {{ H.unread }} routed to a person before any model call</td></tr>
         <tr><td><b>Fields compared</b></td><td>{{ H.fields|int }}; the model agrees with the capture on {{ H.agree|int }} ({{ H.agree_pct }}%), disputes {{ H.disagree }} ({{ H.flag_pct }}%) on {{ H.disagree_forms }} forms</td></tr>
-        <tr><td><b>The {{ H.disagree }} disputes, settled on the photo</b></td><td>capture mis-keyed {{ v.model_right }} · model misread {{ v.capture_right }} · both off {{ v.neither }} · paper ambiguous {{ v.paper_ambiguous }} · unreadable {{ v.unreadable }}{% if v.crop_wrong %} · crop to redo {{ v.crop_wrong }}{% endif %}</td></tr>
+        <tr><td><b>The {{ H.disagree }} disputes, settled on the photo</b></td><td>capture does not match the paper {{ v.model_right }} · model misread {{ v.capture_right }} · both off {{ v.neither }} · paper ambiguous {{ v.paper_ambiguous }} · unreadable {{ v.unreadable }}{% if v.crop_wrong %} · crop to redo {{ v.crop_wrong }}{% endif %}</td></tr>
         <tr><td><b>The model alone</b></td><td>wrong on {{ H.model_wrong }} of {{ H.fields|int }} fields, about 1 in {{ H.model_one_in }}</td></tr>
         <tr><td><b>Accepted by the gate, no person (touchless)</b></td><td>{{ H.accepted }} of {{ H.forms }} forms ({{ H.accepted_pct }}%; {{ H.accepted_movil }} phone photos, {{ H.accepted_escaner }} scans); {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong, about 1 in {{ H.acc_one_in }} (Wilson 95% {{ '%.2f'|format(100 * H.acc_wrong_ci[0]) }}% to {{ '%.2f'|format(100 * H.acc_wrong_ci[1]) }}%)</td></tr>
-        <tr><td><b>Keying errors found</b></td><td>{{ H.keying_errors }} on {{ H.keying_forms }} forms; the certified count covers {{ H.cert_covered }} and confirms the image on {{ H.cert_agree }}; all {{ H.cert_differ }} differences were recounts</td></tr>
-        <tr><td><b>Yield</b></td><td>1 in {{ H.yield_one_in }} disputed fields is a keying error, against about 1 in {{ H.random_one_in }} at random: up to {{ H.yield_x_int }}x</td></tr>
-        <tr><td><b>Recall bound</b></td><td>{{ L.recall }} ({{ H.recall.C }}/{{ H.recall.E }}, Wilson 95% {{ '%.0f'|format(100 * H.recall.ci[0]) }}% to {{ '%.0f'|format(100 * H.recall.ci[1]) }}%; a bound, not a measurement, since council corrections can move certified values)</td></tr>
+        <tr><td><b>Capture errors found</b></td><td>{{ H.keying_errors }} on {{ H.keying_forms }} forms; the certified count covers {{ H.cert_covered }} and confirms the image on {{ H.cert_agree }}; all {{ H.cert_differ }} differences were recounts</td></tr>
+        <tr><td><b>Yield</b></td><td>1 in {{ H.yield_one_in }} disputed fields is a confirmed capture error; the capture's overall error rate is at least 1 in {{ H.random_one_in }}</td></tr>
+        <tr><td><b>Recall</b></td><td>{{ L.recall }} Before judging the paper: {{ H.recall.C }} of {{ H.recall.E }} (Wilson 95% {{ '%.0f'|format(100 * H.recall.ci[0]) }}% to {{ '%.0f'|format(100 * H.recall.ci[1]) }}%), a loose lower bound.</td></tr>
         <tr><td><b>Second reader (Qwen3.8-27B)</b></td><td>{{ L.qwen }}</td></tr>
       </tbody>
     </table>

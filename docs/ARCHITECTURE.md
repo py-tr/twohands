@@ -45,7 +45,7 @@ flowchart LR
 | AMD client | `twohands/amd.py`, `twohands/ratelimit.py` | OpenAI-compatible client for AMD Token Factory. A file-based limiter paces request starts across processes (6/min by default, 2 in flight per process), honours 429 Retry-After, backs off on 5xx, and checks `/usage` against a daily budget. The key is read from the environment and never logged. |
 | Gate | `twohands/gate.py` | Shape, row label, completeness, words = digits, identities. Returns accepted or routed with reasons and failing fields. 100% deterministic. |
 | Runner | `twohands/run.py` | Resumable batch: prepare (download, locate, mask) then Gemma over all forms, then Qwen. One stable record per form in `results/calls_<model>.jsonl`. |
-| Web app | `app/`, `templates/`, `static/` | Form viewer, review desk, audit gallery of keying errors, results page, live read on AMD (one at a time, budget-guarded, streamed as server-sent events). |
+| Web app | `app/`, `templates/`, `static/` | Form viewer, review desk, audit gallery of capture errors, results page, live read on AMD (one at a time, budget-guarded, streamed as server-sent events). |
 | Numbers | `app/store.py`, `app/numbers.py` | Every measured number on the site is computed at request time from the result files. Cited context numbers are constants with their source. List: `docs/NUMBERS.md`. |
 | Second form type | `ledger/` | Snapshot of the rainfall-ledger reads and their per-year checksum (12 months = written annual total). |
 

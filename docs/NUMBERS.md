@@ -13,15 +13,16 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 
 | Shown as | Value now | Method |
 |---|---|---|
-| Keying errors in the official capture | 52 in 6,358 fields | verdict `model_right`: the paper shows the model's value |
+| Fields where the official capture does not match the paper (capture errors) | 52 in 6,358 fields: 17 wrong numbers, 27 readable fields recorded as illegible (23 on two faint forms), 6 typed where blank, 2 other | verdict `model_right`: the paper shows the model's value |
 | Certified confirmation | covers 31, confirms 22; all 9 differences recounts | `scripts/certified_check.py` -> CERTIFIED.md |
 | The model alone | 173 of 6,358 wrong, about 1 in 37 | verdicts `capture_right` (156) + `neither` (17) |
+| The capture typed a wrong number | 17 of 6,358, 1 in 374 | type "wrong numbers typed" of the 52 |
 | On the forms the gate accepts | 55 of 300 (18%); 2 of 1,210 fields wrong, about 1 in 605 | frozen gate, stored `accepted` |
-| Yield | 52 of 267 disputed = 1 in 5; at random 52 of 6,358 = 1 in 122; up to 24x (6,358 / 267 = 23.8) | |
+| Yield | 52 of 267 disputed = 1 in 5; overall capture error rate at least 52 of 6,358 = 1 in 122; multiple about 12 to 24x (EVALUATION) | |
 | Fields to look at | 267 of 6,358 = 4.2% | model digits != PREP |
 | Agreement with the capture | 6,091 of 6,358 = 95.80% | |
-| Recall bound | 7 of 23 (Wilson 95% 16% to 51%) | forms certified by comparison (Cotejo); vote rows + TOTAL; RECALL.md |
-| 52 by type | wrong value 17; legible marked illegible 27; keyed where blank 6; other 2 | from PREP's keyed text and the paper value |
+| Recall | loose bound 7 of 23 (Wilson 16-51%); judged on the paper, 16 are corrections, measured 7 of 7 (Wilson 65-100%) | forms certified by comparison (Cotejo); vote rows + TOTAL; RECALL.md |
+| 52 by type | wrong numbers 17; readable recorded as illegible 27; typed where blank 6; other 2 | from PREP's keyed text and the paper value |
 | Cost per form (Gemma) | $0.000144; $0.14 per 1,000; ~$24 for 169,005 forms | mean `cost_usd` over the 289 reads |
 
 ## A2. Pilot (43 hand-picked forms) and spikes (computed from results files)
@@ -30,9 +31,9 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 |---|---|---|---|
 | Pilot accept rate (results, pilot table) | 49% = 21 of 43 forms | `app/data/spike_runs.json`, a snapshot of `spikes/tally-witness/results_v2/gemma__*.json` | Gate = completeness + words = digits + the 4 schema identities (`schemas/mx_presidencia_2024.yaml`). Same checks as the spike's `score.py` FULL gate. The spike reads predate the row-label check. |
 | Accepted fields wrong | 0 of 462 (Gemma), 0 of 484 (Qwen) | the same, plus `app/data/official.json` (from `spikes/tally-witness/data/truth_rows.json` and `adjudicate.json`) | 22 graded fields per form against the PREP capture. "After eye check" swaps in the fields in `adjudicate.json`. Raw disagreements: 5 (Gemma), 4 (Qwen). |
-| Pilot keying errors in the official capture | 6 fields on 5 forms | `adjudicate.json` entries on forms that a spike reader accepted | 093954C0200, 156723B0100, 202451B0100 (TOTAL and section 7), 211298B0100, 211420C0400. The app labels vote rows "Option NN" and never by party. |
+| Pilot capture errors | 6 fields on 5 forms | `adjudicate.json` entries on forms that a spike reader accepted | 093954C0200, 156723B0100, 202451B0100 (TOTAL and section 7), 211298B0100, 211420C0400. The app labels vote rows "Option NN" and never by party. |
 | Certified count | covers 5 of the 6 fields and matches the image on all 5 | `official.json` `cert` (Cómputos) | Section 7 (SACADOS) is not in the certified data. One of the five (156723B) was certified by recount, four by comparison (Cotejo). This replaces the earlier hand count in the spike README; the app shows the computed figure. |
-| Paper inconsistency (not a keying error) | 211294C TOTAL: words 162, digits 262 | `adjudicate.json` + spike reads | The capture applied its words-prevail rule. Shown separately from keying errors and never counted with them. The same form's SACADOS (262 in words and digits, keyed 162) is a keying error on a routed form. |
+| Paper inconsistency (not a capture error) | 211294C TOTAL: words 162, digits 262 | `adjudicate.json` + spike reads | The capture applied its words-prevail rule. Shown separately from capture errors and never counted with them. The same form's SACADOS (262 in words and digits, keyed 162) is a capture error on a routed form. |
 | Routed, read perfectly | 7 (Gemma v2), 10 (Qwen) | the same | Rejected forms where every graded field equals the adjudicated truth. |
 | Cost per form | $0.000118 (Gemma v2), $0.000507 (Qwen) | `usage.cost` in each result file | Mean over the 43 reads. |
 | Per 1,000 forms | $0.12 / $0.51 | cost per form × 1,000 | |

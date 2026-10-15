@@ -130,7 +130,7 @@ def review(request: Request):
 
 
 def _audit_items(s, H: dict) -> list[dict]:
-    """The keying errors of the pre-registered run (from app/data/headline.json), ready for a card each."""
+    """The capture errors of the pre-registered run (from app/data/headline.json), ready for a card each."""
     out = []
     for x in H.get("keying_list", []):
         code = storemod.code_of(x["field"])

@@ -4,21 +4,26 @@
 {% block content %}
 <section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Audit mode</div>
-  <h1>{{ H.keying_errors }} keying errors in data that was already keyed twice</h1>
-  <p class="lede">The model re-read {{ H.fields|int }} fields of {{ H.read }} randomly drawn forms that the official two-person capture had already keyed. It disagreed on {{ H.disagree }} ({{ H.flag_pct }}%). A person settled each one on the photo: in {{ H.keying_errors }} the paper shows the model's value, so the capture mis-keyed. Every one is below, with its crop.</p>
+  <h1>{{ H.keying_errors }} {{ L.unit }}</h1>
+  <p class="lede">The model re-read {{ H.fields|int }} fields of {{ H.read }} randomly drawn forms that the official two-person capture had already keyed. It disagreed on {{ H.disagree }} ({{ H.flag_pct }}%). A person settled each one on the photo: in {{ H.keying_errors }} the paper shows the model's value, so the capture does not match the paper: {{ L.breakdown }}</p>
 </section>
 
 <section style="margin-top:28px">
   <div class="grid3">
-    <div class="card stat"><div class="v">{{ H.keying_errors }}</div><div class="l">keying errors in {{ H.fields|int }} fields</div><div class="s">{{ L.preliminary }}</div></div>
+    <div class="card stat"><div class="v">{{ H.keying_errors }}</div><div class="l">{{ L.unit }}, in {{ H.fields|int }} fields</div><div class="s">{{ L.preliminary }}</div></div>
     <div class="card stat"><div class="v">{{ H.cert_agree }} of {{ H.cert_covered }}</div><div class="l">confirmed by the certified count where it covers the field</div><div class="s">All {{ H.cert_differ }} differences were recounts of the ballots, not readings of this paper. The certified count does not cover sections 2, 3, 4 and 7.</div></div>
-    <div class="card stat"><div class="v">1 in {{ H.yield_one_in }}</div><div class="l">disputed fields is a confirmed keying error ({{ H.keying_errors }} of {{ H.disagree }})</div><div class="s">About 1 in {{ H.random_one_in }} at random. {{ L.recall }} A bound, not a measurement.</div></div>
+    <div class="card stat"><div class="v">1 in {{ H.yield_one_in }}</div><div class="l">disputed fields is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }})</div><div class="s">The capture's overall error rate is at least 1 in {{ H.random_one_in }}. Recall: {{ L.recall }}</div></div>
   </div>
+</section>
+
+<section>
+  <div class="sec-head"><div><h2>Two faint pencil forms</h2><p>{{ ', '.join(H.faint.forms) }}</p></div></div>
+  <div class="card callout warn" style="border-left-width:4px"><p style="margin:0">{{ L.faint }}</p></div>
 </section>
 
 {% if featured %}
 <section class="featured">
-  <div class="sec-head"><div><h2>The capture shifted a whole column by one row</h2><p>Form {{ featured[0].clave }}: each of sections 2 to 4 was keyed with the value written one section further down. Three keying errors from one slip; the model read each box where it is.</p></div></div>
+  <div class="sec-head"><div><h2>The capture shifted a whole column by one row</h2><p>Form {{ featured[0].clave }}: each of sections 2 to 4 was keyed with the value written one section further down. Three capture errors from one slip; the model read each box where it is.</p></div></div>
   <div class="card">
     <div class="crops">
       {% for e in featured %}
@@ -59,7 +64,7 @@
     <div>
       <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap">
         <div><a class="mono" style="font-weight:650" href="/form/{{ e.clave }}">{{ e.clave }}</a> · <span>{{ e.name }}</span></div>
-        <span class="chip bad">keying error</span>
+        <span class="chip bad">capture error</span>
       </div>
       <div class="vals" style="margin-top:12px">
         <div class="box right"><div class="l">The paper says</div><div class="v">{{ e.paper }}</div></div>
@@ -74,5 +79,5 @@
 </section>
 {% endfor %}
 
-<p class="tiny" style="margin-top:28px">Method: every field where the model's digits differ from the official capture (PREP) was settled on a crop of the masked page; the certified value (Cómputos Distritales 2024) is shown where it covers the field and never overrides the paper {{ source('results/adjudication/SUMMARY.md, CERTIFIED.md, verdicts.json; app/data/headline.json') }}. Only disagreements were checked, so capture errors the model also made are not in this list; the recall bound above says how many that may be. "Keying error" means a typing mistake in a capture, nothing more.</p>
+<p class="tiny" style="margin-top:28px">Method: every field where the model's digits differ from the official capture (PREP) was settled on a crop of the masked page; the certified value (Cómputos Distritales 2024) is shown where it covers the field and never overrides the paper {{ source('results/adjudication/SUMMARY.md, CERTIFIED.md, verdicts.json; app/data/headline.json') }}. Only disagreements were checked, so capture errors the model also made are not in this list; the recall line above says how many that may be. "Capture error" means the capture does not match the paper, nothing more.</p>
 {% endblock %}

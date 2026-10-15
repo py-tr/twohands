@@ -495,7 +495,7 @@ class Store:
                 best = rid
         return best or "spike-gemma-v2"
 
-    # ---- keying errors (audit)
+    # ---- capture errors (audit)
     def keying_errors(self) -> list[dict]:
         """Confirmed: adjudicated fields (eye-checked: the official capture disagrees with the image).
         Candidates: on accepted forms in any core run, fields where the model disagrees with PREP and

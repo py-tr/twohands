@@ -45,27 +45,28 @@ reads the same file) from `results/calls_gemma.jsonl` (last read per form) and `
 | Fields compared with the official capture (22 per form) | 6,358 |
 | Agreement with the official capture | 6,091 of 6,358 (95.80%) |
 | Fields disputed (sent to a person) | 267 (4.2%) on 104 forms |
-| Settled on the photo | capture mis-keyed 52 · model misread 156 · both off 17 · paper ambiguous 34 · unreadable 8 |
-| **Keying errors in the official capture** | **52**; the certified count covers 31 and confirms the image on 22; all 9 differences were recounts |
+| Settled on the photo | capture does not match the paper 52 · model misread 156 · both off 17 · paper ambiguous 34 · unreadable 8 |
+| **Fields where the official capture does not match the paper** | **52**: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. The certified count covers 31 and confirms the paper on 22; all 9 differences were recounts |
 | The model alone | wrong on 173 of 6,358 fields (156 + 17): about 1 in 37 |
 | Accepted with no person (frozen gate, primary) | 55 of 300 (18%): 27 phone photos, 28 scans |
 | Accepted fields wrong after adjudication | **2 of 1,210** (about 1 in 605; Wilson 95% 0.04% to 0.60%), so the headline rule (error rate <= 0.5%) keeps the single-reader tier |
-| Yield of a disputed field | 52 of 267 = 1 in 5, against 52 of 6,358 = about 1 in 122 at random: up to 24x |
-| Recall bound | on the 100 forms the certified count settled by comparison, the model had disputed 7 of the 23 fields where the certified count disagrees with the first capture (Wilson 95% 16% to 51%); a bound, not a measurement (`results/adjudication/RECALL.md`) |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). More than ten times the yield of a random check. |
+| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n). (`results/adjudication/RECALL.md`) |
 
-**The model alone is a worse keyer than the official two-person capture: 156 misreads against 52 keying errors in
-6,358 fields. That is why it never decides. The paper does, and a person sees the rest.** On accepted fields the
+**Alone, the model mis-keys about 1 field in 37; the official two-person capture typed a wrong number in 1 field in 374. That is why the model never decides. The paper does, and a person sees the rest.** On accepted fields the
 pair made 1 error and the model 2; we never claim the model beats the pair. The first capture is preliminary by
 design; the certified count is the official result.
 
-### The 52 keying errors by type
+### The 52 capture errors by type
+
+Up to 24 times the yield per field checked, if the model finds nearly every error. On the forms settled by comparison rather than recount, it disputed 7 of the 23 fields where the certified count differs from the first capture (Wilson 16-51%). That denominator includes council corrections, which a faithful read of the paper cannot dispute, so it is a loose lower bound on recall. Judged on the paper, 16 of the 23 are council corrections or blank rows; the model disputed all 7 of the rest (measured recall 7 of 7, Wilson 65-100%; small n), so the multiple is about 12 to 24 times.
 
 | Type | Fields |
 |---|---|
-| Wrong value keyed | 17 |
-| Legible field marked illegible | 27 |
-| Value keyed where the paper is blank | 6 |
-| Other (legible field captured as "no data") | 2 |
+| Wrong numbers typed | 17 |
+| Readable fields recorded as illegible (23 of them on two faint pencil forms) | 27 |
+| Numbers typed where the paper is blank | 6 |
+| Other (readable field captured as "no data") | 2 |
 
 One form shows how a single slip becomes three errors: on 250767B0100 the capture keyed each of sections 2 to 4 with
 the value written one section further down (unused ballots keyed 390, the voters' figure; voters keyed 3, the
@@ -97,7 +98,7 @@ add up, words that disagree with digits). Those are correct routings, not reader
 Base rate for context: in the official national capture, 19.2% of fully captured forms (26,336 of 137,196) fail
 their own row sum (PREP 2024 CSV, `spikes/tally-witness/README.md` section 1).
 
-### Keying errors found in the pilot
+### Capture errors found in the pilot
 
 On forms the gate accepted, the model and the official capture disagreed on **6 fields on 5 forms**. In every
 one the image shows the official capture mis-keyed and the model read it right. **The certified count covers 5
@@ -115,7 +116,7 @@ of them and matches the image on all 5** (the sixth, section 7, is not part of t
 These are typing mistakes in a capture, nothing more. Vote rows are named by printed position only. Crops are
 in the app's audit gallery.
 
-**Not a keying error, shown apart:** on 211294C0100 the TOTAL digits say 262 and the words say 162. The capture
+**Not a capture error, shown apart:** on 211294C0100 the TOTAL digits say 262 and the words say 162. The capture
 applied its words-prevail rule and keyed 162; the rows, section 7 and the certified count (262) support 262. The
 paper contradicts itself, so the gate routed the form to a person. That is the gate doing its job.
 
@@ -135,7 +136,7 @@ Source: `ledger/ledger.json` (built from `spikes/ledger-rescue` with the spike's
 ## Business result
 
 On 289 random forms already keyed twice, the model sent **267 of 6,358 fields (4.2%)** to a person, and **52** of
-those were confirmed keying errors in the official capture, each with its photo. The AMD compute cost was
+those were fields where the official capture does not match the paper, each with its photo. The AMD compute cost was
 **$0.000144 per form** (mean over the 289 reads), about $0.14 per 1,000 forms, or about $24 to re-read all 169,005
 national tally forms. The buyer is the auditor: Mexico requires an outside audit of every PREP (Reglamento de
 Elecciones art. 347), and in 2024 UNAM centres audited several state PREPs (sources in the README).
@@ -147,10 +148,8 @@ Elecciones art. 347), and in 2024 UNAM centres audited several state PREPs (sour
 - **One reader, one adjudicator.** Every disagreement was settled by one reviewer (the builder, an AI agent, not a
   native Spanish speaker) on published crops; anyone can re-check them, and the app's blind spot-check page lets a
   person do so without seeing any AI or capture value.
-- **Recall is only bounded.** We checked only where the model disagreed with the capture, so errors both made are
-  not counted. On forms the certified count settled without a recount, the model had disputed 7 of the 23 fields
-  where the certified count disagrees with the first capture; council corrections can move certified values, so
-  this is a bound.
+- **Recall rests on few fields.** We checked only where the model disagreed with the capture, so errors both made
+  are not counted directly. On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n).
 - **The label gate's cost.** The row-label check routed 86 forms; on 68 of them the read matched the paper on every
   graded field, including all 15 forms routed for a label alone. Each false alarm costs a person one look.
 - **One read is not two independent reads.** In one call the model can harmonise words and digits: on 010469C0400

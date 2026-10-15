@@ -31,10 +31,26 @@ CERT_COLS = {"NO_REGISTRADAS": "CANDIDATO/A NO REGISTRADO/A", "NULOS": "VOTOS NU
              "PAN_PRI_PRD": "PAN_PRI_PRD", "PAN_PRI": "PAN_PRI", "PAN_PRD": "PAN_PRD", "PRI_PRD": "PRI_PRD"}
 RECEIPT = ("050815B0100", "MORENA")      # model right, capture mis-keyed, certified by comparison (Cotejo)
 FEATURED = "250767B0100"                 # the capture shifted sections 2-5 by one field
-TYPES = [("wrong_value", "Wrong value keyed"),
-         ("marked_illegible", "Legible field marked illegible"),
-         ("keyed_blank", "Value keyed where the paper is blank"),
-         ("other", "Other (legible field captured as \"no data\")")]
+TYPES = [("wrong_value", "Wrong numbers typed"),
+         ("marked_illegible", "Readable fields recorded as illegible"),
+         ("keyed_blank", "Numbers typed where the paper is blank"),
+         ("other", "Other (readable field captured as \"no data\")")]
+FAINT = ("070207C0100", "093831B0100")   # the two faint-pencil forms
+# Recall tightening: the E fields the model did NOT dispute, each judged on a crop of the masked page (no model call).
+# "capture" = the paper shows the capture's value: the certified value is a council correction or the blank = 0
+# convention, not a capture error. "certified" = the paper shows the certified value: a capture error the model missed.
+RECALL_JUDGED = {
+    **{f"112879B0100__{f}": ("capture", "blank", "row left blank on the paper (no words, empty boxes); captured as no data, certified 0")
+       for f in ("PAN_PRI", "PAN_PRD", "PRI_PRD", "PT_MORENA", "NO_REGISTRADAS")},
+    **{f"253749C0100__{f}": ("capture", "blank", "row left blank on the paper (no words, empty boxes); captured as no data, certified 0")
+       for f in ("PAN_PRI", "PAN_PRD", "PRI_PRD", "PVEM_PT", "NO_REGISTRADAS")},
+    "153717B0100__NO_REGISTRADAS": ("capture", "blank", "row left blank on the paper; captured as no data, certified 0"),
+    "112747C0100__PT_MORENA": ("capture", 3, 'words "tres", boxes 0 0 3 = the capture; certified 0'),
+    "112747C0100__TOTAL": ("capture", 379, 'words "trescientos setenta y nueve", boxes 3 7 9 = the capture; certified calculated total 376'),
+    "153906C0300__TOTAL": ("capture", 458, 'words "Cuatrocientos cincuenta y ocho", boxes 4 5 8 = the capture; certified calculated total 451'),
+    "150512C0100__TOTAL": ("capture", 340, 'words "trecientos cuarenta", boxes 3 4 0 = the capture; certified calculated total 345'),
+    "251701B0100__TOTAL": ("capture", 301, 'words "trecientos uno", boxes 3 0 1 = the capture; certified calculated total 299'),
+}
 
 
 def one_in(k: int, n: int) -> int:
@@ -109,6 +125,15 @@ def main() -> dict:
     agree = [x for x in cov if x["cert_agrees"]]
     differ = [x for x in cov if not x["cert_agrees"]]
 
+    # the two faint-pencil forms: every field the capture recorded as illegible
+    fl = [x for x in ledger.values() if x["clave"] in FAINT and str(x.get("prep_raw") or "").lower().startswith("ilegible")]
+    fv = collections.Counter(V[f"{x['clave']}__{x['field']}"]["verdict"] for x in fl)
+    fc = [c for c in cert["model_right"] if c["clave"] in FAINT and c["covered"]
+          and f"{c['clave']}__{c['field']}" in {f"{x['clave']}__{x['field']}" for x in fl}]
+    faint = {"forms": list(FAINT), "illegible": len(fl), "model_read": fv.get("model_right", 0), "verdicts": dict(fv),
+             "covered": len(fc), "agree": sum(c["agrees"] for c in fc),
+             "differ_recount": sum((not c["agrees"]) and c["recount"] for c in fc)}
+
     # recall bound: forms the certified count settled by comparison (Cotejo), vote rows + TOTAL
     rk = s["vote_keys"] + ["TOTAL"]
     csv_of = {f["key"]: f["csv"] for f in s["fields"]}
@@ -135,6 +160,16 @@ def main() -> dict:
             e_list.append({"clave": k, "field": f, "name": label(f), "prep": prep[k][csv_of[f]], "certified": cv,
                            "model": m, "disputed": disputed, "verdict": vv.get("verdict")})
     ci = wilson(C, E) if E else None
+    for x in e_list:
+        j = RECALL_JUDGED.get(f"{x['clave']}__{x['field']}")
+        x["paper_shows"], x["paper"], x["evidence"] = (j if j else ("disputed", None, ""))
+    undisputed = [x for x in e_list if not x["disputed"]]
+    assert all(x["paper_shows"] in ("capture", "certified") for x in undisputed), "judge every undisputed E field"
+    corrections = [x for x in undisputed if x["paper_shows"] == "capture"]
+    missed = [x for x in undisputed if x["paper_shows"] == "certified"]
+    E2 = E - len(corrections)
+    ci2 = wilson(C, E2) if E2 else None
+    disputed_v = collections.Counter(x["verdict"] or "-" for x in e_list if x["disputed"])
 
     # label gate cost (Amendment 2): label-routed forms whose read matches the paper on every graded field
     def form_right(k):
@@ -187,7 +222,9 @@ def main() -> dict:
         "random_one_in": one_in(len(mr), fields), "yield_x": round(fields / len(dis), 1),
         "yield_x_int": round(fields / len(dis)),
         "by_type": [{"type": t, "label": lab_, "n": by_type.get(t, 0)} for t, lab_ in TYPES],
-        "recall": {"forms": len(cotejo_forms), "E": E, "C": C, "ci": ci,
+        "recall": {"forms": len(cotejo_forms), "E": E, "C": C, "ci": ci, "corrections": len(corrections),
+                   "missed": len(missed), "E2": E2, "ci2": ci2, "recall2_pct": round(100 * C / E2) if E2 else None,
+                   "disputed_verdicts": dict(disputed_v),
                    "fields": "17 vote rows + TOTAL (TOTAL compared with the certified calculated total)",
                    "list": e_list},
         "label_gate": {"routed": len(lab), "label_only": len(lab_only), "read_right": len(lab_right),
@@ -195,7 +232,9 @@ def main() -> dict:
         "harmonised": {"clave": "010469C0400", "field": "SOBRANTES", "name": label("SOBRANTES"),
                        "digits": h010.get("n"), "words": h010.get("w"), "paper": V["010469C0400__SOBRANTES"]["paper"]},
         "receipt": rc, "featured": {"clave": FEATURED, "fields": feat},
-        "keying_list": mr,
+        "keying_list": mr, "faint": faint,
+        "illegible_on_faint": sum(1 for x in mr if x["type"] == "marked_illegible" and x["clave"] in FAINT),
+        "wrong_number_one_in": round(fields / by_type.get("wrong_value", 1)),
         "gemma": {"mean_secs": round(sum(lat) / len(lat), 1) if lat else None,
                   "cost_per_form": sum(cost) / len(cost) if cost else None, "reads": len(read_ok),
                   "stop": sum(G[k].get("finish_reason") == "stop" for k in read_ok),
@@ -274,12 +313,13 @@ def write_summary(H, dis, V, ledger, acc_set) -> None:
          f"({vt['capture_right']} capture right + {vt['neither']} neither): about 1 in {H['model_one_in']}.",
          f"- On the {H['accepted']} forms the gate accepted ({H['accepted_pct']}% of {H['forms']}): {H['acc_model_wrong']} of "
          f"{H['acc_fields']} fields wrong, about 1 in {H['acc_one_in']}.",
-         f"- Of the {H['disagree']} fields the model disputes, {H['keying_errors']} are confirmed keying errors "
-         f"({H['yield_pct']}%, about 1 in {H['yield_one_in']}); at random it would be {H['keying_errors']} of {H['fields']} "
-         f"(about 1 in {H['random_one_in']}): up to {H['yield_x_int']}x the yield. Recall is bounded in `RECALL.md`.", "",
+         f"- Of the {H['disagree']} fields the model disputes, {H['keying_errors']} are confirmed capture errors (the official "
+         f"capture does not match the paper; {H['yield_pct']}%, about 1 in {H['yield_one_in']}). The capture's overall error "
+         f"rate is at least {H['keying_errors']} of {H['fields']} (about 1 in {H['random_one_in']}); it typed a wrong number "
+         f"in 1 field in {H['wrong_number_one_in']}. Recall: `RECALL.md`.", "",
          f"## Disagreements on ACCEPTED forms ({H['acc_disagree']} fields on {len({k for k, _ in acc_d})} of {H['accepted']} accepted forms)", ""]
     L += head + [row(k, f) for k, f in acc_d] + [""]
-    L += [f"## The {H['keying_errors']} keying errors by type", "", "| type | fields |", "|---|---|"]
+    L += [f"## The {H['keying_errors']} capture errors by type", "", "| type | fields |", "|---|---|"]
     L += [f"| {t['label']} | {t['n']} |" for t in H["by_type"]] + [""]
     L += [f"Certified count: covers {H['cert_covered']} of the {H['keying_errors']}, agrees with the image on "
           f"{H['cert_agree']}; all {H['cert_differ']} differences were recounts (`CERTIFIED.md`).", ""]
@@ -296,25 +336,36 @@ def write_summary(H, dis, V, ledger, acc_set) -> None:
 def write_recall(H) -> None:
     r = H["recall"]
     ci = r["ci"] or [0, 0]
-    L = ["# Recall bound: how many capture errors does the model dispute?", "",
-         "**A bound, not a measurement.** Secondary analysis (Amendment 2), computed by `scripts/build_headline.py`.", "",
+    ci2 = r["ci2"] or [0, 0]
+    dv = ", ".join(f"{k} {v}" for k, v in sorted(r["disputed_verdicts"].items()))
+    L = ["# Recall: how many capture errors does the model dispute?", "",
+         "Secondary analysis (Amendment 2), computed by `scripts/build_headline.py`. No model call.", "",
          f"Forms: the {r['forms']} of the {H['read']} read forms whose certified count (Computos Distritales 2024) was settled "
          "by comparison with the tally sheet (OBSERVACIONES \"Cotejo\"), not by a recount of the ballots.",
          f"Fields: {r['fields']}. E = fields where the certified value differs from the first capture (PREP, including "
          "fields PREP marked Ilegible or left without data). C = how many of those E the model disputed (its digits differ "
          "from PREP).", "",
+         "## 1. The loose bound", "",
          f"> On the forms the certified count settled without a recount, the model had disputed {r['C']} of the {r['E']} "
          f"fields where the certified count disagrees with the first capture "
-         f"({100 * r['C'] / r['E']:.0f}%, Wilson 95% {100 * ci[0]:.0f}% to {100 * ci[1]:.0f}%)." if r["E"] else "> No such field.",
-         "",
-         "Why only a bound: a certified value can differ from the first capture for reasons other than a keying error (the "
-         "district council can correct a sheet during the comparison, and TOTAL is compared with the certified CALCULATED "
-         "total, which differs from the written total whenever the paper's rows do not add up). E is therefore an upper "
-         "bound on the keying errors among these fields, and C/E a lower bound on the share the model would surface.", "",
-         "| clave | field | PREP | certified | model | disputed | verdict |", "|---|---|---|---|---|---|---|"]
+         f"({100 * r['C'] / r['E']:.0f}%, Wilson 95% {100 * ci[0]:.0f}% to {100 * ci[1]:.0f}%).", "",
+         "That denominator includes council corrections and the blank = 0 convention, which a faithful read of the paper "
+         "cannot dispute, so it is a loose lower bound on recall.", "",
+         "## 2. Tightened: every undisputed field judged on the paper", "",
+         f"Each of the {r['E'] - r['C']} undisputed fields was cropped from the masked page and judged from what is written. "
+         f"Paper shows the capture's value (a council correction or blank = 0, not a capture error): **{r['corrections']}**. "
+         f"Paper shows the certified value (a capture error the model missed): **{r['missed']}**.", "",
+         f"> Dropping the {r['corrections']} corrections, the model disputed {r['C']} of the {r['E2']} remaining fields: "
+         f"measured recall {r['recall2_pct']}% (Wilson 95% {100 * ci2[0]:.0f}% to {100 * ci2[1]:.0f}%).", "",
+         f"Small n. The {r['C']} disputed fields were themselves adjudicated: {dv}. Only the model_right ones are confirmed "
+         "capture errors; the paper_ambiguous ones are fields where the paper itself does not settle the value, so the "
+         "measured recall says the model missed no capture error here, not that each of these was one.", "",
+         "| clave | field | PREP | certified | model | disputed | verdict / paper shows | evidence |",
+         "|---|---|---|---|---|---|---|---|"]
     for x in r["list"]:
+        what = x["verdict"] or "-" if x["disputed"] else f"paper shows the {x['paper_shows']}'s value"
         L.append(f"| {x['clave']} | {x['name']} | {x['prep']} | {x['certified']} | {x['model']} | "
-                 f"{'yes' if x['disputed'] else 'no'} | {x['verdict'] or '-'} |")
+                 f"{'yes' if x['disputed'] else 'no'} | {what} | {x.get('evidence') or ''} |")
     (ADJ / "RECALL.md").write_text("\n".join(L) + "\n", encoding="utf-8")
 
 

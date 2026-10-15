@@ -70,22 +70,22 @@
  "by_type": [
   {
    "type": "wrong_value",
-   "label": "Wrong value keyed",
+   "label": "Wrong numbers typed",
    "n": 17
   },
   {
    "type": "marked_illegible",
-   "label": "Legible field marked illegible",
+   "label": "Readable fields recorded as illegible",
    "n": 27
   },
   {
    "type": "keyed_blank",
-   "label": "Value keyed where the paper is blank",
+   "label": "Numbers typed where the paper is blank",
    "n": 6
   },
   {
    "type": "other",
-   "label": "Other (legible field captured as \"no data\")",
+   "label": "Other (readable field captured as \"no data\")",
    "n": 2
   }
  ],
@@ -97,6 +97,18 @@
    0.15604,
    0.50866
   ],
+  "corrections": 16,
+  "missed": 0,
+  "E2": 7,
+  "ci2": [
+   0.64566,
+   1
+  ],
+  "recall2_pct": 100,
+  "disputed_verdicts": {
+   "model_right": 1,
+   "paper_ambiguous": 6
+  },
   "fields": "17 vote rows + TOTAL (TOTAL compared with the certified calculated total)",
   "list": [
    {
@@ -107,7 +119,10 @@
     "certified": 175,
     "model": 175,
     "disputed": true,
-    "verdict": "model_right"
+    "verdict": "model_right",
+    "paper_shows": "disputed",
+    "paper": null,
+    "evidence": ""
    },
    {
     "clave": "112879B0100",
@@ -117,7 +132,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "112879B0100",
@@ -127,7 +145,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "112879B0100",
@@ -137,7 +158,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "112879B0100",
@@ -147,7 +171,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "112879B0100",
@@ -157,7 +184,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "112747C0100",
@@ -167,7 +197,10 @@
     "certified": 0,
     "model": 3,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": 3,
+    "evidence": "words \"tres\", boxes 0 0 3 = the capture; certified 0"
    },
    {
     "clave": "112747C0100",
@@ -177,7 +210,10 @@
     "certified": 376,
     "model": 379,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": 379,
+    "evidence": "words \"trescientos setenta y nueve\", boxes 3 7 9 = the capture; certified calculated total 376"
    },
    {
     "clave": "120867B0100",
@@ -187,7 +223,10 @@
     "certified": 151,
     "model": 151,
     "disputed": true,
-    "verdict": "paper_ambiguous"
+    "verdict": "paper_ambiguous",
+    "paper_shows": "disputed",
+    "paper": null,
+    "evidence": ""
    },
    {
     "clave": "131324C0200",
@@ -197,7 +236,10 @@
     "certified": 15,
     "model": 15,
     "disputed": true,
-    "verdict": "paper_ambiguous"
+    "verdict": "paper_ambiguous",
+    "paper_shows": "disputed",
+    "paper": null,
+    "evidence": ""
    },
    {
     "clave": "153906C0300",
@@ -207,7 +249,10 @@
     "certified": 451,
     "model": 458,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": 458,
+    "evidence": "words \"Cuatrocientos cincuenta y ocho\", boxes 4 5 8 = the capture; certified calculated total 451"
    },
    {
     "clave": "153717B0100",
@@ -217,7 +262,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper; captured as no data, certified 0"
    },
    {
     "clave": "150512C0100",
@@ -227,7 +275,10 @@
     "certified": 345,
     "model": 340,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": 340,
+    "evidence": "words \"trecientos cuarenta\", boxes 3 4 0 = the capture; certified calculated total 345"
    },
    {
     "clave": "251701B0100",
@@ -237,7 +288,10 @@
     "certified": 31,
     "model": 31,
     "disputed": true,
-    "verdict": "paper_ambiguous"
+    "verdict": "paper_ambiguous",
+    "paper_shows": "disputed",
+    "paper": null,
+    "evidence": ""
    },
    {
     "clave": "251701B0100",
@@ -247,7 +301,10 @@
     "certified": 8,
     "model": 68,
     "disputed": true,
-    "verdict": "paper_ambiguous"
+    "verdict": "paper_ambiguous",
+    "paper_shows": "disputed",
+    "paper": null,
+    "evidence": ""
    },
    {
     "clave": "251701B0100",
@@ -257,7 +314,10 @@
     "certified": 149,
     "model": 189,
     "disputed": true,
-    "verdict": "paper_ambiguous"
+    "verdict": "paper_ambiguous",
+    "paper_shows": "disputed",
+    "paper": null,
+    "evidence": ""
    },
    {
     "clave": "251701B0100",
@@ -267,7 +327,10 @@
     "certified": 6,
     "model": 67,
     "disputed": true,
-    "verdict": "paper_ambiguous"
+    "verdict": "paper_ambiguous",
+    "paper_shows": "disputed",
+    "paper": null,
+    "evidence": ""
    },
    {
     "clave": "251701B0100",
@@ -277,7 +340,10 @@
     "certified": 299,
     "model": 301,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": 301,
+    "evidence": "words \"trecientos uno\", boxes 3 0 1 = the capture; certified calculated total 299"
    },
    {
     "clave": "253749C0100",
@@ -287,7 +353,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "253749C0100",
@@ -297,7 +366,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "253749C0100",
@@ -307,7 +379,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "253749C0100",
@@ -317,7 +392,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    },
    {
     "clave": "253749C0100",
@@ -327,7 +405,10 @@
     "certified": 0,
     "model": null,
     "disputed": false,
-    "verdict": null
+    "verdict": null,
+    "paper_shows": "capture",
+    "paper": "blank",
+    "evidence": "row left blank on the paper (no words, empty boxes); captured as no data, certified 0"
    }
   ]
  },
@@ -1248,6 +1329,25 @@
    "cert_mode": "Recuento"
   }
  ],
+ "faint": {
+  "forms": [
+   "070207C0100",
+   "093831B0100"
+  ],
+  "illegible": 35,
+  "model_read": 23,
+  "verdicts": {
+   "model_right": 23,
+   "neither": 9,
+   "unreadable": 2,
+   "paper_ambiguous": 1
+  },
+  "covered": 21,
+  "agree": 18,
+  "differ_recount": 3
+ },
+ "illegible_on_faint": 23,
+ "wrong_number_one_in": 374,
  "gemma": {
   "mean_secs": 87.0,
   "cost_per_form": 0.000144445523183391,

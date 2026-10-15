@@ -92,13 +92,21 @@ def lines(H: dict) -> dict:
     """The sentences built from the summary, word for word as the pages show them."""
     if not H:
         return {}
-    r, v, rc = H["recall"], H["verdicts"], H["receipt"]
-    ci = r.get("ci") or [0, 0]
+    r, v, rc, fa = H["recall"], H["verdicts"], H["receipt"], H["faint"]
+    ci2 = r.get("ci2") or [0, 0]
+    bt = {t["type"]: t["n"] for t in H["by_type"]}
+    high = (r.get("recall2_pct") or 0) >= 50
+    breakdown = (f"{bt['wrong_value']} wrong numbers typed; {bt['marked_illegible']} readable fields recorded as illegible, "
+                 f"{H['illegible_on_faint']} of them on two faint pencil forms; {bt['keyed_blank']} numbers typed where the "
+                 f"paper is blank; {bt['other']} other. Each with its photo.")
     return {
+        "unit": "fields where the official capture does not match the paper",
+        "breakdown": breakdown,
         "keying": {"value": f"{H['keying_errors']}",
-                   "label": f"keying errors in {H['fields']:,} fields, each with its photo",
-                   "small": (f"The certified count covers {H['cert_covered']} and confirms the image on {H['cert_agree']}; "
-                             f"all {H['cert_differ']} differences were recounts.")},
+                   "label": "fields where the official capture does not match the paper",
+                   "small": breakdown,
+                   "small2": (f"The certified count covers {H['cert_covered']} and confirms the paper on {H['cert_agree']}; "
+                              f"all {H['cert_differ']} differences were recounts.")},
         "rate": {"value": f"1 in {H['acc_one_in']}",
                  "label": (f"Alone, the model mis-keys about 1 field in {H['model_one_in']}; on the {H['accepted_pct']}% of "
                            f"forms the paper's gate accepts, about 1 in {H['acc_one_in']}"),
@@ -106,18 +114,19 @@ def lines(H: dict) -> dict:
                            f"right, {v['neither']} where both were off); {H['acc_model_wrong']} of {H['acc_fields']:,} on the "
                            f"{H['accepted']} accepted forms.")},
         "yield": {"value": f"1 in {H['yield_one_in']}",
-                  "label": (f"fields the model disputes is a confirmed keying error ({H['keying_errors']} of "
-                            f"{H['disagree']}), against about 1 in {H['random_one_in']} at random: up to "
-                            f"{H['yield_x_int']}x the yield"),
-                  "small": (f"Recall is only bounded: on the forms the certified count settled without a recount, the "
-                            f"model had disputed {r['C']} of the {r['E']} fields where the certified count disagrees with "
-                            f"the first capture (Wilson 95% {100 * ci[0]:.0f}% to {100 * ci[1]:.0f}%).")},
-        "honest": (f"The model alone is a worse keyer than the official two-person capture: {v['capture_right']} misreads "
-                   f"against {H['keying_errors']} keying errors in {H['fields']:,} fields. That is why it never decides. "
-                   f"The paper does, and a person sees the rest."),
+                  "label": (f"disputed fields is a confirmed capture error ({H['keying_errors']} of {H['disagree']}). The "
+                            f"capture's overall error rate is at least 1 in {H['random_one_in']} ({H['keying_errors']} of "
+                            f"{H['fields']:,} found so far).")
+                           + (" More than ten times the yield of a random check." if high else ""),
+                  "small": None},
+        "honest": (f"Alone, the model mis-keys about 1 field in {H['model_one_in']}; the official two-person capture typed "
+                   f"a wrong number in 1 field in {H['wrong_number_one_in']}. That is why the model never decides. The "
+                   f"paper does, and a person sees the rest."),
         "preliminary": "The first capture is preliminary by design; the certified count is the official result.",
-        "recall": (f"On the forms the certified count settled without a recount, the model had disputed {r['C']} of the "
-                   f"{r['E']} fields where the certified count disagrees with the first capture."),
+        "recall": (f"On the forms the certified count settled by comparison, it differs from the first capture on {r['E']} "
+                   f"fields; judged on the paper, {r['corrections']} of them are council corrections or blank rows (the "
+                   f"paper shows the capture's value), and the model disputed {r['C']} of the other {r['E2']} "
+                   f"(measured recall {r['recall2_pct']}%, Wilson 95% {100 * ci2[0]:.0f}% to {100 * ci2[1]:.0f}%; small n)."),
         "receipt": (f"The paper says {rc['paper']}, the first capture keyed {rc['prep']}, the certified count says "
                     f"{rc['certified']}."),
         "product": (f"Give us your keyed data and the scans. You get the {H['flag_pct']:.0f}% of fields to look at, "
@@ -130,6 +139,12 @@ def lines(H: dict) -> dict:
                        f"on {H['harmonised']['clave']} it read {H['harmonised']['name']} as {H['harmonised']['digits']} "
                        f"in digits and {H['harmonised']['words']} in words; the paper says {H['harmonised']['paper']}. "
                        f"The fix is separate reads or a second reader."),
+        "faint": (f"On the two faint pencil forms, the official capture recorded {fa['illegible']} fields as illegible. On "
+                  f"{fa['model_read']} of them the paper shows the model's value; the model misread "
+                  f"{fa['verdicts'].get('neither', 0)} and the paper does not settle "
+                  f"{fa['illegible'] - fa['model_read'] - fa['verdicts'].get('neither', 0)}. The certified count covers "
+                  f"{fa['covered']} of the {fa['model_read']} and agrees with the model on {fa['agree']} (the "
+                  f"{fa['covered'] - fa['agree']} that differ are recounts)."),
     }
 
 
