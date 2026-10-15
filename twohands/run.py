@@ -111,7 +111,7 @@ def prepare_all(items: list[dict]) -> dict:
     done = {r["clave"]: r for r in jsonl(path) if r.get("status") in ("ok", "not_located", "unreadable")}
     todo = [it for it in items if it["clave"] not in done]
     log(f"prepare: {len(done)} done, {len(todo)} to fetch")
-    with ThreadPoolExecutor(2) as ex:
+    with ThreadPoolExecutor(int(os.environ.get("TWOHANDS_WORKERS", "2"))) as ex:
         for r in ex.map(prepare_one, todo):
             r["ts"] = now()
             append(path, r)
@@ -205,7 +205,7 @@ def read_model(model_key: str, items: list[dict], prepared: dict, s: dict, budge
             if rec.get("error"):
                 time.sleep(300)  # endpoint outage / 5xx storm: back off this worker for 5 min
 
-        with ThreadPoolExecutor(2) as ex:
+        with ThreadPoolExecutor(int(os.environ.get("TWOHANDS_WORKERS", "2"))) as ex:
             list(ex.map(work, todo))
 
 
