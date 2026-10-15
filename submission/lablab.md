@@ -21,10 +21,19 @@ the official double-keyed capture: the model found 52 fields where the capture d
 confirmed by the certified count. Errors we did not plant, in a record we did not write, in a sample drawn before
 any model read.
 
-Who pays: auditors who already check the count's system, trial monitors who verify source data against charts,
-internal audit of keyed files. By hand, checking numbers against paper does not pay. Here it costs $0.14 to $0.65
-of AMD compute per 1,000 forms, offered at $100 per 1,000 audited. A state's count is about 1,000 to 21,000 forms
-(one per polling station), so one state audit is about $100 to $2,100.
+Mexico's rule already asks for this job. In INE's PREP process every tally sheet gets a second capture by a
+person, and the system compares it with the first; a mismatch goes to a third capture, then a verification centre,
+and published data are later checked against the sheet in the cotejo (Proceso Técnico Operativo 2023-2024,
+numerals 30 to 35; the same phases bind all 32 state PREPs through Anexo 13 of INE's Reglamento de Elecciones).
+Two Hands is that second capture: a model, refereed by the paper, with a receipt for every field. After all of
+those steps, 0.8% of fields in our random sample still do not match the paper (52 of 6,358, at least); our second
+capture puts 1 in 5 of its disputes on a confirmed capture error.
+
+Who pays: the PREP operators who pay the capturistas, and the state institutes that contract them; the outside
+auditors, for an audit of a finished capture. Numeral 33 names a person, so a model as the second capture is a
+change the institute must approve: we show evidence, not compliance. It costs $0.14 to $0.65 of AMD compute per
+1,000 forms, offered at $100 per 1,000. A state's count is about 1,000 to 21,000 forms (one per polling station),
+so one state is about $100 to $2,100. Next, not measured: trial source-data checks and keyed files.
 
 Others check the model against the source. We check the record against the paper.
 

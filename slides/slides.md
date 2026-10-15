@@ -195,11 +195,33 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 
 ---
 
+<!-- Slide 9b: the regulated process, 1:1 -->
+
+## The rule already asks for a second capture
+
+| INE's PREP process (PTO 2023-2024) | Two Hands |
+|---|---|
+| Digitalización (num. 4 c, 23-28) | the same image; page located, names column masked |
+| First capture, automatic or human (30-32) | taken as given |
+| **Second capture by a person (33)** | **the model reads every field: digits, words, row label** |
+| **Comparison: all equal, done (33)** | **field by field; agreement + the paper's sums accept** |
+| Third capture on mismatch (34) | only the disputed fields, ordered by evidence |
+| Centro de Verificación (35) | gets what the paper itself does not settle |
+| Cotejo: published data vs the acta (4 f, 45) | a crop and a mark for every disputed field, CSV |
+
+On INE's published 2024 capture, after all of the above: **0.8% of fields still do not match the paper** (52 of 6,358, at least); our second capture puts **1 in 5** of its disputes on a confirmed capture error.
+
+**$100 per 1,000 forms** (proposal) · measured AMD compute **$0.14 per 1,000** (Gemma), $0.65 with the second reader.
+
+<p class="small">PTO: repositoriodocumental.ine.mx, CGex202311-03-ap-8-a.pdf. All 32 state PREPs: Reglamento de Elecciones art. 339.1 d, Anexo 13 numerals 15 and 21. Numeral 33 names a person: a model as the second capture is a change the institute must approve. We show evidence, not compliance. Measured: app/data/headline.json, results/calls_gemma.jsonl.</p>
+
+---
+
 <!-- Slide 10: market and model -->
 
-## Market and model: the auditor pays
+## Market and model: who pays for the second capture
 
-**Now.** Every state PREP has an outside auditor (Reglamento de Elecciones art. 347); in 2024, 26 of 32 had named one, all universities or research centres. Next window: 32 concurrent local processes, election day **6 June 2027**. We add the field-by-field check against the paper. Checking captured fields against the paper is our addition to the auditor's scope, not a legal requirement.
+**Now.** PREP operators and vendors, who pay the capturistas for the second capture, and the 32 state institutes (OPLEs) that contract them and approve the process (Reglamento de Elecciones art. 339.1 d, art. 346.1 "desarrollado por terceros"). Next window: 32 concurrent local processes, election day **6 June 2027**. **Secondary:** the outside auditors (art. 347; in 2024, 26 of 32 named, all universities or research centres), for an audit of a finished capture.
 
 **Next, not measured.** Clinical-trial source-data verification (site monitoring and source document verification: 15-30% of trial costs); keyed loan and claim files.
 

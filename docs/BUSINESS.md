@@ -1,14 +1,239 @@
 # Business case
 
-Two Hands audits a capture that already exists. You give us the keyed data and the scans. We give you the few
-fields where the keyed value and the paper disagree, each with its photo, ordered by evidence.
+Every PREP tally sheet in Mexico is already captured twice and compared, by rule. Two Hands is the second capture:
+a vision model on AMD, refereed by the paper's own arithmetic, with a receipt (the crop) for every field it disputes.
+The same engine audits a capture that already exists.
 
 Every number here is either **measured** (we cite the file in this repo) or **cited** (we fetched the source and
-link it). Anything beyond elections is labelled **next market, not measured**.
+quote it). Anything beyond elections is labelled **next market, not measured**.
+
+## 0. The regulated process
+
+### The text
+
+INE's *Proceso Técnico Operativo del Programa de Resultados Electorales Preliminares para el Proceso Electoral
+Federal 2023 – 2024* (PTO), annex to the Consejo General's extraordinary session of November 2023, file
+`CGex202311-03-ap-8-a.pdf`:
+<https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/CGex202311-03-ap-8-a.pdf>
+(fetched 2026-10-16; quotes copied from the PDF text, page numbers as printed on it).
+
+**Numeral 1 (p. 1), who it binds.**
+> "El presente proceso técnico operativo es de observancia general y obligatorio para el Instituto Nacional
+> Electoral, así como para las personas que participen en cada una de sus fases en el Proceso Electoral Federal
+> (PEF) 2023 - 2024."
+
+*This technical operating process is of general and mandatory observance for the INE and for the people who take
+part in any of its phases in the 2023-2024 federal election.*
+
+**Numeral 30 (p. 8), the first capture may be automatic.**
+> "La imagen del Acta PREP podrá ser procesada a través de la captura automática y registrará los datos detectados
+> correspondientes a los resultados de la votación, boletas sobrantes, total de personas que votaron, total de
+> representaciones de partidos políticos y de candidaturas independientes acreditadas ante casilla que votaron y
+> total de votos sacados de la urna. En este caso, la captura automática será considerada como primera captura del
+> Acta PREP."
+
+*The image of the Acta PREP may be processed through automatic capture, which will record the detected data for
+the vote results, unused ballots, total people who voted, total party and independent-candidate representatives
+who voted, and total votes taken from the ballot box. In that case, the automatic capture is considered the first
+capture of the Acta PREP.*
+
+**Numeral 33 (p. 8), the second capture and the comparison.**
+> "Concluida la primera captura del Acta PREP, de manera automática el sistema asignará a una persona
+> capturista/verificadora la imagen de la misma Acta PREP para realizar la segunda captura de los datos asentados
+> en esta. El sistema hará una verificación comparando que los datos registrados en la primera captura coincidan
+> con los de la segunda. Si todos los datos son iguales, la fase de captura y verificación de esa Acta PREP
+> concluye."
+
+*Once the first capture of the Acta PREP is done, the system automatically assigns the image of the same Acta PREP
+to a capturist/verifier to make the second capture of the data written on it. The system verifies by comparing
+that the data recorded in the first capture match those of the second. If all the data are equal, the
+capture-and-verification phase of that Acta PREP ends.*
+
+**Numerals 34 and 35 (pp. 8-9), on mismatch: a third capture, then the Verification Centre.**
+> "34. En caso de que los datos registrados previamente no coincidan, el sistema enviará la imagen de manera
+> automática a otra persona capturista/verificadora, para registrar nuevamente los datos que presentaron
+> inconsistencias. El sistema comparará los datos registrados en la tercera captura, con los datos registrados en
+> las capturas anteriores, sí coinciden en su totalidad con alguna de éstas, concluirá la fase de captura y
+> verificación de esta Acta."
+>
+> "35. Si algún dato registrado en la tercera captura es diferente a las anteriores, la imagen del Acta PREP será
+> asignada al Centro de Verificación para su resolución."
+
+*34. If the data recorded so far do not match, the system automatically sends the image to another capturist/
+verifier to record again the data that were inconsistent. The system compares the third capture with the earlier
+captures; if it matches one of them entirely, the capture-and-verification phase of this Acta ends.
+35. If any datum of the third capture differs from the earlier ones, the image of the Acta PREP is assigned to the
+Verification Centre for resolution.*
+
+**Numeral 4, phase f) (pp. 3-4), cotejo.**
+> "f) Cotejo de actas. Tiene por objeto corroborar que los datos publicados coincidan con los datos asentados en el
+> Acta PREP. El personal asignado al cotejo compara los datos y la imagen publicados en el portal del PREP, o en su
+> caso, con el Acta PREP física que posee el CATD y los datos que hayan sido publicados, en caso de identificar un
+> error en la captura, se podrá realizar el procedimiento para asentar los datos correctos posteriormente."
+
+*f) Cotejo (collation) of actas. Its purpose is to corroborate that the published data match the data written on
+the Acta PREP. The staff assigned to cotejo compare the data and image published on the PREP portal, or the
+physical Acta PREP held at the CATD, with the published data; if they identify a capture error, the procedure to
+record the correct data may be carried out afterwards.*
+
+The same document also defines cotejo at numeral 3 j) ("Fase que permite corroborar que los datos publicados
+coincidan con los datos asentados en el Acta PREP, a través del registro del resultado de esta actividad en el
+sistema informático"), and at numeral 45 records each acta as "correcta" or "incorrecta"; an incorrect acta goes
+back to digitalización or captura "hasta que sea marcada como correcta en cotejo".
+
+### The same steps bind all 32 state PREPs
+
+The PTO above is INE's own (federal). Each state institute (OPL) runs its own PREP under the **Reglamento de
+Elecciones** (RE) and its **Anexo 13, Lineamientos del PREP**:
+
+- **RE art. 336, numeral 1:** the PREP chapter's provisions "son aplicables para el Instituto y los opl". **Art. 346, numeral 1:** the
+  PREP computer system, "ya sea propio o desarrollado por terceros", "deberá contemplar las etapas mínimas del
+  proceso técnico operativo, señaladas en el Anexo 13". **Art. 339, numeral 1, inciso d):** each governing body
+  must approve its proceso técnico operativo "al menos cinco meses antes del día de la Jornada Electoral",
+  covering at least "la captura y verificación de datos"; **numeral 2:** before approval it goes to INE for its
+  opinion. Source: the consolidated *Reglamento de Elecciones, Texto Vigente*, INE, September 2026 (amendments
+  through INE/CG548/2026), <https://sidj.ine.mx/restWSsidj-nc/app/doc/662/20/1>.
+- **Anexo 13, numeral 15** (the minimum phases), fractions III and IV:
+  > "III. Captura de datos. En esta fase se registran los datos plasmados en las Actas PREP, así como la fecha y
+  > hora de su registro [...]"
+  >
+  > "IV. Verificación de datos. Tiene por objeto corroborar que todos los datos capturados coincidan con los datos
+  > asentados en cada una de las Actas PREP [...]"
+
+  *III. Data capture: the data written on the Actas PREP are recorded, with the date and time. IV. Data
+  verification: its purpose is to corroborate that all the captured data match the data written on each Acta
+  PREP.*
+- **Anexo 13, numeral 21** (the minimum roles), fractions III and IV:
+  > "III. La o el capturista de datos: a) Registra los datos plasmados en las Actas PREP, por medio del sistema
+  > informático de captura desarrollado o implementado."
+  >
+  > "IV. La o el verificador: a) Verifica que los datos capturados en el sistema informático, incluidos los de
+  > identificación del Acta PREP, coincidan con la información plasmada en el Acta PREP digitalizada;"
+
+  *III. The data capturist records the data written on the Actas PREP through the capture system. IV. The
+  verifier checks that the data captured in the system, including the acta's identification, match the
+  information on the digitised Acta PREP.*
+
+  Anexo 13 text: the "debe decir" column of INE/CG825/2022, Anexo 1, pp. 33-34 and 38-39,
+  <https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/146752/CGor202211-29-ap-25-a.pdf>.
+  INE's Dirección Jurídica lists INE/CG825/2022 (29 Nov 2022) as the latest modification of Anexo 13
+  (<https://ine.mx/wp-content/uploads/2025/02/DJ-Anexos-ReglamentoElecciones-05-02-25.pdf>, list as of 5 Feb 2025).
+  The September 2026 consolidated Reglamento does not reprint its annexes, so we could not confirm that no 2025-2026
+  agreement changed Anexo 13 since.
+
+**Not verified, left out.** Anexo 13 fixes the minimum phases and roles. The exact mechanics (a second capture, a
+third on mismatch, a verification centre) are written in each institute's own PTO. We quote INE's federal PTO; we
+did not read the 32 state PTOs, and we do not claim each one copies numerals 33 to 35.
+
+### The official process, step by step
+
+1. **Digitalización.** The Acta PREP is photographed at the polling station (PREP Casilla) or scanned at the CATD;
+   a hash is computed and the image goes to the CRID (PTO numerals 4 c), 23-28).
+2. **First capture**, automatic (numeral 30) or by a capturista at a TCA (numerals 31-32).
+3. **Second capture** of the same image by a person, a capturista/verificador (numeral 33).
+4. **Comparison** by the system; if every datum is equal, done (numeral 33).
+5. **Third capture** of the inconsistent data by another person; done if it matches an earlier capture in full
+   (numeral 34).
+6. **Centro de Verificación** resolves what the third capture did not (numeral 35; definition 3 g).
+7. **Cotejo**, after publication: the published data against the Acta PREP; a capture error found here is
+   recaptured (numerals 4 f), 44-45).
+
+## 0b. Where Two Hands fits
+
+Two Hands is the second capture done by a model, refereed by the paper, with a receipt for every field, for the
+cotejo.
+
+| Regulated step (PTO numeral) | Two Hands |
+|---|---|
+| Digitalización (4 c), 23-28) | uses the same image; locates the page and masks the names-and-signatures column |
+| First capture, automatic or human (30-32) | untouched; Two Hands takes the first capture as given |
+| Second capture by a person (33) | **the model reads every field twice, digits and Spanish words, plus each row's printed label** |
+| Comparison (33) | **field by field against the first capture; agreement plus the paper's own identities (words = digits, rows sum to the total) accepts** |
+| Third capture on mismatch (34) | **only the disputed fields go to a person, ordered by evidence (strong, medium, weak), each with its crop** |
+| Centro de Verificación (35) | receives the fields the paper itself does not settle (words and digits disagree, corrections) |
+| Cotejo (4 f), 44-45) | **a receipt for every disputed field: crop, first capture, model digits and words, a mark, a CSV** |
+
+The measured case, on INE's own published 2024 capture:
+
+> After a first capture, a second capture and a comparison, and the verification steps, 0.8% of fields in our
+> random sample still do not match the paper (52 of 6,358, at least); our second capture puts 1 in 5 of its
+> disputes on a confirmed capture error.
+
+Sources: `app/data/headline.json` (`keying_errors` 52, `fields` 6,358, `disagree` 267; 52 / 6,358 = 0.82%;
+52 / 267 = 19.5%) and `results/adjudication/SUMMARY.md`. The sample is the pre-registered random 300 presidential
+tally sheets of 2024 (289 read); the capture is the published PREP 2024 CSV, the output of the steps above. The
+52 are 17 wrong numbers typed, 27 readable fields recorded as illegible (23 on two faint forms), 6 numbers typed
+where the paper is blank, and 2 readable fields captured as "no data". "At least", because a field the model did
+not dispute was not examined.
+
+**Scope, honestly.** Numeral 33 assigns the second capture to "una persona capturista/verificadora". A model as the
+second capture would be a change to the proceso técnico operativo that the institute's governing body must approve
+(RE art. 339.1 d), after INE's opinion (art. 339.2). We show evidence, not compliance. Two uses need no change to
+the text: a model as the automatic first capture, which numeral 30 already allows, and an outside check of a
+finished capture, which is what we measured.
+
+### Who pays
+
+- **PREP operators and vendors (primary).** They staff steps 2 to 6: capturistas, verificadores, a verification
+  centre. RE art. 346.1 lets the system be "desarrollado por terceros", and OPLEs contract companies and
+  universities to build and run it. Two examples from 2024 below: Informática Electoral S.C. (Morelos) and PoderNet S.A.
+  de C.V. (Hidalgo).
+- **The OPLEs that contract them.** They approve the PTO (art. 339.1 d) and answer for the published count.
+- **The outside auditors (secondary).** The RE art. 347 auditors below: the same engine audits a finished capture.
+
+### Two 2024 state PREPs, from their own final reports
+
+**Baja California Sur (IEEBCS): a machine first capture is already in a PTO.** Built in-house by the Unidad de
+Cómputo y Servicios Informáticos. Final report, *Informe final del PREP, Proceso Electoral Local Ordinario
+2023-2024*, <https://www.ieebcs.org.mx/documentos/acuerdos/INFORME_FINAL_PREP_PLE_2023-2024.pdf>:
+
+- p. 6: actas expected / captured: diputaciones locales 1,139 / 1,138; ayuntamientos 1,117 / 1,116; total
+  **2,256 / 2,254**. The report gives no total of actas contabilizadas.
+- p. 18: "En este proceso electoral se realizó la implementación de lectura automatizada de los datos plasmados en
+  las Actas de Escrutinio y Cómputo (AEC) con inteligencia artificial, mediante un Modelo personalizado de la
+  herramienta Google Document AI." ... "se tomaron dichos datos como la primera captura, quedando debidamente
+  establecido en el Proceso Técnico Operativo (PTO) para este proceso electoral." ... "si dichas capturas eran
+  coincidentes, se publicación el AEC, en caso contrario, dicha AEC se asignaba a un tercer capturista o en su
+  caso, a módulo de Verificación." *(Automated reading with a custom Google Document AI model was taken as the
+  first capture, as set in the PTO; a person made the next capture; if they matched the acta was published,
+  otherwise it went to a third capturist or to verification.)*
+- p. 19: the automated reading matched the manual capture on **14,501 of 23,077 fields (62.84%)** and on **65 of
+  2,254 actas (2.88%)** in full.
+
+So one institute has already written a machine capture into its PTO, under numeral-30-style wording, with people
+for the second and third captures. We do not compare our numbers with theirs: different actas, a different
+measure (they count agreement with the human capture; we adjudicate disagreements on the paper).
+
+**Morelos (IMPEPAC): a contracted operator.**
+
+- Operator: **Informática Electoral S.C.**, winner of Licitación Pública IMPEPAC/LP/001/2024 "para la
+  implementación del Programa de Resultados Electorales Preliminares" (the only remaining bidder; Grupo Proisi
+  S.A. de C.V. also took part). IMPEPAC monthly PREP report, March 2024, p. 19,
+  <https://impepac.mx/wp-content/uploads/2024/04/Informe_Marzo-2024_PREP.pdf>. The same report's p. 20 says the
+  company ran recruitment, selection and training of operating staff. (p. 22 of that report says the company
+  "incumplió" the requirements yet was awarded; we read it as a typo and rely on p. 19.) Auditor: Universidad
+  Autónoma del Estado de Morelos (p. 19).
+- Final report, *Informe Final PREP 23-24*, v2.0, 2 July 2024,
+  <https://impepac.mx/wp-content/uploads/2024/07/Informe%20Final%20PREP_23-24_V_2.0.pdf>, pp. 3-4: gubernatura
+  2,583 expected, **2,476 captured**, 1,662 contabilizadas; diputaciones 2,624 / **2,525** / 1,705; ayuntamientos
+  2,595 / **2,507** / 1,702. p. 47, payment to third parties: the contract under IMPEPAC/LP/001/2024,
+  $24,940,000.00 (MXN; the table heading asks for VAT to be included).
+- p. 26 describes the verification step as: "el mismo capturista es el encargado de la verificación, confirma que
+  los votos registrados sean los mismos que contiene el Acta PREP digitalizada previo a su publicación". *(The
+  same capturist does the verification, confirming that the recorded votes are the ones on the digitised Acta PREP
+  before publication.)* The report gives no cotejo results and no count of actas corrected.
+
+**Hidalgo (IEEH), extraordinary local election 2024:** "PoderNet S.A. de C.V. empresa en apoyo al diseño,
+implementación y operación del PREP" (p. 4), paid $1,914,000.00 by "Asignación por Invitación" (p. 18),
+<https://ieehidalgo.org.mx/images/sesiones/2024/Diciembre/Informe_Final_PREP_PELEXT.pdf>.
+
+**Not verified, left out:** the IEEBCS infrastructure supplier (the report names the services, AWS and Fortinet,
+not the company); a 2024 PREP operated by Grupo Proisi; any IMPEPAC cotejo or correction counts; a public email
+for any IMPEPAC unit.
 
 ## 1. The buyer and the trigger
 
-### Now: Mexico's outside audit of every preliminary count
+### Secondary buyer, now: Mexico's outside audit of every preliminary count
 
 - **The rule.** Reglamento de Elecciones art. 347 says each electoral institute must submit the computer system of
   its preliminary-results programme (PREP) to an audit and designate an outside auditor (numeral 1). Preference
@@ -21,9 +246,11 @@ link it). Anything beyond elections is labelled **next market, not measured**.
   Querétaro and Veracruz; Tec de Monterrey campuses for nine states; CINVESTAV, CIMAT, state universities and
   technological institutes for the rest). The other 6 were still choosing.
   [INE annex 5, CCOE session 23-02-2024](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf).
-- **The gap we fill.** Art. 347 audits the computer system. It does not check the keyed numbers against the paper,
-  field by field. Two Hands is that field-level check, sold to the auditor who is already contracted. Checking captured fields against the paper is our addition to the auditor's scope, not a legal requirement.
-  No institute has asked for it yet.
+- **The gap we fill for the auditor.** Art. 347 audits the computer system (black-box functional tests and a
+  vulnerability analysis, numeral 1). It does not check the keyed numbers against the paper, field by field. Two
+  Hands can do that for the auditor who is already contracted. That field check is our addition to the auditor's
+  scope, not a legal requirement; the requirement to capture twice and compare is the institute's own (section 0).
+  No institute has asked us for either yet.
 - **The next window.** INE is organising the federal election and **32 concurrent local processes** for 2026-2027
   ([INE Central Electoral, 30 July 2026](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
   Election day is **6 June 2027**, with local deputies elected in 31 states
@@ -192,8 +419,9 @@ and none we found shows a crop per finding ordered by the paper's own arithmetic
   `results/adjudication/RECALL.md`). We do not know recall on the rest.
 - **The model alone is wrong on 1 field in 37.** Most disputes are model misreads (156 of 267). That is why the
   model never decides and a person opens each dispute.
-- **The new rule is our reading.** Art. 347 audits the system, not the field values. An institute may decide the
-  field check is out of scope.
+- **A model second capture needs the institute's approval.** PTO numeral 33 names a person for the second
+  capture; changing that is the governing body's decision (RE art. 339.1 d). Art. 347 audits the system, not the
+  field values, so an auditor may also decide the field check is out of scope.
 - **Next markets are untested.** We have no case-report form, claim or loan file measured.
 
 ### Why it holds
