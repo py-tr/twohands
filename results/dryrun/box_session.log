@@ -73,3 +73,43 @@
 2026-10-15T22:20:08Z session 20261015 DRY RUN n=2; gemma role Qwen3.8-27B; qwen role Qwen3.8-27B; root results\dryrun; call cap 12
 2026-10-15T22:20:08Z stage=summary start: summary markdown
 2026-10-15T22:20:08Z stage=summary status=done rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | written
+2026-10-15T23:21:42Z session 20261015 DRY RUN n=2; gemma role Qwen3.8-27B; qwen role Qwen3.8-27B; root results\dryrun; call cap 12
+2026-10-15T23:21:42Z stage=smoke status=done (resume marker) skip
+2026-10-15T23:21:42Z stage=consistency_43 status=done (resume marker) skip
+2026-10-15T23:21:42Z stage=gemma_gemma_43 status=done (resume marker) skip
+2026-10-15T23:21:42Z stage=bench status=done (resume marker) skip
+2026-10-15T23:21:42Z stage=resolution_43 guard WOULD REFUSE on the box (dry run continues): --max-model-len 12288 holds arm tiles_1120 (14606 tokens incl. max_tokens)
+2026-10-15T23:21:43Z stage=resolution_43 start: image-budget and tiling ablation on the 43 (post-hoc; chooses arm B)
+2026-10-15T23:21:43Z resolution_43: arm tiles_1120 (page + 6 tiles at 1,120 soft tokens/image), 1 forms
+2026-10-15T23:23:54Z resolution_43: arm page_1120 (page only (native resolution, no tiles) at 1,120 soft tokens), 1 forms
+2026-10-15T23:25:28Z resolution_43: arm page_560 (page only (no tiles) at 560 soft tokens), 1 forms
+2026-10-15T23:27:24Z stage=resolution_43 status=done rows=4/4 calls=3 parse_fail=0 errors=0 elapsed=5.7min est_cost=$0.1908 (box $2.0/h x elapsed + endpoint usage $0.0016) | 4/4 rows, 0 parse failures
+2026-10-15T23:27:24Z stage=choose_arm_b start: arm B of the confirmation: recommendation, --arm-b confirms, then Amendment 4.1
+2026-10-15T23:27:24Z arm B = tiles_560. Append results\dryrun\amendment4_1_armB_20261015.md to PROTOCOL.md (fill the date), then
+  git add PROTOCOL.md && git commit -m "Protocol Amendment 4.1: arm B of the confirmation"
+and re-run: confirm100 and confirm100_b refuse until it is committed with exactly these settings.
+2026-10-15T23:27:24Z stage=choose_arm_b status=done rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | arm B = tiles_560 (recommended none)
+2026-10-15T23:27:24Z stage=confirm100 status=done (resume marker) skip
+2026-10-15T23:27:24Z stage=confirm100_b guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 4 committed (clean)
+2026-10-15T23:27:24Z stage=confirm100_b guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 4.1 committed with mm_processor_kwargs {"max_soft_tokens": 560} and 6 tiles
+2026-10-15T23:27:25Z stage=confirm100_b start: 100-form confirmation, arm B (Amendment 4.1)
+2026-10-15T23:27:25Z confirm100_b: pass 1, 0 done, 3 to read (gemma = Qwen3.8-27B, 8 in flight)
+2026-10-15T23:29:15Z stage=confirm100_b status=done rows=3/3 calls=2 parse_fail=0 errors=0 elapsed=1.8min est_cost=$0.0624 (box $2.0/h x elapsed + endpoint usage $0.0011) | 3/3 rows, 0 parse failures, 0 truncated
+2026-10-15T23:29:15Z stage=senado100 status=done (resume marker) skip
+2026-10-15T23:29:15Z stage=colima status=done (resume marker) skip
+2026-10-15T23:29:15Z stage=ext3000_gemma status=done (resume marker) skip
+2026-10-15T23:29:15Z stage=tiling_43 status=done (resume marker) skip
+2026-10-15T23:29:15Z stage=video status=done (resume marker) skip
+2026-10-15T23:29:15Z stage=ext3000_qwen status=done (resume marker) skip
+2026-10-15T23:29:15Z stage=eval start: make eval
+2026-10-15T23:29:23Z stage=eval status=done rows=/ calls=0 parse_fail=0 errors=0 elapsed=0.1min est_cost=$0.0044 (box $2.0/h x elapsed + endpoint usage $0.0000) | rc 0, 0 mismatches
+2026-10-15T23:29:23Z stage=summary start: summary markdown
+2026-10-15T23:29:23Z stage=summary status=done rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | written
+2026-10-15T23:30:07Z session 20261015 DRY RUN n=2; gemma role Qwen3.8-27B; qwen role Qwen3.8-27B; root results\dryrun; call cap 7
+2026-10-15T23:30:07Z stage=resolution_43 guard WOULD REFUSE on the box (dry run continues): --max-model-len 12288 holds arm tiles_1120 (14606 tokens incl. max_tokens)
+2026-10-15T23:30:08Z stage=resolution_43 start: image-budget and tiling ablation on the 43 (post-hoc; chooses arm B)
+2026-10-15T23:30:08Z stage=resolution_43 status=skipped rows=4/4 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | endpoint ignored mm_processor_kwargs (prompt tokens not raised)
+2026-10-15T23:30:08Z stage=eval start: make eval
+2026-10-15T23:30:16Z stage=eval status=done rows=/ calls=0 parse_fail=0 errors=0 elapsed=0.1min est_cost=$0.0041 (box $2.0/h x elapsed + endpoint usage $0.0000) | rc 0, 0 mismatches
+2026-10-15T23:30:16Z stage=summary start: summary markdown
+2026-10-15T23:30:16Z stage=summary status=done rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | written

@@ -1,8 +1,8 @@
 {
- "label": "POST-HOC ablation (not pre-registered): per-image budget on the 43 pilot forms, page + 6 tiles, default (280 soft tokens) vs max_soft_tokens=560 per request (vLLM mm_processor_kwargs)",
+ "label": "POST-HOC ablation (not pre-registered): image budget and tiling on the 43 pilot forms. It chooses the setting of arm B of the confirmation (Amendment 4.1), committed before any read of the 100. Accepted-field errors are judged against the pilot truth (adjudicated where available, else PREP).",
  "model": "Qwen3.8-27B",
  "variants": {
-  "default budget (consistency_43 rows)": {
+  "baseline": {
    "forms": 1,
    "read_ok": 0,
    "accepted_v1": 0,
@@ -11,9 +11,15 @@
     0
    ],
    "mean_latency_s": 181.8,
-   "mean_prompt_tokens": 6612
+   "mean_prompt_tokens": 6612,
+   "errors": 0,
+   "says": "page + 6 tiles, default budget (280 soft tokens/image)",
+   "mm_processor_kwargs": null,
+   "tiles": 6,
+   "cost_per_form_usd": 0.10539,
+   "budget_applied": true
   },
-  "max_soft_tokens=560": {
+  "tiles_560": {
    "forms": 1,
    "read_ok": 1,
    "accepted_v1": 0,
@@ -22,8 +28,77 @@
     0
    ],
    "mean_latency_s": 151.3,
-   "mean_prompt_tokens": 6612
+   "mean_prompt_tokens": 6612,
+   "errors": 0,
+   "says": "page + 6 tiles at 560 soft tokens/image",
+   "mm_processor_kwargs": {
+    "max_soft_tokens": 560
+   },
+   "tiles": 6,
+   "cost_per_form_usd": 0.00088,
+   "budget_applied": false
+  },
+  "tiles_1120": {
+   "forms": 1,
+   "read_ok": 1,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 130.8,
+   "mean_prompt_tokens": 6612,
+   "errors": 0,
+   "says": "page + 6 tiles at 1,120 soft tokens/image",
+   "mm_processor_kwargs": {
+    "max_soft_tokens": 1120
+   },
+   "tiles": 6,
+   "cost_per_form_usd": 0.07347,
+   "budget_applied": false
+  },
+  "page_1120": {
+   "forms": 1,
+   "read_ok": 1,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 94.1,
+   "mean_prompt_tokens": 4261,
+   "errors": 0,
+   "says": "page only (native resolution, no tiles) at 1,120 soft tokens",
+   "mm_processor_kwargs": {
+    "max_soft_tokens": 1120
+   },
+   "tiles": 0,
+   "cost_per_form_usd": 0.05274,
+   "budget_applied": false
+  },
+  "page_560": {
+   "forms": 1,
+   "read_ok": 1,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 115.6,
+   "mean_prompt_tokens": 4261,
+   "errors": 0,
+   "says": "page only (no tiles) at 560 soft tokens",
+   "mm_processor_kwargs": {
+    "max_soft_tokens": 560
+   },
+   "tiles": 0,
+   "cost_per_form_usd": 0.06459,
+   "budget_applied": false
   }
  },
- "budget_applied": false
+ "recommendation": {
+  "arm": "none",
+  "why": "no arm accepts more forms without more accepted-field errors than the baseline"
+ },
+ "note": "The AMD Token Factory runs Gemma at a fixed image budget, so the 300's numbers and the public live read use that budget; the higher budget was measured on our self-hosted MI300X."
 }

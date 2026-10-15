@@ -1,7 +1,7 @@
 {
  "tag": "20261015",
- "calls_before": 28,
- "cost_before": 0.018199,
+ "calls_before": 33,
+ "cost_before": 0.020848,
  "meta": {
   "mode": "dry-run",
   "served_gemma": "Qwen3.8-27B",
@@ -13,6 +13,21 @@
    "window_s": 80.0,
    "threshold": 30,
    "passes": false
+  },
+  "arm_b_recommendation": {
+   "arm": "none",
+   "why": "no arm accepts more forms without more accepted-field errors than the baseline"
+  },
+  "arm_b": {
+   "arm": "tiles_560",
+   "recommended": "none",
+   "why": "no arm accepts more forms without more accepted-field errors than the baseline",
+   "confirmed_by_flag": true,
+   "mm_processor_kwargs": {
+    "max_soft_tokens": 560
+   },
+   "tiles": 6,
+   "ts": "2026-10-15T23:27:24Z"
   }
  },
  "stages": {
@@ -347,17 +362,17 @@
   "resolution_43": {
    "started": "2026-10-15T22:04:53Z",
    "status": "skipped",
-   "attempt_started": "2026-10-15T22:09:02Z",
-   "finished": "2026-10-15T22:09:02Z",
+   "attempt_started": "2026-10-15T23:30:08Z",
+   "finished": "2026-10-15T23:30:08Z",
    "detail": "endpoint ignored mm_processor_kwargs (prompt tokens not raised)",
    "stats": {
-    "rows": 1,
-    "expected": 1,
+    "rows": 4,
+    "expected": 4,
     "errors": 0,
     "parse_fail": 0,
-    "calls": 1,
+    "calls": 4,
     "variants": {
-     "default budget (consistency_43 rows)": {
+     "baseline": {
       "forms": 1,
       "read_ok": 0,
       "accepted_v1": 0,
@@ -366,9 +381,15 @@
        0
       ],
       "mean_latency_s": 181.8,
-      "mean_prompt_tokens": 6612
+      "mean_prompt_tokens": 6612,
+      "errors": 0,
+      "says": "page + 6 tiles, default budget (280 soft tokens/image)",
+      "mm_processor_kwargs": null,
+      "tiles": 6,
+      "cost_per_form_usd": 0.10539,
+      "budget_applied": true
      },
-     "max_soft_tokens=560": {
+     "tiles_560": {
       "forms": 1,
       "read_ok": 1,
       "accepted_v1": 0,
@@ -377,8 +398,77 @@
        0
       ],
       "mean_latency_s": 151.3,
-      "mean_prompt_tokens": 6612
+      "mean_prompt_tokens": 6612,
+      "errors": 0,
+      "says": "page + 6 tiles at 560 soft tokens/image",
+      "mm_processor_kwargs": {
+       "max_soft_tokens": 560
+      },
+      "tiles": 6,
+      "cost_per_form_usd": 0.00088,
+      "budget_applied": false
+     },
+     "tiles_1120": {
+      "forms": 1,
+      "read_ok": 1,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 130.8,
+      "mean_prompt_tokens": 6612,
+      "errors": 0,
+      "says": "page + 6 tiles at 1,120 soft tokens/image",
+      "mm_processor_kwargs": {
+       "max_soft_tokens": 1120
+      },
+      "tiles": 6,
+      "cost_per_form_usd": 0.07347,
+      "budget_applied": false
+     },
+     "page_1120": {
+      "forms": 1,
+      "read_ok": 1,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 94.1,
+      "mean_prompt_tokens": 4261,
+      "errors": 0,
+      "says": "page only (native resolution, no tiles) at 1,120 soft tokens",
+      "mm_processor_kwargs": {
+       "max_soft_tokens": 1120
+      },
+      "tiles": 0,
+      "cost_per_form_usd": 0.05274,
+      "budget_applied": false
+     },
+     "page_560": {
+      "forms": 1,
+      "read_ok": 1,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 115.6,
+      "mean_prompt_tokens": 4261,
+      "errors": 0,
+      "says": "page only (no tiles) at 560 soft tokens",
+      "mm_processor_kwargs": {
+       "max_soft_tokens": 560
+      },
+      "tiles": 0,
+      "cost_per_form_usd": 0.06459,
+      "budget_applied": false
      }
+    },
+    "recommendation": {
+     "arm": "none",
+     "why": "no arm accepts more forms without more accepted-field errors than the baseline"
     },
     "budget_applied": false
    },
@@ -386,9 +476,15 @@
     "resolution_43_20261015.jsonl",
     "resolution_43_20261015.json"
    ],
-   "calls": 1,
-   "elapsed_min": 2.52,
-   "est_cost_usd": 0.085
+   "calls": 0,
+   "elapsed_min": 8.2,
+   "est_cost_usd": 0.2758,
+   "arm_wall_s": {
+    "tiles_1120": 130.9,
+    "page_1120": 94.1,
+    "page_560": 115.6,
+    "baseline": 187.8
+   }
   },
   "ext3000_qwen": {
    "status": "done",
@@ -429,8 +525,8 @@
   "eval": {
    "started": "2026-10-15T22:07:24Z",
    "status": "done",
-   "attempt_started": "2026-10-15T22:14:42Z",
-   "finished": "2026-10-15T22:14:51Z",
+   "attempt_started": "2026-10-15T23:30:08Z",
+   "finished": "2026-10-15T23:30:16Z",
    "detail": "rc 0, 0 mismatches",
    "stats": {
     "rc": 0,
@@ -447,14 +543,14 @@
     "gemma_vs_qwen.md"
    ],
    "calls": 0,
-   "elapsed_min": 0.3,
-   "est_cost_usd": 0.0101
+   "elapsed_min": 0.55,
+   "est_cost_usd": 0.0186
   },
   "summary": {
    "started": "2026-10-15T22:07:34Z",
    "status": "done",
-   "attempt_started": "2026-10-15T22:20:08Z",
-   "finished": "2026-10-15T22:20:08Z",
+   "attempt_started": "2026-10-15T23:30:16Z",
+   "finished": "2026-10-15T23:30:16Z",
    "detail": "written",
    "stats": {
     "rows": 1,
@@ -466,6 +562,66 @@
    "calls": 0,
    "elapsed_min": 0.0,
    "est_cost_usd": 0.0
+  },
+  "choose_arm_b": {
+   "started": "2026-10-15T23:27:24Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T23:27:24Z",
+   "finished": "2026-10-15T23:27:24Z",
+   "detail": "arm B = tiles_560 (recommended none)",
+   "stats": {
+    "rows": 1,
+    "expected": 1,
+    "arm": "tiles_560",
+    "recommended": "none",
+    "why": "no arm accepts more forms without more accepted-field errors than the baseline",
+    "confirmed_by_flag": true,
+    "mm_processor_kwargs": {
+     "max_soft_tokens": 560
+    },
+    "tiles": 6,
+    "ts": "2026-10-15T23:27:24Z"
+   },
+   "outputs": [
+    "amendment4_1_armB_20261015.md"
+   ],
+   "calls": 0,
+   "elapsed_min": 0.0,
+   "est_cost_usd": 0.0
+  },
+  "confirm100_b": {
+   "started": "2026-10-15T23:27:25Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T23:27:25Z",
+   "finished": "2026-10-15T23:29:15Z",
+   "detail": "3/3 rows, 0 parse failures, 0 truncated",
+   "stats": {
+    "rows": 3,
+    "expected": 3,
+    "missing": 0,
+    "calls": 2,
+    "no_call": 1,
+    "errors": 0,
+    "parse_fail": 0,
+    "truncated": 0,
+    "accepted_v1": 0,
+    "finish_reason": {
+     "stop": 2
+    },
+    "mean_latency_s": 102.8,
+    "mean_prompt_tokens": 6612,
+    "mean_completion_tokens": 2490,
+    "cost_usd": 0.001076,
+    "models": [
+     "Qwen3.8-27B"
+    ]
+   },
+   "outputs": [
+    "armb_confirm100_gemma.jsonl"
+   ],
+   "calls": 2,
+   "elapsed_min": 1.84,
+   "est_cost_usd": 0.0624
   }
  },
  "guards": {
@@ -514,8 +670,20 @@
   "video": [],
   "resolution_43": [
    [
-    "--max-model-len 8192 holds 7 images x 560 soft tokens + text + max_tokens (= 10686)",
+    "--max-model-len 12288 holds arm tiles_560 (10686 tokens incl. max_tokens)",
+    true
+   ],
+   [
+    "--max-model-len 12288 holds arm tiles_1120 (14606 tokens incl. max_tokens)",
     false
+   ],
+   [
+    "--max-model-len 12288 holds arm page_1120 (7886 tokens incl. max_tokens)",
+    true
+   ],
+   [
+    "--max-model-len 12288 holds arm page_560 (7326 tokens incl. max_tokens)",
+    true
    ]
   ],
   "ext3000_qwen": [
@@ -529,8 +697,32 @@
    ]
   ],
   "eval": [],
-  "summary": []
+  "summary": [],
+  "choose_arm_b": [
+   [
+    "resolution_43 ran first and the endpoint applied the budget",
+    true
+   ]
+  ],
+  "confirm100_b": [
+   [
+    "PROTOCOL.md Amendment 3 committed (clean)",
+    true
+   ],
+   [
+    "PROTOCOL.md Amendment 4 committed (clean)",
+    false
+   ],
+   [
+    "arm B chosen after the ablation (stage choose_arm_b, flag --arm-b)",
+    true
+   ],
+   [
+    "PROTOCOL.md Amendment 4.1 committed with mm_processor_kwargs {\"max_soft_tokens\": 560} and 6 tiles",
+    false
+   ]
+  ]
  },
- "calls_total": 28,
- "cost_total_usd": 0.018199
+ "calls_total": 33,
+ "cost_total_usd": 0.020848
 }

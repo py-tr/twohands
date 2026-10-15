@@ -41,6 +41,9 @@ upscale got the same prompt tokens and no gain (75.2% vs 74.6% cell accuracy on 
 1,800 tokens per image on the pilot images (`spikes/tally-witness/README.md` section 3) and 5,817 for the same 7
 images here (831 per image).
 
+The AMD Token Factory runs Gemma at a fixed image budget, so the 300's numbers and the public live read use that budget; the higher budget was measured on our self-hosted MI300X. (Self-hosted, Gemma 4 takes 70 to 1,120 soft tokens per image, set per request; the ablation and
+the confirmation's arm B are in `deploy/mi300x/STAGES.md` and Amendment 4.)
+
 **The workaround: spend more images, not more pixels.** Each request carries the masked page plus zoomed tiles cut
 from it (`schemas/mx_presidencia_2024.yaml`, `layout.tiles`; `twohands/mask.py`; `twohands/reader.build_body`):
 

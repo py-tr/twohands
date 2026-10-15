@@ -26,3 +26,8 @@
 {"ts": "2026-10-15T22:12:42Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 141.4, "kind": "read", "pid": 9184}
 {"ts": "2026-10-15T22:13:48Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 65.8, "kind": "read", "pid": 9184}
 {"ts": "2026-10-15T22:14:42Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 110.5, "kind": "read", "pid": 9184}
+{"ts": "2026-10-15T23:23:54Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 130.8, "kind": "read", "pid": 40236}
+{"ts": "2026-10-15T23:25:28Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 94.1, "kind": "read", "pid": 40236}
+{"ts": "2026-10-15T23:27:24Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 115.6, "kind": "read", "pid": 40236}
+{"ts": "2026-10-15T23:29:00Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 85.4, "kind": "read", "pid": 40236}
+{"ts": "2026-10-15T23:29:15Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 110.2, "kind": "read", "pid": 40236}
