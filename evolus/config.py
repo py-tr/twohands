@@ -42,6 +42,7 @@ class Settings:
     library_id: str = ""
     workflow_id: str = ""
     filing_workflow_id: str = ""
+    audit_workflow_id: str = ""
     agent: str = ""                      # "applicationId:agentId" as listed by GET /v1/models
     workspace_url: str = DEFAULT_WORKSPACE
     public_url: str = ""                 # where this app is reachable (crop links in the hand-off)
@@ -58,11 +59,12 @@ class Settings:
         env_g = lambda n: _get(n, f)  # noqa: E731
         idmap = {"EVOLUS_EXTRACTOR_AGENT_ID": "extractor_agent_id", "EVOLUS_EXTRACTOR_ID": "extractor_id",
                  "EVOLUS_LIBRARY_ID": "library_id", "EVOLUS_WORKFLOW_ID": "workflow_id", "EVOLUS_AGENT": "agent",
-                 "EVOLUS_FILING_WORKFLOW_ID": "filing_workflow_id"}
+                 "EVOLUS_FILING_WORKFLOW_ID": "filing_workflow_id", "EVOLUS_AUDIT_WORKFLOW_ID": "audit_workflow_id"}
         g = lambda n: str(ids.get(idmap[n]) or "") or env_g(n) if n in idmap else env_g(n)  # noqa: E731
         return cls(key=g("EVOLUS_KEY"), app_id=g("EVOLUS_APP_ID"), extractor_agent_id=g("EVOLUS_EXTRACTOR_AGENT_ID"),
                    extractor_id=g("EVOLUS_EXTRACTOR_ID"), library_id=g("EVOLUS_LIBRARY_ID"),
-                   workflow_id=g("EVOLUS_WORKFLOW_ID"), filing_workflow_id=g("EVOLUS_FILING_WORKFLOW_ID"), agent=g("EVOLUS_AGENT"),
+                   workflow_id=g("EVOLUS_WORKFLOW_ID"), filing_workflow_id=g("EVOLUS_FILING_WORKFLOW_ID"),
+                   audit_workflow_id=g("EVOLUS_AUDIT_WORKFLOW_ID"), agent=g("EVOLUS_AGENT"),
                    workspace_url=(g("EVOLUS_WORKSPACE_URL") or DEFAULT_WORKSPACE).rstrip("/"),
                    public_url=g("TWOHANDS_PUBLIC_URL").rstrip("/"), gate_token=g("TWOHANDS_GATE_TOKEN"),
                    callback_key=g("EVOLUS_CALLBACK_KEY"), api=(g("EVOLUS_API") or API).rstrip("/"),
@@ -80,7 +82,8 @@ class Settings:
         return {"key": bool(self.key), "app_id": bool(self.app_id),
                 "extractor": rest and bool(self.extractor_agent_id and self.extractor_id),
                 "ai_tools": rest, "library": rest and bool(self.library_id),
-                "workflow": rest and bool(self.workflow_id), "filing_workflow": rest and bool(self.filing_workflow_id), "agent_chat": bool(self.key),
+                "workflow": rest and bool(self.workflow_id), "filing_workflow": rest and bool(self.filing_workflow_id),
+                "audit_workflow": rest and bool(self.audit_workflow_id), "user_key": bool(self.user_key), "agent_chat": bool(self.key),
                 "gate_token": bool(self.gate_token)}
 
 

@@ -1,6 +1,7 @@
 """Audit your capture: pages and API (/audit/new, /audit/{id}, its report and CSV). Logic in app/capture_audit.py."""
 from __future__ import annotations
 
+import threading
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -142,7 +143,59 @@ async def api_audit_mark(aid: str, request: Request):
         ca.mark(a, key, body.get("mark") or None)
     except ValueError as e:
         return JSONResponse({"error": str(e)}, status_code=422)
-    return {"ok": True, "key": key, "mark": body.get("mark") or None}
+    case = _evolus_status(aid, key, body.get("mark") or None)
+    return {"ok": True, "key": key, "mark": body.get("mark") or None, "case_status": case}
+
+
+def _evolus_status(aid: str, key: str, mark):
+    """The auditor's mark is the audit case's status: written to the case at once; to Evolus in the background."""
+    from evolus import audit as auditmod
+    case = auditmod.load_cases(aid).get(key)
+    if case is None:
+        return None
+    case["case_status"] = auditmod.STATUS.get(mark, "open")
+    auditmod.save_case(aid, key, case)
+
+    def push():
+        try:
+            from evolus.client import EvolusClient
+            auditmod.set_status(EvolusClient(), aid, key, mark)
+        except Exception:  # noqa: BLE001 - the local status is already saved
+            pass
+    threading.Thread(target=push, daemon=True).start()
+    return case["case_status"]
+
+
+@router.post("/api/audit/{aid}/evolus")
+def api_audit_evolus(aid: str, request: Request):
+    """Open the strong-evidence fields as Evolus audit cases (workflow 'Audit finding'), paced in the background."""
+    from evolus import audit as auditmod
+    from evolus.client import EvolusClient
+    from evolus.config import Settings
+    from evolus.setup import ensure_user_blocks
+    a = _audit_or_404(aid)
+    s = Settings.load()
+    if not (s.key and s.app_id and s.audit_workflow_id):
+        return JSONResponse({"error": "Evolus is not configured on this server (keys or the 'Audit finding' workflow; "
+                                      "run python -m evolus setup)."}, status_code=503)
+    c = EvolusClient(s)
+    ensure_user_blocks(c)
+    R = _run(request, a)
+    n = auditmod.start_background(c, a, R["disputes"])
+    if n < 0:
+        return JSONResponse({"error": "Already sending these fields to Evolus."}, status_code=409)
+    return {"started": n, "strong": R["tiers"]["strong"], "max": auditmod.MAX_CASES}
+
+
+@router.get("/api/audit/{aid}/evolus")
+def api_audit_evolus_cases(aid: str):
+    from evolus import audit as auditmod
+    _audit_or_404(aid)
+    cases = auditmod.load_cases(aid)
+    keep = ("case_id", "form", "field", "execution_id", "run_status", "case_status", "finding", "evidence", "error",
+            "note", "handoff", "started_at", "returned_at")
+    return {"running": auditmod.running(aid), "runner_error": (cases.get("_runner") or {}).get("error"),
+            "cases": {k: {x: c.get(x) for x in keep} for k, c in cases.items() if not k.startswith("_")}}
 
 
 @router.get("/api/audit/{aid}")
@@ -155,7 +208,9 @@ def api_audit(aid: str, request: Request):
 def _ctx(request: Request, a: dict) -> dict:
     R = _run(request, a)
     H = numbersmod.headline()
-    return {"a": a, "R": R, "H": H, "M": _methods(H, numbersmod.lines(H)), "flist": _flist(),
+    from evolus import audit as auditmod
+    EV = {k: v for k, v in auditmod.load_cases(a["id"]).items() if not k.startswith("_")}
+    return {"a": a, "R": R, "H": H, "M": _methods(H, numbersmod.lines(H)), "flist": _flist(), "EV": EV,
             "TIERS": ca.TIERS, "MARKS": ca.MARKS, "today": datetime.now(timezone.utc).strftime("%Y-%m-%d")}
 
 

@@ -5,6 +5,8 @@
     python -m evolus fields                    the extractor field list to paste into the Evolus extractor editor
     python -m evolus run --forms A,B,C         run the intake case on these masked forms -> results/evolus_runs.jsonl
     python -m evolus run --pick 2,3            pick 2 accepted + 3 routed forms (by the measured read) and run them
+    python -m evolus audit [--audit ID]        open the strong-evidence fields of an audit (default: a new sample
+                                               audit) as Evolus audit cases -> results/evolus_audit_runs.jsonl
 
 Never prints a key: settings are reported as set / not set.
 """
@@ -87,6 +89,9 @@ def cmd_run(a) -> int:
     forms = [x.strip() for x in a.forms.split(",") if x.strip()] if a.forms else pick(*map(int, a.pick.split(",")))
     s = Settings.load()
     c = EvolusClient(s)
+    from evolus.setup import ensure_user_blocks
+    if ensure_user_blocks(c, log=print):
+        print("EVOLUS_USER_KEY found: extractor and library built")
     out = Path(a.out)
     total_amd = 0
     for k in forms:
@@ -102,6 +107,35 @@ def cmd_run(a) -> int:
             print(f"   [{st['status']:>7}] {st['block']}: {st.get('summary', '')[:110]}")
     print(f"Evolus API calls: {len(c.calls)}; AMD model calls triggered through Evolus agent chat: {total_amd}")
     print(f"records appended to {out}")
+    return 0
+
+
+def cmd_audit(a) -> int:
+    from app import capture_audit as ca
+    from evolus import audit as auditmod
+    from evolus.setup import ensure_user_blocks
+    s = Settings.load()
+    c = EvolusClient(s)
+    if ensure_user_blocks(c, log=print):
+        print("EVOLUS_USER_KEY found: extractor and library built")
+    au = ca.load(a.audit) if a.audit else ca.sample()
+    if au is None:
+        print("unknown audit")
+        return 1
+    R = ca.run(au)
+    strong = [d for d in R["disputes"] if d["tier"] == "strong"]
+    print(f"audit {au['id']}: {R['disputed']} disputed fields, {len(strong)} with strong evidence")
+    r = auditmod.AuditRunner(c, au, max_cases=a.max, poll_every=a.poll_every, poll_s=a.poll,
+                             log=print, results=Path(a.out))
+    try:
+        done = r.run(R["disputes"])
+    except NotConfigured as e:
+        print("error:", e)
+        return 1
+    back = [x for x in done if x.get("finding")]
+    print(f"{len(done)} cases finished this call ({r.amd_calls} newly sent), {len(back)} with a drafted finding")
+    print(f"Evolus API calls: {len(c.calls)}; AMD model calls through Evolus: {r.amd_calls} (shared limiter tokens taken)")
+    print(f"report: /audit/{au['id']}/report ; records appended to {a.out}")
     return 0
 
 
@@ -122,6 +156,13 @@ def main(argv=None) -> int:
     r.add_argument("--out", default=str(casemod.RUNS_FILE))
     r.add_argument("--poll", type=float, default=240.0, help="seconds to wait for each workflow run")
     r.set_defaults(fn=cmd_run)
+    au = sub.add_parser("audit")
+    au.add_argument("--audit", default="", help="audit id (default: create the sample audit of the 300 forms)")
+    au.add_argument("--max", type=int, default=18, help="at most this many fields (= AMD calls)")
+    au.add_argument("--poll", type=float, default=360.0, help="per-case timeout in seconds (then status 'timeout')")
+    au.add_argument("--poll-every", type=float, default=8.0)
+    au.add_argument("--out", default=str(storemod.RESULTS / "evolus_audit_runs.jsonl"))
+    au.set_defaults(fn=cmd_audit)
     a = ap.parse_args(argv)
     return a.fn(a)
 

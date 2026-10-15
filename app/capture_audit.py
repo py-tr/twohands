@@ -478,7 +478,7 @@ def run(a: dict, job_state=None) -> dict:
             key = f"{fid}__{code}"
             disputes.append({
                 "key": key, "form": fid, "code": code, "name": storemod.name_of(k), "keyed": show_keyed(raw),
-                "keyed_n": kv, "model": m, "words": view.words.get(k), "score": ev["score"], "tier": ev["tier"],
+                "keyed_n": kv, "keyed_kind": kind, "model": m, "words": view.words.get(k), "score": ev["score"], "tier": ev["tier"],
                 "signals": ev["signals"], "accepted": view.accepted, "source": view.source,
                 "img": (f"/audit/{a['id']}/crop/{fid}/{code}.jpg" if own is not None
                         else (f"/crop/{fid}/{code}.jpg?pad=0.02&label=0" if storemod.get_store().masked_image(fid) else None)),

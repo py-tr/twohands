@@ -63,8 +63,10 @@ async def api_callback(request: Request):
         body = await request.json()
     except ValueError:
         body = {}
+    body = body if isinstance(body, dict) else {"body": body}
     row = {"at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-           "executionId": (body or {}).get("executionId"), "status": (body or {}).get("status"),
+           "executionId": body.get("executionId") or request.headers.get("x-workflow-execution-id"),
+           "auditId": request.headers.get("x-workflow-audit-id"), "status": body.get("status"),
            "body": json.dumps(body, ensure_ascii=False)[:2000]}
     casemod.CALLBACKS.parent.mkdir(parents=True, exist_ok=True)
     with open(casemod.CALLBACKS, "a", encoding="utf-8") as fh:

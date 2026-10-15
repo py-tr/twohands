@@ -10,6 +10,9 @@ Find by name first, else create. Ids go to evolus/ids.json (not secrets). Endpoi
                                    (POST /api/v1/agents/{id}/knowledge-memory, application key)
   workflow  "Review hand-off"      POST /api/v1/workflows + /steps (AgentCall, AiTool translate, Script,
                                    [Email], Output), switched on
+  workflow  "Record filing"        Script (the paper's identities, no AI) -> CreateFile -> Output
+  workflow  "Audit finding"        AgentCall (draft the finding) -> Script (evidence score, no AI) -> Script (the
+                                   audit case) -> [Webhook back to our app] -> Output   (evolus/audit.py)
 """
 from __future__ import annotations
 
@@ -29,7 +32,7 @@ LIBRARY = "Records register"
 WORKFLOW = "Review hand-off"
 TAGS = ["two-hands", "paper-form-intake"]
 # enum values from GET /api/v1/workflows/step-catalog (the API takes the numbers)
-STEP = {"AgentCall": 1, "Email": 3, "CreateFile": 5, "Output": 14, "AiTool": 16, "Script": 19}
+STEP = {"AgentCall": 1, "Webhook": 2, "Email": 3, "CreateFile": 5, "Output": 14, "AiTool": 16, "Script": 19}
 FILING = "Record filing"
 
 CLERK_PROMPT = (
@@ -293,6 +296,63 @@ class Setup:
         self.log(f"workflow '{FILING}': created ({wid}) with 3 steps, switched on")
         return wid
 
+    # ------------------------------------------------------------------ workflow 3: audit finding
+    def audit_steps(self) -> list[str]:
+        """Step names of the 'Audit finding' workflow as it should be now (the Webhook only with a public URL)."""
+        hook = bool(self.c.s.public_url and self.c.s.callback_key)
+        return ["Draft the finding (Intake clerk)", "Recompute the evidence score (no AI)", "Assemble the audit case"] + (
+            ["Hand the case back to Two Hands"] if hook else []) + ["Audit case (output)"]
+
+    def ensure_audit_workflow(self, clerk_id: str) -> str:
+        from evolus import audit as auditmod
+        name = auditmod.WORKFLOW
+        want = self.audit_steps()
+        found = next((w for w in self._workflows() if (w.get("name") or "").lower() == name.lower()), None)
+        if found and not self.rebuild:
+            full = self.c.rest("GET", f"/api/v1/workflows/{_id(found)}", "GET /api/v1/workflows/{workflowId}")
+            steps = sorted(full.get("steps") or [], key=lambda x: x.get("order") or 0)
+            have = [x.get("name") for x in steps]
+            agent_ok = any(x.get("agentId") == clerk_id for x in steps)
+            if sorted(have) == sorted(want) and agent_ok:
+                if not full.get("isActive"):
+                    self.c.rest("PUT", f"/api/v1/workflows/{_id(found)}", "PUT /api/v1/workflows/{workflowId}", {"isActive": True})
+                self.log(f"workflow '{name}': found ({_id(found)}), {len(have)} steps, on")
+                return _id(found)
+        if found:
+            self.c.rest("DELETE", f"/api/v1/workflows/{_id(found)}", "DELETE /api/v1/workflows/{workflowId}")
+        params = [{"name": "form", "type": "string", "description": "form id", "required": True},
+                  {"name": "case_id", "type": "string", "description": "Two Hands audit case id", "required": True},
+                  {"name": "field", "type": "string", "description": "the disputed field (Option NN or its plain name)", "required": True},
+                  {"name": "crop_url", "type": "string", "description": "crop of the field on the masked page", "required": False, "defaultValue": ""},
+                  {"name": "tier", "type": "string", "description": "evidence tier sent by Two Hands", "required": False, "defaultValue": ""}]
+        w = self.c.rest("POST", "/api/v1/workflows", "POST /api/v1/workflows",
+                        {"name": name, "description": "Two Hands: one disputed field of a capture audit becomes an audit "
+                         "case. The Intake clerk (open model on AMD) drafts the finding for the auditor; a script "
+                         "recomputes the evidence score (no AI); the case goes back to Two Hands, status open.",
+                         "tags": TAGS + ["capture-audit"], "parameters": params, "isActive": False})
+        wid = _id(w)
+
+        def add(body: dict) -> str:
+            return _id(self.c.rest("POST", f"/api/v1/workflows/{wid}/steps", "POST /api/v1/workflows/{workflowId}/steps", body))
+
+        s1 = add({"name": want[0], "stepType": STEP["AgentCall"], "agentId": clerk_id, "inputMode": 1,
+                  "prompt": auditmod.FINDING_PROMPT, "createDoc": False})
+        s2 = add({"name": want[1], "stepType": STEP["Script"], "inputMode": 1,
+                  "stepConfigJson": json.dumps({"script": auditmod.evidence_js(),
+                                                "outputStructure": json.dumps({"score": 9, "tier": "strong", "signals": [],
+                                                                               "agrees_with_app": True})})})
+        s3 = add({"name": want[2], "stepType": STEP["Script"], "inputStepIds": [s1, s2], "inputMode": 0,
+                  "stepConfigJson": json.dumps({"script": auditmod.ASSEMBLE_JS})})
+        if len(want) == 5:
+            add({"name": want[3], "stepType": STEP["Webhook"], "inputStepIds": [s3], "inputMode": 0,
+                 "stepConfigJson": json.dumps({"method": "POST", "url": self.c.s.public_url + "/api/evolus/callback",
+                                               "bodyMode": "input", "sendAs": "json", "responseType": "text"})})
+        add({"name": want[-1], "stepType": STEP["Output"], "inputStepIds": [s3]})
+        self.c.rest("PUT", f"/api/v1/workflows/{wid}", "PUT /api/v1/workflows/{workflowId}", {"isActive": True})
+        self.log(f"workflow '{name}': created ({wid}) with {len(want)} steps, switched on"
+                 + ("" if len(want) == 5 else "; hand-off by polling (no TWOHANDS_PUBLIC_URL + EVOLUS_CALLBACK_KEY)"))
+        return wid
+
     # ------------------------------------------------------------------ all
     def run(self) -> dict:
         clerk = self.ensure_agent(AGENT, CLERK_PROMPT)
@@ -301,13 +361,35 @@ class Setup:
         lib = self.ensure_library(clerk)
         wid = self.ensure_workflow(clerk)
         fid = self.ensure_filing_workflow()
+        aud = self.ensure_audit_workflow(clerk)
         self.ids.update({"agent_id": clerk, "agent": f"{self.c.s.app_id}:{clerk}", "model_key": self.model_key,
                          "extractor_agent_id": reader, "extractor_id": sid or "", "library_id": lib or "",
-                         "workflow_id": wid, "filing_workflow_id": fid, "names": {"agent": AGENT, "extractor_agent": EXTRACTOR_AGENT,
+                         "workflow_id": wid, "filing_workflow_id": fid, "audit_workflow_id": aud, "names": {"agent": AGENT, "extractor_agent": EXTRACTOR_AGENT,
                                                        "extractor": STRUCTURE, "library": LIBRARY, "workflow": WORKFLOW,
-                                                       "filing_workflow": FILING},
+                                                       "filing_workflow": FILING, "audit_workflow": "Audit finding"},
                          "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
         save_ids(self.ids)
         for n in self.notes:
             self.log("note: " + n)
         return self.ids
+
+
+def ensure_user_blocks(client: EvolusClient, log: Callable[[str], None] = lambda s: None) -> bool:
+    """The extractor and the library need a personal User API key. The moment EVOLUS_USER_KEY is in the
+    environment or .env, the next run builds them (setup is idempotent) and the client uses them at once.
+    Without the key this does nothing. Returns True when it ran setup."""
+    s = client.s
+    if not s.user_key or (s.extractor_id and s.library_id):
+        return False
+    ids = load_ids()
+    model_key = str(ids.get("model_key") or "")
+    try:
+        new = Setup(client, model=model_key.split("/", 1)[-1] or "Qwen3.8-27B", model_key=model_key, log=log).run()
+    except (EvolusError, NotConfigured) as e:
+        log(f"user-key blocks not built: {e}")
+        return False
+    s.extractor_agent_id = new.get("extractor_agent_id") or s.extractor_agent_id
+    s.extractor_id = new.get("extractor_id") or s.extractor_id
+    s.library_id = new.get("library_id") or s.library_id
+    s.audit_workflow_id = new.get("audit_workflow_id") or s.audit_workflow_id
+    return True

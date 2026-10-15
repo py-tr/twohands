@@ -38,6 +38,12 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
 .mk { font-size: 12.5px; font-weight: 600; }
 .mk.confirmed { color: var(--bad); } .mk.not_error { color: var(--ok); }
 .foot { margin-top: 28px; font-size: 12px; color: var(--muted); }
+.evo { margin-top: 8px; border: 1px solid var(--line); border-left: 3px solid #4b5bd6; border-radius: 8px; padding: 8px 10px; font-size: 13.5px; }
+.evo .st { font-size: 12px; color: var(--muted); }
+.evo .fd { margin: 4px 0 6px; }
+.evo button { font: 600 12.5px Inter, sans-serif; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 4px 10px; cursor: pointer; margin-right: 6px; }
+.evo button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+#evomsg { font-size: 13px; color: var(--muted); max-width: 920px; margin: 6px auto 0; padding: 0 16px; text-align: right; }
 @media (max-width: 640px) {
   .bar { padding: 0 16px; gap: 8px; } .bar a, .bar button { padding: 7px 11px; font-size: 13px; white-space: nowrap; }
   .sheet { margin: 12px 0; border-radius: 0; border-left: 0; border-right: 0; padding: 24px 16px; }
@@ -47,7 +53,7 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
 }
 @media print {
   body { background: #fff; font-size: 11.5px; }
-  .bar { display: none; }
+  .bar, #evomsg, .evo button { display: none; }
   .sheet { border: 0; margin: 0; padding: 0; max-width: none; }
   .item { grid-template-columns: 26px 250px minmax(0, 1fr); padding: 9px 0; }
   a { color: inherit; text-decoration: none; }
@@ -55,7 +61,8 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
 </style>
 </head>
 <body>
-<div class="bar"><a href="/audit/{{ a.id }}">Back to the audit</a><a href="/audit/{{ a.id }}/report.csv" download>CSV</a><button onclick="window.print()">Print / PDF</button></div>
+<div class="bar">{% if R.tiers.strong %}<a href="#" id="evogo" title="Send each strong-evidence field to the Evolus workflow 'Audit finding' (at most 18, paced)">Open as Evolus cases</a>{% endif %}<a href="/audit/{{ a.id }}">Back to the audit</a><a href="/audit/{{ a.id }}/report.csv" download>CSV</a><button onclick="window.print()">Print / PDF</button></div>
+<div id="evomsg">{% if EV %}{{ EV|length }} Evolus audit case{{ 's' if EV|length != 1 }} for this audit.{% endif %}</div>
 <article class="sheet">
   <div class="eyebrow">Two Hands · audit of a keyed capture against its paper</div>
   <h1>Audit report: {{ R.checked|int }} fields checked, {{ R.disputed|int }} disputed, each with its photo</h1>
@@ -89,10 +96,57 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
       <div class="hd"><span class="mono">{{ d.form }}</span> · {{ d.name }} <span class="tier {{ d.tier }}">{{ d.tier }}</span>{% if d.mark %} <span class="mk {{ d.mark }}">{{ MARKS[d.mark] }}</span>{% endif %}</div>
       <div class="vals"><div class="k"><span>Keyed</span><b>{{ d.keyed }}</b></div><div><span>Model digits</span><b>{{ d.model if d.model is not none else 'blank' }}</b></div><div><span>Model words</span><b>{{ d.words if d.words is not none else '–' }}</b></div></div>
       <ul class="ev">{% for s in d.signals %}<li>{{ s.text }}</li>{% endfor %}</ul>
+      {% if d.tier == 'strong' %}{% set c = EV.get(d.key) %}
+      <div class="evo" data-k="{{ d.key }}"{% if not c %} hidden{% endif %}>
+        <div class="st">Evolus audit case · run <span class="mono rid">{{ (c.execution_id or '')[:8] if c else '' }}</span> · <span class="rs">{{ c.run_status if c else '' }}</span> · status <b class="cs">{{ c.case_status if c else 'open' }}</b></div>
+        <div class="fd">{{ c.finding if c and c.finding else ('Waiting for the drafted finding…' if c and not c.error else (c.error if c else '')) }}</div>
+        <div><button data-mark="confirmed" class="{{ 'on' if d.mark == 'confirmed' }}">Confirm</button><button data-mark="not_error" class="{{ 'on' if d.mark == 'not_error' }}">Not an error</button></div>
+      </div>{% endif %}
     </div>
   </div>
   {% endfor %}
   <p class="foot">Crops are cut from masked pages only.{% if a.source == 'sample' %} Keyed data of the sample: INE PREP 2024, reused under INE's free-use terms (Libre-Uso-MX); an independent demonstration of clerical capture quality, not an official INE product.{% endif %}</p>
 </article>
+<script>
+(function () {
+  var A = '/api/audit/{{ a.id }}', msg = document.getElementById('evomsg'), timer = null;
+  function render(j) {
+    var n = 0, back = 0;
+    Object.keys(j.cases).forEach(function (k) {
+      var c = j.cases[k], el = document.querySelector('.evo[data-k="' + k + '"]'); n++;
+      if (c.finding) back++;
+      if (!el) return;
+      el.hidden = false;
+      el.querySelector('.rid').textContent = (c.execution_id || '').slice(0, 8);
+      el.querySelector('.rs').textContent = c.run_status || '';
+      el.querySelector('.cs').textContent = c.case_status || 'open';
+      el.querySelector('.fd').textContent = c.finding || c.error || c.note || 'Waiting for the drafted finding…';
+    });
+    msg.textContent = (j.running ? 'Sending to Evolus (paced)… ' : '') + n + ' Evolus audit case' + (n === 1 ? '' : 's') + ', ' + back + ' with a drafted finding.' + (j.runner_error ? ' Error: ' + j.runner_error : '');
+    return j.running || Object.keys(j.cases).some(function (k) { var s = (j.cases[k].run_status || '').toLowerCase(); return s.indexOf('pend') === 0 || s === 'running' || s === 'queued'; });
+  }
+  function poll() { fetch(A + '/evolus').then(function (r) { return r.json(); }).then(function (j) { if (render(j)) timer = setTimeout(poll, 5000); }); }
+  var go = document.getElementById('evogo');
+  if (go) go.addEventListener('click', function (e) {
+    e.preventDefault();
+    msg.textContent = 'Opening the strong-evidence fields as Evolus cases…';
+    fetch(A + '/evolus', {method: 'POST'}).then(function (r) { return r.json(); }).then(function (j) {
+      if (j.error) { msg.textContent = j.error; return; }
+      msg.textContent = j.started + ' field' + (j.started === 1 ? '' : 's') + ' sent to Evolus, paced.';
+      clearTimeout(timer); poll();
+    });
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.evo button[data-mark]'); if (!b) return;
+    var box = b.closest('.evo'), v = b.classList.contains('on') ? '' : b.dataset.mark;
+    fetch(A + '/mark', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: box.dataset.k, mark: v})})
+      .then(function (r) { return r.json(); }).then(function (j) {
+        box.querySelectorAll('button[data-mark]').forEach(function (x) { x.classList.toggle('on', x.dataset.mark === v); });
+        if (j.case_status) box.querySelector('.cs').textContent = j.case_status;
+      });
+  });
+  {% if EV %}poll();{% endif %}
+})();
+</script>
 </body>
 </html>
