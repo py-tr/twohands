@@ -66,6 +66,20 @@ The audit report (`/audit/{id}/report`, built by `app/audit_web.py` and `templat
 
 Read the strong tier first: two of every three are real.
 
+### What one confirmed error costs to find (measured)
+
+Checking the **267 fields the model disputes found 52 capture errors**. Checking 267 fields picked at random would
+find **about 2** (267 x 52 / 6,358 = 2.2, at the measured floor of 52 errors in 6,358 fields). In reviewer work:
+
+| | Fields a person looks at per confirmed capture error | Source |
+|---|---|---|
+| The disputed fields, in any order | **about 5** (267 / 52) | `results/adjudication/SUMMARY.md` |
+| The strong-evidence tier first | **1.5** (18 / 12) | sample audit, `app/capture_audit.py` |
+| Fields picked at random | **about 122** (6,358 / 52; a floor, so at most 122) | the same |
+
+We found no published, citable time for a person to verify one field against its photo, so we state it in fields,
+not minutes.
+
 ### Cost and proposed price
 
 | | Per form | Per 1,000 forms | Source |
@@ -77,6 +91,21 @@ Read the strong tier first: two of every three are real.
 Compute with both readers is about $0.65 per 1,000 forms, under 1% of the proposed price. Hosting, support and
 sales are not measured and are not in that figure. For scale only: auditing all 169,005 forms of the 2024 national presidential capture
 (PREP 2024 CSV, `docs/NUMBERS.md` B) is $20 to $86 compute cost and would bill about $16,900.
+
+### Small enough to buy without a tender
+
+A state's count is one job. In the PREP 2024 CSV, presidential tally sheets per state run from **1,017 (Colima) to
+20,908 (Estado de México)** (169,005 distinct polling stations, `TIPO_ACTA` 2, counted per state from
+`data/raw/prep/PRES_2024.csv`). At $100 per 1,000 forms one state audit is **about $100 to $2,100**; the median
+state (about 4,150 sheets) is about $415. One federal district, the free pilot we offer, is a median of about 560
+sheets.
+
+For comparison, Mexico's federal budget for 2026 sets the most a federal agency may award directly, without a
+tender, per operation: **MXN 309,000 to 1,145,000** excluding VAT, depending on the agency's budget (PEF 2026,
+art. 2 fr. X and Anexo 9, adquisiciones, arrendamientos y servicios;
+[DOF](https://dof.gob.mx/2025/SHCP/PEF_2026.html)). The largest state audit, $2,100, is under the lowest ceiling
+at any rate below 147 pesos per dollar. Caveat: that ceiling binds federal agencies. State electoral institutes
+and their university auditors buy under state law and their own rules, which we have not checked one by one.
 
 For a sense of the market price of machine reading, cloud form extraction lists at $30 per 1,000 pages (Google
 Document AI Form Parser, first tier, [pricing](https://cloud.google.com/document-ai/pricing)) and $70 per 1,000
@@ -90,6 +119,36 @@ capture errors.
 **Revenue, honestly.** Elections are lumpy: one season every few years, and each set is small at this price. They
 are the proof market: public, audited, with a named buyer and a deadline. Sustainable revenue has to come from
 keyed files that are audited every month (trials, claims, loans). That is next, and not measured.
+
+### Planned for the Oct 16 run (not yet shown)
+
+<!-- TODO(main session): fill with the measured MI300X numbers from tomorrow's run, or delete this subsection. -->
+
+- **Capability to show:** one AMD Instinct GPU on premises; a state count audited overnight without the images
+  leaving the building. Target size: Estado de México, 20,908 sheets, the largest state.
+- **To measure:** forms per hour on one GPU, hours for 20,908 sheets, cost per 1,000 forms at the GPU's hourly
+  price (`bench/bench_mi300x.py`). TODO: numbers, or delete.
+
+### The same job in other countries (volume only, not measured)
+
+Every general election produces one handwritten result sheet per polling station, and most are keyed or read by
+machine. The count of sheets is the size of the audit:
+
+| Country, election | Polling stations (one result sheet each) | Source |
+|---|---|---|
+| Mexico, 2024 presidential | 169,005 | PREP 2024 CSV, `data/raw/prep/PRES_2024.csv` |
+| Nigeria, 2023 general | 176,846 polling units | [INEC, Polling Units](https://inecnigeria.org/polling-units/) |
+| Kenya, 2022 presidential | 46,229 Form 34A | [IEBC press release, 17 Aug 2022](https://www.iebc.or.ke/uploads/resources/qWGJXy8s9t.pdf) ("final tallies of all the 46,229 Form 34A") |
+| India, 2024 Lok Sabha | 1,052,664 (10,52,664) | [PIB, ECI data release](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2088064&reg=48&lang=2) |
+| Indonesia, 2024 general | 820,161 domestic TPS | [KPU (KIP Bener Meriah repost of KPU RI, 4 Jul 2023)](https://kip-benermeriah.kpu.go.id/blog/read/repost-kpu-ri-dpt-pemilu-2024-nasional-2048-juta-pemilih) |
+
+**A live problem, clerical only.** Indonesia's 2024 count app, Sirekap, read the photographed result sheets by
+machine. KPU commissioner Idham Holik attributed input errors to human error and to the system misreading numbers
+on the C forms ("angka 3 itu terbaca 8", a 3 read as an 8)
+([Antara, 19 Feb 2024](https://gorontalo.antaranews.com/berita/236205/kpu-klaim-salah-input-sirekap-karena-kesalahan-manusia-dan-sistem));
+the KPU chair said conversions the system read inaccurately would be corrected
+([Antara, 15 Feb 2024](https://www.antaranews.com/berita/3966738/kpu-tegaskan-tak-ada-niat-manipulasi-hasil-suara-di-pemilu-2024)).
+That is a result-sheet capture error, the thing we check. We make no claim about any outcome.
 
 ## 3. Competitive analysis
 
@@ -107,6 +166,12 @@ keyed files that are audited every month (trials, claims, loans). That is next, 
 | Google Document AI | yes, handwriting in Enterprise OCR ([docs](https://cloud.google.com/document-ai/docs/enterprise-document-ocr)) | unknown | not a stated feature | unknown | $1.50 per 1,000 pages OCR, $30 Form Parser ([pricing](https://cloud.google.com/document-ai/pricing)) | no |
 | Sampling-based manual audit (status quo) | yes, a person | only for the sampled fields | yes, at the random rate: at least 1 error in 122 fields here | if the auditor files it | not cited | n/a |
 | Double keying | yes, people | no: two keyers can agree on a paper that contradicts itself | no, it is a capture | no | not cited | n/a |
+
+**Where we sit next to an IDP platform.** IDP platforms route a share of documents to people; we add the paper's own
+arithmetic as a free verifier and a photo for every dispute. Rossum, for example, lists its Starter plan from
+**$18,000 per year**, including a "validation screen for exception handling and human in the loop"
+([pricing](https://rossum.ai/pricing/)). We found no public per-page price for Rossum, ABBYY Vantage or
+Hyperscience, and no public figure from them for the share of documents sent to human review.
 
 Why double keying is not enough: 19.2% of nationally captured tally forms (26,336 of 137,196) fail their own row
 sum in the official capture (PREP 2024 CSV, `docs/NUMBERS.md` B). Keying twice copies the paper; it cannot say

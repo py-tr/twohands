@@ -203,9 +203,29 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 
 | Yield (measured) | Cost (measured) | Price (proposal) |
 |---|---|---|
-| 1 in 5 disputed fields is a capture error; at random, at least 1 in 122. A person checks 1 field in 24. Strong tier: 12 of 18 | $0.14 per 1,000 forms (Gemma) + $0.51 (Qwen, pilot) on AMD | **$100 per 1,000 forms audited**, report included |
+| **About 5 fields looked at per confirmed capture error, vs about 122 at random.** 267 disputed fields found 52; 267 random fields would find about 2. Strong tier: 12 of 18 | $0.14 per 1,000 forms (Gemma) + $0.51 (Qwen, pilot) on AMD | **$100 per 1,000 forms audited**, report included. One state: 1,017 to 20,908 sheets, **about $100 to $2,100** |
 
-<p class="small">Sources: INE annex 5, CCOE 23-02-2024; IEEH/CG/022/2024; INE Central Electoral 30-31 July 2026; Lindblad et al., Clinical Trials 2014. Full case: docs/BUSINESS.md.</p>
+Small enough to buy without a tender: the lowest federal direct-award ceiling is MXN 309,000 per operation (PEF 2026, Anexo 9). State institutes buy under state rules, not checked one by one.
+
+<p class="small">Sources: INE annex 5, CCOE 23-02-2024; IEEH/CG/022/2024; INE Central Electoral 30-31 July 2026; PEF 2026 (DOF); PREP 2024 CSV; Lindblad et al., Clinical Trials 2014. Full case: docs/BUSINESS.md.</p>
+
+---
+
+<!-- Slide 10b: volume -->
+
+## One result sheet per polling station, every election
+
+| General election | Result sheets (polling stations) |
+|---|---|
+| Mexico 2024, presidential | 169,005 |
+| Nigeria 2023 | 176,846 polling units |
+| Kenya 2022, presidential | 46,229 Form 34A |
+| India 2024, Lok Sabha | 1,052,664 |
+| Indonesia 2024 | 820,161 domestic TPS |
+
+**A live problem.** Indonesia's 2024 count app read photographed result sheets by machine; a KPU commissioner attributed input errors partly to the system misreading digits ("a 3 read as an 8"). Result-sheet capture errors are the thing we check. Volume only; we have measured Mexico alone.
+
+<p class="small">Sources: PREP 2024 CSV; INEC Polling Units page; IEBC press release 17-08-2022; PIB/ECI data release; KPU RI voter-roll recap (July 2023); Antara 15 and 19 Feb 2024. Links: docs/BUSINESS.md.</p>
 
 ---
 
@@ -221,6 +241,8 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 | AWS Textract | English only | confidence score | not a stated feature | no | no |
 | Sampling audit (status quo) | a person | sampled fields only | at the random rate | if filed | n/a |
 | Double keying | people | no | no | no | n/a |
+
+IDP platforms route a share of documents to people (Rossum's Starter plan, from $18,000 a year, includes a human-in-the-loop validation screen); we add the paper's own arithmetic as a free verifier and a photo for every dispute.
 
 Double keying copies the paper; it cannot say which paper is wrong: 19.2% of national tally captures fail their own row sum. Cloud extraction lists at $30 to $70 per 1,000 pages with forms; it extracts, it does not audit.
 

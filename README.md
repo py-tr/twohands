@@ -197,9 +197,12 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 - **Next window.** The federal election and 32 concurrent local processes, election day 6 June 2027
   ([INE](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
 - **Size of one job.** The 2024 PREP file has about 1,000 (Colima) to 21,000 (Estado de México) presidential
-  tally sheets per state, median about 4,200.
-- **Yield (measured).** 1 in 5 disputed fields is a capture error, against at least 1 in 122 at random; a person
-  checks 1 field in 24; the strong-evidence tier is right 12 of 18 times.
+  tally sheets per state, median about 4,150: about $100 to $2,100 per state audit, under the lowest federal
+  direct-award ceiling (MXN 309,000, [PEF 2026 Anexo 9](https://dof.gob.mx/2025/SHCP/PEF_2026.html)); states buy
+  under their own rules.
+- **Yield (measured).** A person looks at about 5 disputed fields per confirmed capture error, against about 122
+  at random: 267 disputed fields found 52; 267 random fields would find about 2. The strong-evidence tier is right
+  12 of 18 times.
 - **Price (proposal).** $100 per 1,000 forms audited, two readers and the report included. Measured AMD compute:
   $0.14 per 1,000 (Gemma) plus $0.51 (Qwen, pilot).
 - **Next markets, not measured.** Clinical-trial source-data verification (site monitoring and source document
@@ -207,6 +210,9 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
   internal audit of keyed loan and claim files.
 - **Competition.** OCR and IDP platforms (Tesseract, ABBYY, Rossum, Hypatos, UiPath, Textract, Document AI)
   extract; none says it audits an existing capture with a crop per finding.
+- **Same job elsewhere (volume, not measured).** One result sheet per polling station: Nigeria 176,846, Kenya
+  46,229, India 1,052,664, Indonesia 820,161; sources in
+  [docs/BUSINESS.md](docs/BUSINESS.md#the-same-job-in-other-countries-volume-only-not-measured).
 - **Why double keying is not enough.** It copies the paper faithfully but cannot say which paper is wrong: 19.2% of
   nationally captured tally forms (26,336 of 137,196) fail their own row sum. Table in
   [docs/BUSINESS.md](docs/BUSINESS.md#3-competitive-analysis).
