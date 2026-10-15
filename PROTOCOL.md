@@ -253,3 +253,61 @@ CI, which at this sample size will extend above 0.5%). Reported alongside, whate
 (v2-accepted / 100, unlocated and failed reads in the denominator, by capture type), the same for v1, v2-2R and v2b
 (v2b secondary), accepted-field errors for each, and the route-cause breakdown. If v2 fails the criterion, that is the
 result.
+
+## Amendment 6 (2026-10-15 ~23:55 UTC, before any bake-off read): open-model bake-off on AMD (secondary)
+
+**Question.** Which open model on AMD Token Factory reads these forms best, and which pair of readers is the safest
+second keyer? A **secondary** analysis: the primary analysis, the headline rule and every number already reported are
+unchanged. Gemma-4-31B-IT (withdrawn from Token Factory on 2026-10-15) and Qwen3.8-27B enter with their reads of the 300
+(`results/calls_gemma.jsonl`, `results/calls_qwen.jsonl`); they are not re-read.
+
+**Readers.** Every model on Token Factory's `GET /models` list that is vision-capable (`vision: true` or `image` among its
+input modalities) and accepts our request. Each is **probed with ONE call** on a pilot page (`data/masked/spike/010441C0100.jpg`,
+one of the 43 pilot actas; none of the 300): the same 7 images and frozen prompt. A model is **compatible** iff the call
+returns HTTP 200 and `reader.parse` finds a `{"values": [...]}` object. Probes are not results. A model that fails is
+listed as **not compatible** with the reason (no image input, request refused, unparseable reply). Expected today:
+DeepSeek-V4-Flash-Vision-Exp, MiniCPM-V-4.7-35B-A3B, MiniCPM-V-4.7-1B, plus whatever else the list marks as vision-capable.
+Code: `scripts/bakeoff.py probe` -> `results/bakeoff_probe.jsonl`.
+
+**Fixed for every reader:** the same 300 forms (manifest sha256 `605af977…e081`) and masked pages (Amendment 1), the same
+page + 6 tiles (JPEG q88), the same frozen prompt (sha256 `3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f`),
+temperature 0, the same parser and the **frozen gate** (section 5) via `twohands.run.record`. **Per-model parameters:**
+Qwen's frozen parameters (`max_tokens` 6000, `reasoning_effort: "low"`, no `response_format`); a parameter the API refuses
+at the probe (HTTP 400 naming it) is dropped for that model, and the parameters used are recorded per model in
+`results/bakeoff_plan.json` and on every row.
+
+**Metrics** (per model; `scripts/bakeoff.py report` -> `results/bakeoff_300.md`, `app/data/bakeoff_300.json`; recomputed
+independently by `make eval`):
+1. **field agreement with the capture**: digits equal to the PREP capture / graded fields with a numeric PREP value, over
+   every form with a parseable read (accepted or routed);
+2. **accepted forms**: single-reader frozen gate; unlocated pages and failed reads count in the denominator;
+3. **accepted-field errors after adjudication**: on accepted forms, fields judged against the paper. Truth = the existing
+   verdict for that form and field where one exists (`results/adjudication/verdicts.json`, reused as is); otherwise, for a
+   NEW disagreement with the capture on an accepted form: the **certified count** where it applies (a vote row or TOTAL
+   whose Cómputos Distritales record is a cotejo, not a recount: the certified value is a reading of this paper and is
+   taken as the paper), else the **AI adjudicator** (an AI model, an AI agent; labelled so) reads the masked crop of that field.
+   New verdicts go to `results/adjudication/verdicts_bakeoff.json` with who decided. A field where the reader equals the
+   capture and no verdict exists counts as right (section 6);
+4. **cost per 1,000 forms** (every attempt, as billed by the API) and **mean latency** (server time of the answered request);
+5. **every two-reader pair**, including with Gemma and Qwen: the Amendment 2 (d) strict two-reader tier (both readers'
+   23 digit values agree, every digit read, words = digits wherever either reader read words, rows sum to TOTAL), accepted
+   forms and accepted-field errors after adjudication, on the forms both have read.
+
+**Order and the budget rule (subset).** The 300 are read in a **fixed, capture-stratified shuffled order**
+(`results/bakeoff_order.json`; seed `20261019:bakeoff`; each capture type sorted by clave and shuffled with
+`random.Random("20261019:bakeoff:<type>")`, merged so every prefix holds Móvil and Escáner in proportion; sha256 of the
+newline-joined order `8de453814d3db5c455a5f4b72d753484f5ded1bb37710a50a288e65dd03437b4`). The models read interleaved, form
+by form in that order. Budget: this run spends at most **$0.40 per Token Factory day** (reset 16:00 UTC), checked with
+`/usage` before every batch of 8 calls (it also pauses if the key's whole day passes $0.90, leaving the live worker room); over the cap it
+sleeps to the reset. Reads stop at **2026-10-17 12:00 UTC**. Each model gets a **spend cap** fixed from its probe cost
+before any read: total $0.75, water-filled (a model needing 300 x probe cost x 1.15 or less gets that; the rest split the
+remainder equally). A model that hits its cap or the stop time has read the **first n forms of the fixed order**, and is
+reported with that n (and Gemma and Qwen on the same first n alongside); pairs are compared on the forms both have read.
+The plan (parameters, probe costs, caps) is written to `results/bakeoff_plan.json` and committed after the probes and
+before the first read; `scripts/bakeoff.py run` refuses to start unless this amendment and the plan are committed.
+Calls: `results/calls_<model id in lower case>.jsonl` (resumable; the last row per form counts; failed calls are retried
+in later passes, then count as routed).
+
+**Headline (plain):** "Which open model on AMD reads handwriting best, and which pair is the safest second keyer": best
+reader = highest field agreement with the capture; safest pair = fewest accepted-field errors after adjudication, ties
+broken by more accepted forms.

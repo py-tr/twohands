@@ -72,8 +72,9 @@ def health(model, status, secs, kind="read", note=""):
         pass
 
 
-def chat(body: dict, retries: int = 6, log=print, kind: str = "read") -> tuple[dict, int]:
-    """POST /chat/completions through the shared limiter. Returns (response, attempts)."""
+def chat(body: dict, retries: int = 6, log=print, kind: str = "read", timing: dict | None = None) -> tuple[dict, int]:
+    """POST /chat/completions through the shared limiter. Returns (response, attempts). If ``timing`` is a dict, its
+    "http_s" is set to the server time of the answered attempt (no limiter wait, no retries)."""
     lim = shared()
     for attempt in range(1, retries + 1):
         with lim.slot():
@@ -81,6 +82,8 @@ def chat(body: dict, retries: int = 6, log=print, kind: str = "read") -> tuple[d
             try:
                 r = _req("/chat/completions", body)
                 health(body.get("model"), 200, time.time() - t0, kind)
+                if timing is not None:
+                    timing["http_s"] = round(time.time() - t0, 1)
                 return r, attempt
             except urllib.error.HTTPError as e:
                 msg = e.read()[:200].decode("utf-8", "replace")
