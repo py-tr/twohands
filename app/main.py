@@ -436,3 +436,7 @@ def api_page(request: Request):
 def favicon():
     return FileResponse(REPO / "static" / "favicon.png", media_type="image/png")
 
+
+# Schema builder (additive): draw a new self-checking form, save it in the engine format, test it live: /builder
+from app import builder as buildermod  # noqa: E402
+app.include_router(buildermod.router)

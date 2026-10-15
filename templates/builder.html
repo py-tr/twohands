@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Schema builder · Two Hands{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/builder.css?v=1">
+<div class="page-head">
+  <div class="eyebrow">Schema builder</div>
+  <h1>A tool for any self-checking form</h1>
+  <p class="lede">Draw a new form's fields on a blank page, write the identities the paper must satisfy, and save a schema in the same format our engine runs. Then test it: a filled photo is registered, masked, read once on AMD, and the gate checks the arithmetic.</p>
+</div>
+
+<div class="bd" id="bd" data-samples='{{ samples|tojson }}'>
+  <section class="bd-left">
+    <div class="card bd-pickcard">
+      <div class="bd-picks">
+        <span class="bd-picklbl">Start from</span>
+        {% for s in samples %}
+        <button class="btn sm" data-sample="{{ s.id }}">{{ s.label }} <span class="chip {{ 'warn' if s.tag == 'synthetic sample' else 'accent' }}">{{ s.tag }}</span></button>
+        {% endfor %}
+        <label class="btn sm bd-file">{{ icon('upload') }}Your blank form<input type="file" accept="image/*" id="bd-blank" hidden></label>
+      </div>
+      <p class="small muted bd-samplenote" id="bd-samplenote"></p>
+    </div>
+
+    <div class="bd-tools" role="toolbar" aria-label="Drawing tools">
+      <button class="bd-tool on" data-tool="select" title="Select a box (Delete removes it)">Select</button>
+      <button class="bd-tool t-field" data-tool="field" title="Drag over a digits box">Field</button>
+      <button class="bd-tool t-words" data-tool="words" title="Drag over the words for the selected field">Words</button>
+      <button class="bd-tool t-mask" data-tool="mask" title="Personal data: blacked out before storage or reading">Mask</button>
+      <button class="bd-tool t-marker" data-tool="marker" title="One of the four corner markers">Corner</button>
+      <button class="bd-tool t-tile" data-tool="tile" title="A strip sent zoomed with the page">Tile</button>
+      <button class="bd-tool bd-del" id="bd-del" title="Delete the selected box" disabled>Delete</button>
+    </div>
+    <p class="bd-hint" id="bd-hint">Pick a sample or upload a blank form, then drag rectangles on it.</p>
+
+    <div class="bd-stage" id="bd-stage">
+      <img id="bd-img" alt="The blank form being described" draggable="false">
+      <div class="bd-layer" id="bd-layer"></div>
+      <div class="bd-empty" id="bd-empty">{{ icon('image') }}<span>No blank form yet</span></div>
+    </div>
+    <div class="bd-legend small">
+      <span><i class="lg l-field"></i>field digits</span><span><i class="lg l-words"></i>words</span>
+      <span><i class="lg l-mask"></i>privacy mask</span><span><i class="lg l-marker"></i>corner marker</span>
+      <span><i class="lg l-tile"></i>tile</span>
+    </div>
+  </section>
+
+  <aside class="bd-side">
+    <div class="card bd-sec">
+      <h3><span class="bd-n">1</span>Form</h3>
+      <div class="bd-grid2">
+        <label>Form id<input id="bd-form" class="mono" placeholder="weekly_timesheet" spellcheck="false"></label>
+        <label>Title<input id="bd-title" placeholder="Weekly timesheet"></label>
+      </div>
+      <label class="bd-check"><input type="checkbox" id="bd-whole"> Use whole image (no corner markers; the photo is already cropped to the page)</label>
+      <div class="bd-counts small" id="bd-counts"></div>
+    </div>
+
+    <div class="card bd-sec">
+      <h3><span class="bd-n">2</span>Fields <span class="muted small" id="bd-nfields"></span></h3>
+      <p class="small muted">In reading order. Each is an integer; draw its digits with <b>Field</b>, and optionally its words with <b>Words</b>.</p>
+      <ol class="bd-fields" id="bd-fields"></ol>
+      <div id="bd-tiles"></div>
+    </div>
+
+    <div class="card bd-sec">
+      <h3><span class="bd-n">3</span>Identities</h3>
+      <p class="small muted">One per line, <span class="mono">name: expression</span>. Fields, <span class="mono">sum(A..B)</span> ranges, <span class="mono">+</span>, <span class="mono">-</span>, one <span class="mono">==</span>. And <span class="mono">words == digits</span>.</p>
+      <textarea id="bd-ids" rows="5" class="mono" spellcheck="false" aria-describedby="bd-idres"></textarea>
+      <ul class="bd-idres" id="bd-idres" aria-live="polite"></ul>
+    </div>
+
+    <div class="card bd-sec">
+      <h3><span class="bd-n">4</span>Save</h3>
+      <div class="bd-row">
+        <button class="btn primary" id="bd-save">{{ icon('check') }}Save schema</button>
+        <a class="btn" id="bd-dl" hidden>{{ icon('download') }}Download YAML</a>
+      </div>
+      <div id="bd-saveres" aria-live="polite"></div>
+      <details class="bd-yaml" id="bd-yamlbox" hidden><summary>YAML</summary><pre id="bd-yaml"></pre></details>
+    </div>
+
+    <div class="card bd-sec">
+      <h3><span class="bd-n">5</span>Test on a filled photo</h3>
+      <p class="small muted">Saves first. The photo is registered and masked in memory; only the masked page is kept. One live read on AMD (shared queue and daily budget), then the gate runs your identities.</p>
+      <div class="bd-row" id="bd-testpicks"></div>
+      <div class="bd-row">
+        <label class="btn sm bd-file">{{ icon('camera') }}Upload a filled photo<input type="file" accept="image/*" id="bd-photo" hidden></label>
+        <button class="btn sm" id="bd-stored" hidden title="No model call: the recorded read of this page, checked with your saved schema">Gate a stored read</button>
+      </div>
+      {% if live.fallback %}<div class="banner">{{ icon('info') }}<div class="grow">{{ live.banner_try }}</div></div>{% endif %}
+      <div id="bd-test" aria-live="polite"></div>
+    </div>
+
+    {% if third %}
+    <div class="note">The INE Senate (type 3) and Federal Deputies (type 4) tally sheets share this geometry and these identities (notes/third-form-feasibility.md): load the INE sample, change the form id and title, and save. Their schema can be built here.</div>
+    {% endif %}
+  </aside>
+</div>
+<script src="/static/builder.js?v=1" defer></script>
+{% endblock %}
