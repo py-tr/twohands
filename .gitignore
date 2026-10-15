@@ -17,3 +17,5 @@ app/state/live_budget.json
 out/
 !deploy/.env.prod.example
 app/state/audits/
+# whole-state staging for the MI300X stretch goal (scripts/stage_state.py): large, not committed yet
+data/masked/state*/
