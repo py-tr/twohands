@@ -1,0 +1,3280 @@
+{
+ "protocol": "PROTOCOL.md",
+ "seed": 20261015,
+ "n": 300,
+ "source": "https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip",
+ "population": {
+  "csv_rows": 171410,
+  "eligible": 157004,
+  "excluded_by_rule": {
+   "not a presidential casilla acta (TIPO_ACTA != 2)": 2142,
+   "document is not the Acta PREP (-)": 9264,
+   "spike (pilot) acta": 43,
+   "document is not the Acta PREP (RPP)": 446,
+   "document is not the Acta PREP (Copia PE)": 926,
+   "document is not the Acta PREP (Acta Consejo)": 1580,
+   "document is not the Acta PREP (Acta Consejo S)": 5
+  }
+ },
+ "strata": {
+  "01|escaner": {
+   "size": 530,
+   "n": 1
+  },
+  "01|movil": {
+   "size": 1268,
+   "n": 2
+  },
+  "02|escaner": {
+   "size": 2677,
+   "n": 5
+  },
+  "02|movil": {
+   "size": 1881,
+   "n": 4
+  },
+  "03|escaner": {
+   "size": 339,
+   "n": 1
+  },
+  "03|movil": {
+   "size": 633,
+   "n": 1
+  },
+  "04|escaner": {
+   "size": 427,
+   "n": 1
+  },
+  "04|movil": {
+   "size": 655,
+   "n": 1
+  },
+  "05|escaner": {
+   "size": 892,
+   "n": 2
+  },
+  "05|movil": {
+   "size": 3084,
+   "n": 6
+  },
+  "06|escaner": {
+   "size": 286,
+   "n": 0
+  },
+  "06|movil": {
+   "size": 698,
+   "n": 1
+  },
+  "07|escaner": {
+   "size": 2943,
+   "n": 6
+  },
+  "07|movil": {
+   "size": 2906,
+   "n": 6
+  },
+  "08|escaner": {
+   "size": 2392,
+   "n": 5
+  },
+  "08|movil": {
+   "size": 2442,
+   "n": 5
+  },
+  "09|escaner": {
+   "size": 3572,
+   "n": 7
+  },
+  "09|movil": {
+   "size": 9449,
+   "n": 18
+  },
+  "10|escaner": {
+   "size": 891,
+   "n": 2
+  },
+  "10|movil": {
+   "size": 1284,
+   "n": 2
+  },
+  "11|escaner": {
+   "size": 2121,
+   "n": 4
+  },
+  "11|movil": {
+   "size": 5583,
+   "n": 11
+  },
+  "12|escaner": {
+   "size": 1518,
+   "n": 3
+  },
+  "12|movil": {
+   "size": 3120,
+   "n": 6
+  },
+  "13|escaner": {
+   "size": 1392,
+   "n": 3
+  },
+  "13|movil": {
+   "size": 2617,
+   "n": 5
+  },
+  "14|escaner": {
+   "size": 3319,
+   "n": 6
+  },
+  "14|movil": {
+   "size": 6809,
+   "n": 13
+  },
+  "15|escaner": {
+   "size": 4404,
+   "n": 8
+  },
+  "15|movil": {
+   "size": 15882,
+   "n": 30
+  },
+  "16|escaner": {
+   "size": 2498,
+   "n": 5
+  },
+  "16|movil": {
+   "size": 3373,
+   "n": 6
+  },
+  "17|escaner": {
+   "size": 919,
+   "n": 2
+  },
+  "17|movil": {
+   "size": 1454,
+   "n": 3
+  },
+  "18|escaner": {
+   "size": 601,
+   "n": 1
+  },
+  "18|movil": {
+   "size": 931,
+   "n": 2
+  },
+  "19|escaner": {
+   "size": 2369,
+   "n": 4
+  },
+  "19|movil": {
+   "size": 4502,
+   "n": 9
+  },
+  "20|escaner": {
+   "size": 2571,
+   "n": 5
+  },
+  "20|movil": {
+   "size": 3046,
+   "n": 6
+  },
+  "21|escaner": {
+   "size": 2032,
+   "n": 4
+  },
+  "21|movil": {
+   "size": 5906,
+   "n": 11
+  },
+  "22|escaner": {
+   "size": 1061,
+   "n": 2
+  },
+  "22|movil": {
+   "size": 1886,
+   "n": 4
+  },
+  "23|escaner": {
+   "size": 781,
+   "n": 1
+  },
+  "23|movil": {
+   "size": 1227,
+   "n": 2
+  },
+  "24|escaner": {
+   "size": 1377,
+   "n": 3
+  },
+  "24|movil": {
+   "size": 2203,
+   "n": 4
+  },
+  "25|escaner": {
+   "size": 2006,
+   "n": 4
+  },
+  "25|movil": {
+   "size": 2677,
+   "n": 5
+  },
+  "26|escaner": {
+   "size": 1026,
+   "n": 2
+  },
+  "26|movil": {
+   "size": 2352,
+   "n": 4
+  },
+  "27|escaner": {
+   "size": 1300,
+   "n": 2
+  },
+  "27|movil": {
+   "size": 1480,
+   "n": 3
+  },
+  "28|escaner": {
+   "size": 1828,
+   "n": 3
+  },
+  "28|movil": {
+   "size": 2659,
+   "n": 5
+  },
+  "29|escaner": {
+   "size": 340,
+   "n": 1
+  },
+  "29|movil": {
+   "size": 1304,
+   "n": 2
+  },
+  "30|escaner": {
+   "size": 3499,
+   "n": 7
+  },
+  "30|movil": {
+   "size": 6648,
+   "n": 13
+  },
+  "31|escaner": {
+   "size": 848,
+   "n": 2
+  },
+  "31|movil": {
+   "size": 1780,
+   "n": 3
+  },
+  "32|escaner": {
+   "size": 986,
+   "n": 2
+  },
+  "32|movil": {
+   "size": 1520,
+   "n": 3
+  }
+ },
+ "items": [
+  {
+   "clave": "010469C0400",
+   "stratum": "01|escaner",
+   "entidad": "AGUASCALIENTES",
+   "id_entidad": 1,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/jesus_maria1/f5f71c68de319b3ed2ce690cb948a462fab5396c378f243a65f754d4f20b0846.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "010477C0300",
+   "stratum": "01|movil",
+   "entidad": "AGUASCALIENTES",
+   "id_entidad": 1,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/jesus_maria1/5349aa83d2d5acb78b3cf0e1e93163bb5e45be7e89afdacf23d70f48a5caffe9.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "010473C0300",
+   "stratum": "01|movil",
+   "entidad": "AGUASCALIENTES",
+   "id_entidad": 1,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/jesus_maria1/1ce462a2ae8d700ea18a1b84e840b965334b655cc26a93cf617bf324b68774a3.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "021095C0100",
+   "stratum": "02|escaner",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tijuana5/8f882257aa15946bd075d6045ddcd0c80a8200e950aea5c635f9828526ac0cba.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "021937C0100",
+   "stratum": "02|escaner",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tecate9/7673a666d592501f7523eb9b501c630eeb40e39ee8fef68302ee8c1b41d7fcd8.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "020916B0100",
+   "stratum": "02|escaner",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tijuana6/b27b7d02e56b2838ce75b1b96fc30b92e690cc7656d4c061cd6151f579f86dbc.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "020634E0100",
+   "stratum": "02|escaner",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 7,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/mexicali7/e747b899b27a304664c32c3f9afecbb3c5f4e37f72049fc6b7650f7a3ac9a278.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "021626B0100",
+   "stratum": "02|escaner",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tijuana4/47e992ad573238cd489d4356c96606de6da7d5ff51d91b13c5ce893b0c2fa7af.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "021481C0100",
+   "stratum": "02|movil",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tijuana4/82207d70cbb31a65cb68420ad8b5eedbef759259571dc076fc6b53a73a2cf7d4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "021309B0100",
+   "stratum": "02|movil",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tijuana5/184cade49b3dadb31dbc3d9afa632b76ac860bb028498a582c0629b8f6b334db.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "020584C0100",
+   "stratum": "02|movil",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/mexicali7/60789a42bb1fca807956b05c7a8e756b1ab2acb25d910eaa2446add391444c8d.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "021600C0100",
+   "stratum": "02|movil",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tijuana4/031a7c575dd7fd24594ad2560defed65ee0f155c2366c67d838787c3df3258d5.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "030150B0100",
+   "stratum": "03|escaner",
+   "entidad": "BAJA CALIFORNIA SUR",
+   "id_entidad": 3,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california_sur3/la_paz1/e60aa0e8a597de6d219aa4d87f9b182375f424992d5910c0306d5ab06f9574b7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "030270C0100",
+   "stratum": "03|movil",
+   "entidad": "BAJA CALIFORNIA SUR",
+   "id_entidad": 3,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california_sur3/la_paz1/add03ccb73fe1d5b9ea75f9412d1594b4dfa2daf97bc497154dd4eeee53005de.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "040396B0100",
+   "stratum": "04|escaner",
+   "entidad": "CAMPECHE",
+   "id_entidad": 4,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/campeche4/san_francisco_de_campeche1/64043c1e5a6fa6ba1c37640456ee95135fd5475b9733787f19a0ef79b2e84cb1.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "040446B0100",
+   "stratum": "04|movil",
+   "entidad": "CAMPECHE",
+   "id_entidad": 4,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/campeche4/san_francisco_de_campeche1/9267c1c37ffbd24bca5999301631ba4e9778ef6531f6ca517b18f52a443c5733.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "051424B0100",
+   "stratum": "05|escaner",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/torreon6/8788faf25f71c244acfc6d843b6327ee7c45f165f1f21792879d50d91a6f7639.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "050908C0200",
+   "stratum": "05|escaner",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/saltillo4/6bb8673dd143c48f0b6afed80fad24ce51ee9dbfbf4ba63fea1185fe65aded08.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "050752C0500",
+   "stratum": "05|movil",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/saltillo4/da0f767fed1e7119a3e3fb45546cd0da47d8c32390419f681ecce0617b7007e9.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "050815B0100",
+   "stratum": "05|movil",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/saltillo7/a3a140f380690e5e81d26bae1e9e1ac2f183d397c8431f68bdeaaccb24a1ee85.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "051350C0600",
+   "stratum": "05|movil",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/torreon6/4b1166a29de1902f19ae496726c1b77e18654d872afcbae920abc7b8e7fdac37.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "050397B0100",
+   "stratum": "05|movil",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/monclova3/24797bb4e6bcb349c56ab0eebd575001b142db219a8911fb13b26245ab6c1809.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "050258C0300",
+   "stratum": "05|movil",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/ramos_arizpe8/11455172205927ebd25fe0b33b94edc620dc65facad3f805287e0101d86b1bc8.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "051236B0100",
+   "stratum": "05|movil",
+   "entidad": "COAHUILA",
+   "id_entidad": 5,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/coahuila5/torreon5/e96fccb9103255151b92acb8968fe0c65d65445fa7d5d405c4dc94c5f27eaa45.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "060079C0300",
+   "stratum": "06|movil",
+   "entidad": "COLIMA",
+   "id_entidad": 6,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/colima6/colima1/35c904c8e4ad2fd8895c850e8f43309014c1a9f26420b1cb365a9b2466157d66.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "070470E0100",
+   "stratum": "07|escaner",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/ocosingo3/e3e74a33b2f3ba3a6f04a58f959536777626c5e7cbe4eaeec2c479bb4a00a031.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "070321B0100",
+   "stratum": "07|escaner",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/pichucalco4/16f1ca974ca772df9da3bbceed61ba6b878361612d3e2505fde79e9afa307cb7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "070154C0100",
+   "stratum": "07|escaner",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/bochil2/65f03343a0a2f9c707a40bbdb4e2885bf8bb1ace3793121e7c12caab0122344c.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "070207C0100",
+   "stratum": "07|escaner",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 7,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/tonala7/34fbd6e328eb494226898b189b389b71366c7ae1426154ffeeabe05af61571eb.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "071457C0200",
+   "stratum": "07|escaner",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 11,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/las_margaritas11/670703eda7f8b080353c4aa11b97d3f47d53e1ae1f1e863a407570faa66b13c6.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "072354B0100",
+   "stratum": "07|escaner",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 12,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/tapachula12/abf0f447fa62992a8da2f8278746fb7c09f2e88306d167cbb9d1fff9a8b605d0.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "072182B0100",
+   "stratum": "07|movil",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/villaflores10/ae5897f7708774d05b476a2e764cf05e0fe543bdaf711cf2292ee6d718d63dd3.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "071709C0100",
+   "stratum": "07|movil",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 9,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/tuxtla_gutierrez9/29714c19c979e4c1c7d5d0afd179b01972e279e401bda96ec5a7f6b07fe58013.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "071484B0100",
+   "stratum": "07|movil",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/palenque1/1ec4123a237fe7701eab4cbc7304e31c1fb2bb3f18ceac4f1bd2e295cc40b0d0.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "070144C0200",
+   "stratum": "07|movil",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/bochil2/0ed24994c006bba9d2396deeed818ec668dec400020c49c00d1737d915cb1524.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "070282C0200",
+   "stratum": "07|movil",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/comitan_de_dominguez8/8eb22b632b49cd31c4fd4cebaf31681c2497dd4f558218fa5230394a696e2744.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "071741B0100",
+   "stratum": "07|movil",
+   "entidad": "CHIAPAS",
+   "id_entidad": 7,
+   "distrito": 9,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/tuxtla_gutierrez9/28ac0de516e036ec66eef5ea11a81a65f9ded59388681c16d2606ff0cfb943fd.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "081351B0100",
+   "stratum": "08|escaner",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/hidalgo_del_parral9/8f6c20a2816b7ab5f1686c56505e67fe8aaa330ba0d74133ca8f5576be79d499.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "081842C0100",
+   "stratum": "08|escaner",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/juarez1/1a05e87c677e87a3d9095a4c5c83af4887c34edf4a57d3a251ca03cd2e3b544c.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "080338C0100",
+   "stratum": "08|escaner",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 7,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/cuauhtemoc7/485fe72368b6806f56614771097c59f21273b54c7d752f2f955a19e6abb79281.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "083340B0100",
+   "stratum": "08|escaner",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/delicias5/fc476e14eafdcec37fd0cd0d7917d970a8cca6ea953606c7b9692c852f76e069.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "080310B0100",
+   "stratum": "08|escaner",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 7,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/cuauhtemoc7/0037d58a4663fe8db2137f8fdd38a5783fe4d92f8175b899ad459fc195bf6e1e.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "080336B0100",
+   "stratum": "08|movil",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/cuauhtemoc7/bf349723abc2aece0b912a16171a9f267cdbd5a06385d10df07983138b334092.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "080626B0100",
+   "stratum": "08|movil",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/chihuahua6/9a994bc3241752effda98f312308eb802a29cd9176a9b8bd35cd6767f1a813e1.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "080305B0100",
+   "stratum": "08|movil",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/cuauhtemoc7/db53cecc9b019d2eada2c72a6b183817ebf8020c9e5bd48b23ecd2430cf4e5c4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "082822C0100",
+   "stratum": "08|movil",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/juarez1/8cbd9fdacce74f6e4c383733c0be82a768040d3a42cbfc0fc0ba1b6021d7f762.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "083281B0100",
+   "stratum": "08|movil",
+   "entidad": "CHIHUAHUA",
+   "id_entidad": 8,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/chihuahua8/chihuahua6/4ec56bfec7b55bd03836a01d51dd29cafae0fd9bc04c161e0957a6d941ff15e4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "094821C0200",
+   "stratum": "09|escaner",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/gustavo_a_madero2/4cb46cf4846faedf2cf0b059a1327171682832529b15a2a4ab3421b6060a40e1.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "090747C0100",
+   "stratum": "09|escaner",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 17,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/alvaro_obregon17/3b0d0e7e1e34bb8333bb3d9273c9ac279de4d74142d0a6cc6526e0f09397084a.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "092366B0100",
+   "stratum": "09|escaner",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 18,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/iztapalapa18/d0f68a793fdc76859f9a50357325c7644cb505b11c82bbe439fc59a684ca047c.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "093831B0100",
+   "stratum": "09|escaner",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 14,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/tlalpan14/caa74d2bfa02293f31b1d291c9da0c035b73b2bd64050cd7a374875e31511d77.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "090273C0200",
+   "stratum": "09|escaner",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/azcapotzalco3/4f77fefdcd7e87bbd8b593ba19e1bd58c9c5d7f22cd2c0095584170ee55e11b4.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "093492C0100",
+   "stratum": "09|escaner",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 17,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/alvaro_obregon17/72ee388de2d81f7362002ab889e2955426d2c8e39da195c62c40b0ceb1547072.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "090955C0200",
+   "stratum": "09|escaner",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/gustavo_a_madero1/e8e3816587bb92fa57d896888f8cf9a70ff0bf424285bca2042b622949097836.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "092344B0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 19,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/coyoacan19/74b378643ce440c7738852075d580963ec4702924cc2b59806769ddaa55b5c09.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "093145C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 21,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/xochimilco21/8be75a51b53f3a7ccabf52f535f9c97ca8610cb535a71d2de789c41f12037c2d.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "091707B0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/iztacalco13/12eec2490a39c6bf8efdf29f9278f6d3c268d74365bb662a1adc173647701868.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "091231B0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/gustavo_a_madero7/1df3558f6815127e9f5d5e9c0d3d6ebd8d06504628d33aa9edfc5374778173f1.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "093609C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 9,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/tlahuac9/416bb6bb96133815b5f99c0dd8553a28863819a978f738301d3c199b8ccb8a56.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "095621C0200",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/la_magdalena_contreras6/b0c49a02b347a6a91b53a869269a9729bb93c141107975b60dad8eeb2a0c371f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "095549B0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 9,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/tlahuac9/79739bc151b85175f9909c89d690dc9d8cfc243675b524efbe3038e3d4119eae.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "093478C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 17,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/alvaro_obregon17/e49ec043e0eb08c99d5c520eb53efc89c177c6d45ca7289060d86e9ad1634f2c.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "095279C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 11,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/venustiano_carranza11/5433e96fc5b0a3e87dfe18797194e218766041d4af2a203211b4511dfb5ec5f4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "093975C0400",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/tlalpan5/32d2d778d1ef8b73c80b66f62d3ab40cc18b0f57ad65645ba42447f3e76d53cc.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "093023C0200",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/la_magdalena_contreras6/b50d3c4b128e0ba8f89848b5f22d3dec4889770691b992d56a84fe7a3bceb03c.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "095515C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/coyoacan8/19bd52436da4597cb203fcd6ddafec5e926410e987660a6c7383dcd3486c45cf.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "090978B0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/gustavo_a_madero1/3038f30459f7660b2ceedad9056d3161bf1b72ce63c7bb614a11066b8f6f5c53.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "094970B0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/miguel_hidalgo10/b91402996ec37e132bf3a4d7ee9744836255d8e1e632f1edb9e0f9f050b62089.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "094739B0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 12,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/cuauhtemoc12/86f859252bea1d2990791894617330570a8e9e8da2c493b9aafc7ce7e79facc3.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "092131C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 20,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/iztapalapa20/da5784caae48aed71996e4a701f50c163c5a17226df94a301afd96f57f7aaadd.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "092199C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 20,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/iztapalapa20/dc14b8fb6cb78271e946681b6ac5dac2514975f079ab8bad9e1e34af2ea8c93e.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "094655C0100",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/gustavo_a_madero2/0b882da1c157e62ebbc0d7c909c71f7fcda7d0b07965ba82a4255becd2e080af.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "101300B0100",
+   "stratum": "10|escaner",
+   "entidad": "DURANGO",
+   "id_entidad": 10,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/durango10/victoria_de_durango1/0901b26a68a4fd38cc599780e9e13c54076f37a78434024c9b89623351a6f701.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "101276B0100",
+   "stratum": "10|escaner",
+   "entidad": "DURANGO",
+   "id_entidad": 10,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/durango10/victoria_de_durango1/75f2c4afa688de653cdb1a927efbdc771837529f65fe81e3c60e7642bed9444f.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "100138C0100",
+   "stratum": "10|movil",
+   "entidad": "DURANGO",
+   "id_entidad": 10,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/durango10/victoria_de_durango4/ee5fe398b328d0dc2a4886050eacf6169182bffb45dd91bf43cfd9df9e5ea666.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "100597C0100",
+   "stratum": "10|movil",
+   "entidad": "DURANGO",
+   "id_entidad": 10,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/durango10/gomez_palacio2/0123960187e42da20e4f18c8c703de0bc8e3ab9dcb17cdb7ee066ad8aacd4c28.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "110451C0100",
+   "stratum": "11|escaner",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 12,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/celaya12/bfbd81b250ad8695660b1889b6beaa1ae6e396f376d1145f38273c4aee075c2d.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "112558B0100",
+   "stratum": "11|escaner",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/san_luis_de_la_paz1/4b50776ee19f274f4d476504c2a85041ea6d4c3cf8ab450107df7374a7b6ff68.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "111666B0100",
+   "stratum": "11|escaner",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 11,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/leon11/76b8e1c230c7b4ea44561cd9dfe9f971adba540a97242496b2cadefac3d17e6f.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "112693B0100",
+   "stratum": "11|escaner",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/irapuato9/b311ad875e0e146ae71ff64bfbf278e488219f4122164fb3bd59f4320cb8bce8.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "110922C0100",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/valle_de_santiago13/1e7ba70bdf42578953017fdd2a1e3b6ad160058d7fef4d9a1dbd29d52a6904d4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "112549C0200",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/san_luis_de_la_paz1/9436299c7f0b367e26343aa0ba82891bf37268767a3a1b28173f511da9c809a9.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "112879B0100",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/valle_de_santiago13/32c8c87318f0e97a20e5cdac6a87d22c1e3fd88f90f769f7dd80eab69ed7f7ae.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "111931C0300",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/valle_de_santiago13/83aaee54013d96c11ad476fe8ad505396f1e9bbbd6c49558a4ff97ce23de39e8.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "113028B0100",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/leon5/922ce0c9c796aadeb4431cf11f8d61e0a20343c4324f7a5d9ea096c0c4bb737f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "111927C0400",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/valle_de_santiago13/17c88f4188f5cbe6352e61d5503e487d36dd75ac9d75d78003d4c485e75bae80.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "112747C0100",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 14,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/acambaro14/797114cfefc0f5b4e5432a9701b850eddd4d181e6ed64bdd19b68ab1ba63aa17.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "110477C0300",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 12,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/celaya12/cfc59cad4c3fc2833d3e5e5de3b80bb31f7f829cd2aaf4c178e734ee1051580c.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "110532C0200",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 12,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/celaya12/ef9eae54d7722455323c268b2f800efcfc246bf23c7df9011e265924874170e9.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "113048B0100",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/leon6/49269d0e51117153e9e1c68889db26a046ad1641c1ba0e625d8b27f5afec37d5.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "112319C0100",
+   "stratum": "11|movil",
+   "entidad": "GUANAJUATO",
+   "id_entidad": 11,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guanajuato11/uriangato10/6bdb89064d87b58a78a9c00135daa4a5b8c4fe970e0929e0b90dc7a686102d80.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "121565B0100",
+   "stratum": "12|escaner",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 8,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/ometepec8/ff2a5ca658e9d20385b538b72d68aaba7f0864c83240b9b291f7f62fc8426dab.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "121638C0100",
+   "stratum": "12|escaner",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/zihuatanejo3/aa8abb6492d8af4e700e7130b238908fe621b7dd15bd4151fd02c0609170afce.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "122655C0100",
+   "stratum": "12|escaner",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/tlapa5/c71115528672e986d600a821a21a9080b4354e67d1f90382fba61ba85e14259a.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "121855B0100",
+   "stratum": "12|movil",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/cd_altamirano1/1377e9ede4797e469ec28e5287335669981d9c12a6fcacd1d64e24b2d0e6509d.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "122292C0100",
+   "stratum": "12|movil",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/zihuatanejo3/a63001aebd3f53a8bd48e5b2470466a48469f144b9faa77de7da5f6f981c8160.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "122523C0100",
+   "stratum": "12|movil",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/tlapa5/310e7413ad2ec700abd63d539f0b453b23270172bd5cb9706c19e6747f1b5a7c.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "120867B0100",
+   "stratum": "12|movil",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/chilapa6/eebfc2f4788bd9f24e88be0eadbb25323dc2413805a9fd19a6d48a47522c0698.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "120443B0100",
+   "stratum": "12|movil",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/cd_altamirano1/d63685b50a75783ee693001a867c3b305fbbab792d566c23a2deda85e7af0f31.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "120936B0100",
+   "stratum": "12|movil",
+   "entidad": "GUERRERO",
+   "id_entidad": 12,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/zihuatanejo3/cc9bbb00efdb761a48a92f28aafdac5c56899fc69d8521f43247d6de4eac498f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "131478C0300",
+   "stratum": "13|escaner",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/el_llano_primera_seccion5/ed7a6c0eb357c3f0a294d819934a7ff896f0b1412144f07673f2c0e996278009.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "131052B0100",
+   "stratum": "13|escaner",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/huejutla_de_reyes1/ab519f499f5ee09335f175916f0eb3ff0e56b1e8f607b459167b44dae7ef9621.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "130704B0100",
+   "stratum": "13|escaner",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/actopan3/ec657615b34a8c32d95f681bcea370c95c951633c68719c90955ea43bb10dc2e.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "130991C0100",
+   "stratum": "13|movil",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/ixmiquilpan2/3a1f136325c7dbed11b671e90ea140c0388f7241e187734bfafad0be6d95f7b1.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "131468C0100",
+   "stratum": "13|movil",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/el_llano_primera_seccion5/4334dd4b069a5dd017c1873874b79cb38eff426500520e2362ec81573b72bb01.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "131480C0200",
+   "stratum": "13|movil",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/el_llano_primera_seccion5/2b989fd17c77434edac17dfc5bfd59df61e1aaf82eaacd83b273032d0d9eeed9.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "131374C0200",
+   "stratum": "13|movil",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/pachuca_de_soto6/850efb0756dce53f70d3d6c561238b7e0a592834c4ae72ab4f2d70c9bf546957.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "131324C0200",
+   "stratum": "13|movil",
+   "entidad": "HIDALGO",
+   "id_entidad": 13,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/hidalgo13/el_llano_primera_seccion5/4c4a395940521e9913f649bc972f8ab8a163713773d08f39e27dd9993e951feb.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "140330C0200",
+   "stratum": "14|escaner",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 18,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/autlan_de_navarro18/f5a107b269a65c250a43330810e67159ddc4beafbeadbdc8126c212bc911fd54.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "143587B0100",
+   "stratum": "14|escaner",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 12,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/santa_cruz_de_las_flores12/69680f9450fd9dd165707d817df68a46ceef4ebecee624f9604539535399ecf7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "142986C0300",
+   "stratum": "14|escaner",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/zapopan4/d3d1e4a3819c455d977b4010a2c0483591735dbc7209239fafbcb3888f217414.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "141113C0100",
+   "stratum": "14|escaner",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 8,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/guadalajara8/46ca9e00222f014a4701c86d2f744becd23f8f9c4478c2f59eeaffd9866fe28b.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "142969C1400",
+   "stratum": "14|escaner",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/zapopan4/d8c8169422db5d193b3ad85e667e144010351b29c76e662c7df5c5b5b3a55540.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "140167C0200",
+   "stratum": "14|escaner",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 15,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/la_barca15/29eb01bfa26af64cf046c7da81627af814e2201bdadd366369d0b190e046eed2.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "140039C0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 18,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/autlan_de_navarro18/d10e46bee879edc6ea0a2900085f4605e46d2ca37d02617257a684bd6c1c4b38.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "141702B0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/lagos_de_moreno2/3027c599202c72e135de2f19c54dac9a33f1abac3e16cb564eb59e669b1967d4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "143680C0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 12,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/santa_cruz_de_las_flores12/7604b4ab113069974ebc7b82fdf47ef5766de7102967f4a0b32eb1a2aebe37a8.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "141155C0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/guadalajara8/7f142e5f846a2cf48df6b57f6d932dabdd68f29fa831616e2b23e8a4964c3fd6.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "142210C0400",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/tequila1/ade87197231dc621fd92c55013d5b89101e19ef1dfc0d7cb183b95104a2045e4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "142727C0600",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/tonala7/bea8b6b3500f477aa300dd2ae40cb5d420b655b5c40515b5e7a127255b511d5c.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "143707C0200",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/tonala7/577622c6d6cb6ac07e53489753df83f9a7eacf039105eca92968f436053ef9ff.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "142479C0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 16,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/tlaquepaque16/15e3b47e5da5eae5f819cea2bee69855bfee9b330206d11f16097a79ade2eccb.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "143067C0300",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/zapopan10/34124779328c5e0413f4677298de2aedfe032b1218ca27cc7ebe14dd1bd63994.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "141531C0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/guadalajara8/47388aab4a54af5e27798b25e2b6cf5bae38e679a34adb87d880e86a302948c4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "143165B0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/zapopan10/680beb3aaa4a33b828f980a6d75806f2cbd6e6e4de742b31fce9c508b5a566c5.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "143194B0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/zapopan10/b04771a931f3257e79117bbd066609ecdb84b841ebe73b2df7e1aa7461429d71.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "140704C0100",
+   "stratum": "14|movil",
+   "entidad": "JALISCO",
+   "id_entidad": 14,
+   "distrito": 11,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/guadalajara11/3b3db86c64724d96e361b28adb48d6a4b8e133e9c3b7ca8485b842f752b1ed0e.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "151606C0100",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 13,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ecatepec_de_morelos13/d32424d24bb7c3bfbb89098b792fe02253ddc11cef7bc9b5885750f550c7f4a7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "154383E0100",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 36,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/tejupilco_de_hidalgo36/0d63ddf529a44036715364f9aca7377cfe94558a617b022d1dbc3dd605117f28.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "154476C0300",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 35,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/tenancingo_de_degollado35/3f2b82c37d5f4e6ba5d68107b3c807feced0fffe2d0c993be108a5e5317953a5.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "152683C0200",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 24,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/naucalpan_de_juarez24/ad9bb18501c1a6af3a85a5038e012f1b6d4a77e07a79c95613d3d078de5a6f41.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "152896B0100",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 22,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/naucalpan_de_juarez22/a76bbdf64701d334ca0cdc897d2b7ed27129900247fef8ec695796cced3ce8c7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "151983B0100",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 28,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/zumpango_de_ocampo28/018527c468d86bdabe85d443324a20506bf7c70514b0c35f035c3323e1982218.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "150244B0100",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 38,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/texcoco_de_mora38/eb68969a09a77dfaadd7bcac63641ca77ea2eed69f4c258908739afdcc25d0c3.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "156207B0100",
+   "stratum": "15|escaner",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 7,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/cuautitlan_izcalli7/cdb46688dafd54cab881e55b941172409876b4eb18a175daa13b19ed6b4b3b43.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "153906C0300",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 18,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/huixquilucan_de_degollado18/1336d671cb88c16a13db4a86306343ee4caa064e520c05ab3c3ff2931edccafa.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "152095B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 12,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ixtapaluca12/ef3f84919be808d15aa7df36474a496e120e6ca0eef63ff75a2e481c95707fa2.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "155026C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 19,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/tlalnepantla_de_baz19/b738ac257b06283c64a2896fd73d4f9426c7d387da184eddffed137ea31bffc8.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "153782C0200",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ciudad_nicolas_romero_y/o_centro_historico_san_ped4/2505cb20b53982db7cd099b9a07360575d659ea8839147d42d4ec15db8f53710.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "150277B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 15,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ciudad_adolfo_lopez_mateos15/43494b2e3f9b4ce7dbadd420ac1faace6946c6f1f190dde62623464b980cf818.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "152466C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 27,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/metepec27/7357105df28a336bd78f7d81ae94a6b484166540e3e36678ed342b5328e9a696.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "152745C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 22,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/naucalpan_de_juarez22/d9f27b8dc68dca6ad9efc476ce127f4f4c49a8f3a30849ed02c09012b2bc0175.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "155673C0300",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 36,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/tejupilco_de_hidalgo36/d6062f59cb6451f36dd0becd06a2781855a9492571e197a029f036aa31eccd26.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "151055C0200",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 33,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/chalco_de_diaz_covarrubias33/11e48aacbf6d70bb5fbc01674827941a1f9dfad3cbf2e0476ebbb981a88c8356.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "154448C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 35,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/tenancingo_de_degollado35/1c86c503fdb539a29e309424f1e59bf59bda0868e72356efdc971178a6657a71.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "153717B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 31,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/cd_nezahualcoyotl31/9220f8420c6ba6a1fbd5d7739b3f9fd61a50f7b624e6c563e834e0163ab4b6a9.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "153089B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 31,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/cd_nezahualcoyotl31/3c3b49a8fddffa40d250e820f3b57ca640ac4ad4eee0eda8508dde5bba65b066.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "153572B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 31,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/cd_nezahualcoyotl31/c00ee90f46e4d7abeecc67d4dce7181e9fc59f6493416906901fa654976606ef.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "155191C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 26,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/toluca_de_lerdo26/9cedcb659da2ba041dc31b211ac957a90e88088607b2b8a1064a945940585344.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "153775C0300",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ciudad_nicolas_romero_y/o_centro_historico_san_ped4/981f268ba48310e3a358f917771d116192517d349d54a8d9f3ef0180b99d051a.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "153743C0400",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ciudad_nicolas_romero_y/o_centro_historico_san_ped4/c43cf50cdc3086f567ae1527f6ce1a98dec61ec583523bd589e9f92435bee728.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "154524C0300",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/teotihuacan_de_arista5/3a33e137c412b2fe0fe8149ffcdc13617616f5657c325a1af695d27551ec2b87.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "150512C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 23,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/lerma_de_villada23/be35b7f8cebfad513c98f203ffde152ee8be73915dd922de349b347789f07f64.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "156371B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 30,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/chimalhuacan30/d5f091c99690d18dfcdc2ee36e1190405b2120faafeb2c137360131a48fd8186.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "151189B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 25,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/chimalhuacan25/7ee7d1023a02cba27d983bedcab2d7a492ac8010aaaa5b60be24b42201906c4e.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "155940C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 39,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/los_reyes_acaquilpan39/687556e3a8315fc2bf19455a462d8629f4dfb584410b69cdc70e9b0032b0be4b.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "154568C0300",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 37,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/teoloyucan37/638b74d538c6ba8b4e0230d3a6a9b64e15afda3f0edae2e3836f05b042342e66.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "153595B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 31,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/cd_nezahualcoyotl31/a286297499f531032bb49c03135b8365392f9aca74c71067301ce26ae1682392.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "155230B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 34,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/toluca_de_lerdo34/a762d4bce0711fd16167ec79b78569559f5dd7b22f066fedea40b6eaeace05fd.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "154764C0200",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 16,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ecatepec_de_morelos16/57df01adc9d33a77cb56e6f17624ac0348d09c4d2771c6769179cece336871c6.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "154414C0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 40,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/san_miguel_zinacantepec40/2e0b69c74562842f3df6b1b3d33fb4ae0775ffef6cb42a3d43a85eb1e5f3dbea.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "156878C0200",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/teotihuacan_de_arista5/f7309e077807a0d109a932f40a35c080384c6c9e3782e60c946d5a838c1a72f6.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "152362E0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/atlacomulco_de_fabela3/1434e63ddc3c4c38903bcd0cd2cf4eedd55cd9e8a105fe3ecc8cbdc4567ca7ac.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "154237C0200",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 20,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ojo_de_agua20/3064cb326bcc2a6dc6016a178fc2f1c0a0c666dd1418486bfe1a089e3948df48.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "154997B0100",
+   "stratum": "15|movil",
+   "entidad": "MEXICO",
+   "id_entidad": 15,
+   "distrito": 19,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/tlalnepantla_de_baz19/fe1af4579849d697cb7c7a885a6fb595977317ef5edb5a16adcf85005e8770c4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "160026B0100",
+   "stratum": "16|escaner",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/ciudad_hidalgo6/25572c41d51dca191bef3d0e59cf90df6cffce6cf19d6b3d9b45cf4754c6edc8.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "161955C0100",
+   "stratum": "16|escaner",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/uruapan_del_progreso9/2394adb70223628809fde1de03eb0053495d739457504d0f547cb20ef9f77b2a.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "160812C0100",
+   "stratum": "16|escaner",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/lazaro_cardenas1/de2d3a7dce6caa1e22f7754fa20d395581ee3f05e8990bda40642202f3919b66.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "160073C0100",
+   "stratum": "16|escaner",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/apatzingan_de_la_constitucion2/6bcede2f137ee590edac7fc56bcf99767d50e596af027b5b271e796e8c90c179.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "161593B0100",
+   "stratum": "16|escaner",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/zamora_de_hidalgo5/4825a505ae03aa0141df39c221535db8d8faa6ca0492997708aed4be7a4488e6.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "162776C0100",
+   "stratum": "16|movil",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/morelia8/e9a813db6c99f4bf6ad4be60d7896f35f49f15c27aee50eb8ebb87dfa90d3932.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "162325C0100",
+   "stratum": "16|movil",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/jiquilpan_de_juarez4/833f883e57c87237515dd40738eb6fda5c532b8df562ce5d46acf38d8fd4667b.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "161539B0100",
+   "stratum": "16|movil",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/zamora_de_hidalgo5/9a1f9a955a25bc349dce1e83075362f680aeac1dfbf5d6ab7ada9021021303eb.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "162478C0100",
+   "stratum": "16|movil",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/zamora_de_hidalgo5/c21dc23af62457ff63bcc0eceabd11b8644c5464d092ac6f2ebf62813e591f75.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "161613C0200",
+   "stratum": "16|movil",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/zacapu7/8ac341cc336769ebbb8b6d6d02fe7858c54e4cfd0a2bbf7ad5d125038e85a409.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "162462C0400",
+   "stratum": "16|movil",
+   "entidad": "MICHOACAN",
+   "id_entidad": 16,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/michoacan16/zamora_de_hidalgo5/8b7b5fcc074ef27563669df92c0cb6dd4abec8b46608fd3dd93fd9301c1c6b7e.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "170775B0100",
+   "stratum": "17|escaner",
+   "entidad": "MORELOS",
+   "id_entidad": 17,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/morelos17/yautepec5/a7f5fe0051b74cf93743959ca619b050bc62428393081b6436cf62cb639e3a9f.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "170849C0100",
+   "stratum": "17|escaner",
+   "entidad": "MORELOS",
+   "id_entidad": 17,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/morelos17/yautepec5/260b253ae6e23e6c069f5179371af9fe3b248228e21003bfc89a71751cdcaad3.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "170127C0200",
+   "stratum": "17|movil",
+   "entidad": "MORELOS",
+   "id_entidad": 17,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/morelos17/cuautla3/75f025320ddfc7a4d605a6a6844de91dbd7ce0b9220834057d7846919e884515.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "170688C0100",
+   "stratum": "17|movil",
+   "entidad": "MORELOS",
+   "id_entidad": 17,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/morelos17/yautepec5/5b7dee644665a60e5c37a7144696fbeb7f4926a0503637b25f7b1c0182cf3d74.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "170788C0100",
+   "stratum": "17|movil",
+   "entidad": "MORELOS",
+   "id_entidad": 17,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/morelos17/los_pilares4/fb934f3c61c63a9d5679e0d79ee234369f7c05184a257c854dc98548e460312c.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "180307B0100",
+   "stratum": "18|escaner",
+   "entidad": "NAYARIT",
+   "id_entidad": 18,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nayarit18/santiago_ixcuintla1/b579d76cd84a31ac6a65198cbe21cb424f2d12c0b7faf3325fafe47f0fe34c8d.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "180749C0400",
+   "stratum": "18|movil",
+   "entidad": "NAYARIT",
+   "id_entidad": 18,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nayarit18/tepic2/4275c887cf864802d7e0e524599d05f819b7abf5212bac3e3767bd508906b3af.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "180847B0100",
+   "stratum": "18|movil",
+   "entidad": "NAYARIT",
+   "id_entidad": 18,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nayarit18/compostela3/80da702b19e9b96ed1c03c3602965072a2a683b9f04e6f26acaa4ae7fb5bd32f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "190947C0100",
+   "stratum": "19|escaner",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/linares9/f27b22d01c4d39e553d19d2395798d5a331f38da5db0d058101ee05364eaccd9.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "190661B0100",
+   "stratum": "19|escaner",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 11,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/guadalupe11/48fdafafe0ab646bcaa7e8db62c07269a7f2c2f5b805ddb99e34ddd6d585d1e9.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "191990B0100",
+   "stratum": "19|escaner",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/san_nicolas_de_los_garza4/399b12753d38093b9f1f8fdb6a31ac7e2dbe3b0974f48dc41a829b64938933b2.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "190162B0100",
+   "stratum": "19|escaner",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/linares9/95085bc90866e49ee20fb41e5658877af96274f80e31fd52a8698b3bda8f2160.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "191271B0100",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/monterrey10/221113f65a111b26a0bb3919d788b62872419c59b380ca2e923fb42dea4bbe39.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "191683B0100",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/monterrey10/6437e0ff65c6c2ed3676e504292a5de699f1e11120fcc8aae4a108bc5cda2cfb.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "191270B0100",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/monterrey10/a4d766545fbc181ca4e5e4a33584d4b0a0ccc65cacb6d0cc0f915082fba97856.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "190190B0100",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 14,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/pesqueria14/5e8eff9793dabba430da0d926adab08cb2722d813c7accb9db9f133818202d2e.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "191903C0100",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/san_nicolas_de_los_garza4/3df3dce9d81fba5ebb38af200099929c7338572e74e31589618faf6aeffb4850.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "190150C0100",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/apodaca2/015f7bc122456845fe5eabaf5a900ca855248c0fd4a60a4d9a2328db01a5112b.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "191461C0100",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/monterrey5/aad75e793c956a84c02ab5c27701cf173a34adc1f2bc70c889f0e6670c1d8c4a.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "192006C0900",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/santa_catarina1/b0b954df93a7d5050043cb0f1cec3e07fea322d5c9793fb391c6d14d1f4b3a78.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "192857C0300",
+   "stratum": "19|movil",
+   "entidad": "NUEVO LEON",
+   "id_entidad": 19,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/salinas_victoria13/2be21df9a3ed26a06c6d710b4bd82b51e917beb067926091ee301ca5113a20b6.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "201637C0100",
+   "stratum": "20|escaner",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 10,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/miahuatlan_de_porfirio_diaz10/a14010d94b2e89a59c80466289c5a3625110e3a7fc159c300e66f20508ef35ad.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "202005C0200",
+   "stratum": "20|escaner",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/puerto_escondido9/3e65a5b5e675482b57527ebe289b81fe7c28ab29d7f0d51525dccfe722a7c076.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "201215C0200",
+   "stratum": "20|escaner",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/puerto_escondido9/2a1def1858dea84620c72303d851867dfab80be8be6a72b7f8455a7ae13270cf.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "202202C0100",
+   "stratum": "20|escaner",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/salina_cruz5/87cd81b5148565c0ced3e5fc169257843b92966b1cacfbbca42fd8945912600b.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "201365E0100",
+   "stratum": "20|escaner",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/3cfc9408b229590051132e6639a7bcdaa349a7d48143c4e0560311c96b5c4a02.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "201267B0100",
+   "stratum": "20|movil",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/teotitlan_de_flores_magon2/cb84b3f032d6e809d2b28f95d966328ddbc38c4dc39d7c2d4c0821b8ab925427.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "201757C0100",
+   "stratum": "20|movil",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/oaxaca_de_juarez8/722cb4b29d476c1bea216aafb35648707817f66338736d59de203ec937f8ce28.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "201616B0100",
+   "stratum": "20|movil",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/miahuatlan_de_porfirio_diaz10/ee8a3784b6d81da26115d8ac247ac4c7bf3d81d35ecbe15b6d08dccbfe840ceb.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "200475C0100",
+   "stratum": "20|movil",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/oaxaca_de_juarez8/17264943144ef3819ca28672918481d5f475c8c954c1a4ac74dbc04d220c2220.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "201432B0100",
+   "stratum": "20|movil",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/miahuatlan_de_porfirio_diaz10/ca551924381cbc762d834635735c8753f81b09b41a87af92c799481d3a83dfbd.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "201201B0100",
+   "stratum": "20|movil",
+   "entidad": "OAXACA",
+   "id_entidad": 20,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_tlaxiaco6/5fab37558d8b60c671a2a886954ffac6645cc7eb6de90e8b837593175fdba943.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "212593B0100",
+   "stratum": "21|escaner",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 11,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza11/e1c35426b5a32f68d4269454e8b7bec3dce060408a7425db2d1b70ae0f9414f7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "210288C0100",
+   "stratum": "21|escaner",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 13,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/atlixco13/ba6660d5c4545741a9e8533947e238920bb57a322ff4b54ff3358290be49128e.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "212049E0100",
+   "stratum": "21|escaner",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/cuautilulco_barrio2/ab725d111be79202ca048e63b2fe1e0dfe8725860e8cd1f8c62c01e2924612df.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "212668C0300",
+   "stratum": "21|escaner",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 11,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza11/5bc94e8c8a1124d2c9b462bd0c2c366757ec13dbc7d33a8fb91a60e4dfb9c412.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "211468B0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 12,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza12/752a03ed443d177e6cc98ffc1395df72bd2bb86db45b3d39aa606b8fb22236f0.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211405C0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza6/8730775edf0c86436033c4e361194f4f0d411d3466f49b406b77329b6b3e4089.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211214C0600",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 11,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza11/07faee0b5b3cf834e9db6e84ab98e5ad628f899c9df85f2e5687b9d3b5bd5188.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211235C0200",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 11,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza11/f5516ab91d7863555ad6bddd738bc81f19cb360c58506ae38ac8ae96b02c9da4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211999C0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 15,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/tehuacan15/2711cd2f0713f47d2719a0874a4088ab6f9974ef045674510a20b6789b600d92.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "212749B0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/libres4/85faec6dbae5ef706636f54d8f22edacda7db4d17687eb1cc8b16c62ef528c28.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211214C0400",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 11,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza11/647d1690d543a20165abe6b2ab1d79efdfc2a730c9e57bc45a22601990ea1192.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211322B0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza6/4c79bf6488911aac0753953e23b21f321a0ecef8e29dce54b83f81fa88f2154b.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211577C0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza6/86bfaea3ab2c3e5302f737d7a514ee673a6615d417a37a8f2b9f0879248da7c3.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "212185C0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 16,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/ajalpan16/69486ef45762977fce47ccfbd1d2661b7555a4e3c0568e8df13c3d6650af900f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "211671B0100",
+   "stratum": "21|movil",
+   "entidad": "PUEBLA",
+   "id_entidad": 21,
+   "distrito": 10,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/cholula_de_rivadavia10/9042de197cd01f4761804b4625b549939b998ede6557745b1dffdc8c0235e71a.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "220497B0100",
+   "stratum": "22|escaner",
+   "entidad": "QUERETARO",
+   "id_entidad": 22,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/queretaro22/santiago_de_queretaro4/68b1fa13c97ec0f9dc0a01c8373e3ef51c357d5eeda8f15451fe79d2002c0b7f.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "220225C0200",
+   "stratum": "22|escaner",
+   "entidad": "QUERETARO",
+   "id_entidad": 22,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/queretaro22/pedro_escobedo5/6af85887ee7153edf99978089404837ca1ffd085d30a444b1547dcf9103365c5.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "220141C0200",
+   "stratum": "22|movil",
+   "entidad": "QUERETARO",
+   "id_entidad": 22,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/queretaro22/pedro_escobedo5/bdd36fe1e637eeee0f6a2b17dc84122e9f46351dcacfd99ba3c1db149f87ece4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "220313C0300",
+   "stratum": "22|movil",
+   "entidad": "QUERETARO",
+   "id_entidad": 22,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/queretaro22/santiago_de_queretaro3/b3f373c24006fd45af83be2cec864465e02c5edd34fc5261f1c43f91ad0a19c6.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "220945C0200",
+   "stratum": "22|movil",
+   "entidad": "QUERETARO",
+   "id_entidad": 22,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/queretaro22/santiago_de_queretaro4/1ea9c7b9dded86734bb9ed4a93cf3182304acbeaa8c2e796601a23cbb5314782.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "220172B0100",
+   "stratum": "22|movil",
+   "entidad": "QUERETARO",
+   "id_entidad": 22,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/queretaro22/cadereyta_de_montes1/cbd9cfff7b290b530974601b2d0b6d2f54800ce62a51a2c1359b2209638f435b.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "230696B0100",
+   "stratum": "23|escaner",
+   "entidad": "QUINTANA ROO",
+   "id_entidad": 23,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/quintana_roo23/playa_del_carmen1/fc12f27d3ef258c44f679e3093089278c8ea151ea846eee8c8bf388590582a45.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "230252B0100",
+   "stratum": "23|movil",
+   "entidad": "QUINTANA ROO",
+   "id_entidad": 23,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/quintana_roo23/cancun3/71125ebc103940260162146e2aed780d868cdf65e064e68ca0854610b517a5a0.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "230957B0100",
+   "stratum": "23|movil",
+   "entidad": "QUINTANA ROO",
+   "id_entidad": 23,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/quintana_roo23/chetumal2/b7698024f6c58a29ac0339e4f3273b9650d2092476b936cdcc04bcbaa327d68f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "241002B0100",
+   "stratum": "24|escaner",
+   "entidad": "SAN LUIS POTOSI",
+   "id_entidad": 24,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/san_luis_potosi24/san_luis_potosi5/07ff3c5e8fd1ebafda9a45dab3dbcb5cd52ee18953f14afaa12e443be1fc71ef.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "240679B0100",
+   "stratum": "24|escaner",
+   "entidad": "SAN LUIS POTOSI",
+   "id_entidad": 24,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/san_luis_potosi24/rioverde3/ae3752109f46ea40e3883b3e701acb45edf7eee6440a4f6d330e999d981fd133.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "241393C0100",
+   "stratum": "24|escaner",
+   "entidad": "SAN LUIS POTOSI",
+   "id_entidad": 24,
+   "distrito": 7,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/san_luis_potosi24/tamazunchale7/accdacbc5410ba76e1103e6e6813a101b869a59d324f6f8f40a4e23c28d8b8d5.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "241313E0102",
+   "stratum": "24|movil",
+   "entidad": "SAN LUIS POTOSI",
+   "id_entidad": 24,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/san_luis_potosi24/soledad_de_graciano_sanchez2/fbf3e33afc732a948a3dd40db06979fec4e0c7cfb28e5444f40c11c2b189816b.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "240035C0100",
+   "stratum": "24|movil",
+   "entidad": "SAN LUIS POTOSI",
+   "id_entidad": 24,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/san_luis_potosi24/tamazunchale7/10542f787a34bf005d5f349304db23a843003e6be202c18b6d4f93ba36a548b9.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "240924C0100",
+   "stratum": "24|movil",
+   "entidad": "SAN LUIS POTOSI",
+   "id_entidad": 24,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/san_luis_potosi24/san_luis_potosi6/b85ac1b03323bacc5cd9089f6d25f813df510025d252afc42f570fe9700dc510.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "240887B0100",
+   "stratum": "24|movil",
+   "entidad": "SAN LUIS POTOSI",
+   "id_entidad": 24,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/san_luis_potosi24/san_luis_potosi5/c20059e0365dbb7b8662080b1d77eeb3bd1b390854542c05ff8c3d0367439473.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "253060B0100",
+   "stratum": "25|escaner",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/guamuchil3/fb1cf003fd839cc4e19984453d20fc4fb623ebb88aade8adb538f0ea5060492c.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "251701B0100",
+   "stratum": "25|escaner",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/mazatlan6/dadee3ea84566824c9fc768b553ac5ef2586204e0bb66d28de02570adc0635d6.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "253749C0100",
+   "stratum": "25|escaner",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/guamuchil3/f307e5e5693308a30e1877c0384ec247411f9c05aad0bc711174b8e63eeefcb6.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "252706B0100",
+   "stratum": "25|escaner",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/mazatlan6/26f4c209c2a1aa1e5bd6a8d3ef8a0addb6298ecbc7cf9857da8f1584558a805c.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "253273B0100",
+   "stratum": "25|movil",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/guamuchil3/51b5321295c1f7b493a2f9ea1e15386c17c3d17a136c2ac1a4ea24feab54de21.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "250767B0100",
+   "stratum": "25|movil",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/culiacan_de_rosales7/11f52bb394fe05818253c487f7c04e3a1e07f540f78862c620f81ba13cf016ae.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "252755B0100",
+   "stratum": "25|movil",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/mazatlan1/1bbf4de6f161437dd89a35b64a0719d3a9d4af707d4eacb9fcfe5f272193ed54.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "253737B0100",
+   "stratum": "25|movil",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/guamuchil3/9e3d26f8dc8c62e350591e0d0808eb93b569fd303e4bb8d08415c63e1d9c1eec.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "253841C0100",
+   "stratum": "25|movil",
+   "entidad": "SINALOA",
+   "id_entidad": 25,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sinaloa25/culiacan_de_rosales5/5bc16a076998f6c27f32efd64f11f7985362a65eaa78a95b656ae385ea40a731.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "261160C0100",
+   "stratum": "26|escaner",
+   "entidad": "SONORA",
+   "id_entidad": 26,
+   "distrito": 7,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sonora26/navojoa7/645c67638021fc8fb55306a8ab0ad243791e9b4b684834cd65f4d41693a71c33.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "260214C0300",
+   "stratum": "26|escaner",
+   "entidad": "SONORA",
+   "id_entidad": 26,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sonora26/nogales2/e49dcdf3b3f004fbc8a0a73d2bf4caaba1d0180e2829860dbd8fde83f85f50f7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "261174C0200",
+   "stratum": "26|movil",
+   "entidad": "SONORA",
+   "id_entidad": 26,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sonora26/navojoa7/5ca45eeb8f2c4cecfdb11dec310c3172bbda73b829ec6be36bb200b82a391308.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "260601C0800",
+   "stratum": "26|movil",
+   "entidad": "SONORA",
+   "id_entidad": 26,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sonora26/hermosillo3/e53b44f374f87ec938b4e078a359f9e599ba44cda035ce5ee43cbd7918238fb4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "261257C0100",
+   "stratum": "26|movil",
+   "entidad": "SONORA",
+   "id_entidad": 26,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sonora26/navojoa7/363f0ead7fa65c4d830bcdfeeac3724a697c41d797d36bfa30b923820f4976af.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "260526B0100",
+   "stratum": "26|movil",
+   "entidad": "SONORA",
+   "id_entidad": 26,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/sonora26/hermosillo5/d224f64b180cd03d53fe5a3c760434682fe2421126eb43becff9624f9354885f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "270180B0100",
+   "stratum": "27|escaner",
+   "entidad": "TABASCO",
+   "id_entidad": 27,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tabasco27/paraiso5/34abd768cbaf4ee8df3b72c5c3438ea81f466672cf565a7820099c0e291054a2.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "270844C0100",
+   "stratum": "27|escaner",
+   "entidad": "TABASCO",
+   "id_entidad": 27,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tabasco27/paraiso5/fe4a49b8ef133cef635f367d81a974dff6b66d3098aeadab36fee9bf683ba0a3.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "270971C0400",
+   "stratum": "27|movil",
+   "entidad": "TABASCO",
+   "id_entidad": 27,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tabasco27/paraiso5/1348b3a1a3c76a933ad59d1688e0b04ccc299e118ba627709651bf19fb7142e1.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "270281B0100",
+   "stratum": "27|movil",
+   "entidad": "TABASCO",
+   "id_entidad": 27,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tabasco27/villahermosa4/d203a7897fe0b8707facdef876b89954ceffb491a34a4ee51347e1c9a40d83f2.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "270999C0100",
+   "stratum": "27|movil",
+   "entidad": "TABASCO",
+   "id_entidad": 27,
+   "distrito": 5,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tabasco27/paraiso5/2ac7be41b43d6adaa207ad434d2efb8b130d538188633acdb0c952d259616a35.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "280078B0100",
+   "stratum": "28|escaner",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/ciudad_mante6/b4ef7afd24f6fa5523ab053fa2ecca28732275f2f14e50224c659262b518269c.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "281909B0100",
+   "stratum": "28|escaner",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/reynosa2/ffbda51fc650d5255e58332d668f3366fa502256bf014652e8ee5918f37e3afb.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "280699C0200",
+   "stratum": "28|escaner",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/rio_bravo3/456517b5811b3ffef8e3f0c5291ed7dff203cf0da284fe801f01c518bd7007d4.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "281905B0100",
+   "stratum": "28|movil",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/reynosa2/01eac1ed80fb4b5b8b2f662367c94865e9ac723b6b6106ce3a3e83d4143345e7.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "281139E0202",
+   "stratum": "28|movil",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/rio_bravo3/63de12526a8300b89e71b49d054ce12382dd40807cc5db56201bddefc31b95cf.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "280954B0100",
+   "stratum": "28|movil",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/reynosa2/7be5c28ce767d20403d9c489d42b2d32be2b9f47b23b4c9137ef0359968010c4.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "281104B0100",
+   "stratum": "28|movil",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/reynosa2/ccec457496798f56d562a656226cc2c4766d0c66060c92e17c3f2bc1f783e0cb.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "280731B0100",
+   "stratum": "28|movil",
+   "entidad": "TAMAULIPAS",
+   "id_entidad": 28,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tamaulipas28/reynosa7/d3317fef099c0f1fc2220c7c4b99b0ae723578b88e41bb5b651511fab72d672f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "290221B0100",
+   "stratum": "29|escaner",
+   "entidad": "TLAXCALA",
+   "id_entidad": 29,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tlaxcala29/tlaxcala_de_xicohtencatl2/98323505c3dc3c1aca6f8e7cd7dac6d5c3bdd961444223012a6f0a6f7e5197b7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "290085C0200",
+   "stratum": "29|movil",
+   "entidad": "TLAXCALA",
+   "id_entidad": 29,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tlaxcala29/tlaxcala_de_xicohtencatl2/d79b7d7bfb36f2815104df4d95481a975d97d292d5b8c39696945d3720ffc5cb.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "290625B0100",
+   "stratum": "29|movil",
+   "entidad": "TLAXCALA",
+   "id_entidad": 29,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/tlaxcala29/zacatelco3/844e60f88c9efe7550e3ce60aca0206b05ecc2037067afe0a2e5bd3bea96a2cd.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "302607C0200",
+   "stratum": "30|escaner",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 18,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/zongolica18/2d158182e53779b95f05d8a7b36f9dcb74e32f933017158f2d7e83211f7aa9b9.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "304144C0100",
+   "stratum": "30|escaner",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/poza_rica_de_hidalgo5/a6a6a1b938232f2c6013f26fa2a859e8c7634c9c3568aef9d72cb2144c53524d.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "304552E0100",
+   "stratum": "30|escaner",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 2,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/alamo2/4545602a0de0e5a2f427480fc3c89fd48cc174a0369d2759cd867778cbeca7da.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "302191C0100",
+   "stratum": "30|escaner",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/cosoleacaque3/ce6d315dd8f9dda2727015f395c282824fd4e541877cc3829b8e3b3ac87b45f6.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "303980B0100",
+   "stratum": "30|escaner",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 9,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/coatepec9/457c3328d188989f1d84a6f46877783cd308ca0b73e8eeeff7d9913eed0b08d7.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "300828B0100",
+   "stratum": "30|escaner",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 11,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/coatzacoalcos11/7ddd97200a24b10b55d1a88ab084200391431e66ce6d0621de0cb0a096ba6f0e.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "303152C0100",
+   "stratum": "30|escaner",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 5,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/poza_rica_de_hidalgo5/6403c9255c8e5ebc5e7bee04fbb31c939216c78d29ddbc8b0ef5ff12e5dbaa60.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "301480B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/las_trancas8/2b98766ea02b4248f21dd1d6e6ed5024f48c4dcbfb823aea6819f1302826f005.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "300649C0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 19,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/san_andres_tuxtla19/3242199440e0749d11356b2e86b0881b6b0d542db7403b75178092295e72e586.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "300474B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 9,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/coatepec9/63bcf07c417b472e9b011ab9b02b244f6c98c2362743b5bb4487e6fdc0174c70.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "303291B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 9,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/coatepec9/3a292c4b6eef095c7e2eaab78c9a09f6a24e1636afe40f0a9a4b57f13e4323e8.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "300249C0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 17,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/cosamaloapan17/8159db582abba4bdfe2e039f819fa68787a1f7519a58ead4993e89fd0a1e5a69.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "303742B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 7,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/ede4c675a959c96b143edf862400c0831682a6ba4f663eb7837ddd3ddf73ef8b.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "301384B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/alamo2/ba9cdbb59358be661ddc79da840f6612f0fd3f915fb614d4c5287677c0ea5835.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "302393C0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/huatusco13/86511aeb27d5841b38c6c6e625bbafe2e7feabb7fada051673161781d2d767cf.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "304395B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/boca_del_rio4/40a66111fd82fbff8afde98684516add79d0e7f7d376b25ee36a398b2bd8b1dd.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "304034C0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 17,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/cosamaloapan17/78198fd435bee538aba4bc86c675ed5b3e9ab5ad7ee7cdcdbe4554e63b9ab4c7.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "301477B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 8,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/las_trancas8/c8cb7ce65b85e6e2d571b3e5e493a86aa0d9f17a7e137b124a2a08e13cc3fac8.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "301599B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 13,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/huatusco13/d6c723872e60b506a12bb89de3cb9728fa3efbcc5a97f250d9a2444993ab7e7e.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "301528B0100",
+   "stratum": "30|movil",
+   "entidad": "VERACRUZ",
+   "id_entidad": 30,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/papantla_de_olarte6/c582eab3b5087953a8eaa3c8bf460a7950d5373c40da2276078927745c328bbe.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "310401C0100",
+   "stratum": "31|escaner",
+   "entidad": "YUCATAN",
+   "id_entidad": 31,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/yucatan31/merida6/ca3ae6e851a5b2f7d6acdc262950f9250363705be42f7ee15dbeff9dc21896e4.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "310394B0100",
+   "stratum": "31|escaner",
+   "entidad": "YUCATAN",
+   "id_entidad": 31,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/yucatan31/merida3/cd900b8eb036e22b8fd32194bd76ff245a494dd8f00b4af63a292d52d4aa2df5.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "311026C0200",
+   "stratum": "31|movil",
+   "entidad": "YUCATAN",
+   "id_entidad": 31,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/yucatan31/valladolid1/1b145f91f0c39239bb61c6bb86391e5a27cfb5a4d10db11aeaa6c00afbb63d36.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "310141B0100",
+   "stratum": "31|movil",
+   "entidad": "YUCATAN",
+   "id_entidad": 31,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/yucatan31/valladolid1/628a1161540c382a97609f796a5d929bb860bd1dfc68dfa6fc081762a9675118.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "310457B0100",
+   "stratum": "31|movil",
+   "entidad": "YUCATAN",
+   "id_entidad": 31,
+   "distrito": 6,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/yucatan31/merida6/5c2538bdc8be3f73a0b8f7373b77f040af4ddbe73344198c016ab81080b60bd2.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "321139B0100",
+   "stratum": "32|escaner",
+   "entidad": "ZACATECAS",
+   "id_entidad": 32,
+   "distrito": 4,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/zacatecas32/guadalupe4/d54f36e2499e014f3254558d6c56cfd5849ed543a157c77337858062dabbf568.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "321640B0100",
+   "stratum": "32|escaner",
+   "entidad": "ZACATECAS",
+   "id_entidad": 32,
+   "distrito": 3,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/zacatecas32/zacatecas3/df50f41396dae399086706b9f57970883f6ae8ecba8f6b6c59e9d56184452fe0.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "320473B0100",
+   "stratum": "32|movil",
+   "entidad": "ZACATECAS",
+   "id_entidad": 32,
+   "distrito": 4,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/zacatecas32/guadalupe4/48e18bc6e6cd1c03ca14d3daae0ab5969ffabd9ac1d74ffd9673e38632a699fc.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "320933B0100",
+   "stratum": "32|movil",
+   "entidad": "ZACATECAS",
+   "id_entidad": 32,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/zacatecas32/jerez_de_garcia_salinas2/d2eebaf48bae8799dfde55fdc76e6767b1c5f938e74396873700503928a39f50.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "320267C0100",
+   "stratum": "32|movil",
+   "entidad": "ZACATECAS",
+   "id_entidad": 32,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/zacatecas32/fresnillo1/ab009b87573e186814f0f3b8c7275b9fb53c0d212405a10ce90342898893717c.jpg",
+   "url_tipo": "M"
+  }
+ ],
+ "excluded_after_draw": []
+}

@@ -1,0 +1,6 @@
+results/*.json -text
+results/*.jsonl -text
+*.npy binary
+*.jpg binary
+schemas/* -text
+PROTOCOL.md -text
