@@ -64,6 +64,10 @@ templates.env.globals["evolus_case"] = evolusweb.panel
 from app import spotcheck as spotcheckmod  # noqa: E402
 app.include_router(spotcheckmod.router)
 
+# Audit your capture (additive): keyed CSV + scans in, disputes ordered by evidence, with crops out: /audit/new, /audit/{id}
+from app import audit_web as auditwebmod  # noqa: E402
+app.include_router(auditwebmod.router)
+
 
 def page(request: Request, name: str, nav: str, **ctx):
     return templates.TemplateResponse(request, name, {"nav": nav, **ctx})

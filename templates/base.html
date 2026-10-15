@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/style.css?v=10">
+<link rel="stylesheet" href="/static/style.css?v=11">
 </head>
 <body>
 {% set amd = amd_status() %}
@@ -35,7 +35,8 @@
       <a href="/try" class="{{ 'on' if nav == 'try' }}">{{ icon('camera') }}Try it</a>
       <a href="/inbox" class="{{ 'on' if nav in ('inbox', 'forms') }}">{{ icon('inbox') }}Inbox</a>
       <a href="/review" class="{{ 'on' if nav == 'review' }}">{{ icon('review') }}<span>Review<span class="lbl-long"> desk</span></span></a>
-      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">{{ icon('audit') }}Audit</a>
+      <a href="/audit/new" class="{{ 'on' if nav == 'auditnew' }}">{{ icon('upload') }}<span>Audit<span class="lbl-long"> your capture</span></span></a>
+      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">{{ icon('audit') }}Findings</a>
       <a href="/results" class="{{ 'on' if nav == 'results' }}">{{ icon('results') }}Results</a>
       <a href="/api" class="{{ 'on' if nav == 'api' }}">{{ icon('api') }}API</a>
     </nav>
@@ -58,6 +59,7 @@
         <li><a href="/try">Try it with a photo</a></li>
         <li><a href="/inbox">Inbox and export</a></li>
         <li><a href="/review">Review desk</a></li>
+        <li><a href="/audit/new">Audit your capture</a></li>
         <li><a href="/audit">Capture errors found</a></li>
         <li><a href="/results">Results and method</a></li>
         <li><a href="/api">API</a></li>

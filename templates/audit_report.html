@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit report: {{ R.checked|int }} fields checked, {{ R.disputed|int }} disputed</title>
+<link rel="icon" href="/static/mark.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root { --ink: #14161b; --muted: #5f6673; --line: #e2e2dc; --bad: #b3261e; --ok: #157042; --warn: #965500; --bg: #f5f5f2; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 Inter, system-ui, sans-serif; }
+.sheet { max-width: 920px; margin: 24px auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 40px 44px; }
+.bar { max-width: 920px; margin: 16px auto 0; display: flex; gap: 10px; justify-content: flex-end; padding: 0 16px; }
+.bar a, .bar button { font: 600 14px Inter, sans-serif; border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 10px; padding: 8px 14px; cursor: pointer; text-decoration: none; }
+.bar button { background: var(--ink); color: #fff; border-color: var(--ink); }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+h1 { font-size: 28px; line-height: 1.2; letter-spacing: -.02em; margin: 6px 0 4px; }
+h2 { font-size: 17px; margin: 28px 0 8px; }
+.meta { color: var(--muted); font-size: 13px; }
+.mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+table.sum { border-collapse: collapse; width: 100%; font-size: 14px; }
+table.sum td { padding: 7px 0; border-bottom: 1px solid var(--line); }
+table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.methods p { font-size: 13.5px; margin: 0 0 8px; }
+.item { display: grid; grid-template-columns: 34px minmax(0, 300px) minmax(0, 1fr); gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); break-inside: avoid; page-break-inside: avoid; }
+.item .rk { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.item img { width: 100%; border: 1px solid var(--line); border-radius: 6px; display: block; }
+.item .hd { font-weight: 650; }
+.vals { display: flex; gap: 16px; flex-wrap: wrap; margin: 6px 0; font-size: 14px; }
+.vals span { color: var(--muted); font-size: 12px; display: block; }
+.vals b { font-variant-numeric: tabular-nums; }
+.vals .k b { color: var(--bad); }
+.tier { display: inline-block; font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: .05em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); }
+.tier.strong { color: var(--bad); border-color: #f0c4bf; background: #fcebe9; }
+.tier.medium { color: var(--warn); border-color: #f1d2a8; background: #fcf2e1; }
+.ev { margin: 4px 0 0; padding-left: 18px; font-size: 13px; color: var(--muted); }
+.mk { font-size: 12.5px; font-weight: 600; }
+.mk.confirmed { color: var(--bad); } .mk.not_error { color: var(--ok); }
+.foot { margin-top: 28px; font-size: 12px; color: var(--muted); }
+@media (max-width: 640px) {
+  .bar { padding: 0 16px; gap: 8px; } .bar a, .bar button { padding: 7px 11px; font-size: 13px; white-space: nowrap; }
+  .sheet { margin: 12px 0; border-radius: 0; border-left: 0; border-right: 0; padding: 24px 16px; }
+  h1 { font-size: 22px; }
+  .item { grid-template-columns: 26px minmax(0, 1fr); }
+  .item .body { grid-column: 2; }
+}
+@media print {
+  body { background: #fff; font-size: 11.5px; }
+  .bar { display: none; }
+  .sheet { border: 0; margin: 0; padding: 0; max-width: none; }
+  .item { grid-template-columns: 26px 250px minmax(0, 1fr); padding: 9px 0; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div class="bar"><a href="/audit/{{ a.id }}">Back to the audit</a><a href="/audit/{{ a.id }}/report.csv" download>CSV</a><button onclick="window.print()">Print / PDF</button></div>
+<article class="sheet">
+  <div class="eyebrow">Two Hands · audit of a keyed capture against its paper</div>
+  <h1>Audit report: {{ R.checked|int }} fields checked, {{ R.disputed|int }} disputed, each with its photo</h1>
+  <div class="meta">{{ a.name }} · {{ R.forms_keyed|int }} forms in the keyed file, {{ R.forms_read|int }} compared · audit <span class="mono">{{ a.id }}</span> · {{ today }}</div>
+
+  <h2>Summary</h2>
+  <table class="sum">
+    <tr><td>Fields checked (keyed value vs the model's read of the paper)</td><td class="n">{{ R.checked|int }}</td></tr>
+    <tr><td>Disputed fields (the paper, as read, disagrees with the keyed value)</td><td class="n">{{ R.disputed|int }}</td></tr>
+    <tr><td>&nbsp;&nbsp;with strong evidence that the keyed value is wrong</td><td class="n">{{ R.tiers.strong }}</td></tr>
+    <tr><td>&nbsp;&nbsp;with medium evidence</td><td class="n">{{ R.tiers.medium }}</td></tr>
+    <tr><td>&nbsp;&nbsp;with weak evidence (the model may have misread)</td><td class="n">{{ R.tiers.weak }}</td></tr>
+    <tr><td>Marked by the auditor: confirmed capture errors / not an error</td><td class="n">{{ R.marks.confirmed }} / {{ R.marks.not_error }}</td></tr>
+    {% if R.unread %}<tr><td>Forms not compared (no read of the paper yet, or page not located: a person checks them)</td><td class="n">{{ R.unread|length }}</td></tr>{% endif %}
+  </table>
+
+  <h2>Method</h2>
+  <div class="methods">
+    <p>Each form's scan was privacy-masked (the names-and-signatures column blacked out) and read once by an open vision model on AMD GPUs (Gemma-4-31B-IT), which returns every field twice, from the digit boxes and from the amount in words. Every keyed field was compared with the model's digits. A disputed field is ordered by the evidence that the paper is with the model: digits and words agree, and the keyed value breaks one of the paper's identities (rows sum to TOTAL, section 5 = section 7 = TOTAL) that the model's value satisfies; it is moved down when the model saw a blank, or its own read breaks the arithmetic. The model never decides; the auditor marks each field on its photo.</p>
+    {% if M %}<p><b>Measured yield.</b> {{ M.yield }}</p>
+    <p><b>Recall caveat.</b> {{ M.recall }}</p>{% endif %}
+    <p>"Capture error" means the keyed value does not match the paper, nothing more. Vote rows are named Option 01 to Option 15 in printed order.</p>
+  </div>
+
+  <h2>Disputed fields, by evidence</h2>
+  {% for d in R.disputes %}
+  <div class="item">
+    <div class="rk">{{ d.pos }}</div>
+    <div>{% if d.img %}<img src="{{ d.img }}" alt="crop of {{ d.name }} on {{ d.form }}">{% else %}<span class="meta">no masked page</span>{% endif %}</div>
+    <div class="body">
+      <div class="hd"><span class="mono">{{ d.form }}</span> · {{ d.name }} <span class="tier {{ d.tier }}">{{ d.tier }}</span>{% if d.mark %} <span class="mk {{ d.mark }}">{{ MARKS[d.mark] }}</span>{% endif %}</div>
+      <div class="vals"><div class="k"><span>Keyed</span><b>{{ d.keyed }}</b></div><div><span>Model digits</span><b>{{ d.model if d.model is not none else 'blank' }}</b></div><div><span>Model words</span><b>{{ d.words if d.words is not none else '–' }}</b></div></div>
+      <ul class="ev">{% for s in d.signals %}<li>{{ s.text }}</li>{% endfor %}</ul>
+    </div>
+  </div>
+  {% endfor %}
+  <p class="foot">Crops are cut from masked pages only.{% if a.source == 'sample' %} Keyed data of the sample: INE PREP 2024, reused under INE's free-use terms (Libre-Uso-MX); an independent demonstration of clerical capture quality, not an official INE product.{% endif %}</p>
+</article>
+</body>
+</html>

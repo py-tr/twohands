@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Audit your capture · Two Hands{% endblock %}
+{% block content %}
+<section class="page-head au-head">
+  <div class="eyebrow">Audit your capture</div>
+  <h1>Check keyed data against its paper</h1>
+  <p class="lede">Bring the keyed data (a CSV, one row per form, one column per field) and the scans. You get back every field where the paper disagrees with the keyed data, ordered by the strength of the evidence, each with its photo. A person decides each one.</p>
+</section>
+
+<section class="au-sample card">
+  <div>
+    <div class="eyebrow" style="margin-bottom:6px">Sample audit · no upload, no model call</div>
+    <h2>Run the sample audit</h2>
+    <p class="muted" style="margin:6px 0 0">The official first capture of the {{ H.forms or 300 }} pre-registered forms (the PREP 2024 values, as a keyed CSV with INE's own column names) against the stored Gemma reads of their masked pages. The report is ready in seconds.</p>
+  </div>
+  <div class="au-sample-go">
+    <button class="btn primary lg" id="sample" data-act>{{ icon('play') }}Run the sample audit</button>
+    <a class="small" href="/audit/sample.csv" download>Download the sample keyed CSV</a>
+  </div>
+</section>
+
+<section class="au-grid">
+  <div class="card au-steps">
+    <h2 style="margin-bottom:4px">Your own audit</h2>
+    <p class="small muted" style="margin:0 0 18px">The keyed file stays on this server for this audit only. Scans are privacy-masked in memory before anything is stored.</p>
+
+    <div class="au-step">
+      <div class="au-n">1</div>
+      <div class="au-b">
+        <h3>The keyed data</h3>
+        <p class="small muted">CSV, one row per form, a form-id column and one column per field. INE PREP column names (TOTAL_BOLETAS_SOBRANTES, TOTAL_VOTOS_ASENTADO, ...) are detected; so are this site's names (Option 01, Unused ballots).</p>
+        <label class="au-file"><input type="file" id="csv" accept=".csv,.txt,text/csv"><span>{{ icon('upload') }}<b id="csvname">Choose a CSV file</b></span></label>
+        <p class="au-msg" id="csvmsg" role="status"></p>
+      </div>
+    </div>
+
+    <div class="au-step" id="mapstep" hidden>
+      <div class="au-n">2</div>
+      <div class="au-b">
+        <h3>Map the columns</h3>
+        <p class="small muted" id="mapnote"></p>
+        <div class="au-map">
+          <div class="au-maprow au-id"><span><b>Form id</b></span><select class="sel" id="idcol"></select></div>
+          <div id="maprows"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="au-step" id="scanstep" hidden>
+      <div class="au-n">3</div>
+      <div class="au-b">
+        <h3>The scans</h3>
+        <label class="au-radio"><input type="radio" name="scans" value="stored" checked><span><b>Use already-read forms</b><br><span class="small muted">Forms this site has read (the pre-registered run and live reads): no new model call. Forms without a read can be queued for a live read on AMD, one at a time, within the daily budget.</span></span></label>
+        <label class="au-radio"><input type="radio" name="scans" value="zip"><span><b>Upload a ZIP of scans</b><br><span class="small muted">One image per form, named by its form id (e.g. 010469C0400.jpg). Each page is located and masked in memory; only the masked page is stored. A page that cannot be located goes to a person.</span></span></label>
+        <label class="au-file" id="zipwrap" hidden><input type="file" id="zip" accept=".zip,application/zip"><span>{{ icon('upload') }}<b id="zipname">Choose a ZIP file</b></span></label>
+        <div class="actions" style="margin-top:16px"><button class="btn dark" id="go" data-act>{{ icon('audit') }}Run the audit</button></div>
+        <p class="au-msg" id="gomsg" role="status"></p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="card au-what">
+    <h3>What you get</h3>
+    <ul class="au-list">
+      <li>Every keyed field compared with the model's digits and its words, and with the paper's own arithmetic (rows sum to TOTAL, section 5 = section 7 = TOTAL).</li>
+      <li>Disputes order: <span class="chip bad">strong</span> when the model's digits and words agree and the keyed value breaks an identity the model's value satisfies; <span class="chip ghost">weak</span> when the model saw a blank or its read breaks the arithmetic.</li>
+      <li>A crop of the masked page for each, and a "confirmed / not an error" mark for the auditor.</li>
+      <li>The audit report as CSV and as a printable page.</li>
+    </ul>
+    {% if M %}<p class="tiny" style="margin:14px 0 0">{{ M.yield }}</p>{% endif %}
+  </aside>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var P = null, $ = function (id) { return document.getElementById(id); };
+  function msg(el, t, bad) { el.textContent = t || ''; el.classList.toggle('bad', !!bad); }
+  $('sample').addEventListener('click', function () {
+    var b = this; b.disabled = true; b.lastChild.textContent = 'Running the sample audit…';
+    fetch('/api/audit/sample', {method: 'POST'}).then(function (r) { return r.json(); })
+      .then(function (j) { location.href = j.url; })
+      .catch(function () { b.disabled = false; b.lastChild.textContent = 'Run the sample audit'; });
+  });
+  function opt(sel, cols, chosen, none) {
+    sel.innerHTML = '';
+    if (none) { var o = document.createElement('option'); o.value = ''; o.textContent = 'not in the file'; sel.appendChild(o); }
+    cols.forEach(function (c) {
+      var o = document.createElement('option'); o.value = c.i;
+      o.textContent = (c.i + 1) + ' · ' + c.label + (c.example ? ' · ' + c.example : '');
+      if (chosen === c.i) o.selected = true; sel.appendChild(o);
+    });
+  }
+  $('csv').addEventListener('change', function () {
+    var f = this.files[0]; if (!f) return;
+    $('csvname').textContent = f.name; msg($('csvmsg'), 'Reading the file…');
+    fetch('/api/audit?name=' + encodeURIComponent(f.name), {method: 'POST', headers: {'Content-Type': 'text/csv'}, body: f})
+      .then(function (r) { return r.json().then(function (j) { return [r.ok, j]; }); })
+      .then(function (x) {
+        if (!x[0]) { msg($('csvmsg'), x[1].error || 'Could not read that file.', true); return; }
+        P = x[1];
+        var auto = Object.keys(P.how).length;
+        msg($('csvmsg'), P.rows.toLocaleString() + ' rows, ' + P.columns.length + ' columns. ' + auto + ' of ' + P.fields.length + ' fields detected automatically.');
+        opt($('idcol'), P.columns, P.id_col, false);
+        var box = $('maprows'); box.innerHTML = '';
+        P.fields.forEach(function (f) {
+          var row = document.createElement('div'); row.className = 'au-maprow';
+          var how = P.how[f.code];
+          row.innerHTML = '<span><b></b>' + (how ? ' <span class="chip ok au-auto">auto</span>' : ' <span class="chip warn au-auto">choose</span>') +
+            '<span class="au-sec">' + (f.section ? f.section + ' · ' : '') + (how ? 'detected: ' + how : 'not detected') + '</span></span>';
+          row.querySelector('b').textContent = f.name;
+          var s = document.createElement('select'); s.className = 'sel'; s.dataset.code = f.code;
+          opt(s, P.columns, P.mapping[f.code], true); row.appendChild(s); box.appendChild(row);
+        });
+        $('mapnote').textContent = 'Each field of the form, and the column of your file that holds it. Vote rows are named Option 01 to Option 15 in printed order; a column with an INE name is shown as the field it holds, marked (INE).';
+        $('mapstep').hidden = false; $('scanstep').hidden = false;
+      })
+      .catch(function () { msg($('csvmsg'), 'Upload failed; please try again.', true); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=scans]'), function (r) {
+    r.addEventListener('change', function () { $('zipwrap').hidden = !document.querySelector('input[name=scans][value=zip]').checked; });
+  });
+  $('zip').addEventListener('change', function () { if (this.files[0]) $('zipname').textContent = this.files[0].name; });
+  $('go').addEventListener('click', function () {
+    if (!P) return;
+    var b = this, scans = document.querySelector('input[name=scans]:checked').value, fields = {};
+    Array.prototype.forEach.call(document.querySelectorAll('#maprows select'), function (s) { fields[s.dataset.code] = s.value; });
+    var z = $('zip').files[0];
+    if (scans === 'zip' && !z) { msg($('gomsg'), 'Choose the ZIP of scans first.', true); return; }
+    b.disabled = true; msg($('gomsg'), scans === 'zip' ? 'Masking the scans…' : 'Comparing…');
+    fetch('/api/audit/' + P.id + '/mapping', {method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({id_col: $('idcol').value, fields: fields, scans: scans})})
+      .then(function (r) { return r.json().then(function (j) { return [r.ok, j]; }); })
+      .then(function (x) {
+        if (!x[0]) throw new Error(x[1].error || 'Could not save the mapping.');
+        if (scans !== 'zip') return x[1].url;
+        return fetch('/api/audit/' + P.id + '/scans', {method: 'POST', headers: {'Content-Type': 'application/zip'}, body: z})
+          .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'The ZIP could not be read.'); return x[1].url; }); });
+      })
+      .then(function (url) { location.href = url; })
+      .catch(function (e) { b.disabled = false; msg($('gomsg'), e.message, true); });
+  });
+})();
+</script>
+{% endblock %}

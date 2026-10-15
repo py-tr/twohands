@@ -16,3 +16,4 @@ app/state/uploads/
 app/state/live_budget.json
 out/
 !deploy/.env.prod.example
+app/state/audits/

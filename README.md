@@ -69,6 +69,19 @@ Reproduce the pre-registered run (needs the AMD key; resumable):
 python -m twohands.run --models gemma,qwen --max-daily-usd 0.80
 ```
 
+## Audit your capture
+
+`/audit/new` (nav: "Audit your capture"). Upload the keyed data as a CSV (one row per form; INE PREP column names
+are mapped automatically, any column can be re-mapped) plus a ZIP of scans, or use the forms this site has already
+read. Every keyed field is compared with the model's digits and words and with the paper's identities; disputes are
+ranked by evidence (strong: digits = words and the keyed value breaks an identity the model's value satisfies), each
+with its crop, a "confirmed / not an error" mark, a CSV export and a printable report. Scans are masked in memory by
+the core before anything is stored; forms without a read go through the live-read path and its budget guard.
+**Run the sample audit** loads the official first capture of the 300 pre-registered forms
+(`app/data/audit_sample_prep300.csv`, built by `scripts/build_audit_sample.py`) against the stored Gemma reads: no
+model call, 6,358 fields checked, the same 267 disputes as `results/adjudication/`; 12 of the 18 ranked strong are
+confirmed capture errors, 13 of the 169 ranked weak (the rule was written before that check, on the same forms).
+
 ## How it works
 
 1. **Locate and mask.** The page is straightened onto a canonical layout. The right-hand column (names and

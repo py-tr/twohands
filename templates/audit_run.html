@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Audit results · Two Hands{% endblock %}
+{% set tierchip = {'strong': 'bad', 'medium': 'warn', 'weak': 'ghost'} %}
+{% block content %}
+<div class="sec-head page-head au-head" style="align-items:flex-end">
+  <div>
+    <div class="eyebrow">Audit your capture · {{ 'Sample audit' if a.source == 'sample' else 'Your audit' }}</div>
+    <h1>{{ R.disputed|int }} disputed fields in {{ R.checked|int }} checked</h1>
+    <p class="lede">{{ a.name }}: {{ R.forms_keyed|int }} forms in the keyed file, {{ R.forms_read|int }} with a read of the paper. On {{ R.disputed|int }} fields of {{ R.disputed_forms }} forms the paper, as the model reads it, disagrees with the keyed value. Ordered by evidence; each needs a person to look at its photo.</p>
+  </div>
+  <div class="actions" style="margin-top:0">
+    <a class="btn dark" href="/audit/{{ a.id }}/report" target="_blank" rel="noopener">{{ icon('forms') }}Printable report</a>
+    <a class="btn" href="/audit/{{ a.id }}/report.csv" download>{{ icon('download') }}Export CSV</a>
+    <a class="btn" href="/audit/new">New audit</a>
+  </div>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">Fields checked</div><div class="v">{{ R.checked|int }}</div><div class="s">{{ R.forms_read }} forms × {{ R.fields_mapped }} keyed fields</div></div>
+  <div class="kpi"><div class="l">Disputed</div><div class="v">{{ R.disputed|int }}</div><div class="s">{{ '%.1f'|format(100 * R.disputed / R.checked) if R.checked else '0' }}% of fields checked</div></div>
+  <div class="kpi"><div class="l">Strong · medium · weak</div><div class="v">{{ R.tiers.strong }} · {{ R.tiers.medium }} · {{ R.tiers.weak }}</div><div class="s">evidence that the paper is with the model</div></div>
+  <div class="kpi"><div class="l">Marked by you</div><div class="v" id="kmarked">{{ R.marks.confirmed + R.marks.not_error }}</div><div class="s"><span id="kconf">{{ R.marks.confirmed }}</span> confirmed · <span id="knot">{{ R.marks.not_error }}</span> not an error</div></div>
+</div>
+
+{% if R.unread %}
+<div class="card au-unread">
+  <div>
+    <b>{{ R.unread|length }} form{{ 's' if R.unread|length != 1 }} not compared yet.</b>
+    {% set nl = R.unread|selectattr('queueable', 'equalto', false)|list|length %}
+    {% if nl %}{{ nl }} cannot be read by the model (page not located or no masked page): they go to a person.{% endif %}
+    {% if R.queueable %}{{ R.queueable }} can be read live on AMD, one at a time within the daily budget; this page counts them in when the reads land.{% endif %}
+    <details class="small" style="margin-top:6px"><summary>Which forms</summary>
+      <p class="mono tiny" style="margin:6px 0 0">{% for p in R.unread %}{{ p.form }} ({{ p.job_state or p.why }}){{ ', ' if not loop.last }}{% endfor %}</p>
+    </details>
+  </div>
+  {% if R.queueable %}<button class="btn" id="queue" data-act>{{ icon('refresh') }}Read {{ R.queueable }} live on AMD</button>{% endif %}
+  {% if R.queueable %}<p class="au-msg small" id="qmsg" role="status" style="flex-basis:100%;margin:0"></p>{% endif %}
+</div>
+{% endif %}
+
+{% if R.order_check %}
+<div class="card au-check">
+  <div class="au-check-t"><b>How the evidence order held up on these forms.</b> {{ R.adjudicated }} of these disputes were settled on the paper in our own adjudication. Share that were capture errors, by evidence:</div>
+  <div class="au-bars">
+    {% for t in R.order_check %}{% set pc = (100 * t.errors / t.n) if t.n else 0 %}
+    <div class="au-bar"><span class="chip {{ tierchip[t.tier] }}">{{ t.label }}</span><span class="au-track"><span style="width:{{ '%.0f'|format(pc) }}%"></span></span><span class="mono small">{{ t.errors }} of {{ t.n }} ({{ '%.0f'|format(pc) }}%)</span></div>
+    {% endfor %}
+  </div>
+  <p class="tiny muted" style="margin:8px 0 0">The ordering rule was written before this check but is measured on the same forms (not held out). The adjudication is ours (on published crops anyone can re-check), not the auditor's mark.</p>
+</div>
+{% endif %}
+
+<div class="toolbar">
+  <div class="filters" id="tf" role="group" aria-label="Filter by evidence">
+    <button class="on" data-f="all">All <b>{{ R.disputed }}</b></button>
+    {% for t, lab in TIERS %}<button data-f="{{ t }}">{{ lab }} <b>{{ R.tiers[t] }}</b></button>{% endfor %}
+  </div>
+  <span class="grow"></span>
+  <select class="sel" id="ff" aria-label="Field"><option value="">Every field</option>{% for f in flist %}<option value="{{ f.code }}">{{ f.name }}</option>{% endfor %}</select>
+  <select class="sel" id="mf" aria-label="Mark"><option value="">Any mark</option><option value="none">Not marked</option><option value="confirmed">Confirmed</option><option value="not_error">Not an error</option></select>
+  <label class="search">{{ icon('search') }}<input id="q" type="search" placeholder="Form id" aria-label="Search by form id"></label>
+</div>
+
+<div class="tablecard">
+  <div class="tablewrap au-wrap">
+    <table class="itable au-table" id="at">
+      <thead><tr><th class="n">#</th><th>Photo</th><th>Form · field</th><th class="n">Keyed</th><th class="n">Digits</th><th class="n">Words</th><th>Evidence</th><th>Your mark</th></tr></thead>
+      <tbody>
+      {% for d in R.disputes %}
+        <tr data-t="{{ d.tier }}" data-c="{{ d.code }}" data-m="{{ d.mark or 'none' }}" data-q="{{ d.form|lower }}" data-k="{{ d.key }}">
+          <td class="n au-pos">{{ d.pos }}</td>
+          <td class="au-img">{% if d.img %}<a href="{{ d.img }}" target="_blank" rel="noopener"><img loading="lazy" src="{{ d.img }}" alt="crop of {{ d.name }} on {{ d.form }}"></a>{% else %}<span class="tiny muted">no masked page</span>{% endif %}</td>
+          <td class="au-id"><a class="mono" href="/form/{{ d.form }}">{{ d.form }}</a><div class="au-f">{{ d.name }}</div></td>
+          <td class="n au-v"><span class="au-lab">Keyed</span><b class="au-keyed">{{ d.keyed }}</b></td>
+          <td class="n au-v"><span class="au-lab">Model digits</span>{{ d.model if d.model is not none else 'blank' }}</td>
+          <td class="n au-v"><span class="au-lab">Words</span>{{ d.words if d.words is not none else '–' }}</td>
+          <td class="au-ev"><span class="chip {{ tierchip[d.tier] }}">{{ d.tier }} · {{ d.score }}</span>
+            <ul>{% for s in d.signals %}<li class="{{ 'pos' if s.pts > 0 else 'neg' }}">{{ s.text }}</li>{% endfor %}</ul>
+            {% if d.adjudicated %}<div class="tiny muted">Our adjudication: {{ d.adjudicated.label }}{% if d.adjudicated.paper is not none %}; paper {{ d.adjudicated.paper }}{% endif %}</div>{% endif %}
+          </td>
+          <td class="au-mk"><div class="au-mkb" role="group" aria-label="Mark {{ d.form }} {{ d.name }}">
+            <button class="{{ 'on' if d.mark == 'confirmed' }}" data-mark="confirmed" data-act>{{ icon('check') }}Confirmed</button>
+            <button class="{{ 'on' if d.mark == 'not_error' }}" data-mark="not_error" data-act>Not an error</button>
+          </div></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <div class="empty" id="none" {% if R.disputes %}hidden{% endif %}>{{ icon('empty') }}<b>No disputes match</b>{% if R.disputes %}Try another filter.{% else %}The paper agrees with the keyed data on every field compared.{% endif %}</div>
+  </div>
+  <div class="tablefoot"><span id="shown">{{ R.disputes|length }} shown</span><span>Score: digits = words +3; keyed value breaks an identity the model's value satisfies +3 each; model's read breaks it −3; blank = 0 convention −3.</span></div>
+</div>
+
+{% if M %}<p class="tiny" style="margin-top:22px"><b>Method.</b> {{ M.yield }} {{ M.recall }} "Capture error" means the keyed value does not match the paper, nothing more.</p>{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var f = 'all', bar = document.getElementById('tf'), q = document.getElementById('q'), ff = document.getElementById('ff'),
+      mf = document.getElementById('mf'), rows = Array.prototype.slice.call(document.querySelectorAll('#at tbody tr')),
+      none = document.getElementById('none'), shown = document.getElementById('shown');
+  function apply() {
+    var t = q.value.trim().toLowerCase(), c = ff.value, m = mf.value, n = 0;
+    rows.forEach(function (r) {
+      var ok = (f === 'all' || r.dataset.t === f) && (!c || r.dataset.c === c) && (!m || r.dataset.m === m) && (!t || r.dataset.q.indexOf(t) >= 0);
+      r.hidden = !ok; if (ok) n++;
+    });
+    if (rows.length) none.hidden = n > 0; shown.textContent = n + ' shown';
+  }
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    f = b.dataset.f; bar.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); apply();
+  });
+  [q, ff, mf].forEach(function (el) { el.addEventListener(el === q ? 'input' : 'change', apply); });
+  function counts() {
+    var c = 0, ne = 0; rows.forEach(function (r) { if (r.dataset.m === 'confirmed') c++; if (r.dataset.m === 'not_error') ne++; });
+    document.getElementById('kconf').textContent = c; document.getElementById('knot').textContent = ne;
+    document.getElementById('kmarked').textContent = c + ne;
+  }
+  document.getElementById('at').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-mark]'); if (!b) return;
+    var tr = b.closest('tr'), v = b.classList.contains('on') ? '' : b.dataset.mark;
+    fetch('/api/audit/{{ a.id }}/mark', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: tr.dataset.k, mark: v})})
+      .then(function (r) { if (!r.ok) throw 0; tr.dataset.m = v || 'none';
+        tr.querySelectorAll('button[data-mark]').forEach(function (x) { x.classList.toggle('on', x.dataset.mark === v); }); counts(); })
+      .catch(function () { b.blur(); });
+  });
+  var qb = document.getElementById('queue');
+  if (qb) qb.addEventListener('click', function () {
+    qb.disabled = true;
+    fetch('/api/audit/{{ a.id }}/read', {method: 'POST'}).then(function (r) { return r.json(); }).then(function (j) {
+      var m = j.queued.length ? j.queued.length + ' queued for a live read. Reload this page in a minute or two to count them in.' : '';
+      if (j.refused) m += (m ? ' ' : '') + j.refused.message;
+      document.getElementById('qmsg').textContent = m || 'Nothing to queue.';
+    }).catch(function () { qb.disabled = false; });
+  });
+})();
+</script>
+{% endblock %}

@@ -89,28 +89,46 @@ def decode(data: bytes) -> Image.Image:
         raise NotAPhoto("That file is not a photo we can open (JPEG or PNG please).") from e
 
 
-def process(data: bytes, source: str = "upload", sample_of: Optional[str] = None, layout: str = "movil") -> dict:
-    """Locate, straighten and mask in memory; store only the masked page. Returns a result dict:
-    {"ok": True, "id": ..., "info": ...} or {"ok": False, "code": "not_located"|"not_a_photo", "message": ...}."""
+NOT_LOCATED_MSG = ("We could not find the form's frame on this photo, so nothing was stored or sent. "
+                   "A page that cannot be located always goes to a person; for a demo read, try another photo.")
+
+
+def locate_and_mask(data: bytes, layout: str = "movil"):
+    """Bytes in memory -> (masked canonical page, info), all in memory, through the core (twohands.mask.prepare,
+    imported, not changed). Nothing is written. Returns (None, error dict) when it is not a photo or not located.
+    Shared by the photo upload and the audit's ZIP of scans: the only way an image reaches app/state."""
     from twohands import mask, register  # the core, imported and used as is
 
     try:
         img = decode(data)
     except NotAPhoto as e:
-        return {"ok": False, "code": "not_a_photo", "message": str(e)}
+        return None, {"ok": False, "code": "not_a_photo", "message": str(e)}
     finally:
         data = None  # noqa: F841  drop our reference to the raw bytes
     try:
-        page, info = mask.prepare(img, layout)
+        return mask.prepare(img, layout)
     except register.NotLocated as e:
-        return {"ok": False, "code": "not_located", "detail": str(e)[:160],
-                "message": "We could not find the form's frame on this photo, so nothing was stored or sent. "
-                           "A page that cannot be located always goes to a person; for a demo read, try another photo."}
+        return None, {"ok": False, "code": "not_located", "detail": str(e)[:160], "message": NOT_LOCATED_MSG}
     finally:
         del img
+
+
+def save_masked(page, path: Path) -> None:
+    """Write a page that came out of locate_and_mask (masked by the core). Nothing else is ever written."""
+    from twohands import mask
+    mask.save(page, path)
+
+
+def process(data: bytes, source: str = "upload", sample_of: Optional[str] = None, layout: str = "movil") -> dict:
+    """Locate, straighten and mask in memory; store only the masked page. Returns a result dict:
+    {"ok": True, "id": ..., "info": ...} or {"ok": False, "code": "not_located"|"not_a_photo", "message": ...}."""
+    page, info = locate_and_mask(data, layout)
+    data = None  # noqa: F841
+    if page is None:
+        return info
     uid = "u" + uuid.uuid4().hex[:12]
     UPLOADS.mkdir(parents=True, exist_ok=True)
-    mask.save(page, UPLOADS / f"{uid}.jpg")
+    save_masked(page, UPLOADS / f"{uid}.jpg")
     note = {"id": uid, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "source": source,
             "sample_of": sample_of, "layout": layout,
             "locator": {k: info.get(k) for k in ("locator", "score", "margin", "ecc", "landmark_worst_px")}}

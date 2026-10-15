@@ -25,7 +25,7 @@ def _clean(text, where):
 def _all_urls():
     s = storemod.get_store()
     urls = ["/", "/forms", "/review", "/audit", "/results", "/healthz", "/api/live/status", "/try", "/inbox", "/api",
-            "/api/export.csv", "/api/export.json", "/api/export.csv?status=accepted", "/openapi.json"]
+            "/api/export.csv", "/api/export.json", "/api/export.csv?status=accepted", "/openapi.json", "/audit/new"]
     for k in s.ine_claves():
         urls += [f"/form/{k}", f"/api/form/{k}"]
         for rid in s.runs:
@@ -114,3 +114,23 @@ def test_audit_page_is_neutral_and_complete():
     for t in H["by_type"]:
         assert t["label"].replace('"', "&#34;") in html or t["label"] in html
     assert "label=0" in html  # crops start right of the printed row label: no logo
+
+
+def test_capture_audit_pages_and_exports_are_neutral(tmp_path, monkeypatch):
+    """Audit your capture: the keyed CSV uses INE column names (PAN, MORENA, ...), but every page, JSON and export of
+    the audit shows Option NN, including the mapping proposal that echoes the auditor's columns, and an auditor mark."""
+    from app import capture_audit as ca
+    monkeypatch.setattr(ca, "AUDITS", tmp_path / "audits")
+    assert PARTY.search(ca.SAMPLE_CSV.read_text(encoding="utf-8"))  # the machine file keeps INE's names
+    prop = client.post("/api/audit?name=PAN-MORENA.csv", content=ca.SAMPLE_CSV.read_bytes(),
+                       headers={"Content-Type": "text/csv"})
+    _clean(prop.text, "proposal")
+    aid = client.post("/api/audit/sample").json()["id"]
+    client.post(f"/api/audit/{aid}/mark", json={"key": "050815B0100__OPT07", "mark": "not_error"})
+    for u in ("/audit/new", f"/audit/{aid}", f"/audit/{aid}/report", f"/audit/{aid}/report.csv", f"/api/audit/{aid}",
+              f"/audit/{prop.json()['id']}"):
+        r = client.get(u)
+        assert r.status_code == 200, u
+        _clean(r.text, u)
+        assert "election" not in re.sub(r"<[^>]+>", "", r.text.split("</title>")[0]).lower()
+    assert "Option 07" in client.get(f"/audit/{aid}/report.csv").text
