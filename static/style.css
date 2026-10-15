@@ -312,3 +312,10 @@ footer p { margin: 0 0 6px; max-width: 70em; }
   .verdict .t { font-size: 1rem; }
   .vals { grid-template-columns: 1fr 1fr; }
 }
+
+/* Evolus case panel (additive) */
+.evo-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.evo-notes { display: grid; gap: 6px; padding: 10px 12px; border-radius: 8px; background: var(--warn-soft); }
+.evo-steps { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+.evo-steps li { padding-left: 2px; overflow-wrap: anywhere; }
+.evo.compact .evo-notes { font-size: .8rem; }

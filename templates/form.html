@@ -51,6 +51,7 @@
       <div id="liveIdents" class="idents" style="margin-top:12px"></div>
       <div id="liveMsg"></div>
     </div>
+    {% with ec = evolus_case(clave), compact = false %}{% include "_evolus.html" %}{% endwith %}
     {% set kerr = errors|selectattr('kind', 'equalto', 'keying')|list %}
     {% set perr = errors|selectattr('kind', 'equalto', 'paper')|list %}
     {% if kerr %}

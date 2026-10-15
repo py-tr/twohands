@@ -57,7 +57,7 @@ python run_app.py                       # http://127.0.0.1:8000
 The app serves the measured reads from the result files in this repo. No API key is needed to browse. The
 "Read live on AMD" button needs `AMD_KEY` and `AMD_BASE_URL` in the environment (never committed).
 
-Tests (424 pass, 2 skipped on our machine):
+Tests (436 pass, 2 skipped on our machine):
 
 ```bash
 python -m pytest -q
@@ -136,6 +136,38 @@ transcribe tables; none we found gives a per-form proof of when to trust the rea
   github.com/ed-hawkins/rainfall-rescue; Met Office scans). Sheet images are **linked, not redistributed**; only
   our extracted values are stored.
 
+## Evolus
+
+The same process runs as a case on **Evolus** (Evolus Business Agents track): an Evolus **document extractor** reads
+the masked page as an independent third reader (its read is gated and compared, never trusted blindly); accepted
+forms are filed in an Evolus **knowledge library** (the office's register); routed forms get a clerk's note drafted
+by an Evolus **agent running on Gemma-4-31B-IT on AMD**, translated to Spanish by the **AI Tool** `translate`, and
+are handed to a person by the Evolus **workflow** "Review hand-off". Our gate is exposed as `POST /api/gate` so an
+Evolus agent can check the paper's arithmetic. The form page and the review desk show each form's Evolus case: run
+id, steps and status. Endpoints, setup clicks and limits: [docs/EVOLUS.md](docs/EVOLUS.md).
+
+```bash
+python -m evolus check            # which blocks are configured (keys shown only as set / not set)
+python -m evolus run --pick 2,3   # run the case on 2 accepted + 3 routed forms -> results/evolus_runs.jsonl
+```
+
+Environment: `EVOLUS_KEY`, `EVOLUS_APP_ID`, `EVOLUS_AGENT`, `EVOLUS_EXTRACTOR_AGENT_ID`, `EVOLUS_EXTRACTOR_ID`,
+`EVOLUS_LIBRARY_ID`, `EVOLUS_WORKFLOW_ID`; optional `TWOHANDS_GATE_TOKEN`, `TWOHANDS_PUBLIC_URL`,
+`EVOLUS_CALLBACK_KEY`.
+
+## Run with Docker
+
+```bash
+docker compose up --build         # http://localhost:8000
+```
+
+The image is `python:3.13-slim` with OpenCV headless and runs as a non-root user. Keys are read at run time from an
+untracked `.env` next to `docker-compose.yml` (`AMD_KEY`, `AMD_BASE_URL`, the Evolus variables above); `.env` is
+excluded from the image by `.dockerignore`. `data/masked` and `results` are mounted read-only; `app/state` (review
+desk, live reads, Evolus callbacks) is a writable volume. Without a `.env` the app still serves every measured
+result. Note: inside the container the live-read rate limiter uses its own file (`app/state/ratelimit.json`), so it
+does not see a batch run on the host.
+
 ## Repo map
 
 | Path | What |
@@ -147,5 +179,6 @@ transcribe tables; none we found gives a per-form proof of when to trust the rea
 | `results/` | manifest, prepare log, run log, every raw model call |
 | `PROTOCOL.md` | the pre-registered protocol for the 300-form run, with Amendment 1 |
 | `tests/` | gate, mask, rate limiter, app routes, privacy and neutrality tests |
+| `evolus/` | Evolus integration: REST client, the intake case, gate endpoint, CLI (`python -m evolus`) |
 
 MIT licence. API keys live only in the environment or an untracked `.env`.

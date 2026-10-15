@@ -1,0 +1,28 @@
+{# Evolus case panel. Needs: ec (case record or none), compact (bool). #}
+{% if ec %}
+<div class="card evo{{ ' compact' if compact }}" style="margin-top:16px;padding:{{ '12px 14px' if compact else '18px' }}">
+  <div class="evo-head">
+    <div>
+      <div class="eyebrow" style="margin-bottom:4px">Evolus case</div>
+      {% if not compact %}<h3 style="margin:0">Paper form intake, run on Evolus</h3>{% endif %}
+    </div>
+    <span class="chip {{ 'ok' if ec.decision == 'accepted' else 'warn' }}">{{ ec.decision }}</span>
+  </div>
+  <p class="small" style="margin:8px 0 6px">{{ ec.decision_reason }}</p>
+  <p class="tiny" style="margin:0 0 8px">Case <span class="mono">{{ ec.case_id }}</span> · {{ ec.at }}{% if ec.workflow and ec.workflow.execution_id %} · workflow run <span class="mono">{{ ec.workflow.execution_id }}</span>: <b>{{ ec.workflow.status }}</b>{% endif %}{% if ec.library and ec.library.document %} · filed as <span class="mono">{{ ec.library.document }}</span>{% endif %} · <a href="{{ ec.workspace_url or 'https://app.evolus.ai' }}" target="_blank" rel="noopener">open the workspace</a></p>
+  {% if ec.handoff %}
+  <div class="evo-notes small">
+    <div><b>EN</b> {{ ec.handoff.note_en }}</div>
+    {% if ec.handoff.note_es %}<div><b>ES</b> {{ ec.handoff.note_es }}</div>{% endif %}
+  </div>
+  {% endif %}
+  {% if not compact %}
+  {% if ec.extractor and ec.extractor.status == 'ok' %}
+  <p class="tiny" style="margin:8px 0">Evolus extractor (independent reader): {{ ec.extractor.line }}{% if ec.extractor.agree is not none %}; agrees with the primary read on {{ ec.extractor.agree }} of {{ ec.extractor.agree + ec.extractor.disagree|length }} fields{% endif %}.</p>
+  {% endif %}
+  <ol class="evo-steps">
+    {% for s in ec.steps %}<li class="{{ s.status }}"><span class="chip {{ 'ok' if s.status == 'ok' else ('bad' if s.status == 'error' else '') }}">{{ s.status }}</span> <b>{{ s.block }}</b>{% if s.endpoint %} <span class="tiny mono">{{ s.endpoint }}</span>{% endif %}{% if s.summary %}<div class="tiny">{{ s.summary }}</div>{% endif %}</li>{% endfor %}
+  </ol>
+  {% endif %}
+</div>
+{% endif %}

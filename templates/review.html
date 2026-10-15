@@ -42,6 +42,7 @@
           <button class="btn sm" data-act="escalate">Paper is inconsistent: escalate</button>
           {% if it.review %}<button class="btn sm" data-act="reopen">Reopen</button>{% endif %}
         </div>
+        {% with ec = evolus_case(it.clave), compact = true %}{% include "_evolus.html" %}{% endwith %}
         <div class="out">{% if it.review %}<div class="msg {{ 'ok' if it.review.status == 'resolved' else 'warn' }} small">{{ it.review.status|capitalize }} {{ it.review.at }}{% if it.review.note %}: {{ it.review.note }}{% endif %}</div>{% endif %}</div>
       </form>
     </div>

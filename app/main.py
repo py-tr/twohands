@@ -44,6 +44,11 @@ templates.env.filters["usd"] = fmt_usd
 templates.env.filters["int"] = fmt_int
 templates.env.globals["cited"] = numbersmod.CITED
 
+# Evolus integration (additive): gate endpoint, case API, workflow callback; the panel reads the case records
+from evolus import web as evolusweb  # noqa: E402
+app.include_router(evolusweb.router)
+templates.env.globals["evolus_case"] = evolusweb.panel
+
 
 def page(request: Request, name: str, nav: str, **ctx):
     return templates.TemplateResponse(request, name, {"nav": nav, **ctx})

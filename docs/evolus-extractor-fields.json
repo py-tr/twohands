@@ -1,0 +1,117 @@
+[
+ {
+  "name": "SOBRANTES",
+  "type": "integer",
+  "description": "Unused ballots: section 2. The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "VOTARON",
+  "type": "integer",
+  "description": "Voters on the list: section 3. The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "REPRESENTANTES",
+  "type": "integer",
+  "description": "Representatives who voted: section 4. The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "PERSONAS_Y_REP",
+  "type": "integer",
+  "description": "Voters + representatives: section 5. The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "SACADOS",
+  "type": "integer",
+  "description": "Ballots taken from the boxes: section 7. The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT01",
+  "type": "integer",
+  "description": "Option 01: row 1 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT02",
+  "type": "integer",
+  "description": "Option 02: row 2 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT03",
+  "type": "integer",
+  "description": "Option 03: row 3 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT04",
+  "type": "integer",
+  "description": "Option 04: row 4 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT05",
+  "type": "integer",
+  "description": "Option 05: row 5 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT06",
+  "type": "integer",
+  "description": "Option 06: row 6 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT07",
+  "type": "integer",
+  "description": "Option 07: row 7 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT08",
+  "type": "integer",
+  "description": "Option 08: row 8 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT09",
+  "type": "integer",
+  "description": "Option 09: row 9 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT10",
+  "type": "integer",
+  "description": "Option 10: row 10 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT11",
+  "type": "integer",
+  "description": "Option 11: row 11 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT12",
+  "type": "integer",
+  "description": "Option 12: row 12 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT13",
+  "type": "integer",
+  "description": "Option 13: row 13 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT14",
+  "type": "integer",
+  "description": "Option 14: row 14 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "OPT15",
+  "type": "integer",
+  "description": "Option 15: row 15 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "NO_REGISTRADAS",
+  "type": "integer",
+  "description": "Unregistered candidates: row 16 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "NULOS",
+  "type": "integer",
+  "description": "Null votes: row 17 of the vote table (17 rows, top to bottom). The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ },
+ {
+  "name": "TOTAL",
+  "type": "integer",
+  "description": "TOTAL: section 6. The number written in the digit boxes; if the boxes are empty use the amount written in words; null if unreadable."
+ }
+]

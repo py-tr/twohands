@@ -1,0 +1,18 @@
+# secrets: never in the image
+.env
+.env.*
+*.env
+# not needed / private / large
+.git
+data/raw
+cache
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.tutor
+app/state
+results/*.log
+results/*.out
+results/*.err
+results/run_status.json
+slides

@@ -1,0 +1,19 @@
+# docker compose up --build   ->  http://localhost:8000
+# Keys (AMD_KEY, AMD_BASE_URL, EVOLUS_KEY, EVOLUS_APP_ID, ...) are read from .env at run time; see README "Run with Docker".
+services:
+  web:
+    build: .
+    image: twohands:latest
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ./data/masked:/app/data/masked:ro
+      - ./results:/app/results:ro
+      - state:/app/app/state
+    restart: unless-stopped
+
+volumes:
+  state:
