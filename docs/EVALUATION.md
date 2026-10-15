@@ -142,6 +142,8 @@ Elecciones art. 347), and in 2024 UNAM centres audited several state PREPs (sour
 
 ## Known limitations
 
+- A receipt-audit run on the public CORD benchmark was pre-registered (commit 365eb56) and not run for lack of time.
+
 - **One reader, one adjudicator.** Every disagreement was settled by one reviewer (the builder, an AI agent, not a
   native Spanish speaker) on published crops; anyone can re-check them, and the app's blind spot-check page lets a
   person do so without seeing any AI or capture value.
