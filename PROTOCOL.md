@@ -211,3 +211,45 @@ wording only.
 **Label-gate false alarms.** A form routed by the row-label check counts as a false alarm when its read matches PREP
 (adjudicated) on every graded field; reported as a count over label-routed forms, overall and where the label was the
 only cause.
+
+## Amendment 3 (2026-10-15 ~13:40 UTC): a fresh confirmation draw of 100 forms for gate v2
+
+**Why, and what was seen.** Gate v2 below was designed **after** seeing the Gemma reads of the 300 and the Amendment 2
+adjudication (`results/adjudication/SUMMARY.md`): 2 of the 3 disagreements on the 55 accepted forms were model misreads
+of SOBRANTES (section 2), the one graded field that sits in no arithmetic identity, and the row-label check routed 86
+forms, at least 68 of them on reads that match the paper. Any number gate v2 produces on the 300 is therefore
+**post-hoc** and is labelled so (`results/posthoc_v2_300.md`). The test of gate v2 is a fresh, untouched draw.
+
+**Sample.** Seed **20261017**, n = **100**, the same eligibility rules (section 2.1), the same state x capture strata,
+proportional allocation by largest remainder and within-stratum shuffle `random.Random("20261017:<stratum>")` (section
+2.2), the same replacement rule (2.3), **excluding the 300 run actas, the 43 pilot actas and the 150 calibration actas**.
+Code: `scripts/confirm_draw.py`. Manifest: `results/manifest_confirm100.json` (66 Movil, 34 Escaner, 0 replaced),
+**sha256 `cc238efc2a1110944b6d29c9e3b0acdf32fa24062e1305706ef5145b30e570a8`**. Preparation (download, Amendment 1
+locator, mask, raw deleted) is done before any read; log `results/prepare_confirm100.jsonl`. No page of the 100 is
+viewed by a person or sent to a model before this amendment is committed. Unlocated pages count as routed, never replaced.
+
+**Readers, prompt, schema, locator, mask, tiles:** unchanged (sections 3-4, Amendment 1). Gemma-4-31B-IT and
+Qwen3.8-27B each read all 100, Gemma first.
+
+**Gate v2** (`twohands/gate_v2.py`; the frozen `twohands/gate.py` is not changed). A form is accepted under v2 iff:
+1. it passes every check of the frozen gate (section 5: shape, row label, every digit field read, words = digits where
+   words were read, the four identities); and
+2. **(a)** every field that appears in **no** arithmetic identity of the schema (computed from the schema; for this form
+   only SOBRANTES) has **both** digits and words read **and** equal. Otherwise the form routes (code `unchecked`).
+- **v2, two-reader variant (v2-2R):** as v2, except that an unchecked field whose words are missing or differ from its
+  digits is accepted when Qwen's digits for that field equal Gemma's (Qwen's read otherwise not required to pass its gate).
+- **(b)** the row-label check is **unchanged** in v2. **v2b (secondary):** as v2, but the label check on logo rows is
+  relaxed: a logo row fails only if its label is empty, or it is part of a **run of two or more adjacent logo rows that
+  each fit the same-direction neighbour (i-1, or i+1) strictly better than their own row** (the trace of a skipped or
+  doubled row). An isolated misnamed logo passes. Text rows (sections 2-5, 7, NO REGISTRADAS, NULOS, TOTAL) keep the
+  keyword rule unchanged.
+
+**Truth and adjudication:** as section 6 and Amendment 2: every graded field on a form accepted under any of v1, v2,
+v2-2R, v2b where Gemma disagrees with PREP, and every ungradable field on such a form, is adjudicated on the masked crop.
+
+**Success criterion (pre-registered, primary = Gemma single-reader v2):** the **accepted-field error rate after
+adjudication is <= 0.5%** (errors / graded fields on v2-accepted forms; point estimate, reported with its Wilson 95%
+CI, which at this sample size will extend above 0.5%). Reported alongside, whatever they show: **touchless coverage**
+(v2-accepted / 100, unlocated and failed reads in the denominator, by capture type), the same for v1, v2-2R and v2b
+(v2b secondary), accepted-field errors for each, and the route-cause breakdown. If v2 fails the criterion, that is the
+result.
