@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Review desk · Two Hands{% endblock %}
+{% block content %}
+<section>
+  <div class="eyebrow">Review desk</div>
+  <h1 style="font-size:2.2rem">Only what the paper could not settle</h1>
+  <p class="lede" style="margin-top:12px">Each routed form arrives with the failing field named and its crop. Type the value you see; the form's identities re-check at once. A form is resolved only when its own arithmetic holds; if the paper itself is inconsistent, escalate it with a note.</p>
+  <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap"><span class="chip warn">{{ open_n }} open</span><span class="chip ok">{{ q|length - open_n }} done</span><span class="chip">{{ q|length }} routed forms in total</span></div>
+</section>
+
+<section style="margin-top:32px">
+  {% for it in q %}
+  <div class="card qcard {{ 'done' if it.review }}" id="q-{{ it.clave }}" data-clave="{{ it.clave }}">
+    <div>
+      <div class="row" style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+        <a class="mono" style="font-weight:650" href="/form/{{ it.clave }}">{{ it.clave }}</a>
+        <span class="chip {{ 'ok' if it.review and it.review.status == 'resolved' else ('bad' if it.review else 'warn') }}" data-status>{{ it.review.status if it.review else 'open' }}</span>
+      </div>
+      <p style="font-weight:600;margin:10px 0 6px">{{ it.line }}</p>
+      {% if it["items"]|length > 6 %}<p class="small muted">The rows do not add up and no single field is flagged; check the rows against the page.</p>{% endif %}
+      <div class="crops">
+        {% if it.has_image %}
+          {% for x in it["items"][:4] %}<figure><figcaption>{{ x.name }}</figcaption><img loading="lazy" src="/crop/{{ it.clave }}/{{ x.code }}.jpg" alt="crop of {{ x.name }}"></figure>{% endfor %}
+          {% if it["items"]|length > 4 %}<p class="tiny">+ {{ it["items"]|length - 4 }} more fields on the <a href="/form/{{ it.clave }}">full page</a></p>{% endif %}
+        {% else %}
+          <div class="placeholder" style="padding:22px"><strong>Masked page not prepared yet</strong>The crop appears once the core has masked this image.</div>
+        {% endif %}
+      </div>
+    </div>
+    <div>
+      <form class="rv" onsubmit="return false">
+        <div class="inputs">
+          {% for x in it["items"][:8] %}
+          <label><b>{{ x.name }}</b> · model read {{ x.n if x.n is not none else '—' }}{% if x.w is not none and x.w != x.n %} / words {{ x.w }}{% endif %}
+            <input inputmode="numeric" pattern="[0-9]*" name="{{ x.code }}" placeholder="type the value" value="{{ x.typed }}"></label>
+          {% endfor %}
+        </div>
+        {% if it.has_labels_issue %}<label class="check"><input type="checkbox" name="labels_confirmed"> I checked the row labels on the page: each value sits on the row it was read from.</label>{% endif %}
+        <textarea name="note" placeholder="Note (required to escalate)">{{ it.review.note if it.review else '' }}</textarea>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn primary sm" data-act="resolve">Re-check and resolve</button>
+          <button class="btn sm" data-act="escalate">Paper is inconsistent: escalate</button>
+          {% if it.review %}<button class="btn sm" data-act="reopen">Reopen</button>{% endif %}
+        </div>
+        <div class="out">{% if it.review %}<div class="msg {{ 'ok' if it.review.status == 'resolved' else 'warn' }} small">{{ it.review.status|capitalize }} {{ it.review.at }}{% if it.review.note %}: {{ it.review.note }}{% endif %}</div>{% endif %}</div>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll('.qcard').forEach(function (card) {
+  var clave = card.dataset.clave, form = card.querySelector('form'), out = card.querySelector('.out'), chip = card.querySelector('[data-status]');
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }
+  form.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act]'); if (!b) return;
+    var act = b.dataset.act;
+    if (act === 'reopen') { fetch('/api/review/' + clave, {method: 'DELETE'}).then(function () { location.reload(); }); return; }
+    var values = {};
+    form.querySelectorAll('.inputs input').forEach(function (i) { if (i.value.trim() !== '') values[i.name] = i.value.trim(); });
+    var note = form.querySelector('[name=note]').value.trim();
+    if (act === 'escalate' && !note) { out.innerHTML = '<div class="msg warn small">Write a short note on what is inconsistent before escalating.</div>'; return; }
+    var lc = form.querySelector('[name=labels_confirmed]');
+    fetch('/api/review/' + clave, {method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({values: values, action: act, note: note, labels_confirmed: lc ? lc.checked : false})})
+      .then(function (r) { return r.json(); }).then(function (j) {
+        if (j.error) { out.innerHTML = '<div class="msg bad small">' + esc(j.error) + '</div>'; return; }
+        if (j.status === 'resolved') {
+          out.innerHTML = '<div class="msg ok small"><b>Resolved.</b> ' + esc(j.recheck.line) + '</div>'; chip.textContent = 'resolved'; chip.className = 'chip ok'; card.classList.add('done');
+        } else if (j.status === 'escalated') {
+          out.innerHTML = '<div class="msg warn small"><b>Escalated.</b> ' + esc(note) + '</div>'; chip.textContent = 'escalated'; chip.className = 'chip bad'; card.classList.add('done');
+        } else {
+          out.innerHTML = '<div class="msg bad small"><b>Still inconsistent.</b> ' + j.recheck.reasons.map(esc).join('; ') + '</div>';
+        }
+      });
+  });
+});
+</script>
+{% endblock %}

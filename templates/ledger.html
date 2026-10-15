@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ station }} {{ sh.years[0] }}–{{ sh.years[-1] }} · Two Hands{% endblock %}
+{% block content %}
+{% set acc = sh.cols|selectattr('accepted')|list|length %}
+<div class="small muted"><a href="/forms#ledgers">Forms</a> / rainfall ledger</div>
+<div class="sec-head" style="margin-top:8px;margin-bottom:14px">
+  <div>
+    <h1 style="font-size:1.9rem">{{ station }}, {{ sh.years[0] }}–{{ sh.years[-1] }}</h1>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+      <span class="chip">UK rainfall ledger, 10-year sheet</span><span class="chip">{{ meta.model }}</span><span class="chip">identity: 12 months = written annual total</span>
+    </div>
+  </div>
+  <a class="btn sm" href="{{ sh.pdf }}#page={{ sh.page }}" target="_blank" rel="noopener">Original sheet (PDF page {{ sh.page }}) ↗</a>
+</div>
+
+<div class="verdict {{ 'ok' if acc == sh.cols|length else 'bad' }}">
+  <div class="icon">{% if acc == sh.cols|length %}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>{% else %}<b style="font-size:1.25rem;line-height:1">!</b>{% endif %}</div>
+  <div>
+    <div class="t">{% if acc == sh.cols|length %}Accepted: 0 cells to key{% else %}{{ acc }} of {{ sh.cols|length }} years accepted; routed: {% for c in sh.cols if not c.accepted %}{{ c.year }}{{ ', ' if not loop.last }}{% endfor %}{% endif %}</div>
+    <div class="sub">A year is accepted only when its twelve monthly values sum to the clerk's handwritten annual total (within 0.01 in).</div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:22px;padding:10px 12px">
+  <div class="tablewrap">
+  <table class="ftable ledger">
+    <thead><tr><th>Month</th>{% for c in sh.cols %}<th class="yr">{{ c.year }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {% for m in meta.months %}{% set mi = loop.index0 %}
+      <tr><td class="nm" style="display:table-cell">{{ m }}</td>
+        {% for c in sh.cols %}{% set rv = c.read[mi] %}{% set tv = c.truth[mi] %}
+        <td class="n mono {{ 'colbad' if not c.accepted }} {{ 'miss' if (tv is not none) and (rv is none or (rv - tv)|abs > 0.005) }}" title="{{ 'volunteers: ' ~ tv if (tv is not none) and (rv is none or (rv - tv)|abs > 0.005) }}">{{ '—' if rv is none else '%.2f'|format(rv) }}</td>{% endfor %}</tr>
+      {% endfor %}
+      <tr class="tot"><td>Written total</td>{% for c in sh.cols %}<td class="n mono {{ 'colbad' if not c.accepted }}">{{ '—' if c.read_total is none else '%.2f'|format(c.read_total) }}</td>{% endfor %}</tr>
+      <tr><td class="muted">Sum of months</td>{% for c in sh.cols %}<td class="n mono muted {{ 'colbad' if not c.accepted }}">{{ '—' if c.read_sum is none else '%.2f'|format(c.read_sum) }}</td>{% endfor %}</tr>
+      <tr><td></td>{% for c in sh.cols %}<td class="n">{% if c.accepted %}<span class="st ok">✓</span>{% else %}<span class="st bad" title="{{ c.state }}">✕</span>{% endif %}</td>{% endfor %}</tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tiny" style="padding:8px 8px 2px;margin:0">Values as read by {{ meta.model }} ({{ meta.reader }}). Amber shading: a routed year. Orange numbers differ from the volunteers' transcription (hover for their value); the gate never sees the volunteers' values, they only grade it.</p>
+</div>
+<p class="tiny" style="margin-top:14px">Source: Rainfall Rescue, {{ sh.station }} PDF page {{ sh.page }} (<a href="{{ sh.pdf }}">{{ sh.pdf }}</a>), volunteer CSV <span class="mono">{{ sh.csv }}</span>. Hawkins et al. (2022), Geoscience Data Journal; the source repository carries no licence file, so the sheet image is linked, not copied.</p>
+{% endblock %}

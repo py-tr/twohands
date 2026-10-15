@@ -7,3 +7,8 @@ __pycache__/
 *.pyc
 .pytest_cache/
 results/run.log
+.tutor/
+results/*.out
+results/*.err
+results/*.log
+results/run_status.json

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Form {{ clave }} · Two Hands{% endblock %}
+{% set strata = {'A_clean': 'clean control', 'B_paper_sum_mismatch': 'paper rows do not sum', 'C_prep_ne_certified': 'capture differs from certified', 'D_recounted_sum_mismatch': 'recounted, rows do not sum'} %}
+{% block content %}
+<div class="small muted"><a href="/forms">Forms</a> / tally sheet</div>
+<div class="sec-head" style="margin-top:8px;margin-bottom:14px">
+  <div>
+    <h1 class="mono" style="font-size:1.9rem;letter-spacing:-0.02em">{{ clave }}</h1>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+      <span class="chip">INE 2024 tally sheet, type 2</span>
+      {% if off.dig %}<span class="chip">{{ {'M': 'phone photo', 'E': 'scanner'}[off.dig] }}</span>{% endif %}
+      {% if off.entidad %}<span class="chip">{{ off.entidad|title }}</span>{% endif %}
+      {% if off.cert_mode %}<span class="chip">certified by {{ {'Cotejo': 'comparison', 'Recuento': 'recount'}.get(off.cert_mode, off.cert_mode) }}</span>{% endif %}
+      {% if off.stratum %}<span class="chip">sample: {{ strata.get(off.stratum, off.stratum) }}</span>{% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="verdict {{ 'ok' if ev.accepted else 'bad' }}">
+  <div class="icon">{% if ev.accepted %}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>{% else %}<b style="font-size:1.25rem;line-height:1">!</b>{% endif %}</div>
+  <div>
+    <div class="t">{{ ev.line }}</div>
+    <div class="sub">{% if ev.accepted %}Every identity on the page holds, so nobody keys this form.{% else %}Sent to the <a href="/review">review desk</a>{% if ev.failing %} with {{ ev.failing|unique|list|length }} field{{ 's' if ev.failing|unique|list|length > 1 }} named{% else %}: the paper's own arithmetic disagrees{% endif %}.{% endif %}
+      {% if review %} · Review: <b>{{ review.status }}</b>{% endif %}</div>
+  </div>
+</div>
+
+<div class="viewer">
+  <div>
+    {% if has_image %}
+      <div class="page-frame"><img src="/masked/{{ clave }}.jpg" alt="Privacy-masked page of form {{ clave }}" loading="eager"></div>
+      <p class="tiny" style="margin-top:8px">Straightened by its corner marks; the right-hand column (officials' names and signatures) is blacked out before the page is stored or sent to the model.</p>
+    {% else %}
+      <div class="placeholder"><strong>Masked page not prepared yet</strong>Images are shown only after the core's privacy masking has run on them. The values below are the measured read of this form.</div>
+    {% endif %}
+    <div class="card live" style="margin-top:16px" id="live" data-clave="{{ clave }}" data-image="{{ 1 if has_image else 0 }}">
+      <div class="live-head">
+        <div>
+          <div class="eyebrow" style="margin-bottom:6px">Live</div>
+          <h3 style="margin:0">Read this form live on AMD</h3>
+          <p class="small muted" style="margin:6px 0 0">Gemma-4-31B-IT reads the masked page again now; the gate checks it.</p>
+        </div>
+        <div style="text-align:right">
+          <div class="timer" id="timer" hidden>0.0 s</div>
+          <button class="btn primary" id="liveBtn" {{ 'disabled' if not has_image }}>Read live on AMD</button>
+        </div>
+      </div>
+      <div class="note">Takes about a minute: one request carrying the masked page and its zoomed tiles goes to a shared endpoint that is paced to stay inside its rate limit (and is also running our measured batch). The model answers in one piece; the fields then appear as the gate checks each one. One live read runs at a time for the whole site.{% if not has_image %} <b>This form has no masked page yet, so it cannot be sent.</b>{% endif %}</div>
+      <ul class="stages" id="stages"></ul>
+      <div class="tiles" id="tiles" hidden></div>
+      <div id="liveIdents" class="idents" style="margin-top:12px"></div>
+      <div id="liveMsg"></div>
+    </div>
+    {% set kerr = errors|selectattr('kind', 'equalto', 'keying')|list %}
+    {% set perr = errors|selectattr('kind', 'equalto', 'paper')|list %}
+    {% if kerr %}
+    <div class="card" style="margin-top:16px;padding:18px">
+      <h3>Keying error{{ 's' if kerr|length > 1 }} in the official capture</h3>
+      {% for e in kerr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: the image shows <b class="mono">{{ e.image_value }}</b>; the official capture keyed <b class="mono" style="color:var(--bad)">{{ e.official }}</b>{% if e.certified is not none %}; certified count <b class="mono">{{ e.certified }}</b>{% endif %}.</p>{% endfor %}
+      <a class="small" href="/audit">All keying errors →</a>
+    </div>
+    {% endif %}
+    {% if perr %}
+    <div class="card" style="margin-top:16px;padding:18px">
+      <h3>Paper inconsistency</h3>
+      {% for e in perr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: on the paper the words say <b class="mono">{{ e.words }}</b> and the digits <b class="mono">{{ e.image_value }}</b>. The official capture applied its words-prevail rule and keyed {{ e.official }}; the rows and section 7{% if e.certified is not none %}, and the certified count ({{ e.certified }}),{% endif %} support {{ e.image_value }}. Not a keying error: a person should settle it, which is why the gate routed this form.</p>{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <div>
+    <div class="tabs">
+      {% for rid, rr in reads if rid in main_runs or rid == r.run_id %}<a href="/form/{{ clave }}?run={{ rid }}" class="{{ 'on' if rid == r.run_id }}">{{ short[rid] }}</a>{% endfor %}
+    </div>
+    {% set others = reads|rejectattr('0', 'in', main_runs)|rejectattr('0', 'equalto', r.run_id)|list %}
+    {% if others %}<details class="others"><summary class="tiny">Other runs ({{ others|length }})</summary><div class="tabs" style="margin-top:8px">{% for rid, rr in others %}<a href="/form/{{ clave }}?run={{ rid }}">{{ short[rid] }}</a>{% endfor %}</div></details>{% endif %}
+    <p class="tiny" style="margin:-4px 0 12px">{{ run.label }}. Source: <span class="mono">{{ run.source }}</span>.{% if not r.has_labels %} This read predates the row-label check; labels are checked on newer reads.{% endif %}{% if r.secs %} Read in {{ r.secs }} s{% endif %}{% if r.cost %}, {{ r.cost|usd(6) }}{% endif %}.</p>
+
+    <div class="card" style="padding:8px 10px 6px">
+      <div class="tablewrap">
+      <table class="ftable" id="ftable">
+        <thead><tr><th>Field</th><th class="n">Digits</th><th class="n">Words</th><th class="n">Official<br>capture</th><th class="n">Certified</th><th></th>{% if has_image %}<th></th>{% endif %}</tr></thead>
+        <tbody>
+        {% for f in ev.fields %}
+          {% set p = off.prep[f.key] if off.prep and f.key in off.prep else none %}
+          {% set c = off.cert[f.key] if off.cert and f.key in off.cert else none %}
+          {% set a = off.adjudicated[f.key] if off.adjudicated and f.key in off.adjudicated else none %}
+          <tr class="{{ 'bad' if f.status != 'ok' }} {{ 'sep' if f.code in ['OPT01', 'TOTAL'] }}" data-key="{{ f.code }}" data-name="{{ f.name }}">
+            <td><span class="fname">{{ f.name }}</span>{% if f.section %}<div class="nm">{{ f.section }}</div>{% endif %}{% if f.fix %} <span class="chip warn" title="crossed out and rewritten">rewritten</span>{% endif %}
+              {% if f.status == 'label' %}<div class="tiny" style="color:var(--bad)">{{ f.msg }}</div>{% endif %}</td>
+            <td class="n {{ 'hl' if f.status in ['words', 'empty'] }}">{{ '—' if f.n is none else f.n }}</td>
+            <td class="n {{ 'hl' if f.status == 'words' }}">{{ '—' if f.w is none else f.w }}</td>
+            <td class="n {{ 'diff' if p is not none and f.n is not none and p != f.n }}" title="{{ 'eye-checked: the capture mis-keyed this field; the image shows ' ~ a if a is not none }}">{{ '' if p is none else p }}{% if a is not none %}<sup>†</sup>{% endif %}</td>
+            <td class="n">{{ '' if c is none else c }}</td>
+            <td>{% if f.status == 'ok' %}<span class="st ok" title="consistent">✓</span>{% else %}<span class="st bad" title="{{ f.msg }}">!</span>{% endif %}</td>
+            {% if has_image %}<td><button class="linkbtn" data-crop="{{ f.code }}">crop</button></td>{% endif %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      <p class="tiny" style="padding:8px 8px 4px;margin:0">Options 01–15 are the form's vote rows in printed order, shown without party names. Digits and words are the model's two independent readings. Official capture: the double-keyed official capture of this image (PREP). Certified: the certified district count (Cómputos), which has no section 2-5 or 7 values. Amber: the capture differs from the model. † eye-checked: the capture mis-keyed the field.{% if g.graded %} Against the official capture this read differs on {{ g.wrong_raw|length }} of {{ g.n }} fields; after eye-checking, {{ g.wrong_adj|length }}.{% endif %}</p>
+    </div>
+
+    <h3 style="margin:26px 0 12px">The paper's identities</h3>
+    <div class="idents">
+      {% for i in ev.identities %}
+      <div class="ident {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}">
+        <span class="st {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}">{{ '✓' if i.ok else ('–' if i.ok is none else '✕') }}</span>
+        <span class="nm">{{ i.name }}</span>
+        <span class="eq">{% if i.ok is none %}not checkable{% else %}{{ i.lhs }} {{ '=' if i.ok else '≠' }} {{ i.rhs }}{% endif %}</span>
+      </div>
+      {% endfor %}
+      {% set wd = ev.fields|selectattr('status', 'equalto', 'words')|list %}
+      <div class="ident {{ 'bad' if wd else 'ok' }}">
+        <span class="st {{ 'bad' if wd else 'ok' }}">{{ '✕' if wd else '✓' }}</span>
+        <span class="nm">words = digits on every field</span>
+        <span class="eq">{{ (ev.fields|length - wd|length) }} of {{ ev.fields|length }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/form.js?v=2"></script>
+{% endblock %}

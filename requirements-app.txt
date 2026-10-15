@@ -1,0 +1,7 @@
+# web app (in addition to the core's requirements)
+fastapi>=0.110
+uvicorn>=0.29
+jinja2>=3.1
+pillow>=10
+pyyaml>=6
+httpx>=0.27   # tests (fastapi TestClient)

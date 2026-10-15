@@ -1,0 +1,17 @@
+{"ts": "2026-10-15T01:28:35Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 80.8, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T01:28:38Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 3.2, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T01:32:20Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 5.8, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:32:30Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 5.9, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:32:46Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 12.0, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:32:50Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 5.1, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:32:59Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.0, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:33:17Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 11.0, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T01:33:24Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.5, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:33:39Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 1.3, "kind": "probe", "pid": 53884, "note": "provider 503"}
+{"ts": "2026-10-15T01:33:52Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 3.7, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T01:34:02Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.6, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:34:11Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 3.3, "kind": "read", "pid": 20940, "note": "provider 503"}
+{"ts": "2026-10-15T01:35:54Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 6.9, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T01:38:10Z", "model": "Gemma-4-31B-IT", "status": 500, "latency_s": 208.0, "kind": "read", "pid": 20940}
+{"ts": "2026-10-15T01:38:57Z", "model": "Gemma-4-31B-IT", "status": 200, "latency_s": 5.1, "kind": "probe", "pid": 53884}
+{"ts": "2026-10-15T01:39:04Z", "model": "Qwen3.8-27B", "status": 200, "latency_s": 1.9, "kind": "probe", "pid": 53884}

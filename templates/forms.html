@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Forms · Two Hands{% endblock %}
+{% block content %}
+<section>
+  <div class="eyebrow">Form viewer</div>
+  <h1 style="font-size:2.2rem">Pick any form</h1>
+  <p class="lede" style="margin-top:12px">Every form opens instantly from its measured read. Tally sheets with a privacy-masked page can also be read again, live, on AMD.</p>
+</section>
+
+<section id="tally">
+  <div class="sec-head">
+    <div><h2>Polling-station tally sheets</h2><p>{{ ine|length }} forms. Default reader: {{ run.label if run else 'none' }}.</p></div>
+  </div>
+  <div class="filters" data-filter="#ine">
+    <button class="on" data-f="all">All {{ ine|length }}</button>
+    <button data-f="ok">Accepted {{ ine|selectattr('accepted')|list|length }}</button>
+    <button data-f="bad">Routed {{ ine|rejectattr('accepted')|list|length }}</button>
+    <button data-f="img">With masked page {{ ine|selectattr('has_image')|list|length }}</button>
+  </div>
+  <div class="flist" id="ine">
+    {% for f in ine %}
+    <a class="fitem" href="/form/{{ f.clave }}" data-ok="{{ 'ok' if f.accepted else 'bad' }}" data-img="{{ 'img' if f.has_image else '' }}">
+      <div class="row"><span class="id">{{ f.clave }}</span>
+        {% if f.accepted %}<span class="chip ok"><span class="dot"></span>Accepted</span>{% else %}<span class="chip warn"><span class="dot"></span>Routed</span>{% endif %}</div>
+      <div class="ln">{{ f.line }}</div>
+      <div class="row"><span class="tiny">{{ {'M': 'phone photo', 'E': 'scanner'}.get(f.dig, '') }}{% if f.entidad %} · {{ f.entidad|title }}{% endif %}</span>
+        <span class="tiny">{{ 'masked page' if f.has_image else 'values only' }}</span></div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="ledgers">
+  <div class="sec-head"><div><h2>Rainfall ledgers</h2><p>{{ sheets|length }} sheets from 5 stations. Each year-column is accepted only if its twelve months sum to the clerk's written total.</p></div></div>
+  <div class="flist">
+    {% for s in sheets %}
+    <a class="fitem" href="/ledger/{{ s.id }}">
+      <div class="row"><span class="id" style="font-family:var(--sans)">{{ s.station }}</span>
+        <span class="chip {{ 'ok' if s.acc == s.n else 'warn' }}">{{ s.acc }}/{{ s.n }} years</span></div>
+      <div class="ln">{{ s.years[0] }}–{{ s.years[-1] }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll('.filters').forEach(function (bar) {
+  var list = document.querySelector(bar.dataset.filter);
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    bar.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    var f = b.dataset.f;
+    list.querySelectorAll('.fitem').forEach(function (it) {
+      var show = f === 'all' || it.dataset.ok === f || (f === 'img' && it.dataset.img === 'img');
+      it.style.display = show ? '' : 'none';
+    });
+  });
+});
+</script>
+{% endblock %}

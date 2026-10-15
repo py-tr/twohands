@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Two Hands{% endblock %}</title>
+<meta name="description" content="Touchless form capture with proof: the model reads, the paper decides.">
+<link rel="icon" href="/static/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css?v=4">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands<small>the model reads, the paper decides</small></a>
+    <nav class="nav">
+      <a href="/" class="{{ 'on' if nav == 'home' }}">Overview</a>
+      <a href="/forms" class="{{ 'on' if nav == 'forms' }}">Forms</a>
+      <a href="/review" class="{{ 'on' if nav == 'review' }}">Review desk</a>
+      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">Audit</a>
+      <a href="/results" class="{{ 'on' if nav == 'results' }}">Results</a>
+    </nav>
+  </div>
+</header>
+<main><div class="wrap">
+{% block content %}{% endblock %}
+</div></main>
+<footer><div class="wrap">
+  <p><b>Data.</b> Tally-sheet images and the official capture: INE PREP 2024 (prep2024.ine.mx) and certified Cómputos Distritales 2024 (computos2024.ine.mx), consulted 2026-10-14, reused under INE's free-use terms (Libre-Uso-MX, SICEE). Images are shown only after privacy masking: the column with officials' names and signatures is blacked out before anything is stored. This is an independent demonstration of clerical capture quality; it is not an official INE product and does not represent a position of INE or any government.</p>
+  <p>Rainfall ledgers: Rainfall Rescue (Hawkins et al., Geoscience Data Journal 2022; github.com/ed-hawkins/rainfall-rescue; Met Office scans). Only our extracted values are shown; sheet images are linked at their public source. Every number on this site is listed with its source in docs/NUMBERS.md.</p>
+</div></footer>
+{% block scripts %}{% endblock %}
+</body>
+</html>

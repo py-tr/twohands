@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Audit · Two Hands{% endblock %}
+{% block content %}
+{% set conf = errs|selectattr('status', 'equalto', 'confirmed')|list %}
+{% set acc = conf|selectattr('accepted_by')|list %}
+{% set cand = errs|selectattr('status', 'equalto', 'candidate')|list %}
+<section>
+  <div class="eyebrow">Audit mode</div>
+  <h1 style="font-size:2.2rem">Keying errors in data that was already keyed twice</h1>
+  <p class="lede" style="margin-top:12px">Run the reader over forms that were already captured, and list every field where the capture disagrees with a form the paper's own arithmetic accepts. Each one below was checked by eye against the image. The certified count is shown wherever it covers the field.</p>
+</section>
+
+<section style="margin-top:32px">
+  <div class="sec-head"><div><h2>On forms the gate accepted</h2><p>{{ acc|length }} fields on {{ acc|map(attribute='clave')|unique|list|length }} forms. In every one the image shows the official capture mis-keyed; the model's reading was right.</p></div></div>
+  {% for e in acc %}{% include "_err.html" %}{% endfor %}
+</section>
+
+{% set rest = conf|rejectattr('accepted_by')|list %}
+{% set rest_k = rest|selectattr('kind', 'equalto', 'keying')|list %}
+{% set rest_p = rest|selectattr('kind', 'equalto', 'paper')|list %}
+{% if rest_k %}
+<section>
+  <div class="sec-head"><div><h2>Keying error on a routed form</h2><p>Found while reviewing a form the gate sent to a person.</p></div></div>
+  {% for e in rest_k %}{% include "_err.html" %}{% endfor %}
+</section>
+{% endif %}
+{% if rest_p %}
+<section>
+  <div class="sec-head"><div><h2>Paper inconsistency, not a keying error</h2><p>The paper itself disagrees with itself; the capture followed its rule. Shown for completeness and not counted above.</p></div></div>
+  {% for e in rest_p %}{% include "_err.html" %}{% endfor %}
+</section>
+{% endif %}
+
+{% if cand %}
+<section>
+  <div class="sec-head"><div><h2>Candidates awaiting an eye check</h2><p>From newer runs: the model and the capture disagree on an accepted form. Not counted until someone checks the image.</p></div></div>
+  {% for e in cand %}{% include "_err.html" %}{% endfor %}
+</section>
+{% endif %}
+<p class="tiny" style="margin-top:28px">Method: the model's reading on accepted forms was compared with the official capture (PREP) of the same image; every disagreement was checked by eye on the image (spikes/tally-witness/adjudicate.json). Only disagreements on accepted forms were checked, so other capture errors may exist that this list does not show. Certified values: Cómputos Distritales 2024.</p>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Results · Two Hands{% endblock %}
+{% block content %}
+{% set h = n.headline_run %}
+{% set g = runs|selectattr('id', 'equalto', 'spike-gemma-v2')|first %}
+{% set si = meta.single_image %}
+<section>
+  <div class="eyebrow">Evaluation</div>
+  <h1 style="font-size:2.2rem">What we measured, and where it breaks</h1>
+  <p class="lede" style="margin-top:12px">Every figure on this page is computed when the page loads from the results files listed in each row. New runs dropped into <span class="mono">results/*.jsonl</span> appear here without code changes.</p>
+</section>
+
+<section style="margin-top:36px">
+  <div class="grid2">
+    <div class="card callout ok" style="border-left-width:4px">
+      <div class="eyebrow" style="color:var(--ok)">Business result</div>
+      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">{{ h.accepted }} of {{ h.forms }} forms ({{ '%.0f'|format(100 * h.accept_rate) }}%) needed no keying at all, and {{ h.acc_wrong_adj }} of their {{ h.acc_fields|int }} fields were wrong; the official double-keyed capture had {{ n.on_acc|length }} keying errors on those same forms.</p>
+      <p class="small muted">{{ h.label }}. Graded against the official capture, with every disagreement on an accepted form checked by eye. Cost {{ (h.cost_per_form or 0)|usd(6) }} per form, so {{ n.business.national_g }} to audit all {{ cited.national_forms.text }} national forms.</p>
+    </div>
+    <div class="card callout warn" style="border-left-width:4px">
+      <div class="eyebrow" style="color:var(--warn)">Known limitation</div>
+      {% if h.kind == 'spike' %}
+      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">The headline sample is small and was chosen to be difficult.</p>
+      <p class="small muted">{{ h.forms }} forms from 10 districts, deliberately enriched with troubled forms (so the touchless rate is a lower bound), one run, crop positions tuned by hand. Only disagreements on accepted forms were eye-checked. The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD Instinct endpoint. A pre-registered random run of 300 forms is in progress; it replaces these figures when it lands.</p>
+      {% else %}
+      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One run, one reader, crop positions tuned by hand.</p>
+      <p class="small muted">{{ h.forms }} forms ({{ h.source }}). Disagreements with the official capture on accepted forms ({{ h.acc_wrong_raw }}) are counted as errors until someone checks them by eye{% if h.acc_wrong_raw != h.acc_wrong_adj %}; {{ h.acc_wrong_raw - h.acc_wrong_adj }} have been checked and were capture errors{% endif %}. The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD Instinct endpoint.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div><h2>Every run</h2><p>Highlighted: the run behind the headline numbers ({{ headline_id }}). Once a core run of 100 or more graded forms exists, it takes over.</p></div></div>
+  <div class="card" style="padding:6px 8px">
+    <div class="tablewrap">
+    <table class="rtable">
+      <thead><tr><th>Reader</th><th>Forms</th><th>Accepted</th><th>Accepted fields wrong<br>(vs capture → after eye check)</th><th>All fields right</th><th>Routed, read perfectly</th><th>USD / form</th><th>Mean s</th></tr></thead>
+      <tbody>
+      {% for r in runs %}
+        <tr class="{{ 'hl' if r.id == headline_id }}">
+          <td><b>{{ r.label }}</b><div class="tiny mono" style="word-break:break-all">{{ r.source }}</div></td>
+          <td>{{ r.forms }}{% if r.not_located %}<div class="tiny">{{ r.not_located }} not located</div>{% endif %}</td>
+          <td>{{ r.accepted }} ({{ '%.0f'|format(100 * (r.accept_rate or 0)) }}%)</td>
+          <td>{% if r.acc_fields %}{{ r.acc_wrong_raw }} → <b>{{ r.acc_wrong_adj }}</b> of {{ r.acc_fields|int }}{% elif r.graded_forms %}no accepted forms{% else %}not graded{% endif %}</td>
+          <td>{% if r.all_fields %}{{ '%.1f'|format(100 * (r.all_fields - r.all_wrong_adj) / r.all_fields) }}%{% else %}—{% endif %}</td>
+          <td>{{ r.paper_rejects if r.graded_forms else '—' }}</td>
+          <td class="mono">{{ r.cost_per_form|usd(6) if r.cost_per_form else '—' }}</td>
+          <td>{{ '%.0f'|format(r.mean_secs) if r.mean_secs else '—' }}</td>
+        </tr>
+      {% endfor %}
+        <tr>
+          <td><b>{{ meta.model }}, rainfall ledgers, {{ meta.reader.split(' (')[0] }}</b><div class="tiny mono">ledger/ledger.json (from spikes/ledger-rescue)</div></td>
+          <td>{{ lm.sheets }} sheets<div class="tiny">{{ lm.cols }} year-columns</div></td>
+          <td>{{ lm.acc_cols }} cols ({{ '%.1f'|format(100 * lm.acc_cols / lm.cols) }}%)</td>
+          <td>{{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} cells</td>
+          <td>{{ '%.1f'|format(100 * lm.all_ok / lm.cells) }}%</td>
+          <td>—</td>
+          <td class="mono">{{ lm.usd_per_sheet|usd(6) }}</td>
+          <td>—</td>
+          <td class="tiny mono">ledger/ledger.json (spikes/ledger-rescue)</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <p class="tiny" style="margin-top:10px">"Routed, read perfectly": forms the gate sent to a person although every field was read right, i.e. the paper itself is inconsistent (rows that do not add up, words that disagree with digits). Those are correct routings, not reader errors. Spike runs predate the row-label check; core runs include it.</p>
+</section>
+
+<section>
+  <div class="sec-head"><div><h2>One failure, shown honestly</h2><p>The arithmetic gate has a blind spot: an error that keeps the arithmetic true.</p></div></div>
+  <div class="card callout bad" style="border-left-width:4px">
+    <h3>Silent column shift on a rainfall ledger</h3>
+    <p class="small" style="margin-top:8px">Read as one image, {{ meta.model }} put Balcombe Gables' 1887 values under 1886, and so on along the row. Every shifted column still sums to its total, so the checksum accepted wrong cells: on that reader, {{ si.acc_col_cells - si.acc_col_exact }} of {{ si.acc_col_cells }} accepted cells were wrong ({{ si.cells|int }} cells read, {{ si.cell_acc }}% right overall). Zoomed tiles removed it ({{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} accepted cells wrong), but tiling is a mitigation, not a proof.</p>
+    <p class="small"><b>What we built because of it:</b> on the tally sheet the reader must report the printed label it sees on every row, and the gate rejects a row whose label is not the one expected at that position, so a shifted or doubled row cannot pass.{% if label_fp %} That check has its own cost: {{ label_fp|length }} form{{ 's' if label_fp|length > 1 }} in the newer runs {{ 'were' if label_fp|length > 1 else 'was' }} routed for row labels although every value was right ({% for x in label_fp %}<a class="mono" href="/form/{{ x.clave }}?run={{ x.run }}">{{ x.clave }}</a>{{ ', ' if not loop.last }}{% endfor %}): a false alarm that costs a person one look.{% endif %}</p>
+    <p class="tiny" style="margin:0">Sources: {{ si.source }}; spikes/ledger-rescue/README.md §4.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div><h2>The safeguard: a person sees everything the paper cannot settle</h2></div></div>
+  <div class="grid2">
+    <div class="card">
+      <p>Nothing is ever corrected silently. A form is accepted only when every identity the paper carries holds; everything else goes to the <a href="/review">review desk</a> with the failing field named and its crop, and a person types one value. If the paper itself is inconsistent, the person escalates it with a note.</p>
+      <p class="small muted" style="margin:0">Review desk now: {{ queue_n }} routed forms, {{ resolved }} handled.</p>
+    </div>
+    <div class="card">
+      <p>Privacy is applied before anything else: the page is located by its corner marks and the column with officials' names and signatures is blacked out before the image is stored, sent to the model, or shown here. A page that cannot be located is not stored or sent at all; it goes to a person.</p>
+      <p class="small muted" style="margin:0">Framing: these are clerical capture checks on a settled 2024 count; the certified count is shown wherever it covers a field, and no party is compared with another and nothing is totalled across forms.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

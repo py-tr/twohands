@@ -1,0 +1,26 @@
+{% set rule = e.kind == 'paper' %}
+<div class="card err">
+  <div>
+    {% if e.has_image %}<img loading="lazy" style="border-radius:10px;border:1px solid var(--line);width:100%" src="/crop/{{ e.clave }}/{{ e.code }}.jpg?pad=0.014" alt="crop of {{ e.name }} on {{ e.clave }}">
+    {% else %}<div class="placeholder" style="padding:26px"><strong>Crop pending</strong>The masked page for this form has not been prepared yet; the crop appears once it has.</div>{% endif %}
+  </div>
+  <div>
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap">
+      <div><a class="mono" style="font-weight:650" href="/form/{{ e.clave }}">{{ e.clave }}</a> · <span>{{ e.name }}</span></div>
+      <span class="chip {{ 'warn' if rule or e.status != 'confirmed' else 'bad' }}">{{ 'paper inconsistency' if rule else ('keying error' if e.status == 'confirmed' else 'candidate') }}</span>
+    </div>
+    <div class="vals" style="margin-top:12px">
+      <div class="box right"><div class="l">{{ 'The digits show' if rule else 'The image shows' }}</div><div class="v">{{ e.image_value if e.image_value is not none else '?' }}</div></div>
+      <div class="box {{ 'wrong' if not rule }}"><div class="l">Official capture keyed</div><div class="v">{{ e.official }}</div></div>
+      <div class="box"><div class="l">Model read</div><div class="v" style="font-size:1rem;margin-top:4px">{% for m, v in e.models.items() %}<div>{{ v }} <span class="tiny">{{ m }}</span></div>{% endfor %}</div></div>
+      <div class="box {{ 'right' if e.cert_agrees }}"><div class="l">Certified count</div><div class="v">{{ e.certified if e.certified is not none else '—' }}</div>{% if e.certified is none %}<div class="tiny">not part of the certified data</div>{% else %}<div class="tiny">by {{ {'Cotejo': 'comparison', 'Recuento': 'recount'}.get(e.cert_mode, e.cert_mode) }}</div>{% endif %}</div>
+    </div>
+    <p class="small" style="margin:12px 0 0">
+      {% if e.status == 'confirmed' %}
+        {% if rule %}Verdict: not a keying error. The TOTAL words say {{ e.words }} and the digits {{ e.image_value }}; the capture applied the words-prevail rule. The rows and section 7 support {{ e.image_value }}{% if e.cert_agrees %}, and the certified count is {{ e.certified }}{% endif %}.
+        {% else %}Verdict: the capture mis-keyed this field{% if e.cert_agrees %}; the certified count agrees with the image{% endif %}.{% endif %}
+        {% if e.accepted_by %}<span class="muted">Form accepted by {{ e.accepted_by|join(' and ') }}.</span>{% endif %}
+      {% else %}Awaiting an eye check (run <span class="mono">{{ e.run }}</span>).{% endif %}
+    </p>
+  </div>
+</div>
