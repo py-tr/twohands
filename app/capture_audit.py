@@ -529,8 +529,8 @@ def run(a: dict, job_state=None, strict: bool = False) -> dict:
             if strict:
                 _strict(disputes[-1], kv, m, fid, k)
     order = list(by_code)
-    rank = {t: i for i, (t, _) in enumerate(TIERS)}
-    disputes.sort(key=lambda d: ((rank[d["tier"]] if strict else 0), -d["score"], d["form"], order.index(d["code"])))
+    tier_order = {t: i for i, (t, _) in enumerate(TIERS)}
+    disputes.sort(key=lambda d: ((tier_order[d["tier"]] if strict else 0), -d["score"], d["form"], order.index(d["code"])))
     for i, d in enumerate(disputes, 1):
         d["pos"] = i
     tiers = {t: sum(d["tier"] == t for d in disputes) for t, _ in TIERS}
