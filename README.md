@@ -42,7 +42,7 @@ verdict and crop in [`results/adjudication/`](results/adjudication/SUMMARY.md).
 | Measured on the 300 | Gemma: **87 s** mean latency on the shared endpoint, **$0.000144** per form, ~2,609 tokens in / 804 out, 289 of 289 replies `stop` |
 | Pilot (43 forms) | Gemma 49 s, $0.000118 per form; Qwen 85 s, $0.000507 per form |
 | Throughput | ~2 forms/min under our 6 req/min, 2-in-flight pacing on the shared endpoint |
-| Cost | **$0.14 per 1,000 forms** (Gemma); about $24 to re-read all 169,005 national tally forms |
+| Cost | **$0.14 per 1,000 forms** (Gemma); $20 to $86 compute cost to audit all 169,005 forms (Gemma, Qwen) |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
 
 Full detail and the raw result files: [docs/AMD.md](docs/AMD.md).

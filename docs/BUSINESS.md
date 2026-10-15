@@ -22,8 +22,8 @@ link it). Anything beyond elections is labelled **next market, not measured**.
   technological institutes for the rest). The other 6 were still choosing.
   [INE annex 5, CCOE session 23-02-2024](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf).
 - **The gap we fill.** Art. 347 audits the computer system. It does not check the keyed numbers against the paper,
-  field by field. Two Hands is that field-level check, sold to the auditor who is already contracted. This is our
-  reading of the rule, not something any institute has asked for yet.
+  field by field. Two Hands is that field-level check, sold to the auditor who is already contracted. Checking captured fields against the paper is our addition to the auditor's scope, not a legal requirement.
+  No institute has asked for it yet.
 - **The next window.** INE is organising the federal election and **32 concurrent local processes** for 2026-2027
   ([INE Central Electoral, 30 July 2026](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
   Election day is **6 June 2027**, with local deputies elected in 31 states
@@ -75,8 +75,8 @@ Read the strong tier first: two of every three are real.
 | **Proposed price, two readers, report included** | **$0.10** | **$100** | proposal |
 
 Compute with both readers is about $0.65 per 1,000 forms, under 1% of the proposed price. Hosting, support and
-sales are not measured and are not in that figure. For scale only: a set the size of the 2024 national presidential
-capture (169,005 forms, PREP 2024 CSV, `docs/NUMBERS.md` B) would bill about $16,900.
+sales are not measured and are not in that figure. For scale only: auditing all 169,005 forms of the 2024 national presidential capture
+(PREP 2024 CSV, `docs/NUMBERS.md` B) is $20 to $86 compute cost and would bill about $16,900.
 
 For a sense of the market price of machine reading, cloud form extraction lists at $30 per 1,000 pages (Google
 Document AI Form Parser, first tier, [pricing](https://cloud.google.com/document-ai/pricing)) and $70 per 1,000

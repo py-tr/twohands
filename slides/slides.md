@@ -34,11 +34,11 @@ A second keyer that shows its proof. An open vision model on AMD GPUs re-reads e
 
 ## Today every form is typed twice
 
-Organisations key paper forms twice, because one keyer's mistakes cannot be found any other way. Mexico's 2024 national capture programme did this for every tally sheet. It cost **MXN 273.6M**.
+Organisations key paper forms twice, because one keyer's mistakes cannot be found any other way. Mexico's 2024 national capture programme did this for every tally sheet.
 
 Double keying copies the paper faithfully. It cannot say which paper is wrong: **19.2%** of nationally captured tally forms (26,336 of 137,196) fail their own row sum.
 
-<p class="small">Sources: La Jornada 2024-05-26; PREP 2024 CSV. See docs/NUMBERS.md.</p>
+<p class="small">Source: PREP 2024 CSV. See docs/NUMBERS.md.</p>
 
 ---
 
@@ -176,7 +176,7 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 
 ## Market and model: the auditor pays
 
-**Now.** Every state PREP has an outside auditor (Reglamento de Elecciones art. 347); in 2024, 26 of 32 had named one, all universities or research centres. Next window: 32 concurrent local processes, election day **6 June 2027**. We add the field-by-field check against the paper.
+**Now.** Every state PREP has an outside auditor (Reglamento de Elecciones art. 347); in 2024, 26 of 32 had named one, all universities or research centres. Next window: 32 concurrent local processes, election day **6 June 2027**. We add the field-by-field check against the paper. Checking captured fields against the paper is our addition to the auditor's scope, not a legal requirement.
 
 **Next, not measured.** Clinical-trial source-data verification (site monitoring and source document verification: 15-30% of trial costs); keyed loan and claim files.
 

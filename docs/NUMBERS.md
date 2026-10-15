@@ -23,7 +23,7 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | Agreement with the capture | 6,091 of 6,358 = 95.80% | |
 | Recall | loose bound 7 of 23 (Wilson 16-51%); judged on the paper, 16 are corrections, measured 7 of 7 (Wilson 65-100%) | forms certified by comparison (Cotejo); vote rows + TOTAL; RECALL.md |
 | 52 by type | wrong numbers 17; readable recorded as illegible 27; typed where blank 6; other 2 | from PREP's keyed text and the paper value |
-| Cost per form (Gemma) | $0.000144; $0.14 per 1,000; ~$24 for 169,005 forms | mean `cost_usd` over the 289 reads |
+| Cost per form (Gemma) | $0.000144; $0.14 per 1,000; ~$24 compute cost for 169,005 forms | mean `cost_usd` over the 289 reads |
 
 ## A2. Pilot (43 hand-picked forms) and spikes (computed from results files)
 
@@ -37,7 +37,7 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | Routed, read perfectly | 7 (Gemma v2), 10 (Qwen) | the same | Rejected forms where every graded field equals the adjudicated truth. |
 | Cost per form | $0.000118 (Gemma v2), $0.000507 (Qwen) | `usage.cost` in each result file | Mean over the 43 reads. |
 | Per 1,000 forms | $0.12 / $0.51 | cost per form × 1,000 | |
-| Audit of the national set | $20 to $86 | cost per form × 169,005 (cited, below) | |
+| Compute cost to audit the national set | $20 to $86 compute cost to audit all 169,005 forms | cost per form × 169,005 (cited, below) | |
 | Mean latency | 49 s (Gemma v2), 85 s (Qwen) | `secs` in each result file | Wall-clock per request on the shared endpoint, including queueing. |
 | Tokens per form | about 2,153 in / 641 out (Gemma), 8,739 / 1,667 (Qwen) | `usage.prompt_tokens / completion_tokens` | Means. |
 | Ledger: sheets, cells | 40 sheets, 4,915 cells | `ledger/ledger.json` (built by `ledger/build.py` from `spikes/ledger-rescue`, which used the spike's own `evaluate.py`) | Cells where the volunteers have a value. |
@@ -53,11 +53,9 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | Shown as | Value | Source |
 |---|---|---|
 | National presidential tally forms | 169,005 | PREP 2024 CSV, https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip. Counted in `spikes/tally-witness/README.md` §1. |
-| National capture programme cost | MXN 273,630,875 (MXN 273.6M) | La Jornada, 2024-05-26 ("36 millones 315 mil 225 pesos que se suman a los 237 millones 315 mil 650 pesos"), quoted in `spikes/tally-witness/README.md` §5. No USD conversion is shown because we have no cited exchange rate. |
 | Every form keyed twice, third review on mismatch | (text) | nmas.com.mx, quoted in `spikes/tally-witness/README.md` §5 |
 | Forms failing their own row sum | 19.2% (26,336 of 137,196) | PREP 2024 CSV, computed in `spikes/tally-witness/README.md` §1 |
 | State-level counts in 2027 | ~32 | `spikes/tally-witness/README.md` §5 |
-| One state capture contract | MXN 24.94M (Campeche 2024) | `spikes/tally-witness/README.md` §5 |
 | AI-recognition pilot by a state institute | IEEQ Querétaro 2024, 264 polling stations | `spikes/tally-witness/README.md` §5 |
 | Endpoint | AMD Token Factory, the organisers' AMD route | `notes/rules.md` |
 | Throughput | ~2 forms/min under 6 req/min, 2-concurrent pacing | `spikes/tally-witness/README.md` §3 |
@@ -68,8 +66,7 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | Proposed price (a proposal, not measured) | $100 per 1,000 forms audited | docs/BUSINESS.md section 2 |
 | Volunteers | ~16,000, 4 transcriptions per value | Hawkins et al., Geoscience Data Journal 2022, quoted in `spikes/ledger-rescue/README.md` §1 |
 
-**Not shown:** a cost for a human keyer. We found no citable figure, so the business panel shows only our compute cost
-and the cited programme cost.
+**Not shown:** a cost for a human keyer. We found no citable figure, so the business panel shows only our compute cost.
 
 ## C. How a new run flows in
 

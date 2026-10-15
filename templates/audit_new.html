@@ -13,6 +13,11 @@
     <div class="eyebrow" style="margin-bottom:6px">Sample audit · no upload, no model call</div>
     <h2>Run the sample audit</h2>
     <p class="muted" style="margin:6px 0 0">The official first capture of the {{ H.forms or 300 }} pre-registered forms (the PREP 2024 values, as a keyed CSV with INE's own column names) against the stored Gemma reads of their masked pages. The report is ready in seconds.</p>
+    <ul class="buyers" style="margin-top:10px">
+      <li><b>The strong-evidence tier is a confirmed capture error 12 of 18 times.</b></li>
+      <li><b>The full dispute list reproduces in half a second.</b></li>
+    </ul>
+    <p class="tiny muted" style="margin:4px 0 0">Measured on the sample: 18 fields in the strong tier, 12 adjudicated as capture errors (results/adjudication/verdicts.json); <code>capture_audit.run</code> checks 6,358 fields and lists 267 disputes in 0.42 to 0.48 s on a laptop CPU.</p>
   </div>
   <div class="au-sample-go">
     <button class="btn primary lg" id="sample" data-act>{{ icon('play') }}Run the sample audit</button>

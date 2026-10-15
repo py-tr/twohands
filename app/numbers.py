@@ -14,11 +14,6 @@ CITED = {
         "what": "presidential tally forms (type 2) in the official 2024 capture",
         "source": "PREP 2024 CSV, https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip "
                   "(counted in spikes/tally-witness/README.md §1)"},
-    "programme_cost_mxn": {
-        "value": 273630875, "text": "MXN 273.6M",
-        "what": "cost of the 2024 national preliminary-results capture programme (PREP), which keys every form twice",
-        "source": "La Jornada, 2024-05-26 (\"36 millones 315 mil 225 pesos que se suman a los 237 millones 315 mil 650 "
-                  "pesos\"), quoted in spikes/tally-witness/README.md §5"},
     "double_keying": {
         "text": "keyed twice by two capturistas, third review on mismatch",
         "source": "nmas.com.mx, quoted in spikes/tally-witness/README.md §5"},
@@ -29,9 +24,6 @@ CITED = {
     "state_counts_2027": {
         "text": "~32 state-level counts in 2027",
         "source": "spikes/tally-witness/README.md §5 (6 June 2027 midterm, ~32 state PREPs)"},
-    "state_contract": {
-        "text": "MXN 24.94M", "what": "one state's 2024 capture contract (Campeche)",
-        "source": "spikes/tally-witness/README.md §5"},
     "ieeq_pilot": {
         "text": "IEEQ Querétaro 2024 piloted AI recognition on 264 polling stations' forms",
         "source": "spikes/tally-witness/README.md §5"},

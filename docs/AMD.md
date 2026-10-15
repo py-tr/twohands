@@ -73,8 +73,8 @@ summarised in `app/data/headline.json` by `scripts/build_headline.py`. What it m
 
 ## Cost at scale
 
-- **Re-read all 169,005 national presidential tally forms:** about $24 with Gemma at the cost measured on the 300
-  ($0.000144 x 169,005; form count from the PREP 2024 CSV); about $86 with Qwen at its pilot cost.
+- **$20 to $86 compute cost to audit all 169,005 forms** (national presidential tally sheets): about $24 compute cost with Gemma at the cost measured on the 300
+  ($0.000144 x 169,005; form count from the PREP 2024 CSV); about $86 compute cost with Qwen at its pilot cost.
 - **Time on the shared endpoint:** at about 2 forms a minute, about 59 days (`spikes/tally-witness/README.md`
   section 3). That pacing is a property of a shared hackathon key. A production run would use a dedicated AMD
   Instinct endpoint; we have not measured one, so we give no number for it.

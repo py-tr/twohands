@@ -141,8 +141,8 @@ Source: `ledger/ledger.json` (built from `spikes/ledger-rescue` with the spike's
 
 On 289 random forms already keyed twice, the model sent **267 of 6,358 fields (4.2%)** to a person, and **52** of
 those were fields where the official capture does not match the paper, each with its photo. The AMD compute cost was
-**$0.000144 per form** (mean over the 289 reads), about $0.14 per 1,000 forms, or about $24 to re-read all 169,005
-national tally forms. The buyer is the auditor: Mexico requires an outside audit of every PREP (Reglamento de
+**$0.000144 per form** (mean over the 289 reads), about $0.14 per 1,000 forms: $20 to $86 compute cost to audit all 169,005
+forms (Gemma, Qwen). The buyer is the auditor: Mexico requires an outside audit of every PREP (Reglamento de
 Elecciones art. 347), and in 2024 UNAM centres audited several state PREPs (sources in the README).
 
 ## Known limitations
