@@ -177,6 +177,11 @@ desk, live reads, Evolus callbacks) is a writable volume. Without a `.env` the a
 result. Note: inside the container the live-read rate limiter uses its own file (`app/state/ratelimit.json`), so it
 does not see a batch run on the host.
 
+## Deploy
+
+`deploy/deploy.sh user@IP [domain]` installs Docker, copies the repo (never `.env`, `data/raw`, `cache`) and your `.env` (scp, mode 600), and starts the app behind Caddy: HTTPS for a domain, plain HTTP on the IP otherwise; variables in `deploy/.env.prod.example`.
+`python -m app.export_static out/ --main-url URL` writes a static mirror (relative links, masked images only, live parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push to main.
+
 ## Repo map
 
 | Path | What |

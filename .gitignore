@@ -14,3 +14,5 @@ results/*.log
 results/run_status.json
 app/state/uploads/
 app/state/live_budget.json
+out/
+!deploy/.env.prod.example

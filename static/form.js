@@ -9,7 +9,7 @@
     if (next && next.classList.contains('croprow')) { next.remove(); b.textContent = 'crop'; return; }
     var row = document.createElement('tr'); row.className = 'croprow';
     var td = document.createElement('td'); td.colSpan = tr.children.length;
-    var img = new Image(); img.alt = 'crop'; img.src = '/crop/' + clave + '/' + b.dataset.crop + '.jpg';
+    var img = new Image(); img.alt = 'crop'; img.src = (window.TH_BASE || '/') + 'crop/' + clave + '/' + b.dataset.crop + '.jpg';
     td.appendChild(img); row.appendChild(td); tr.after(row); b.textContent = 'hide';
   });
 

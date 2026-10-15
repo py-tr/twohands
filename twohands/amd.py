@@ -53,7 +53,9 @@ class GaveUp(Exception):
     pass
 
 
-HEALTH = REPO / "results" / "endpoint_health.jsonl"
+# TWOHANDS_HEALTH_FILE: where to log (a deploy with results/ mounted read-only points it at app/state)
+HEALTH = (Path(os.environ["TWOHANDS_HEALTH_FILE"]) if os.environ.get("TWOHANDS_HEALTH_FILE")
+          else REPO / "results" / "endpoint_health.jsonl")
 
 
 def health(model, status, secs, kind="read", note=""):

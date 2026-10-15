@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 
 from twohands import REPO
 
-HEALTH = REPO / "results" / "endpoint_health.jsonl"
+from twohands.amd import HEALTH  # noqa: E402  (same file the core writes; TWOHANDS_HEALTH_FILE overrides)
 WINDOW_S = 15 * 60
 SLOW_S = 60.0
 KINDS = ("probe", "live")

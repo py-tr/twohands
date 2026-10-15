@@ -4,3 +4,5 @@ results/*.jsonl -text
 *.jpg binary
 schemas/* -text
 PROTOCOL.md -text
+*.sh text eol=lf
+deploy/Caddyfile text eol=lf
