@@ -12,3 +12,5 @@ results/*.out
 results/*.err
 results/*.log
 results/run_status.json
+app/state/uploads/
+app/state/live_budget.json

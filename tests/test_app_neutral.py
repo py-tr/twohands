@@ -24,7 +24,8 @@ def _clean(text, where):
 
 def _all_urls():
     s = storemod.get_store()
-    urls = ["/", "/forms", "/review", "/audit", "/results", "/healthz", "/api/live/status"]
+    urls = ["/", "/forms", "/review", "/audit", "/results", "/healthz", "/api/live/status", "/try", "/inbox", "/api",
+            "/api/export.csv", "/api/export.json", "/api/export.csv?status=accepted", "/openapi.json"]
     for k in s.ine_claves():
         urls += [f"/form/{k}", f"/api/form/{k}"]
         for rid in s.runs:

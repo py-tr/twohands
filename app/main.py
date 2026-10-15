@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import io
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Optional
@@ -15,14 +16,20 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from PIL import Image
 
+from app import health as healthmod
+from app import hero as heromod
+from app import inbox as inboxmod
 from app import numbers as numbersmod
 from app import review as reviewmod
 from app import store as storemod
+from app import upload as uploadmod
 from app.crops import field_boxes, mask_left_edge
 from app.live import LiveManager, Refused
 from twohands import REPO
 
-app = FastAPI(title="Two Hands", docs_url=None, redoc_url=None)
+app = FastAPI(title="Two Hands", version="1.0",
+              description="Touchless capture of self-checking paper forms: the model reads, the paper decides.",
+              docs_url="/docs", redoc_url=None)
 app.mount("/static", StaticFiles(directory=str(REPO / "static")), name="static")
 templates = Jinja2Templates(directory=str(REPO / "templates"))
 app.state.live = LiveManager()
@@ -42,7 +49,11 @@ def fmt_int(x):
 
 templates.env.filters["usd"] = fmt_usd
 templates.env.filters["int"] = fmt_int
+templates.env.filters["field_list"] = lambda fields: [{"code": f["code"], "name": f["name"]} for f in fields]
+templates.env.filters["plain"] = lambda t: re.sub(r"\s*\((spike|v\d)[^)]*\)", "", t or "").replace(" (spike)", "").replace("3_outage", "3, during an endpoint outage")
 templates.env.globals["cited"] = numbersmod.CITED
+templates.env.globals["amd_status"] = healthmod.status
+templates.env.globals["STATUSES"] = inboxmod.STATUSES
 
 # Evolus integration (additive): gate endpoint, case API, workflow callback; the panel reads the case records
 from evolus import web as evolusweb  # noqa: E402
@@ -58,7 +69,8 @@ def page(request: Request, name: str, nav: str, **ctx):
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     s = st()
-    return page(request, "home.html", "home", n=numbersmod.home(s), schema=storemod.schema())
+    return page(request, "home.html", "home", n=numbersmod.home(s), schema=storemod.schema(),
+                heroloop=heromod.loop_data(s), pending=heromod.pending_run(s))
 
 
 @app.get("/forms", response_class=HTMLResponse)
@@ -227,17 +239,32 @@ def live_status(request: Request):
     return request.app.state.live.status()
 
 
+def _refused(e: Refused) -> JSONResponse:
+    return JSONResponse({"refused": e.code, "message": e.message},
+                        status_code=409 if e.code in ("busy", "no_image") else 503)
+
+
 @app.post("/api/live/{clave}")
 def live_start(clave: str, request: Request):
+    """Queue a live read of one form's masked page on AMD. Returns the job id and its place in the queue."""
     s = st()
     if clave not in s.ine_claves():
         raise HTTPException(404, "unknown form")
+    m = request.app.state.live
     try:
-        job = request.app.state.live.start(clave, s.masked_image(clave))
+        job = m.start(clave, s.masked_image(clave))
     except Refused as e:
-        return JSONResponse({"refused": e.code, "message": e.message},
-                            status_code=409 if e.code in ("busy", "no_image") else 503)
-    return {"job": job.id}
+        return _refused(e)
+    return {"job": job.id, "position": m.position(job), "status_url": f"/api/jobs/{job.id}"}
+
+
+@app.get("/api/jobs/{job_id}")
+def job_status(job_id: str, request: Request):
+    """State of a live read: queued (with position), running, done or failed; elapsed time; stages; verdict."""
+    j = request.app.state.live.job_status(job_id)
+    if j is None:
+        raise HTTPException(404, "unknown job")
+    return j
 
 
 @app.get("/api/live/events/{job_id}")
@@ -250,3 +277,131 @@ def live_events(job_id: str, request: Request):
 def healthz():
     s = st()
     return {"ok": True, "runs": {k: len(v["reads"]) for k, v in s.runs.items()}, "ledger_sheets": len(s.ledger.get("sheets", []))}
+
+
+# ------------------------------------------------------------------------------------------- try it: your own photo
+def _flist():
+    return [{"code": storemod.code_of(f["key"]), "name": storemod.name_of(f["key"])} for f in storemod.schema()["fields"]]
+
+
+@app.get("/try", response_class=HTMLResponse)
+def try_page(request: Request):
+    return page(request, "try.html", "try", samples=uploadmod.SAMPLES, good=uploadmod.GOOD_PHOTO, up=None, ev=None,
+                flist=_flist())
+
+
+@app.get("/try/{uid}", response_class=HTMLResponse)
+def try_result(request: Request, uid: str):
+    m = uploadmod.meta(uid)
+    if m is None or uploadmod.page_path(uid) is None:
+        raise HTTPException(404, "unknown upload")
+    ev = None
+    if m.get("read"):
+        rd = m["read"]
+        ev = storemod.evaluate(storemod.read_from_core(uid, "live", {"clave": uid, "parsed": rd.get("parsed"),
+                                                                     "usage": rd.get("usage"), "secs": rd.get("secs")}))
+    return page(request, "try.html", "try", samples=uploadmod.SAMPLES, good=uploadmod.GOOD_PHOTO, up=m, ev=ev,
+                flist=_flist())
+
+
+def _queue_upload(request: Request, res: dict) -> dict:
+    if not res.get("ok"):
+        return res
+    uid = res["id"]
+    out = {"ok": True, "id": uid, "page_url": f"/try/{uid}", "masked_url": f"/upload/{uid}.jpg",
+           "fallback": res["info"].get("sample_of"), "locator": res["info"].get("locator")}
+    m = request.app.state.live
+    try:
+        job = m.start(uid, uploadmod.page_path(uid), kind="upload", out_dir=uploadmod.UPLOADS,
+                      fallback=res["info"].get("sample_of"))
+        out.update(job=job.id, position=m.position(job))
+    except Refused as e:
+        out.update(refused=e.code, message=e.message)
+    return out
+
+
+@app.post("/api/upload")
+async def api_upload(request: Request):
+    """Body: the photo itself (image/jpeg or image/png), not multipart, so it is never spooled to disk.
+    Located and masked in memory; only the masked page is stored; a live read is queued."""
+    data = bytearray()
+    async for chunk in request.stream():
+        data += chunk
+        if len(data) > uploadmod.MAX_BYTES:
+            return JSONResponse({"ok": False, "code": "not_a_photo", "message": "The photo is larger than 20 MB."},
+                                status_code=413)
+    res = uploadmod.process(bytes(data))
+    del data
+    if not res["ok"]:
+        return JSONResponse(res, status_code=422)
+    return _queue_upload(request, res)
+
+
+@app.post("/api/upload/sample/{name}")
+def api_upload_sample(name: str, request: Request):
+    res = uploadmod.process_sample(name)
+    if not res["ok"]:
+        return JSONResponse(res, status_code=404 if res["code"] == "unknown_sample" else 422)
+    return _queue_upload(request, res)
+
+
+@app.post("/api/upload/{uid}/read")
+def api_upload_read(uid: str, request: Request):
+    p = uploadmod.page_path(uid)
+    m = uploadmod.meta(uid)
+    if p is None or m is None:
+        raise HTTPException(404, "unknown upload")
+    try:
+        job = request.app.state.live.start(uid, p, kind="upload", out_dir=uploadmod.UPLOADS, fallback=m.get("sample_of"))
+    except Refused as e:
+        return _refused(e)
+    return {"job": job.id, "position": request.app.state.live.position(job)}
+
+
+@app.get("/upload/{uid}.jpg")
+def upload_image(uid: str):
+    p = uploadmod.page_path(uid)
+    if p is None:
+        raise HTTPException(404, "no masked page")
+    return FileResponse(p, media_type="image/jpeg", headers={"Cache-Control": "private, max-age=3600"})
+
+
+# ------------------------------------------------------------------------------------------- inbox + export
+@app.get("/inbox", response_class=HTMLResponse)
+def inbox(request: Request):
+    s = st()
+    rs = inboxmod.rows(s)
+    return page(request, "inbox.html", "inbox", rows=rs, k=inboxmod.kpis(rs), agr=inboxmod.agreement(s, rs),
+                live=request.app.state.live.status())
+
+
+def _export_rows(status: Optional[str]):
+    rs = inboxmod.rows(st())
+    if status:
+        rs = [r for r in rs if r["status"] in status.split(",")]
+    return rs
+
+
+@app.get("/api/export.json")
+def export_json(status: Optional[str] = None):
+    """Captured records as JSON (Option NN field codes, no party names). ?status=accepted,resolved filters."""
+    return JSONResponse(inboxmod.export_json(_export_rows(status)),
+                        headers={"Content-Disposition": "inline; filename=twohands-records.json"})
+
+
+@app.get("/api/export.csv")
+def export_csv(status: Optional[str] = None):
+    """Captured records as CSV, one row per form, one column per field (Option 01 ... TOTAL)."""
+    return Response(inboxmod.export_csv(_export_rows(status)), media_type="text/csv; charset=utf-8",
+                    headers={"Content-Disposition": "attachment; filename=twohands-records.csv"})
+
+
+@app.get("/api", response_class=HTMLResponse)
+def api_page(request: Request):
+    base = str(request.base_url).rstrip("/")
+    return page(request, "api.html", "api", base=base)
+
+
+@app.get("/favicon.ico")
+def favicon():
+    return FileResponse(REPO / "static" / "favicon.png", media_type="image/png")

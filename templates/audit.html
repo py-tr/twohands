@@ -1,13 +1,14 @@
 {% extends "base.html" %}
+{% from "_icons.html" import source %}
 {% block title %}Audit · Two Hands{% endblock %}
 {% block content %}
 {% set conf = errs|selectattr('status', 'equalto', 'confirmed')|list %}
 {% set acc = conf|selectattr('accepted_by')|list %}
 {% set cand = errs|selectattr('status', 'equalto', 'candidate')|list %}
-<section>
+<section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Audit mode</div>
-  <h1 style="font-size:2.2rem">Keying errors in data that was already keyed twice</h1>
-  <p class="lede" style="margin-top:12px">Run the reader over forms that were already captured, and list every field where the capture disagrees with a form the paper's own arithmetic accepts. Each one below was checked by eye against the image. The certified count is shown wherever it covers the field.</p>
+  <h1>Keying errors in data that was already keyed twice</h1>
+  <p class="lede">Run the reader over forms that were already captured, and list every field where the capture disagrees with a form the paper's own arithmetic accepts. Each one below was checked by eye against the image. The certified count is shown wherever it covers the field.</p>
 </section>
 
 <section style="margin-top:32px">
@@ -37,5 +38,5 @@
   {% for e in cand %}{% include "_err.html" %}{% endfor %}
 </section>
 {% endif %}
-<p class="tiny" style="margin-top:28px">Method: the model's reading on accepted forms was compared with the official capture (PREP) of the same image; every disagreement was checked by eye on the image (spikes/tally-witness/adjudicate.json). Only disagreements on accepted forms were checked, so other capture errors may exist that this list does not show. Certified values: Cómputos Distritales 2024.</p>
+<p class="tiny" style="margin-top:28px">Method: the model's reading on accepted forms was compared with the official capture (PREP) of the same image; every disagreement was checked by eye on the image {{ source('spikes/tally-witness/adjudicate.json') }}. Only disagreements on accepted forms were checked, so other capture errors may exist that this list does not show. Certified values: Cómputos Distritales 2024.</p>
 {% endblock %}

@@ -1,14 +1,17 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
 {% block title %}Review desk · Two Hands{% endblock %}
 {% block content %}
-<section>
+<section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Review desk</div>
-  <h1 style="font-size:2.2rem">Only what the paper could not settle</h1>
-  <p class="lede" style="margin-top:12px">Each routed form arrives with the failing field named and its crop. Type the value you see; the form's identities re-check at once. A form is resolved only when its own arithmetic holds; if the paper itself is inconsistent, escalate it with a note.</p>
-  <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap"><span class="chip warn">{{ open_n }} open</span><span class="chip ok">{{ q|length - open_n }} done</span><span class="chip">{{ q|length }} routed forms in total</span></div>
+  <h1>Only what the paper could not settle</h1>
+  <p class="lede">Each routed form arrives with the failing field named and its crop. Type the value you see; the form's identities re-check at once. A form is resolved only when its own arithmetic holds; if the paper itself is inconsistent, escalate it with a note.</p>
+  <div style="display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;align-items:center"><span class="chip warn"><span class="dot"></span>{{ open_n }} open</span><span class="chip ok"><span class="dot"></span>{{ q|length - open_n }} done</span><span class="chip ghost">{{ q|length }} routed forms in total</span><a class="btn sm" href="/inbox" style="margin-left:auto">{{ icon('inbox') }}Inbox</a></div>
+  {% if q %}<div class="progress" style="max-width:420px" aria-label="{{ q|length - open_n }} of {{ q|length }} done"><span style="width:{{ (100 * (q|length - open_n) / q|length)|round(1) }}%"></span></div>{% endif %}
 </section>
 
-<section style="margin-top:32px">
+<section style="margin-top:32px" id="queue">
+  {% if not q %}<div class="card empty">{{ icon('review') }}<b>All clear</b>No routed forms are waiting. New ones arrive here with the failing field named.</div>{% endif %}
   {% for it in q %}
   <div class="card qcard {{ 'done' if it.review }}" id="q-{{ it.clave }}" data-clave="{{ it.clave }}">
     <div>
@@ -48,10 +51,20 @@
     </div>
   </div>
   {% endfor %}
+  {% if q|length > 12 %}<div style="text-align:center;margin-top:20px"><button class="btn" id="more">Show 12 more <span class="muted" id="left"></span></button></div>{% endif %}
 </section>
 {% endblock %}
 {% block scripts %}
 <script>
+(function () {  // one screenful at a time: open forms first, then the rest on demand
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.qcard')), shown = 12, more = document.getElementById('more');
+  function render() {
+    cards.forEach(function (c, i) { c.hidden = i >= shown; });
+    if (more) { var left = cards.length - shown; more.hidden = left <= 0; document.getElementById('left').textContent = '(' + left + ' left)'; }
+  }
+  if (more) more.addEventListener('click', function () { shown += 12; render(); });
+  render();
+})();
 document.querySelectorAll('.qcard').forEach(function (card) {
   var clave = card.dataset.clave, form = card.querySelector('form'), out = card.querySelector('.out'), chip = card.querySelector('[data-status]');
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }

@@ -164,7 +164,7 @@ def read_from_core(clave: str, run_id: str, row: dict) -> Read:
         return Read(clave, run_id, vals, words, labels, fixes, True, stored_accepted=row.get("accepted"),
                     stored_reasons=list(row.get("route_reasons") or []), secs=row.get("latency_s"),
                     cost=row.get("cost_usd"), error=row.get("error"),
-                    raw={k: row.get(k) for k in ("image", "layout", "stratum", "model", "prompt_sha256")})
+                    raw={k: row.get(k) for k in ("image", "layout", "stratum", "model", "prompt_sha256", "ts")})
     if "values" in row and isinstance(row["values"], dict):
         vals = {k: iv(row["values"].get(k)) for k in s["keys"]}
         words = {k: iv((row.get("words") or {}).get(k)) for k in s["keys"]}
@@ -206,7 +206,10 @@ def evaluate(r: Read, overrides: Optional[dict] = None, labels_confirmed: bool =
             if not gatemod.label_ok(r.labels.get(k), f["label"], aliases):
                 st, msg = "label", f"row {i + 1}: the printed label read is not the one expected here"
         if n is None:
-            st, msg = "empty", "digits empty or illegible"
+            # wording only (the gate is unchanged): a null read is either a blank box or faint writing; the model
+            # cannot tell which, so neither do we (eye check of the 300-run crops: both occur)
+            st, msg = "empty", (f"digit boxes not read (blank or faint); words say {w}" if w is not None
+                                else "not read: blank or too faint on the page")
         elif w is not None and n != w:
             st, msg = "words", f"digits {n}, words {w}"
         if st != "ok" and not r.not_located:
@@ -252,7 +255,7 @@ def evaluate(r: Read, overrides: Optional[dict] = None, labels_confirmed: bool =
                     p += f", rows sum {rows_sum}"
                 parts.append(p)
             elif f["status"] == "empty":
-                parts.append(f"{f['name']} unreadable")
+                parts.append(f"{f['name']} not read (blank or faint)")
         nlab = sum(f["status"] == "label" for f in fields)
         if nlab:
             parts.append(f"{nlab} row label{'s' if nlab > 1 else ''} not where expected")

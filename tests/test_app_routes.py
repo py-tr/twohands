@@ -10,7 +10,7 @@ from app.main import app
 
 client = TestClient(app)
 PAGES = ["/", "/forms", "/form/211294C0100", "/form/201720E0100", "/form/156723B0100", "/ledger/BALCOMBE-GABLES__03",
-         "/review", "/audit", "/results"]
+         "/review", "/audit", "/results", "/try", "/inbox", "/api"]
 
 
 @pytest.mark.parametrize("url", PAGES)
@@ -133,7 +133,7 @@ def test_rendered_images_only_masked_crop_or_static():
     for url in PAGES:
         html = client.get(url).text
         for src in re.findall(r'<img[^>]+src="([^"]+)"', html):
-            assert src.startswith(("/masked/", "/crop/", "/static/")), (url, src)
+            assert src.startswith(("/masked/", "/crop/", "/static/", "/upload/")), (url, src)
 
 
 def test_crop_boxes_stay_left_of_privacy_mask():

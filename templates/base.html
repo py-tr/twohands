@@ -1,36 +1,85 @@
-<!doctype html>
+{% from "_icons.html" import icon %}<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}Two Hands{% endblock %}</title>
-<meta name="description" content="Touchless form capture with proof: the model reads, the paper decides.">
+{% set desc = "Touchless capture of self-checking paper forms. An open vision model on AMD reads every field; the form's own arithmetic decides what is accepted and what goes to a person." %}
+<meta name="description" content="{{ desc }}">
+<meta name="theme-color" content="#12141a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Two Hands">
+<meta property="og:title" content="Two Hands · the model reads, the paper decides">
+<meta property="og:description" content="{{ desc }}">
+<meta property="og:image" content="{{ request.base_url }}static/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A privacy-masked tally sheet with every field checked; one field flagged for a person.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ request.base_url }}static/og.jpg">
 <link rel="icon" href="/static/mark.svg" type="image/svg+xml">
+<link rel="icon" href="/static/favicon.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/style.css?v=4">
+<link rel="stylesheet" href="/static/style.css?v=10">
 </head>
 <body>
+{% set amd = amd_status() %}
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands<small>the model reads, the paper decides</small></a>
-    <nav class="nav">
-      <a href="/" class="{{ 'on' if nav == 'home' }}">Overview</a>
-      <a href="/forms" class="{{ 'on' if nav == 'forms' }}">Forms</a>
-      <a href="/review" class="{{ 'on' if nav == 'review' }}">Review desk</a>
-      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">Audit</a>
-      <a href="/results" class="{{ 'on' if nav == 'results' }}">Results</a>
+    <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="/" class="{{ 'on' if nav == 'home' }}">{{ icon('home') }}Overview</a>
+      <a href="/try" class="{{ 'on' if nav == 'try' }}">{{ icon('camera') }}Try it</a>
+      <a href="/inbox" class="{{ 'on' if nav in ('inbox', 'forms') }}">{{ icon('inbox') }}Inbox</a>
+      <a href="/review" class="{{ 'on' if nav == 'review' }}">{{ icon('review') }}<span>Review<span class="lbl-long"> desk</span></span></a>
+      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">{{ icon('audit') }}Audit</a>
+      <a href="/results" class="{{ 'on' if nav == 'results' }}">{{ icon('results') }}Results</a>
+      <a href="/api" class="{{ 'on' if nav == 'api' }}">{{ icon('api') }}API</a>
     </nav>
+    <span class="amdpill {{ amd.state }}" title="{{ amd.detail }}" tabindex="0"><span class="pdot"></span>{{ amd.label }}</span>
+    <button class="menubtn" id="menubtn" aria-label="Menu" aria-expanded="false" aria-controls="nav">{{ icon('menu') }}</button>
   </div>
 </header>
 <main><div class="wrap">
 {% block content %}{% endblock %}
 </div></main>
 <footer><div class="wrap">
-  <p><b>Data.</b> Tally-sheet images and the official capture: INE PREP 2024 (prep2024.ine.mx) and certified Cómputos Distritales 2024 (computos2024.ine.mx), consulted 2026-10-14, reused under INE's free-use terms (Libre-Uso-MX, SICEE). Images are shown only after privacy masking: the column with officials' names and signatures is blacked out before anything is stored. This is an independent demonstration of clerical capture quality; it is not an official INE product and does not represent a position of INE or any government.</p>
-  <p>Rainfall ledgers: Rainfall Rescue (Hawkins et al., Geoscience Data Journal 2022; github.com/ed-hawkins/rainfall-rescue; Met Office scans). Only our extracted values are shown; sheet images are linked at their public source. Every number on this site is listed with its source in docs/NUMBERS.md.</p>
+  <div class="cols">
+    <div>
+      <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
+      <p>Touchless capture of self-checking paper forms. An open vision model on AMD GPUs reads every field; the form's own arithmetic decides. Anything the paper cannot settle goes to a person, with the field named.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/try">Try it with a photo</a></li>
+        <li><a href="/inbox">Inbox and export</a></li>
+        <li><a href="/review">Review desk</a></li>
+        <li><a href="/audit">Keying errors found</a></li>
+        <li><a href="/results">Results and method</a></li>
+        <li><a href="/api">API</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Data and credits</h4>
+      <p>Tally sheets and their official capture: INE PREP 2024 and certified Cómputos Distritales 2024, reused under INE's free-use terms (Libre-Uso-MX). Rainfall ledgers: Rainfall Rescue (Hawkins et al., Geoscience Data Journal 2022; Met Office scans), linked, not redistributed.</p>
+      <p>Every image is privacy-masked before it is stored or sent: the officials' names-and-signatures column is blacked out. Vote rows are shown as Option 01 to 15, never by party. An independent demonstration of clerical capture quality, not an official INE product.</p>
+    </div>
+  </div>
+  <div class="base">
+    <span>Open models on AMD Token Factory · masked images only · every number has a source on <a href="/results">Results</a></span>
+    <span>Two Hands, 2026</span>
+  </div>
 </div></footer>
+<script>
+(function () {
+  var b = document.getElementById('menubtn'), n = document.getElementById('nav');
+  if (b) b.addEventListener('click', function () { var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o ? 'true' : 'false'); });
+})();
+</script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

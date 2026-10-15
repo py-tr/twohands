@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% from "_icons.html" import source %}
 {% block title %}{{ station }} {{ sh.years[0] }}–{{ sh.years[-1] }} · Two Hands{% endblock %}
 {% block content %}
 {% set acc = sh.cols|selectattr('accepted')|list|length %}
 <div class="small muted"><a href="/forms#ledgers">Forms</a> / rainfall ledger</div>
 <div class="sec-head" style="margin-top:8px;margin-bottom:14px">
   <div>
-    <h1 style="font-size:1.9rem">{{ station }}, {{ sh.years[0] }}–{{ sh.years[-1] }}</h1>
+    <h1 style="font-size:var(--t-2xl)">{{ station }}, {{ sh.years[0] }}–{{ sh.years[-1] }}</h1>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
       <span class="chip">UK rainfall ledger, 10-year sheet</span><span class="chip">{{ meta.model }}</span><span class="chip">identity: 12 months = written annual total</span>
     </div>
@@ -39,5 +40,5 @@
   </div>
   <p class="tiny" style="padding:8px 8px 2px;margin:0">Values as read by {{ meta.model }} ({{ meta.reader }}). Amber shading: a routed year. Orange numbers differ from the volunteers' transcription (hover for their value); the gate never sees the volunteers' values, they only grade it.</p>
 </div>
-<p class="tiny" style="margin-top:14px">Source: Rainfall Rescue, {{ sh.station }} PDF page {{ sh.page }} (<a href="{{ sh.pdf }}">{{ sh.pdf }}</a>), volunteer CSV <span class="mono">{{ sh.csv }}</span>. Hawkins et al. (2022), Geoscience Data Journal; the source repository carries no licence file, so the sheet image is linked, not copied.</p>
+<p class="tiny" style="margin-top:14px">Source: Rainfall Rescue, {{ sh.station }} PDF page {{ sh.page }} (<a href="{{ sh.pdf }}">{{ sh.pdf }}</a>), volunteer transcription {{ source(sh.csv) }}. Hawkins et al. (2022), Geoscience Data Journal; the source repository carries no licence file, so the sheet image is linked, not copied.</p>
 {% endblock %}

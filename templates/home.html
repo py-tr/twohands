@@ -1,41 +1,82 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon, source %}
 {% block title %}Two Hands · touchless form capture with proof{% endblock %}
 {% block content %}
 {% set b = n.business %}
 <section class="hero">
-  <div class="eyebrow">Touchless form capture with proof</div>
-  <h1>The model reads. <em>The paper decides.</em></h1>
-  <p class="lede">Organisations pay people to key every paper form twice, because one keyer's mistakes cannot be found any other way. Many forms check themselves: amounts in words and in digits, rows that add up to a printed total, sections that must agree. Two Hands lets an open vision model on AMD GPUs read every field, then applies the form's own arithmetic. A form that passes every check is accepted with no human touch; anything else goes to a person with the failing field named.</p>
-  <div class="actions">
-    <a class="btn primary" href="/form/211294C0100">Open a routed form</a>
-    <a class="btn" href="/forms">Browse all forms</a>
-    <a class="btn" href="/audit">Keying errors found</a>
+  <div>
+    <div class="eyebrow">Touchless form capture with proof</div>
+    <h1>The model reads. <em>The paper decides.</em></h1>
+    <p class="lede">An open vision model on AMD reads every field of a paper form; the form's own arithmetic then decides whether nobody needs to key it, or which one field a person must look at.</p>
+    <div class="actions">
+      <a class="btn primary lg" href="/form/211294C0100">{{ icon('play') }}Try a form</a>
+      <a class="btn lg" href="/try">{{ icon('camera') }}Use your own photo</a>
+    </div>
+    <ul class="trust">
+      <li>{{ icon('check') }}Names and signatures blacked out before any model sees the page</li>
+      <li>{{ icon('check') }}Accepted only when every identity on the paper holds</li>
+      <li>{{ icon('check') }}Gemma-4-31B-IT on AMD, {{ b.per_1000_g }} per 1,000 forms</li>
+    </ul>
   </div>
+
+  {% if heroloop %}
+  <div class="reader" id="reader" aria-label="A real form being read: fields fill in, the paper's identities are checked, one field is routed to a person">
+    <div class="reader-top">
+      <span class="live-dot"></span><span class="id">{{ heroloop.clave }}</span><span class="chip ghost">phone photo</span>
+      <span class="stage" id="rStage">Reading on AMD</span>
+      <span class="clock" id="rClock" title="This is a replay of the stored read of this form">replay{% if heroloop.secs %} · read in {{ "%.0f"|format(heroloop.secs) }} s{% endif %}</span>
+    </div>
+    <div class="reader-body">
+      <div class="bed"><div class="frame" id="rFrame">
+        <img src="{{ heroloop.img }}" alt="Privacy-masked tally sheet {{ heroloop.clave }}" fetchpriority="high">
+        <div class="scan" id="rScan" style="opacity:0"></div>
+      </div></div>
+      <div class="panel">
+        <h4>Fields read · digits and words</h4>
+        <div class="ftiles" id="rTiles"></div>
+        <h4>The paper's identities</h4>
+        <div class="idl" id="rIds"></div>
+        <div class="vbar" id="rVerdict">Waiting for the read</div>
+      </div>
+    </div>
+  </div>
+  <script type="application/json" id="loopData">{{ heroloop|tojson }}</script>
+  {% endif %}
 </section>
 
 <section>
-  <div class="grid3">
+  <div class="sec-head"><div><h2>Measured, not promised</h2><p>Graded against the official double-keyed capture of the same images; every disagreement on an accepted form checked by eye.</p></div><a class="btn sm" href="/results">Method and caveats {{ icon('arrow') }}</a></div>
+  <div class="grid4">
     {% for h in n.headline %}
     <div class="card stat">
       <div class="v">{{ h.value }}</div>
       <div class="l">{{ h.label }}</div>
       <div class="s">{{ h.small }}</div>
-      <div class="src">{{ h.source }}</div>
+      <div class="src">{{ source(h.source) }}</div>
     </div>
     {% endfor %}
+    {% if pending %}
+    <div class="card stat pending">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="chip accent"><span class="dot"></span>{{ 'Eye-check in progress' if pending.phase == 'eye-check' else 'Reading in progress' }}</span></div>
+      <div class="l" style="margin-top:14px">Pre-registered random sample, n = {{ pending.target }}</div>
+      <div class="s">Sample, prompt, gate and metrics were committed before any model read. Its numbers replace the pilot's here automatically once they are graded.</div>
+      <div class="progress" aria-label="{{ pending.read }} of {{ pending.target }} forms read"><span style="width:{{ pending.pct }}%"></span></div>
+      <div class="tiny" style="margin-top:6px">{{ pending.read }} of {{ pending.target }} forms read · results pending</div>
+    </div>
+    {% endif %}
   </div>
-  <p class="tiny" style="margin-top:12px">The 43-form sample was deliberately enriched with troubled forms, so the touchless rate is a lower bound for an ordinary day. A pre-registered random run of 300 forms is in progress; when its results file lands these figures switch to it automatically. Method and caveats: <a href="/results">Results</a>.</p>
+  <p class="tiny" style="margin-top:12px">Pilot of 43 forms chosen to be difficult, so the touchless rate is a lower bound for an ordinary day.</p>
 </section>
 
 <section>
   <div class="sec-head"><div><h2>How it works</h2><p>Every form type is one schema file: where the fields are, and which identities the paper must satisfy. A new form type is configuration, not code.</p></div></div>
   <div class="flow">
-    <div class="step"><div class="k">01 · image</div><h3>Photo or scan</h3><p>The page is located by its corner marks, straightened, and the names-and-signatures column is blacked out before anything is stored or sent.</p></div>
-    <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    <div class="step model"><div class="k">02 · model on AMD</div><h3>Reads digits and words</h3><p>{{ n.amd.models[0].name }} reads every field twice, from the digit boxes and from the words, independently, plus the printed label of each row.</p></div>
-    <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-    <div class="step"><div class="k">03 · deterministic gate</div><h3>The paper's own identities</h3><p>Words = digits on every field; rows sum to TOTAL; voters + representatives = section 5; section 5 = section 7 = TOTAL; every row label where it belongs.</p></div>
-    <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="step"><div class="k">01 · image</div><h3>Photo or scan</h3><p>The page is located, straightened, and the names-and-signatures column is blacked out before anything is stored or sent.</p></div>
+    <div class="arrow">{{ icon('arrow') }}</div>
+    <div class="step model"><div class="k">02 · model on AMD</div><h3>Reads digits and words</h3><p>{{ n.amd.models[0].name }} reads every field twice, from the digit boxes and from the words, plus the printed label of each row.</p></div>
+    <div class="arrow">{{ icon('arrow') }}</div>
+    <div class="step"><div class="k">03 · deterministic gate</div><h3>The paper's own identities</h3><p>Words = digits on every field; rows sum to TOTAL; sections 5 and 7 agree with TOTAL; every row label where it belongs.</p></div>
+    <div class="arrow">{{ icon('arrow') }}</div>
     <div class="split">
       <div class="step ok"><h3>Accepted</h3><p>0 fields to key.</p></div>
       <div class="step rv"><h3>Review desk</h3><p>The failing field is named; a person types one value.</p></div>
@@ -49,27 +90,27 @@
       <div class="eyebrow">Business case</div>
       <h3>A second keyer for cents</h3>
       <div class="biz-row">
-        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab">per 1,000 forms, {{ n.amd.models[0].name }} on AMD (measured {{ b.cpf_g|usd(6) }} per form)</div></div>
-        {% if b.per_1000_q %}<div><div class="big-num">{{ b.per_1000_q }}</div><div class="lab">per 1,000 forms with {{ n.amd.models[1].name }} as second reader ({{ b.cpf_q|usd(6) }} per form)</div></div>{% endif %}
+        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab">per 1,000 forms, {{ n.amd.models[0].name }} on AMD ({{ b.cpf_g|usd(6) }} per form, measured)</div></div>
+        {% if b.per_1000_q %}<div><div class="big-num">{{ b.per_1000_q }}</div><div class="lab">per 1,000 forms with {{ n.amd.models[1].name }} as a second reader</div></div>{% endif %}
       </div>
       <div class="vs">
         <div><div class="big-num">{{ b.national_g }}{% if b.national_q %}<span class="muted" style="font-size:1.1rem;font-weight:500"> to {{ b.national_q }}</span>{% endif %}</div><div class="lab small muted">AMD compute to audit all {{ cited.national_forms.text }} national tally forms</div></div>
         <div class="mid">vs</div>
-        <div><div class="big-num">{{ cited.programme_cost_mxn.text }}</div><div class="lab small muted">cost of the 2024 national capture programme, which keys every form twice</div></div>
+        <div><div class="big-num">{{ cited.programme_cost_mxn.text }}</div><div class="lab small muted">the 2024 national capture programme, which keys every form twice</div></div>
       </div>
-      <p class="small" style="margin-bottom:6px"><b>Why it matters:</b> {{ cited.base_rate.text }} of nationally captured forms ({{ cited.base_rate.num }} of {{ cited.base_rate.den }}) fail their own row sum in the official capture. Double keying copies the paper faithfully; it does not tell you which paper is wrong. The gate does.</p>
+      <p class="small" style="margin-bottom:6px"><b>Why it matters:</b> {{ cited.base_rate.text }} of nationally captured forms ({{ cited.base_rate.num }} of {{ cited.base_rate.den }}) fail their own row sum in the official capture. Double keying copies the paper faithfully; it cannot say which paper is wrong. The gate does.</p>
       <p class="small" style="margin:12px 0 4px"><b>Who buys</b></p>
       <ul class="buyers">
-        <li>Mexico's state electoral institutes: {{ cited.state_counts_2027.text }} each run their own double-keyed capture; one 2024 state contract alone was {{ cited.state_contract.text }}; one institute already piloted AI recognition.</li>
+        <li>State institutes that run their own double-keyed capture: {{ cited.state_counts_2027.text }}; one 2024 state contract alone was {{ cited.state_contract.text }}.</li>
         <li>Anyone keying self-checking forms twice: clinical-trial case report forms, census and survey sheets, archive rescue.</li>
       </ul>
-      <p class="tiny" style="margin-top:14px">Cost per form: mean of measured per-request cost in {{ b.cost_source }}. National set and programme cost: {{ cited.national_forms.source }}; {{ cited.programme_cost_mxn.source }}. No human keying cost is shown because we found no citable figure.</p>
+      <div style="margin-top:14px">{{ source("Cost per form: mean measured cost in " ~ b.cost_source ~ ". National set: " ~ cited.national_forms.source ~ ". Programme cost: " ~ cited.programme_cost_mxn.source ~ ".") }}</div>
     </div>
 
     <div class="card">
       <div class="eyebrow">What ran on AMD</div>
       <h3>Open models on the AMD endpoint</h3>
-      <p class="small muted">{{ cited.endpoint.text }}. Every read in the measured results went through it; the live button on each form calls it again.</p>
+      <p class="small muted">{{ cited.endpoint.text }}. Every measured read went through it; the live button on each form calls it again.</p>
       {% for m in n.amd.models %}
       <div class="amd-model">
         <div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }}</div></div>
@@ -82,11 +123,11 @@
       {% endfor %}
       <dl class="kv" style="margin-top:14px">
         <dt>Input per form</dt><dd>1 masked page + zoomed tiles, one request</dd>
-        <dt>Throughput</dt><dd>{{ cited.spike_throughput.text }} <span class="muted small">({{ cited.spike_throughput.what }})</span></dd>
+        <dt>Throughput</dt><dd>{{ cited.spike_throughput.text }} <span class="muted small">(shared-endpoint pacing)</span></dd>
         {% if n.amd.live %}<dt>Live reads here</dt><dd>{{ n.amd.live.n }} so far, {{ '%.0f'|format(n.amd.live.secs or 0) }} s mean, {{ n.amd.live.cost|usd(6) }} mean cost</dd>{% endif %}
         <dt>Second form type</dt><dd>Same model reads 1850-1960 rainfall ledgers: {{ n.ledger.usd_per_sheet|usd(5) }} per sheet</dd>
       </dl>
-      <p class="tiny" style="margin-top:14px">Latency and cost: means over the 43 measured reads per model (spikes/tally-witness results). Throughput: {{ cited.spike_throughput.source }}. A dedicated AMD Instinct endpoint would remove the shared pacing.</p>
+      <div style="margin-top:14px">{{ source("Latency and cost: means over the 43 measured reads per model (spikes/tally-witness results). Throughput: " ~ cited.spike_throughput.source ~ ".") }}</div>
     </div>
   </div>
 </section>
@@ -118,10 +159,11 @@
     </div>
   </div>
   <div class="card" style="margin-top:20px">
-    <div class="sec-head" style="margin-bottom:10px"><div><h3>A form type is a schema file</h3><p class="small">The identities the gate applies to the tally sheet, verbatim from <span class="mono">schemas/{{ schema.form }}.yaml</span>:</p></div></div>
+    <div class="sec-head" style="margin-bottom:10px"><div><h3>A form type is a schema file</h3><p class="small">The identities the gate applies to the tally sheet, verbatim from its schema:</p></div></div>
 <div class="code">identities:
 {% for i in schema.identities %}  - name: "{{ i.name }}"   sum: {{ i.sum if i.sum is string else '[' ~ i.sum|join(', ') ~ ']' }}   equals: [{{ i.equals|join(', ') }}]
 {% endfor %}</div>
   </div>
 </section>
 {% endblock %}
+{% block scripts %}<script src="/static/hero.js?v=3"></script>{% endblock %}

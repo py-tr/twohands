@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon, source %}
 {% block title %}Form {{ clave }} · Two Hands{% endblock %}
 {% set strata = {'A_clean': 'clean control', 'B_paper_sum_mismatch': 'paper rows do not sum', 'C_prep_ne_certified': 'capture differs from certified', 'D_recounted_sum_mismatch': 'recounted, rows do not sum'} %}
 {% block content %}
-<div class="small muted"><a href="/forms">Forms</a> / tally sheet</div>
+<div class="small muted"><a href="/inbox">Inbox</a> / tally sheet</div>
 <div class="sec-head" style="margin-top:8px;margin-bottom:14px">
   <div>
     <h1 class="mono" style="font-size:1.9rem;letter-spacing:-0.02em">{{ clave }}</h1>
@@ -33,23 +34,24 @@
     {% else %}
       <div class="placeholder"><strong>Masked page not prepared yet</strong>Images are shown only after the core's privacy masking has run on them. The values below are the measured read of this form.</div>
     {% endif %}
-    <div class="card live" style="margin-top:16px" id="live" data-clave="{{ clave }}" data-image="{{ 1 if has_image else 0 }}">
+    <div class="card live" style="margin-top:16px" id="live" data-live data-clave="{{ clave }}" data-image="{{ 1 if has_image else 0 }}"
+         data-start="/api/live/{{ clave }}" data-fallback="{{ clave }}" data-fields='{{ ev.fields|field_list|tojson }}'>
       <div class="live-head">
         <div>
-          <div class="eyebrow" style="margin-bottom:6px">Live</div>
-          <h3 style="margin:0">Read this form live on AMD</h3>
-          <p class="small muted" style="margin:6px 0 0">Gemma-4-31B-IT reads the masked page again now; the gate checks it.</p>
+          <div class="eyebrow" style="margin-bottom:6px">Live on AMD</div>
+          <h3 style="margin:0">Read this form again, now</h3>
+          <p class="small muted" style="margin:6px 0 0">{{ run.model if run.model else 'Gemma-4-31B-IT' }} reads the masked page; the gate checks it as the answer arrives.</p>
         </div>
-        <div style="text-align:right">
-          <div class="timer" id="timer" hidden>0.0 s</div>
-          <button class="btn primary" id="liveBtn" {{ 'disabled' if not has_image }}>Read live on AMD</button>
+        <div class="live-act">
+          <div class="timer" data-live-timer hidden>0.0 s</div>
+          <button class="btn primary" data-live-btn {{ 'disabled' if not has_image }}>{{ icon('play') }}Read live on AMD</button>
         </div>
       </div>
-      <div class="note">Takes about a minute: one request carrying the masked page and its zoomed tiles goes to a shared endpoint that is paced to stay inside its rate limit (and is also running our measured batch). The model answers in one piece; the fields then appear as the gate checks each one. One live read runs at a time for the whole site.{% if not has_image %} <b>This form has no masked page yet, so it cannot be sent.</b>{% endif %}</div>
-      <ul class="stages" id="stages"></ul>
-      <div class="tiles" id="tiles" hidden></div>
-      <div id="liveIdents" class="idents" style="margin-top:12px"></div>
-      <div id="liveMsg"></div>
+      <div class="note">About a minute. One live read runs at a time for the whole site; yours waits in a short queue and shows its place. The shared endpoint also runs our measured batch, so if it is busy you see the last measured read instead.{% if not has_image %} <b>This form has no masked page yet, so it cannot be sent.</b>{% endif %}</div>
+      <ul class="jobsteps" data-live-steps hidden></ul>
+      <div data-live-msg></div>
+      <div class="tiles" data-live-tiles hidden></div>
+      <div class="idents" data-live-ids style="margin-top:12px"></div>
     </div>
     {% with ec = evolus_case(clave), compact = false %}{% include "_evolus.html" %}{% endwith %}
     {% set kerr = errors|selectattr('kind', 'equalto', 'keying')|list %}
@@ -75,7 +77,7 @@
     </div>
     {% set others = reads|rejectattr('0', 'in', main_runs)|rejectattr('0', 'equalto', r.run_id)|list %}
     {% if others %}<details class="others"><summary class="tiny">Other runs ({{ others|length }})</summary><div class="tabs" style="margin-top:8px">{% for rid, rr in others %}<a href="/form/{{ clave }}?run={{ rid }}">{{ short[rid] }}</a>{% endfor %}</div></details>{% endif %}
-    <p class="tiny" style="margin:-4px 0 12px">{{ run.label }}. Source: <span class="mono">{{ run.source }}</span>.{% if not r.has_labels %} This read predates the row-label check; labels are checked on newer reads.{% endif %}{% if r.secs %} Read in {{ r.secs }} s{% endif %}{% if r.cost %}, {{ r.cost|usd(6) }}{% endif %}.</p>
+    <p class="tiny" style="margin:-4px 0 12px">{{ run.label|plain }}. {{ source(run.source) }}{% if not r.has_labels %} This read predates the row-label check; labels are checked on newer reads.{% endif %}{% if r.secs %} Read in {{ r.secs }} s{% endif %}{% if r.cost %}, {{ r.cost|usd(6) }}{% endif %}.</p>
 
     <div class="card" style="padding:8px 10px 6px">
       <div class="tablewrap">
@@ -123,5 +125,6 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script src="/static/form.js?v=2"></script>
+<script src="/static/live.js?v=4"></script>
+<script src="/static/form.js?v=4"></script>
 {% endblock %}

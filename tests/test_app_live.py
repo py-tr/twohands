@@ -1,4 +1,5 @@
-"""Live read with a mocked reader and endpoint: SSE stream, one-at-a-time lock, budget and endpoint guards.
+"""Live read with a mocked reader and endpoint: SSE stream, one-at-a-time queue, budget and endpoint guards,
+AMD 503 fallback.
 No request ever reaches the real AMD endpoint from these tests."""
 import json
 import threading
@@ -31,6 +32,13 @@ def _parsed_from_spike(clave):
     return {"values": items}
 
 
+def drain(m, timeout=5.0):
+    """Let queued jobs finish while the test's paths are still patched."""
+    t = time.time() + timeout
+    while m.status()["busy"] and time.time() < t:
+        time.sleep(0.02)
+
+
 @pytest.fixture
 def mgr(tmp_path, monkeypatch):
     monkeypatch.setattr(livemod, "LIVE_DIR", tmp_path / "live")
@@ -50,6 +58,7 @@ def mgr(tmp_path, monkeypatch):
     app.state.live = m
     yield m
     gate.set()
+    drain(m)
     app.state.live = old
 
 
@@ -65,9 +74,16 @@ def test_live_read_streams_fields_and_verdict(mgr):
     r = client.post(f"/api/live/{FORM}")
     assert r.status_code == 200
     job = r.json()["job"]
-    # a second live read anywhere on the site is refused while the first runs
+    # a second live read waits in the queue behind the first (one at a time on the shared endpoint)
+    for _ in range(100):
+        if mgr.calls:  # the first read is with the model
+            break
+        time.sleep(0.02)
     r2 = client.post("/api/live/211294C0100")
-    assert r2.status_code == 409 and r2.json()["refused"] == "busy"
+    assert r2.status_code == 200 and r2.json()["position"] == 1
+    st = client.get(f"/api/jobs/{r2.json()['job']}").json()
+    assert st["state"] == "queued" and st["position"] == 1
+    assert len(mgr.calls) == 1  # the second read has not reached the model
     mgr.gate.set()
     evs = _events(job)
     kinds = [e["type"] for e in evs]
@@ -130,3 +146,52 @@ def test_live_refuses_form_without_masked_page(mgr):
         pytest.skip("every form is masked")
     r = client.post(f"/api/live/{k}")
     assert r.status_code == 409 and r.json()["refused"] == "no_image"
+
+
+def test_live_queue_is_bounded(mgr, monkeypatch):
+    if storemod.get_store().masked_image(FORM) is None:
+        pytest.skip("no masked page")
+    monkeypatch.setattr(livemod, "QUEUE_MAX", 2)
+    assert client.post(f"/api/live/{FORM}").status_code == 200
+    assert client.post(f"/api/live/{FORM}").status_code == 200
+    r = client.post(f"/api/live/{FORM}")
+    assert r.status_code == 409 and r.json()["refused"] == "busy"
+    mgr.gate.set()
+
+
+def test_live_amd_503_falls_back_to_measured_read(mgr):
+    """A mocked AMD 503: the job ends with endpoint_busy and names the form whose measured read to show."""
+    if storemod.get_store().masked_image(FORM) is None:
+        pytest.skip("no masked page")
+    mgr.reader_fn = lambda model, page: {"error": "GaveUp: HTTP 503: upstream unavailable", "parsed": None, "usage": {}}
+    job = client.post(f"/api/live/{FORM}").json()["job"]
+    evs = _events(job)
+    err = next(e for e in evs if e["type"] == "error")
+    assert err["code"] == "endpoint_busy" and err["fallback"] == FORM
+    assert "AMD endpoint busy" in err["msg"] and "last measured read" in err["msg"]
+    assert client.get(f"/api/jobs/{job}").json()["state"] == "failed"
+    # the fallback the page then shows is the stored read of the same form
+    j = client.get(f"/api/form/{FORM}").json()
+    assert j["verdict"]["fields"] and j["verdict"]["line"]
+
+
+def test_live_timeout_is_reported_as_busy_endpoint(mgr):
+    if storemod.get_store().masked_image(FORM) is None:
+        pytest.skip("no masked page")
+    mgr.reader_fn = lambda model, page: {"error": "TimeoutError: The read operation timed out", "parsed": None}
+    evs = _events(client.post(f"/api/live/{FORM}").json()["job"])
+    assert next(e for e in evs if e["type"] == "error")["code"] == "endpoint_busy"
+
+
+def test_live_queued_job_rechecks_budget_when_it_starts(mgr):
+    if storemod.get_store().masked_image(FORM) is None:
+        pytest.skip("no masked page")
+    job = client.post(f"/api/live/{FORM}").json()["job"]
+    mgr.usage_fn = lambda: {"daily_cost_remaining_usd": 0.0}  # spent while the job waited
+    mgr.gate.set()
+    evs = _events(job)
+    assert any(e["type"] in ("verdict", "error") for e in evs) and evs[-1]["type"] == "done"
+
+
+def test_job_status_unknown_404():
+    assert client.get("/api/jobs/nope").status_code == 404

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}API · Two Hands{% endblock %}
+{% macro snippet(id, text) -%}
+<div class="copybox"><div class="code dark" id="{{ id }}">{{ text }}</div><button class="btn sm" data-copy="{{ id }}">{{ icon('copy') }}Copy</button></div>
+{%- endmacro %}
+{% block content %}
+<div class="sec-head page-head" style="align-items:flex-end">
+  <div>
+    <div class="eyebrow">API</div>
+    <h1>Everything on screen is an endpoint</h1>
+    <p class="lede">Plain JSON over HTTP. Field codes are neutral: vote rows are OPT01 to OPT15 in printed order, the other lines by name (TOTAL, NULOS, ...).</p>
+  </div>
+  <div class="actions" style="margin-top:0"><a class="btn primary" href="/docs">{{ icon('api') }}Interactive reference (OpenAPI)</a></div>
+</div>
+
+<div class="endpoint">
+  <div class="card">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="method post">POST</span><span class="mono">/api/gate</span><span class="chip ghost">token</span></div>
+    <h3 style="margin:12px 0 6px">Check a set of values against the paper's identities</h3>
+    <p class="small muted">Send the values you captured (any source: a model, a keyer, another system). Get back every identity, the failing fields, and the verdict. Needs the gate token (Authorization: Bearer).</p>
+    {{ snippet('c1', "curl -s -X POST " ~ base ~ "/api/gate \\\n  -H \"Authorization: Bearer $TWOHANDS_GATE_TOKEN\" -H \"Content-Type: application/json\" \\\n  -d '{\"values\": {\"OPT01\": 61, \"OPT02\": 9, \"OPT07\": 113, \"NULOS\": 10, \"TOTAL\": 262}}'") }}
+  </div>
+  <div class="card">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="method post">POST</span><span class="mono">/api/live/{form}</span><span class="method">GET</span><span class="mono">/api/jobs/{job}</span></div>
+    <h3 style="margin:12px 0 6px">Queue a live read on AMD and follow it</h3>
+    <p class="small muted">One live read runs at a time; a job waits in a short queue and reports its place, stages and elapsed time. The same events stream as server-sent events at <span class="mono">/api/live/events/{job}</span>.</p>
+    {{ snippet('c2', "JOB=$(curl -s -X POST " ~ base ~ "/api/live/211294C0100 | python -c \"import sys,json; print(json.load(sys.stdin)['job'])\")\ncurl -s " ~ base ~ "/api/jobs/$JOB") }}
+    <p class="tiny" style="margin-top:8px">Without a key, read the stored verdict of any form: <span class="mono">curl -s {{ base }}/api/form/211294C0100</span></p>
+  </div>
+  <div class="card">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="method">GET</span><span class="mono">/api/export.csv</span><span class="method">GET</span><span class="mono">/api/export.json</span></div>
+    <h3 style="margin:12px 0 6px">Export the captured records</h3>
+    <p class="small muted">One record per form: status, fields to key, reason, and every value. Filter with <span class="mono">?status=accepted,resolved</span> to take only what is final.</p>
+    {{ snippet('c3', "curl -s \"" ~ base ~ "/api/export.csv?status=accepted,resolved\" -o records.csv") }}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll('[data-copy]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var t = document.getElementById(b.dataset.copy).textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () {
+      var o = b.lastChild.textContent; b.lastChild.textContent = 'Copied'; setTimeout(function () { b.lastChild.textContent = o; }, 1400);
+    }).catch(function () {});
+  });
+});
+</script>
+{% endblock %}

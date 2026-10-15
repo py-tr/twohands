@@ -4,10 +4,10 @@
 {% set h = n.headline_run %}
 {% set g = runs|selectattr('id', 'equalto', 'spike-gemma-v2')|first %}
 {% set si = meta.single_image %}
-<section>
+<section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Evaluation</div>
-  <h1 style="font-size:2.2rem">What we measured, and where it breaks</h1>
-  <p class="lede" style="margin-top:12px">Every figure on this page is computed when the page loads from the results files listed in each row. New runs dropped into <span class="mono">results/*.jsonl</span> appear here without code changes.</p>
+  <h1>What we measured, and where it breaks</h1>
+  <p class="lede">Every figure on this page is computed when the page loads from the results files listed in each row. New runs dropped into <span class="mono">results/*.jsonl</span> appear here without code changes.</p>
 </section>
 
 <section style="margin-top:36px">

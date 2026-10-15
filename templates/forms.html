@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Forms · Two Hands{% endblock %}
 {% block content %}
-<section>
+<section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Form viewer</div>
-  <h1 style="font-size:2.2rem">Pick any form</h1>
-  <p class="lede" style="margin-top:12px">Every form opens instantly from its measured read. Tally sheets with a privacy-masked page can also be read again, live, on AMD.</p>
+  <h1>Pick any form</h1>
+  <p class="lede">Every form opens instantly from its measured read. Tally sheets with a privacy-masked page can also be read again, live, on AMD. For the table view with filters and export, open the <a href="/inbox">Inbox</a>.</p>
 </section>
 
 <section id="tally">
   <div class="sec-head">
-    <div><h2>Polling-station tally sheets</h2><p>{{ ine|length }} forms. Default reader: {{ run.label if run else 'none' }}.</p></div>
+    <div><h2>Polling-station tally sheets</h2><p>{{ ine|length }} forms. Default reader: {{ run.label|plain if run else 'none' }}.</p></div>
   </div>
   <div class="filters" data-filter="#ine">
     <button class="on" data-f="all">All {{ ine|length }}</button>

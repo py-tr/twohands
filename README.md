@@ -57,7 +57,7 @@ python run_app.py                       # http://127.0.0.1:8000
 The app serves the measured reads from the result files in this repo. No API key is needed to browse. The
 "Read live on AMD" button needs `AMD_KEY` and `AMD_BASE_URL` in the environment (never committed).
 
-Tests (436 pass, 2 skipped on our machine):
+Tests (472 pass on our machine):
 
 ```bash
 python -m pytest -q

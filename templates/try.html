@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Try it with your own photo · Two Hands{% endblock %}
+{% macro sheet_illo() -%}
+<svg class="sheet-illo" viewBox="0 0 220 170" role="img" aria-label="A tally sheet photographed flat from above, all four corners inside the frame">
+  <rect x="1" y="1" width="218" height="168" rx="14" fill="#f0f0ec" stroke="#d9d9d2"/>
+  <rect x="22" y="16" width="176" height="138" rx="3" fill="#fff" stroke="#c9c9c1"/>
+  <g fill="#14161b"><rect x="26" y="20" width="9" height="9"/><rect x="185" y="20" width="9" height="9"/><rect x="26" y="141" width="9" height="9"/><rect x="185" y="141" width="9" height="9"/></g>
+  <g stroke="#b9c3ec" stroke-width="2">{% for i in range(10) %}<line x1="78" y1="{{ 38 + i * 10 }}" x2="150" y2="{{ 38 + i * 10 }}"/>{% endfor %}</g>
+  <g fill="#e2e2dc">{% for i in range(10) %}<rect x="152" y="{{ 34 + i * 10 }}" width="20" height="7" rx="1"/>{% endfor %}</g>
+  <rect x="44" y="40" width="28" height="70" rx="2" fill="#eceffc"/>
+  <rect x="176" y="34" width="14" height="100" fill="#14161b" opacity=".85"/>
+  <g stroke="#157042" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M10 10h14M10 10v14M210 10h-14M210 10v14M10 160h14M10 160v-14M210 160h-14M210 160v-14"/></g>
+</svg>
+{%- endmacro %}
+{% block content %}
+<div class="page-head">
+  <div class="eyebrow">Try it</div>
+  <h1>Read a tally sheet from a photo</h1>
+  <p class="lede">Photograph an INE type-2 tally sheet (or use one of ours). The page is located, straightened and privacy-masked in memory; only the masked page is kept. Then it joins the queue for a live read on AMD, and the gate checks every field.</p>
+</div>
+
+{% if up %}
+{# ---------------------------------------------------------------- an uploaded (masked) page and its live read #}
+<div class="viewer" style="margin-top:0">
+  <div class="second-m">
+    <img class="page-img" src="/upload/{{ up.id }}.jpg" alt="Your page after privacy masking: the right-hand column is blacked out">
+    <div class="privacy" style="margin-top:12px">{{ icon('shield') }}<div>This is everything we kept: the straightened page with the names-and-signatures column blacked out. Your original photo was processed in memory and never written to disk.{% if up.source == 'sample' %} (Sample: a page from our measured set, sent through the same pipeline.){% endif %}</div></div>
+  </div>
+  <div>
+    <div class="card live" id="live" data-live data-start="/api/upload/{{ up.id }}/read" data-fallback="{{ up.sample_of or '' }}" data-fields='{{ flist|tojson }}'>
+      <div class="live-head">
+        <div>
+          <div class="eyebrow" style="margin-bottom:6px">Live on AMD</div>
+          <h3 style="margin:0">{{ 'Sample page' if up.source == 'sample' else 'Your page' }}</h3>
+          <p class="small muted" style="margin:6px 0 0">Form found, straightened and masked at {{ up.at[11:16] }} UTC</p>
+        </div>
+        <div class="live-act">
+          <div class="timer" data-live-timer hidden>0.0 s</div>
+          <button class="btn {{ 'primary' if not ev else '' }}" data-live-btn>{{ icon('refresh' if ev else 'play') }}{{ 'Read again' if ev else 'Read live on AMD' }}</button>
+        </div>
+      </div>
+      <ul class="jobsteps" style="margin-bottom:0">
+        <li class="did"><span class="ic"></span><span class="lb">Form located and straightened</span><span class="tt">in memory</span></li>
+        <li class="did"><span class="ic"></span><span class="lb">Names and signatures blacked out</span><span class="tt">before storing</span></li>
+      </ul>
+      <ul class="jobsteps" data-live-steps style="margin-top:2px" hidden></ul>
+      {% if not ev %}<div data-live-msg></div>{% endif %}
+      {% if ev %}
+      <div data-live-msg><div class="banner {{ 'ok' if ev.accepted else '' }}">{{ icon('check' if ev.accepted else 'alert') }}<div class="grow"><b>{{ ev.line }}</b><br><span class="small">Read on AMD by {{ up.read.model }} in {{ up.read.secs }} s, cost ${{ '%.6f'|format(up.read.cost or 0) }}.</span></div></div></div>
+      <div class="tiles" data-live-tiles>
+        {% for f in ev.fields %}<div class="tile in {{ 'ok' if f.status == 'ok' else 'bad' }}"><div class="k">{{ f.name }}</div><div class="v">{{ '–' if f.n is none else f.n }} <span>{% if f.w is not none %}words {{ f.w }}{% endif %}</span></div>{% if f.status != 'ok' %}<div class="tiny" style="color:var(--bad)">{{ f.msg }}</div>{% endif %}</div>{% endfor %}
+      </div>
+      <div class="idents" data-live-ids style="margin-top:12px">
+        {% for i in ev.identities %}<div class="ident {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}"><span class="st {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}">{{ '✓' if i.ok else ('–' if i.ok is none else '✕') }}</span><span class="nm">{{ i.name }}</span><span class="eq">{% if i.ok is none %}not checkable{% else %}{{ i.lhs }} {{ '=' if i.ok else '≠' }} {{ i.rhs }}{% endif %}</span></div>{% endfor %}
+      </div>
+      {% else %}
+      <div class="tiles" data-live-tiles>{% for f in flist %}<div class="tile wait"><div class="k">{{ f.name }}</div><div class="v skel"></div></div>{% endfor %}</div>
+      <div class="idents" data-live-ids style="margin-top:12px"></div>
+      {% endif %}
+    </div>
+    <div class="actions"><a class="btn" href="/try">{{ icon('camera') }}Try another photo</a><a class="btn" href="/inbox">{{ icon('inbox') }}Open the inbox</a></div>
+  </div>
+</div>
+
+{% else %}
+{# ---------------------------------------------------------------- pick a photo #}
+<div class="grid2" style="align-items:start">
+  <div>
+    <div class="drop" id="drop">
+      <div id="dropIdle">
+        <div class="big">{{ icon('upload') }}</div>
+        <h2>Drop a photo of the tally sheet here</h2>
+        <p class="small muted" style="margin:6px 0 0">JPEG or PNG, up to 20 MB. A phone photo is fine.</p>
+        <div class="actions">
+          <label class="btn primary lg" for="camIn">{{ icon('camera') }}Take a photo</label>
+          <label class="btn lg" for="fileIn">{{ icon('image') }}Choose a file</label>
+        </div>
+        <input class="sr" type="file" id="camIn" accept="image/*" capture="environment">
+        <input class="sr" type="file" id="fileIn" accept="image/jpeg,image/png,image/*">
+      </div>
+      <div id="dropBusy" hidden>
+        <ul class="jobsteps" style="text-align:left;max-width:360px;margin:0 auto">
+          <li class="now" id="stUp"><span class="ic"></span><span class="lb">Sending the photo</span></li>
+          <li id="stLoc"><span class="ic"></span><span class="lb">Locating and straightening the form</span></li>
+          <li id="stMask"><span class="ic"></span><span class="lb">Blacking out names and signatures</span></li>
+          <li id="stQ"><span class="ic"></span><span class="lb">Joining the queue for AMD</span></li>
+        </ul>
+      </div>
+      <div id="dropFail" hidden>
+        <div class="big" style="background:var(--warn-soft);color:var(--warn)">{{ icon('alert') }}</div>
+        <h2 id="failTitle">We could not find the form on that photo</h2>
+        <p class="small" id="failMsg" style="margin:6px auto 0;max-width:30em;color:var(--ink-2)"></p>
+        <div class="actions"><button class="btn primary" id="again">{{ icon('camera') }}Try another photo</button></div>
+      </div>
+    </div>
+
+    <h3 style="margin:var(--s-6) 0 4px">No form at hand?</h3>
+    <p class="small muted" style="margin:0">Use a sample photo: a page from our measured set, sent through exactly the same pipeline.</p>
+    <div class="samples">
+      {% for key, s in samples.items() %}
+      <button class="sample" data-sample="{{ key }}"><img src="/masked/{{ s.clave }}.jpg" alt="" loading="lazy"><div><b>{{ s.label }}</b><span>{{ s.note }}</span></div></button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">What a good photo looks like</div>
+    {{ sheet_illo() }}
+    <ul class="goodphoto" style="margin-top:var(--s-4)">
+      {% for g in good %}<li>{{ icon('check') }}<span>{{ g }}</span></li>{% endfor %}
+    </ul>
+    <div class="privacy" style="margin-top:var(--s-5)">{{ icon('shield') }}<div><b>Privacy.</b> Your photo is processed in memory and never written to disk. If the form is found, only the straightened page with the names-and-signatures column blacked out is kept and sent to the model. If it is not found, nothing is kept.</div></div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script src="/static/live.js?v=4"></script>
+<script>
+(function () {
+  var live = document.getElementById('live');
+  if (live) {
+    var lj = window.LiveJob(live);
+    var m = /job=([0-9a-f]+)(?:&pos=(\d+))?/.exec(location.hash);
+    if (m) { lj.attach(m[1], +(m[2] || 0)); history.replaceState(null, '', location.pathname); }
+    else if (location.hash === '#refused') { live.querySelector('[data-live-msg]').innerHTML = '<div class="banner"><div class="grow"><b>Not queued yet.</b> ' + (sessionStorage.getItem('th_refused') || 'The live read is not available right now.') + '</div></div>'; }
+    return;
+  }
+  var drop = document.getElementById('drop'), idle = document.getElementById('dropIdle'), busy = document.getElementById('dropBusy'),
+      fail = document.getElementById('dropFail');
+  function show(which) { idle.hidden = which !== 'idle'; busy.hidden = which !== 'busy'; fail.hidden = which !== 'fail'; }
+  function mark(id, cls) { document.getElementById(id).className = cls; }
+  function done(res) {
+    if (res.ok && res.j.ok) {
+      mark('stLoc', 'did'); mark('stMask', 'did'); mark('stQ', 'did');
+      var url = res.j.page_url;
+      if (res.j.job) url += '#job=' + res.j.job + '&pos=' + (res.j.position || 0);
+      else { try { sessionStorage.setItem('th_refused', res.j.message || ''); } catch (e) {} url += '#refused'; }
+      location.href = url; return;
+    }
+    show('fail');
+    var j = res.j || {};
+    document.getElementById('failTitle').textContent = j.code === 'not_located' ? 'We could not find the form on that photo' : 'That file did not work';
+    document.getElementById('failMsg').textContent = (j.message || 'Something went wrong.') + (j.code === 'not_located' ? ' Check the list on the right: all four corners in the frame, flat, even light.' : '');
+  }
+  function send(body, url) {
+    show('busy'); mark('stUp', 'now'); mark('stLoc', ''); mark('stMask', ''); mark('stQ', '');
+    var t = setTimeout(function () { mark('stUp', 'did'); mark('stLoc', 'now'); }, 400);
+    fetch(url, {method: 'POST', body: body, headers: body ? {'Content-Type': body.type || 'application/octet-stream'} : {}})
+      .then(function (r) { return r.json().then(function (j) { return {ok: r.ok, j: j}; }); })
+      .then(function (res) { clearTimeout(t); done(res); })
+      .catch(function () { clearTimeout(t); done({ok: false, j: {message: 'Could not reach the server.'}}); });
+  }
+  function pick(e) { var f = e.target.files && e.target.files[0]; if (f) send(f, '/api/upload'); e.target.value = ''; }
+  document.getElementById('camIn').addEventListener('change', pick);
+  document.getElementById('fileIn').addEventListener('change', pick);
+  document.getElementById('again').addEventListener('click', function () { show('idle'); });
+  ['dragenter', 'dragover'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) send(f, '/api/upload'); });
+  document.querySelectorAll('[data-sample]').forEach(function (b) {
+    b.addEventListener('click', function () { window.scrollTo({top: 0, behavior: 'smooth'}); send(null, '/api/upload/sample/' + b.dataset.sample); });
+  });
+})();
+</script>
+{% endblock %}

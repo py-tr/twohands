@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Inbox · Two Hands{% endblock %}
+{% set label = {'accepted': 'Accepted', 'routed': 'Routed', 'resolved': 'Resolved', 'escalated': 'Escalated', 'paper': 'Paper inconsistency'} %}
+{% set chipc = {'accepted': 'ok', 'routed': 'warn', 'resolved': 'accent', 'escalated': 'bad', 'paper': 'paper'} %}
+{% block content %}
+<div class="sec-head page-head" style="align-items:flex-end">
+  <div>
+    <div class="eyebrow">Inbox</div>
+    <h1>Every form, where it stands</h1>
+    <p class="lede">Accepted forms need no keying. Routed forms wait on the review desk with the failing field named. Export what has been captured at any time.</p>
+  </div>
+  <div class="actions" style="margin-top:0">
+    <a class="btn" href="/api/export.csv" download>{{ icon('download') }}Export CSV</a>
+    <a class="btn" href="/api/export.json" target="_blank" rel="noopener">{{ icon('download') }}Export JSON</a>
+    <a class="btn dark" href="/review">{{ icon('review') }}Open review desk</a>
+  </div>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">Forms in</div><div class="v">{{ k.n|int }}</div><div class="s">{{ '%.1f'|format(k.per_min) ~ ' forms/min' if k.per_min else 'measured reads' }}{% if k.last %} · last {{ k.last[11:] }}{% endif %}</div></div>
+  <div class="kpi"><div class="l">Fields read</div><div class="v">{{ k.fields_read|int }}</div><div class="s">digits and words, on {{ k.forms_read }} forms</div></div>
+  <div class="kpi"><div class="l">Agree with official capture</div><div class="v">{{ '%.1f'|format(100 * agr.rate) if agr.rate is not none else '–' }}%</div><div class="s">{{ agr.agree|int }} of {{ agr.compared|int }} fields{{ ' · before adjudication' if not agr.adjudicated else '' }}</div></div>
+  <div class="kpi"><div class="l">Touchless</div><div class="v">{{ '%.0f'|format(100 * k.touchless) if k.touchless is not none else '–' }}%</div><div class="s">{{ k.accepted }} forms accepted, 0 to key</div></div>
+  <div class="kpi"><div class="l">Routed to review</div><div class="v">{{ k.routed_fields|int }}</div><div class="s">fields to key, on {{ k.routed_forms - k.awaiting_reread }} forms{% if k.awaiting_reread %} · {{ k.awaiting_reread }} more await a re-read{% endif %}</div></div>
+  <div class="kpi"><div class="l">Paper inconsistencies</div><div class="v">{{ k.paper }}</div><div class="s">read right; the paper disagrees with itself</div></div>
+  <div class="kpi"><div class="l">AMD cost so far</div><div class="v">${{ '%.4f'|format(k.cost) }}</div><div class="s">{{ k.cost_n }} reads{% if live.reads_today %} · {{ live.reads_today }} live today{% endif %}</div></div>
+</div>
+
+<div class="toolbar">
+  <div class="filters" id="sf" role="group" aria-label="Filter by status">
+    <button class="on" data-f="all">All <b>{{ k.n }}</b></button>
+    {% for s, name, c in STATUSES %}<button data-f="{{ s }}"><span class="chip {{ chipc[s] }}" style="padding:0;background:none;border:0"><span class="dot"></span></span>{{ name }} <b>{{ k[s] }}</b></button>{% endfor %}
+  </div>
+  <span class="grow"></span>
+  <select class="sel" id="cap" aria-label="Capture type"><option value="">Any capture</option><option>phone photo</option><option>scanner</option></select>
+  <label class="search">{{ icon('search') }}<input id="q" type="search" placeholder="Form id or state" aria-label="Search forms"></label>
+</div>
+
+<div class="tablecard">
+  <div class="tablewrap">
+    <table class="itable" id="itable">
+      <thead><tr><th>Form</th><th>Status</th><th class="hide-m">Why</th><th class="n">To key</th><th class="hide-m">Capture</th><th class="hide-m">State</th><th class="n hide-m">Read</th><th class="n hide-m">Cost</th></tr></thead>
+      <tbody>
+      {% for r in rows %}
+        <tr data-s="{{ r.status }}" data-c="{{ r.capture }}" data-q="{{ (r.clave ~ ' ' ~ r.state)|lower }}">
+          <td class="id"><a href="/form/{{ r.clave }}">{{ r.clave }}</a></td>
+          <td><span class="chip {{ chipc[r.status] }}"><span class="dot"></span>{{ label[r.status] }}</span></td>
+          <td class="why hide-m" title="{{ r.reason }}">{{ r.reason }}</td>
+          <td class="n">{{ r.to_key if r.to_key is not none else '–' }}</td>
+          <td class="hide-m">{{ r.capture or '–' }}</td>
+          <td class="hide-m">{{ r.state }}</td>
+          <td class="n hide-m">{{ '%.0f s'|format(r.secs) if r.secs else '–' }}</td>
+          <td class="n hide-m">{{ '$%.6f'|format(r.cost) if r.cost else '–' }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <div class="empty" id="none" hidden>{{ icon('empty') }}<b>No forms match</b>Try another status or clear the search.</div>
+    {% if not rows %}<div class="empty">{{ icon('empty') }}<b>The inbox is empty</b>Forms appear here as soon as they are read.</div>{% endif %}
+  </div>
+  <div class="tablefoot"><span id="shown">{{ rows|length }} forms shown</span><span>Status chips: accepted = every identity holds · paper inconsistency = read right, but the paper disagrees with itself · <a href="/results">method</a></span></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var f = 'all', bar = document.getElementById('sf'), q = document.getElementById('q'), cap = document.getElementById('cap'),
+      rows = Array.prototype.slice.call(document.querySelectorAll('#itable tbody tr')), none = document.getElementById('none'),
+      shown = document.getElementById('shown');
+  function apply() {
+    var t = q.value.trim().toLowerCase(), c = cap.value, n = 0;
+    rows.forEach(function (r) {
+      var ok = (f === 'all' || r.dataset.s === f) && (!c || r.dataset.c === c) && (!t || r.dataset.q.indexOf(t) >= 0);
+      r.hidden = !ok; if (ok) n++;
+    });
+    none.hidden = n > 0; shown.textContent = n + ' form' + (n === 1 ? '' : 's') + ' shown';
+  }
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    f = b.dataset.f; bar.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); apply();
+  });
+  q.addEventListener('input', apply); cap.addEventListener('change', apply);
+})();
+</script>
+{% endblock %}

@@ -12,7 +12,8 @@ APP_CODE = list((REPO / "app").glob("*.py")) + list((REPO / "templates").glob("*
 
 
 def test_no_election_in_titles_or_headings():
-    for url in ["/", "/forms", "/form/211294C0100", "/ledger/BALCOMBE-GABLES__03", "/review", "/audit", "/results"]:
+    for url in ["/", "/forms", "/form/211294C0100", "/ledger/BALCOMBE-GABLES__03", "/review", "/audit", "/results",
+                "/try", "/inbox", "/api"]:
         html = client.get(url).text
         for tag in ("title", "h1", "h2", "h3"):
             for t in re.findall(rf"<{tag}[^>]*>(.*?)</{tag}>", html, flags=re.S | re.I):

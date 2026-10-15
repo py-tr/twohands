@@ -1,14 +1,20 @@
-"""Live read on AMD: one form, one request, streamed to the browser as server-sent events.
+"""Live read on AMD as a visible queued job: one form, one request, streamed to the browser as server-sent events.
 
 Safety rails (the AMD Token Factory key is shared with the core's batch job: 20 req/min, 8 concurrent, $1/day):
-  * ONE live read at a time, site-wide (a process lock; a second click gets "busy").
-  * Every request goes through the core client (twohands.amd.chat), i.e. the core's shared rate limiter.
-  * Budget guard before every read: the endpoint's own /usage (daily_cost_remaining_usd must stay above
-    LIVE_MIN_REMAINING_USD so the batch job keeps its headroom) AND a local daily cap on reads and dollars.
-  * Only a masked page (data/masked/**) is ever sent; a form without one cannot be read live.
+  * ONE live read runs at a time, site-wide: jobs wait in a short FIFO queue (QUEUE_MAX, the running one
+    included) and a single worker thread reads them in turn. A full queue answers "busy".
+  * Every request goes through the core client (twohands.amd.chat), i.e. the core's shared rate limiter, with a
+    short retry budget so a busy endpoint is reported in seconds, not minutes.
+  * Budget guard when a job is queued AND again when it starts: the endpoint's own /usage
+    (daily_cost_remaining_usd must stay above LIVE_MIN_REMAINING_USD so the batch job keeps its headroom) and a
+    local daily cap on reads and dollars.
+  * Only a privacy-masked page is ever sent; a form without one cannot be read live.
+  * AMD 503 / timeout: the job ends with code "endpoint_busy"; the browser shows the last measured read of the
+    form (when it has one) under an honest banner, with a retry button.
 """
 from __future__ import annotations
 
+import collections
 import json
 import os
 import threading
@@ -24,8 +30,13 @@ LIVE_MODEL = os.environ.get("TWOHANDS_LIVE_MODEL", "gemma")
 MIN_REMAINING_USD = float(os.environ.get("LIVE_MIN_REMAINING_USD", "0.25"))
 MAX_READS_PER_DAY = int(os.environ.get("LIVE_MAX_READS_PER_DAY", "40"))
 MAX_USD_PER_DAY = float(os.environ.get("LIVE_MAX_USD_PER_DAY", "0.05"))
+QUEUE_MAX = int(os.environ.get("LIVE_QUEUE_MAX", "4"))
+LIVE_RETRIES = int(os.environ.get("LIVE_RETRIES", "2"))
 LIVE_DIR = storemod.STATE / "live"
 BUDGET_FILE = storemod.STATE / "live_budget.json"
+
+BUSY_MARKERS = ("503", "502", "504", "timeout", "timed out", "gave up", "gaveup", "urlerror", "remotedisconnected",
+                "connectionreset", "connection reset", "temporarily unavailable")
 
 
 class Refused(Exception):
@@ -35,8 +46,11 @@ class Refused(Exception):
 
 
 def _default_reader(model: str, page: Path) -> dict:
-    from twohands import reader
-    return reader.read(model, page)
+    from twohands import amd, reader
+
+    def chat(body):  # the core client and its shared limiter, with a short retry budget for an interactive read
+        return amd.chat(body, retries=LIVE_RETRIES, log=lambda *a, **k: None, kind="live")
+    return reader.read(model, page, chat=chat)
 
 
 def _default_usage() -> dict:
@@ -44,18 +58,30 @@ def _default_usage() -> dict:
     return amd.usage()
 
 
+def endpoint_busy(err: Optional[str]) -> bool:
+    e = (err or "").lower()
+    return any(m in e for m in BUSY_MARKERS)
+
+
 class Job:
-    def __init__(self, clave: str):
+    def __init__(self, clave: str, page: Path, kind: str = "form", out_dir: Optional[Path] = None,
+                 fallback: Optional[str] = None):
         self.id = uuid.uuid4().hex[:12]
         self.clave = clave
+        self.page = page
+        self.kind = kind
+        self.out_dir = out_dir
+        self.fallback = fallback
+        self.state = "queued"
         self.events: list[dict] = []
         self.done = False
-        self.started = time.time()
+        self.created = time.time()
+        self.started: Optional[float] = None
         self.cond = threading.Condition()
 
     def emit(self, **ev) -> None:
         with self.cond:
-            ev.setdefault("t", round(time.time() - self.started, 1))
+            ev.setdefault("t", round(time.time() - self.created, 1))
             self.events.append(ev)
             self.cond.notify_all()
 
@@ -71,7 +97,10 @@ class LiveManager:
         self.reader_fn = reader_fn or _default_reader
         self.usage_fn = usage_fn or _default_usage
         self.reveal_delay = reveal_delay
-        self._busy = threading.Lock()
+        self._lock = threading.Lock()
+        self._wake = threading.Condition(self._lock)
+        self._queue: collections.deque = collections.deque()
+        self._worker: Optional[threading.Thread] = None
         self.jobs: dict[str, Job] = {}
         self.current: Optional[Job] = None
 
@@ -94,59 +123,124 @@ class LiveManager:
         BUDGET_FILE.parent.mkdir(parents=True, exist_ok=True)
         BUDGET_FILE.write_text(json.dumps(b, indent=1), encoding="utf-8")
 
+    def _running(self) -> Optional[Job]:
+        return self.current if self.current is not None and not self.current.done else None
+
     def status(self) -> dict:
         t = self._today()
-        return {"busy": self._busy.locked(), "reads_today": t["reads"], "usd_today": t["usd"],
-                "max_reads": MAX_READS_PER_DAY, "max_usd": MAX_USD_PER_DAY,
-                "current": self.current.clave if self.current and not self.current.done else None}
+        with self._lock:
+            running = self._running()
+            queued = len(self._queue)
+        cur = None
+        if running is not None:
+            cur = running.clave if running.kind == "form" else "a photo upload"
+        return {"busy": running is not None or queued > 0, "running": running is not None, "queued": queued,
+                "queue_max": QUEUE_MAX, "reads_today": t["reads"], "usd_today": t["usd"],
+                "max_reads": MAX_READS_PER_DAY, "max_usd": MAX_USD_PER_DAY, "current": cur}
+
+    def position(self, job: Job) -> int:
+        """Reads ahead of this job (the running one included); 0 once it runs, or when it is next."""
+        with self._lock:
+            if job.state != "queued" or job not in self._queue:
+                return 0
+            return list(self._queue).index(job) + (1 if self._running() is not None else 0)
+
+    def job_status(self, job_id: str) -> Optional[dict]:
+        job = self.jobs.get(job_id)
+        if job is None:
+            return None
+        last = next((e for e in reversed(job.events) if e["type"] in ("verdict", "error")), None)
+        return {"job": job.id, "form": job.clave, "kind": job.kind, "state": job.state, "position": self.position(job),
+                "elapsed_s": round(time.time() - job.created, 1),
+                "reading_s": round(time.time() - job.started, 1) if job.started else None,
+                "stages": [e["stage"] for e in job.events if e["type"] == "stage"],
+                "result": storemod.public(last) if last else None}
 
     def check_budget(self) -> dict:
         t = self._today()
         if t["reads"] >= MAX_READS_PER_DAY or t["usd"] >= MAX_USD_PER_DAY:
             raise Refused("budget", "Today's live-read allowance for this demo is used up. "
-                                    "The precomputed result for this form is shown instead.")
+                                    "The last measured read is shown instead.")
         try:
             u = self.usage_fn() or {}
         except Exception as e:  # noqa: BLE001  endpoint down, key missing, timeout
-            raise Refused("endpoint", "The AMD endpoint is not answering right now "
-                                      f"({type(e).__name__}). The precomputed result is shown instead.")
+            raise Refused("endpoint", f"AMD endpoint busy or not answering ({type(e).__name__}), showing the last "
+                                      "measured read of this form; retry in a minute.")
         rem = u.get("daily_cost_remaining_usd")
         if rem is not None and float(rem) < MIN_REMAINING_USD:
             raise Refused("budget", "The shared AMD budget for today is nearly spent, and it is reserved for the "
                                     "measured batch run. Please try again after the daily reset.")
         return u
 
-    # ---- run
-    def start(self, clave: str, page: Optional[Path]) -> Job:
+    # ---- queue
+    def start(self, clave: str, page: Optional[Path], kind: str = "form", out_dir: Optional[Path] = None,
+              fallback: Optional[str] = None) -> Job:
         if page is None:
             raise Refused("no_image", "This form has no privacy-masked page yet, so it cannot be sent to the model.")
-        if not self._busy.acquire(blocking=False):
-            raise Refused("busy", "Another live read is running (one at a time on the shared endpoint). "
-                                  "Please try again in a minute.")
-        try:
-            self.check_budget()
-        except Refused:
-            self._busy.release()
-            raise
-        job = Job(clave)
-        self.jobs[job.id] = job
-        self.current = job
-        threading.Thread(target=self._run, args=(job, page), daemon=True).start()
+        with self._lock:
+            if (1 if self._running() else 0) + len(self._queue) >= QUEUE_MAX:
+                raise Refused("busy", "The live-read queue is full (one read at a time on the shared endpoint). "
+                                      "Please try again in a minute.")
+        self.check_budget()
+        if fallback is None and kind == "form":
+            fallback = clave
+        job = Job(clave, page, kind=kind, out_dir=out_dir, fallback=fallback)
+        with self._lock:
+            self.jobs[job.id] = job
+            self._queue.append(job)
+            if self._worker is None or not self._worker.is_alive():
+                self._worker = threading.Thread(target=self._loop, daemon=True)
+                self._worker.start()
+            self._wake.notify_all()
+        job.emit(type="queued", position=self.position(job))
         return job
 
-    def _run(self, job: Job, page: Path) -> None:
+    def _loop(self) -> None:
+        while True:
+            with self._lock:
+                while not self._queue:
+                    self._wake.wait(timeout=30)
+                    if not self._queue:
+                        self._worker = None
+                        return
+                job = self._queue.popleft()
+                job.state = "running"
+                job.started = time.time()
+                self.current = job
+            try:
+                self._run(job)
+            finally:
+                with self._lock:
+                    if self.current is job:
+                        self.current = None
+
+    def _fail(self, job: Job, code: str, msg: str) -> None:
+        job.state = "failed"
+        job.emit(type="error", code=code, msg=msg, fallback=job.fallback)
+
+    def _run(self, job: Job) -> None:
         from twohands.reader import MODELS
         try:
+            try:  # the allowance may have changed while the job waited in line
+                self.check_budget()
+            except Refused as e:
+                self._fail(job, "endpoint_busy" if e.code == "endpoint" else e.code, e.message)
+                return
             model_name = MODELS.get(LIVE_MODEL, LIVE_MODEL)
-            job.emit(type="stage", stage="prepare", msg="Privacy-masked page and zoomed tiles prepared")
-            job.emit(type="stage", stage="send", msg=f"Sent to {model_name} on AMD (Token Factory), one request")
-            row = self.reader_fn(LIVE_MODEL, page)
+            job.emit(type="stage", stage="prepare", msg="Masked page and zoomed tiles prepared")
+            job.emit(type="stage", stage="send", msg=f"Sent to {model_name} on AMD, one request")
+            row = self.reader_fn(LIVE_MODEL, job.page)
             cost = ((row.get("usage") or {}).get("cost") or 0.0) if isinstance(row.get("usage"), dict) else 0.0
             self._spend(cost)
+            if row.get("error") and endpoint_busy(row.get("error")):
+                self._fail(job, "endpoint_busy", "AMD endpoint busy (503 or timeout)"
+                           + (", showing the last measured read of this form; retry in a minute." if job.fallback
+                              else "; your masked page is kept, retry in a minute."))
+                return
             if row.get("error") or not row.get("parsed"):
-                job.emit(type="error", code="read",
-                         msg="The model did not return a readable answer"
-                             + (f" ({row.get('error')[:120]})" if row.get("error") else "") + ". Showing the precomputed result.")
+                self._fail(job, "read", "The model did not return a readable answer"
+                           + (f" ({storemod.neutralize(row.get('error'))[:120]})" if row.get("error") else "")
+                           + (". Showing the last measured read." if job.fallback else "."))
                 return
             u = row.get("usage") or {}
             job.emit(type="stage", stage="answer", msg=f"Answer received after {row.get('secs')} s; the gate checks every field",
@@ -160,25 +254,29 @@ class LiveManager:
                 time.sleep(self.reveal_delay)
             for i in ev["identities"]:
                 job.emit(type="identity", name=i["name"], ok=i["ok"], lhs=i["lhs"], rhs=i["rhs"])
-            job.emit(type="verdict", accepted=ev["accepted"], line=ev["line"], reasons=[storemod.neutralize(x) for x in ev["reasons"]],
-                     secs=row.get("secs"), cost=cost, model=model_name)
-            LIVE_DIR.mkdir(parents=True, exist_ok=True)
+            out_dir = job.out_dir or LIVE_DIR
+            out_dir.mkdir(parents=True, exist_ok=True)
             out = {"clave": job.clave, "model": model_name, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                    "secs": row.get("secs"), "usage": u, "cost": cost, "finish_reason": row.get("finish_reason"),
                    "parsed": row["parsed"], "accepted": ev["accepted"], "reasons": ev["reasons"]}
-            (LIVE_DIR / f"{job.clave}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+            name = f"{job.clave}.json" if job.out_dir is None else f"{job.clave}.read.json"
+            (out_dir / name).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+            job.state = "done"
+            job.emit(type="verdict", accepted=ev["accepted"], line=ev["line"], reasons=[storemod.neutralize(x) for x in ev["reasons"]],
+                     secs=row.get("secs"), cost=cost, model=model_name)
         except Exception as e:  # noqa: BLE001
-            job.emit(type="error", code="internal", msg=f"Live read failed ({type(e).__name__}). Showing the precomputed result.")
+            self._fail(job, "internal", f"Live read failed ({type(e).__name__})."
+                       + (" Showing the last measured read." if job.fallback else ""))
         finally:
             job.emit(type="done")
             job.finish()
-            self._busy.release()
 
     def stream(self, job_id: str, tick: float = 1.0):
-        """Yield SSE frames: every event as it happens, plus an elapsed-time tick every second."""
+        """Yield SSE frames: every event as it happens, plus a tick (elapsed time, queue position) every second."""
         job = self.jobs.get(job_id)
         if job is None:
-            yield "event: error\ndata: " + json.dumps({"type": "error", "code": "unknown", "msg": "No such live read."}) + "\n\n"
+            yield "data: " + json.dumps({"type": "error", "code": "unknown", "msg": "No such live read."}) + "\n\n"
+            yield "data: " + json.dumps({"type": "done"}) + "\n\n"
             return
         i = 0
         while True:
@@ -193,4 +291,5 @@ class LiveManager:
             if done:
                 return
             if not new:
-                yield "data: " + json.dumps({"type": "tick", "t": round(time.time() - job.started, 1)}) + "\n\n"
+                yield "data: " + json.dumps({"type": "tick", "t": round(time.time() - job.created, 1),
+                                             "state": job.state, "position": self.position(job)}) + "\n\n"
