@@ -160,6 +160,27 @@ AMD Token Factory, the organisers' hosted AMD GPUs. One request per form. ~2 for
 
 ---
 
+<!-- Slide 8b: Gemma on AMD -->
+
+## Gemma on AMD: what it took
+
+Gemma-4-31B-IT reads every value twice, the **handwritten digits** and the **amount in Spanish words**, plus the printed label of each row. Phone photos, faint pencil.
+
+- **Fixed ~263 image tokens per image**, whatever the resolution. So: page + 6 zoomed tiles in one request. Ledgers: **79% → 97%** cells right once tiled.
+- **Frozen prompt** (sha256 `3664253035b9…`), rows not named: Gemma reports each row's label, a shifted row is caught.
+- **Junk after the answer:** first complete JSON parsed, `max_tokens` 2000, `length` never accepted. 289/289 `stop`.
+
+| Same 259 forms, same prompt and gate | Gemma | Qwen3.8-27B |
+|---|---|---|
+| Accepted, no person | **44** | 26 |
+| Accepted fields wrong | 2 of 968 | 1 of 572 |
+| Cost per form | **$0.000144** | $0.000580 |
+| Mean latency | **89 s** | 257 s |
+
+<p class="small">results/gemma_vs_qwen.md (scripts/gemma_vs_qwen.py; Qwen pass still running at writing). Gemma was withdrawn from AMD Token Factory on 2026-10-15 ~16:20 UTC; live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs. docs/GEMMA.md.</p>
+
+---
+
 <!-- Slide 9: second form type -->
 
 ## A second form, a different century

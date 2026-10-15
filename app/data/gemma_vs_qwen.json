@@ -1,0 +1,122 @@
+{
+ "sample": 300,
+ "common_forms": 259,
+ "qwen_complete": false,
+ "prompt_sha256": "3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f",
+ "gemma": {
+  "model": "Gemma-4-31B-IT",
+  "forms": 259,
+  "sent": 250,
+  "parsed": 250,
+  "finish_reason": {
+   "stop": 250
+  },
+  "prompt_sha256_all_frozen": true,
+  "touchless": 44,
+  "touchless_pct": 17.0,
+  "accepted_fields": 968,
+  "accepted_right": 966,
+  "accepted_wrong": 2,
+  "accepted_undecided": 0,
+  "accepted_not_adjudicated": 0,
+  "accepted_wrong_fields": [
+   "010469C0400__SOBRANTES",
+   "212668C0300__SOBRANTES"
+  ],
+  "accepted_right_pct_of_judged": 99.79,
+  "words_and_digits_both_read": 5123,
+  "words_equal_digits": 5027,
+  "mean_latency_s": 89.0,
+  "mean_tokens_in": 2609,
+  "mean_tokens_out": 804,
+  "max_tokens_out": 841,
+  "max_tokens_cap": 2000,
+  "image_tokens_per_request": {
+   "min": 1843,
+   "max": 1843,
+   "mean": 1843
+  },
+  "image_tokens_per_image_mean": 263,
+  "cost_per_read_usd": 0.0001442338352,
+  "cost_per_form_all_attempts_usd": 0.00013922184864864864,
+  "spend_usd": 0.036058
+ },
+ "qwen": {
+  "model": "Qwen3.8-27B",
+  "forms": 259,
+  "sent": 250,
+  "parsed": 207,
+  "finish_reason": {
+   "None": 6,
+   "length": 37,
+   "stop": 207
+  },
+  "prompt_sha256_all_frozen": true,
+  "touchless": 26,
+  "touchless_pct": 10.0,
+  "accepted_fields": 572,
+  "accepted_right": 569,
+  "accepted_wrong": 1,
+  "accepted_undecided": 2,
+  "accepted_not_adjudicated": 0,
+  "accepted_wrong_fields": [
+   "090955C0200__SOBRANTES"
+  ],
+  "accepted_right_pct_of_judged": 99.82,
+  "words_and_digits_both_read": 4172,
+  "words_equal_digits": 4089,
+  "mean_latency_s": 257.0,
+  "mean_tokens_in": 6612,
+  "mean_tokens_out": 3286,
+  "max_tokens_out": 5944,
+  "max_tokens_cap": 6000,
+  "image_tokens_per_request": {
+   "min": 5817,
+   "max": 5817,
+   "mean": 5817
+  },
+  "image_tokens_per_image_mean": 831,
+  "cost_per_read_usd": 0.0005798093642512078,
+  "cost_per_form_all_attempts_usd": 0.000602666072972973,
+  "spend_usd": 0.156091
+ },
+ "gemma_cost_share_of_qwen": 0.249,
+ "gemma_full_300": {
+  "model": "Gemma-4-31B-IT",
+  "forms": 300,
+  "sent": 289,
+  "parsed": 289,
+  "finish_reason": {
+   "stop": 289
+  },
+  "prompt_sha256_all_frozen": true,
+  "touchless": 55,
+  "touchless_pct": 18.3,
+  "accepted_fields": 1210,
+  "accepted_right": 1208,
+  "accepted_wrong": 2,
+  "accepted_undecided": 0,
+  "accepted_not_adjudicated": 0,
+  "accepted_wrong_fields": [
+   "010469C0400__SOBRANTES",
+   "212668C0300__SOBRANTES"
+  ],
+  "accepted_right_pct_of_judged": 99.83,
+  "words_and_digits_both_read": 5935,
+  "words_equal_digits": 5818,
+  "mean_latency_s": 87.0,
+  "mean_tokens_in": 2609,
+  "mean_tokens_out": 804,
+  "max_tokens_out": 841,
+  "max_tokens_cap": 2000,
+  "image_tokens_per_request": {
+   "min": 1843,
+   "max": 1843,
+   "mean": 1843
+  },
+  "image_tokens_per_image_mean": 263,
+  "cost_per_read_usd": 0.000144445523183391,
+  "cost_per_form_all_attempts_usd": 0.0001391491873333333,
+  "spend_usd": 0.041745
+ }
+}

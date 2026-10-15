@@ -4,6 +4,9 @@ Short answer: **every model read in this repo.** Each form is one request to Gem
 reader, Qwen3.8-27B) on AMD Token Factory, the organisers' hosted AMD GPU endpoint. The live button in the web
 app sends a new request to the same endpoint.
 
+How Gemma is made to work here (the fixed image budget and tiling, the frozen prompt, the row-label check, the
+`finish_reason` handling) and Gemma vs Qwen on the same forms: [GEMMA.md](GEMMA.md).
+
 ## Hardware and serving stack
 
 | | |

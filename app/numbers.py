@@ -182,9 +182,23 @@ def home(st: storemod.Store) -> dict:
                    ] + ([{"name": q["model"], "role": "second reader", "secs": q["mean_secs"], "cpf": cpf_q,
                           "tokens": _mean_tokens(st, "spike-qwen"), "basis": "pilot, 43 reads"}] if q else []),
         "live": _live_stats(st),
+        "gemma": _gemma_vs_qwen(),
     }
     return {"headline": headline_cards, "H": H, "L": L, "business": business, "cited": CITED, "amd": amd,
             "ledger": lm, "pilot": g, "pilot_q": q}
+
+
+def _gemma_vs_qwen():
+    """Gemma vs Qwen on the same forms of the 300 run (app/data/gemma_vs_qwen.json, from scripts/gemma_vs_qwen.py)."""
+    d = storemod._jload(storemod.DATA / "gemma_vs_qwen.json", None)
+    if not d or not d.get("common_forms"):
+        return None
+    g, q = d["gemma"], d["qwen"]
+    share = d.get("gemma_cost_share_of_qwen")
+    return {"n": d["common_forms"], "sample": d["sample"], "complete": d["qwen_complete"], "g": g, "q": q,
+            "img_g": g.get("image_tokens_per_image_mean"), "img_q": q.get("image_tokens_per_image_mean"),
+            "cost_ratio": round(1 / share) if share else None, "prompt": d["prompt_sha256"][:12],
+            "full": d.get("gemma_full_300")}
 
 
 def _mean_tokens(st, rid):

@@ -141,6 +141,22 @@
         {% if n.amd.live %}<dt>Live reads here</dt><dd>{{ n.amd.live.n }} so far, {{ '%.0f'|format(n.amd.live.secs or 0) }} s mean, {{ n.amd.live.cost|usd(6) }} mean cost</dd>{% endif %}
         <dt>Second form type</dt><dd>Same model reads 1850-1960 rainfall ledgers: {{ n.ledger.usd_per_sheet|usd(5) }} per sheet (spike, 40 sheets)</dd>
       </dl>
+      {% set gq = n.amd.gemma %}
+      {% if gq %}
+      <div class="gemma-amd" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line, rgba(127,127,127,.25))">
+        <div class="eyebrow" style="margin-bottom:6px">Gemma on AMD</div>
+        <p class="small" style="margin:0 0 8px">Gemma-4-31B-IT reads each field twice, the handwritten digits and the amount written in Spanish words, plus the printed label of each row, on phone photos and faint pencil. It gets a fixed ~{{ gq.img_g }} tokens per image whatever the resolution, so each request is the page plus 6 zoomed tiles (the vote rows at ~8x the page's token density); on rainfall ledgers that took Gemma from 79% to 97% of cells right. Frozen prompt <code>{{ gq.prompt }}…</code>; the first complete JSON is parsed, a reply cut at <code>max_tokens</code> is never accepted.</p>
+        <dl class="kv small">
+          <dt>Same {{ gq.n }} forms{% if not gq.complete %} <span class="muted">(Qwen pass running)</span>{% endif %}</dt><dd>Gemma / Qwen3.8-27B</dd>
+          <dt>Accepted, no person</dt><dd>{{ gq.g.touchless }} / {{ gq.q.touchless }} forms</dd>
+          <dt>Accepted fields wrong</dt><dd>{{ gq.g.accepted_wrong }} of {{ gq.g.accepted_fields }} / {{ gq.q.accepted_wrong }} of {{ gq.q.accepted_fields }}</dd>
+          <dt>Cost per form</dt><dd>{{ gq.g.cost_per_read_usd|usd(6) }} / {{ gq.q.cost_per_read_usd|usd(6) }}{% if gq.cost_ratio %} <span class="muted">(about 1/{{ gq.cost_ratio }})</span>{% endif %}</dd>
+          <dt>Mean latency</dt><dd>{{ '%.0f'|format(gq.g.mean_latency_s) }} s / {{ '%.0f'|format(gq.q.mean_latency_s) }} s</dd>
+        </dl>
+        <p class="tiny muted" style="margin:8px 0 0">Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15 at about 16:20 UTC ("Requested model Gemma-4-31B-IT not supported"), so live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
+        <div style="margin-top:10px">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl, last read per form, via scripts/gemma_vs_qwen.py (results/gemma_vs_qwen.md). Tiling: spikes/ledger-rescue/README.md. docs/GEMMA.md.") }}</div>
+      </div>
+      {% endif %}
       <div style="margin-top:14px">{{ source("Latency and cost: Gemma, means over the reads of the pre-registered run (results/calls_gemma.jsonl); Qwen, means over the 43 pilot reads. Throughput: " ~ cited.spike_throughput.source ~ ".") }}</div>
     </div>
   </div>

@@ -12,7 +12,7 @@ from twohands import REPO
 client = TestClient(app)
 H = headline()
 L = lines(H)
-JUDGE_DOCS = ["README.md", "docs/EVALUATION.md", "docs/BUSINESS.md", "docs/AMD.md", "docs/NUMBERS.md", "docs/ARCHITECTURE.md",
+JUDGE_DOCS = ["README.md", "docs/EVALUATION.md", "docs/BUSINESS.md", "docs/AMD.md", "docs/GEMMA.md", "docs/NUMBERS.md", "docs/ARCHITECTURE.md",
               "slides/slides.md", "slides/video-script.md"]
 
 
