@@ -217,6 +217,17 @@ def status(model_key: str, path: Path, n: int, budget: Budget) -> None:
     (RESULTS / "run_status.json").write_text(json.dumps(st, indent=1), encoding="utf-8")
 
 
+def amendment2_committed() -> bool:
+    """True only if the committed PROTOCOL.md (HEAD) contains 'Amendment 2' and the working copy is unchanged."""
+    import subprocess
+    try:
+        head = subprocess.run(["git", "-C", str(REPO), "show", "HEAD:PROTOCOL.md"], capture_output=True, check=True).stdout
+        dirty = subprocess.run(["git", "-C", str(REPO), "diff", "--quiet", "HEAD", "--", "PROTOCOL.md"]).returncode != 0
+    except Exception:  # noqa: BLE001
+        return False
+    return b"Amendment 2" in head and not dirty
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default="gemma,qwen")
@@ -239,6 +250,9 @@ def main(argv=None) -> int:
     budget = Budget(a.max_daily_usd)
     budget.check(force=True)
     for m in a.models.split(","):
+        if m.strip() == "qwen" and not amendment2_committed():
+            log("REFUSING the qwen pass: PROTOCOL.md 'Amendment 2' is not committed")
+            return 3
         read_model(m.strip(), items, prepared, s, budget)
     log("run complete")
     return 0

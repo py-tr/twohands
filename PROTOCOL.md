@@ -177,3 +177,37 @@ pilot actas (`results/calibration_manifest.json`, sha256 `d6786a7f9348dfc31c13fa
 **Reporting.** Both are reported: the touchless (accept) rate with the original locator (the 52 count as routed and
 their reads are not used; the other 248 use their Amendment 1 reads) and with Amendment 1 (all 300 re-prepared). Re-preparation log:
 `results/prepare.jsonl`; the original locator's log: `results/prepare_original_locator.jsonl`.
+
+## Amendment 2 (2026-10-15 10:36 UTC): secondary analyses (primary and headline rule unchanged)
+
+**When and what was seen.** Written after observing the Gemma touchless (accept) rate on the first ~299 of the
+300 forms (about 45 accepted), and **before any Qwen read of the 300 and before any adjudication**. The Qwen pass
+is blocked in code (`twohands.run`) until this amendment is committed. The primary analysis, the metrics of
+section 7 and the headline rule are unchanged; everything below is secondary and is labelled so in every report.
+
+(a) **Primary, as committed**, reported with its route-cause breakdown: the touchless count, and how many routed
+forms carry each cause (row label mismatch, empty field, words != digits, rows != TOTAL, section identities, no read
+/ not located), both "any cause" and "only cause".
+
+(b) **Second-keyer agreement.** Across ALL fields of ALL forms with a parseable Gemma read (accepted or not), count
+agreement of the model's digits with the official PREP capture. Every disagreement is adjudicated on the masked
+image crop together with the certified Cómputos value, with one verdict: **model right / capture right / paper
+ambiguous / unreadable**. Report A = model right (a capture error found) and B = model wrong, each with the full
+list (clave, field, model, PREP, Cómputos, verdict, crop path). Tool: `twohands/adjudicate.py`; crops of masked pages
+only, in `results/adjudication/`.
+
+(c) **Capture gate (Gemma alone)**: words = digits on every field AND the 17 rows sum to TOTAL; no section-5 =
+section-7 identity, no row-label check. Reported as "fields captured with no person" (forms passing, and their
+fields), with accuracy vs PREP and vs adjudicated truth.
+
+(d) **Two-reader tier (strict mode)**: Gemma = Qwen on every one of the 23 digit values, plus the capture gate of
+(c) on that agreed read.
+
+(e) **Paper audit**: the number P of the 300 forms that are internally inconsistent on the paper itself (section 5 !=
+section 7, rows != TOTAL, words != digits as written), counted from reads and confirmed where PREP or Cómputos allow
+(rows != TOTAL from the PREP capture; section 5 by eye, since PREP does not capture section 5 by design). Clerical
+wording only.
+
+**Label-gate false alarms.** A form routed by the row-label check counts as a false alarm when its read matches PREP
+(adjudicated) on every graded field; reported as a count over label-routed forms, overall and where the label was the
+only cause.
