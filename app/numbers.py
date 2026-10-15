@@ -154,7 +154,7 @@ def home(st: storemod.Store) -> dict:
     headline_cards = [dict(L[k], source=src) for k, src in (
         ("keying", "results/adjudication/SUMMARY.md + CERTIFIED.md (app/data/headline.json)"),
         ("rate", "results/adjudication/SUMMARY.md (app/data/headline.json)"),
-        ("yield", "results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json)"))] if H else []
+        ("yield", "results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md, \"Behind more than ten times the yield of a random check\""))] if H else []
     q = st.run_metrics("spike-qwen") if "spike-qwen" in st.runs else None
     g = st.run_metrics("spike-gemma-v2")
     cpf_g = (H.get("gemma") or {}).get("cost_per_form") or g["cost_per_form"]
