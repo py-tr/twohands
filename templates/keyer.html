@@ -57,7 +57,7 @@
   <div class="bar"><span id="kbar" style="width:0%"></span></div>
   {% for it in items %}
   <div class="slot" data-slot="{{ it.slot }}">
-    <div class="slot-head"><b>Field {{ it.slot + 1 }} of {{ items|length }} · {{ it.field }}</b><span class="small muted">the band framed in pink</span></div>
+    <div class="slot-head"><b>Field {{ it.slot + 1 }} of {{ items|length }} · {{ it.field }}</b><span class="small muted">one field, from a masked page</span></div>
     <img class="crop" src="/keyer/img/{{ seed }}/{{ it.slot }}.jpg" alt="masked crop of one field: {{ it.field }}" {% if it.slot > 0 %}loading="lazy"{% endif %}>
     <label class="in">The paper says<input type="text" name="a" inputmode="numeric" placeholder="e.g. 175"><span class="tiny" style="font-weight:400">Type b if the field is blank, ? if you can't tell.</span></label>
   </div>
@@ -68,7 +68,7 @@
     <span class="tiny">Enter goes to the next field. Nothing you type is stored.</span>
   </div>
 </form>
-<p class="small muted" style="margin-top:var(--s-4)">The five fields are drawn at random from the fields our photo adjudication settled: some where the official capture was wrong, some where it was right. "Capture error" means the keyed value does not match the paper, nothing more.</p>
+<p class="small muted" style="margin-top:var(--s-4)">Each round is the real mix of our 300-form run: fields the model and the paper's arithmetic accepted (where nobody needs to key anything), and fields routed to a person, at least one of them a confirmed capture error. "Capture error" means the keyed value does not match the paper, nothing more.</p>
 {% else %}
 {% set S = R.score %}
 <div class="card">
@@ -78,11 +78,11 @@
     <div><b>{{ S.official }}/{{ S.n }}</b><span>the official capture matched</span></div>
     <div><b>{{ S.routed }}/{{ S.n }}</b><span>routed to a person; {{ S.accepted }} accepted</span></div>
   </div>
-  <div class="actions"><a class="btn primary" href="/keyer">{{ icon('refresh') }}Play another five</a><a class="btn" href="/audit">{{ icon('audit') }}See every capture error</a></div>
+  <div class="actions"><a class="btn primary" href="/keyer?new=1">{{ icon('refresh') }}Play another five</a><a class="btn" href="/audit">{{ icon('audit') }}See every capture error</a></div>
 </div>
 {% for r in R.rows %}
 <div class="card res" style="margin-top:var(--s-4)">
-  <div class="rh"><div><b>Field {{ r.slot + 1 }} · {{ r.field }}</b> {% if r.verdict == 'model_right' %}<span class="tag err">capture error</span>{% else %}<span class="tag easy">capture right</span>{% endif %}</div><span class="tiny">Form <span class="mono">{{ r.form }}</span></span></div>
+  <div class="rh"><div><b>Field {{ r.slot + 1 }} · {{ r.field }}</b> {% if r.kind == 'error' %}<span class="tag err">capture error</span>{% elif r.kind == 'agree' %}<span class="tag easy">accepted: nobody needs to key it</span>{% else %}<span class="tag">capture right</span>{% endif %}</div><span class="tiny">Form <span class="mono">{{ r.form }}</span></span></div>
   <img class="crop" src="/keyer/img/{{ R.seed }}/{{ r.slot }}.jpg" alt="masked crop: {{ r.field }} on form {{ r.form }}" loading="lazy">
   <div>
     <div class="vals">
@@ -90,12 +90,12 @@
       <div class="{{ 'ok' if r.official_ok else 'no' }}"><div class="k">Official capture</div><div class="v">{{ r.official }}</div><div class="s">{{ 'matches the paper' if r.official_ok else 'a capture error' }}</div></div>
       <div class="{{ 'ok' if r.gate == 'accepted' and r.model_ok else ('no' if r.gate == 'accepted' else '') }}"><div class="k">Model read</div><div class="v">{{ r.model_n if r.model_n is not none else 'blank' }}{% if r.model_w is not none and r.model_w != r.model_n %} <span class="small muted">words {{ r.model_w }}</span>{% endif %}</div><div class="s">digits{% if r.model_w is not none and r.model_w == r.model_n %} and words agree{% endif %}; {{ 'matches' if r.model_ok else 'differs from' }} the paper</div></div>
       <div><div class="k">Gate</div><div class="v" style="font-family:var(--sans);font-size:var(--t-base)">{{ 'Accepted' if r.gate == 'accepted' else 'Routed to a person' }}</div><div class="s">{{ r.gate_why }}</div></div>
-      <div class="truth"><div class="k">The paper, from the photo</div><div class="v">{{ r.paper }}</div><div class="s">{{ r.evidence }}</div></div>
+      <div class="truth"><div class="k">{{ 'The paper, from the photo' if r.source == 'photo' else 'The paper' }}</div><div class="v">{{ r.paper }}</div><div class="s">{{ r.evidence }}</div></div>
     </div>
   </div>
 </div>
 {% endfor %}
-<p class="small muted" style="margin-top:var(--s-4)">The paper's value is the photo adjudication of each field (words and digit boxes read on the masked page). The gate accepts a form only when every identity on the paper holds with the model's read; anything else goes to a person. Share this round: <a href="/keyer?s={{ R.seed }}">/keyer?s={{ R.seed }}</a></p>
+<p class="small muted" style="margin-top:var(--s-4)">The paper's value is the photo adjudication of the field (words and digit boxes read on the masked page) or, on an accepted form where the capture and the model agree, that shared value. The gate accepts a form only when every identity on the paper holds with the model's read; anything else goes to a person. Share this round: <a href="/keyer?s={{ R.seed }}">/keyer?s={{ R.seed }}</a></p>
 {% endif %}
 </div>
 {% endblock %}
