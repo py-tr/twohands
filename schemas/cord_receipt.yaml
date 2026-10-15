@@ -1,0 +1,57 @@
+# Form schema: a printed shop / restaurant receipt as labelled in CORD v2 (naver-clova-ix/cord-v2, CC BY 4.0).
+# Indonesian receipts; amounts in rupiah, printed by a till. There is NO words-vs-digits field: every amount is
+# printed once, in digits, by a machine, so the receipt's only redundancy is its arithmetic (identities below).
+# Not a page-geometry form: receipts are photographed at any angle and length, so there is no rectification,
+# no privacy mask (CORD's images are released with personal data already blurred by the dataset authors) and
+# the tiles are cut by aspect ratio (twohands/receipts.py::tiles), not by fixed boxes.
+form: cord_receipt
+title: "Printed receipt (CORD v2 label set)"
+source:
+  dataset: naver-clova-ix/cord-v2
+  url: https://huggingface.co/datasets/naver-clova-ix/cord-v2
+  licence: CC-BY-4.0
+  revision: 7f0115a4b758a71d6473b8d085751692da2fef98
+  split: test
+
+# The model returns one JSON object with these keys. cord: the CORD gt_parse path each one is graded against.
+# Amounts are integers in the receipt's currency unit as printed, thousands separators removed
+# ("60.000" -> 60000, "45,000.00" -> 45000). Missing on the receipt -> null (never 0, never computed).
+items:            # one per printed line item, top to bottom
+  - {key: name,       cord: "menu.nm",            kind: text,   graded: false}   # the row label (used to align rows)
+  - {key: count,      cord: "menu.cnt",           kind: count}
+  - {key: unit_price, cord: "menu.unitprice",     kind: amount}
+  - {key: price,      cord: "menu.price",         kind: amount}                 # the line total as printed
+  - {key: discount,   cord: "menu.discountprice", kind: amount}                 # per-line discount, as a positive number
+  - {key: subs,       cord: "menu.sub",           kind: list}                   # add-on lines under an item: [{name, count, price}]
+fields:           # receipt-level amounts
+  - {key: subtotal, cord: "sub_total.subtotal_price", kind: amount}
+  - {key: tax,      cord: "sub_total.tax_price",      kind: amount}
+  - {key: service,  cord: "sub_total.service_price",  kind: amount}
+  - {key: discount, cord: "sub_total.discount_price", kind: amount}   # as a positive number, whatever its printed sign
+  - {key: total,    cord: "total.total_price",        kind: amount}
+  - {key: cash,     cord: "total.cashprice",          kind: amount}
+  - {key: card,     cord: "total.creditcardprice",    kind: amount}
+  - {key: emoney,   cord: "total.emoneyprice",        kind: amount}
+  - {key: change,   cord: "total.changeprice",        kind: amount}
+
+# The receipt's own redundancy. An identity is CHECKED only when every term it names was printed (read not null);
+# optional terms (marked ?) count as 0 when absent. A failed checked identity routes the receipt.
+identities:
+  - {name: "line prices sum to subtotal",
+     lhs: "sum over items of (price + sum of its subs' price - discount)", rhs: subtotal,
+     needs: [items, subtotal]}
+  - {name: "subtotal + tax + service - discount = total",
+     lhs: "subtotal + tax? + service? - discount?", rhs: total, needs: [subtotal, total],
+     also_accept: "subtotal + service? - discount? = total (tax printed as already included, common in Indonesia: 'PB1 incl.')"}
+  - {name: "paid - total = change",
+     lhs: "cash + card? + emoney? - total", rhs: change, needs: [cash, total, change]}
+  - {name: "count x unit price = price (per line)",
+     lhs: "count * unit_price", rhs: price, needs: [count, unit_price, price], per_item: true}
+
+# Rounding tolerance (stated before any model call): two sides agree when
+#   |lhs - rhs| <= max(abs_min, rel * max(|lhs|, |rhs|)),
+# i.e. 1 currency unit, or 0.5% of the larger side (covers rupiah rounding of tax / service to the nearest 100
+# on bills >= 20,000, and printed cents). Counts at zero tolerance are reported alongside.
+tolerance:
+  abs_min: 1
+  rel: 0.005

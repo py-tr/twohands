@@ -1,0 +1,109 @@
+{
+ "split": "test",
+ "receipts": 100,
+ "receipts_with_a_checkable_identity": 95,
+ "receipts_violating_an_identity": 4,
+ "receipts_violating_exact_tolerance": 8,
+ "tolerance": {
+  "abs_min": 1,
+  "rel": 0.005
+ },
+ "by_identity": {
+  "line prices sum to subtotal": {
+   "checkable": 63,
+   "violated": 1
+  },
+  "subtotal + tax + service - discount = total": {
+   "checkable": 64,
+   "violated": 1
+  },
+  "paid - total = change": {
+   "checkable": 51,
+   "violated": 2
+  },
+  "count x unit price = price": {
+   "checkable": 63,
+   "violated": 0
+  }
+ },
+ "note": "Counts on CORD's own labels. A violation is a label inconsistency OR a receipt that does not add up as printed OR an unlabelled term (e.g. a rounding line); only the image decides which.",
+ "receipts_detail": [
+  {
+   "index": 0,
+   "image_id": 0,
+   "violations": [
+    {
+     "name": "subtotal + tax + service - discount = total",
+     "ok": false,
+     "lhs": 5455,
+     "rhs": 60000,
+     "fields": [
+      "subtotal",
+      "tax",
+      "service",
+      "discount",
+      "total"
+     ]
+    }
+   ],
+   "violations_exact": 1
+  },
+  {
+   "index": 14,
+   "image_id": 14,
+   "violations": [
+    {
+     "name": "paid - total = change",
+     "ok": false,
+     "lhs": -81435,
+     "rhs": 18565,
+     "fields": [
+      "cash",
+      "card",
+      "emoney",
+      "total",
+      "change"
+     ]
+    }
+   ],
+   "violations_exact": 1
+  },
+  {
+   "index": 48,
+   "image_id": 48,
+   "violations": [
+    {
+     "name": "line prices sum to subtotal",
+     "ok": false,
+     "lhs": 25000,
+     "rhs": 22728,
+     "fields": [
+      "items.price",
+      "subtotal"
+     ]
+    }
+   ],
+   "violations_exact": 1
+  },
+  {
+   "index": 71,
+   "image_id": 71,
+   "violations": [
+    {
+     "name": "paid - total = change",
+     "ok": false,
+     "lhs": 2200,
+     "rhs": 22000,
+     "fields": [
+      "cash",
+      "card",
+      "emoney",
+      "total",
+      "change"
+     ]
+    }
+   ],
+   "violations_exact": 1
+  }
+ ]
+}
