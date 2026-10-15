@@ -1,0 +1,7 @@
+2026-10-15T21:49:56Z run start: 3 actas, schema mx_senado_2024, models gemma, prompt 3c28a07a32a8, out results/dryrun/senado, pid 20576
+2026-10-15T21:49:56Z prepare: 3 done, 0 to fetch
+2026-10-15T21:49:57Z gemma: pass 1, 0 done, 3 to read
+2026-10-15T21:52:21Z gemma 010358C0200 route stop 143.7s err=False [1/3, eta 0.1 h] PVEM digits 12 != words 112; rows sum to TOTAL: 316 != 371
+2026-10-15T21:52:21Z gemma 100874C0100 route None Nones err=False [2/3, eta 0.0 h] form not located: no candidate passed the landmark check after 7 tries: printed boxes not where expected (sec6_header, sec6_digits_mid, sec6
+2026-10-15T21:52:47Z gemma 010419C0100 route stop 170.1s err=False [3/3, eta 0.0 h] row label mismatch at position 8 (PRD): read 'PVEM'; row label mismatch at position 17 (PVEM_PT_MORENA): read 'VERDE+PT+INSURGENTE'
+2026-10-15T21:52:47Z run complete

@@ -1,0 +1,82 @@
+{
+ "meta": {
+  "ts": "20261015T214834Z",
+  "model": "Qwen3.8-27B",
+  "pages": 2,
+  "page_ids": [
+   "010441C0100",
+   "010445C0100"
+  ],
+  "prompt_sha256": "3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f",
+  "max_tokens": 6000,
+  "temperature": 0,
+  "client": "dry run via Token Factory",
+  "endpoint_host": "token-factory",
+  "warmup": {
+   "ok": true,
+   "secs": 69.71582549996674,
+   "finish": "stop",
+   "prompt_tokens": 6612,
+   "completion_tokens": 2105,
+   "parsed": true
+  },
+  "prefix_cache_salted": false,
+  "orchestrated": true
+ },
+ "levels": [
+  {
+   "concurrency": 1,
+   "requests": 1,
+   "ok": 1,
+   "errors": 0,
+   "error_kinds": {},
+   "wall_s": 68.25,
+   "mean_s_per_form": 68.25,
+   "p95_s_per_form": 68.25,
+   "forms_per_min": 0.88,
+   "prefill_tok_s": 96.9,
+   "decode_tok_s": 30.8,
+   "mean_prompt_tokens": 6612,
+   "mean_completion_tokens": 2101,
+   "finish_reason": {
+    "stop": 1
+   },
+   "parsed": 1,
+   "gpu": {}
+  },
+  {
+   "concurrency": 2,
+   "requests": 2,
+   "ok": 2,
+   "errors": 0,
+   "error_kinds": {},
+   "wall_s": 87.56,
+   "mean_s_per_form": 79.36,
+   "p95_s_per_form": 87.55,
+   "forms_per_min": 1.37,
+   "prefill_tok_s": 151.0,
+   "decode_tok_s": 51.3,
+   "mean_prompt_tokens": 6612,
+   "mean_completion_tokens": 2245,
+   "finish_reason": {
+    "stop": 2
+   },
+   "parsed": 2,
+   "gpu": {}
+  }
+ ],
+ "buyer": {
+  "price_per_hour_usd": 2.0,
+  "single_stream_s_per_form": 68.25,
+  "forms_per_min_at_8": null,
+  "forms_per_min_at_16": null,
+  "best_concurrency": 2,
+  "best_forms_per_min": 1.37,
+  "usd_per_1000_forms_best": 24.331,
+  "state_forms": 20908,
+  "state_hours": 254.36,
+  "state_usd": 508.71,
+  "usd_per_1000_forms_at_8": null,
+  "usd_per_1000_forms_at_16": null
+ }
+}

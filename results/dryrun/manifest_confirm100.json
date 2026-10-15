@@ -1,0 +1,312 @@
+{
+ "protocol": "PROTOCOL.md Amendment 3",
+ "seed": 20261017,
+ "n": 3,
+ "source": "https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip",
+ "excludes": "the 300 run actas, the 43 pilot actas and the 150 calibration actas",
+ "population": {
+  "csv_rows": 171410,
+  "eligible": 156554,
+  "excluded_by_rule": {
+   "not a presidential casilla acta (TIPO_ACTA != 2)": 2142,
+   "document is not the Acta PREP (-)": 9264,
+   "document is not the Acta PREP (RPP)": 446,
+   "document is not the Acta PREP (Copia PE)": 926,
+   "document is not the Acta PREP (Acta Consejo)": 1580,
+   "document is not the Acta PREP (Acta Consejo S)": 5,
+   "excluded set (pilot 43 + run 300 + calibration 150)": 493
+  }
+ },
+ "strata": {
+  "01|escaner": {
+   "size": 528,
+   "n": 0
+  },
+  "01|movil": {
+   "size": 1265,
+   "n": 1
+  },
+  "02|escaner": {
+   "size": 2669,
+   "n": 2
+  },
+  "02|movil": {
+   "size": 1875,
+   "n": 1
+  },
+  "03|escaner": {
+   "size": 338,
+   "n": 0
+  },
+  "03|movil": {
+   "size": 631,
+   "n": 0
+  },
+  "04|escaner": {
+   "size": 426,
+   "n": 0
+  },
+  "04|movil": {
+   "size": 653,
+   "n": 0
+  },
+  "05|escaner": {
+   "size": 889,
+   "n": 1
+  },
+  "05|movil": {
+   "size": 3075,
+   "n": 2
+  },
+  "06|escaner": {
+   "size": 286,
+   "n": 0
+  },
+  "06|movil": {
+   "size": 696,
+   "n": 0
+  },
+  "07|escaner": {
+   "size": 2934,
+   "n": 2
+  },
+  "07|movil": {
+   "size": 2897,
+   "n": 2
+  },
+  "08|escaner": {
+   "size": 2385,
+   "n": 1
+  },
+  "08|movil": {
+   "size": 2435,
+   "n": 2
+  },
+  "09|escaner": {
+   "size": 3562,
+   "n": 2
+  },
+  "09|movil": {
+   "size": 9422,
+   "n": 6
+  },
+  "10|escaner": {
+   "size": 888,
+   "n": 1
+  },
+  "10|movil": {
+   "size": 1281,
+   "n": 1
+  },
+  "11|escaner": {
+   "size": 2115,
+   "n": 1
+  },
+  "11|movil": {
+   "size": 5567,
+   "n": 4
+  },
+  "12|escaner": {
+   "size": 1514,
+   "n": 1
+  },
+  "12|movil": {
+   "size": 3111,
+   "n": 2
+  },
+  "13|escaner": {
+   "size": 1388,
+   "n": 1
+  },
+  "13|movil": {
+   "size": 2609,
+   "n": 2
+  },
+  "14|escaner": {
+   "size": 3310,
+   "n": 2
+  },
+  "14|movil": {
+   "size": 6789,
+   "n": 4
+  },
+  "15|escaner": {
+   "size": 4392,
+   "n": 3
+  },
+  "15|movil": {
+   "size": 15837,
+   "n": 10
+  },
+  "16|escaner": {
+   "size": 2491,
+   "n": 2
+  },
+  "16|movil": {
+   "size": 3364,
+   "n": 2
+  },
+  "17|escaner": {
+   "size": 916,
+   "n": 1
+  },
+  "17|movil": {
+   "size": 1450,
+   "n": 1
+  },
+  "18|escaner": {
+   "size": 599,
+   "n": 0
+  },
+  "18|movil": {
+   "size": 928,
+   "n": 1
+  },
+  "19|escaner": {
+   "size": 2363,
+   "n": 1
+  },
+  "19|movil": {
+   "size": 4489,
+   "n": 3
+  },
+  "20|escaner": {
+   "size": 2563,
+   "n": 2
+  },
+  "20|movil": {
+   "size": 3037,
+   "n": 2
+  },
+  "21|escaner": {
+   "size": 2026,
+   "n": 1
+  },
+  "21|movil": {
+   "size": 5889,
+   "n": 4
+  },
+  "22|escaner": {
+   "size": 1058,
+   "n": 1
+  },
+  "22|movil": {
+   "size": 1880,
+   "n": 1
+  },
+  "23|escaner": {
+   "size": 779,
+   "n": 0
+  },
+  "23|movil": {
+   "size": 1224,
+   "n": 1
+  },
+  "24|escaner": {
+   "size": 1373,
+   "n": 1
+  },
+  "24|movil": {
+   "size": 2197,
+   "n": 1
+  },
+  "25|escaner": {
+   "size": 2000,
+   "n": 1
+  },
+  "25|movil": {
+   "size": 2669,
+   "n": 2
+  },
+  "26|escaner": {
+   "size": 1023,
+   "n": 1
+  },
+  "26|movil": {
+   "size": 2346,
+   "n": 1
+  },
+  "27|escaner": {
+   "size": 1297,
+   "n": 1
+  },
+  "27|movil": {
+   "size": 1476,
+   "n": 1
+  },
+  "28|escaner": {
+   "size": 1823,
+   "n": 1
+  },
+  "28|movil": {
+   "size": 2651,
+   "n": 2
+  },
+  "29|escaner": {
+   "size": 339,
+   "n": 0
+  },
+  "29|movil": {
+   "size": 1301,
+   "n": 1
+  },
+  "30|escaner": {
+   "size": 3489,
+   "n": 2
+  },
+  "30|movil": {
+   "size": 6629,
+   "n": 4
+  },
+  "31|escaner": {
+   "size": 845,
+   "n": 1
+  },
+  "31|movil": {
+   "size": 1775,
+   "n": 1
+  },
+  "32|escaner": {
+   "size": 983,
+   "n": 1
+  },
+  "32|movil": {
+   "size": 1515,
+   "n": 1
+  }
+ },
+ "items": [
+  {
+   "clave": "010089B0100",
+   "stratum": "01|movil",
+   "entidad": "AGUASCALIENTES",
+   "id_entidad": 1,
+   "distrito": 2,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/aguascalientes2/cac4664e836eccae98b0f65c0f0d1fd38b4849eb48a27ebd0bb3f5eca2cda1e7.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "021493C0100",
+   "stratum": "02|escaner",
+   "entidad": "BAJA CALIFORNIA",
+   "id_entidad": 2,
+   "distrito": 6,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/presidencia/baja_california2/tijuana6/3e1355e97634bfd3df20f3902957dca3d5e391efe737b15eadd0fee699af915b.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "090602C0200",
+   "stratum": "09|movil",
+   "entidad": "CIUDAD DE MEXICO",
+   "id_entidad": 9,
+   "distrito": 19,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/coyoacan19/5aae79a8fe1fd51df40a75234673f29c1fe7ceef8da7623fae6241a793d442ee.jpg",
+   "url_tipo": "M"
+  }
+ ],
+ "excluded_after_draw": [],
+ "dryrun_subset_of": "manifest_confirm100.json"
+}

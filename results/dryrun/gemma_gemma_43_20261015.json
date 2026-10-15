@@ -1,0 +1,70 @@
+{
+ "forms": 2,
+ "reads_a": 1,
+ "reads_b": 1,
+ "reads_q": 2,
+ "qwen_source": "stored pilot Qwen run spike-qwen (pilot prompt and tiling, Token Factory)",
+ "tiles_a": 4,
+ "tiles_b": 6,
+ "tiers": {
+  "gemma_gemma": {
+   "accepted": 0,
+   "fields": 0,
+   "errors": 0,
+   "error_list": [],
+   "forms_accepted": []
+  },
+  "gemma_qwen": {
+   "accepted": 0,
+   "fields": 0,
+   "errors": 0,
+   "error_list": [],
+   "forms_accepted": []
+  },
+  "gemma_a_alone": {
+   "accepted": 0,
+   "fields": 0,
+   "errors": 0,
+   "error_list": [],
+   "forms_accepted": []
+  },
+  "gemma_b_alone": {
+   "accepted": 0,
+   "fields": 0,
+   "errors": 0,
+   "error_list": [],
+   "forms_accepted": []
+  }
+ },
+ "shared_gemma_gemma": {
+  "fields": 22,
+  "both_wrong_same_value": 1,
+  "both_wrong_different": 0,
+  "only_first_wrong": 1,
+  "only_second_wrong": 0,
+  "shared_list": [
+   {
+    "clave": "122838C0100",
+    "field": "PRI",
+    "read": 66,
+    "truth": 6
+   }
+  ]
+ },
+ "shared_gemma_qwen": {
+  "fields": 22,
+  "both_wrong_same_value": 1,
+  "both_wrong_different": 0,
+  "only_first_wrong": 0,
+  "only_second_wrong": 0,
+  "shared_list": [
+   {
+    "clave": "122838C0100",
+    "field": "PRI",
+    "read": 66,
+    "truth": 6
+   }
+  ]
+ },
+ "source": "gemma_gemma_43_20261015.jsonl"
+}

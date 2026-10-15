@@ -1,0 +1,228 @@
+{
+ "protocol": "PROTOCOL_SENADO.md",
+ "schema": "mx_senado_2024",
+ "schema_sha256": "a25f8e482ddc1b51300575d16a8b63665bbc61c33a6505334e468d296292f2f7",
+ "seed": 20261019,
+ "n": 3,
+ "states_excluded_layout": [
+  2,
+  7,
+  11,
+  12,
+  13,
+  20,
+  22,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29
+ ],
+ "source": "https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip (inner SEN zip, SEN_2024.csv)",
+ "csv_sha256": "bde437ee60c0f545fe57c749289ce61f56f959329cd971a5436fefe2e5736588",
+ "excludes": {
+  "run300 (results/manifest.json)": 300,
+  "confirm100 (results/manifest_confirm100.json)": 100,
+  "calibration150 (results/calibration_manifest.json)": 150,
+  "pilot43 (spikes/tally-witness/data/sample.json)": 43,
+  "colima staging (results/prepare_state06.jsonl)": 1018,
+  "senate pilot (results/senado/pilot.json)": 20,
+  "union": 1629
+ },
+ "population": {
+  "csv_rows": 172438,
+  "eligible": 99167,
+  "excluded_by_rule": {
+   "not a casilla acta of this form (TIPO_ACTA != 3)": 3199,
+   "polling station already used (presidential samples or Senate pilot)": 1370,
+   "document is not the Acta PREP (-)": 5637,
+   "document is not the Acta PREP (Acta Consejo)": 938,
+   "document is not the Acta PREP (RPP)": 313,
+   "document is not the Acta PREP (Copia PE)": 651,
+   "state prints another section-6 layout (a coalition not registered there)": 61119,
+   "document is not the Acta PREP (Acta Consejo S)": 24,
+   "special station (TIPO_CASILLA S: MR and RP actas share the clave)": 20
+  }
+ },
+ "strata": {
+  "01|escaner": {
+   "size": 543,
+   "n": 1
+  },
+  "01|movil": {
+   "size": 1202,
+   "n": 1
+  },
+  "03|escaner": {
+   "size": 339,
+   "n": 0
+  },
+  "03|movil": {
+   "size": 613,
+   "n": 1
+  },
+  "04|escaner": {
+   "size": 439,
+   "n": 0
+  },
+  "04|movil": {
+   "size": 646,
+   "n": 1
+  },
+  "05|escaner": {
+   "size": 995,
+   "n": 1
+  },
+  "05|movil": {
+   "size": 2955,
+   "n": 3
+  },
+  "08|escaner": {
+   "size": 2410,
+   "n": 2
+  },
+  "08|movil": {
+   "size": 2367,
+   "n": 2
+  },
+  "09|escaner": {
+   "size": 3839,
+   "n": 4
+  },
+  "09|movil": {
+   "size": 9066,
+   "n": 9
+  },
+  "10|escaner": {
+   "size": 937,
+   "n": 1
+  },
+  "10|movil": {
+   "size": 1217,
+   "n": 1
+  },
+  "14|escaner": {
+   "size": 3435,
+   "n": 3
+  },
+  "14|movil": {
+   "size": 6566,
+   "n": 7
+  },
+  "15|escaner": {
+   "size": 4718,
+   "n": 5
+  },
+  "15|movil": {
+   "size": 15402,
+   "n": 16
+  },
+  "16|escaner": {
+   "size": 2492,
+   "n": 3
+  },
+  "16|movil": {
+   "size": 3285,
+   "n": 3
+  },
+  "17|escaner": {
+   "size": 974,
+   "n": 1
+  },
+  "17|movil": {
+   "size": 1378,
+   "n": 1
+  },
+  "18|escaner": {
+   "size": 643,
+   "n": 1
+  },
+  "18|movil": {
+   "size": 864,
+   "n": 1
+  },
+  "19|escaner": {
+   "size": 2449,
+   "n": 3
+  },
+  "19|movil": {
+   "size": 4367,
+   "n": 4
+  },
+  "21|escaner": {
+   "size": 2223,
+   "n": 2
+  },
+  "21|movil": {
+   "size": 5681,
+   "n": 6
+  },
+  "23|escaner": {
+   "size": 872,
+   "n": 1
+  },
+  "23|movil": {
+   "size": 1121,
+   "n": 1
+  },
+  "30|escaner": {
+   "size": 3720,
+   "n": 4
+  },
+  "30|movil": {
+   "size": 6328,
+   "n": 6
+  },
+  "31|escaner": {
+   "size": 828,
+   "n": 1
+  },
+  "31|movil": {
+   "size": 1759,
+   "n": 2
+  },
+  "32|escaner": {
+   "size": 1039,
+   "n": 1
+  },
+  "32|movil": {
+   "size": 1455,
+   "n": 1
+  }
+ },
+ "items": [
+  {
+   "clave": "010358C0200",
+   "stratum": "01|escaner",
+   "entidad": "AGUASCALIENTES",
+   "id_entidad": 1,
+   "distrito": 1,
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/1ae2de3e7c32f8d804a9f7097944ee1c227d4adfe9d50d4896422595bf9b8871.jpg",
+   "url_tipo": "E"
+  },
+  {
+   "clave": "010419C0100",
+   "stratum": "01|movil",
+   "entidad": "AGUASCALIENTES",
+   "id_entidad": 1,
+   "distrito": 1,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/93c8d5157f06ec633fd87136ff042a9039d38bcb945ca2287cef4f72dfc8ff9f.jpg",
+   "url_tipo": "M"
+  },
+  {
+   "clave": "100874C0100",
+   "stratum": "10|movil",
+   "entidad": "DURANGO",
+   "id_entidad": 10,
+   "distrito": 3,
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/durango10/lerdo3/b53b61bcc1b398004a21ea5b79b7ecb2eb9cac14293b2cda72badce8dab0e5bc.jpg",
+   "url_tipo": "M"
+  }
+ ],
+ "excluded_after_draw": [],
+ "dryrun_subset_of": "manifest_senado100.json"
+}

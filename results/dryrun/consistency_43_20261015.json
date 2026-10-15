@@ -1,0 +1,31 @@
+{
+ "forms": 2,
+ "read_ok": 1,
+ "accepted_new_v1": 1,
+ "accepted_new_v2": 1,
+ "accepted_ref": 0,
+ "same_decision_v1_vs_ref": 1,
+ "flips_new_accepts": [
+  "141097C0100"
+ ],
+ "flips_new_routes": [],
+ "field_acc_new_v1": [
+  22,
+  22
+ ],
+ "field_acc_new_v2": [
+  22,
+  22
+ ],
+ "field_acc_ref": [
+  0,
+  0
+ ],
+ "digit_agreement_all_fields": [
+  22,
+  22
+ ],
+ "mean_latency_s": 187.9,
+ "model": "Qwen3.8-27B",
+ "source": "consistency_43_20261015.jsonl"
+}

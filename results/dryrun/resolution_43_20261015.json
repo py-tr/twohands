@@ -1,0 +1,29 @@
+{
+ "label": "POST-HOC ablation (not pre-registered): per-image budget on the 43 pilot forms, page + 6 tiles, default (280 soft tokens) vs max_soft_tokens=560 per request (vLLM mm_processor_kwargs)",
+ "model": "Qwen3.8-27B",
+ "variants": {
+  "default budget (consistency_43 rows)": {
+   "forms": 1,
+   "read_ok": 0,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 181.8,
+   "mean_prompt_tokens": 6612
+  },
+  "max_soft_tokens=560": {
+   "forms": 1,
+   "read_ok": 1,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 151.3,
+   "mean_prompt_tokens": 6612
+  }
+ },
+ "budget_applied": false
+}

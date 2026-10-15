@@ -1,0 +1,75 @@
+2026-10-15T21:33:15Z session 20261015 DRY RUN n=2; gemma role Qwen3.8-27B; qwen role Qwen3.8-27B; root results\dryrun; call cap 40
+2026-10-15T21:33:15Z stage=smoke start: smoke test (3 pilot forms, key enforced, model served)
+2026-10-15T21:36:16Z stage=smoke status=done rows=2/2 calls=2 parse_fail=0 errors=0 elapsed=3.0min est_cost=$0.1012 (box $2.0/h x elapsed + endpoint usage $0.0011) | all replies stop + parsed
+2026-10-15T21:36:16Z stage=consistency_43 guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 4 committed (clean)
+2026-10-15T21:36:16Z stage=consistency_43 start: 43-form consistency row
+2026-10-15T21:39:24Z stage=consistency_43 status=partial rows=2/2 calls=2 parse_fail=1 errors=0 elapsed=3.1min est_cost=$0.1065 (box $2.0/h x elapsed + endpoint usage $0.0021) | 1 parse failures
+2026-10-15T21:39:24Z stage=gemma_gemma_43 guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 4 committed (clean)
+2026-10-15T21:39:25Z stage=gemma_gemma_43 start: Gemma+Gemma 43 (Amendment 4 secondary)
+2026-10-15T21:44:47Z stage=gemma_gemma_43 status=partial rows=4/4 calls=4 parse_fail=2 errors=0 elapsed=5.4min est_cost=$0.1819 (box $2.0/h x elapsed + endpoint usage $0.0029) | 2 parse failures
+2026-10-15T21:44:48Z stage=bench start: throughput sweep
+2026-10-15T21:48:34Z stage=bench status=done rows=3/3 calls=4 parse_fail=0 errors=0 elapsed=3.8min est_cost=$0.1266 (box $2.0/h x elapsed + endpoint usage $0.0013) | 2 levels clean
+2026-10-15T21:48:34Z stage=confirm100 guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 4 committed (clean)
+2026-10-15T21:48:35Z stage=confirm100 start: 100-form confirmation (Amendment 3/4)
+2026-10-15T21:49:55Z stage=confirm100 status=done rows=3/3 calls=2 parse_fail=0 errors=0 elapsed=1.3min est_cost=$0.0460 (box $2.0/h x elapsed + endpoint usage $0.0010) | 3/3 rows, 0 parse failures, 0 truncated
+2026-10-15T21:49:56Z stage=senado100 start: Senate 100 (PROTOCOL_SENADO.md)
+2026-10-15T21:52:47Z stage=senado100 status=done rows=3/3 calls=2 parse_fail=0 errors=0 elapsed=2.9min est_cost=$0.0967 (box $2.0/h x elapsed + endpoint usage $0.0016) | 3/3 rows, 0 parse failures, 0 truncated
+2026-10-15T21:52:48Z stage=colima start: Colima, whole state (stretch)
+2026-10-15T21:55:53Z stage=colima status=partial rows=3/3 calls=2 parse_fail=1 errors=0 elapsed=3.1min est_cost=$0.1047 (box $2.0/h x elapsed + endpoint usage $0.0019) | 1 parse failures > 10% of 2 calls
+2026-10-15T21:55:53Z stage=ext3000_gemma guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 5 committed (clean)
+2026-10-15T21:55:53Z stage=ext3000_gemma guard WOULD REFUSE on the box (dry run continues): Amendment 5 run condition >= 30 forms/min over the first 10 min of confirm100 (measured 1.5)
+2026-10-15T21:55:54Z stage=ext3000_gemma start: ext3000 Gemma (Amendment 5)
+2026-10-15T21:55:54Z ext3000_gemma: pass 1, 0 done, 3 to read (gemma = Qwen3.8-27B, 16 in flight)
+2026-10-15T21:58:14Z stage=ext3000_gemma status=done rows=3/3 calls=2 parse_fail=0 errors=0 elapsed=2.3min est_cost=$0.0790 (box $2.0/h x elapsed + endpoint usage $0.0012) | 3/3 rows, 0 parse failures, 0 truncated
+2026-10-15T21:58:15Z stage=tiling_43 start: tiling ablation on the 43 (post-hoc)
+2026-10-15T22:01:36Z stage=tiling_43 status=partial rows=2/2 calls=2 parse_fail=1 errors=0 elapsed=3.3min est_cost=$0.1130 (box $2.0/h x elapsed + endpoint usage $0.0015) | 1 parse failures
+2026-10-15T22:01:37Z stage=video start: video read (one live form, timer)
+2026-10-15T22:04:52Z stage=video status=done rows=1/1 calls=1 parse_fail=0 errors=0 elapsed=3.3min est_cost=$0.1097 (box $2.0/h x elapsed + endpoint usage $0.0010) | 195.7 s, finish stop
+2026-10-15T22:04:52Z stage=resolution_43 guard WOULD REFUSE on the box (dry run continues): --max-model-len 8192 holds 7 images x 560 soft tokens + text + max_tokens (= 10686)
+2026-10-15T22:04:53Z stage=resolution_43 start: image-budget ablation on the 43 (post-hoc, optional)
+2026-10-15T22:07:24Z stage=resolution_43 status=skipped rows=1/1 calls=1 parse_fail=0 errors=0 elapsed=2.5min est_cost=$0.0850 (box $2.0/h x elapsed + endpoint usage $0.0009) | endpoint ignored mm_processor_kwargs (prompt tokens not raised)
+2026-10-15T22:07:24Z stage=ext3000_qwen guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 5 committed (clean)
+2026-10-15T22:07:24Z stage=ext3000_qwen WAITING for the served-model switch to Qwen3.8-27B. Run, then re-run with --continue:
+  # 1. (can run while ext3000_gemma reads, disk permitting)
+  ssh $BOX 'source /root/.twohands_env && /root/box.sh fetch qwen38'
+  # 2. the switch itself
+  ssh $BOX 'source /root/.twohands_env && /root/box.sh down && /root/box.sh up qwen38 && /root/box.sh wait'
+  export TWOHANDS_MODEL_QWEN=Qwen3.8-27B
+  curl -s -H "Authorization: Bearer $TWOHANDS_KEY" $TWOHANDS_BASE_URL/models | head -c 200; echo   # lists Qwen3.8-27B
+  # 3. resume here (a 2-form Qwen probe on pilot pages runs first: finish_reason stop + parsed, else the stage stops)
+  python deploy/mi300x/orchestrate.py --continue --dry-run
+2026-10-15T22:07:25Z stage=eval start: make eval
+2026-10-15T22:07:34Z stage=eval status=done rows=/ calls=0 parse_fail=0 errors=0 elapsed=0.2min est_cost=$0.0054 (box $2.0/h x elapsed + endpoint usage $0.0000) | rc 0, 0 mismatches
+2026-10-15T22:07:34Z stage=summary start: summary markdown
+2026-10-15T22:07:34Z stage=summary status=done rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | written
+2026-10-15T22:08:58Z session 20261015 DRY RUN n=2; gemma role Qwen3.8-27B; qwen role Qwen3.8-27B; root results\dryrun; call cap 16
+2026-10-15T22:08:58Z stage=smoke status=done (resume marker) skip
+2026-10-15T22:08:58Z stage=consistency_43 guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 4 committed (clean)
+2026-10-15T22:08:59Z stage=consistency_43 start: 43-form consistency row
+2026-10-15T22:08:59Z stage=consistency_43 status=done rows=2/2 calls=0 parse_fail=1 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | 2/2 rows, 1 parse failures
+2026-10-15T22:08:59Z stage=gemma_gemma_43 guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 4 committed (clean)
+2026-10-15T22:09:00Z stage=gemma_gemma_43 start: Gemma+Gemma 43 (Amendment 4 secondary)
+2026-10-15T22:09:00Z stage=gemma_gemma_43 status=done rows=4/4 calls=0 parse_fail=2 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | 4/4 rows, 2 parse failures
+2026-10-15T22:09:00Z stage=bench status=done (resume marker) skip
+2026-10-15T22:09:00Z stage=confirm100 status=done (resume marker) skip
+2026-10-15T22:09:00Z stage=senado100 status=done (resume marker) skip
+2026-10-15T22:09:01Z stage=colima start: Colima, whole state (stretch)
+2026-10-15T22:09:01Z stage=colima status=done rows=3/3 calls=0 parse_fail=1 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | 3/3 rows, 1 parse failures, 1 truncated
+2026-10-15T22:09:01Z stage=ext3000_gemma status=done (resume marker) skip
+2026-10-15T22:09:01Z stage=tiling_43 start: tiling ablation on the 43 (post-hoc)
+2026-10-15T22:09:01Z stage=tiling_43 status=done rows=2/2 calls=0 parse_fail=1 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | 2/2 rows, 1 parse failures
+2026-10-15T22:09:01Z stage=video status=done (resume marker) skip
+2026-10-15T22:09:01Z stage=resolution_43 guard WOULD REFUSE on the box (dry run continues): --max-model-len 8192 holds 7 images x 560 soft tokens + text + max_tokens (= 10686)
+2026-10-15T22:09:02Z stage=resolution_43 start: image-budget ablation on the 43 (post-hoc, optional)
+2026-10-15T22:09:02Z stage=resolution_43 status=skipped rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | endpoint ignored mm_processor_kwargs (prompt tokens not raised)
+2026-10-15T22:09:02Z stage=ext3000_qwen guard WOULD REFUSE on the box (dry run continues): PROTOCOL.md Amendment 5 committed (clean)
+2026-10-15T22:09:03Z stage=ext3000_qwen start: ext3000 Qwen after the served-model switch (Amendment 5)
+2026-10-15T22:12:42Z ext3000_qwen: pass 1, 0 done, 3 to read (qwen = Qwen3.8-27B, 16 in flight)
+2026-10-15T22:14:42Z stage=ext3000_qwen status=done rows=3/3 calls=4 parse_fail=0 errors=0 elapsed=5.6min est_cost=$0.1900 (box $2.0/h x elapsed + endpoint usage $0.0017) | 3/3 rows, 0 parse failures, 0 truncated
+2026-10-15T22:14:42Z stage=eval start: make eval
+2026-10-15T22:14:51Z stage=eval status=done rows=/ calls=0 parse_fail=0 errors=0 elapsed=0.1min est_cost=$0.0047 (box $2.0/h x elapsed + endpoint usage $0.0000) | rc 0, 0 mismatches
+2026-10-15T22:14:51Z stage=summary start: summary markdown
+2026-10-15T22:14:51Z stage=summary status=done rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | written
+2026-10-15T22:20:08Z session 20261015 DRY RUN n=2; gemma role Qwen3.8-27B; qwen role Qwen3.8-27B; root results\dryrun; call cap 12
+2026-10-15T22:20:08Z stage=summary start: summary markdown
+2026-10-15T22:20:08Z stage=summary status=done rows=1/1 calls=0 parse_fail=0 errors=0 elapsed=0.0min est_cost=$0.0000 (box $2.0/h x elapsed + endpoint usage $0.0000) | written

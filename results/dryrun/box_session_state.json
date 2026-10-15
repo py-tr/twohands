@@ -1,0 +1,536 @@
+{
+ "tag": "20261015",
+ "calls_before": 28,
+ "cost_before": 0.018199,
+ "meta": {
+  "mode": "dry-run",
+  "served_gemma": "Qwen3.8-27B",
+  "served_qwen": "Qwen3.8-27B",
+  "switched": false,
+  "amendment5_rate": {
+   "forms_per_min": 1.5,
+   "n": 2,
+   "window_s": 80.0,
+   "threshold": 30,
+   "passes": false
+  }
+ },
+ "stages": {
+  "smoke": {
+   "started": "2026-10-15T21:33:15Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T21:33:15Z",
+   "finished": "2026-10-15T21:36:16Z",
+   "detail": "all replies stop + parsed",
+   "stats": {
+    "rows": 2,
+    "expected": 2,
+    "bad": [],
+    "accepted_v1": 1,
+    "mean_latency_s": 90.1,
+    "finish_reason": [
+     "stop"
+    ]
+   },
+   "outputs": [
+    "box_smoke_20261015.jsonl"
+   ],
+   "calls": 2,
+   "elapsed_min": 3.0,
+   "est_cost_usd": 0.1012
+  },
+  "consistency_43": {
+   "started": "2026-10-15T21:36:16Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T22:08:59Z",
+   "finished": "2026-10-15T22:08:59Z",
+   "detail": "2/2 rows, 1 parse failures",
+   "stats": {
+    "rows": 2,
+    "expected": 2,
+    "errors": 0,
+    "parse_fail": 1,
+    "calls": 2,
+    "row_text": "CONSISTENCY 43 pilot | Qwen3.8-27B self-hosted vs Token Factory (spike v2) | read 1/2 | accepted v1 1 (v2 1) vs TF 0 | same decision 1/2 | accepted-field acc (adjudicated) v1 22/22 (100.0%), v2 22/22 (100.0%) vs TF 0/0 | digit agreement with TF 22/22 (100.0%) | mean 187.9 s/form"
+   },
+   "outputs": [
+    "consistency_43_20261015.jsonl",
+    "consistency_43_20261015.json"
+   ],
+   "calls": 2,
+   "elapsed_min": 3.13,
+   "est_cost_usd": 0.1065
+  },
+  "gemma_gemma_43": {
+   "started": "2026-10-15T21:39:25Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T22:09:00Z",
+   "finished": "2026-10-15T22:09:00Z",
+   "detail": "4/4 rows, 2 parse failures",
+   "stats": {
+    "rows": 4,
+    "expected": 4,
+    "errors": 0,
+    "parse_fail": 2,
+    "calls": 4,
+    "row_text": "GEMMA+GEMMA 43 pilot | A page+4 tiles, B page+6 tiles | reads A 1, B 1, Qwen 2 | Gemma+Gemma: 0/2 accepted, 0 of 0 accepted fields wrong | Gemma+Qwen: 0/2 accepted, 0 of 0 accepted fields wrong (stored pilot Qwen run spike-qwen (pilot prompt and tiling, Token Factory)) | both wrong with the same value: Gemma+Gemma 1 of 22, Gemma+Qwen 1 of 22 | same-model reads do not share more mistakes than Gemma+Qwen",
+    "gemma_gemma_accepted": 0,
+    "gemma_gemma_errors": 0
+   },
+   "outputs": [
+    "gemma_gemma_43_20261015.jsonl",
+    "gemma_gemma_43_20261015.json"
+   ],
+   "calls": 4,
+   "elapsed_min": 5.37,
+   "est_cost_usd": 0.1819
+  },
+  "bench": {
+   "started": "2026-10-15T21:44:48Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T21:44:48Z",
+   "best_concurrency": 2,
+   "finished": "2026-10-15T21:48:34Z",
+   "detail": "2 levels clean",
+   "stats": {
+    "rows": 3,
+    "expected": 3,
+    "levels": {
+     "1": 0.88,
+     "2": 1.37
+    },
+    "price_per_hour_usd": 2.0,
+    "single_stream_s_per_form": 68.25,
+    "forms_per_min_at_8": null,
+    "forms_per_min_at_16": null,
+    "best_concurrency": 2,
+    "best_forms_per_min": 1.37,
+    "usd_per_1000_forms_best": 24.331,
+    "state_forms": 20908,
+    "state_hours": 254.36,
+    "state_usd": 508.71,
+    "usd_per_1000_forms_at_8": null,
+    "usd_per_1000_forms_at_16": null
+   },
+   "outputs": [
+    "bench_mi300x_20261015T214834Z.json",
+    "bench_mi300x_20261015T214834Z.md"
+   ],
+   "calls": 4,
+   "elapsed_min": 3.76,
+   "est_cost_usd": 0.1266
+  },
+  "confirm100": {
+   "started": "2026-10-15T21:48:35Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T21:48:35Z",
+   "finished": "2026-10-15T21:49:55Z",
+   "detail": "3/3 rows, 0 parse failures, 0 truncated",
+   "stats": {
+    "rows": 3,
+    "expected": 3,
+    "missing": 0,
+    "calls": 2,
+    "no_call": 1,
+    "errors": 0,
+    "parse_fail": 0,
+    "truncated": 0,
+    "accepted_v1": 0,
+    "finish_reason": {
+     "stop": 2
+    },
+    "mean_latency_s": 80.3,
+    "mean_prompt_tokens": 6612,
+    "mean_completion_tokens": 2215,
+    "cost_usd": 0.000996,
+    "models": [
+     "Qwen3.8-27B"
+    ],
+    "amendment5_rate": {
+     "forms_per_min": 1.5,
+     "n": 2,
+     "window_s": 80.0,
+     "threshold": 30,
+     "passes": false
+    }
+   },
+   "outputs": [
+    "calls_confirm100_gemma.jsonl"
+   ],
+   "calls": 2,
+   "elapsed_min": 1.35,
+   "est_cost_usd": 0.046
+  },
+  "senado100": {
+   "started": "2026-10-15T21:49:56Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T21:49:56Z",
+   "finished": "2026-10-15T21:52:47Z",
+   "detail": "3/3 rows, 0 parse failures, 0 truncated",
+   "stats": {
+    "rows": 3,
+    "expected": 3,
+    "missing": 0,
+    "calls": 2,
+    "no_call": 1,
+    "errors": 0,
+    "parse_fail": 0,
+    "truncated": 0,
+    "accepted_v1": 0,
+    "finish_reason": {
+     "stop": 2
+    },
+    "mean_latency_s": 156.9,
+    "mean_prompt_tokens": 6613,
+    "mean_completion_tokens": 4405,
+    "cost_usd": 0.001614,
+    "models": [
+     "Qwen3.8-27B"
+    ]
+   },
+   "outputs": [
+    "senado\\calls_gemma.jsonl"
+   ],
+   "calls": 2,
+   "elapsed_min": 2.85,
+   "est_cost_usd": 0.0967
+  },
+  "colima": {
+   "started": "2026-10-15T21:52:48Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T22:09:01Z",
+   "finished": "2026-10-15T22:09:01Z",
+   "detail": "3/3 rows, 1 parse failures, 1 truncated",
+   "stats": {
+    "rows": 3,
+    "expected": 3,
+    "missing": 0,
+    "calls": 2,
+    "no_call": 1,
+    "errors": 0,
+    "parse_fail": 1,
+    "truncated": 1,
+    "accepted_v1": 1,
+    "finish_reason": {
+     "length": 1,
+     "stop": 1
+    },
+    "mean_latency_s": 180.2,
+    "mean_prompt_tokens": 6612,
+    "mean_completion_tokens": 5412,
+    "cost_usd": 0.001932,
+    "models": [
+     "Qwen3.8-27B"
+    ]
+   },
+   "outputs": [
+    "stretch_state06_gemma.jsonl"
+   ],
+   "calls": 2,
+   "elapsed_min": 3.08,
+   "est_cost_usd": 0.1047
+  },
+  "ext3000_gemma": {
+   "started": "2026-10-15T21:55:54Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T21:55:54Z",
+   "finished": "2026-10-15T21:58:14Z",
+   "detail": "3/3 rows, 0 parse failures, 0 truncated",
+   "stats": {
+    "rows": 3,
+    "expected": 3,
+    "missing": 0,
+    "calls": 2,
+    "no_call": 1,
+    "errors": 0,
+    "parse_fail": 0,
+    "truncated": 0,
+    "accepted_v1": 0,
+    "finish_reason": {
+     "stop": 2
+    },
+    "mean_latency_s": 119.2,
+    "mean_prompt_tokens": 6612,
+    "mean_completion_tokens": 2864,
+    "cost_usd": 0.001177,
+    "models": [
+     "Qwen3.8-27B"
+    ]
+   },
+   "outputs": [
+    "calls_ext3000_gemma.jsonl"
+   ],
+   "calls": 2,
+   "elapsed_min": 2.33,
+   "est_cost_usd": 0.079
+  },
+  "tiling_43": {
+   "started": "2026-10-15T21:58:15Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T22:09:01Z",
+   "finished": "2026-10-15T22:09:01Z",
+   "detail": "2/2 rows, 1 parse failures",
+   "stats": {
+    "rows": 2,
+    "expected": 2,
+    "errors": 0,
+    "parse_fail": 1,
+    "calls": 2,
+    "variants": {
+     "page only": {
+      "forms": 2,
+      "read_ok": 1,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 149.4,
+      "mean_prompt_tokens": 4261
+     },
+     "page + 4 tiles (Amendment 4 read A)": {
+      "forms": 2,
+      "read_ok": 1,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 154.8,
+      "mean_prompt_tokens": 6420
+     },
+     "page + 6 tiles (production, read B)": {
+      "forms": 2,
+      "read_ok": 1,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 223.2,
+      "mean_prompt_tokens": 6612
+     }
+    }
+   },
+   "outputs": [
+    "tiling_43_20261015.jsonl",
+    "tiling_43_20261015.json"
+   ],
+   "calls": 2,
+   "elapsed_min": 3.34,
+   "est_cost_usd": 0.113
+  },
+  "video": {
+   "started": "2026-10-15T22:01:37Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T22:01:37Z",
+   "finished": "2026-10-15T22:04:52Z",
+   "detail": "195.7 s, finish stop",
+   "stats": {
+    "rows": 1,
+    "expected": 1,
+    "clave": "050815B0100",
+    "wall_s": 195.7,
+    "accepted_v1": false,
+    "route_codes": [
+     "identity",
+     "label"
+    ]
+   },
+   "outputs": [
+    "video_read_20261015.json"
+   ],
+   "calls": 1,
+   "elapsed_min": 3.26,
+   "est_cost_usd": 0.1097
+  },
+  "resolution_43": {
+   "started": "2026-10-15T22:04:53Z",
+   "status": "skipped",
+   "attempt_started": "2026-10-15T22:09:02Z",
+   "finished": "2026-10-15T22:09:02Z",
+   "detail": "endpoint ignored mm_processor_kwargs (prompt tokens not raised)",
+   "stats": {
+    "rows": 1,
+    "expected": 1,
+    "errors": 0,
+    "parse_fail": 0,
+    "calls": 1,
+    "variants": {
+     "default budget (consistency_43 rows)": {
+      "forms": 1,
+      "read_ok": 0,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 181.8,
+      "mean_prompt_tokens": 6612
+     },
+     "max_soft_tokens=560": {
+      "forms": 1,
+      "read_ok": 1,
+      "accepted_v1": 0,
+      "field_acc": [
+       0,
+       0
+      ],
+      "mean_latency_s": 151.3,
+      "mean_prompt_tokens": 6612
+     }
+    },
+    "budget_applied": false
+   },
+   "outputs": [
+    "resolution_43_20261015.jsonl",
+    "resolution_43_20261015.json"
+   ],
+   "calls": 1,
+   "elapsed_min": 2.52,
+   "est_cost_usd": 0.085
+  },
+  "ext3000_qwen": {
+   "status": "done",
+   "started": "2026-10-15T22:09:03Z",
+   "attempt_started": "2026-10-15T22:09:03Z",
+   "finished": "2026-10-15T22:14:42Z",
+   "detail": "3/3 rows, 0 parse failures, 0 truncated",
+   "stats": {
+    "rows": 3,
+    "expected": 3,
+    "missing": 0,
+    "calls": 2,
+    "no_call": 1,
+    "errors": 0,
+    "parse_fail": 0,
+    "truncated": 0,
+    "accepted_v1": 0,
+    "finish_reason": {
+     "stop": 2
+    },
+    "mean_latency_s": 93.2,
+    "mean_prompt_tokens": 6612,
+    "mean_completion_tokens": 2558,
+    "cost_usd": 0.000643,
+    "models": [
+     "Qwen3.8-27B"
+    ],
+    "two_reader_tier_reportable": true
+   },
+   "outputs": [
+    "qwen_probe_20261015.jsonl",
+    "calls_ext3000_qwen.jsonl"
+   ],
+   "calls": 4,
+   "elapsed_min": 5.65,
+   "est_cost_usd": 0.19
+  },
+  "eval": {
+   "started": "2026-10-15T22:07:24Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T22:14:42Z",
+   "finished": "2026-10-15T22:14:51Z",
+   "detail": "rc 0, 0 mismatches",
+   "stats": {
+    "rc": 0,
+    "mismatches": 0,
+    "frozen_prompt_line": "| every model call used the frozen prompt | 670 rows in calls_confirm100_gemma.jsonl, calls_ext3000_gemma.jsonl, calls_ext3000_qwen.jsonl, calls_gemma.jsonl, calls_qwen.jsonl |  | protocol | ok |",
+    "box_calls_files_checked": [
+     "calls_confirm100_gemma.jsonl",
+     "calls_ext3000_gemma.jsonl",
+     "calls_ext3000_qwen.jsonl"
+    ]
+   },
+   "outputs": [
+    "eval_report.md",
+    "gemma_vs_qwen.md"
+   ],
+   "calls": 0,
+   "elapsed_min": 0.3,
+   "est_cost_usd": 0.0101
+  },
+  "summary": {
+   "started": "2026-10-15T22:07:34Z",
+   "status": "done",
+   "attempt_started": "2026-10-15T22:20:08Z",
+   "finished": "2026-10-15T22:20:08Z",
+   "detail": "written",
+   "stats": {
+    "rows": 1,
+    "expected": 1
+   },
+   "outputs": [
+    "box_session_20261015.md"
+   ],
+   "calls": 0,
+   "elapsed_min": 0.0,
+   "est_cost_usd": 0.0
+  }
+ },
+ "guards": {
+  "smoke": [],
+  "consistency_43": [
+   [
+    "PROTOCOL.md Amendment 4 committed (clean)",
+    false
+   ]
+  ],
+  "gemma_gemma_43": [
+   [
+    "PROTOCOL.md Amendment 4 committed (clean)",
+    false
+   ]
+  ],
+  "bench": [],
+  "confirm100": [
+   [
+    "PROTOCOL.md Amendment 3 committed (clean)",
+    true
+   ],
+   [
+    "PROTOCOL.md Amendment 4 committed (clean)",
+    false
+   ]
+  ],
+  "senado100": [
+   [
+    "PROTOCOL_SENADO.md committed (clean)",
+    true
+   ]
+  ],
+  "colima": [],
+  "ext3000_gemma": [
+   [
+    "PROTOCOL.md Amendment 5 committed (clean)",
+    false
+   ],
+   [
+    "Amendment 5 run condition >= 30 forms/min over the first 10 min of confirm100 (measured 1.5)",
+    false
+   ]
+  ],
+  "tiling_43": [],
+  "video": [],
+  "resolution_43": [
+   [
+    "--max-model-len 8192 holds 7 images x 560 soft tokens + text + max_tokens (= 10686)",
+    false
+   ]
+  ],
+  "ext3000_qwen": [
+   [
+    "PROTOCOL.md Amendment 5 committed (clean)",
+    false
+   ],
+   [
+    "ext3000_gemma complete before the switch (Amendment 5 order)",
+    true
+   ]
+  ],
+  "eval": [],
+  "summary": []
+ },
+ "calls_total": 28,
+ "cost_total_usd": 0.018199
+}

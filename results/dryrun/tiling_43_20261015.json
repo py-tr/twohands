@@ -1,0 +1,39 @@
+{
+ "label": "POST-HOC ablation (not pre-registered): tiling on the 43 pilot forms; the pre-registered prompt is unchanged for every primary run; only layout.tiles differs here, so each variant's prompt sha256 differs and is recorded per row",
+ "model": "Qwen3.8-27B",
+ "variants": {
+  "page only": {
+   "forms": 2,
+   "read_ok": 1,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 149.4,
+   "mean_prompt_tokens": 4261
+  },
+  "page + 4 tiles (Amendment 4 read A)": {
+   "forms": 2,
+   "read_ok": 1,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 154.8,
+   "mean_prompt_tokens": 6420
+  },
+  "page + 6 tiles (production, read B)": {
+   "forms": 2,
+   "read_ok": 1,
+   "accepted_v1": 0,
+   "field_acc": [
+    0,
+    0
+   ],
+   "mean_latency_s": 223.2,
+   "mean_prompt_tokens": 6612
+  }
+ }
+}

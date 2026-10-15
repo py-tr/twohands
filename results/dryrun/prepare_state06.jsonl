@@ -1,0 +1,3 @@
+{"clave": "-", "status": "no_image", "reason": "no image URL in the PREP district file", "ts": "2026-10-15T18:20:53Z"}
+{"clave": "060002B0100", "status": "ok", "image": "data/masked/state06/060002B0100.jpg", "info": {"locator": "amendment1", "score": 0.47, "margin": 0.176, "ecc": 0.58, "landmark_worst_px": 3.0, "markers_found": 4, "size": [2400, 1552], "layout": "movil"}, "ts": "2026-10-15T18:20:55Z"}
+{"clave": "060002C0100", "status": "ok", "image": "data/masked/state06/060002C0100.jpg", "info": {"locator": "amendment1", "score": 0.55, "margin": 0.303, "ecc": 0.823, "landmark_worst_px": 3.0, "markers_found": 0, "size": [2400, 1552], "layout": "movil"}, "ts": "2026-10-15T18:20:55Z"}

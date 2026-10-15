@@ -1,0 +1,49 @@
+{
+ "clave": "050815B0100",
+ "model": "Qwen3.8-27B",
+ "start_utc": "2026-10-15T22:01:37Z",
+ "end_utc": "2026-10-15T22:04:52Z",
+ "wall_s": 195.7,
+ "finish_reason": "stop",
+ "parsed_ok": true,
+ "error": null,
+ "accepted_v1": false,
+ "route_codes": [
+  "identity",
+  "label"
+ ],
+ "usage": {
+  "prompt_tokens": 6612,
+  "total_tokens": 12593,
+  "completion_tokens": 5981,
+  "prompt_tokens_details": {
+   "cached_tokens": 64,
+   "image_tokens": 5817,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "reasoning_tokens": 5387,
+  "cost": 0.0010249848,
+  "cost_details": {
+   "upstream_inference_cost": 0.0010249847999999999,
+   "upstream_inference_prompt_cost": 0.0002292248,
+   "upstream_inference_completions_cost": 0.00079576,
+   "total_cost": 0.0010249848,
+   "input_cost": 0.00022918,
+   "output_cost": 0.00079576,
+   "cached_input_cost": 4.48e-08,
+   "cache_write_input_cost": 0,
+   "request_cost": 0,
+   "web_search_cost": 0,
+   "image_input_cost": null,
+   "image_output_cost": null,
+   "audio_input_cost": null
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 5387,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
