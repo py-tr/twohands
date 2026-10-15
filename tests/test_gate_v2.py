@@ -80,3 +80,13 @@ def test_no_read_routes():
     assert not r.accepted and r.codes == ["shape"]
     with pytest.raises(ValueError):
         gate_v2(good(), S, "v3")
+
+
+def test_strict_two_reader_variant_needs_the_second_reader_even_when_words_agree():
+    p = good()  # SOBRANTES read with words = digits
+    assert gate_v2(p, S, second={"SOBRANTES": 251}).accepted          # Amendment 3: words confirm it
+    r = gate_v2(p, S, second={"SOBRANTES": 251}, second_required=True)
+    assert not r.accepted and r.unchecked["SOBRANTES"] == "fail"
+    n = p["values"][0]["n"]
+    assert gate_v2(p, S, second={"SOBRANTES": n}, second_required=True).unchecked == {"SOBRANTES": "second"}
+    assert not gate_v2(p, S, second_required=True).accepted

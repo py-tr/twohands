@@ -53,6 +53,8 @@ def main() -> dict:
     tiers = {"v1 (frozen gate)": lambda p, k: gate(p, s).accepted,
              "v2": lambda p, k: gate_v2(p, s, "v2").accepted,
              "v2-2R (Qwen confirms SOBRANTES)": lambda p, k: gate_v2(p, s, "v2", second=qvals(k) or {}).accepted,
+             "v2-2R strict (only Qwen confirms SOBRANTES)":
+                 lambda p, k: gate_v2(p, s, "v2", second=qvals(k) or {}, second_required=True).accepted,
              "v2b (relaxed label, secondary)": lambda p, k: gate_v2(p, s, "v2b").accepted}
     out, mism = {}, 0
     for name, fn in tiers.items():
@@ -94,8 +96,12 @@ def main() -> dict:
          "Truth: a verdict in `results/adjudication/verdicts.json` decides; with no verdict, model = PREP counts as correct and",
          "model != PREP is flagged for adjudication. Graded fields: the 22 with a PREP column.", "",
          f"Recomputed v1 vs the stored `accepted` flag: {mism} mismatches.",
-         f"Qwen reads available for v2-2R: {len(qwen_ok)} of 300 (the Qwen pass is still running; a form without a Qwen read",
-         "cannot be confirmed by Qwen, so v2-2R is a lower bound until the pass ends).", "",
+         f"Qwen reads available for v2-2R: {len(qwen_ok)} of 300 parseable"
+         + (" (the Qwen pass is complete; a form with no usable Qwen read cannot be confirmed by Qwen)." if len(Q) >= len(claves)
+            else " (the Qwen pass is still running; v2-2R is a lower bound until it ends)."),
+         "v2-2R (Amendment 3): SOBRANTES is confirmed by Gemma's own words = digits, or by Qwen's digits = Gemma's.",
+         "v2-2R strict (post-hoc, in no amendment): SOBRANTES is confirmed ONLY by Qwen's digits = Gemma's; Gemma's words do not",
+         "count, because one call can harmonise its own words and digits (010469C0400).", "",
          "| gate | touchless forms (/300) | Movil / Escaner | accepted fields | errors | error rate (Wilson 95%) | undecided | flagged |",
          "|---|---|---|---|---|---|---|---|"]
     for name, o in out.items():

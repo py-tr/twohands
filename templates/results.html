@@ -47,6 +47,34 @@
   <p class="tiny" style="margin-top:10px">{{ source("results/calls_gemma.jsonl (last read per form), results/adjudication/SUMMARY.md, CERTIFIED.md, RECALL.md, verdicts.json; summarised in app/data/headline.json by scripts/build_headline.py") }} Sources: results/calls_gemma.jsonl and results/adjudication/. A post-hoc gate variant designed after seeing these reads is reported separately in results/posthoc_v2_300.md and is not a test of anything.</p>
 </section>
 
+{% set T = n.T %}
+{% if T %}
+<section>
+  <div class="sec-head"><div><h2>Two readers: the stricter mode</h2><p>Secondary analyses pre-registered in Amendment 2, before any Qwen read of the {{ T.forms }} and before any adjudication. The headline above stays single-reader Gemma; the two-reader tier is the stricter mode. Rows marked post-hoc use gate v2, designed after seeing these reads, and test nothing.</p></div></div>
+  <div class="card" style="padding:6px 8px">
+    <div class="tablewrap">
+    <table class="rtable">
+      <thead><tr><th>Mode</th><th>Accepted, no person</th><th>Accepted fields</th><th>Differ from the capture<br>(of which capture errors)</th><th>Wrong on the paper<br>(Wilson 95%)</th></tr></thead>
+      <tbody>
+      {% for key in ("gemma", "qwen", "two_reader", "two_reader_s7", "v2_2r", "v2_2r_strict") %}
+        {% set t = T.tiers[key] %}
+        <tr{% if key == "two_reader" %} class="hl"{% endif %}>
+          <td><b>{{ t.label }}</b></td>
+          <td>{{ t.accepted }} of {{ T.forms }} ({{ '%.0f'|format(100 * t.accepted / T.forms) }}%; {{ t.movil }} phone photos, {{ t.escaner }} scans)</td>
+          <td>{{ t.fields|int }}</td>
+          <td>{{ t.disagree }} ({{ t.capture_errors }})</td>
+          <td>{{ t.errors }}{% if t.ci %} ({{ '%.2f'|format(100 * t.ci[0]) }}% to {{ '%.2f'|format(100 * t.ci[1]) }}%){% endif %}{% if t.undecided %}; {{ t.undecided }} undecided{% endif %}{% if t.unadjudicated %}; {{ t.unadjudicated }} not adjudicated{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <p class="small" style="margin-top:10px">Strict mode accepts a form when Gemma and Qwen read the same digits on all 23 fields, every digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total. It drops the row-label check and the section identities and relies on the two readers' agreement instead, which is why it accepts more forms than either reader alone. The two readers agree on all 23 digits on {{ T.agree_all_23 }} forms. Every accepted field that differs from the capture already had a verdict on the photo. Post-hoc v2-2R (Amendment 3) accepts unused ballots when Gemma's words match its digits or Qwen agrees; the strict variant, in no amendment, requires Qwen to agree, because one call can harmonise its own words and digits.</p>
+  <p class="tiny">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl (last read per form), results/adjudication/verdicts.json; app/data/two_reader_300.json and results/two_reader_300.md by scripts/two_reader_300.py, recomputed by make eval") }}</p>
+</section>
+{% endif %}
+
 <section>
   <div class="sec-head"><div><h2>Limitations we measured</h2></div></div>
   <div class="grid2">

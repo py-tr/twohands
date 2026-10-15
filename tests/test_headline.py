@@ -53,6 +53,8 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     assert f"{H['accepted']} of {H['forms']} forms" in inbox and f"{H['accepted']} of {H['forms']} forms" in res
     assert f"{H['acc_model_wrong']} of {H['acc_fields']:,} fields wrong" in res
     assert L["qwen"] in res and L["qwen"] not in home and "Second-reader pass" not in home
+    assert L["two_readers"] and L["two_readers"] in home and "0 wrong fields in" in L["two_readers"]
+    assert "Two readers: the stricter mode" in res
     assert L["label_cost"] in res and L["harmonised"] in res
     rc = H["receipt"]
     assert (rc["paper"], rc["prep"], rc["certified"], rc["cert_mode"]) == (175, "75", 175, "Cotejo")
@@ -71,6 +73,7 @@ def test_docs_quote_the_summary():
     for doc in (readme, ev, slides):
         assert L["breakdown"] in re.sub(r"\s+", " ", doc) and "keying error" not in doc.lower()
     assert "about 12 to 24 times" in ev
+    assert L["two_readers"] in re.sub(r"\s+", " ", ev.replace("**", ""))
 
 
 def test_no_placeholders_or_pending_judge_facing():

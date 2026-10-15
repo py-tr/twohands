@@ -57,6 +57,39 @@ reads the same file) from `results/calls_gemma.jsonl` (last read per form) and `
 pair made 1 error and the model 2; we never claim the model beats the pair. The first capture is preliminary by
 design; the certified count is the official result.
 
+### Two readers: the stricter mode (Amendment 2, secondary)
+
+Qwen3.8-27B read the same 289 located pages with the same frozen prompt and gate (239 usable reads; 50 replies were cut
+at `max_tokens` and are never accepted). Amendment 2 was committed before any Qwen read of the 300 and before any
+adjudication; these tiers are secondary and the headline rule is unchanged (Gemma alone, 2 of 1,210 wrong, is under
+0.5%). **Strict mode** (Amendment 2 d) accepts a form when Gemma and Qwen read the same digits on all 23 fields, every
+digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total.
+It drops the row-label check and the section identities and relies on the two readers' agreement instead, which is
+why it accepts more forms than either reader alone.
+
+| Mode (accepted / 300) | Accepted | Accepted fields | Differ from the capture (capture errors) | Wrong on the paper (Wilson 95%) |
+|---|---|---|---|---|
+| Gemma alone, frozen gate (primary) | 55 | 1,210 | 3 (1) | 2 (0.04% to 0.60%) |
+| Qwen alone, frozen gate | 31 | 682 | 2 (1) | 1 (0.03% to 0.83%); 2 undecided on the paper |
+| **Two readers, strict mode (Amendment 2 d)** | **89** | **1,958** | **3 (3)** | **0 (0.00% to 0.20%)** |
+| Two readers, both frozen gates (section 7) | 22 | 484 | 1 (1) | 0 (0.00% to 0.79%) |
+| POST-HOC v2-2R (Amendment 3) | 54 | 1,188 | 2 (1) | 1 (0.01% to 0.47%) |
+| POST-HOC v2-2R strict (in no amendment) | 45 | 990 | 1 (1) | 0 (0.00% to 0.39%) |
+
+**With two readers (strict mode): 89 forms, 0 wrong fields in 1,958.** The 3 accepted fields where the agreed read
+differs from the official capture (080310B0100 unused ballots, 202005C0200 Option 07, 220313C0300 ballots taken from
+the boxes) are all capture errors on the photo. Qwen alone's one wrong field is unused ballots on 090955C0200 (read 200,
+paper 206); its 2 undecided fields are ones where it equals the capture and the paper was judged ambiguous. Every
+accepted field in every tier that differs from the capture already had a verdict on the photo, so no new adjudication
+was needed. The bias note of the protocol applies: an error both readers share with the capture is not counted.
+
+The two v2-2R rows are **post-hoc** (gate v2 was designed after seeing these reads, Amendment 3) and test nothing; the
+pre-registered test of v2 is the fresh 100-form draw. v2-2R accepts unused ballots, the one field in no identity, when
+Gemma's words equal its digits or Qwen's digits agree; its one error is 010469C0400, where one Gemma call read 239 in
+both digits and words (paper 234) and Qwen read 234. The strict variant, which needs Qwen's agreement whatever the
+words say, removes it. Sources: `results/two_reader_300.md`, `app/data/two_reader_300.json`
+(`scripts/two_reader_300.py`), `results/posthoc_v2_300.md`; `make eval` recomputes every number independently.
+
 ### Behind "more than ten times the yield of a random check"
 
 On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). That is a small subset; Wilson 65-100%.

@@ -81,7 +81,7 @@
   <div class="card honest">
     <p>{{ L.honest }}</p>
   </div>
-  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them. The gate accepted {{ H.accepted }} forms ({{ H.accepted_pct }}%) with no person. Recall: {{ L.recall }}</p>
+  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them. The gate accepted {{ H.accepted }} forms ({{ H.accepted_pct }}%) with no person.{% if L.two_readers %} {{ L.two_readers }}{% endif %} Recall: {{ L.recall }}</p>
 </section>
 {% endif %}
 

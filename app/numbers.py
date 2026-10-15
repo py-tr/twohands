@@ -94,10 +94,43 @@ def headline() -> dict:
     return _H["data"]
 
 
-def lines(H: dict) -> dict:
+TIERS_FILE = storemod.DATA / "two_reader_300.json"
+
+
+def tiers() -> dict | None:
+    """Qwen alone, the two-reader tier (Amendment 2 d) and the post-hoc v2-2R pair on the 300
+    (app/data/two_reader_300.json, written by scripts/two_reader_300.py, recomputed by `make eval`)."""
+    return storemod._jload(TIERS_FILE, None)
+
+
+def tier_lines(T: dict | None) -> dict:
+    """The second-reader sentences. "two_readers" (the overview line) only when the tier is clean: no accepted field
+    wrong on the paper, none undecided, none left unadjudicated."""
+    if not T or "tiers" not in T:
+        return {"qwen": "Second reader: no reads loaded.", "two_readers": None}
+    q, t2 = T["tiers"]["qwen"], T["tiers"]["two_reader"]
+    n = T["forms"]
+    clean = t2["errors"] == 0 and t2["undecided"] == 0 and t2["unadjudicated"] == 0
+    capt = (f"; the {t2['disagree']} accepted fields where they differ from the official capture are all capture errors"
+            if t2["disagree"] and t2["capture_errors"] == t2["disagree"] else
+            f"; {t2['capture_errors']} of the {t2['disagree']} accepted fields where they differ from the capture are capture errors")
+    und = f", {q['undecided']} undecided on the paper" if q["undecided"] else ""
+    return {
+        "qwen": (f"Qwen3.8-27B read the same pages ({T['qwen_reads']} usable reads of {n} forms). Alone, the frozen gate accepted {q['accepted']} of its reads "
+                 f"({pct(q['accepted'], n)}): {q['errors']} of {q['fields']:,} accepted fields wrong{und}. With two readers "
+                 f"(strict mode, Amendment 2: Gemma and Qwen agree on all 23 digits, the words agree with them and the "
+                 f"vote rows sum to the total): {t2['accepted']} forms ({pct(t2['accepted'], n)}), {t2['errors']} of "
+                 f"{t2['fields']:,} accepted fields wrong{capt}."),
+        "two_readers": (f"With two readers (strict mode): {t2['accepted']} forms, {t2['errors']} wrong fields in "
+                        f"{t2['fields']:,}." if clean else None),
+    }
+
+
+def lines(H: dict, T: dict | None = None) -> dict:
     """The sentences built from the summary, word for word as the pages show them."""
     if not H:
         return {}
+    TL = tier_lines(T if T is not None else tiers())
     r, v, rc, fa = H["recall"], H["verdicts"], H["receipt"], H["faint"]
     ci2 = r.get("ci2") or [0, 0]
     bt = {t["type"]: t["n"] for t in H["by_type"]}
@@ -137,7 +170,8 @@ def lines(H: dict) -> dict:
                     f"{rc['certified']}."),
         "product": (f"Give us your keyed data and the scans. You get the {H['flag_pct']:.0f}% of fields to look at, "
                     f"each with its photo."),
-        "qwen": "Second-reader pass running; this line updates when it lands.",
+        "qwen": TL["qwen"],
+        "two_readers": TL["two_readers"],
         "label_cost": (f"The row-label check routed {H['label_gate']['routed']} forms; on {H['label_gate']['read_right']} "
                        f"of them the read matched the paper on every field, including all "
                        f"{H['label_gate']['label_only']} routed for a label alone."),
@@ -184,7 +218,7 @@ def home(st: storemod.Store) -> dict:
         "live": _live_stats(st),
         "gemma": _gemma_vs_qwen(),
     }
-    return {"headline": headline_cards, "H": H, "L": L, "business": business, "cited": CITED, "amd": amd,
+    return {"headline": headline_cards, "H": H, "L": L, "T": tiers(), "business": business, "cited": CITED, "amd": amd,
             "ledger": lm, "pilot": g, "pilot_q": q}
 
 

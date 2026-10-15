@@ -3,7 +3,9 @@
   (a) every field that appears in NO arithmetic identity of the schema (for the presidential acta: SOBRANTES) is
       accepted only if its digits AND words were both read and agree; otherwise the form routes (code "unchecked").
       Two-reader variant (``second=`` the other reader's digits): such a field is also accepted when the second
-      reader's digits for it equal the primary's.
+      reader's digits for it equal the primary's. Strict two-reader variant (``second_required=True``, POST-HOC,
+      not in Amendment 3): such a field is accepted ONLY when the second reader's digits equal the primary's,
+      whatever the words say (one call can harmonise its own words and digits; 010469C0400).
   (b) the row-label check is unchanged in "v2". In "v2b" (secondary) the label check on LOGO rows is relaxed: a logo
       row fails only if its label is empty, or it belongs to a run of >= 2 adjacent logo rows that each fit the
       same-direction neighbour (i-1 or i+1) strictly better than their own row (the trace of a skipped / doubled
@@ -81,8 +83,11 @@ class GateV2Result:
 
 
 def gate_v2(parsed: Any, s: Optional[dict] = None, variant: str = "v2",
-            second: Optional[dict] = None) -> GateV2Result:
-    """``variant``: "v2" or "v2b". ``second``: the second reader's digits by key (two-reader variant), else None."""
+            second: Optional[dict] = None, second_required: bool = False) -> GateV2Result:
+    """``variant``: "v2" or "v2b". ``second``: the second reader's digits by key (two-reader variant), else None.
+    ``second_required``: an unchecked field needs the second reader's agreement; words alone do not confirm it."""
+    if second_required and second is None:
+        second = {}
     if variant not in VARIANTS:
         raise ValueError(variant)
     s = s or schemamod.load()
@@ -96,7 +101,7 @@ def gate_v2(parsed: Any, s: Optional[dict] = None, variant: str = "v2",
                       for k in relaxed_label_failures(v1.labels, s)]
         for k in unchecked_fields(s):
             n, w = v1.values.get(k), v1.words.get(k)
-            if n is not None and w is not None and n == w:
+            if n is not None and w is not None and n == w and not second_required:
                 r.unchecked[k] = "words"
             elif n is not None and second is not None and second.get(k) is not None and second.get(k) == n:
                 r.unchecked[k] = "second"

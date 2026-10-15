@@ -5,7 +5,8 @@
 
 Inputs (committed, read-only; no model call, no network, no data/raw):
   results/manifest.json (+ the confirm100, CORD and calibration manifests), results/calls_gemma.jsonl (last row per
-  form), results/calls_qwen.jsonl (optional: the second-reader tier, if present), results/adjudication/verdicts.json
+  form), results/calls_qwen.jsonl (Qwen alone and the two-reader tiers of Amendment 2, compared with
+  app/data/two_reader_300.json from scripts/two_reader_300.py), results/adjudication/verdicts.json
   (the verdict per disputed field), results/adjudication/recall_judged.json (the undisputed recall fields, judged on
   the paper), app/data/audit_sample_prep300.csv (the official first capture, PREP 2024) and
   app/data/computos_sample300.csv (the certified count, Computos 2024), schemas/, PROTOCOL.md, PROTOCOL_CORD.md, git.
@@ -257,15 +258,27 @@ def recompute() -> dict:
     return {"H": H, "integrity": integrity, "_ctx": (s, claves, layout, G, prep, V, read_set)}
 
 
+def qwen_rows(claves) -> dict:
+    Q, _, _ = jsonl_last(R / "calls_qwen.jsonl")
+    return {k: r for k, r in Q.items() if k in set(claves)}
+
+
 def posthoc(ctx) -> dict:
-    """Gate v1 / v2 / v2b (Amendment 3, post-hoc on the 300): touchless forms, accepted fields, errors, flagged."""
+    """Gate v1 / v2 / v2-2R / v2-2R strict / v2b (Amendment 3, post-hoc on the 300): touchless forms, accepted fields,
+    errors, flagged."""
     s, claves, layout, G, prep, V, read_set = ctx
     graded = [f for f in s["fields"] if f.get("csv")]
-    tiers = {"v1 (frozen gate)": lambda p: gate(p, s).accepted, "v2": lambda p: gate_v2(p, s, "v2").accepted,
-             "v2b (relaxed label, secondary)": lambda p: gate_v2(p, s, "v2b").accepted}
+    Q = qwen_rows(claves)
+    qv = lambda k: ({x: ((Q[k].get("fields") or {}).get(x) or {}).get("n") for x in s["keys"]}  # noqa: E731
+                    if k in Q and Q[k].get("parsed_ok") else {})
+    tiers = {"v1 (frozen gate)": lambda p, k: gate(p, s).accepted, "v2": lambda p, k: gate_v2(p, s, "v2").accepted,
+             "v2-2R (Qwen confirms SOBRANTES)": lambda p, k: gate_v2(p, s, "v2", second=qv(k)).accepted,
+             "v2-2R strict (only Qwen confirms SOBRANTES)":
+                 lambda p, k: gate_v2(p, s, "v2", second=qv(k), second_required=True).accepted,
+             "v2b (relaxed label, secondary)": lambda p, k: gate_v2(p, s, "v2b").accepted}
     out = {}
     for name, fn in tiers.items():
-        acc = [k for k in claves if (p := parsed_of(G.get(k), s["keys"])) is not None and fn(p)]
+        acc = [k for k in claves if (p := parsed_of(G.get(k), s["keys"])) is not None and fn(p, k)]
         n = err = und = flag = 0
         for k in acc:
             for f in graded:
@@ -283,33 +296,72 @@ def posthoc(ctx) -> dict:
     return out
 
 
-def qwen_tier(ctx) -> dict | None:
-    """The second reader on the 300, if results/calls_qwen.jsonl is present (it grows while the Qwen pass runs)."""
+A2_KEYS = ("accepted", "movil", "escaner", "fields", "disagree", "capture_errors", "errors", "undecided", "unadjudicated")
+
+
+def amendment2(ctx) -> dict | None:
+    """Amendment 2 tiers with the second reader (PROTOCOL.md section 7 and Amendment 2 c-d), plus the post-hoc v2-2R
+    pair, recomputed here without twohands/tiers.py or scripts/two_reader_300.py. Accepted field truth: the paper where
+    a verdict read it, else the capture; reader != capture with no verdict = not adjudicated (never counted right)."""
     s, claves, layout, G, prep, V, read_set = ctx
-    Q, _, _ = jsonl_last(R / "calls_qwen.jsonl")
-    Q = {k: r for k, r in Q.items() if k in set(claves)}
+    Q = qwen_rows(claves)
     if not Q:
         return None
     graded = [f for f in s["fields"] if f.get("csv")]
-    vals = lambda r: {k: ((r.get("fields") or {}).get(k) or {}).get("n") for k in s["keys"]}  # noqa: E731
-    parsed = [k for k, r in Q.items() if r.get("parsed_ok") and not r.get("no_call")]
-    q_acc = [k for k in parsed if (p := parsed_of(Q[k], s["keys"])) is not None and gate(p, s).accepted]
-    two = [k for k in q_acc if k in G and bool(G[k].get("accepted")) and vals(G[k]) == vals(Q[k])]
-    n = err = flag = 0
-    for k in two:
-        for f in graded:
-            n += 1
-            v = V.get(f"{k}__{f['key']}")
-            if v:
-                err += v["verdict"] in ("capture_right", "neither")
-            elif vals(G[k])[f["key"]] != num(prep[k][f["csv"]]):
-                flag += 1
+    keys, votes = s["keys"], s["vote_keys"]
+    ok = lambda r: bool(r) and bool(r.get("parsed_ok")) and not r.get("no_call")  # noqa: E731
+    dig = lambda r, w="n": {k: num(((r.get("fields") or {}).get(k) or {}).get(w)) for k in keys}  # noqa: E731
+    gate_ok = lambda r: (p := parsed_of(r, keys)) is not None and gate(p, s).accepted  # noqa: E731
+
+    def strict(k):  # Amendment 2 (d): 23 digits agree; every digit read; words = digits where read; rows = TOTAL
+        if not (ok(G.get(k)) and ok(Q.get(k))):
+            return False
+        d = dig(G[k])
+        if d != dig(Q[k]) or None in d.values():
+            return False
+        if any(w is not None and w != d[x] for r in (G[k], Q[k]) for x, w in dig(r, "w").items()):
+            return False
+        return sum(d[x] for x in votes) == d["TOTAL"]
+
+    def v22(k, req):
+        p = parsed_of(G.get(k), keys)
+        return p is not None and gate_v2(p, s, "v2", second=dig(Q[k]) if ok(Q.get(k)) else None,
+                                         second_required=req).accepted
+
+    rules = {"gemma": (G, lambda k: gate_ok(G.get(k))), "qwen": (Q, lambda k: gate_ok(Q.get(k))),
+             "two_reader": (G, strict),
+             "two_reader_s7": (G, lambda k: gate_ok(G.get(k)) and gate_ok(Q.get(k)) and dig(G[k]) == dig(Q[k])),
+             "v2_2r": (G, lambda k: v22(k, False)), "v2_2r_strict": (G, lambda k: v22(k, True))}
+    tiers = {}
+    for name, (rd, rule) in rules.items():
+        acc = [k for k in claves if rule(k)]
+        o = dict.fromkeys(A2_KEYS, 0)
+        o.update(accepted=len(acc), movil=sum(layout[k] == "movil" for k in acc),
+                 escaner=sum(layout[k] == "escaner" for k in acc))
+        for k in acc:
+            d = dig(rd[k])
+            for f in graded:
+                o["fields"] += 1
+                pv = num(prep[k][f["csv"]]) if k in prep else None
+                v = V.get(f"{k}__{f['key']}")
+                if d[f["key"]] != pv:
+                    o["disagree"] += 1
+                if v and v["verdict"] in ("model_right", "capture_right", "neither"):
+                    paper = None if v.get("paper") == "blank" else v.get("paper")
+                    o["errors"] += d[f["key"]] != paper
+                    o["capture_errors"] += d[f["key"]] != pv and d[f["key"]] == paper and v["verdict"] == "model_right"
+                elif v:
+                    o["undecided"] += 1
+                elif d[f["key"]] != pv:
+                    o["unadjudicated"] += 1
+        tiers[name] = o
+    parsed = [k for k in claves if ok(Q.get(k))]
     cost = [Q[k]["cost_usd"] for k in parsed if Q[k].get("cost_usd")]
     lat = [Q[k]["latency_s"] for k in parsed if Q[k].get("latency_s")]
-    return {"reads": len(Q), "parsed": len(parsed), "accepted": len(q_acc), "two_reader_accepted": len(two),
-            "two_reader_fields": n, "two_reader_errors": err, "two_reader_flagged": flag,
+    return {"tiers": tiers, "reads": len(Q), "parsed": len(parsed), "complete": len(Q) == len(claves),
+            "agree_all_23": sum(ok(G.get(k)) and ok(Q.get(k)) and dig(G[k]) == dig(Q[k]) for k in claves),
             "cost_per_form": sum(cost) / len(cost) if cost else None,
-            "mean_secs": round(sum(lat) / len(lat), 1) if lat else None, "complete": len(Q) == len(claves)}
+            "mean_secs": round(sum(lat) / len(lat), 1) if lat else None}
 
 
 # ------------------------------------------------------------------ protocol
@@ -517,7 +569,8 @@ def main(argv=None) -> int:
     Hd = jload(DATA / "headline.json")
     PH = jload(R / "posthoc_v2_300.json")
     ph = posthoc(rec["_ctx"])
-    qw = qwen_tier(rec["_ctx"])
+    qw = amendment2(rec["_ctx"])
+    T2 = jload(DATA / "two_reader_300.json") if (DATA / "two_reader_300.json").is_file() else None
     proto = protocol_checks()
 
     table, bad = [], []
@@ -534,14 +587,19 @@ def main(argv=None) -> int:
             table.append((f"POST-HOC {name}: {k}", fmt(o[k]), fmt(sv), "results/posthoc_v2_300.json", ok))
             bad += [] if ok else [f"POST-HOC {name} {k}: recomputed {o[k]}, file shows {sv}"]
     if qw:
-        shown_q = Hd.get("qwen") if isinstance(Hd.get("qwen"), dict) else None
-        for k, v in qw.items():
-            if shown_q is not None and k in shown_q:
-                ok = same(v, shown_q[k])
-                table.append((f"Qwen tier: {k}", fmt(v), fmt(shown_q[k]), "app/data/headline.json", ok))
-                bad += [] if ok else [f"Qwen tier {k}: recomputed {v}, app shows {shown_q[k]}"]
-            else:
-                table.append((f"Qwen tier: {k}", fmt(v), "not displayed", "results/calls_qwen.jsonl", None))
+        for name, o in qw["tiers"].items():
+            shown = ((T2 or {}).get("tiers") or {}).get(name) or {}
+            for k in A2_KEYS:
+                sv = shown.get(k, KeyError)
+                ok = same(o[k], sv)
+                table.append((f"Amendment 2 tier {name}: {k}", fmt(o[k]), fmt(sv), "app/data/two_reader_300.json", ok))
+                bad += [] if ok else [f"Amendment 2 tier {name} {k}: recomputed {o[k]}, app shows {sv}"]
+        sv = (T2 or {}).get("agree_all_23", KeyError)
+        ok = same(qw["agree_all_23"], sv)
+        table.append(("Two readers agree on all 23 digits", fmt(qw["agree_all_23"]), fmt(sv), "app/data/two_reader_300.json", ok))
+        bad += [] if ok else [f"agree_all_23: recomputed {qw['agree_all_23']}, app shows {sv}"]
+        for k in ("reads", "parsed", "cost_per_form", "mean_secs"):
+            table.append((f"Qwen: {k}", fmt(qw[k]), "not displayed", "results/calls_qwen.jsonl", None))
 
     # the sentences the pages render, rebuilt from the recomputed numbers, word for word
     from app.numbers import lines
@@ -556,7 +614,13 @@ def main(argv=None) -> int:
         for p in ks[:-1]:
             d = d[p]
         d[ks[-1]] = v
-    L1, L2 = lines(Hd), lines(H2)
+    T3 = None
+    if T2 and qw:  # the second-reader sentences, rebuilt from the recomputed tiers
+        T3 = copy.deepcopy(T2)
+        T3["agree_all_23"] = qw["agree_all_23"]
+        for name, o in qw["tiers"].items():
+            T3["tiers"].setdefault(name, {}).update({k: o[k] for k in A2_KEYS})
+    L1, L2 = lines(Hd, T2), lines(H2, T3)
     for k in L1:
         ok = L1[k] == L2[k]
         table.append((f"Rendered sentence '{k}'", "rebuilt", "as rendered", "app/numbers.py lines()", ok))
@@ -594,8 +658,8 @@ def main(argv=None) -> int:
         esc = lambda x: x.replace("|", "/")  # noqa: E731
         L.append(f"| {esc(label.strip())} | {esc(got)} | {esc(shown)} | {src} | {mark} |")
     if qw:
-        L += ["", f"Qwen tier: {qw['reads']} of 300 reads present"
-              + ("" if qw["complete"] else " (the second-reader pass is still running; this tier is not final)") + "."]
+        L += ["", f"Second reader: {qw['reads']} of 300 Qwen rows present"
+              + ("" if qw["complete"] else " (the second-reader pass is still running; these tiers are not final)") + "."]
     if bad:
         L += ["", "## Mismatches", ""] + [f"- {b}" for b in bad]
     out = Path(a.out)

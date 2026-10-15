@@ -5,7 +5,7 @@ committed calls files, the adjudication verdicts, the manifests, the official fi
 of the 300 forms (`app/data/`), and git. Each number is recomputed independently of the scripts that wrote what
 the app reads, then compared with it.
 
-**139 checks, 0 mismatches.** Exit code 0.
+**209 checks, 0 mismatches.** Exit code 0.
 
 | number | recomputed | app shows | source | check |
 |---|---|---|---|---|
@@ -99,6 +99,20 @@ the app reads, then compared with it.
 | POST-HOC v2: errors | 1 | 1 | results/posthoc_v2_300.json | ok |
 | POST-HOC v2: undecided | 0 | 0 | results/posthoc_v2_300.json | ok |
 | POST-HOC v2: flagged | 0 | 0 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R (Qwen confirms SOBRANTES): accepted | 54 | 54 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R (Qwen confirms SOBRANTES): movil | 27 | 27 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R (Qwen confirms SOBRANTES): escaner | 27 | 27 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R (Qwen confirms SOBRANTES): fields | 1188 | 1188 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R (Qwen confirms SOBRANTES): errors | 1 | 1 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R (Qwen confirms SOBRANTES): undecided | 0 | 0 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R (Qwen confirms SOBRANTES): flagged | 0 | 0 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R strict (only Qwen confirms SOBRANTES): accepted | 45 | 45 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R strict (only Qwen confirms SOBRANTES): movil | 19 | 19 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R strict (only Qwen confirms SOBRANTES): escaner | 26 | 26 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R strict (only Qwen confirms SOBRANTES): fields | 990 | 990 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R strict (only Qwen confirms SOBRANTES): errors | 0 | 0 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R strict (only Qwen confirms SOBRANTES): undecided | 0 | 0 | results/posthoc_v2_300.json | ok |
+| POST-HOC v2-2R strict (only Qwen confirms SOBRANTES): flagged | 0 | 0 | results/posthoc_v2_300.json | ok |
 | POST-HOC v2b (relaxed label, secondary): accepted | 62 | 62 | results/posthoc_v2_300.json | ok |
 | POST-HOC v2b (relaxed label, secondary): movil | 39 | 39 | results/posthoc_v2_300.json | ok |
 | POST-HOC v2b (relaxed label, secondary): escaner | 23 | 23 | results/posthoc_v2_300.json | ok |
@@ -106,16 +120,65 @@ the app reads, then compared with it.
 | POST-HOC v2b (relaxed label, secondary): errors | 1 | 1 | results/posthoc_v2_300.json | ok |
 | POST-HOC v2b (relaxed label, secondary): undecided | 0 | 0 | results/posthoc_v2_300.json | ok |
 | POST-HOC v2b (relaxed label, secondary): flagged | 0 | 0 | results/posthoc_v2_300.json | ok |
-| Qwen tier: reads | 265 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: parsed | 212 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: accepted | 27 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: two_reader_accepted | 18 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: two_reader_fields | 396 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: two_reader_errors | 0 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: two_reader_flagged | 0 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: cost_per_form | 0.0005822 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: mean_secs | 254.3 | not displayed | results/calls_qwen.jsonl | info |
-| Qwen tier: complete | False | not displayed | results/calls_qwen.jsonl | info |
+| Amendment 2 tier gemma: accepted | 55 | 55 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: movil | 27 | 27 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: escaner | 28 | 28 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: fields | 1210 | 1210 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: disagree | 3 | 3 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: capture_errors | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: errors | 2 | 2 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: undecided | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: accepted | 31 | 31 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: movil | 8 | 8 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: escaner | 23 | 23 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: fields | 682 | 682 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: disagree | 2 | 2 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: capture_errors | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: errors | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: undecided | 2 | 2 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier qwen: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: accepted | 89 | 89 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: movil | 51 | 51 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: escaner | 38 | 38 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: fields | 1958 | 1958 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: disagree | 3 | 3 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: capture_errors | 3 | 3 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: errors | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: undecided | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: accepted | 22 | 22 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: movil | 6 | 6 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: escaner | 16 | 16 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: fields | 484 | 484 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: disagree | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: capture_errors | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: errors | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: undecided | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier two_reader_s7: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: accepted | 54 | 54 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: movil | 27 | 27 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: escaner | 27 | 27 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: fields | 1188 | 1188 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: disagree | 2 | 2 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: capture_errors | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: errors | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: undecided | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: accepted | 45 | 45 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: movil | 19 | 19 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: escaner | 26 | 26 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: fields | 990 | 990 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: disagree | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: capture_errors | 1 | 1 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: errors | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: undecided | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier v2_2r_strict: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
+| Two readers agree on all 23 digits | 147 | 147 | app/data/two_reader_300.json | ok |
+| Qwen: reads | 300 | not displayed | results/calls_qwen.jsonl | info |
+| Qwen: parsed | 239 | not displayed | results/calls_qwen.jsonl | info |
+| Qwen: cost_per_form | 0.0005965 | not displayed | results/calls_qwen.jsonl | info |
+| Qwen: mean_secs | 241 | not displayed | results/calls_qwen.jsonl | info |
 | Rendered sentence 'unit' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'breakdown' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'keying' | rebuilt | as rendered | app/numbers.py lines() | ok |
@@ -127,6 +190,7 @@ the app reads, then compared with it.
 | Rendered sentence 'receipt' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'product' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'qwen' | rebuilt | as rendered | app/numbers.py lines() | ok |
+| Rendered sentence 'two_readers' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'label_cost' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'harmonised' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'faint' | rebuilt | as rendered | app/numbers.py lines() | ok |
@@ -139,7 +203,7 @@ the app reads, then compared with it.
 | sha256 results/manifest_confirm100.json | cc238efc2a11... vs pre-registered cc238efc2a11... |  | protocol | ok |
 | sha256 results/manifest_cord100.json | 0763c48c9380... vs pre-registered 0763c48c9380... |  | protocol | ok |
 | frozen prompt = reader.prompt_sha256() | 3664253035b9... |  | protocol | ok |
-| every model call used the frozen prompt | 620 rows in calls_gemma.jsonl, calls_qwen.jsonl |  | protocol | ok |
+| every model call used the frozen prompt | 661 rows in calls_gemma.jsonl, calls_qwen.jsonl |  | protocol | ok |
 | schema as pre-registered (at the protocol commit) | c9240632c3f0... at a93294c |  | protocol | ok |
 | PROTOCOL.md committed as on disk | clean |  | protocol | ok |
 | PROTOCOL_CORD.md committed as on disk | clean |  | protocol | ok |
@@ -159,4 +223,4 @@ the app reads, then compared with it.
 | results/manifest_confirm100.json committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z; no such call yet |  | protocol | ok |
 | PROTOCOL_CORD.md committed before first CORD call | 365eb56 2026-10-15 14:11:09Z; no such call yet |  | protocol | ok |
 
-Qwen tier: 265 of 300 reads present (the second-reader pass is still running; this tier is not final).
+Second reader: 300 of 300 Qwen rows present.

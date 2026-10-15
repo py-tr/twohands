@@ -122,29 +122,34 @@ From `results/calls_gemma.jsonl`, last read per form, 289 reads of the pre-regis
 Qwen3.8-27B read the same 300 forms after Gemma (pre-registered order), with the same masked page + 6 tiles, the
 same frozen prompt and the same frozen gate (`reasoning_effort: "low"`, `max_tokens` 6000). The numbers below are
 regenerated from the calls files by `python scripts/gemma_vs_qwen.py` (also run by `make eval`), which writes
-`results/gemma_vs_qwen.md` and `app/data/gemma_vs_qwen.json`; the overview page reads the latter. The Qwen pass was
-still running when this was written, so the comparison is on the **259 forms both models had been sent**; the
-generated files carry the current count.
+`results/gemma_vs_qwen.md` and `app/data/gemma_vs_qwen.json`; the overview page reads the latter. The Qwen pass is
+complete: the comparison is on **all 300 forms** (289 located pages sent to both; 11 never sent).
 
-| On the same 259 forms | Gemma-4-31B-IT | Qwen3.8-27B |
+| On the same 300 forms | Gemma-4-31B-IT | Qwen3.8-27B |
 |---|---|---|
-| Touchless (frozen gate accepted) | **44** (17.0%) | 26 (10.0%) |
-| Accepted fields wrong, vs the paper | 2 of 968 | 1 of 572 (2 more undecided on the paper) |
-| Replies cut at `max_tokens` | 0 | 37 |
-| Mean latency per form | **89 s** | 257 s |
-| Tokens in / out | 2,609 / 804 | 6,612 / 3,286 |
-| Cost per form read | **$0.000144** | $0.000580 |
+| Usable reads (of 289 sent) | **289** | 239 (50 cut at `max_tokens`) |
+| Touchless (frozen gate accepted) | **55** (18.3%) | 31 (10.3%) |
+| Accepted fields wrong, vs the paper | 2 of 1,210 | 1 of 682 (2 more undecided on the paper) |
+| Replies cut at `max_tokens` | 0 | 50 |
+| Mean latency per form | **87 s** | 241 s |
+| Tokens in / out | 2,609 / 804 | 6,612 / 3,340 |
+| Cost per form read | **$0.000144** | $0.000597 |
+| **Two readers, strict mode (Amendment 2 d): both agree on all 23 digits** | **89 forms, 0 of 1,958 accepted fields wrong** | |
 
-**Gemma accepts about 1.7 times as many forms with no person, at about a quarter of Qwen's cost per form**, with
-the same order of error on what it accepts. Both models' wrong accepted fields are SOBRANTES (unused ballots), the
-one graded field that sits in no arithmetic identity, so no gate can check it; Gemma's two are 010469C0400 (read
-239 in both digits and words, paper 234) and 212668C0300, Qwen's is 090955C0200.
+**Gemma accepts about 1.8 times as many forms with no person, at about a quarter of Qwen's cost per form**, with
+the same order of error on what it accepts. Both models' wrong accepted fields are unused ballots, the one graded
+field that sits in no arithmetic identity, so no single-reader gate can check it; Gemma's two are 010469C0400 (read
+239 in both digits and words, paper 234) and 212668C0300, Qwen's is 090955C0200. **Together they are stricter than
+either alone:** the two readers agree on all 23 digits on 147 forms, and the strict two-reader tier (agreement, words
+and the row sum; no label check) accepts 89 forms with 0 of 1,958 accepted fields wrong; the 3 accepted fields where
+the agreed read differs from the official capture are all capture errors (`results/two_reader_300.md`).
 
 Caveats, stated as measured: the two passes ran at different times on a shared endpoint (Gemma 01:38-11:49 UTC,
 Qwen from 11:53 UTC on 2026-10-15), so latency reflects endpoint load as much as the model; the adjudication was done
-on Gemma's disagreements with the capture, so a Qwen-only disagreement on an accepted form would be listed as "not
-yet adjudicated" (there are none so far); in the 43-form pilot, where Qwen was not truncated, it was the slightly more
-accurate reader (97.4% vs 96.5% fields exact) at 4.3x the cost (`spikes/tally-witness/README.md` section 3).
+on Gemma's disagreements with the capture, but every accepted Qwen field that differs from the capture turned out to
+have a verdict already (none is left unadjudicated); in the 43-form pilot, where Qwen was not truncated, it was the
+slightly more accurate reader (97.4% vs 96.5% fields exact) at 4.3x the cost (`spikes/tally-witness/README.md`
+section 3).
 
 ## 4. Gemma withdrawn from the endpoint (2026-10-15)
 
