@@ -17,7 +17,8 @@ Others check the model against the source. We check the record against the paper
 
 **Live demo:** add at submission · **Video:** add at submission ·
 **Audit report sample:** add at submission (in the repo: [the 52, each with its crop](results/adjudication/SUMMARY.md)) ·
-**How to reproduce:** [`make eval`](#reproduce-every-number)
+**How to reproduce:** [`make eval`](#reproduce-every-number) ·
+**Report:** [technical report (PDF)](report/two-hands-report.pdf), source [`docs/REPORT.md`](docs/REPORT.md)
 
 | 52 | 18% · 30% | 1 in 5 |
 |---|---|---|
@@ -36,7 +37,7 @@ capture keyed 75, the certified count says 175. One of the 52.*
 2. [Headline: the pre-registered 300](#headline-the-pre-registered-300)
 3. [What ran on AMD](#what-ran-on-amd)
 4. [Run it](#run-it) · [Reproduce every number](#reproduce-every-number)
-5. [Audit your capture](#audit-your-capture) · [Verify a receipt](#verify-a-receipt)
+5. [Audit your capture](#audit-your-capture) · [Verify a receipt](#verify-a-receipt) · [CLI](#cli) · [MCP](#mcp)
 6. [How it works](#how-it-works)
 7. [Limits and failure cases](#limits-and-failure-cases)
 8. [Business detail](#business-detail)
@@ -155,6 +156,46 @@ To have us run one on your forms: `/audit/request` ($100 per 1,000 forms, report
 Each report prints a Merkle root over its disputed fields; each field's "receipt" link (`/audit/<id>/receipt/<key>`) gives its leaf (form, field, keyed value, model digits and words, tier, crop SHA-256) and the path to that root.
 Check one field alone: `python -m twohands.verify_receipt receipt.json --crop crop.jpg` (a changed value or crop fails).
 The sample audit's root is published in `results/sample_audit_root.txt`, and `make eval` rebuilds it so it cannot drift.
+
+## CLI
+
+`pip install -e ".[mcp]"` (from this folder) gives the `twohands` command (also `python -m twohands`). It reuses the
+core and the web app's audit module, so it gives the same disputes, order, CSV, fingerprint and Merkle root as `/audit`.
+
+```
+twohands audit --keyed capture.csv --scans scans/ --schema mx_presidencia_2024 --out report/
+twohands audit --keyed app/data/audit_sample_prep300.csv --from-stored --out report/   # no model call
+twohands read form.jpg [--masked] [--layout movil|escaner]      # locate, mask, one read, the gate
+twohands gate values.json [--variant v1|v2|v2b]                 # exit 0 accepted, 2 routed to a person
+twohands verify-receipt receipt.json [--crop crop.jpg] [--root <hex>]
+```
+
+`audit` locates and masks each scan (named `<form id>.jpg`) in memory, reads only the forms without a read through the
+configured OpenAI-compatible endpoint (`AMD_BASE_URL` / `AMD_KEY`, or `--base-url`), and writes `report.html`,
+`report.csv`, `merkle_root.txt`, `summary.json`, `disputes.json` (and with `--receipts`, one receipt per field).
+`--from-stored` uses the stored pre-registered reads only. On the sample it prints:
+
+```
+audit a…: 289 of 300 keyed forms read, 6,358 fields checked, 267 disputed on 104 forms (strong 18, medium 80, weak 169); 0 model calls; Merkle root e56a8ef4f011b9e5a3b7bd91dd708580fe1a8912e3bd65f51d780a6dd5898721
+```
+
+the published root (`results/sample_audit_root.txt`); `tests/test_cli.py` checks it.
+
+## MCP
+
+`twohands mcp` (stdio) or `twohands mcp --http --port 8765` (streamable HTTP at `/mcp`) runs an MCP server on the
+official Python SDK (`twohands/mcp_server.py`) with four tools: `read_form` (a masked page path or base64 → values,
+words, labels, the gate's verdict), `gate` (values + schema → every identity and the verdict), `audit_capture` (keyed
+CSV + stored or new reads → disputes summary, first disputes, report and CSV paths) and `verify_receipt`. File paths
+must lie under the repo, the working directory or `TWOHANDS_MCP_ROOTS`; over HTTP, tools that would call the model are
+refused unless started with `--allow-reads`. Desktop MCP clients: command `twohands`, args `["mcp"]`.
+
+**Evolus.** The Evolus API attaches an MCP server that already exists in the application's MCP collection to an agent
+(`POST /api/v1/agents/{agentId}/mcpserver/{mcpServerId}`); it cannot create the server entry, and Evolus calls the
+server from its cloud, so it must be on a public HTTPS URL first. `python -m evolus mcp-register --url https://<host>/mcp`
+prints the steps (run `twohands mcp --http --public-host <host>` behind HTTPS, add it in the workspace as a Streamable
+HTTP server, then `--server-id <id> --apply` attaches it to the agent and reads the agent back). Not run against the
+live workspace yet: no public URL.
 
 ## How it works
 
@@ -303,5 +344,6 @@ parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push t
 | `submission/lablab.md` | the submission page text |
 | `tests/` | gate, mask, rate limiter, app routes, privacy and neutrality tests |
 | `evolus/` | Evolus integration: REST client, the intake case, gate endpoint, CLI (`python -m evolus`) |
+| `twohands/cli.py`, `twohands/mcp_server.py` | the `twohands` command and the MCP server (`pyproject.toml`) |
 
 MIT licence. API keys live only in the environment or an untracked `.env`.

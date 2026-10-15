@@ -7,6 +7,8 @@
     python -m evolus run --pick 2,3            pick 2 accepted + 3 routed forms (by the measured read) and run them
     python -m evolus audit [--audit ID]        open the strong-evidence fields of an audit (default: a new sample
                                                audit) as Evolus audit cases -> results/evolus_audit_runs.jsonl
+    python -m evolus mcp-register --url U      print the steps to connect the Two Hands MCP server to the agent;
+        [--server-id ID --apply]               with --apply, attach the server (once added in Evolus) to the agent
 
 Never prints a key: settings are reported as set / not set.
 """
@@ -139,6 +141,61 @@ def cmd_audit(a) -> int:
     return 0
 
 
+MCP_STEPS = """Connect the Two Hands MCP server to the Evolus agent
+
+The Evolus API attaches an MCP server that already exists in one of the application's MCP collections to an agent
+(POST /api/v1/agents/{{agentId}}/mcpserver/{{mcpServerId}}, docs/evolus-openapi.json); it has no endpoint to create
+the server entry itself, and Evolus connects to the server from its own cloud, so the server must be reachable on
+a public HTTPS URL first.
+
+1. Run the server on a host Evolus can reach (streamable HTTP; model reads stay off unless --allow-reads):
+     twohands mcp --http --host 127.0.0.1 --port 8765 --public-host {host}
+   behind HTTPS (a reverse proxy, or a tunnel such as `cloudflared tunnel --url http://127.0.0.1:8765`).
+   Check it from outside: an MCP client listing tools at {url} shows read_form, gate, audit_capture, verify_receipt.
+2. In the Evolus workspace: MCP servers -> add a custom server to the application's MCP collection:
+     transport: Streamable HTTP   url: {url}   name: Two Hands
+   Copy the new server's id (a UUID).
+3. Attach it to the agent (agent {agent}):
+     python -m evolus mcp-register --url {url} --server-id <that id> --apply
+   which calls POST /api/v1/agents/{agent}/mcpserver/<id> and reads the agent back to show it in mcpServers.
+4. Ask the agent: "gate these values: ..." or "audit the sample capture from stored reads".
+"""
+
+
+def cmd_mcp_register(a) -> int:
+    from urllib.parse import urlparse
+    from evolus.config import load_ids
+    agent_id = a.agent or str(load_ids().get("agent_id") or "")
+    agent = agent_id or "<agent id: python -m evolus setup>"
+    u = urlparse(a.url)
+    host = u.hostname or "<public host>"
+    print(MCP_STEPS.format(url=a.url, host=host, agent=agent))
+    if not a.apply:
+        print("(dry run: nothing was sent to Evolus; add --server-id and --apply to attach)")
+        return 0
+    if u.scheme != "https" or host in ("localhost", "127.0.0.1", "::1") or host.startswith(("10.", "192.168.")):
+        print("refused: Evolus must reach the server on a public https URL (not localhost or a private address)")
+        return 2
+    if not a.server_id or not agent_id:
+        print("refused: --server-id (from step 2) and an agent id (evolus/ids.json or --agent) are needed")
+        return 2
+    c = EvolusClient(Settings.load())
+    try:
+        c.rest("POST", f"/api/v1/agents/{agent}/mcpserver/{a.server_id}",
+               "POST /api/v1/agents/{agentId}/mcpserver/{mcpServerId}")
+        ag = c.rest("GET", f"/api/v1/agents/{agent}", "GET /api/v1/agents/{agentId}")
+    except (EvolusError, NotConfigured) as e:
+        print("error:", redact(str(e)))
+        return 1
+    finally:
+        print("calls:", json.dumps(c.calls))
+    names = [m.get("name") or m.get("id") for m in (ag or {}).get("mcpServers") or []]
+    ok = a.server_id in [m.get("id") for m in (ag or {}).get("mcpServers") or []]
+    print(f"agent {agent} MCP servers: {names}")
+    print("attached" if ok else "not attached: check the server id belongs to this application's MCP collection")
+    return 0 if ok else 1
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="python -m evolus")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -163,6 +220,12 @@ def main(argv=None) -> int:
     au.add_argument("--poll-every", type=float, default=8.0)
     au.add_argument("--out", default=str(storemod.RESULTS / "evolus_audit_runs.jsonl"))
     au.set_defaults(fn=cmd_audit)
+    mr = sub.add_parser("mcp-register", help="connect the Two Hands MCP server to the agent (steps; --apply)")
+    mr.add_argument("--url", required=True, help="the public https URL of the MCP endpoint, e.g. https://h/mcp")
+    mr.add_argument("--server-id", default="", help="the MCP server id Evolus gave it (step 2)")
+    mr.add_argument("--agent", default="", help="agent id (default: evolus/ids.json agent_id)")
+    mr.add_argument("--apply", action="store_true", help="send the attach call (default: print the steps only)")
+    mr.set_defaults(fn=cmd_mcp_register)
     a = ap.parse_args(argv)
     return a.fn(a)
 

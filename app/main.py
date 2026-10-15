@@ -283,6 +283,15 @@ def live_events(job_id: str, request: Request):
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 
+@app.get("/report.pdf")
+def report_pdf():
+    """The technical report (docs/REPORT.md printed by scripts/build_report.py --pdf)."""
+    p = REPO / "report" / "two-hands-report.pdf"
+    if not p.is_file():
+        raise HTTPException(404, "report not built")
+    return FileResponse(p, media_type="application/pdf", filename="two-hands-report.pdf")
+
+
 @app.get("/healthz")
 def healthz():
     s = st()
