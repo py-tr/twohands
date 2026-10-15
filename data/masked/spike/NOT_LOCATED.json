@@ -1,0 +1,14 @@
+[
+ {
+  "clave": "120293C0100",
+  "layout": "movil",
+  "status": "not_located",
+  "reason": "page does not match the form template (score 0.09, margin 0.06)"
+ },
+ {
+  "clave": "151794C0200",
+  "layout": "movil",
+  "status": "not_located",
+  "reason": "page does not match the form template (score 0.26, margin 0.03)"
+ }
+]

@@ -81,3 +81,20 @@ def test_gate_fields_read_after_masking():
         assert all(v is not None for v in r["values"].values()), r["values"]
         assert r["values"]["SACADOS"] is not None and r["values"]["PERSONAS_Y_REP"] is not None
         assert r["wrong_vs_adjudicated"] == {}
+
+
+STORED = sorted((REPO / "data" / "masked").rglob("*.jpg"))
+
+
+@pytest.mark.parametrize("path", STORED, ids=[p.name for p in STORED])
+def test_every_stored_page_is_masked(path):
+    """Every page under data/masked/: canonical size, the whole mask area black, gate regions not blacked out."""
+    a = np.asarray(Image.open(path).convert("L"), dtype=float)
+    H, W = a.shape
+    assert [W, H] == L["canonical"]["size"]
+    for x0, y0, x1, y1 in schema.mask_rects(S, "movil"):
+        blk = a[int(y0 * H) + 2:int(y1 * H) - 2, int(x0 * W) + 2:int(x1 * W) - 2]
+        assert blk.max() < 40 and blk.mean() < 8
+    for name_r, (x0, y0, x1, y1) in L["field_regions"].items():
+        reg = a[int(y0 * H):int(y1 * H), int(x0 * W):int(x1 * W)]
+        assert (reg < 8).mean() < 0.05, name_r
