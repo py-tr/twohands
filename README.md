@@ -307,6 +307,28 @@ python -m evolus run --pick 2,3   # run the case on 2 accepted + 3 routed forms 
 Environment: `EVOLUS_KEY`, `EVOLUS_APP_ID`; optional `EVOLUS_USER_KEY` (needed to create the extractor schema and
 the library), `EVOLUS_REVIEWER_EMAIL`, `TWOHANDS_GATE_TOKEN`, `TWOHANDS_PUBLIC_URL`, `EVOLUS_CALLBACK_KEY`.
 
+## Live audit
+
+A standing service keeps auditing presidential tally sheets on AMD during judging: `python -m twohands.worker run`
+(`twohands/worker.py`; the `worker` service in `deploy/docker-compose.prod.yml`). Status at **/live**, sources at
+**/about-data**, three numbers on the Overview.
+
+- **Order:** smallest state first (Colima); inside a state, forms whose certified count was settled by comparison
+  first, then recounts. Forms in any measured sample are skipped (they are on Results). Queue:
+  `live_audit/queue.json.gz`, built offline by `python -m twohands.worker build-queue` from the PREP and Computos CSVs.
+- **Per form:** fetch the image from INE's public PREP URL (at most one request per second, User-Agent
+  `two-hands-audit (contact: see README)`, backoff; 429/403 pauses the source), mask it in memory, store only the
+  masked page downscaled to 150 KB, read it with the model the endpoint offers (Gemma-4-31B-IT when listed, else
+  Qwen3.8-27B; the id is on every row), gate it, and compare it with the PREP capture and the certified count.
+- **Labels:** on vote rows and TOTAL of comparison-settled forms, certified = model != capture is "confirmed by the
+  certified count", certified = capture != model is "model misread"; everything else is "dispute (unconfirmed)".
+  Each dispute is a Merkle leaf (`twohands/merkle.py`), one root per completed state, a running root for the open one.
+- **Budget:** at most $0.60 a day, keeping $0.20 for the live-read button; then it sleeps until 16:00 UTC. It shares
+  the rate-limiter file with the live reads. Resumable, crash-safe writes, a watchdog, rotating logs, a disk cap.
+- **Separate:** it never writes `results/`; `make eval` never reads `live_audit/`.
+- **Contact** (for INE or any operator of the source, as the User-Agent says): the maintainers of this repository,
+  through the submission page's team contact.
+
 ## Run with Docker
 
 ```bash

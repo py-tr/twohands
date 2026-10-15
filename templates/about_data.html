@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}About the data · Two Hands{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="eyebrow">About the data</div>
+  <h1>Where the live audit's numbers come from</h1>
+  <p class="lede">{{ NOT_OFFICIAL }}</p>
+</section>
+<section class="card" style="max-width:860px">
+  <h3>Sources</h3>
+  <ul>
+    <li><b>Images:</b> the photos and scans of the presidential tally sheets (actas de escrutinio y cómputo de casilla, 2024) that INE publishes with its preliminary results program (PREP). Fetched from INE's public PREP URLs at most once per second, with the User-Agent <code>{{ UA }}</code>; a refusal (HTTP 429 or 403) pauses fetching.</li>
+    <li><b>Official capture:</b> INE's PREP database (the keyed capture of each acta, cut of 3 June 2024).</li>
+    <li><b>Certified count:</b> INE's Cómputos Distritales (cut of 8 June 2024). It covers the vote rows and the vote total, not sections 2 to 5 or 7. Its observations say whether the district council settled a form by <i>comparison</i> (the acta's figures were compared and kept) or by <i>recount</i> (the ballots were counted again).</li>
+  </ul>
+  <h3>What is stored</h3>
+  <p>Only the privacy-masked page (names and signatures blacked out before anything is written or sent), downscaled to at most {{ page_kb }} KB, and the crops of disputed fields. The unmasked image exists only in memory while it is masked. Vote rows are named Option 01 to Option 15; no vote total is summed or shown.</p>
+  <h3>How a form is read and labelled</h3>
+  <p>An open vision model on the AMD Token Factory reads every field twice (digits and words) with the frozen prompt of the measured run; the reader's model id is recorded on every row and receipt. A field is a <b>dispute</b> when the model's digits and words agree with each other and differ from the official capture. Labels, on the vote rows and TOTAL of forms settled by comparison:</p>
+  <ul>
+    <li><b>{{ LABELS.confirmed }}</b>: the certified value equals the model's read and differs from the capture.</li>
+    <li><b>{{ LABELS.model_misread }}</b>: the certified value equals the capture and differs from the model's read.</li>
+    <li><b>{{ LABELS.unconfirmed }}</b>: everything else (sections the certified count does not cover, recounted forms, or a certified value that matches neither).</li>
+  </ul>
+  <h3>Receipts</h3>
+  <p>Each dispute is a leaf of a Merkle tree (SHA-256, the scheme of the audit reports), one tree per state in audit order: a completed state has a final root, the open state a running root. A receipt is checkable offline with <code>python -m twohands.verify_receipt</code>.</p>
+  <h3>Budget and pace</h3>
+  <p>The worker spends at most ${{ '%.2f'|format(cap) }} a day on AMD and always leaves ${{ '%.2f'|format(reserve) }} for the site's live-read button; when the limit is reached it waits for the daily reset at 16:00 UTC. It shares one rate limiter with the live reads.</p>
+  <h3>Separate from the measured results</h3>
+  <p>The live audit skips every form in our pre-registered and measured samples, and its numbers never enter them: those are on <a href="/results">Results</a>, with their method. Status: <a href="/live">Live audit</a>.</p>
+</section>
+{% endblock %}

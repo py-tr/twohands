@@ -18,6 +18,9 @@ import json
 from typing import Iterable, Optional
 
 LEAF_KEYS = ("form", "field", "keyed", "model", "words", "tier", "crop_sha256")
+# The live audit worker (twohands/worker.py) adds the reader model id and the certified value to each leaf, so the
+# receipt commits to who read the paper and what the certified count says. Same hashing, same verifier.
+LEAF_KEYS_LIVE = LEAF_KEYS + ("reader", "certified")
 
 
 def canonical(obj) -> bytes:
@@ -29,9 +32,14 @@ def leaf_record(form: str, field: str, keyed, model, words, tier: str, crop_sha2
             "crop_sha256": crop_sha256}
 
 
+def leaf_record_live(form: str, field: str, keyed, model, words, tier: str, crop_sha256: Optional[str], reader: str,
+                     certified) -> dict:
+    return leaf_record(form, field, keyed, model, words, tier, crop_sha256) | {"reader": reader, "certified": certified}
+
+
 def leaf_hash(record: dict) -> str:
-    if set(record) != set(LEAF_KEYS):
-        raise ValueError(f"a leaf record has exactly the keys {', '.join(LEAF_KEYS)}")
+    if set(record) not in (set(LEAF_KEYS), set(LEAF_KEYS_LIVE)):
+        raise ValueError(f"a leaf record has exactly the keys {', '.join(LEAF_KEYS)} (live audit: + reader, certified)")
     return hashlib.sha256(b"\x00" + canonical(record)).hexdigest()
 
 

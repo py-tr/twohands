@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Live audit · Two Hands{% endblock %}
+{% block content %}
+<style>
+.la-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:8px}
+.la-nums .card .big-num{display:block;margin-bottom:4px}
+.la-status{display:flex;align-items:center;gap:10px;border-radius:10px;padding:12px 14px;margin-top:18px;border:1px solid var(--line);background:var(--surface);font-weight:560}
+.la-status.warn{border-color:var(--warn-line);background:var(--warn-soft);color:#6d3f00}
+.la-status.live,.la-status.ok{border-color:var(--ok-line);background:var(--ok-soft);color:var(--ok)}
+.la-status.idle{color:var(--muted)}
+.la-dot{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none}
+.la-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;margin-top:22px}
+.la-states{list-style:none;margin:0;padding:0}
+.la-states li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.la-states li:last-child{border-bottom:0}
+.la-bar{grid-column:1/-1;height:6px;border-radius:4px;background:#eeeee9;overflow:hidden}
+.la-bar i{display:block;height:100%;background:var(--accent)}
+.la-root{grid-column:1/-1;font-family:var(--mono);font-size:.72rem;color:var(--muted);word-break:break-all}
+.la-rc img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line);margin:10px 0}
+.la-tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.la-tbl th,.la-tbl td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.la-tbl td.n{font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.la-tbl img{height:30px;width:auto;border-radius:4px;border:1px solid var(--line)}
+.la-off{margin-top:22px;font-size:.86rem;color:var(--muted)}
+@media (max-width:760px){.la-nums,.la-grid{grid-template-columns:minmax(0,1fr)}.la-tbl .hide-s{display:none}}
+</style>
+<section class="page-head">
+  <div class="eyebrow">Live audit on AMD</div>
+  <h1>A standing audit of tally sheets, one form at a time</h1>
+  <p class="lede">A worker takes INE's public PREP images in a fixed order (smallest state first), masks names and signatures in memory, reads each page on the AMD Token Factory, and compares every field with the official capture. Where they differ on a form whose certified count was settled by comparison, the certified value shows which reading the paper supports.</p>
+</section>
+
+{% if not v %}
+<section>
+  <div class="la-status idle"><span class="la-dot"></span>Not started yet: no form has been audited by the live worker.</div>
+  <p class="la-off">{{ NOT_OFFICIAL }} <a href="/about-data">About the data</a></p>
+</section>
+{% else %}
+<section>
+  <div class="la-nums">
+    <div class="card"><span class="big-num" id="laAudited">{{ '{:,}'.format(v.audited) }}</span>forms audited on AMD so far</div>
+    <div class="card"><span class="big-num" id="laDisputes">{{ '{:,}'.format(v.disputes) }}</span>disputes <span class="muted small">(fields where the model's read differs from the official capture)</span></div>
+    <div class="card"><span class="big-num" id="laConfirmed">{{ '{:,}'.format(v.confirmed) }}</span>confirmed by the certified count</div>
+  </div>
+  <div class="la-status {{ v.status.kind }}" id="laStatus"><span class="la-dot"></span><span>{{ v.status.text }}{% if v.status.resume_at and v.status.kind == 'warn' %} <span class="small">(next try {{ v.status.resume_at|replace('T', ' ')|replace('Z', ' UTC') }})</span>{% endif %}</span></div>
+  <p class="small muted" style="margin:10px 0 0">Of the disputes: {{ v.confirmed }} confirmed by the certified count; {{ v.model_misread }} where the certified count matches the capture (model misread); {{ v.unconfirmed }} not confirmable here (a field the certified count does not cover, or a recounted form).{% if v.not_compared %} {{ v.not_compared }} of the forms audited were not compared field by field: the model's row labels did not confirm the rows were aligned, so those reads go to a person, not to the dispute count.{% endif %}{% if v.not_read %} {{ v.not_read }} form{{ '' if v.not_read == 1 else 's' }} could not be read (no image, or the page could not be located).{% endif %} Reader{{ 's' if v.readers|length > 1 }}: {{ v.readers|join(', ') }}{% if v.reader_now and v.reader_now not in v.readers %}; now {{ v.reader_now }}{% endif %}. Forms already in our measured samples are skipped here; they are on <a href="/results">Results</a>.</p>
+</section>
+
+<section class="la-grid">
+  <div class="card">
+    <h3>States</h3>
+    <ul class="la-states">
+      {% for s in v.states %}
+      <li>
+        <b>{{ s.name }}: {{ 'complete' if s.complete else 'in progress' }}</b>
+        <span class="small muted">{{ '{:,}'.format(s.done) }} of {{ '{:,}'.format(s.queue) }} forms</span>
+        <div class="la-bar"><i style="width:{{ s.pct }}%"></i></div>
+        <span class="la-root">{{ 'Merkle root' if s.complete else 'Running Merkle root' }} ({{ s.leaves }} receipt{{ '' if s.leaves == 1 else 's' }}): {{ s.root }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if v.next_state and v.next_state not in v.states|map(attribute='name')|list %}<p class="small muted" style="margin:10px 0 0">Next: {{ v.next_state }}.</p>{% endif %}
+    <p class="small muted" style="margin:10px 0 0">Queue: {{ '{:,}'.format(v.queue_total) }} forms in {{ v.queue_states }} states. Inside a state, forms settled by comparison come first.</p>
+  </div>
+
+  <div class="card la-rc">
+    <h3>Latest receipt</h3>
+    {% if v.latest %}{% set r = v.latest %}
+    <div><span class="chip {{ 'ok' if r.label == 'confirmed' else ('bad' if r.label == 'model_misread' else 'ghost') }}">{{ r.label_text }}</span> <span class="small muted">{{ r.clave }} · {{ r.state }} · {{ r.name }}</span></div>
+    <img src="{{ r.crop }}" alt="Crop of {{ r.name }} on form {{ r.clave }} (privacy-masked page)">
+    <dl class="kv">
+      <dt>Paper, as read</dt><dd>{{ r.paper }} <span class="small muted">(in words: {{ r.words }})</span></dd>
+      <dt>Official capture</dt><dd>{{ r.capture }}</dd>
+      <dt>Certified count</dt><dd>{{ r.certified if r.certified is not none else 'not covered' }}</dd>
+      <dt>Reader</dt><dd>{{ r.reader }} on AMD</dd>
+    </dl>
+    <p class="small" style="margin:12px 0 0"><a href="{{ r.receipt }}">Receipt with its Merkle path (JSON)</a> · check it offline with <code>python -m twohands.verify_receipt</code></p>
+    {% else %}
+    <p class="muted">No dispute yet: wherever the model's digits and words agreed, they matched the official capture.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% if v.recent %}
+<section>
+  <div class="tablecard"><div class="tablewrap">
+  <table class="la-tbl">
+    <thead><tr><th>Form</th><th class="hide-s">State</th><th>Field</th><th>Crop</th><th>Paper</th><th>Capture</th><th>Certified</th><th>Label</th></tr></thead>
+    <tbody>
+    {% for d in v.recent %}
+      <tr><td><a href="{{ d.receipt }}">{{ d.clave }}</a></td><td class="hide-s">{{ d.state }}</td><td>{{ d.name }}</td><td><img src="{{ d.crop }}" alt="" loading="lazy"></td>
+      <td class="n">{{ d.paper }}</td><td class="n">{{ d.capture }}</td><td class="n">{{ d.certified if d.certified is not none else '·' }}</td><td>{{ d.label_text }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div></div>
+</section>
+{% endif %}
+
+<p class="la-off">{{ NOT_OFFICIAL }} A dispute is a difference between two readings of one paper, for a person to settle with the crop. <a href="/about-data">About the data</a> · updated {{ v.updated|replace('T', ' ')|replace('Z', ' UTC') }}</p>
+{% endif %}
+{% endblock %}

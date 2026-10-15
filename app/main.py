@@ -433,6 +433,11 @@ def favicon():
     return FileResponse(REPO / "static" / "favicon.png", media_type="image/png")
 
 
+# Live audit (additive): the worker's status page /live, /about-data, receipts, and a block the Overview includes
+from app import live_audit as liveauditmod  # noqa: E402
+app.include_router(liveauditmod.router)
+templates.env.globals["live_audit_block"] = liveauditmod.block
+
 # Schema builder (additive): draw a new self-checking form, save it in the engine format, test it live: /builder
 from app import builder as buildermod  # noqa: E402
 app.include_router(buildermod.router)

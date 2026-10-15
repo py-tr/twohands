@@ -16,3 +16,6 @@ results/*.out
 results/*.err
 results/run_status.json
 slides
+live_audit/logs
+live_audit/worker.lock
+live_audit/heartbeat.json

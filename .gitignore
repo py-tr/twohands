@@ -23,3 +23,9 @@ data/masked/state*/
 # Senate masked pages (PROTOCOL_SENADO): ~41 MB, kept local, not committed
 data/masked/senado/
 *.egg-info/
+
+# live audit worker: logs, lock and heartbeat are per machine (state, queue, pages and receipts are committed)
+live_audit/logs/
+live_audit/worker.lock
+live_audit/heartbeat.json
+live_audit/.*.tmp

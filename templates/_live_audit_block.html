@@ -1,0 +1,20 @@
+{# The live audit in three numbers: a small block any page can include (it styles only itself). Hidden until the
+   worker has written a row. #}
+{% set la = live_audit_block() %}
+{% if la %}
+<style>
+.la-block{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px 16px;margin:16px 0 0;font-size:.9rem}
+.la-block .la-n{font-weight:680;font-variant-numeric:tabular-nums;font-size:1.15rem;margin-right:5px}
+.la-block .la-st{color:var(--muted);font-size:.82rem}
+.la-block .la-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);margin-right:6px;vertical-align:1px}
+.la-block .la-dot.live,.la-block .la-dot.ok{background:var(--ok)}
+.la-block .la-dot.warn{background:var(--warn)}
+</style>
+<div class="la-block" aria-label="Live audit on AMD">
+  <a href="/live"><b>Live audit on AMD</b></a>
+  <span><span class="la-n">{{ '{:,}'.format(la.audited) }}</span>forms audited</span>
+  <span><span class="la-n">{{ '{:,}'.format(la.disputes) }}</span>disputes</span>
+  <span><span class="la-n">{{ '{:,}'.format(la.confirmed) }}</span>confirmed by the certified count</span>
+  <span class="la-st"><span class="la-dot {{ la.status.kind }}"></span>{{ la.status.text }}</span>
+</div>
+{% endif %}
