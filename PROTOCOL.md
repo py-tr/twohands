@@ -136,3 +136,44 @@ Changes from the spike's v2 reader, each tried on the 43 pilot ("spike") actas, 
 ## 9. Deviations
 Any deviation from this protocol is recorded in `results/RUN.md` with its time and reason; none is made
 after looking at outcomes.
+
+## Amendment 1 (2026-10-15, before any model read of the 300): the page locator
+
+**What happened.** Preparing the 300 actas with the pre-registered locator (commit `a93294c`) left **52 of 300
+not located** (50 of 196 Móvil, 2 of 104 Escáner), about 17%, against about 8% predicted from 40 calibration
+actas. Those 52 would have been routed to a person before any model saw them. No model read of any of the 300
+had succeeded when this amendment was written: Gemma-4-31B-IT was returning HTTP 503 and the run was stopped.
+
+**What changed (locator only).** `twohands/register.py::rectify_v2`, used by `mask.prepare` (`mask.LOCATOR =
+"amendment1"`):
+- the accept decision moves from the coarse template score (score ≥ 0.25, margin ≥ 0.08) and ECC ≥ 0.55 to a
+  **landmark check**: 8 printed-structure windows next to the gate regions (section 6 header, digit-box column,
+  TOTAL row, section 7, left-column sections 2-5, header block) are matched by normalised cross-correlation against
+  a landmark reference (mean aligned pilot page, mask area zeroed; `schemas/mx_presidencia_2024.landmarks.npy`,
+  sha256 `c148a6289c6c98a90a84bbd8434cdc0bfb8c81b101719b84bf9541330f86c5d8`). A warp is accepted only if **every** window lands within
+  12 px at 1200 px width (1% of the page width) with correlation > 0.3;
+- candidates: every plausible marker frame with its two best orientations, the image itself as a frame, and a
+  SIFT + RANSAC homography against a masked reference scan (`schemas/mx_presidencia_2024.feature_ref.jpg`, sha256
+  `3c1bb2b7d4a5b89e72179e355e6eb7fbff766554d6f437bb5b66d74d80eabda2`) for photos whose corner markers are cut off; ECC refines
+  each; the first candidate that passes the landmark check is kept;
+- still fail-closed: if no candidate passes, `NotLocated`, nothing stored or sent, routed to a person.
+Nothing else changes: the sample, the manifest (sha256 `605af977…e081`), the mask rectangles, the tiles, the
+prompt (sha256 `3664253035b9…`), the readers, the gate and the metrics are as pre-registered.
+
+**How it was tuned.** Only on the 43 pilot actas and on a **fresh calibration set**: seed **20261016**, n = 150,
+the same eligibility and state × capture strata (100 Móvil, 50 Escáner), excluding the 300 run actas and the 43
+pilot actas (`results/calibration_manifest.json`, sha256 `d6786a7f9348dfc31c13faff87029423042562c07d5c2090bf73e8774183f2cf`;
+`scripts/calib_draw.py`). None of the 52 failures was opened, viewed or used.
+
+**Locator accuracy on the calibration set** (`results/calibration_locator.jsonl`, `results/calibration_audit.json`):
+- original locator: located 128 / 150 (Móvil 79 / 100, Escáner 49 / 50);
+- Amendment 1: located 144 / 150 (Móvil 94 / 100, Escáner 50 / 50); of these, **143 correctly aligned** by an
+  eye audit of every located page (page overlaid on the reference over the section 6 digit column and section 7;
+  doubled printed lines = misaligned). The one misaligned page is a bent sheet whose middle rows curve by more
+  than 1%; its digit boxes are still left of the mask. **Located and correctly aligned: 143 / 150 (95.3%).**
+- pilot: 43 / 43 located; 151794C0200 and 120293C0100 (a photo of several overlapping actas) are now located, and
+  the latter was checked by eye to be the right acta (section 0293, casilla C1).
+
+**Reporting.** Both are reported: the touchless (accept) rate with the original locator (the 52 count as routed and
+their reads are not used; the other 248 use their Amendment 1 reads) and with Amendment 1 (all 300 re-prepared). Re-preparation log:
+`results/prepare.jsonl`; the original locator's log: `results/prepare_original_locator.jsonl`.

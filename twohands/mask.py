@@ -19,6 +19,7 @@ from PIL import Image, ImageDraw
 from twohands import register, schema
 
 JPEG_QUALITY = 85
+LOCATOR = "amendment1"  # PROTOCOL.md Amendment 1; "original" = the pre-registered locator
 
 
 def apply_mask(page: Image.Image, rects) -> Image.Image:
@@ -39,9 +40,13 @@ def prepare(raw: Image.Image | str | Path, layout_kind: str = "movil", s: dict |
         with Image.open(raw) as im:  # load and close at once: the raw file must be deletable right after
             im.load()
             img = im.copy()
-    loc = register.rectify(img, s["layout"], schema.template(s), ref=schema.reference(s))
+    if LOCATOR == "amendment1":
+        loc = register.rectify_v2(img, s["layout"], schema.template(s), schema.reference(s), schema.landmark_ref(s))
+    else:  # the locator as pre-registered in commit a93294c (kept for the "original locator" comparison)
+        loc = register.rectify(img, s["layout"], schema.template(s), ref=schema.reference(s))
     page = apply_mask(loc.image, schema.mask_rects(s, layout_kind))
-    info = {"score": loc.score, "margin": loc.margin, "ecc": getattr(loc, "ecc", None), "markers_found": loc.markers_found,
+    info = {"locator": LOCATOR, "score": loc.score, "margin": loc.margin, "ecc": getattr(loc, "ecc", None),
+            "landmark_worst_px": getattr(loc, "worst_px", None), "markers_found": loc.markers_found,
             "size": list(page.size), "layout": layout_kind}
     return page, info
 

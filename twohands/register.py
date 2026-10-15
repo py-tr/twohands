@@ -194,3 +194,131 @@ def rectify(img: Image.Image, layout: dict, template: Optional[np.ndarray] = Non
     loc = Located(Image.fromarray(out), srcr.tolist(), round(score, 3), round(margin, 3), nfound)
     loc.ecc = None if ecc is None else round(float(ecc), 3)
     return loc
+
+
+# ---------------------------------------------------------------------------------------------------------
+# Amendment 1 locator (PROTOCOL.md, Amendment 1). Same markers and fine alignment, but the accept decision is
+# made by the landmark check (printed boxes land where the schema says, within LANDMARK_MAX_PX), not by the
+# coarse template score: every plausible frame and its two best orientations are tried, and the first warp
+# whose landmarks all land is kept. Still fail-closed: no candidate passes -> NotLocated.
+# ---------------------------------------------------------------------------------------------------------
+LANDMARK_MAX_PX = 12   # at 1200 px width = 1% of the page width (24 px canonical)
+
+
+def _ecc_refine(gray_full, Hm, ref, cw, ch, min_ecc):
+    S = np.diag([REF_SIZE[0] / cw, REF_SIZE[1] / ch, 1.0])
+    small = cv2.warpPerspective(gray_full, S @ Hm, REF_SIZE, flags=cv2.INTER_AREA, borderValue=255).astype(np.float32)
+    Wm = np.eye(3, dtype=np.float32)
+    try:
+        ecc, Wm = cv2.findTransformECC(ref.astype(np.float32), small, Wm, cv2.MOTION_HOMOGRAPHY,
+                                       (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 100, 1e-5),
+                                       (ref != 0).astype(np.uint8), 5)
+    except cv2.error:
+        return None, None
+    if ecc < min_ecc:
+        return None, ecc
+    return np.linalg.inv(S) @ np.linalg.inv(Wm.astype(np.float64)) @ S @ Hm, ecc
+
+
+_FEAT = {}
+
+
+def _feature_reference():
+    """SIFT keypoints of the masked reference scan (tests/fixtures/masked_escaner.jpg is the same page) at 1200 px,
+    left of the privacy mask only."""
+    if "ref" not in _FEAT:
+        from twohands import REPO
+        p = REPO / "schemas" / "mx_presidencia_2024.feature_ref.jpg"
+        g = np.asarray(Image.open(p).convert("L"))
+        m = np.zeros_like(g, dtype=np.uint8)
+        m[:, : int(0.65 * g.shape[1])] = 255
+        sift = cv2.SIFT_create(nfeatures=4000)
+        kp, des = sift.detectAndCompute(g, m)
+        _FEAT["ref"] = (g.shape, kp, des, sift)
+    return _FEAT["ref"]
+
+
+def _feature_homography(gray_full, cw, ch, work=1600):
+    try:
+        (rh, rw), kp_r, des_r, sift = _feature_reference()
+    except Exception:  # noqa: BLE001
+        return None
+    H0, W0 = gray_full.shape
+    sc = work / max(H0, W0)
+    g = cv2.resize(gray_full, (round(W0 * sc), round(H0 * sc)), interpolation=cv2.INTER_AREA)
+    kp, des = sift.detectAndCompute(g, None)
+    if des is None or len(kp) < 50:
+        return None
+    pairs = cv2.BFMatcher().knnMatch(des_r, des, k=2)
+    good = [m for m, n in (p for p in pairs if len(p) == 2) if m.distance < 0.75 * n.distance]
+    if len(good) < 40:
+        return None
+    src = np.float32([kp[m.trainIdx].pt for m in good]) / sc            # photo pixels
+    dst = np.float32([kp_r[m.queryIdx].pt for m in good]) * [cw / rw, ch / rh]  # canonical pixels
+    Hm, inl = cv2.findHomography(src, dst, cv2.RANSAC, 6.0)
+    if Hm is None or inl is None or int(inl.sum()) < 30:
+        return None
+    return Hm
+
+
+def rectify_v2(img: Image.Image, layout: dict, template: np.ndarray, ref: np.ndarray, landmark_ref: np.ndarray,
+               work: int = 1600, min_ecc: float = 0.35, max_candidates: int = 12) -> Located:
+    from twohands import landmarks as LM
+    img = ImageOps.exif_transpose(img).convert("RGB")
+    W, H = img.size
+    s = work / max(W, H)
+    gray = np.asarray(img.convert("L").resize((max(1, round(W * s)), max(1, round(H * s)))))
+    can = layout["canonical"]
+    cw, ch = can["size"]
+    M = np.array(can["markers"], dtype=float) * [cw, ch]
+    aspect = (np.linalg.norm(M[1] - M[0])) / (np.linalg.norm(M[3] - M[0]))
+    frames = sorted(_frames(_candidates(gray), aspect, float(can["marker_size"])), key=lambda f: -f[0])[:8]
+    # fallback frame: the image itself is the page (scans whose markers were not found)
+    mk = np.array(can["markers"], dtype=float)
+    if W < H:
+        fb = np.array([[W * (1 - mk[3][1]), H * mk[3][0]], [W * (1 - mk[0][1]), H * mk[0][0]],
+                       [W * (1 - mk[1][1]), H * mk[1][0]], [W * (1 - mk[2][1]), H * mk[2][0]]]) * s
+    else:
+        fb = mk * [W, H] * s
+    frames.append((0.0, _order(fb), 0))
+    gray_full = np.asarray(img.convert("L"))
+    small_scale = np.diag([TEMPLATE_SIZE[0] / cw, TEMPLATE_SIZE[1] / ch, 1.0])
+    tried, cand = 0, []
+    for _area, q, nfound in frames:
+        src = q / s
+        scored = []
+        for rot in range(4):
+            srcr = np.roll(src, -rot, axis=0).astype(np.float32)
+            Hm = cv2.getPerspectiveTransform(srcr, M.astype(np.float32))
+            v = cv2.warpPerspective(gray_full, small_scale @ Hm, TEMPLATE_SIZE, flags=cv2.INTER_AREA,
+                                    borderValue=255).astype(float)
+            scored.append((_corr(v, template), srcr, Hm))
+        scored.sort(key=lambda t: -t[0])
+        for score, srcr, Hm in scored[:2]:
+            cand.append((score, scored[0][0] - scored[1][0], srcr, Hm, nfound))
+    cand.sort(key=lambda c: -c[0])  # most form-like warps first
+    fH = _feature_homography(gray_full, cw, ch)  # markers cut off / bent page: SIFT + RANSAC on printed structure
+    if fH is not None:
+        cand.insert(min(len(cand), 2), (0.06, 0.0, np.zeros((4, 2), np.float32), fH, -1))
+    last = "no candidate frame"
+    for score, margin, srcr, Hm, nfound in cand[:max_candidates]:
+        if score < 0.05:
+            break
+        tried += 1
+        Hf, ecc = _ecc_refine(gray_full, Hm, ref, cw, ch, min_ecc)
+        if Hf is None:  # no fine alignment: the landmark check below still decides on the coarse warp
+            last = f"fine alignment too weak (ecc {ecc if ecc is None else round(float(ecc), 2)})"
+            Hf, ecc = Hm, (ecc or 0.0)
+        out = Image.fromarray(cv2.warpPerspective(np.asarray(img), Hf, (cw, ch), flags=cv2.INTER_AREA,
+                                                  borderValue=(255, 255, 255)))
+        chk = LM.check(out, landmark_ref)
+        bad = [k for k, (dx, dy, pk) in chk.shifts.items() if max(abs(dx), abs(dy)) > LANDMARK_MAX_PX or pk <= 0.3]
+        if bad:
+            last = f"printed boxes not where expected ({', '.join(bad[:3])})"
+            continue
+        loc = Located(out, srcr.tolist(), round(score, 3), round(margin, 3), nfound)
+        loc.ecc = round(float(ecc), 3)
+        loc.landmarks = chk.shifts
+        loc.worst_px = chk.worst_px
+        return loc
+    raise NotLocated(f"no candidate passed the landmark check after {tried} tries: {last}")

@@ -53,19 +53,42 @@ class GaveUp(Exception):
     pass
 
 
-def chat(body: dict, retries: int = 6, log=print) -> tuple[dict, int]:
+HEALTH = REPO / "results" / "endpoint_health.jsonl"
+
+
+def health(model, status, secs, kind="read", note=""):
+    """One line per HTTP attempt: when, which model, status (200 / 4xx / 5xx / 'timeout' ...), latency."""
+    try:
+        HEALTH.parent.mkdir(parents=True, exist_ok=True)
+        row = {"ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "model": model, "status": status,
+               "latency_s": round(secs, 1), "kind": kind, "pid": os.getpid()}
+        if note:
+            row["note"] = note[:80]
+        with open(HEALTH, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(row) + chr(10))
+    except OSError:
+        pass
+
+
+def chat(body: dict, retries: int = 6, log=print, kind: str = "read") -> tuple[dict, int]:
     """POST /chat/completions through the shared limiter. Returns (response, attempts)."""
     lim = shared()
     for attempt in range(1, retries + 1):
         with lim.slot():
+            t0 = time.time()
             try:
-                return _req("/chat/completions", body), attempt
+                r = _req("/chat/completions", body)
+                health(body.get("model"), 200, time.time() - t0, kind)
+                return r, attempt
             except urllib.error.HTTPError as e:
                 msg = e.read()[:200].decode("utf-8", "replace")
                 code = e.code
                 ra = parse_retry_after(e.headers.get("Retry-After"))
+                inner = "503" if "503" in msg else ""
+                health(body.get("model"), code, time.time() - t0, kind, inner and f"provider {inner}")
             except Exception as e:  # timeouts, connection resets
                 msg, code, ra = f"{type(e).__name__}: {str(e)[:120]}", None, None
+                health(body.get("model"), type(e).__name__, time.time() - t0, kind)
         if code is not None and code != 429 and code < 500:
             raise GaveUp(f"HTTP {code}: {msg}")
         wait = min(300.0, max(ra or 0.0, 5.0 * 2 ** (attempt - 1))) * (0.75 + 0.5 * random.random())

@@ -35,3 +35,8 @@ def mask_rects(s: dict, layout_kind: str) -> list[list[float]]:
 def reference(s: dict):
     p = Path(s["_dir"]) / s["layout"].get("reference", "")
     return np.load(p) if p.is_file() else None
+
+
+def landmark_ref(s: dict):
+    p = Path(s["_dir"]) / s["layout"].get("landmarks", "")
+    return np.load(p).astype(np.float32) if p.is_file() else None

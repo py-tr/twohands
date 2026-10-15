@@ -12,6 +12,7 @@ layout:
     markers: [[0.021, 0.040], [0.964, 0.040], [0.964, 0.954], [0.021, 0.954]]
     marker_size: 0.0242           # marker side / frame width
   template: mx_presidencia_2024.template.npy   # 96x62 orientation template (masked area zeroed)
+  landmarks: mx_presidencia_2024.landmarks.npy # 1200x776 landmark reference (mean aligned pilot page, Amendment 1)
   reference: mx_presidencia_2024.reference.npy # 600x388 fine-alignment reference (mean page, masked area zeroed)
   # PRIVACY MASK: sections 10-12 (funcionarios/as de mesa directiva: names + signatures;
   # representaciones partidistas: names + signatures) plus 13-14, i.e. the whole right column.

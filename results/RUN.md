@@ -8,4 +8,6 @@
 - Endpoint state at start: Gemma-4-31B-IT answering HTTP 503 since ~00:45 UTC; the runner backs off and retries.
 
 ## Deviations
-(none)
+- 2026-10-15 ~01:15 UTC: run stopped (PID 55456 killed) before any successful model read, because the original
+  locator left 52 of 300 not located. PROTOCOL.md Amendment 1 replaces the locator; all 300 are re-prepared.
+  The original locator's prepare log is kept as `results/prepare_original_locator.jsonl`.

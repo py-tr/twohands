@@ -1,0 +1,14 @@
+{
+ "_note": "Amendment 1 locator audit on the fresh calibration set (seed 20261016, 150 actas, excluding the 300 run actas and the 43 pilot actas). Each located page was overlaid on the landmark reference page (page in R,G; reference in B) over the section 6 digit column and section 7, and checked by eye (an AI model) for doubled printed lines (misalignment > ~1% of page width). Raw images deleted after the audit.",
+ "located": 144,
+ "n": 150,
+ "aligned_by_eye": 143,
+ "misaligned": [
+  {
+   "clave": "112369B0100",
+   "why": "bent page: section 6 row lines curve, middle rows off by more than 1%; digit boxes still left of the mask edge"
+  }
+ ],
+ "not_located": 6,
+ "original_locator_located": 128
+}
