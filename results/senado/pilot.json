@@ -1,0 +1,308 @@
+{
+ "purpose": "Senate rectification assets (scripts/build_senado_reference.py); excluded from the PROTOCOL_SENADO draw",
+ "district": "01-01",
+ "feature_ref_page": "010338B0100",
+ "n_pages_used": 20,
+ "pages": [
+  {
+   "clave": "010338B0100",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/0039bfaa45d502b72fa3db084b83e43b2e18ed7850f63aba8fd9887bce0c35ff.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.807,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.908,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010343B0100",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/4e5dd3e959e3a104b8e39a1c0f2d0923a15073eae86fdf10b1b696d4e35f8cc0.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.778,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.892,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010344E0100",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/9a8e7e6092f32c7e0cb6f1d509124982ede492e565bb9675ff707795e58947a4.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.796,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.903,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010344E0101",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/dd77b92f34b92f15a3652ebb6cb9b42b9a597cc7f938c7135436a4274744eaef.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.798,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.899,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010345B0100",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/8b57786716fd325505889bff71000818411717c4586aa50cff16c17fb5ba03d8.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.803,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.907,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010345C0300",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/ef6313df50bba3b73ad095e3e28ab6b019be2cd0ca84f15af682d7017e2f38ac.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.803,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.907,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010346B0100",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/d844e48ab2fc2145b41bcb7330d20fe1724756c540bfcfb5a6a2e162b776849c.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.803,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.903,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010346C0100",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/6fd1fad9711ed63a7a0a817411958b315d96c0c5665451836396bfae09bfa367.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.797,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.899,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010346C0200",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/54076b52b0fd509036bca3f899e423d7e3b416b28b66ec5df591d21d43df77e6.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.628,
+    "worst_px": 11.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.897,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010349B0100",
+   "layout": "escaner",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/baca28f6d5933e9815b52c93631032b86505d820c1b916befb57fabe859216c7.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.802,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.904,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010338C0100",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/850476260a6ab0ad27c556d834d95dd22102c50e862404564e2e307b7f7cf049.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.56,
+    "worst_px": 9.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.586,
+    "worst_px": 5.0
+   }
+  },
+  {
+   "clave": "010339B0100",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/46b841600434e2772a33e1dada5c809c85c2233439b6efb21b4d65a61af6efd7.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.796,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.858,
+    "worst_px": 3.0
+   }
+  },
+  {
+   "clave": "010339C0100",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/457e68474f35707891c81c409fc8c99a466e82709803c25b067796b7314d511f.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.793,
+    "worst_px": 8.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.857,
+    "worst_px": 4.0
+   }
+  },
+  {
+   "clave": "010339C0200",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/4a4904787875648dff178ac0f485a8067ff8148677424fb8cb585776ecb7be74.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.688,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.767,
+    "worst_px": 3.0
+   }
+  },
+  {
+   "clave": "010340B0100",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/7716b1645f3e70537c1eb90495a9db5f345ef705ccfac6e56f88469335b6de1b.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.486,
+    "worst_px": 4.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.531,
+    "worst_px": 1.0
+   }
+  },
+  {
+   "clave": "010340C0100",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/2cef16815e8de773e719532de123b81a32914ad543fd47ea96df8a250caca688.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.501,
+    "worst_px": 6.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.589,
+    "worst_px": 3.0
+   }
+  },
+  {
+   "clave": "010340C0200",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/681d96d02ba57bdc40d3f6eb11fe536caed1c6f31dca9c2eaea86fa71c39cfd2.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.747,
+    "worst_px": 7.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.814,
+    "worst_px": 3.0
+   }
+  },
+  {
+   "clave": "010341B0100",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/e4fe1b3ff5cb8606d33673e3c3e5c8ca75840d9a9d91455cf6775109761e4026.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.723,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.779,
+    "worst_px": 5.0
+   }
+  },
+  {
+   "clave": "010341C0100",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/b1879666478d72785e52007f5fb8a6a5161700c40adc82fd9e7c56062befb5a3.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.807,
+    "worst_px": 5.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.876,
+    "worst_px": 2.0
+   }
+  },
+  {
+   "clave": "010341C0200",
+   "layout": "movil",
+   "url": "https://prep2024-actas.ine.mx/senadurias_mr/aguascalientes1/jesus_maria1/bddf8c0d9ee2a5ad7cad09963a1e1019cc5ebfe2cfaffd366b5969c0b4283e7e.jpg",
+   "presidential_assets": {
+    "located": true,
+    "ecc": 0.659,
+    "worst_px": 6.0
+   },
+   "senate_assets": {
+    "located": true,
+    "ecc": 0.716,
+    "worst_px": 3.0
+   }
+  }
+ ]
+}

@@ -1,6 +1,8 @@
 """Amendment 2 (b): every field where a reader disagrees with the official PREP capture, ready for a person.
 
     python -m twohands.adjudicate [--model gemma] [--only CLAVE[,CLAVE]] [--box CLAVE__FIELD=x0,y0,x1,y1 ...]
+    python -m twohands.adjudicate --schema mx_senado_2024    # another form type: its calls, PREP CSV and output dir
+                                                             #   come from the schema's ``source`` block
 
 For each disagreement it writes a crop of the MASKED page (never a raw image) to
 results/adjudication/<clave>__<FIELD>.jpg, and records model digits/words/label, the PREP value and the certified
@@ -39,10 +41,10 @@ def num(v):
     return int(v) if v.isdigit() else None
 
 
-def load_comp(claves: set) -> dict:
-    if not COMP_CSV.is_file():
+def load_comp(claves: set, path: Path | None = COMP_CSV) -> dict:
+    if path is None or not Path(path).is_file():
         return {}
-    t = COMP_CSV.read_bytes().decode("utf-8-sig", "replace").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    t = Path(path).read_bytes().decode("utf-8-sig", "replace").replace("\r\n", "\n").replace("\r", "\n").split("\n")
     i = next(k for k, l in enumerate(t) if l.startswith("CLAVE_CASILLA"))
     out = {}
     for r in csv.DictReader(io.StringIO("\n".join(t[i:])), delimiter="|"):
@@ -88,23 +90,31 @@ def main(argv=None) -> list:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="gemma")
     ap.add_argument("--only", default=None)
+    ap.add_argument("--schema", default=schema.DEFAULT)
     ap.add_argument("--box", action="append", default=[], metavar="CLAVE__FIELD=x0,y0,x1,y1",
                     help="custom crop box (page fractions) for one field, e.g. when digits were written below the boxes")
     a = ap.parse_args(argv)
-    custom = dict(CUSTOM_BOXES)
+    s = schema.load(a.schema)
+    src = schema.source(s)
+    default_form = s["form"] == schema.DEFAULT
+    res_dir = REPO / src["results_dir"]
+    out_dir = OUT if default_form else res_dir / "adjudication"
+    prep_csv = PREP_CSV if default_form else REPO / src["prep_csv"]
+    comp_csv = COMP_CSV if default_form else (REPO / src["computos_csv"] if src.get("computos_csv") else None)
+    custom = dict(CUSTOM_BOXES) if default_form else {}
     custom.update({kk: tuple(float(x) for x in vv.split(",")) for kk, vv in (b.split("=", 1) for b in a.box)})
-    s = schema.load()
     rows = {}
-    for r in jsonl(REPO / "results" / f"calls_{a.model}.jsonl"):
+    for r in jsonl(res_dir / f"calls_{a.model}.jsonl"):
         rows[r["clave"]] = r
     only = set(a.only.split(",")) if a.only else None
     claves = {k for k in rows if (only is None or k in only)}
-    prep = {r["CLAVE_CASILLA"]: r for r in load_rows(PREP_CSV) if r["CLAVE_CASILLA"] in claves}
-    comp = load_comp(claves)
+    prep = {r["CLAVE_CASILLA"]: r for r in load_rows(prep_csv)
+            if r["CLAVE_CASILLA"] in claves and r["TIPO_ACTA"].strip() == src["tipo_acta"]}
+    comp = load_comp(claves, comp_csv)
     bx = boxes(s)
-    ledger = OUT / "adjudication.jsonl"
+    ledger = out_dir / "adjudication.jsonl"
     old = {(r["clave"], r["field"], r["model_key"]): r for r in jsonl(ledger)}
-    vj = OUT / "verdicts.json"
+    vj = out_dir / "verdicts.json"
     vfile = json.loads(vj.read_text(encoding="utf-8")) if vj.is_file() else {}
     out = dict(old)
     for k in sorted(claves):
@@ -122,7 +132,7 @@ def main(argv=None) -> list:
             ccol = COMP_ALIAS.get(f["csv"], f["csv"])
             cval = num(cp.get(ccol)) if cp else None
             img = REPO / r["image"]
-            cpath = OUT / crop_name(k, f["key"])
+            cpath = out_dir / crop_name(k, f["key"])
             crop(img, custom.get(f"{k}__{f['key']}", bx[f["key"]]), cpath)
             key = (k, f["key"], a.model)
             prev = dict(old.get(key, {}))
@@ -135,10 +145,10 @@ def main(argv=None) -> list:
                         "form_accepted": r.get("accepted"), "crop": cpath.relative_to(REPO).as_posix(),
                         "page": r["image"], "verdict": prev.get("verdict"), "paper": prev.get("paper"),
                         "note": prev.get("note", "")}
-    OUT.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
     recs = sorted(out.values(), key=lambda x: (x["clave"], x["field"]))
     ledger.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in recs), encoding="utf-8")
-    lines = ["# Adjudication sheet (Amendment 2 b)", "",
+    lines = ["# Adjudication sheet (Amendment 2 b)" if default_form else f"# Adjudication sheet ({src['protocol']})", "",
              "Every field where the reader disagrees with the PREP capture. Crops are cut from masked pages only.",
              f"Verdict: one of {', '.join(VERDICTS)}. Edit `verdicts.json` (or `adjudication.jsonl`).",
              "`neither` = the paper shows a value that is neither the model's nor the capture's (model wrong, capture also off).",
@@ -151,7 +161,7 @@ def main(argv=None) -> list:
                      f"{x['computos'] if x['computos'] is not None else '-'} | {'accepted' if x['form_accepted'] else 'routed'} | "
                      f"{x['verdict'] or ''} | {'' if x.get('paper') is None else x['paper']} | {(x.get('note') or '').replace('|', '/')} | "
                      f"![]({Path(x['crop']).name}) |")
-    (OUT / "SHEET.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (out_dir / "SHEET.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(len(recs), "disagreements;", sum(1 for x in recs if x["verdict"]), "with a verdict")
     return recs
 

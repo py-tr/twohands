@@ -71,7 +71,9 @@ def main(argv=None) -> int:
         print(__doc__)
         return 2
     mod = argv[1]
-    if mod == "twohands.run" and active():
+    rest = argv[2:]
+    other_form = "--schema" in rest and rest.index("--schema") + 1 < len(rest)         and rest[rest.index("--schema") + 1] != "mx_presidencia_2024"
+    if mod == "twohands.run" and active() and not other_form:  # another form type writes its own results dir
         print("refusing: twohands.run writes the 300-run files (results/calls_<model>.jsonl); "
               "use scripts/confirm_read.py, scripts/consistency_43.py or bench/bench_mi300x.py")
         return 3

@@ -29,13 +29,19 @@ SYS = ("You are a meticulous election-records transcriber. You copy exactly what
        "transcribe the inconsistency.")
 
 
+# How the prompt names the form. A schema may set ``prompt_form``; the presidential acta's wording is the default, so
+# the pre-registered prompt (sha256 3664253035b9...) is unchanged byte for byte.
+PRES_FORM = "'Acta de Escrutinio y Computo de Casilla de la eleccion de Presidencia' (federal form, type 2)"
+
+
 def build_prompt(s: dict) -> str:
     tiles = s["layout"]["tiles"]
     imgs = " ".join(f"Image {i + 2} zooms {t['says']}." for i, t in enumerate(tiles))
     head = [f for f in s["fields"] if not f.get("vote") and f["key"] != "TOTAL"]
     nrows = len(s["fields"]) - len(head)
     sec = "\n".join(f"  {i + 1}. {f['where']}" for i, f in enumerate(head))
-    return f"""This is a Mexican INE 2024 'Acta de Escrutinio y Computo de Casilla de la eleccion de Presidencia' (federal form, type 2).
+    form = s.get("prompt_form", PRES_FORM)
+    return f"""This is a Mexican INE 2024 {form}.
 Image 1 is the whole form; its right-hand column is blacked out for privacy (ignore it). {imgs} Tiles overlap; use image 1 to keep every row aligned.
 Every quantity is written twice: in words ('Con letra') and in digit boxes ('Con numero'). Transcribe BOTH, independently.
 Return ONLY a JSON object {{"values": [...]}} with exactly {len(head) + nrows} items, in this order:

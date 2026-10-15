@@ -19,3 +19,5 @@ out/
 app/state/audits/
 # whole-state staging for the MI300X stretch goal (scripts/stage_state.py): large, not committed yet
 data/masked/state*/
+# Senate masked pages (PROTOCOL_SENADO): ~41 MB, kept local, not committed
+data/masked/senado/

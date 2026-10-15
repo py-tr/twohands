@@ -1,0 +1,99 @@
+# Form schema: INE Mexico 2024 "Acta de Escrutinio y Computo de Casilla de la eleccion de Senadurias" (type 3).
+# The third measured form type (PROTOCOL_SENADO.md). Same printed geometry as the presidential acta (type 2): the
+# same four corner markers, sections 2-5 in the left column, section 6 with the same 18 rows in the same order,
+# section 7 below it, names and signatures in the right column. Differences: the big "3", the title, the grey
+# header band, the DESTINO footer, and the per-state row variants (source.exclude_states below). Rectification assets are rebuilt from 20 Senate pilot pages
+# (scripts/build_senado_reference.py, the way scripts/build_template.py and Amendment 1 built the presidential ones).
+# All coordinates are fractions of the canonical (rectified) page: [x0, y0, x1, y1].
+form: mx_senado_2024
+title: "INE 2024 Acta de Escrutinio y Computo de Casilla, Senadurias"
+# how the frozen prompt names the form (twohands/reader.py; the only prompt difference from the presidential one)
+prompt_form: "'Acta de Escrutinio y Computo de Casilla de la eleccion de Senadurias' (federal form, type 3)"
+
+# Data sources (paths relative to the repo; data/raw is gitignored)
+source:
+  prep_csv: data/raw/third/zip/SEN_2024.csv      # inner SEN zip of 20240603_2005_PREP.zip (same 20:05 cut)
+  tipo_acta: "3"
+  special_rule: true                              # special stations (TIPO_CASILLA S) carry MR + RP actas: excluded
+  # LAYOUT VARIANTS. The Senate acta is printed per state with only the coalitions registered there; the rows of
+  # section 6 are then fewer and taller (same table frame). This schema is the 18-row layout (both coalitions), used
+  # in 19 states. Excluded (their PREP columns for the missing coalition are empty on every acta; checked by
+  # scripts/senado_draw.py against the CSV): no Coalicion 2 rows: 2, 7, 12, 13, 22, 24, 25, 26, 27, 28, 29;
+  # no Coalicion 1 rows: 11; no coalition rows: 20.
+  exclude_states: [2, 7, 11, 12, 13, 20, 22, 24, 25, 26, 27, 28, 29]
+  district_url: "https://prep2024.ine.mx/publicacion/nacional/assets/senadurias/entidad/{ent}_{dist}.json"
+  district_cache: data/raw/third/districts/sen
+  computos_csv: null                              # the certified Senate count is not used (PROTOCOL_SENADO 6)
+  results_dir: results/senado
+  masked_dir: data/masked/senado
+  protocol: PROTOCOL_SENADO.md
+
+layout:
+  canonical:
+    size: [2400, 1552]
+    markers: [[0.021, 0.040], [0.964, 0.040], [0.964, 0.954], [0.021, 0.954]]
+    marker_size: 0.0242
+  template: mx_senado_2024.template.npy       # 96x62 orientation template (mean of the Senate pilot pages, mask zeroed)
+  landmarks: mx_senado_2024.landmarks.npy     # 1200x776 landmark reference (mean aligned Senate pilot page, mask zeroed)
+  reference: mx_senado_2024.reference.npy     # 600x388 fine-alignment reference (mean page, mask zeroed)
+  feature_ref: mx_senado_2024.feature_ref.jpg # one masked Senate pilot scan, 1200x776, for SIFT registration
+  # PRIVACY MASK: sections 10-14 (incidents; funcionarios/as de mesa directiva: names + signatures;
+  # representaciones partidistas: names + signatures), i.e. the whole right column. Same as the presidential acta.
+  mask:
+    movil:   [[0.657, 0.0, 1.0, 1.0]]
+    escaner: [[0.657, 0.0, 1.0, 1.0]]
+  field_regions:
+    left_column_sec2_5: [0.0, 0.50, 0.335, 0.95]
+    section6_rows:      [0.335, 0.085, 0.650, 0.715]
+    section7_sacados:   [0.335, 0.72, 0.650, 0.80]
+  tiles:
+    - {name: left_column, box: [0.0, 0.47, 0.37, 1.0], says: "the left column (sections 2-5)"}
+    - {name: party_rows, box: [0.29, 0.08, 0.657, 0.40], says: "the 7 single-party rows (PAN..MORENA)"}
+    - {name: coalition_rows, box: [0.29, 0.33, 0.657, 0.66], says: "the 8 coalition rows (Coalicion 1: 4 rows, Coalicion 2: 4 rows)"}
+    - {name: bottom_rows_sec7, box: [0.29, 0.58, 0.657, 0.90], says: "NO REGISTRADAS, NULOS, TOTAL and section 7"}
+    - {name: party_logos, box: [0.335, 0.11, 0.392, 0.355], says: "the logo cells of the 7 single-party rows, enlarged (for the labels)"}
+    - {name: coalition_logos, box: [0.335, 0.345, 0.392, 0.615], says: "the logo cells of the 8 coalition rows, enlarged (for the labels)"}
+
+# Ordered as the reader returns them (printed order). Keys and csv columns are INE's (machine files); `public` is what
+# every page and human-readable file shows: vote rows as neutral "Option NN" codes, the other lines by a plain name.
+# Keys, labels and identities are identical to the presidential schema (pinned by tests/test_senado.py), so the frozen
+# gate and the app's evaluation apply unchanged.
+fields:
+  - {key: SOBRANTES,      csv: TOTAL_BOLETAS_SOBRANTES,      public: {code: SOBRANTES, name: "Unused ballots"},                  where: "section 2 Boletas sobrantes",                       label: {keywords: [SOBRANTE]}}
+  - {key: VOTARON,        csv: TOTAL_PERSONAS_VOTARON,       public: {code: VOTARON, name: "Voters on the list"},                where: "section 3 Personas de la lista nominal que votaron", label: {keywords: [LISTA], none: [REPRESENTA]}}
+  - {key: REPRESENTANTES, csv: TOTAL_REP_PARTIDO_CI_VOTARON, public: {code: REPRESENTANTES, name: "Representatives who voted"},  where: "section 4 Representaciones partidistas que votaron", label: {keywords: [REPRESENTA], none: [TOTAL, LISTA]}}
+  - {key: PERSONAS_Y_REP, csv: null,                         public: {code: PERSONAS_Y_REP, name: "Voters + representatives"},   where: "section 5 Total de personas y representantes que votaron", label: {keywords: [TOTAL, PERSONAS]}}
+  - {key: SACADOS,        csv: TOTAL_VOTOS_SACADOS,          public: {code: SACADOS, name: "Ballots taken from the boxes"},      where: "section 7 Total de votos sacados de las urnas",      label: {keywords: [SACAD]}}
+  - {key: PAN,            csv: PAN,            vote: true, public: {code: OPT01, name: "Option 01"}, label: {parties: [PAN]}}
+  - {key: PRI,            csv: PRI,            vote: true, public: {code: OPT02, name: "Option 02"}, label: {parties: [PRI]}}
+  - {key: PRD,            csv: PRD,            vote: true, public: {code: OPT03, name: "Option 03"}, label: {parties: [PRD]}}
+  - {key: PVEM,           csv: PVEM,           vote: true, public: {code: OPT04, name: "Option 04"}, label: {parties: [PVEM]}}
+  - {key: PT,             csv: PT,             vote: true, public: {code: OPT05, name: "Option 05"}, label: {parties: [PT]}}
+  - {key: MC,             csv: MC,             vote: true, public: {code: OPT06, name: "Option 06"}, label: {parties: [MC]}}
+  - {key: MORENA,         csv: MORENA,         vote: true, public: {code: OPT07, name: "Option 07"}, label: {parties: [MORENA]}}
+  - {key: PAN_PRI_PRD,    csv: PAN-PRI-PRD,    vote: true, public: {code: OPT08, name: "Option 08"}, label: {parties: [PAN, PRI, PRD]}}
+  - {key: PAN_PRI,        csv: PAN-PRI,        vote: true, public: {code: OPT09, name: "Option 09"}, label: {parties: [PAN, PRI]}}
+  - {key: PAN_PRD,        csv: PAN-PRD,        vote: true, public: {code: OPT10, name: "Option 10"}, label: {parties: [PAN, PRD]}}
+  - {key: PRI_PRD,        csv: PRI-PRD,        vote: true, public: {code: OPT11, name: "Option 11"}, label: {parties: [PRI, PRD]}}
+  - {key: PVEM_PT_MORENA, csv: PVEM_PT_MORENA, vote: true, public: {code: OPT12, name: "Option 12"}, label: {parties: [PVEM, PT, MORENA]}}
+  - {key: PVEM_PT,        csv: PVEM_PT,        vote: true, public: {code: OPT13, name: "Option 13"}, label: {parties: [PVEM, PT]}}
+  - {key: PVEM_MORENA,    csv: PVEM_MORENA,    vote: true, public: {code: OPT14, name: "Option 14"}, label: {parties: [PVEM, MORENA]}}
+  - {key: PT_MORENA,      csv: PT_MORENA,      vote: true, public: {code: OPT15, name: "Option 15"}, label: {parties: [PT, MORENA]}}
+  - {key: NO_REGISTRADAS, csv: NO_REGISTRADAS, vote: true, public: {code: NO_REGISTRADAS, name: "Unregistered candidates"}, label: {keywords: [REGISTRAD]}}
+  - {key: NULOS,          csv: NULOS,          vote: true, public: {code: NULOS, name: "Null votes"}, label: {keywords: [NULO]}}
+  - {key: TOTAL,          csv: TOTAL_VOTOS_ASENTADO,         public: {code: TOTAL, name: "TOTAL"}, label: {keywords: [TOTAL], none: [NULO, SACAD, PERSONAS, REGISTRAD]}}
+
+party_aliases:
+  PAN: [PAN, ACCION NACIONAL]
+  PRI: [PRI, REVOLUCIONARIO INSTITUCIONAL]
+  PRD: [PRD, REVOLUCION DEMOCRATICA]
+  PVEM: [PVEM, VERDE]
+  PT: [PT, DEL TRABAJO]
+  MC: [MC, MOVIMIENTO CIUDADANO]
+  MORENA: [MORENA]
+
+identities:
+  - {name: "rows sum to TOTAL", sum: "@vote", equals: [TOTAL]}
+  - {name: "votaron + representantes = section 5", sum: [VOTARON, REPRESENTANTES], equals: [PERSONAS_Y_REP]}
+  - {name: "section 5 = section 7", sum: [PERSONAS_Y_REP], equals: [SACADOS]}
+  - {name: "section 7 = TOTAL", sum: [SACADOS], equals: [TOTAL]}

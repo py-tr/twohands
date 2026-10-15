@@ -223,24 +223,25 @@ def _ecc_refine(gray_full, Hm, ref, cw, ch, min_ecc):
 _FEAT = {}
 
 
-def _feature_reference():
+def _feature_reference(path=None):
     """SIFT keypoints of the masked reference scan (tests/fixtures/masked_escaner.jpg is the same page) at 1200 px,
-    left of the privacy mask only."""
-    if "ref" not in _FEAT:
-        from twohands import REPO
-        p = REPO / "schemas" / "mx_presidencia_2024.feature_ref.jpg"
+    left of the privacy mask only. ``path``: another form type's reference (schema ``layout.feature_ref``)."""
+    from twohands import REPO
+    p = Path(path) if path else REPO / "schemas" / "mx_presidencia_2024.feature_ref.jpg"
+    key = str(p.resolve())
+    if key not in _FEAT:
         g = np.asarray(Image.open(p).convert("L"))
         m = np.zeros_like(g, dtype=np.uint8)
         m[:, : int(0.65 * g.shape[1])] = 255
         sift = cv2.SIFT_create(nfeatures=4000)
         kp, des = sift.detectAndCompute(g, m)
-        _FEAT["ref"] = (g.shape, kp, des, sift)
-    return _FEAT["ref"]
+        _FEAT[key] = (g.shape, kp, des, sift)
+    return _FEAT[key]
 
 
-def _feature_homography(gray_full, cw, ch, work=1600):
+def _feature_homography(gray_full, cw, ch, work=1600, feature_ref=None):
     try:
-        (rh, rw), kp_r, des_r, sift = _feature_reference()
+        (rh, rw), kp_r, des_r, sift = _feature_reference(feature_ref)
     except Exception:  # noqa: BLE001
         return None
     H0, W0 = gray_full.shape
@@ -262,7 +263,7 @@ def _feature_homography(gray_full, cw, ch, work=1600):
 
 
 def rectify_v2(img: Image.Image, layout: dict, template: np.ndarray, ref: np.ndarray, landmark_ref: np.ndarray,
-               work: int = 1600, min_ecc: float = 0.35, max_candidates: int = 12) -> Located:
+               work: int = 1600, min_ecc: float = 0.35, max_candidates: int = 12, feature_ref=None) -> Located:
     from twohands import landmarks as LM
     img = ImageOps.exif_transpose(img).convert("RGB")
     W, H = img.size
@@ -297,7 +298,7 @@ def rectify_v2(img: Image.Image, layout: dict, template: np.ndarray, ref: np.nda
         for score, srcr, Hm in scored[:2]:
             cand.append((score, scored[0][0] - scored[1][0], srcr, Hm, nfound))
     cand.sort(key=lambda c: -c[0])  # most form-like warps first
-    fH = _feature_homography(gray_full, cw, ch)  # markers cut off / bent page: SIFT + RANSAC on printed structure
+    fH = _feature_homography(gray_full, cw, ch, feature_ref=feature_ref)  # markers cut off / bent page: SIFT + RANSAC on printed structure
     if fH is not None:
         cand.insert(min(len(cand), 2), (0.06, 0.0, np.zeros((4, 2), np.float32), fH, -1))
     last = "no candidate frame"

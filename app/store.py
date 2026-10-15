@@ -3,6 +3,9 @@
 Sources (all read-only):
   app/data/spike_runs.json   spike reads (snapshot of spikes/tally-witness/results*/, by app/build.py)
   app/data/official.json     official PREP capture, certified Computos values, adjudicated fields
+  app/data/official_senado.json  PREP's capture of the Senate actas (PROTOCOL_SENADO.md; scripts/senado_draw.py)
+  results/senado/calls_*.jsonl   the Senate run (schemas/mx_senado_2024.yaml: same keys, labels and identities, so
+                                 the presidential schema evaluates it unchanged); run id "senado_calls_<model>"
   results/*.jsonl            core runs (verify runs, the pre-registered 300-form run, ...): picked up automatically
   ledger/ledger.json         rainfall ledgers (snapshot of spikes/ledger-rescue, by ledger/build.py)
   app/state/live/*.json      live reads made from the web app
@@ -296,8 +299,9 @@ class Store:
 
     # ---- sources
     def _sources(self) -> list[Path]:
-        ps = [DATA / "spike_runs.json", DATA / "official.json", LEDGER]
+        ps = [DATA / "spike_runs.json", DATA / "official.json", DATA / "official_senado.json", LEDGER]
         ps += sorted(RESULTS.glob("*.jsonl")) if RESULTS.is_dir() else []
+        ps += sorted((RESULTS / "senado").glob("calls_*.jsonl")) if (RESULTS / "senado").is_dir() else []
         ps += sorted((STATE / "live").glob("*.json")) if (STATE / "live").is_dir() else []
         return ps
 
@@ -322,7 +326,11 @@ class Store:
             for run in _jload(DATA / "spike_runs.json", []):
                 reads = {row["clave"]: read_from_spike(row["clave"], run["id"], row) for row in run["rows"]}
                 self.runs[run["id"]] = {**{k: v for k, v in run.items() if k != "rows"}, "reads": reads}
-            for p in sorted(RESULTS.glob("*.jsonl")) if RESULTS.is_dir() else []:
+            files = [(p, p.stem) for p in (sorted(RESULTS.glob("*.jsonl")) if RESULTS.is_dir() else [])]
+            files += [(p, "senado_" + p.stem) for p in (sorted((RESULTS / "senado").glob("calls_*.jsonl"))
+                                                         if (RESULTS / "senado").is_dir() else [])]
+            senado_off = _jload(DATA / "official_senado.json", {})
+            for p, rid in files:
                 reads = {}
                 model = None
                 for line in p.read_text(encoding="utf-8", errors="replace").splitlines():
@@ -339,16 +347,22 @@ class Store:
                     continue
                 low = p.stem.lower()
                 mname = model or ("Qwen3.8-27B" if "qwen" in low else "Gemma-4-31B-IT")
-                if low.startswith("calls_") and (RESULTS / "manifest.json").is_file():
+                if rid.startswith("senado_"):
+                    kind = "Senate acta, pre-registered random run (PROTOCOL_SENADO.md)"
+                    for k in reads:  # its official values: PREP's capture of the Senate acta, never the presidential one
+                        if k in senado_off:
+                            self.official.setdefault(k, senado_off[k])
+                elif low.startswith("calls_") and (RESULTS / "manifest.json").is_file():
                     kind = "pre-registered random run"
                 elif low.startswith("verify_"):
                     kind = "re-read of masked forms with the frozen prompt" + (", attempt " + low.rsplit("try", 1)[-1]
                                                                                if "try" in low else "")
                 else:
                     kind = "core reader"
-                self.runs[p.stem] = {"id": p.stem, "model": mname, "label": f"{mname}, {kind}",
-                                     "method": "twohands/reader.py (frozen prompt) + twohands/gate.py, masked page + tiles",
-                                     "kind": "core", "source": f"results/{p.name}", "reads": reads}
+                self.runs[rid] = {"id": rid, "model": mname, "label": f"{mname}, {kind}",
+                                  "method": "twohands/reader.py (frozen prompt) + twohands/gate.py, masked page + tiles",
+                                  "kind": "core", "source": ("results/senado/" if rid.startswith("senado_") else "results/") + p.name,
+                                  "reads": reads}
             self.live = {}
             for p in sorted((STATE / "live").glob("*.json")) if (STATE / "live").is_dir() else []:
                 row = _jload(p, None)
@@ -399,6 +413,8 @@ class Store:
             return f"{m} · earlier prompt"
         if rid == "live":
             return "Live read"
+        if rid.startswith("senado_"):
+            return f"{m} · Senate run"
         if rid.startswith("calls_"):
             return f"{m} · pre-registered run"
         if rid.startswith("verify_"):

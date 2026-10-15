@@ -45,14 +45,24 @@ def load_rows(path: Path = PREP_CSV) -> list[dict]:
     return rows
 
 
-def eligible(rows: list[dict], exclude: set[str]) -> tuple[list[dict], collections.Counter]:
-    """PROTOCOL 2.1. Returns (eligible rows, counts of each exclusion reason)."""
+def eligible(rows: list[dict], exclude: set[str], tipo: str = "2", special_rule: bool = False,
+             exclude_reason: str = "spike (pilot) acta", exclude_states=(),
+             states_reason: str = "state excluded") -> tuple[list[dict], collections.Counter]:
+    """PROTOCOL 2.1. Returns (eligible rows, counts of each exclusion reason).
+    ``tipo``: the TIPO_ACTA of the form type ("2" presidency, "3" Senate). ``special_rule`` (PROTOCOL_SENADO 2.1):
+    also exclude special stations (TIPO_CASILLA "S"), whose MR and RP actas share one CLAVE_CASILLA.
+    ``exclude_states``: ID_ENTIDAD values whose acta prints a different layout (PROTOCOL_SENADO 2.1 rule 3)."""
     why = collections.Counter()
-    n_key = collections.Counter(r["CLAVE_CASILLA"] for r in rows if r["TIPO_ACTA"].strip() == "2")
+    n_key = collections.Counter(r["CLAVE_CASILLA"] for r in rows if r["TIPO_ACTA"].strip() == tipo)
     out = []
     for r in rows:
-        if r["TIPO_ACTA"].strip() != "2":
-            why["not a presidential casilla acta (TIPO_ACTA != 2)"] += 1
+        if r["TIPO_ACTA"].strip() != tipo:
+            why["not a presidential casilla acta (TIPO_ACTA != 2)" if tipo == "2"
+                else f"not a casilla acta of this form (TIPO_ACTA != {tipo})"] += 1
+        elif exclude_states and int(r["ID_ENTIDAD"]) in exclude_states:
+            why[states_reason] += 1
+        elif special_rule and r.get("TIPO_CASILLA", "").strip() == "S":
+            why["special station (TIPO_CASILLA S: MR and RP actas share the clave)"] += 1
         elif r["TIPO_DOCUMENTO"].strip() != "Acta PREP":
             why[f"document is not the Acta PREP ({r['TIPO_DOCUMENTO'].strip() or '-'})"] += 1
         elif capture(r["DIGITALIZACION"]) is None:
@@ -60,7 +70,7 @@ def eligible(rows: list[dict], exclude: set[str]) -> tuple[list[dict], collectio
         elif n_key[r["CLAVE_CASILLA"]] > 1:
             why["CLAVE_CASILLA not unique in the CSV"] += 1
         elif r["CLAVE_CASILLA"] in exclude:
-            why["spike (pilot) acta"] += 1
+            why[exclude_reason] += 1
         else:
             out.append(r)
     return out, why
@@ -90,13 +100,15 @@ def clave_of(ent: int, sec: str, key: str) -> str | None:
     return f"{ent:02d}{int(sec):04d}{t}{n:02d}{e:02d}"
 
 
-def district_urls(ent: int, dist: int) -> dict:
-    fn = DIST_DIR / f"{ent}_{dist}.json"
+def district_urls(ent: int, dist: int, url: str = DIST_URL, cache: Path = DIST_DIR) -> dict:
+    """{clave: (image url, capture type)} from the PREP district file. ``url`` / ``cache``: another form type's
+    district index (schema ``source.district_url`` / ``source.district_cache``)."""
+    fn = Path(cache) / f"{ent}_{dist}.json"
     if not fn.exists():
-        DIST_DIR.mkdir(parents=True, exist_ok=True)
+        Path(cache).mkdir(parents=True, exist_ok=True)
         for i in range(4):
             try:
-                req = urllib.request.Request(DIST_URL.format(ent=ent, dist=dist), headers=UA)
+                req = urllib.request.Request(url.format(ent=ent, dist=dist), headers=UA)
                 fn.write_bytes(urllib.request.urlopen(req, timeout=120).read())
                 break
             except Exception:  # noqa: BLE001

@@ -1,6 +1,9 @@
 """Resumable runner for the pre-registered run (PROTOCOL.md).
 
     python -m twohands.run [--models gemma,qwen] [--max-daily-usd 0.80]
+    python -m twohands.run --schema mx_senado_2024 --manifest results/manifest_senado100.json --models gemma
+        (another form type: PROTOCOL_SENADO.md; writes only the schema's source.results_dir, masks into its
+        source.masked_dir; refuses unless that protocol is committed; add --mock --limit 3 for an offline dry run)
 
 1. prepare: download each manifest acta to data/raw/img/ (gitignored), rectify + mask it into
    data/masked/<clave>.jpg, delete the raw file. Outcome per acta in results/prepare.jsonl.
@@ -42,6 +45,7 @@ def log(msg: str) -> None:
     line = f"{now()} {msg}"
     with _loglock:
         print(line, flush=True)
+        Path(LOG).parent.mkdir(parents=True, exist_ok=True)
         with open(LOG, "a", encoding="utf-8") as fh:
             fh.write(line + "\n")
 
@@ -68,9 +72,10 @@ def rel(p: Path) -> str:
 
 
 # ---------------------------------------------------------------- prepare
-def prepare_one(it: dict) -> dict:
+def prepare_one(it: dict, s: dict | None = None, masked_dir: Path | None = None) -> dict:
+    """Download, locate + mask (schema ``s``; default the presidential acta) into ``masked_dir``, delete the raw."""
     k = it["clave"]
-    dst = MASKED / f"{k}.jpg"
+    dst = (masked_dir or MASKED) / f"{k}.jpg"
     if dst.exists():
         return {"clave": k, "status": "ok", "image": rel(dst), "cached": True}
     RAW.mkdir(parents=True, exist_ok=True)
@@ -88,7 +93,7 @@ def prepare_one(it: dict) -> dict:
     if err:
         return {"clave": k, "status": "download_failed", "reason": err}
     try:
-        page, info = mask.prepare(raw, it["layout"])
+        page, info = mask.prepare(raw, it["layout"], s)
         mask.save(page, dst)
         return {"clave": k, "status": "ok", "image": rel(dst), "info": info}
     except register.NotLocated as e:
@@ -106,13 +111,14 @@ def prepare_one(it: dict) -> dict:
             log(f"WARNING raw image could not be deleted: {rel(raw)}")
 
 
-def prepare_all(items: list[dict]) -> dict:
-    path = RESULTS / "prepare.jsonl"
+def prepare_all(items: list[dict], s: dict | None = None, out_dir: Path | None = None,
+                masked_dir: Path | None = None) -> dict:
+    path = (out_dir or RESULTS) / "prepare.jsonl"
     done = {r["clave"]: r for r in jsonl(path) if r.get("status") in ("ok", "not_located", "unreadable")}
     todo = [it for it in items if it["clave"] not in done]
     log(f"prepare: {len(done)} done, {len(todo)} to fetch")
     with ThreadPoolExecutor(int(os.environ.get("TWOHANDS_WORKERS", "2"))) as ex:
-        for r in ex.map(prepare_one, todo):
+        for r in ex.map(lambda it: prepare_one(it, s, masked_dir), todo):
             r["ts"] = now()
             append(path, r)
             if r["status"] != "ok":
@@ -175,8 +181,10 @@ class Budget:
                 time.sleep(wait)
 
 
-def read_model(model_key: str, items: list[dict], prepared: dict, s: dict, budget: Budget) -> None:
-    path = RESULTS / f"calls_{model_key}.jsonl"
+def read_model(model_key: str, items: list[dict], prepared: dict, s: dict, budget: Budget,
+               out_dir: Path | None = None, chat=None) -> None:
+    out_dir = out_dir or RESULTS
+    path = out_dir / f"calls_{model_key}.jsonl"
     for attempt_pass in range(12):  # API errors are retried in later passes (outages on the shared endpoint)
         have = {r["clave"] for r in jsonl(path) if not r.get("error")}
         todo = [it for it in items if it["clave"] not in have and it["clave"] in prepared]
@@ -192,7 +200,8 @@ def read_model(model_key: str, items: list[dict], prepared: dict, s: dict, budge
                 rec = record(it, prep, model_key, s, None)
             else:
                 budget.check()
-                row = reader.read(model_key, REPO / prep["image"], s)
+                _CUR.clave = it["clave"]
+                row = reader.read(model_key, REPO / prep["image"], s, chat=chat)
                 rec = record(it, prep, model_key, s, row)
             append(path, rec)
             counter["n"] += 1
@@ -201,20 +210,20 @@ def read_model(model_key: str, items: list[dict], prepared: dict, s: dict, budge
             log(f"{model_key} {it['clave']} {'ACCEPT' if rec['accepted'] else 'route'} "
                 f"{rec.get('finish_reason')} {rec.get('latency_s')}s err={bool(rec.get('error'))} "
                 f"[{counter['n']}/{len(todo)}, eta {eta:.1f} h] {'; '.join(rec['route_reasons'][:2])[:140]}")
-            status(model_key, path, len(items), budget)
-            if rec.get("error"):
+            status(model_key, path, len(items), budget, out_dir)
+            if rec.get("error") and chat is None:
                 time.sleep(300)  # endpoint outage / 5xx storm: back off this worker for 5 min
 
         with ThreadPoolExecutor(int(os.environ.get("TWOHANDS_WORKERS", "2"))) as ex:
             list(ex.map(work, todo))
 
 
-def status(model_key: str, path: Path, n: int, budget: Budget) -> None:
+def status(model_key: str, path: Path, n: int, budget: Budget, out_dir: Path | None = None) -> None:
     rows = [r for r in jsonl(path) if not r.get("error")]
     st = {"ts": now(), "model": model_key, "done": len(rows), "n": n,
           "accepted": sum(r["accepted"] for r in rows), "daily_cost_used_usd": budget.used,
           "cost_usd_this_model": round(sum((r.get("cost_usd") or 0) for r in rows), 6)}
-    (RESULTS / "run_status.json").write_text(json.dumps(st, indent=1), encoding="utf-8")
+    ((out_dir or RESULTS) / "run_status.json").write_text(json.dumps(st, indent=1), encoding="utf-8")
 
 
 def amendment2_committed() -> bool:
@@ -228,32 +237,107 @@ def amendment2_committed() -> bool:
     return b"Amendment 2" in head and not dirty
 
 
+def committed_clean(relpath: str) -> bool:
+    """True only if ``relpath`` is committed at HEAD and the working copy of it is unchanged."""
+    import subprocess
+    try:
+        subprocess.run(["git", "-C", str(REPO), "show", f"HEAD:{relpath}"], capture_output=True, check=True)
+        dirty = subprocess.run(["git", "-C", str(REPO), "diff", "--quiet", "HEAD", "--", relpath]).returncode != 0
+    except Exception:  # noqa: BLE001
+        return False
+    return not dirty
+
+
+_CUR = threading.local()  # the form being read (the dry-run mock answers per form)
+
+
+def mock_chat(s: dict, official: dict):
+    """Offline stand-in for ``amd.chat`` (dry runs only): replies with the official PREP values of the form being read,
+    words = digits, the labels the schema expects, section 5 = votaron + representantes. No network, key or cost."""
+    def chat(body):
+        vals = (official.get(getattr(_CUR, "clave", None)) or {}).get("prep") or {}
+        items = []
+        for f in s["fields"]:
+            n = vals.get(f["key"])
+            if f["key"] == "PERSONAS_Y_REP" and None not in (vals.get("VOTARON"), vals.get("REPRESENTANTES")):
+                n = vals["VOTARON"] + vals["REPRESENTANTES"]
+            lab = f["label"]
+            label = "+".join(lab["parties"]) if "parties" in lab else (f.get("where") or " ".join(lab["keywords"]))
+            items.append({"label": label.split(" ", 2)[-1] if label.startswith("section ") else label, "n": n, "w": n})
+        return {"choices": [{"message": {"content": json.dumps({"values": items})}, "finish_reason": "stop"}],
+                "usage": {"prompt_tokens": 0, "completion_tokens": 0, "cost": 0.0}}, 1
+    return chat
+
+
 def main(argv=None) -> int:
+    global LOG
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default="gemma,qwen")
     ap.add_argument("--max-daily-usd", type=float, default=0.80)
     ap.add_argument("--prepare-only", action="store_true")
+    ap.add_argument("--schema", default=schema.DEFAULT, help="form type (schemas/<name>.yaml)")
+    ap.add_argument("--manifest", default=None, help="default: results/manifest.json (the pre-registered 300)")
+    ap.add_argument("--out", default=None, help="results dir; default: the schema's source.results_dir "
+                                                 "(out/dryrun_<form>/ with --mock)")
+    ap.add_argument("--limit", type=int, default=None, help="first N manifest items only (dry runs)")
+    ap.add_argument("--mock", action="store_true",
+                    help="dry run: an offline fake client that echoes the official values (no network, no model)")
     a = ap.parse_args(argv)
-    RESULTS.mkdir(exist_ok=True)
-    man = json.loads((RESULTS / "manifest.json").read_text(encoding="utf-8"))
-    items = man["items"]
-    s = schema.load()
-    log(f"run start: {len(items)} actas, models {a.models}, prompt {reader.prompt_sha256(s)[:12]}, pid {os.getpid()}")
-    prepared = prepare_all(items)
+    s = schema.load(a.schema)
+    src = schema.source(s)
+    default_form = s["form"] == schema.DEFAULT
+    if a.out:
+        out_dir = Path(a.out)
+    else:
+        out_dir = REPO / "out" / f"dryrun_{s['form']}" if a.mock else REPO / src["results_dir"]
+    out_dir = out_dir if out_dir.is_absolute() else REPO / out_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
+    masked_dir = REPO / src["masked_dir"]
+    if out_dir.resolve() != RESULTS.resolve():
+        LOG = out_dir / "run.log"
+    man_path = Path(a.manifest) if a.manifest else RESULTS / "manifest.json"
+    man_path = man_path if man_path.is_absolute() else REPO / man_path
+    man = json.loads(man_path.read_text(encoding="utf-8"))
+    if man.get("schema", schema.DEFAULT) != s["form"]:
+        log(f"REFUSING: the manifest is for {man.get('schema', schema.DEFAULT)}, not {s['form']}")
+        return 3
+    items = man["items"][: a.limit] if a.limit else man["items"]
+    log(f"run start: {len(items)} actas, schema {s['form']}, models {a.models}, prompt {reader.prompt_sha256(s)[:12]}, "
+        f"out {rel(out_dir)}, pid {os.getpid()}{' (MOCK client, no model)' if a.mock else ''}")
+    prepared = prepare_all(items, s, out_dir, masked_dir)
     # download failures are retried once more, then recorded as routed (never replaced)
     if any(it["clave"] not in prepared for it in items):
-        prepared = prepare_all(items)
-        for r in jsonl(RESULTS / "prepare.jsonl"):
+        prepared = prepare_all(items, s, out_dir, masked_dir)
+        for r in jsonl(out_dir / "prepare.jsonl"):
             prepared.setdefault(r["clave"], r)
     if a.prepare_only:
         return 0
+    chat = None
     budget = Budget(a.max_daily_usd)
-    budget.check(force=True)
+    if a.mock:
+        off = {}
+        for p in sorted((REPO / "app" / "data").glob("official*.json")):
+            try:
+                off.update(json.loads(p.read_text(encoding="utf-8")))
+            except ValueError:
+                pass
+        chat = mock_chat(s, off)
+        budget.check = lambda force=False: None  # no /usage call in a dry run
+    else:
+        budget.check(force=True)
     for m in a.models.split(","):
-        if m.strip() == "qwen" and not amendment2_committed():
+        m = m.strip()
+        if not default_form:
+            if m != "gemma":
+                log(f"REFUSING the {m} pass: {src['protocol']} pre-registers Gemma only")
+                return 3
+            if not a.mock and not committed_clean(src["protocol"]):
+                log(f"REFUSING: {src['protocol']} is not committed (or has uncommitted changes)")
+                return 3
+        elif m == "qwen" and not amendment2_committed():
             log("REFUSING the qwen pass: PROTOCOL.md 'Amendment 2' is not committed")
             return 3
-        read_model(m.strip(), items, prepared, s, budget)
+        read_model(m, items, prepared, s, budget, out_dir, chat=chat)
     log("run complete")
     return 0
 

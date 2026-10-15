@@ -41,7 +41,8 @@ def prepare(raw: Image.Image | str | Path, layout_kind: str = "movil", s: dict |
             im.load()
             img = im.copy()
     if LOCATOR == "amendment1":
-        loc = register.rectify_v2(img, s["layout"], schema.template(s), schema.reference(s), schema.landmark_ref(s))
+        loc = register.rectify_v2(img, s["layout"], schema.template(s), schema.reference(s), schema.landmark_ref(s),
+                                  feature_ref=schema.feature_ref_path(s))
     else:  # the locator as pre-registered in commit a93294c (kept for the "original locator" comparison)
         loc = register.rectify(img, s["layout"], schema.template(s), ref=schema.reference(s))
     page = apply_mask(loc.image, schema.mask_rects(s, layout_kind))
