@@ -2005,6 +2005,45 @@
    "recount": false
   },
   {
+   "clave": "151606C0100",
+   "field": "REPRESENTANTES",
+   "model": null,
+   "prep": "3",
+   "paper": 3,
+   "computos": null,
+   "computos_col": null,
+   "obs": "Cotejo (Levantada en Casilla)",
+   "covered": false,
+   "agrees": false,
+   "recount": false
+  },
+  {
+   "clave": "151606C0100",
+   "field": "SOBRANTES",
+   "model": null,
+   "prep": "244",
+   "paper": 244,
+   "computos": null,
+   "computos_col": null,
+   "obs": "Cotejo (Levantada en Casilla)",
+   "covered": false,
+   "agrees": false,
+   "recount": false
+  },
+  {
+   "clave": "151606C0100",
+   "field": "VOTARON",
+   "model": null,
+   "prep": "402",
+   "paper": 402,
+   "computos": null,
+   "computos_col": null,
+   "obs": "Cotejo (Levantada en Casilla)",
+   "covered": false,
+   "agrees": false,
+   "recount": false
+  },
+  {
    "clave": "153572B0100",
    "field": "SACADOS",
    "model": 341,

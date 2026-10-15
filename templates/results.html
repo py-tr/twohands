@@ -1,78 +1,72 @@
 {% extends "base.html" %}
+{% from "_icons.html" import source %}
 {% block title %}Results · Two Hands{% endblock %}
 {% block content %}
-{% set h = n.headline_run %}
-{% set g = runs|selectattr('id', 'equalto', 'spike-gemma-v2')|first %}
 {% set si = meta.single_image %}
+{% set v = H.verdicts %}
 <section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Evaluation</div>
   <h1>What we measured, and where it breaks</h1>
-  <p class="lede">Every figure on this page is computed when the page loads from the results files listed in each row. New runs dropped into <span class="mono">results/*.jsonl</span> appear here without code changes.</p>
+  <p class="lede">The headline is the pre-registered random sample of {{ H.forms }} forms: sample, prompt, gate and metrics were committed before any model read. Every figure for it comes from one computed summary, the same one the Overview, Inbox and Audit pages read.</p>
 </section>
 
 <section style="margin-top:36px">
   <div class="grid2">
     <div class="card callout ok" style="border-left-width:4px">
       <div class="eyebrow" style="color:var(--ok)">Business result</div>
-      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">{{ h.accepted }} of {{ h.forms }} forms ({{ '%.0f'|format(100 * h.accept_rate) }}%) needed no keying at all, and {{ h.acc_wrong_adj }} of their {{ h.acc_fields|int }} fields were wrong; the official double-keyed capture had {{ n.on_acc|length }} keying errors on those same forms.</p>
-      <p class="small muted">{{ h.label }}. Graded against the official capture, with every disagreement on an accepted form checked by eye. Cost {{ (h.cost_per_form or 0)|usd(6) }} per form, so {{ n.business.national_g }} to audit all {{ cited.national_forms.text }} national forms.</p>
+      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">On {{ H.read }} random forms already keyed twice, the model sent {{ H.disagree }} of {{ H.fields|int }} fields ({{ H.flag_pct }}%) to a person, and {{ H.keying_errors }} of those were confirmed keying errors in the official capture, each with its photo.</p>
+      <p class="small muted">{{ L.honest }} Cost {{ n.business.cpf_g|usd(6) }} per form on AMD, so {{ n.business.per_1000_g }} per 1,000 forms.</p>
     </div>
     <div class="card callout warn" style="border-left-width:4px">
       <div class="eyebrow" style="color:var(--warn)">Known limitation</div>
-      {% if h.kind == 'spike' %}
-      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">The headline sample is small and was chosen to be difficult.</p>
-      <p class="small muted">{{ h.forms }} forms from 10 districts, deliberately enriched with troubled forms (so the touchless rate is a lower bound), one run, crop positions tuned by hand. Only disagreements on accepted forms were eye-checked. The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD Instinct endpoint. A pre-registered random run of 300 forms is in progress; it replaces these figures when it lands.</p>
-      {% else %}
-      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One run, one reader, crop positions tuned by hand.</p>
-      <p class="small muted">{{ h.forms }} forms ({{ h.source }}). Disagreements with the official capture on accepted forms ({{ h.acc_wrong_raw }}) are counted as errors until someone checks them by eye{% if h.acc_wrong_raw != h.acc_wrong_adj %}; {{ h.acc_wrong_raw - h.acc_wrong_adj }} have been checked and were capture errors{% endif %}. The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD Instinct endpoint.</p>
-      {% endif %}
+      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One reader, one adjudicator, and recall only bounded.</p>
+      <p class="small muted">Every disagreement was settled by one reviewer (an AI agent) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted: {{ L.recall|lower }} The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><div><h2>Every run</h2><p>Highlighted: the run behind the headline numbers ({{ headline_id }}). Once a core run of 100 or more graded forms exists, it takes over.</p></div></div>
+  <div class="sec-head"><div><h2>Pre-registered random run: {{ H.forms }} forms</h2><p>Gemma-4-31B-IT on AMD, frozen prompt and gate. Graded against the official two-person capture (PREP) on the {{ H.graded_per_form }} fields it keys; every disagreement settled on the photo.</p></div></div>
   <div class="card" style="padding:6px 8px">
     <div class="tablewrap">
     <table class="rtable">
-      <thead><tr><th>Reader</th><th>Forms</th><th>Accepted</th><th>Accepted fields wrong<br>(vs capture → after eye check)</th><th>All fields right</th><th>Routed, read perfectly</th><th>USD / form</th><th>Mean s</th></tr></thead>
       <tbody>
-      {% for r in runs %}
-        <tr class="{{ 'hl' if r.id == headline_id }}">
-          <td><b>{{ r.label }}</b><div class="tiny mono" style="word-break:break-all">{{ r.source }}</div></td>
-          <td>{{ r.forms }}{% if r.not_located %}<div class="tiny">{{ r.not_located }} not located</div>{% endif %}</td>
-          <td>{{ r.accepted }} ({{ '%.0f'|format(100 * (r.accept_rate or 0)) }}%)</td>
-          <td>{% if r.acc_fields %}{{ r.acc_wrong_raw }} → <b>{{ r.acc_wrong_adj }}</b> of {{ r.acc_fields|int }}{% elif r.graded_forms %}no accepted forms{% else %}not graded{% endif %}</td>
-          <td>{% if r.all_fields %}{{ '%.1f'|format(100 * (r.all_fields - r.all_wrong_adj) / r.all_fields) }}%{% else %}—{% endif %}</td>
-          <td>{{ r.paper_rejects if r.graded_forms else '—' }}</td>
-          <td class="mono">{{ r.cost_per_form|usd(6) if r.cost_per_form else '—' }}</td>
-          <td>{{ '%.0f'|format(r.mean_secs) if r.mean_secs else '—' }}</td>
-        </tr>
-      {% endfor %}
-        <tr>
-          <td><b>{{ meta.model }}, rainfall ledgers, {{ meta.reader.split(' (')[0] }}</b><div class="tiny mono">ledger/ledger.json (from spikes/ledger-rescue)</div></td>
-          <td>{{ lm.sheets }} sheets<div class="tiny">{{ lm.cols }} year-columns</div></td>
-          <td>{{ lm.acc_cols }} cols ({{ '%.1f'|format(100 * lm.acc_cols / lm.cols) }}%)</td>
-          <td>{{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} cells</td>
-          <td>{{ '%.1f'|format(100 * lm.all_ok / lm.cells) }}%</td>
-          <td>—</td>
-          <td class="mono">{{ lm.usd_per_sheet|usd(6) }}</td>
-          <td>—</td>
-          <td class="tiny mono">ledger/ledger.json (spikes/ledger-rescue)</td>
-        </tr>
+        <tr class="hl"><td><b>Forms</b></td><td>{{ H.forms }} drawn; {{ H.read }} located and read; {{ H.unread }} routed to a person before any model call</td></tr>
+        <tr><td><b>Fields compared</b></td><td>{{ H.fields|int }}; the model agrees with the capture on {{ H.agree|int }} ({{ H.agree_pct }}%), disputes {{ H.disagree }} ({{ H.flag_pct }}%) on {{ H.disagree_forms }} forms</td></tr>
+        <tr><td><b>The {{ H.disagree }} disputes, settled on the photo</b></td><td>capture mis-keyed {{ v.model_right }} · model misread {{ v.capture_right }} · both off {{ v.neither }} · paper ambiguous {{ v.paper_ambiguous }} · unreadable {{ v.unreadable }}{% if v.crop_wrong %} · crop to redo {{ v.crop_wrong }}{% endif %}</td></tr>
+        <tr><td><b>The model alone</b></td><td>wrong on {{ H.model_wrong }} of {{ H.fields|int }} fields, about 1 in {{ H.model_one_in }}</td></tr>
+        <tr><td><b>Accepted by the gate, no person (touchless)</b></td><td>{{ H.accepted }} of {{ H.forms }} forms ({{ H.accepted_pct }}%; {{ H.accepted_movil }} phone photos, {{ H.accepted_escaner }} scans); {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong, about 1 in {{ H.acc_one_in }} (Wilson 95% {{ '%.2f'|format(100 * H.acc_wrong_ci[0]) }}% to {{ '%.2f'|format(100 * H.acc_wrong_ci[1]) }}%)</td></tr>
+        <tr><td><b>Keying errors found</b></td><td>{{ H.keying_errors }} on {{ H.keying_forms }} forms; the certified count covers {{ H.cert_covered }} and confirms the image on {{ H.cert_agree }}; all {{ H.cert_differ }} differences were recounts</td></tr>
+        <tr><td><b>Yield</b></td><td>1 in {{ H.yield_one_in }} disputed fields is a keying error, against about 1 in {{ H.random_one_in }} at random: up to {{ H.yield_x_int }}x</td></tr>
+        <tr><td><b>Recall bound</b></td><td>{{ L.recall }} ({{ H.recall.C }}/{{ H.recall.E }}, Wilson 95% {{ '%.0f'|format(100 * H.recall.ci[0]) }}% to {{ '%.0f'|format(100 * H.recall.ci[1]) }}%; a bound, not a measurement, since council corrections can move certified values)</td></tr>
+        <tr><td><b>Second reader (Qwen3.8-27B)</b></td><td>{{ L.qwen }}</td></tr>
       </tbody>
     </table>
     </div>
   </div>
-  <p class="tiny" style="margin-top:10px">"Routed, read perfectly": forms the gate sent to a person although every field was read right, i.e. the paper itself is inconsistent (rows that do not add up, words that disagree with digits). Those are correct routings, not reader errors. Spike runs predate the row-label check; core runs include it.</p>
+  <p class="tiny" style="margin-top:10px">{{ source("results/calls_gemma.jsonl (last read per form), results/adjudication/SUMMARY.md, CERTIFIED.md, RECALL.md, verdicts.json; summarised in app/data/headline.json by scripts/build_headline.py") }} Sources: results/calls_gemma.jsonl and results/adjudication/. A post-hoc gate variant designed after seeing these reads is reported separately in results/posthoc_v2_300.md and is not a test of anything.</p>
+</section>
+
+<section>
+  <div class="sec-head"><div><h2>Limitations we measured</h2></div></div>
+  <div class="grid2">
+    <div class="card callout warn" style="border-left-width:4px">
+      <h3>The row-label check costs looks</h3>
+      <p class="small" style="margin-top:8px">{{ L.label_cost }} Each false alarm costs a person one look at a form that was read right; the check exists because a shifted row would otherwise keep the arithmetic true.</p>
+    </div>
+    <div class="card callout warn" style="border-left-width:4px">
+      <h3>One read is not two independent reads</h3>
+      <p class="small" style="margin-top:8px">{{ L.harmonised }} Here the field (unused ballots) sits in no identity, so the gate accepted the form; it is one of the {{ H.acc_model_wrong }} wrong fields on accepted forms.</p>
+    </div>
+  </div>
 </section>
 
 <section>
   <div class="sec-head"><div><h2>One failure, shown honestly</h2><p>The arithmetic gate has a blind spot: an error that keeps the arithmetic true.</p></div></div>
   <div class="card callout bad" style="border-left-width:4px">
     <h3>Silent column shift on a rainfall ledger</h3>
-    <p class="small" style="margin-top:8px">Read as one image, {{ meta.model }} put Balcombe Gables' 1887 values under 1886, and so on along the row. Every shifted column still sums to its total, so the checksum accepted wrong cells: on that reader, {{ si.acc_col_cells - si.acc_col_exact }} of {{ si.acc_col_cells }} accepted cells were wrong ({{ si.cells|int }} cells read, {{ si.cell_acc }}% right overall). Zoomed tiles removed it ({{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} accepted cells wrong), but tiling is a mitigation, not a proof.</p>
-    <p class="small"><b>What we built because of it:</b> on the tally sheet the reader must report the printed label it sees on every row, and the gate rejects a row whose label is not the one expected at that position, so a shifted or doubled row cannot pass.{% if label_fp %} That check has its own cost: {{ label_fp|length }} form{{ 's' if label_fp|length > 1 }} in the newer runs {{ 'were' if label_fp|length > 1 else 'was' }} routed for row labels although every value was right ({% for x in label_fp %}<a class="mono" href="/form/{{ x.clave }}?run={{ x.run }}">{{ x.clave }}</a>{{ ', ' if not loop.last }}{% endfor %}): a false alarm that costs a person one look.{% endif %}</p>
+    <p class="small" style="margin-top:8px">Read as one image, {{ meta.model }} put Balcombe Gables' 1887 values under 1886, and so on along the row. Every shifted column still sums to its total, so the checksum accepted wrong cells: on that reader, {{ si.acc_col_cells - si.acc_col_exact }} of {{ si.acc_col_cells }} accepted cells were wrong ({{ si.cells|int }} cells read, {{ si.cell_acc }}% right overall). Zoomed tiles removed it ({{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} accepted cells wrong; spike, 40 sheets), but tiling is a mitigation, not a proof.</p>
+    <p class="small"><b>What we built because of it:</b> on the tally sheet the reader must report the printed label it sees on every row, and the gate rejects a row whose label is not the one expected at that position, so a shifted or doubled row cannot pass. Its cost is measured above.</p>
     <p class="tiny" style="margin:0">Sources: {{ si.source }}; spikes/ledger-rescue/README.md §4.</p>
   </div>
 </section>
@@ -88,6 +82,63 @@
       <p>Privacy is applied before anything else: the page is located by its corner marks and the column with officials' names and signatures is blacked out before the image is stored, sent to the model, or shown here. A page that cannot be located is not stored or sent at all; it goes to a person.</p>
       <p class="small muted" style="margin:0">Framing: these are clerical capture checks on a settled 2024 count; the certified count is shown wherever it covers a field, and no party is compared with another and nothing is totalled across forms.</p>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div><h2>Pilot (43 hand-picked forms)</h2><p>Before the pre-registered run: 43 forms chosen to be difficult, from 10 districts. Not random, so these rates do not generalise; they are here for the record.</p></div></div>
+  <div class="card" style="padding:6px 8px">
+    <div class="tablewrap">
+    <table class="rtable">
+      <thead><tr><th>Reader</th><th>Forms</th><th>Accepted</th><th>Accepted fields wrong<br>(vs capture → after eye check)</th><th>All fields right</th><th>Routed, read perfectly</th><th>USD / form</th><th>Mean s</th></tr></thead>
+      <tbody>
+      {% for r in pilot %}
+        <tr>
+          <td><b>{{ r.label }}</b><div class="tiny mono" style="word-break:break-all">{{ r.source }}</div></td>
+          <td>{{ r.forms }}</td>
+          <td>{{ r.accepted }} ({{ '%.0f'|format(100 * (r.accept_rate or 0)) }}%)</td>
+          <td>{% if r.acc_fields %}{{ r.acc_wrong_raw }} → <b>{{ r.acc_wrong_adj }}</b> of {{ r.acc_fields|int }}{% else %}no accepted forms{% endif %}</td>
+          <td>{% if r.all_fields %}{{ '%.1f'|format(100 * (r.all_fields - r.all_wrong_adj) / r.all_fields) }}%{% else %}—{% endif %}</td>
+          <td>{{ r.paper_rejects if r.graded_forms else '—' }}</td>
+          <td class="mono">{{ r.cost_per_form|usd(6) if r.cost_per_form else '—' }}</td>
+          <td>{{ '%.0f'|format(r.mean_secs) if r.mean_secs else '—' }}</td>
+        </tr>
+      {% endfor %}
+        <tr>
+          <td><b>{{ meta.model }}, rainfall ledgers, {{ meta.reader.split(' (')[0] }}</b><div class="tiny mono">ledger/ledger.json (spike, 40 sheets)</div></td>
+          <td>{{ lm.sheets }} sheets<div class="tiny">{{ lm.cols }} year-columns</div></td>
+          <td>{{ lm.acc_cols }} cols ({{ '%.1f'|format(100 * lm.acc_cols / lm.cols) }}%)</td>
+          <td>{{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} cells (spike, 40 sheets)</td>
+          <td>{{ '%.1f'|format(100 * lm.all_ok / lm.cells) }}%</td>
+          <td>—</td>
+          <td class="mono">{{ lm.usd_per_sheet|usd(6) }}</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <p class="tiny" style="margin-top:10px">"Routed, read perfectly": the gate sent the form to a person although every field was read right, because the paper itself is inconsistent. Pilot runs predate the row-label check.</p>
+</section>
+
+<section>
+  <div class="sec-head"><div><h2>Appendix: re-reads and endpoint outages</h2><p>Not part of any headline.</p></div></div>
+  <div class="card">
+    <p class="small" style="margin-top:0">During the pre-registered run, {{ H.rereads.forms }} of the {{ H.forms }} forms had a first call fail during endpoint outages (HTTP 503) and were re-read later with the same frozen prompt; the last read of each form counts ({{ H.rereads.rows }} rows in results/calls_gemma.jsonl).</p>
+    {% if appendix %}
+    <div class="tablewrap">
+    <table class="rtable">
+      <thead><tr><th>Re-read of masked pilot forms</th><th>Forms</th><th>Fields differing from the capture</th><th>Mean s</th></tr></thead>
+      <tbody>
+      {% for r in appendix %}
+        <tr><td><b>{{ r.label|plain }}</b><div class="tiny mono" style="word-break:break-all">{{ r.source }}</div></td><td>{{ r.forms }}</td><td>{{ r.all_wrong_raw }} of {{ r.all_fields|int }}</td><td>{{ '%.0f'|format(r.mean_secs) if r.mean_secs else '—' }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="tiny">The attempt made during an outage returned no usable read for any field, which is why it shows every field as differing.</p>
+    {% endif %}
+    {% if live %}<p class="small" style="margin-bottom:0">Live reads made from this site: {{ live.forms }} forms, mean {{ '%.0f'|format(live.mean_secs or 0) }} s.</p>{% endif %}
   </div>
 </section>
 {% endblock %}

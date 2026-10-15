@@ -11,7 +11,7 @@ import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from twohands import REPO, schema
-from twohands.adjudicate import load_comp, num
+from twohands.adjudicate import label, load_comp, num
 
 OUT = REPO / "results" / "adjudication"
 COLS = {"PAN": "PAN", "PRI": "PRI", "PRD": "PRD", "PVEM": "PVEM", "PT": "PT", "MC": "MC", "MORENA": "MORENA",
@@ -57,7 +57,8 @@ def main() -> dict:
          "the same field (`data/raw/computos/PRES_2024.csv`, cut 08/06/2024) is compared with the paper value from adjudication.",
          "Computos certify the 17 vote rows and the vote total (TOTAL_VOTOS_CALCULADOS, compared with the written TOTAL); they do",
          "not cover SOBRANTES, VOTARON, REPRESENTANTES or SACADOS. A value marked Recuento is a recount of the ballots, so a",
-         "difference there need not mean the paper was misread. Code: `scripts/certified_check.py`.", "",
+         "difference there need not mean the paper was misread. Code: `scripts/certified_check.py`.",
+         "Vote rows are named Option 01 to Option 15 in printed order; `certified.json` keeps INE's column names.", "",
          f"> the first capture mis-keyed 52 of 6,358 fields; the certified count later covers {X} of them and agrees with the image on {Y}",
          ""]
     nt = [r for r in mr if r["covered"] and r["field"] != "TOTAL"]
@@ -77,12 +78,12 @@ def main() -> dict:
               "| clave | field | model | PREP | paper | Computos | Computos note | covered | certified = paper |",
               "|---|---|---|---|---|---|---|---|---|"]
         for r in rows:
-            L.append(f"| {r['clave']} | {r['field']} | {r['model']} | {r['prep']} | {r['paper']} | "
+            L.append(f"| {r['clave']} | {label(r['field'])} | {r['model']} | {r['prep']} | {r['paper']} | "
                      f"{'-' if r['computos'] is None else r['computos']} | {r['obs']} | {'yes' if r['covered'] else 'no'} | "
                      f"{('yes' if r['agrees'] else 'NO') if r['covered'] else '-'} |")
         L.append("")
     (OUT / "CERTIFIED.md").write_text("\n".join(L) + "\n", encoding="utf-8")
-    print(L[9]); print(L[11])
+    print(L[10]); print(L[12])
     for cls in res:
         cov = [r for r in res[cls] if r["covered"]]
         print(cls, len(res[cls]), "covered", len(cov), "agree", sum(r["agrees"] for r in cov))

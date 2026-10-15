@@ -1,11 +1,14 @@
 /* Overview hero: a replay of one stored read. Fields fill in as the scan box moves over the masked page,
-   the paper's identities turn green one by one, and the field the paper cannot settle turns red. Loops. */
+   the paper's identities turn green one by one, and the field the paper cannot settle turns red. It ends on a red
+   card: a field the model read right and the first capture mis-keyed, with the certified count. Loops. */
 (function () {
   var el = document.getElementById('loopData'); if (!el) return;
   var D = JSON.parse(el.textContent);
   var frame = document.getElementById('rFrame'), scan = document.getElementById('rScan'),
       tiles = document.getElementById('rTiles'), ids = document.getElementById('rIds'),
-      verdict = document.getElementById('rVerdict'), stage = document.getElementById('rStage');
+      verdict = document.getElementById('rVerdict'), stage = document.getElementById('rStage'),
+      receipt = document.getElementById('rReceipt');
+  function showReceipt(on) { if (!receipt) return; receipt.classList.toggle('on', on); receipt.setAttribute('aria-hidden', on ? 'false' : 'true'); }
   var SHORT = {SOBRANTES: 'Unused', VOTARON: 'Voters', REPRESENTANTES: 'Reps', PERSONAS_Y_REP: 'Sec 5',
                SACADOS: 'Sec 7', NO_REGISTRADAS: 'Unreg.', NULOS: 'Null', TOTAL: 'TOTAL'};
   function short(c) { return SHORT[c] || ('Opt ' + c.slice(3)); }
@@ -27,7 +30,7 @@
       d.innerHTML = '<i>·</i><span>' + esc(i.name) + '</span><b></b>'; ids.appendChild(d);
     });
     verdict.className = 'vbar'; verdict.textContent = 'Waiting for the read';
-    scan.style.opacity = 0;
+    scan.style.opacity = 0; showReceipt(false);
   }
   function place(node, box) { node.style.left = box[0] + '%'; node.style.top = box[1] + '%'; node.style.width = box[2] + '%'; node.style.height = box[3] + '%'; }
   function showField(f) {
@@ -60,9 +63,12 @@
     D.fields.forEach(function (f) { p = p.then(function () { showField(f); return wait(f.ok ? 230 : 900, my); }); });
     p = p.then(function () { stage.textContent = "Checking the paper's arithmetic"; return wait(350, my); });
     D.identities.forEach(function (i, k) { p = p.then(function () { showIdent(i, k); return wait(420, my); }); });
-    p.then(function () { finish(); return wait(4200, my); }).then(play).catch(function () {});
+    // end on the receipt: a field the model read right and the first capture mis-keyed, certified by comparison
+    p.then(function () { finish(); return wait(2600, my); })
+     .then(function () { stage.textContent = 'A keying error the model found'; showReceipt(true); return wait(9000, my); })
+     .then(play).catch(function () {});
   }
-  function still() { build(); D.fields.forEach(showField); D.identities.forEach(showIdent); finish(); }
+  function still() { build(); D.fields.forEach(showField); D.identities.forEach(showIdent); finish(); if (receipt) stage.textContent = 'A keying error the model found'; showReceipt(true); }
 
   if (reduce) { still(); return; }
   // play only while visible; restart from the top when it scrolls back into view

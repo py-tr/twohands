@@ -147,7 +147,15 @@ def _templates(request: Request):
 
 
 def _field_of(item: str) -> str:
-    return item.split("__", 1)[1].replace("_", " ")
+    """Neutral caption: 'Option NN' for vote rows (never a party name), plain English for the rest."""
+    from app.store import name_of
+    return name_of(item.split("__", 1)[1])
+
+
+def _crop_path(item: str) -> Path:
+    from twohands.adjudicate import crop_name
+    clave, key = item.split("__", 1)
+    return ADJ / crop_name(clave, key)
 
 
 @router.get("/check", response_class=HTMLResponse)
@@ -172,7 +180,7 @@ def check_img(i: int):
     q = queue()
     if not 0 <= i < len(q):
         raise HTTPException(404)
-    p = ADJ / f"{q[i]}.jpg"  # cut from the MASKED page by twohands.adjudicate (never a raw image)
+    p = _crop_path(q[i])  # cut from the MASKED page by twohands.adjudicate (never a raw image)
     if not p.is_file():
         raise HTTPException(404)
     return FileResponse(p, media_type="image/jpeg", headers={"Cache-Control": "no-store"})
@@ -196,11 +204,21 @@ async def check_answer(i: int, request: Request):
 @router.get("/check/results", response_class=HTMLResponse)
 def check_results(request: Request):
     q = queue()
-    res = score(load(), q, load_verdicts())
+    res = _neutral(score(load(), q, load_verdicts()))
     return _templates(request).TemplateResponse(request, "check_results.html", {"nav": "check", "r": res})
 
 
 @router.get("/api/check/results")
 def check_results_json():
     q = queue()
-    return score(load(), q, load_verdicts())
+    return _neutral(score(load(), q, load_verdicts()))
+
+
+def _neutral(res: dict) -> dict:
+    """Items and evidence shown with neutral field names (Option NN), never a party name."""
+    from app.store import neutralize
+    for d in res.get("disagreements", []):
+        clave, key = d["item"].split("__", 1)
+        d["item"] = f"{clave} · {_field_of(d['item'])}"
+        d["evidence"] = neutralize(d.get("evidence", ""))
+    return res

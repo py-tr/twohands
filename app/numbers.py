@@ -41,6 +41,19 @@ CITED = {
     "spike_throughput": {
         "text": "~2 forms/min", "what": "bounded by the 6 req/min, 2-concurrent pacing used in the spike",
         "source": "spikes/tally-witness/README.md §3"},
+    "prep_audit": {
+        "text": "Mexico requires an outside audit of every preliminary-results capture (PREP); Reglamento de Elecciones "
+                "art. 347 gives priority to academic institutions",
+        "source": "INE, Reglamento de Elecciones art. 347; INE COTAPREP/CCOE session 23-02-2024, "
+                  "https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf"},
+    "unam_2024": {
+        "text": "in 2024 UNAM centres audited the PREPs of Querétaro, Aguascalientes, Puebla and Mexico City, among others",
+        "source": "IEEQ press summary 2024, https://ieeq.mx/contenido/prensa/sintesis/2024/13469.pdf; "
+                  "https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf"},
+    "sdv_cost": {
+        "text": "15-30% of clinical-trial costs",
+        "what": "peer-reviewed estimate for monitoring, including source-data verification",
+        "source": "Ball, Clinical Trials 2014, https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf"},
     "volunteers": {
         "text": "~16,000 volunteers, 4 transcriptions per value",
         "source": "Hawkins et al., Geoscience Data Journal 2022, quoted in spikes/ledger-rescue/README.md §1"},
@@ -57,58 +70,100 @@ def usd(x, d=2):
     return f"${x:,.{d}f}"
 
 
+HEADLINE_FILE = storemod.DATA / "headline.json"
+_H: dict = {}
+
+
+def headline() -> dict:
+    """The ONE computed summary of the pre-registered 300-form run (built by scripts/build_headline.py).
+    Overview, Inbox, Audit and Results all read it, so they cannot drift apart."""
+    try:
+        mt = HEADLINE_FILE.stat().st_mtime_ns
+    except OSError:
+        return {}
+    if _H.get("mt") != mt:
+        import json
+        _H.clear()
+        _H.update(mt=mt, data=json.loads(HEADLINE_FILE.read_text(encoding="utf-8")))
+    return _H["data"]
+
+
+def lines(H: dict) -> dict:
+    """The sentences built from the summary, word for word as the pages show them."""
+    if not H:
+        return {}
+    r, v, rc = H["recall"], H["verdicts"], H["receipt"]
+    ci = r.get("ci") or [0, 0]
+    return {
+        "keying": {"value": f"{H['keying_errors']}",
+                   "label": f"keying errors in {H['fields']:,} fields, each with its photo",
+                   "small": (f"The certified count covers {H['cert_covered']} and confirms the image on {H['cert_agree']}; "
+                             f"all {H['cert_differ']} differences were recounts.")},
+        "rate": {"value": f"1 in {H['acc_one_in']}",
+                 "label": (f"Alone, the model mis-keys about 1 field in {H['model_one_in']}; on the {H['accepted_pct']}% of "
+                           f"forms the paper's gate accepts, about 1 in {H['acc_one_in']}"),
+                 "small": (f"{H['model_wrong']} of {H['fields']:,} fields alone ({v['capture_right']} where the capture was "
+                           f"right, {v['neither']} where both were off); {H['acc_model_wrong']} of {H['acc_fields']:,} on the "
+                           f"{H['accepted']} accepted forms.")},
+        "yield": {"value": f"1 in {H['yield_one_in']}",
+                  "label": (f"fields the model disputes is a confirmed keying error ({H['keying_errors']} of "
+                            f"{H['disagree']}), against about 1 in {H['random_one_in']} at random: up to "
+                            f"{H['yield_x_int']}x the yield"),
+                  "small": (f"Recall is only bounded: on the forms the certified count settled without a recount, the "
+                            f"model had disputed {r['C']} of the {r['E']} fields where the certified count disagrees with "
+                            f"the first capture (Wilson 95% {100 * ci[0]:.0f}% to {100 * ci[1]:.0f}%).")},
+        "honest": (f"The model alone is a worse keyer than the official two-person capture: {v['capture_right']} misreads "
+                   f"against {H['keying_errors']} keying errors in {H['fields']:,} fields. That is why it never decides. "
+                   f"The paper does, and a person sees the rest."),
+        "preliminary": "The first capture is preliminary by design; the certified count is the official result.",
+        "recall": (f"On the forms the certified count settled without a recount, the model had disputed {r['C']} of the "
+                   f"{r['E']} fields where the certified count disagrees with the first capture."),
+        "receipt": (f"The paper says {rc['paper']}, the first capture keyed {rc['prep']}, the certified count says "
+                    f"{rc['certified']}."),
+        "product": (f"Give us your keyed data and the scans. You get the {H['flag_pct']:.0f}% of fields to look at, "
+                    f"each with its photo."),
+        "qwen": "Second-reader pass running; this line updates when it lands.",
+        "label_cost": (f"The row-label check routed {H['label_gate']['routed']} forms; on {H['label_gate']['read_right']} "
+                       f"of them the read matched the paper on every field, including all "
+                       f"{H['label_gate']['label_only']} routed for a label alone."),
+        "harmonised": (f"In one call the model can harmonise words and digits, so one read is not two independent reads: "
+                       f"on {H['harmonised']['clave']} it read {H['harmonised']['name']} as {H['harmonised']['digits']} "
+                       f"in digits and {H['harmonised']['words']} in words; the paper says {H['harmonised']['paper']}. "
+                       f"The fix is separate reads or a second reader."),
+    }
+
+
 def home(st: storemod.Store) -> dict:
-    hid = st.headline_run()
-    h = st.run_metrics(hid)
+    H = headline()
+    L = lines(H)
+    headline_cards = [dict(L[k], source=src) for k, src in (
+        ("keying", "results/adjudication/SUMMARY.md + CERTIFIED.md (app/data/headline.json)"),
+        ("rate", "results/adjudication/SUMMARY.md (app/data/headline.json)"),
+        ("yield", "results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json)"))] if H else []
     q = st.run_metrics("spike-qwen") if "spike-qwen" in st.runs else None
-    errs = st.keying_errors()
-    on_acc = [e for e in errs if e["status"] == "confirmed" and e["accepted_by"] and e["kind"] == "keying"]
-    cert_cov = [e for e in on_acc if e["certified"] is not None]
-    cert_ok = [e for e in cert_cov if e["cert_agrees"]]
-    cand = [e for e in errs if e["status"] == "candidate"]
-    is_spike = h["kind"] == "spike"
-    sample = "43 trouble-enriched forms (spike)" if is_spike else f"{h['forms']} forms ({h['source']})"
-    headline = [
-        {"value": pct(h["accepted"], h["forms"]),
-         "label": "of forms accepted with no human touch",
-         "small": f"{h['accepted']} of {h['forms']} forms passed every identity on the page; {h['model']}; {sample}.",
-         "source": h["source"]},
-        {"value": f"{h['acc_wrong_adj']} of {h['acc_fields']:,}",
-         "label": "accepted fields wrong",
-         "small": (f"Graded against the official capture after eye-checking its disagreements; "
-                   f"{h['acc_wrong_raw']} raw disagreements with the official capture, "
-                   f"{h['acc_wrong_raw'] - h['acc_wrong_adj']} of them the capture's own keying errors."
-                   + (f" Second reader {q['model']}: {q['acc_wrong_adj']} of {q['acc_fields']}." if q and is_spike else "")),
-         "source": h["source"] + " + spikes/tally-witness/adjudicate.json"},
-        {"value": str(len(on_acc)),
-         "label": "keying errors found in the official double-keyed capture",
-         "small": (f"On forms the gate accepted, {len(on_acc)} fields on {len({e['clave'] for e in on_acc})} forms where "
-                   f"the model and the official capture disagree; in every one the image shows the capture mis-keyed. "
-                   f"The certified count covers {len(cert_cov)} of the {len(on_acc)} fields and matches the image on "
-                   f"{'all ' + str(len(cert_ok)) if cert_ok and len(cert_ok) == len(cert_cov) else len(cert_ok)}."
-                   + (f" {len(cand)} more candidates awaiting an eye check." if cand else "")),
-         "source": "spikes/tally-witness/adjudicate.json + data/truth_rows.json"},
-    ]
     g = st.run_metrics("spike-gemma-v2")
-    cpf_g = g["cost_per_form"]
+    cpf_g = (H.get("gemma") or {}).get("cost_per_form") or g["cost_per_form"]
     cpf_q = q["cost_per_form"] if q else None
     N = CITED["national_forms"]["value"]
     business = {
         "per_1000_g": usd(cpf_g * 1000), "per_1000_q": usd(cpf_q * 1000) if cpf_q else None,
         "national_g": usd(cpf_g * N, 0), "national_q": usd(cpf_q * N, 0) if cpf_q else None,
         "cpf_g": cpf_g, "cpf_q": cpf_q, "N": N,
-        "cost_source": f"{g['source']} ({g['forms']} reads, mean measured cost)" + (f"; {q['source']}" if q else ""),
+        "cost_source": (f"results/calls_gemma.jsonl ({H['gemma']['reads']} reads of the pre-registered run, mean measured "
+                        f"cost)" if H else g["source"]) + (f"; second reader: {q['source']} (pilot, 43 reads)" if q else ""),
     }
     lm = st.ledger_metrics()
     amd = {
-        "models": [{"name": g["model"], "role": "primary reader", "secs": g["mean_secs"], "cpf": cpf_g,
-                    "tokens": _mean_tokens(st, "spike-gemma-v2")},
+        "models": [{"name": g["model"], "role": "primary reader", "secs": (H.get("gemma") or {}).get("mean_secs") or g["mean_secs"],
+                    "cpf": cpf_g, "tokens": ({"prompt": H["gemma"]["tokens_in"], "completion": H["gemma"]["tokens_out"]}
+                                             if H and H["gemma"].get("tokens_in") else _mean_tokens(st, "spike-gemma-v2")),
+                    "basis": f"{H['gemma']['reads']} reads, pre-registered run" if H else "pilot, 43 reads"},
                    ] + ([{"name": q["model"], "role": "second reader", "secs": q["mean_secs"], "cpf": cpf_q,
-                          "tokens": _mean_tokens(st, "spike-qwen")}] if q else []),
+                          "tokens": _mean_tokens(st, "spike-qwen"), "basis": "pilot, 43 reads"}] if q else []),
         "live": _live_stats(st),
     }
-    return {"headline": headline, "headline_run": h, "business": business, "cited": CITED, "amd": amd,
-            "ledger": lm, "errors": errs, "on_acc": on_acc, "cert_ok": len(cert_ok), "cert_cov": len(cert_cov)}
+    return {"headline": headline_cards, "H": H, "L": L, "business": business, "cited": CITED, "amd": amd,
+            "ledger": lm, "pilot": g, "pilot_q": q}
 
 
 def _mean_tokens(st, rid):

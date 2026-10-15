@@ -81,3 +81,36 @@ def test_live_events_are_neutral(tmp_path, monkeypatch):
         assert "Option 01" in text
     finally:
         app.state.live = old
+
+
+def test_spot_check_pages_are_neutral(tmp_path, monkeypatch):
+    """Every spot-check item shows its field as 'Option NN' (or a plain name), never a party; the results page and
+    its JSON name the items the same way, and every crop it serves exists."""
+    from app import spotcheck as sc
+    monkeypatch.setattr(sc, "FILE", tmp_path / "spotcheck.json")
+    q = sc.queue()
+    assert q
+    for i in range(len(q)):
+        r = client.get(f"/check?i={i}")
+        assert r.status_code == 200
+        _clean(r.text, f"/check?i={i}")
+        assert client.get(f"/check/img/{i}.jpg").status_code == 200, q[i]
+    # answer every item with a value that disagrees, so every item and its evidence appear on the results page
+    for i in range(len(q)):
+        assert client.post(f"/api/check/{i}", json={"digits": "99999"}).status_code == 200
+    for u in ("/check/results", "/api/check/results", "/check"):
+        r = client.get(u)
+        assert r.status_code == 200
+        _clean(r.text, u)
+    assert "Option " in client.get("/check/results").text
+
+
+def test_audit_page_is_neutral_and_complete():
+    from app.numbers import headline
+    H = headline()
+    html = client.get("/audit").text
+    _clean(html, "/audit")
+    assert html.count('class="card err"') == H["keying_errors"]
+    for t in H["by_type"]:
+        assert t["label"].replace('"', "&#34;") in html or t["label"] in html
+    assert "label=0" in html  # crops start right of the printed row label: no logo

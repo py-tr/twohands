@@ -28,7 +28,7 @@ from app.live import LiveManager, Refused
 from twohands import REPO
 
 app = FastAPI(title="Two Hands", version="1.0",
-              description="Touchless capture of self-checking paper forms: the model reads, the paper decides.",
+              description="A second keyer for self-checking paper forms: the model reads, the paper decides.",
               docs_url="/docs", redoc_url=None)
 app.mount("/static", StaticFiles(directory=str(REPO / "static")), name="static")
 templates = Jinja2Templates(directory=str(REPO / "templates"))
@@ -73,8 +73,9 @@ def page(request: Request, name: str, nav: str, **ctx):
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     s = st()
-    return page(request, "home.html", "home", n=numbersmod.home(s), schema=storemod.schema(),
-                heroloop=heromod.loop_data(s), pending=heromod.pending_run(s))
+    n = numbersmod.home(s)
+    return page(request, "home.html", "home", n=n, schema=storemod.schema(),
+                heroloop=heromod.loop_data(s), receipt=heromod.receipt(s, n["H"]))
 
 
 @app.get("/forms", response_class=HTMLResponse)
@@ -128,34 +129,39 @@ def review(request: Request):
     return page(request, "review.html", "review", q=q, open_n=sum(1 for x in q if not x["review"]))
 
 
+def _audit_items(s, H: dict) -> list[dict]:
+    """The keying errors of the pre-registered run (from app/data/headline.json), ready for a card each."""
+    out = []
+    for x in H.get("keying_list", []):
+        code = storemod.code_of(x["field"])
+        out.append({**{k: v for k, v in x.items() if k != "field"}, "code": code, "name": storemod.name_of(x["field"]),
+                    "evidence": storemod.neutralize(x.get("evidence", "")),
+                    "img": f"/crop/{x['clave']}/{code}.jpg?pad=0.014&label=0" if s.masked_image(x["clave"]) else None})
+    return out
+
+
 @app.get("/audit", response_class=HTMLResponse)
 def audit(request: Request):
     s = st()
-    return page(request, "audit.html", "audit", errs=s.keying_errors())
+    H = numbersmod.headline()
+    items = _audit_items(s, H)
+    feat = [i for i in items if i["clave"] == (H.get("featured") or {}).get("clave")]
+    order = {"SOBRANTES": 0, "VOTARON": 1, "REPRESENTANTES": 2}
+    feat.sort(key=lambda i: order.get(i["code"], 9))
+    return page(request, "audit.html", "audit", H=H, L=numbersmod.lines(H), items=items, featured=feat)
 
 
 @app.get("/results", response_class=HTMLResponse)
 def results(request: Request):
     s = st()
-    runs = [s.run_metrics(rid) for rid in s.run_order() + (["live"] if "live" in s.runs else [])]
     n = numbersmod.home(s)
-    # failure case 1: forms routed by the row-label check although every value was right (core runs)
-    label_fp = []
-    for rid in s.run_order():
-        if s.runs[rid]["kind"] != "core":
-            continue
-        for k, r in s.runs[rid]["reads"].items():
-            ev = storemod.evaluate(r)
-            g = storemod.grade(r, s.official.get(k))
-            if k in {x["clave"] for x in label_fp}:
-                continue
-            if not ev["accepted"] and g.get("graded") and not g["wrong_adj"] and any(f["status"] == "label" for f in ev["fields"]):
-                label_fp.append({"clave": k, "run": rid, "n_label": sum(f["status"] == "label" for f in ev["fields"]),
-                                 "other": [x for x in ev["reasons"] if "label" not in x]})
+    pilot = [s.run_metrics(rid) for rid in ("spike-gemma-v2", "spike-qwen", "spike-gemma-v1") if rid in s.runs]
+    appendix = [s.run_metrics(rid) for rid in s.run_order() if rid.startswith("verify_")]
+    live = s.run_metrics("live") if "live" in s.runs else None
     q = reviewmod.queue(s)
-    return page(request, "results.html", "results", runs=runs, n=n, lm=s.ledger_metrics(), meta=s.ledger.get("meta", {}),
-                label_fp=label_fp, queue_n=len(q), resolved=sum(1 for x in q if x["review"]),
-                headline_id=s.headline_run())
+    return page(request, "results.html", "results", n=n, H=n["H"], L=n["L"], pilot=pilot, appendix=appendix, live=live,
+                lm=s.ledger_metrics(), meta=s.ledger.get("meta", {}), queue_n=len(q),
+                resolved=sum(1 for x in q if x["review"]))
 
 
 # ------------------------------------------------------------------------------------------- images (masked only)
@@ -174,13 +180,18 @@ def masked(clave: str):
     return FileResponse(p, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=3600"})
 
 
+LABEL_X1 = 0.39   # right edge of the printed row-label (logo) column on vote rows
+
+
 @lru_cache(maxsize=256)
-def _crop_bytes(path: str, mtime: float, key: str, pad: float) -> bytes:
+def _crop_bytes(path: str, mtime: float, key: str, pad: float, label: bool = True) -> bytes:
     s = storemod.schema()
     box = field_boxes(s).get(key)
     if box is None:
         raise KeyError(key)
     x0, y0, x1, y1 = box
+    if not label and x0 < LABEL_X1 < x1:
+        x0 = LABEL_X1  # start right of the printed row label: words and digit boxes only, no logo
     edge = mask_left_edge(s)
     x1 = min(x1, edge - 0.002)
     im = Image.open(path)
@@ -192,14 +203,14 @@ def _crop_bytes(path: str, mtime: float, key: str, pad: float) -> bytes:
 
 
 @app.get("/crop/{clave}/{code}.jpg")
-def crop(clave: str, code: str, pad: float = 0.0):
+def crop(clave: str, code: str, pad: float = 0.0, label: int = 1):
     p = _masked_or_404(clave)
     key = storemod.key_of(code)
     if key is None:
         raise HTTPException(404, "unknown field")
     pad = max(0.0, min(pad, 0.05))
     try:
-        data = _crop_bytes(str(p), p.stat().st_mtime, key, pad)
+        data = _crop_bytes(str(p), p.stat().st_mtime, key, pad, bool(label))
     except KeyError:
         raise HTTPException(404, "unknown field")
     return Response(data, media_type="image/jpeg", headers={"Cache-Control": "public, max-age=3600"})
@@ -375,7 +386,7 @@ def upload_image(uid: str):
 def inbox(request: Request):
     s = st()
     rs = inboxmod.rows(s)
-    return page(request, "inbox.html", "inbox", rows=rs, k=inboxmod.kpis(rs), agr=inboxmod.agreement(s, rs),
+    return page(request, "inbox.html", "inbox", rows=rs, k=inboxmod.kpis(rs), H=numbersmod.headline(),
                 live=request.app.state.live.status())
 
 

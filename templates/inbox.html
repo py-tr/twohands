@@ -8,7 +8,7 @@
   <div>
     <div class="eyebrow">Inbox</div>
     <h1>Every form, where it stands</h1>
-    <p class="lede">Accepted forms need no keying. Routed forms wait on the review desk with the failing field named. Export what has been captured at any time.</p>
+    <p class="lede">Accepted forms need no keying. Routed forms wait on the review desk with the failing field named. Export what has been captured at any time. The measured rates are those of the pre-registered random sample; the list below also holds the 43 pilot forms and any live reads.</p>
   </div>
   <div class="actions" style="margin-top:0">
     <a class="btn" href="/api/export.csv" download>{{ icon('download') }}Export CSV</a>
@@ -20,8 +20,9 @@
 <div class="kpis">
   <div class="kpi"><div class="l">Forms in</div><div class="v">{{ k.n|int }}</div><div class="s">{{ '%.1f'|format(k.per_min) ~ ' forms/min' if k.per_min else 'measured reads' }}{% if k.last %} · last {{ k.last[11:] }}{% endif %}</div></div>
   <div class="kpi"><div class="l">Fields read</div><div class="v">{{ k.fields_read|int }}</div><div class="s">digits and words, on {{ k.forms_read }} forms</div></div>
-  <div class="kpi"><div class="l">Agree with official capture</div><div class="v">{{ '%.1f'|format(100 * agr.rate) if agr.rate is not none else '–' }}%</div><div class="s">{{ agr.agree|int }} of {{ agr.compared|int }} fields{{ ' · before adjudication' if not agr.adjudicated else '' }}</div></div>
-  <div class="kpi"><div class="l">Touchless</div><div class="v">{{ '%.0f'|format(100 * k.touchless) if k.touchless is not none else '–' }}%</div><div class="s">{{ k.accepted }} forms accepted, 0 to key</div></div>
+  <div class="kpi"><div class="l">Agree with official capture</div><div class="v">{{ H.agree_pct }}%</div><div class="s">{{ H.agree|int }} of {{ H.fields|int }} fields · pre-registered {{ H.forms }}</div></div>
+  <div class="kpi"><div class="l">Accepted, no person</div><div class="v">{{ H.accepted_pct }}%</div><div class="s">{{ H.accepted }} of {{ H.forms }} forms · pre-registered {{ H.forms }}</div></div>
+  <div class="kpi"><div class="l">Keying errors found</div><div class="v">{{ H.keying_errors }}</div><div class="s">in {{ H.disagree }} disputed fields · <a href="/audit">each with its photo</a></div></div>
   <div class="kpi"><div class="l">Routed to review</div><div class="v">{{ k.routed_fields|int }}</div><div class="s">fields to key, on {{ k.routed_forms - k.awaiting_reread }} forms{% if k.awaiting_reread %} · {{ k.awaiting_reread }} more await a re-read{% endif %}</div></div>
   <div class="kpi"><div class="l">Paper inconsistencies</div><div class="v">{{ k.paper }}</div><div class="s">read right; the paper disagrees with itself</div></div>
   <div class="kpi"><div class="l">AMD cost so far</div><div class="v">${{ '%.4f'|format(k.cost) }}</div><div class="s">{{ k.cost_n }} reads{% if live.reads_today %} · {{ live.reads_today }} live today{% endif %}</div></div>

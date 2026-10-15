@@ -23,7 +23,7 @@ Honest boundary: page locating and masking (OpenCV on CPU), the gate (plain Pyth
 the web app run on an ordinary CPU host. They are cheap and deterministic. The AMD part is the part that needs a
 large vision model: reading handwritten digits, handwritten words and printed row labels from phone photos.
 
-## Benchmark: 43 tally forms on AMD Token Factory (measured)
+## Pilot benchmark: 43 hand-picked tally forms on AMD Token Factory (measured)
 
 Source: per-call `usage`, `cost` and wall-clock `secs` in the pilot result files
 (`spikes/tally-witness/results_v2/gemma__*.json`, `spikes/tally-witness/results/qwen__*.json`; snapshot in
@@ -44,10 +44,12 @@ Source: per-call `usage`, `cost` and wall-clock `secs` in the pilot result files
   matter for Gemma (same source).
 
 Second form type, same model on the same endpoint: rainfall ledgers, whole sheet + 3 zoomed strips,
-**$0.00011 per sheet** over 40 sheets (`ledger/ledger.json`, prices from `spikes/ledger-rescue/evaluate.py`).
+**$0.00011 per sheet** (spike, 40 sheets) (`ledger/ledger.json`, prices from `spikes/ledger-rescue/evaluate.py`).
 
 ## Endpoint behaviour we saw (and logged)
 
+- During the pre-registered run, 51 of the 300 forms had a first call fail during outages and were re-read later
+  with the same frozen prompt; the last read counts (appendix of EVALUATION.md).
 - From about 00:45 UTC on 2026-10-15, Gemma-4-31B-IT returned HTTP 503 on every call for a period
   (`results/verify_spike_gemma_try3_outage.jsonl`, `results/endpoint_health.jsonl`). The runner backs off and
   retries; a call that never succeeds routes its form to a person and counts against the accept rate.
@@ -55,22 +57,24 @@ Second form type, same model on the same endpoint: rainfall ledgers, whole sheet
   (two Gemma attempts) and 451 s (Qwen, 2 forms) (`results/verify_spike_*.jsonl`, shown on the app's results
   page). We report these as they are.
 
-## Pre-registered run on AMD (in progress)
+## Pre-registered run on AMD: 300 forms (measured)
 
-| | Gemma-4-31B-IT | Qwen3.8-27B |
-|---|---|---|
-| Forms sent | {{RUN300_GEMMA_CALLS}} | {{RUN300_QWEN_CALLS}} |
-| Mean latency | {{RUN300_GEMMA_LATENCY}} | {{RUN300_QWEN_LATENCY}} |
-| Cost per form | {{RUN300_GEMMA_COST_PER_FORM}} | {{RUN300_QWEN_COST_PER_FORM}} |
-| `finish_reason` = stop | {{RUN300_GEMMA_STOP}} | {{RUN300_QWEN_STOP}} |
+| | Gemma-4-31B-IT |
+|---|---|
+| Forms sent | 289 (11 pages not located, never sent) |
+| Mean latency per form | **87 s** (wall clock on the shared endpoint, including queueing) |
+| Tokens in / out | ~2,609 / 804 (page + 6 tiles) |
+| Cost per form | **$0.000144**, so $0.14 per 1,000 forms |
+| `finish_reason` = stop | 289 of 289 |
 
-Source when filled: `results/calls_gemma.jsonl`, `results/calls_qwen.jsonl` (fields `latency_s`, `cost_usd`,
-`usage`, `finish_reason`).
+Source: `results/calls_gemma.jsonl` (fields `latency_s`, `cost_usd`, `usage`, `finish_reason`; last read per form),
+summarised in `app/data/headline.json` by `scripts/build_headline.py`. What it measured: the headline in
+[EVALUATION.md](EVALUATION.md) (52 keying errors found in 6,358 fields of the official capture).
 
 ## Cost at scale
 
-- **Audit all 169,005 national presidential tally forms:** $20 (Gemma) to $86 (Qwen) of AMD compute
-  (cost per form x 169,005; form count from the PREP 2024 CSV).
+- **Re-read all 169,005 national presidential tally forms:** about $24 with Gemma at the cost measured on the 300
+  ($0.000144 x 169,005; form count from the PREP 2024 CSV); about $86 with Qwen at its pilot cost.
 - **Time on the shared endpoint:** at about 2 forms a minute, about 59 days (`spikes/tally-witness/README.md`
   section 3). That pacing is a property of a shared hackathon key. A production run would use a dedicated AMD
   Instinct endpoint; we have not measured one, so we give no number for it.

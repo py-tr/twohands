@@ -1,37 +1,37 @@
 # Two Hands: the model reads, the paper decides
 
-**Touchless capture of self-checking paper forms.** An open vision model on AMD GPUs reads every field. A
-deterministic gate then applies the form's own arithmetic: amounts in words must equal amounts in digits, rows
-must sum to the printed total, sections must agree. A form that passes every check is accepted with no human
-touch. Anything else goes to a person, with the failing field named.
+**A second keyer that shows its proof.** Give us your keyed data and the scans. You get the 4% of fields to look at,
+each with its photo. An open vision model on AMD GPUs re-reads every field of a form that was already keyed. A
+deterministic gate applies the form's own arithmetic (amounts in words must equal amounts in digits, rows must sum
+to the printed total, sections must agree), and every field where the model and the keyed data disagree goes to a
+person with its crop. The model never decides; the paper does, and a person sees the rest.
 
-- **Demo:** {{DEMO_URL}}
-- **Video (3-4 min):** {{VIDEO_URL}}
-- **Repo:** {{REPO_URL}}
-- **Slides:** [`slides/slides.md`](slides/slides.md) (Marp source of the PDF)
+- **Demo:** run it locally in one command (below); the hosted link is on the submission page.
+- **Slides:** [`slides/slides.md`](slides/slides.md) (Marp source of the PDF) · **Video script:** [`slides/video-script.md`](slides/video-script.md)
 
-## Headline numbers
+## Headline: a pre-registered random sample of 300 forms
 
-Measured on real public forms: Mexico's 2024 polling-station tally sheets (INE), graded against the official
-double-keyed capture of the same image. Every disagreement on an accepted form was checked by eye on the image.
+Mexico's 2024 polling-station tally sheets (INE). Sample, prompt, gate and metrics were committed before any model
+read (`PROTOCOL.md`, Amendments 1-3). Gemma-4-31B-IT on AMD read every page; every field was compared with the
+official two-person capture (PREP), and every disagreement was settled on a crop of the masked photo.
 
-| | Pre-registered random sample, n = 300 | Pilot, n = 43 (trouble-enriched) |
-|---|---|---|
-| Forms accepted with no human touch | {{RUN300_ACCEPT_RATE}} ({{RUN300_ACCEPTED}} of 300) | **49%** (21 of 43) |
-| Fields wrong on accepted forms | {{RUN300_ACC_WRONG}} of {{RUN300_ACC_FIELDS}} | **0 of 462** |
-| Keying errors found in the official capture | {{RUN300_KEYING_ERRORS}} | **6 fields on 5 accepted forms** |
+| | Pre-registered random sample, n = 300 |
+|---|---|
+| Pages located and read | 289 (11 went to a person before any model call) |
+| Fields compared with the official capture | 6,358; the model agrees on 95.80% and disputes **267 (4.2%)** |
+| **Keying errors found in the official capture** | **52**, each with its photo. The certified count covers 31 and confirms the image on 22; all 9 differences were recounts |
+| The model alone | wrong on 173 of 6,358 fields: about **1 in 37** |
+| Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** |
+| Yield of a disputed field | **1 in 5** is a confirmed keying error (52 of 267), against about 1 in 122 at random: up to 24x |
+| Recall bound | on the forms the certified count settled without a recount, the model had disputed **7 of the 23** fields where the certified count disagrees with the first capture (a bound, not a measurement) |
 
-- Reader: Gemma-4-31B-IT on AMD, one request per form (masked page + zoomed tiles), temperature 0.
-- Pilot keying errors: on 5 accepted forms, 6 fields where the image shows the official capture mis-keyed. The
-  certified count covers 5 of them and matches the image on all 5.
-- The pilot was chosen to be difficult, so 49% is a lower bound for an ordinary day. The second reader
-  (Qwen3.8-27B) accepted 22 of 43 with 0 of 484 accepted fields wrong.
-- The 300-form run is pre-registered: sample, prompt, gate and metrics were committed (`PROTOCOL.md`, commit
-  `a93294c`) before any model read; Amendment 1 (a better page locator, commit `b0e443c`) was also committed
-  before any model read. The new locator was tuned on a fresh calibration set (143 of 150 pages located and
-  correctly aligned). On the 300: 289 located, 11 routed to a person before any model call.
-  Details: [docs/EVALUATION.md](docs/EVALUATION.md).
-- Every number has a source file: [docs/NUMBERS.md](docs/NUMBERS.md).
+**The model alone is a worse keyer than the official two-person capture: 156 misreads against 52 keying errors in
+6,358 fields. That is why it never decides. The paper does, and a person sees the rest.** The first capture is
+preliminary by design; the certified count is the official result.
+
+Every number above is computed by `scripts/build_headline.py` into `app/data/headline.json`, which the web app
+reads; details in [docs/EVALUATION.md](docs/EVALUATION.md), sources in [docs/NUMBERS.md](docs/NUMBERS.md), every
+verdict and crop in [`results/adjudication/`](results/adjudication/SUMMARY.md).
 
 ## What ran on AMD
 
@@ -40,9 +40,10 @@ double-keyed capture of the same image. Every disagreement on an accepted form w
 | Hardware | AMD GPUs behind **AMD Token Factory**, the organisers' hosted AMD inference endpoint (OpenAI-compatible) |
 | Primary reader | **Gemma-4-31B-IT**, temperature 0, one request per form |
 | Second reader | **Qwen3.8-27B**, reasoning effort low, on every form |
-| Benchmark (43 forms, measured) | Gemma: **49 s** mean latency, **$0.000118** per form, ~2,153 tokens in / 641 out. Qwen: 85 s, $0.000507, ~8,739 / 1,667 |
+| Measured on the 300 | Gemma: **87 s** mean latency on the shared endpoint, **$0.000144** per form, ~2,609 tokens in / 804 out, 289 of 289 replies `stop` |
+| Pilot (43 forms) | Gemma 49 s, $0.000118 per form; Qwen 85 s, $0.000507 per form |
 | Throughput | ~2 forms/min under our 6 req/min, 2-in-flight pacing on the shared endpoint |
-| Cost | **$0.12 per 1,000 forms** (Gemma); $20 to $86 to audit all 169,005 national tally forms |
+| Cost | **$0.14 per 1,000 forms** (Gemma); about $24 to re-read all 169,005 national tally forms |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
 
 Full detail and the raw result files: [docs/AMD.md](docs/AMD.md).
@@ -57,7 +58,7 @@ python run_app.py                       # http://127.0.0.1:8000
 The app serves the measured reads from the result files in this repo. No API key is needed to browse. The
 "Read live on AMD" button needs `AMD_KEY` and `AMD_BASE_URL` in the environment (never committed).
 
-Tests (472 pass on our machine):
+Tests:
 
 ```bash
 python -m pytest -q
@@ -89,36 +90,43 @@ ledgers from 1850-1960, where twelve months must add up to the clerk's annual to
 
 ## Evaluation at a glance
 
-- **Business result.** 21 of 43 pilot forms needed no keying, 0 of their 462 fields were wrong, and on those
-  same forms the official double-keyed capture had 6 keying errors.
-- **Known limitation.** The pilot is small (43 forms) and chosen to be difficult. Crop positions were tuned by
-  hand. Only disagreements on accepted forms were eye-checked. The shared endpoint paces us to about 2 forms a
-  minute; a national run needs a dedicated AMD endpoint.
+- **Business result.** On 289 random forms already keyed twice, the model sent 267 of 6,358 fields (4.2%) to a
+  person, and 52 of those were confirmed keying errors in the official capture, each with its photo.
+- **Known limitations.** One reader, one adjudicator (an AI agent working on published crops, which anyone can
+  re-check), recall only bounded. The row-label check is costly: it routed 86 forms, and on 68 of them the read
+  matched the paper on every field (all 15 routed for a label alone). In one call the model can harmonise words
+  and digits, so one read is not two independent reads; the fix is separate reads or a second reader. The shared
+  endpoint paces us to about 2 forms a minute.
 - **Failure case.** On a rainfall ledger read as one image, Gemma shifted a whole row of values one year to the
   left. Every shifted column still summed to its total, so the checksum accepted 26 wrong cells (of 870
-  accepted). Zoomed tiles removed it; on the tally sheet we added the row-label check so a shifted row cannot
-  pass.
+  accepted). Zoomed tiles removed it (0 of 3,976 accepted cells wrong; spike, 40 sheets); on the tally sheet we
+  added the row-label check so a shifted row cannot pass.
 - **Safeguard.** Accept only when every identity holds; everything else goes to a person with the field named.
   Privacy mask before storage or model call. Fail closed when the page cannot be located.
 
-Full write-up: [docs/EVALUATION.md](docs/EVALUATION.md).
+Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION.md).
 
-## Who pays for this
+## Who pays: auditors
 
-Today the status quo is **double keying**: two people type every form, a third resolves mismatches. Mexico's
-2024 national capture programme that does this cost **MXN 273.6M**. About **32 state-level counts in 2027** each
-run the same double-keyed capture under their own contract (one 2024 state contract: MXN 24.94M). Two Hands
-replaces the second keyer on forms the paper accepts, for about $0.12 per 1,000 forms of AMD compute, and in
-audit mode lists the first keyer's errors with the image as proof.
+**Give us your keyed data and the scans. You get the 4% of fields to look at, each with its photo.**
 
-The same gate fits any form that checks itself: clinical-trial case report forms, census and survey sheets,
-archive rescue.
+- **Election-capture audits, now.** Mexico requires an outside audit of every preliminary-results capture (PREP);
+  Reglamento de Elecciones art. 347 gives priority to academic institutions. In 2024 UNAM centres audited the
+  PREPs of Querétaro, Aguascalientes, Puebla and Mexico City, among others
+  ([INE](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf),
+  [IEEQ](https://ieeq.mx/contenido/prensa/sintesis/2024/13469.pdf)). On our 300, one disputed field in five was a
+  confirmed keying error, and re-reading every national tally form costs about $24 of AMD compute.
+- **Clinical-trial source-data verification, next (not measured).** Peer-reviewed estimates put monitoring,
+  including source-data verification, at 15-30% of trial costs
+  ([Ball, Clinical Trials 2014](https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf)).
+  We have not run a case-report form.
+- **Internal audit of any keyed file** that has its scans: registries, surveys, archives.
 
 **Why not plain OCR, why an LLM.** Classic OCR fails on this handwriting; that is why Rainfall Rescue used
 16,000 volunteers (we did not run an OCR baseline ourselves). One vision model reads digits, words and row
 labels from phone photos with no per-form training. It never decides: the paper's arithmetic does.
 
-**Competition.** Double keying copies the paper faithfully but cannot say which paper is wrong; 19.2% of
+**Competition.** Keying twice copies the paper faithfully but cannot say which paper is wrong; 19.2% of
 nationally captured tally forms (26,336 of 137,196) fail their own row sum in the official capture. One state
 institute piloted AI recognition on 264 polling stations' forms in 2024. Handwriting tools such as Transkribus
 transcribe tables; none we found gives a per-form proof of when to trust the read.
@@ -130,6 +138,8 @@ transcribe tables; none we found gives a per-form proof of when to trust the rea
   independent demonstration of clerical capture quality. **It is not an official INE product** and does not
   represent INE or any government. Vote rows are shown as "Option 01" to "Option 15"; no party is named,
   compared or totalled. "Keying error" means a typing mistake in the capture, nothing more.
+- **Machine files use INE's column names** (the schema YAML, `results/*.jsonl`, `verdicts.json` keys); every
+  human-readable file and page uses "Option NN".
 - **Personal data:** the names-and-signatures column is masked before any image is stored or sent to a model.
   Only masked pages are in this repo.
 - **Rainfall ledgers:** Rainfall Rescue (Hawkins et al., Geoscience Data Journal 2022;
@@ -177,7 +187,8 @@ does not see a batch run on the host.
 | `app/`, `templates/`, `static/` | FastAPI web app: viewer, review desk, audit gallery, results, live read |
 | `ledger/` | the rainfall-ledger snapshot (second form type) |
 | `results/` | manifest, prepare log, run log, every raw model call |
-| `PROTOCOL.md` | the pre-registered protocol for the 300-form run, with Amendment 1 |
+| `PROTOCOL.md` | the pre-registered protocol for the 300-form run, with Amendments 1-3 |
+| `scripts/build_headline.py` | computes every headline number into `app/data/headline.json` (+ adjudication SUMMARY, RECALL) |
 | `tests/` | gate, mask, rate limiter, app routes, privacy and neutrality tests |
 | `evolus/` | Evolus integration: REST client, the intake case, gate endpoint, CLI (`python -m evolus`) |
 

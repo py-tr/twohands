@@ -2,41 +2,77 @@
 {% from "_icons.html" import source %}
 {% block title %}Audit · Two Hands{% endblock %}
 {% block content %}
-{% set conf = errs|selectattr('status', 'equalto', 'confirmed')|list %}
-{% set acc = conf|selectattr('accepted_by')|list %}
-{% set cand = errs|selectattr('status', 'equalto', 'candidate')|list %}
 <section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Audit mode</div>
-  <h1>Keying errors in data that was already keyed twice</h1>
-  <p class="lede">Run the reader over forms that were already captured, and list every field where the capture disagrees with a form the paper's own arithmetic accepts. Each one below was checked by eye against the image. The certified count is shown wherever it covers the field.</p>
+  <h1>{{ H.keying_errors }} keying errors in data that was already keyed twice</h1>
+  <p class="lede">The model re-read {{ H.fields|int }} fields of {{ H.read }} randomly drawn forms that the official two-person capture had already keyed. It disagreed on {{ H.disagree }} ({{ H.flag_pct }}%). A person settled each one on the photo: in {{ H.keying_errors }} the paper shows the model's value, so the capture mis-keyed. Every one is below, with its crop.</p>
 </section>
 
-<section style="margin-top:32px">
-  <div class="sec-head"><div><h2>On forms the gate accepted</h2><p>{{ acc|length }} fields on {{ acc|map(attribute='clave')|unique|list|length }} forms. In every one the image shows the official capture mis-keyed; the model's reading was right.</p></div></div>
-  {% for e in acc %}{% include "_err.html" %}{% endfor %}
+<section style="margin-top:28px">
+  <div class="grid3">
+    <div class="card stat"><div class="v">{{ H.keying_errors }}</div><div class="l">keying errors in {{ H.fields|int }} fields</div><div class="s">{{ L.preliminary }}</div></div>
+    <div class="card stat"><div class="v">{{ H.cert_agree }} of {{ H.cert_covered }}</div><div class="l">confirmed by the certified count where it covers the field</div><div class="s">All {{ H.cert_differ }} differences were recounts of the ballots, not readings of this paper. The certified count does not cover sections 2, 3, 4 and 7.</div></div>
+    <div class="card stat"><div class="v">1 in {{ H.yield_one_in }}</div><div class="l">disputed fields is a confirmed keying error ({{ H.keying_errors }} of {{ H.disagree }})</div><div class="s">About 1 in {{ H.random_one_in }} at random. {{ L.recall }} A bound, not a measurement.</div></div>
+  </div>
 </section>
 
-{% set rest = conf|rejectattr('accepted_by')|list %}
-{% set rest_k = rest|selectattr('kind', 'equalto', 'keying')|list %}
-{% set rest_p = rest|selectattr('kind', 'equalto', 'paper')|list %}
-{% if rest_k %}
-<section>
-  <div class="sec-head"><div><h2>Keying error on a routed form</h2><p>Found while reviewing a form the gate sent to a person.</p></div></div>
-  {% for e in rest_k %}{% include "_err.html" %}{% endfor %}
-</section>
-{% endif %}
-{% if rest_p %}
-<section>
-  <div class="sec-head"><div><h2>Paper inconsistency, not a keying error</h2><p>The paper itself disagrees with itself; the capture followed its rule. Shown for completeness and not counted above.</p></div></div>
-  {% for e in rest_p %}{% include "_err.html" %}{% endfor %}
+{% if featured %}
+<section class="featured">
+  <div class="sec-head"><div><h2>The capture shifted a whole column by one row</h2><p>Form {{ featured[0].clave }}: each of sections 2 to 4 was keyed with the value written one section further down. Three keying errors from one slip; the model read each box where it is.</p></div></div>
+  <div class="card">
+    <div class="crops">
+      {% for e in featured %}
+      <figure style="margin:0">
+        {% if e.img %}<img loading="lazy" src="{{ e.img }}" alt="crop of {{ e.name }} on {{ e.clave }}">{% endif %}
+        <figcaption class="small" style="margin-top:8px"><b>{{ e.name }}</b>: the paper says <b>{{ e.paper }}</b>; the capture keyed <b class="mono" style="color:var(--bad)">{{ e.prep }}</b></figcaption>
+      </figure>
+      {% endfor %}
+      <figure style="margin:0">
+        <img loading="lazy" src="/crop/{{ featured[0].clave }}/PERSONAS_Y_REP.jpg?pad=0.014" alt="crop of section 5 on {{ featured[0].clave }}">
+        <figcaption class="small" style="margin-top:8px"><b>Voters + representatives</b> (section 5, not keyed by the capture): the paper says <b>393</b></figcaption>
+      </figure>
+    </div>
+    <p class="small muted" style="margin:12px 0 0">The value keyed for representatives ({{ featured[-1].prep }}) is the paper's section 5 total, which the capture does not key. These sections are not covered by the certified count.</p>
+  </div>
 </section>
 {% endif %}
 
-{% if cand %}
 <section>
-  <div class="sec-head"><div><h2>Candidates awaiting an eye check</h2><p>From newer runs: the model and the capture disagree on an accepted form. Not counted until someone checks the image.</p></div></div>
-  {% for e in cand %}{% include "_err.html" %}{% endfor %}
+  <div class="sec-head"><div><h2>The {{ H.keying_errors }} by type</h2><p>Classified from what is written on the paper and what the capture keyed.</p></div></div>
+  <div class="card" style="padding:8px 14px">
+    <table class="bytype">
+      {% for t in H.by_type %}<tr><td>{{ t.label }}</td><td class="n">{{ t.n }}</td></tr>{% endfor %}
+      <tr><td><b>All</b></td><td class="n">{{ H.keying_errors }}</td></tr>
+    </table>
+  </div>
 </section>
-{% endif %}
-<p class="tiny" style="margin-top:28px">Method: the model's reading on accepted forms was compared with the official capture (PREP) of the same image; every disagreement was checked by eye on the image {{ source('spikes/tally-witness/adjudicate.json') }}. Only disagreements on accepted forms were checked, so other capture errors may exist that this list does not show. Certified values: Cómputos Distritales 2024.</p>
+
+{% for t in H.by_type if t.n %}
+<section>
+  <div class="sec-head"><div><h2>{{ t.label }} <span class="muted" style="font-weight:500">({{ t.n }})</span></h2></div></div>
+  {% for e in items if e.type == t.type %}
+  <div class="card err">
+    <div>
+      {% if e.img %}<img loading="lazy" style="border-radius:10px;border:1px solid var(--line);width:100%" src="{{ e.img }}" alt="crop of {{ e.name }} on {{ e.clave }}">
+      {% else %}<div class="placeholder" style="padding:26px"><strong>No masked page</strong>The crop is in the published adjudication folder.</div>{% endif %}
+    </div>
+    <div>
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap">
+        <div><a class="mono" style="font-weight:650" href="/form/{{ e.clave }}">{{ e.clave }}</a> · <span>{{ e.name }}</span></div>
+        <span class="chip bad">keying error</span>
+      </div>
+      <div class="vals" style="margin-top:12px">
+        <div class="box right"><div class="l">The paper says</div><div class="v">{{ e.paper }}</div></div>
+        <div class="box wrong"><div class="l">First capture keyed</div><div class="v">{{ e.prep }}</div></div>
+        <div class="box"><div class="l">Model read</div><div class="v">{{ e.model if e.model is not none else 'blank' }}</div></div>
+        <div class="box {{ 'right' if e.cert_agrees }}"><div class="l">Certified count</div><div class="v">{{ e.certified if e.certified is not none else '—' }}</div>{% if e.certified is none %}<div class="tiny">not part of the certified data</div>{% else %}<div class="tiny">by {{ {'Cotejo': 'comparison', 'Recuento': 'recount'}.get(e.cert_mode, e.cert_mode) }}</div>{% endif %}</div>
+      </div>
+      <p class="small" style="margin:12px 0 0">On the paper: {{ e.evidence }}{% if e.accepted %} <span class="muted">Form accepted by the gate.</span>{% endif %}</p>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+{% endfor %}
+
+<p class="tiny" style="margin-top:28px">Method: every field where the model's digits differ from the official capture (PREP) was settled on a crop of the masked page; the certified value (Cómputos Distritales 2024) is shown where it covers the field and never overrides the paper {{ source('results/adjudication/SUMMARY.md, CERTIFIED.md, verdicts.json; app/data/headline.json') }}. Only disagreements were checked, so capture errors the model also made are not in this list; the recall bound above says how many that may be. "Keying error" means a typing mistake in a capture, nothing more.</p>
 {% endblock %}

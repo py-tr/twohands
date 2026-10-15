@@ -163,12 +163,15 @@ def test_inbox_kpis_lead_with_fields_and_agreement(tmp_review):
     assert k["routed_fields"] >= k["routed_forms"] > 0
     html = client.get("/inbox").text
     strip = html[html.index('<div class="kpis">'):html.index('<div class="toolbar">')]
-    order = [strip.index(x) for x in ("Forms in", "Fields read", "Agree with official capture", "Touchless",
-                                     "Routed to review", "Paper inconsistencies", "AMD cost so far")]
+    order = [strip.index(x) for x in ("Forms in", "Fields read", "Agree with official capture", "Accepted, no person",
+                                     "Keying errors found", "Routed to review", "Paper inconsistencies", "AMD cost so far")]
     assert order == sorted(order)
     assert "fields to key" in html and "Waiting for a person" not in html
-    if not a["adjudicated"]:
-        assert "before adjudication" in html
+    # the measured rates come from the one computed summary (the same numbers as Overview and Results)
+    from app.numbers import headline
+    H = headline()
+    assert f"{H['agree_pct']}%" in strip and f"{H['accepted']} of {H['forms']} forms" in strip
+    assert f"{H['agree']:,} of {H['fields']:,} fields" in strip
 
 
 def test_null_digits_are_worded_blank_or_faint():

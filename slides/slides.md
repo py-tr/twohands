@@ -24,9 +24,9 @@ footer: "Two Hands · AMD Developer Hackathon ACT III"
 
 ## The model reads, the paper decides.
 
-Touchless capture of self-checking paper forms. An open vision model on AMD GPUs reads every field. The form's own arithmetic decides what is accepted.
+A second keyer that shows its proof. An open vision model on AMD GPUs re-reads every field of forms already keyed. The form's own arithmetic decides what is accepted; every disputed field goes to a person with its photo.
 
-<p class="small">Demo: {{DEMO_URL}} · Video: {{VIDEO_URL}} · Repo: {{REPO_URL}}</p>
+<p class="small">Demo, video and repo links: on the submission page.</p>
 
 ---
 
@@ -96,27 +96,40 @@ The gate does not guess. It sends this one field to a person.
 
 <!-- Slide 5: headline numbers -->
 
-## Results
+## Results: a pre-registered random 300
 
 <div class="cols">
-<div><div class="big">{{RUN300_ACCEPT_RATE}}</div>accepted with no human touch<br><span class="small">pre-registered random 300; pilot: 21 of 43 (49%)</span></div>
-<div><div class="big">{{RUN300_ACC_WRONG}}</div>accepted fields wrong<br><span class="small">of {{RUN300_ACC_FIELDS}}; pilot: 0 of 462</span></div>
-<div><div class="big">{{RUN300_KEYING_ERRORS}}</div>keying errors in the official capture<br><span class="small">pilot: 6 fields on 5 accepted forms</span></div>
+<div><div class="big">52</div>keying errors in 6,358 fields, each with its photo<br><span class="small">the certified count covers 31 and confirms the image on 22; all 9 differences were recounts</span></div>
+<div><div class="big">1 in 605</div>fields wrong on the 18% of forms the paper's gate accepts<br><span class="small">alone, the model mis-keys about 1 field in 37</span></div>
+<div><div class="big">1 in 5</div>disputed fields is a confirmed keying error (52 of 267)<br><span class="small">about 1 in 122 at random: up to 24x the yield</span></div>
 </div>
 
-<p class="small">Gemma-4-31B-IT on AMD. Graded against the official double-keyed capture; every disagreement on an accepted form checked by eye. Protocol committed (a93294c, Amendment 1 b0e443c) before any model read.</p>
+**The model alone is a worse keyer than the official two-person capture: 156 misreads against 52 keying errors in 6,358 fields. That is why it never decides. The paper does, and a person sees the rest.**
+
+<p class="small">Gemma-4-31B-IT on AMD. Protocol committed (a93294c, Amendment 1 b0e443c) before any model read. The first capture is preliminary by design; the certified count is the official result. Recall is bounded: on forms the certified count settled without a recount, the model had disputed 7 of the 23 fields where it disagrees with the first capture.</p>
 
 ---
 
 <!-- Slide 6: audit mode -->
 
-## Audit mode: errors in data already keyed twice
+## Audit mode: the receipt
 
-On 5 accepted forms, **6 fields** where the image shows the official capture mis-keyed. The model read them right.
+<div class="two">
+<div>
 
-The certified count covers 5 of them and **matches the image on all 5**.
+Form 050815B0100, Option 07. **The paper says 175, the first capture keyed 75, the certified count says 175.**
 
-<p class="small">Typing mistakes in a capture, nothing more. Rows are shown as Option 01 to 15; no party is named or compared.</p>
+Of the 52: 17 wrong values keyed, 27 legible fields marked illegible, 6 values keyed where the paper is blank, 2 other. On 250767B0100 the capture shifted a whole column by one row.
+
+</div>
+<div>
+
+![w:520](receipt_050815B0100.jpg)
+
+<p class="small">Masked crop. INE PREP 2024, free-use terms. Not an official INE product. Rows are Option 01 to 15; no party is named or compared.</p>
+
+</div>
+</div>
 
 ---
 
@@ -137,13 +150,13 @@ If the paper contradicts itself, the person escalates it. Nothing is corrected s
 | | Gemma-4-31B-IT | Qwen3.8-27B |
 |---|---|---|
 | Role | primary reader | second reader |
-| Mean latency per form | 49 s | 85 s |
-| Tokens in / out | ~2,153 / 641 | ~8,739 / 1,667 |
-| Cost per form | $0.000118 | $0.000507 |
+| Mean latency per form | 87 s (300 run) | 85 s (pilot) |
+| Tokens in / out | ~2,609 / 804 | ~8,739 / 1,667 |
+| Cost per form | $0.000144 | $0.000507 |
 
 AMD Token Factory, the organisers' hosted AMD GPUs. One request per form. ~2 forms/min under our shared-key pacing.
 
-<p class="small">Measured over 43 forms each. Locating, masking and the gate run on CPU.</p>
+<p class="small">Gemma: means over the 289 reads of the pre-registered run. Qwen: pilot, 43 forms. Locating, masking and the gate run on CPU.</p>
 
 ---
 
@@ -153,7 +166,7 @@ AMD Token Factory, the organisers' hosted AMD GPUs. One request per form. ~2 for
 
 UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annual total.
 
-**40 sheets, 4,915 cells.** 306 of 380 year-columns accepted. **3,976 of 3,976** accepted cells match the 16,000 volunteers.
+**Spike, 40 sheets, 4,915 cells.** 306 of 380 year-columns accepted. **3,976 of 3,976** accepted cells (spike, 40 sheets) match the 16,000 volunteers.
 
 <p class="small">Rainfall Rescue, Hawkins et al. 2022. Images linked, not redistributed.</p>
 
@@ -161,11 +174,15 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 
 <!-- Slide 10: business -->
 
-## Who pays
+## Who pays: auditors
 
-- **First buyer:** Mexico's ~32 state-level counts in 2027, each with its own double-keyed capture contract (one 2024 contract: MXN 24.94M).
-- **Then:** any self-checking form. Clinical-trial case report forms, census and survey sheets, archives.
-- **Cost:** $0.12 per 1,000 forms on AMD. Auditing all 169,005 national tally forms: $20 to $86.
+**Give us your keyed data and the scans. You get the 4% of fields to look at, each with its photo.**
+
+- **Now:** Mexico requires an outside audit of every PREP; Reglamento de Elecciones art. 347 gives priority to academic institutions. In 2024 UNAM centres audited the PREPs of Querétaro, Aguascalientes, Puebla and Mexico City, among others.
+- **Next (not measured):** clinical-trial source-data verification; monitoring takes 15-30% of trial costs in peer-reviewed estimates.
+- **Also:** internal audit of any keyed file with its scans. **Cost:** $0.14 per 1,000 forms on AMD; about $24 to re-read all 169,005 national tally forms.
+
+<p class="small">Sources: repositoriodocumental.ine.mx (ccoe-1so-23-02-2024-p19-a5); ieeq.mx síntesis 2024/13469; Ball, Clinical Trials 2014.</p>
 
 ---
 
@@ -183,8 +200,8 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 
 ## Where it breaks
 
-- **Limitation:** the 43-form pilot was small and chosen to be hard. The shared endpoint paces us to ~2 forms/min; a national run needs a dedicated AMD endpoint.
+- **Limitations:** the row-label check routed 86 forms, and 68 of them were read right (all 15 label-only routes). In one call the model can harmonise words and digits, so one read is not two independent reads; the fix is separate reads or a second reader. ~2 forms/min on a shared endpoint.
 - **Failure case:** read as one image, a ledger row shifted one year. Sums still held: 26 of 870 accepted cells wrong. Fixed with tiles and a row-label check.
-- **Next:** run beside one state capture in 2027; add a case-report-form schema.
+- **Next:** audit one state PREP beside its auditor; add a case-report-form schema.
 
 **The model reads, the paper decides.**

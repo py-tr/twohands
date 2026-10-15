@@ -2,7 +2,7 @@
 <div class="card err">
   <div>
     {% if e.has_image %}<img loading="lazy" style="border-radius:10px;border:1px solid var(--line);width:100%" src="/crop/{{ e.clave }}/{{ e.code }}.jpg?pad=0.014" alt="crop of {{ e.name }} on {{ e.clave }}">
-    {% else %}<div class="placeholder" style="padding:26px"><strong>Crop pending</strong>The masked page for this form has not been prepared yet; the crop appears once it has.</div>{% endif %}
+    {% else %}<div class="placeholder" style="padding:26px"><strong>No crop</strong>This form has no masked page in this repo.</div>{% endif %}
   </div>
   <div>
     <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap">

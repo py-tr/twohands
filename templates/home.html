@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 {% from "_icons.html" import icon, source %}
-{% block title %}Two Hands · touchless form capture with proof{% endblock %}
+{% block title %}Two Hands · a second keyer that shows its proof{% endblock %}
 {% block content %}
 {% set b = n.business %}
+{% set H = n.H %}
+{% set L = n.L %}
 <section class="hero">
   <div>
-    <div class="eyebrow">Touchless form capture with proof</div>
+    <div class="eyebrow">A second keyer that shows its proof</div>
     <h1>The model reads. <em>The paper decides.</em></h1>
-    <p class="lede">An open vision model on AMD reads every field of a paper form; the form's own arithmetic then decides whether nobody needs to key it, or which one field a person must look at.</p>
+    <p class="lede">An open vision model on AMD re-reads every field of forms that were already keyed. The form's own arithmetic decides what it can accept; every field where the model and the keyed data disagree goes to a person, with its photo.</p>
+    <p class="product">{{ L.product }}</p>
     <div class="actions">
-      <a class="btn primary lg" href="/form/211294C0100">{{ icon('play') }}Try a form</a>
+      <a class="btn primary lg" href="/audit">{{ icon('audit') }}See the {{ H.keying_errors }} keying errors</a>
+      <a class="btn lg" href="/form/211294C0100">{{ icon('play') }}Try a form</a>
       <a class="btn lg" href="/try">{{ icon('camera') }}Use your own photo</a>
     </div>
     <ul class="trust">
@@ -20,9 +24,9 @@
   </div>
 
   {% if heroloop %}
-  <div class="reader" id="reader" aria-label="A real form being read: fields fill in, the paper's identities are checked, one field is routed to a person">
+  <div class="reader" id="reader" aria-label="A real form being read: fields fill in, the paper's identities are checked, one field is routed to a person; then a keying error the model found">
     <div class="reader-top">
-      <span class="live-dot"></span><span class="id">{{ heroloop.clave }}</span><span class="chip ghost">phone photo</span>
+      <span class="live-dot"></span><span class="id" id="rId">{{ heroloop.clave }}</span><span class="chip ghost" id="rChip">phone photo</span>
       <span class="stage" id="rStage">Reading on AMD</span>
       <span class="clock" id="rClock" title="This is a replay of the stored read of this form">replay{% if heroloop.secs %} · read in {{ "%.0f"|format(heroloop.secs) }} s{% endif %}</span>
     </div>
@@ -39,34 +43,46 @@
         <div class="vbar" id="rVerdict">Waiting for the read</div>
       </div>
     </div>
+    {% if receipt %}
+    <div class="receipt" id="rReceipt" aria-hidden="true">
+      <div class="rc-card">
+        <div class="rc-head"><span class="chip bad"><span class="dot"></span>keying error</span><span class="mono">{{ receipt.clave }} · {{ receipt.name }}</span></div>
+        {% if receipt.img %}<img src="{{ receipt.img }}" alt="crop of {{ receipt.name }} on {{ receipt.clave }}" loading="lazy">{% endif %}
+        <p class="rc-line">{{ L.receipt }}</p>
+        <div class="rc-vals">
+          <div class="ok"><div class="l">The paper says</div><div class="v">{{ receipt.paper }}</div></div>
+          <div class="bad"><div class="l">First capture keyed</div><div class="v">{{ receipt.prep }}</div></div>
+          <div class="ok"><div class="l">Certified count</div><div class="v">{{ receipt.certified }}</div><div class="t">by comparison</div></div>
+        </div>
+        <p class="rc-foot">The model read {{ receipt.model }}. One of {{ H.keying_errors }}, each with its photo, on the <a href="/audit">audit page</a>.</p>
+      </div>
+    </div>
+    {% endif %}
   </div>
   <script type="application/json" id="loopData">{{ heroloop|tojson }}</script>
   {% endif %}
 </section>
 
+{% if H %}
 <section>
-  <div class="sec-head"><div><h2>Measured, not promised</h2><p>Graded against the official double-keyed capture of the same images; every disagreement on an accepted form checked by eye.</p></div><a class="btn sm" href="/results">Method and caveats {{ icon('arrow') }}</a></div>
-  <div class="grid4">
+  <div class="sec-head"><div><h2>Measured on a pre-registered random sample of {{ H.forms }} forms</h2><p>Sample, prompt and gate were committed before any model read. Graded field by field against the official two-person capture; every disagreement settled on the photo.</p></div><a class="btn sm" href="/results">Method and caveats {{ icon('arrow') }}</a></div>
+  <div class="grid3">
     {% for h in n.headline %}
     <div class="card stat">
       <div class="v">{{ h.value }}</div>
       <div class="l">{{ h.label }}</div>
       <div class="s">{{ h.small }}</div>
+      {% if loop.first %}<div class="s"><b>{{ L.preliminary }}</b></div>{% endif %}
       <div class="src">{{ source(h.source) }}</div>
     </div>
     {% endfor %}
-    {% if pending %}
-    <div class="card stat pending">
-      <div style="display:flex;justify-content:space-between;align-items:center"><span class="chip accent"><span class="dot"></span>{{ 'Eye-check in progress' if pending.phase == 'eye-check' else 'Reading in progress' }}</span></div>
-      <div class="l" style="margin-top:14px">Pre-registered random sample, n = {{ pending.target }}</div>
-      <div class="s">Sample, prompt, gate and metrics were committed before any model read. Its numbers replace the pilot's here automatically once they are graded.</div>
-      <div class="progress" aria-label="{{ pending.read }} of {{ pending.target }} forms read"><span style="width:{{ pending.pct }}%"></span></div>
-      <div class="tiny" style="margin-top:6px">{{ pending.read }} of {{ pending.target }} forms read · results pending</div>
-    </div>
-    {% endif %}
   </div>
-  <p class="tiny" style="margin-top:12px">Pilot of 43 forms chosen to be difficult, so the touchless rate is a lower bound for an ordinary day.</p>
+  <div class="card honest">
+    <p>{{ L.honest }}</p>
+  </div>
+  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them. The gate accepted {{ H.accepted }} forms ({{ H.accepted_pct }}%) with no person. {{ L.recall }} That is a bound, not a measurement: council corrections can move certified values.</p>
 </section>
+{% endif %}
 
 <section>
   <div class="sec-head"><div><h2>How it works</h2><p>Every form type is one schema file: where the fields are, and which identities the paper must satisfy. A new form type is configuration, not code.</p></div></div>
@@ -87,24 +103,21 @@
 <section>
   <div class="grid2">
     <div class="card">
-      <div class="eyebrow">Business case</div>
-      <h3>A second keyer for cents</h3>
-      <div class="biz-row">
-        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab">per 1,000 forms, {{ n.amd.models[0].name }} on AMD ({{ b.cpf_g|usd(6) }} per form, measured)</div></div>
-        {% if b.per_1000_q %}<div><div class="big-num">{{ b.per_1000_q }}</div><div class="lab">per 1,000 forms with {{ n.amd.models[1].name }} as a second reader</div></div>{% endif %}
-      </div>
-      <div class="vs">
-        <div><div class="big-num">{{ b.national_g }}{% if b.national_q %}<span class="muted" style="font-size:1.1rem;font-weight:500"> to {{ b.national_q }}</span>{% endif %}</div><div class="lab small muted">AMD compute to audit all {{ cited.national_forms.text }} national tally forms</div></div>
-        <div class="mid">vs</div>
-        <div><div class="big-num">{{ cited.programme_cost_mxn.text }}</div><div class="lab small muted">the 2024 national capture programme, which keys every form twice</div></div>
-      </div>
-      <p class="small" style="margin-bottom:6px"><b>Why it matters:</b> {{ cited.base_rate.text }} of nationally captured forms ({{ cited.base_rate.num }} of {{ cited.base_rate.den }}) fail their own row sum in the official capture. Double keying copies the paper faithfully; it cannot say which paper is wrong. The gate does.</p>
-      <p class="small" style="margin:12px 0 4px"><b>Who buys</b></p>
+      <div class="eyebrow">Who pays</div>
+      <h3>Auditors of keyed data</h3>
+      <p style="margin:8px 0 12px"><b>{{ L.product }}</b></p>
       <ul class="buyers">
-        <li>State institutes that run their own double-keyed capture: {{ cited.state_counts_2027.text }}; one 2024 state contract alone was {{ cited.state_contract.text }}.</li>
-        <li>Anyone keying self-checking forms twice: clinical-trial case report forms, census and survey sheets, archive rescue.</li>
+        <li><b>Election-capture audits, now.</b> {{ cited.prep_audit.text }}. {{ cited.unam_2024.text[:1]|upper }}{{ cited.unam_2024.text[1:] }}. Two Hands hands the auditor the {{ '%.0f'|format(H.flag_pct) }}% of fields where the model and the capture disagree, each with its photo: on our {{ H.forms }}, 1 in {{ H.yield_one_in }} of them was a confirmed keying error.</li>
+        <li><b>Clinical-trial source-data verification, next (not measured).</b> Monitoring, including checking keyed case-report data against the source, takes {{ cited.sdv_cost.text }} in peer-reviewed estimates. We have not run a case-report form.</li>
+        <li><b>Internal audit of any keyed file</b> that has the scans: registries, surveys, archives.</li>
       </ul>
-      <div style="margin-top:14px">{{ source("Cost per form: mean measured cost in " ~ b.cost_source ~ ". National set: " ~ cited.national_forms.source ~ ". Programme cost: " ~ cited.programme_cost_mxn.source ~ ".") }}</div>
+      <div class="vs" style="margin-top:14px">
+        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, measured on the {{ H.read }} reads)</div></div>
+        <div class="mid">·</div>
+        <div><div class="big-num">{{ b.national_g }}</div><div class="lab small muted">to re-read all {{ cited.national_forms.text }} national tally forms</div></div>
+      </div>
+      <p class="small" style="margin-bottom:6px"><b>Why the paper matters:</b> {{ cited.base_rate.text }} of nationally captured forms ({{ cited.base_rate.num }} of {{ cited.base_rate.den }}) fail their own row sum in the official capture. Keying twice copies the paper faithfully; it cannot say which paper is wrong. The gate does.</p>
+      <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". UNAM 2024: " ~ cited.unam_2024.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". National set: " ~ cited.national_forms.source ~ ".") }}</div>
     </div>
 
     <div class="card">
@@ -113,7 +126,7 @@
       <p class="small muted">{{ cited.endpoint.text }}. Every measured read went through it; the live button on each form calls it again.</p>
       {% for m in n.amd.models %}
       <div class="amd-model">
-        <div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }}</div></div>
+        <div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div>
         <div class="figs">
           {{ '%.0f'|format(m.secs) }} s mean latency per form<br>
           {{ m.cpf|usd(6) }} per form<br>
@@ -125,9 +138,9 @@
         <dt>Input per form</dt><dd>1 masked page + zoomed tiles, one request</dd>
         <dt>Throughput</dt><dd>{{ cited.spike_throughput.text }} <span class="muted small">(shared-endpoint pacing)</span></dd>
         {% if n.amd.live %}<dt>Live reads here</dt><dd>{{ n.amd.live.n }} so far, {{ '%.0f'|format(n.amd.live.secs or 0) }} s mean, {{ n.amd.live.cost|usd(6) }} mean cost</dd>{% endif %}
-        <dt>Second form type</dt><dd>Same model reads 1850-1960 rainfall ledgers: {{ n.ledger.usd_per_sheet|usd(5) }} per sheet</dd>
+        <dt>Second form type</dt><dd>Same model reads 1850-1960 rainfall ledgers: {{ n.ledger.usd_per_sheet|usd(5) }} per sheet (spike, 40 sheets)</dd>
       </dl>
-      <div style="margin-top:14px">{{ source("Latency and cost: means over the 43 measured reads per model (spikes/tally-witness results). Throughput: " ~ cited.spike_throughput.source ~ ".") }}</div>
+      <div style="margin-top:14px">{{ source("Latency and cost: Gemma, means over the reads of the pre-registered run (results/calls_gemma.jsonl); Qwen, means over the 43 pilot reads. Throughput: " ~ cited.spike_throughput.source ~ ".") }}</div>
     </div>
   </div>
 </section>
@@ -138,22 +151,24 @@
     <div class="card">
       <span class="chip accent">Polling-station tally sheets · Mexico 2024</span>
       <h3 style="margin-top:12px">Every number written twice, four identities</h3>
-      <p class="small muted">Graded against the official double-keyed capture of the same image and the later certified count.</p>
+      <p class="small muted">Pre-registered random sample, graded against the official two-person capture of the same image and the later certified count.</p>
       <dl class="kv small">
-        <dt>Forms</dt><dd>{{ n.headline_run.forms }} ({{ n.headline_run.graded_forms }} graded, {{ n.headline_run.all_fields|int }} fields)</dd>
-        <dt>Accepted</dt><dd>{{ n.headline_run.accepted }} forms, {{ n.headline_run.acc_fields|int }} fields, {{ n.headline_run.acc_wrong_adj }} wrong</dd>
-        <dt>Routed, read perfectly</dt><dd>{{ n.headline_run.paper_rejects }} forms whose paper really is inconsistent</dd>
+        <dt>Forms</dt><dd>{{ H.forms }} ({{ H.read }} read, {{ H.fields|int }} fields)</dd>
+        <dt>Agree with the capture</dt><dd>{{ H.agree_pct }}% of fields ({{ H.disagree }} to look at, {{ H.flag_pct }}%)</dd>
+        <dt>Accepted, no person</dt><dd>{{ H.accepted }} forms ({{ H.accepted_pct }}%), {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong</dd>
+        <dt>Keying errors found</dt><dd>{{ H.keying_errors }}, each with its photo</dd>
       </dl>
       <div class="actions" style="margin-top:16px"><a class="btn sm" href="/form/211294C0100">TOTAL: digits 262, words 162</a><a class="btn sm" href="/form/201720E0100">An accepted form</a></div>
     </div>
     <div class="card">
       <span class="chip accent">Rainfall ledgers · UK 1850-1960</span>
       <h3 style="margin-top:12px">Twelve months must add up to the year</h3>
+      <p class="tiny" style="margin:4px 0 0">Spike, 40 sheets.</p>
       <p class="small muted">Graded against the transcription by {{ cited.volunteers.text }}.</p>
       <dl class="kv small">
         <dt>Sheets</dt><dd>{{ n.ledger.sheets }} sheets, {{ n.ledger.cells|int }} cells</dd>
         <dt>Accepted</dt><dd>{{ n.ledger.acc_cols }} of {{ n.ledger.cols }} year-columns ({{ '%.1f'|format(100 * n.ledger.acc_cols / n.ledger.cols) }}%)</dd>
-        <dt>Accepted cells right</dt><dd>{{ n.ledger.acc_ok|int }} of {{ n.ledger.acc_cells|int }}</dd>
+        <dt>Accepted cells right</dt><dd>{{ n.ledger.acc_ok|int }} of {{ n.ledger.acc_cells|int }} (spike, 40 sheets)</dd>
       </dl>
       <div class="actions" style="margin-top:16px"><a class="btn sm" href="/forms#ledgers">Open a ledger sheet</a></div>
     </div>
@@ -166,4 +181,4 @@
   </div>
 </section>
 {% endblock %}
-{% block scripts %}<script src="/static/hero.js?v=3"></script>{% endblock %}
+{% block scripts %}<script src="/static/hero.js?v=4"></script>{% endblock %}

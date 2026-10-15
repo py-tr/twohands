@@ -1,5 +1,6 @@
-"""Data for the Overview hero loop and the "300 pending" card. Everything is a real, measured read: the loop
-replays the stored read of one form (fields filling in, identities turning green, the routed field turning red)."""
+"""Data for the Overview hero loop and the receipt it ends on. Everything is real: the loop replays the stored read of
+one form (fields filling in, identities turning green, the routed field turning red), then ends on a red card: the crop
+of a field the model read right and the first capture mis-keyed, confirmed by the certified count."""
 from __future__ import annotations
 
 from app import store as storemod
@@ -38,17 +39,13 @@ def loop_data(st: storemod.Store) -> dict | None:
                             "secs": r.secs, "model": st.runs[r.run_id].get("model")})
 
 
-def pending_run(st: storemod.Store) -> dict | None:
-    """The pre-registered 300-form run while it is not yet the headline: progress, not results."""
-    hid = st.headline_run()
-    if hid.startswith("calls_"):
+def receipt(st: storemod.Store, H: dict) -> dict | None:
+    """The red card the hero ends on: one keying error from the pre-registered run, with its crop and its proof."""
+    rc = (H or {}).get("receipt")
+    if not rc:
         return None
-    rid = next((k for k in st.runs if k.startswith("calls_") and "gemma" in k), None) or \
-        next((k for k in st.runs if k.startswith("calls_")), None)
-    target = 300
-    if rid is None:
-        return {"read": 0, "target": target, "pct": 0, "phase": "starting"}
-    reads = st.runs[rid]["reads"].values()
-    done = sum(1 for r in reads if r.error is None)
-    phase = "eye-check" if done >= target else "reading"
-    return {"read": done, "target": target, "pct": round(100 * min(done, target) / target), "phase": phase}
+    code = storemod.code_of(rc["field"])
+    has = st.masked_image(rc["clave"]) is not None
+    return {"clave": rc["clave"], "code": code, "name": storemod.name_of(rc["field"]), "paper": rc["paper"],
+            "prep": rc["prep"], "certified": rc["certified"], "mode": rc["cert_mode"], "model": rc["model"],
+            "img": f"/crop/{rc['clave']}/{code}.jpg?pad=0.012&label=0" if has else None}
