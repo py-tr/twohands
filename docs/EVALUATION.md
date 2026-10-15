@@ -61,7 +61,7 @@ design; the certified count is the official result.
 
 On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). That is a small subset; Wilson 65-100%.
 
-The multiple: a random check finds a capture error in at least 1 field in 122 (52 of 6,358 found so far; a lower bound on the capture's error rate); in a disputed field, 1 in 5 (52 of 267). That is about 24 times the yield per field checked if the model finds nearly every error, and about 12 times if it finds half; "more than ten times" is the conservative end. Counting the 16 corrections in the denominator gives the loose bound, 7 of 23 disputed (Wilson 16-51%). (`results/adjudication/RECALL.md`)
+The multiple: a random check finds a capture error in at least 1 field in 122 (52 of 6,358 found so far; a lower bound on the capture's error rate); in a disputed field, 1 in 5 (52 of 267). The multiple is about 12 to 24 times the yield per field checked: 24 if the model finds nearly every error, 12 if it finds half; "more than ten times" is the conservative end. Counting the 16 corrections in the denominator gives the loose bound, 7 of 23 disputed (Wilson 16-51%). (`results/adjudication/RECALL.md`)
 
 ### The 52 capture errors by type
 
