@@ -42,18 +42,32 @@ CITED = {
         "text": "~2 forms/min", "what": "bounded by the 6 req/min, 2-concurrent pacing used in the spike",
         "source": "spikes/tally-witness/README.md §3"},
     "prep_audit": {
-        "text": "Mexico requires an outside audit of every preliminary-results capture (PREP); Reglamento de Elecciones "
-                "art. 347 gives priority to academic institutions",
-        "source": "INE, Reglamento de Elecciones art. 347; INE COTAPREP/CCOE session 23-02-2024, "
+        "text": "Mexico requires an outside audit of every preliminary-results programme (PREP); Reglamento de "
+                "Elecciones art. 347 gives preference to academic or research institutions. In February 2024, 26 of 32 "
+                "state institutes had named one, all universities or research centres",
+        "source": "Reglamento de Elecciones art. 347 numerals 1-2, as cited in IEEH/CG/022/2024, "
+                  "https://ieehidalgo.org.mx/images/sesiones/2024/Febrero/IEEH-CG-022-2024.pdf; INE annex 5 'Entes "
+                  "auditores para los Procesos Electorales Locales 2023-2024', "
                   "https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf"},
     "unam_2024": {
-        "text": "in 2024 UNAM centres audited the PREPs of Querétaro, Aguascalientes, Puebla and Mexico City, among others",
-        "source": "IEEQ press summary 2024, https://ieeq.mx/contenido/prensa/sintesis/2024/13469.pdf; "
+        "text": "UNAM centres audited the 2024 PREPs of Aguascalientes, Mexico City, Hidalgo, Puebla, Querétaro and Veracruz",
+        "source": "INE annex 5, CCOE session 23-02-2024, "
                   "https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf"},
+    "window_2027": {
+        "text": "the federal election and 32 concurrent local processes, election day 6 June 2027",
+        "source": "INE Central Electoral 2026-07-30, https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-"
+                  "proceso-electoral-federal-y-32-concurrentes-2026-2027/; 2026-07-31 (election day), "
+                  "https://centralelectoral.ine.mx/2026/07/31/planeara-y-organizara-ine-mas-de-500-actividades-del-"
+                  "proceso-electoral-federal-2026%E2%80%912027/"},
     "sdv_cost": {
         "text": "15-30% of clinical-trial costs",
-        "what": "peer-reviewed estimate for monitoring, including source-data verification",
-        "source": "Ball, Clinical Trials 2014, https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf"},
+        "what": "site monitoring and source document verification, peer-reviewed estimate",
+        "source": "Lindblad et al. (incl. Ball), Clinical Trials 2014; 11: 205-217, "
+                  "https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf"},
+    "price_proposal": {
+        "value": 100, "text": "$100 per 1,000 forms audited",
+        "what": "proposed price, two readers and the report included (a proposal, not a measured number)",
+        "source": "docs/BUSINESS.md section 2"},
     "volunteers": {
         "text": "~16,000 volunteers, 4 transcriptions per value",
         "source": "Hawkins et al., Geoscience Data Journal 2022, quoted in spikes/ledger-rescue/README.md §1"},

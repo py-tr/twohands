@@ -172,27 +172,38 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 
 ---
 
-<!-- Slide 10: business -->
+<!-- Slide 10: market and model -->
 
-## Who pays: auditors
+## Market and model: the auditor pays
 
-**Give us your keyed data and the scans. You get the 4% of fields to look at, each with its photo.**
+**Now.** Every state PREP has an outside auditor (Reglamento de Elecciones art. 347); in 2024, 26 of 32 had named one, all universities or research centres. Next window: 32 concurrent local processes, election day **6 June 2027**. We add the field-by-field check against the paper.
 
-- **Now:** Mexico requires an outside audit of every PREP; Reglamento de Elecciones art. 347 gives priority to academic institutions. In 2024 UNAM centres audited the PREPs of Querétaro, Aguascalientes, Puebla and Mexico City, among others.
-- **Next (not measured):** clinical-trial source-data verification; monitoring takes 15-30% of trial costs in peer-reviewed estimates.
-- **Also:** internal audit of any keyed file with its scans. **Cost:** $0.14 per 1,000 forms on AMD; about $24 to re-read all 169,005 national tally forms.
+**Next, not measured.** Clinical-trial source-data verification (site monitoring and source document verification: 15-30% of trial costs); keyed loan and claim files.
 
-<p class="small">Sources: repositoriodocumental.ine.mx (ccoe-1so-23-02-2024-p19-a5); ieeq.mx síntesis 2024/13469; Ball, Clinical Trials 2014.</p>
+| Yield (measured) | Cost (measured) | Price (proposal) |
+|---|---|---|
+| 1 in 5 disputed fields is a capture error; at random, at least 1 in 122. A person checks 1 field in 24. Strong tier: 12 of 18 | $0.14 per 1,000 forms (Gemma) + $0.51 (Qwen, pilot) on AMD | **$100 per 1,000 forms audited**, report included |
+
+<p class="small">Sources: INE annex 5, CCOE 23-02-2024; IEEH/CG/022/2024; INE Central Electoral 30-31 July 2026; Lindblad et al., Clinical Trials 2014. Full case: docs/BUSINESS.md.</p>
 
 ---
 
-<!-- Slide 11: why not OCR -->
+<!-- Slide 11: competition -->
 
-## Why an LLM, and who else is here
+## Competition: others extract, we audit
 
-- **Classic OCR fails on this handwriting.** That is why Rainfall Rescue needed volunteers.
-- **One vision model** reads digits, words and row labels from phone photos, with no per-form training. It never decides.
-- **Status quo is double keying.** One state institute piloted AI recognition in 2024. Handwriting tools transcribe; none we found proves when to trust the read.
+| | Handwriting | Proves each accepted value | Audits an existing capture | Photo per finding | Open model on AMD |
+|---|---|---|---|---|---|
+| **Two Hands** | yes (measured) | the paper's identities | **yes** | yes | yes |
+| Tesseract | "won't work very well" | no | no | no | open, CPU |
+| ABBYY, Rossum, UiPath, Document AI | yes (vendor pages) | unknown | not a stated feature | unknown | no |
+| AWS Textract | English only | confidence score | not a stated feature | no | no |
+| Sampling audit (status quo) | a person | sampled fields only | at the random rate | if filed | n/a |
+| Double keying | people | no | no | no | n/a |
+
+Double keying copies the paper; it cannot say which paper is wrong: 19.2% of national tally captures fail their own row sum. Cloud extraction lists at $30 to $70 per 1,000 pages with forms; it extracts, it does not audit.
+
+<p class="small">Vendor sources, and Hypatos (mostly unknown): docs/BUSINESS.md section 3.</p>
 
 ---
 

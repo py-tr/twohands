@@ -118,30 +118,32 @@ ledgers from 1850-1960, where twelve months must add up to the clerk's annual to
 
 Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION.md).
 
-## Who pays: auditors
+## Business
 
-**Give us your keyed data and the scans. You get the 4% of fields to look at, each with its photo.**
+**Give us your keyed data and the scans. You get the 4% of fields to look at, each with its photo.** Full case,
+with every source: [docs/BUSINESS.md](docs/BUSINESS.md).
 
-- **Election-capture audits, now.** Mexico requires an outside audit of every preliminary-results capture (PREP);
-  Reglamento de Elecciones art. 347 gives priority to academic institutions. In 2024 UNAM centres audited the
-  PREPs of Querétaro, Aguascalientes, Puebla and Mexico City, among others
-  ([INE](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf),
-  [IEEQ](https://ieeq.mx/contenido/prensa/sintesis/2024/13469.pdf)). On our 300, one disputed field in five was a
-  confirmed capture error, and re-reading every national tally form costs about $24 of AMD compute.
-- **Clinical-trial source-data verification, next (not measured).** Peer-reviewed estimates put monitoring,
-  including source-data verification, at 15-30% of trial costs
-  ([Ball, Clinical Trials 2014](https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf)).
-  We have not run a case-report form.
-- **Internal audit of any keyed file** that has its scans: registries, surveys, archives.
+- **Buyer, now.** Reglamento de Elecciones art. 347: every state institute has its PREP audited by an outside body,
+  preferably academic. In February 2024, 26 of 32 institutes had named one, all universities or research centres
+  ([INE annex](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf)).
+  The audit covers the computer system; we add the field-by-field check against the paper. Next window: the federal
+  election and 32 concurrent local processes, election day 6 June 2027
+  ([INE](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
+- **Yield (measured).** 1 in 5 disputed fields is a capture error, against at least 1 in 122 at random; a person
+  checks 1 field in 24; the strong-evidence tier is right 12 of 18 times.
+- **Price (proposal).** $100 per 1,000 forms audited, two readers and the report included. Measured AMD compute:
+  $0.14 per 1,000 (Gemma) plus $0.51 (Qwen, pilot).
+- **Next markets, not measured.** Clinical-trial source-data verification (site monitoring and source document
+  verification: 15-30% of trial costs, [Lindblad et al., Clinical Trials 2014](https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf));
+  internal audit of keyed loan and claim files.
+- **Competition.** OCR and IDP platforms (Tesseract, ABBYY, Rossum, Hypatos, UiPath, Textract, Document AI) extract;
+  none says it audits an existing capture with a crop per finding. Double keying copies the paper faithfully but
+  cannot say which paper is wrong: 19.2% of nationally captured tally forms (26,336 of 137,196) fail their own row
+  sum. Table in [docs/BUSINESS.md](docs/BUSINESS.md#3-competitive-analysis).
 
 **Why not plain OCR, why an LLM.** Classic OCR fails on this handwriting; that is why Rainfall Rescue used
 16,000 volunteers (we did not run an OCR baseline ourselves). One vision model reads digits, words and row
 labels from phone photos with no per-form training. It never decides: the paper's arithmetic does.
-
-**Competition.** Keying twice copies the paper faithfully but cannot say which paper is wrong; 19.2% of
-nationally captured tally forms (26,336 of 137,196) fail their own row sum in the official capture. One state
-institute piloted AI recognition on 264 polling stations' forms in 2024. Handwriting tools such as Transkribus
-transcribe tables; none we found gives a per-form proof of when to trust the read.
 
 ## Data, credit and framing
 

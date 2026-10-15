@@ -104,22 +104,21 @@
 <section>
   <div class="grid2">
     <div class="card">
-      <div class="eyebrow">Who pays</div>
-      <h3>Auditors of keyed data</h3>
+      <div class="eyebrow">Business</div>
+      <h3>Who pays: auditors of keyed data</h3>
       <p style="margin:8px 0 12px"><b>{{ L.product }}</b></p>
       <ul class="buyers">
-        <li><b>Election-capture audits, now.</b> {{ cited.prep_audit.text }}. {{ cited.unam_2024.text[:1]|upper }}{{ cited.unam_2024.text[1:] }}. Two Hands hands the auditor the {{ '%.0f'|format(H.flag_pct) }}% of fields where the model and the capture disagree, each with its photo: on our {{ H.forms }}, 1 in {{ H.yield_one_in }} of them was a confirmed capture error.</li>
-        <li><b>Clinical-trial source-data verification, next (not measured).</b> Monitoring, including checking keyed case-report data against the source, takes {{ cited.sdv_cost.text }} in peer-reviewed estimates. We have not run a case-report form.</li>
-        <li><b>Internal audit of any keyed file</b> that has the scans: registries, surveys, archives.</li>
+        <li><b>Now: election-capture audits.</b> {{ cited.prep_audit.text }}. We add the field-by-field check against the paper. Next window: {{ cited.window_2027.text }}.</li>
+        <li><b>Next, not measured:</b> clinical-trial source-data verification ({{ cited.sdv_cost.text }}); internal audit of keyed loan and claim files.</li>
       </ul>
-      <div class="actions" style="margin:4px 0 14px"><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture: keyed CSV + scans in, disputes with their photos out</a></div>
       <div class="vs" style="margin-top:14px">
-        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, measured on the {{ H.read }} reads)</div></div>
+        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">measured AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, {{ H.read }} reads)</div></div>
         <div class="mid">·</div>
-        <div><div class="big-num">{{ b.national_g }}</div><div class="lab small muted">to re-read all {{ cited.national_forms.text }} national tally forms</div></div>
+        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">proposed price per 1,000 forms audited, two readers and the report included</div></div>
       </div>
-      <p class="small" style="margin-bottom:6px"><b>Why the paper matters:</b> {{ cited.base_rate.text }} of nationally captured forms ({{ cited.base_rate.num }} of {{ cited.base_rate.den }}) fail their own row sum in the official capture. Keying twice copies the paper faithfully; it cannot say which paper is wrong. The gate does.</p>
-      <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". UNAM 2024: " ~ cited.unam_2024.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". National set: " ~ cited.national_forms.source ~ ".") }}</div>
+      <p class="small" style="margin-bottom:6px">A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field; 1 in {{ H.yield_one_in }} of those is a confirmed capture error. Keying twice copies the paper; it cannot say which paper is wrong: {{ cited.base_rate.text }} of nationally captured forms fail their own row sum.</p>
+      <div class="actions" style="margin:10px 0 4px"><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a></div>
+      <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". 2027: " ~ cited.window_2027.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". Price: " ~ cited.price_proposal.source ~ ". Row sums: " ~ cited.base_rate.source ~ ".") }}</div>
     </div>
 
     <div class="card">

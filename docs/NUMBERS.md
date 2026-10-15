@@ -61,9 +61,11 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | AI-recognition pilot by a state institute | IEEQ Querétaro 2024, 264 polling stations | `spikes/tally-witness/README.md` §5 |
 | Endpoint | AMD Token Factory, the organisers' AMD route | `notes/rules.md` |
 | Throughput | ~2 forms/min under 6 req/min, 2-concurrent pacing | `spikes/tally-witness/README.md` §3 |
-| Outside audit of every PREP | Reglamento de Elecciones art. 347 (priority to academic institutions) | https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf |
-| UNAM centres audited 2024 state PREPs | Querétaro, Aguascalientes, Puebla, Mexico City, among others | https://ieeq.mx/contenido/prensa/sintesis/2024/13469.pdf |
-| Monitoring incl. source-data verification | 15-30% of clinical-trial costs | Ball, Clinical Trials 2014, https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf |
+| Outside audit of every PREP; 26 of 32 state institutes had named one in Feb 2024, all academic or research | Reglamento de Elecciones art. 347 numerals 1-2 (preference to academic or research institutions) | IEEH/CG/022/2024, https://ieehidalgo.org.mx/images/sesiones/2024/Febrero/IEEH-CG-022-2024.pdf; INE annex 5, https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf |
+| UNAM centres audited 2024 state PREPs | Aguascalientes, Mexico City, Hidalgo, Puebla, Querétaro, Veracruz | INE annex 5, https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf |
+| 2027 window | federal election + 32 concurrent local processes; election day 6 June 2027 | INE Central Electoral 2026-07-30 and 2026-07-31 (URLs in `app/numbers.py` `window_2027`) |
+| Site monitoring and source document verification | 15-30% of clinical-trial costs | Lindblad et al. (incl. Ball), Clinical Trials 2014; 11: 205-217, https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf |
+| Proposed price (a proposal, not measured) | $100 per 1,000 forms audited | docs/BUSINESS.md section 2 |
 | Volunteers | ~16,000, 4 transcriptions per value | Hawkins et al., Geoscience Data Journal 2022, quoted in `spikes/ledger-rescue/README.md` §1 |
 
 **Not shown:** a cost for a human keyer. We found no citable figure, so the business panel shows only our compute cost
