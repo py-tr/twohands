@@ -3,9 +3,12 @@
 Every number typed from a paper form, checked against the photo of that paper, with the photo as proof. A vision
 model on AMD reads the form; the form's own arithmetic decides what to trust; every dispute arrives with its crop.
 
+The PREP rules require a second capture and a comparison for every acta (numeral 33) and a cotejo. Two Hands does that
+second capture: it accepts what the paper's arithmetic confirms and sends the rest to a person, with the photo.
+
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
-the official double-keyed capture: the model found 52 fields where the capture does not match the paper, 22 of
-them confirmed by the certified count. Errors we did not plant, in a record we did not write, in a sample drawn
+the official double-keyed capture: the model found 52 fields where the capture does not match the paper (22
+confirmed by the certified count · 0 checked by a person · 30 AI-adjudicated only; person check pending: `/check`). Errors we did not plant, in a record we did not write, in a sample drawn
 before any model read.
 
 Who pays: auditors who already check the count's system, trial monitors who verify source data against charts,
@@ -22,9 +25,12 @@ Others check the model against the source. We check the record against the paper
 
 | 52 | 18% · 30% | 1 in 5 |
 |---|---|---|
-| fields where the official capture does not match the paper, each with its photo | One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary. (Note: the two-reader tier checks words = digits and row sums, without the section checks.) | disputed fields is a confirmed capture error (52 of 267) |
+| fields where the official capture does not match the paper, each with its photo: 22 confirmed by the certified count · 0 checked by a person · 30 AI-adjudicated only (person check pending) | One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary. (Note: the two-reader tier checks words = digits and row sums, without the section checks.) | disputed fields is a confirmed capture error (52 of 267) |
 
 **Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.**
+
+Measured on Gemma-4-31B-IT on the AMD Token Factory; live reads use Qwen3.8-27B there since the organisers withdrew
+Gemma (Oct 15, 15:41 UTC).
 
 ![Option 07 on form 050815B0100: the words say "ciento setenta y cinco", the boxes say 1 7 5](slides/receipt_050815B0100.jpg)
 

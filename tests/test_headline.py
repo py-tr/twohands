@@ -6,6 +6,7 @@ import re
 from fastapi.testclient import TestClient
 
 from app.main import app
+from app.honest import gate_label
 from app.numbers import headline, lines
 from twohands import REPO
 
@@ -44,8 +45,9 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
         assert L["breakdown"] in t
     assert L["honest"] in home and L["preliminary"] in home
     assert "The paper: 271 · The first capture keyed: 272 · The certified count: 271" in home   # the strip's receipt card
-    for k in ("keying", "gate", "yield"):
+    for k in ("keying", "yield"):
         assert L[k]["label"] in home and (L[k]["small"] or "") in home
+    assert gate_label(L) in home and (L["gate"]["small"] or "") in home   # the tiers in the regulation's words
     assert L["keying"]["small2"] in home and L["faint"] in aud
     assert "1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far)." in home
     assert "x the yield" not in home and "24" not in L["yield"]["label"]
@@ -57,7 +59,7 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     assert L["two_readers"] and L["two_readers"] in home and "0 wrong fields in" in L["two_readers"]
     assert "Every gate tier, one table" in res
     # hero: 52 first, then the gate line with both tiers in one sentence (primary first), then the honest sentence
-    assert home.index(L["keying"]["label"]) < home.index(L["gate"]["label"]) < home.index(L["honest"])
+    assert home.index(L["keying"]["label"]) < home.index(gate_label(L)) < home.index(L["honest"])
     assert L["gate"]["label"].startswith("One reader: ") and "Two readers that must agree" in L["gate"]["label"]
     assert L["gate_note"] in home and L["gemma_role"] in home
     assert L["label_cost"] in res and L["harmonised"] in res
@@ -81,8 +83,9 @@ def test_docs_quote_the_summary():
     lab = (REPO / "submission" / "lablab.md").read_text(encoding="utf-8")
     gem = (REPO / "docs" / "GEMMA.md").read_text(encoding="utf-8")
     flat = lambda d: re.sub(r"\s+", " ", d.replace("**", ""))  # noqa: E731
-    for doc in (readme, slides, lab):
-        assert L["gate"]["label"] in flat(doc) and L["gemma_role"] in flat(doc)
+    assert gate_label(L) in flat(readme) and L["gemma_role"] in flat(readme)   # README: the regulation's words
+    for doc in (slides, lab):
+        assert (L["gate"]["label"] in flat(doc) or gate_label(L) in flat(doc)) and L["gemma_role"] in flat(doc)
     assert L["honest"] in flat(lab) and L["gemma_role"] in flat(gem)
     m = re.search(r"## Short description \((\d+) characters\)\n\n(.+)\n", lab.replace("\r\n", "\n"))
     assert m and len(m.group(2)) == int(m.group(1)) <= 255
@@ -94,10 +97,10 @@ def test_no_placeholders_or_pending_judge_facing():
         html = client.get(u).text
         assert not re.search(r"\{\{\s*[A-Za-z_]", html), u   # an unrendered template placeholder
         assert "{{" not in _text(u), u
-        assert "pending" not in html.lower(), u
+        assert "pending" not in html.lower().replace("person check pending", ""), u   # the one honest pending
     for f in JUDGE_DOCS:
         t = (REPO / f).read_text(encoding="utf-8")
-        assert "{{" not in t and "pending" not in t.lower(), f
+        assert "{{" not in t and "pending" not in t.lower().replace("person check pending", ""), f
     for f in glob.glob(str(REPO / "templates" / "*.html")):
         assert "pending" not in open(f, encoding="utf-8").read().lower(), f
 

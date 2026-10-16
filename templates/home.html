@@ -9,19 +9,9 @@
 <section class="first" id="first" aria-label="Live audit">
   <div class="fold">
   <h1 class="f-h1">Receipts for every number keyed from paper.</h1>
-  <p class="f-sub d-only">A vision model on AMD reads the form; the form's own arithmetic decides; every dispute comes with its photo.</p>
-  <div class="f-live">
-    <div class="f-left">
-    <div class="strip card" id="strip" data-kind="{{ ls.kind }}">
-      <div class="nums">
-        <div class="n n-aud"><div class="v num" data-k="forms_audited">{{ ls.forms_audited|int }}</div><div class="l">forms audited on AMD so far</div></div>
-        <div class="n n-disp"><div class="v num" data-k="disputes">{{ ls.disputes|int }}</div><div class="l">disputes</div></div>
-        <div class="n n-conf"><div class="v num" data-k="certified_confirmed">{{ ls.certified_confirmed|int }}</div><div class="l">confirmed by the certified count</div></div>
-      </div>
-      <p class="meta" id="stripMeta">{% for x in ls.samples %}{{ x.forms|int }} in the {{ x.name }}{{ ' · ' }}{% endfor %}{% if ls.live %}<span class="ldot{{ ' on' if ls.running }}"></span>{{ ls.live.forms|int }} live since {{ ls.live.since_text }}{% if ls.updated_min_ago is not none %} (updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}){% endif %} · {% else %}<span class="tag">measured sample</span> · {% endif %}reader: {{ ls.reader_model }} on AMD Token Factory</p>
-    </div>
-    <p class="fold-note d-only">Required by the PREP procedure: every acta gets a second capture and a comparison (<a href="https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/CGex202311-03-ap-8-a.pdf" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>). This is that step, at {{ n.business.per_1000_g }} of AMD compute per 1,000 forms.</p>
-    </div>
+  {% set rl = honest.REG_LINE.split('(numeral 33)') %}
+  <p class="f-reg" id="reg">{{ rl[0] }}<a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">(numeral 33)</a>{{ rl[1] }}</p>
+  <div class="f-hero">
     {% set rs = ls.latest_receipts[:8] %}
     {% if rs %}
     <a class="rcard card" href="/audit" id="rcard" aria-label="A dispute confirmed by the certified count; open the findings">
@@ -34,7 +24,32 @@
       {% endfor %}
     </a>
     {% endif %}
+    {% set bc = honest.buyer_card() %}
+    {% if bc %}
+    <div class="card buyer" id="buyer">
+      <div class="eyebrow">The buyer's own benchmark</div>
+      <p class="rvals">Baja California Sur's 2024 PREP: their first capture matched {{ bc.theirs_pct }}% of fields; ours {{ bc.ours_pct }}% ({{ bc.matched|int }} of {{ bc.fields|int }} fields, {{ bc.n_actas }} actas, pre-registered).</p>
+      <a class="btn sm" href="/results#ieebcs">The head-to-head</a>
+    </div>
+    {% endif %}
+    {% set C = honest.strip_figures(ls) %}
+    <div class="strip card" id="strip" data-kind="{{ ls.kind }}">
+      {% if C.live %}
+      <div class="nums four">
+        <div class="n n-states"><div class="v num">{{ C.states_complete|int }}</div><div class="l">states complete</div></div>
+        {% if C.current %}<div class="n n-cur"><div class="v num">{{ '%g'|format(C.current.pct) }}<span class="unit">%</span></div><div class="l">of {{ C.current.name }} so far</div></div>{% endif %}
+        {% if C.per_day %}<div class="n n-day" title="{{ C.per_day.why }}"><div class="v num">+{{ C.per_day.n|int }}</div><div class="l">a day for {{ C.per_day.budget_text }} on AMD</div></div>{% endif %}
+        <div class="n n-aud"><div class="v num" data-k="forms_audited">{{ C.total|int }}</div><div class="l">audited in total</div></div>
+      </div>
+      {% else %}
+      <div class="nums four">
+        <div class="n n-aud"><div class="v num" data-k="forms_audited">{{ C.total|int }}</div><div class="l">audited in total</div></div>
+      </div>
+      {% endif %}
+      <p class="meta" id="stripMeta">{% for x in ls.samples %}{{ x.forms|int }} in the {{ x.name }}{{ ' · ' }}{% endfor %}{% if ls.live %}<span class="ldot{{ ' on' if ls.running }}"></span>{{ ls.live.forms|int }} live since {{ ls.live.since_text }}{% if ls.updated_min_ago is not none %} (updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}){% endif %} · {% else %}<span class="tag">measured sample</span> · {% endif %}reader: {{ ls.reader_model }} on AMD Token Factory · <a href="/live">live audit</a></p>
+    </div>
   </div>
+  <p class="fold-note d-only">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms.</p>
   <div class="f-actions">
     <a class="btn primary lg" href="/station">{{ icon('search') }}Pick any polling station</a>
     <a class="btn dark lg f-second" href="/audit/new">{{ icon('upload') }}Audit your capture</a>
@@ -55,6 +70,7 @@
     <div class="card stat">
       <div class="v">{{ L.keying.value }}</div>
       <div class="l">{{ L.keying.label }}</div>
+      {% set CF = honest.confirmation(H) %}{% if CF %}<div class="conf" id="conf52"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <b>{{ CF.person }} checked by a person</b>{% if CF.person_disagree %} · {{ CF.person_disagree }} read differently by a person{% endif %} · {{ CF.ai_only }} AI-adjudicated only{% if CF.note %} <span class="pend">({{ CF.note }})</span>{% endif %}</div>{% endif %}
       <div class="s">{{ L.keying.small }}</div>
       <div class="s"><b>{{ H.cert_agree }} of {{ H.cert_covered }}</b> confirmed by the certified count where it covers the field. {{ L.keying.small2 }}</div>
       <div class="s"><b>{{ L.preliminary }}</b></div>
@@ -63,8 +79,8 @@
     <div class="card stat" title="{{ L.gate_note }}">
       {% set t2 = (n.T.tiers.two_reader if n.T else None) %}
       <div class="v">{{ H.accepted_pct }}%{% if t2 %} · {{ '%.0f'|format(100 * t2.accepted / n.T.forms) }}%{% endif %}</div>
-      <div class="l">of forms need no person: one reader, {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} accepted fields wrong{% if t2 %}; two readers, {{ t2.errors }} of {{ t2.fields|int }}{% endif %}</div>
-      <div class="s">{{ L.gate.label }}</div>
+      <div class="l">of forms accepted at second capture: one reader, {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} accepted fields wrong{% if t2 %}; two readers, {{ t2.errors }} of {{ t2.fields|int }}{% endif %}</div>
+      <div class="s">{{ honest.gate_label(L) }}</div>
       {% if L.gate.small %}<div class="s">{{ L.gate.small }}</div>{% endif %}
       <div class="src">{{ source("app/data/headline.json (one reader, primary) + app/data/two_reader_300.json (two readers, Amendment 2 d)") }}</div>
     </div>
@@ -106,7 +122,7 @@
     <div class="card">
       <div class="eyebrow">Who pays</div>
       <h3>Auditors of keyed data</h3>
-      <p style="margin:8px 0 12px"><b>Auditors already check the count's system. Nobody checks the captured numbers against the paper, because by hand it does not pay. This does it for cents, with a photo for every dispute.</b></p>
+      <p style="margin:8px 0 12px"><b>1 disputed field in {{ H.yield_one_in }} is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }}): the second capture finds what the first one keyed wrong, with the photo.</b> Auditors already check the count's system. Nobody checks the captured numbers against the paper, because by hand it does not pay. This does it for cents.</p>
       <ul class="buyers">
         <li><b>Now: election-capture audits.</b> {{ cited.prep_audit.text }}. We add the field-by-field check against the paper. Next window: {{ cited.window_2027.text }}.</li>
         <li><b>Next, not measured:</b> clinical-trial source-data verification ({{ cited.sdv_cost.text }}); internal audit of keyed loan and claim files.</li>
@@ -125,6 +141,7 @@
       <div class="eyebrow">What runs on AMD</div>
       <h3>Open models on the AMD endpoint</h3>
       <p class="small muted">{{ cited.endpoint.text }}. Every measured read went through it, and the live audit reads through it now.</p>
+      <p class="small" id="modelline" style="margin:8px 0 0"><b>{{ honest.model_line() }}</b></p>
       {% for m in n.amd.models %}
       <div class="amd-model">
         <div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div>

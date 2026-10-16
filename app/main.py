@@ -460,3 +460,10 @@ app.include_router(buildermod.router)
 # Pick any polling station (additive): search or pick a station; instant answer or a queued live read: /station
 from app import stations as stationsmod  # noqa: E402
 app.include_router(stationsmod.router)
+
+# Judge this verdict yourself (additive): a blind crop, the visitor's reading, then our verdict: /judge/{clave}/{code}
+from app import judge as judgemod  # noqa: E402
+from app import honest as honestmod  # noqa: E402
+app.include_router(judgemod.router)
+templates.env.globals["judge_count"] = judgemod.count_text
+templates.env.globals["honest"] = honestmod

@@ -57,6 +57,7 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
 .fp td.hv { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; word-break: break-all; padding-left: 12px; width: 62%; }
 .item .hd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
 .item .hd .rc { margin-left: auto; font: 500 11.5px "JetBrains Mono", ui-monospace, monospace; color: var(--muted); text-decoration: none; border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; }
+.item .hd .rc + .rc { margin-left: 0; }
 .item .hd .rc:hover { color: var(--ink); border-color: var(--muted); }
 .fp .sub { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
 .fp code { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--ink); background: var(--bg); padding: 1px 5px; border-radius: 4px; }
@@ -116,7 +117,8 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
     <div class="rk">{{ d.pos }}</div>
     <div>{% if d.img %}<img src="{{ d.img }}" alt="crop of {{ d.name }} on {{ d.form }}">{% else %}<span class="meta">no masked page</span>{% endif %}</div>
     <div class="body">
-      <div class="hd"><span class="mono">{{ d.form }}</span> · {{ d.name }} <span class="tier {{ d.tier }}">{{ d.tier }}</span>{% if d.mark %} <span class="mk {{ d.mark }}">{{ MARKS[d.mark] }}</span>{% endif %}<a class="rc" href="/audit/{{ a.id }}/receipt/{{ d.key }}{{ RQ }}" title="This field's Merkle receipt (JSON): its leaf, the proof path and the report's root">receipt</a></div>
+      <div class="hd"><span class="mono">{{ d.form }}</span> · {{ d.name }} <span class="tier {{ d.tier }}">{{ d.tier }}</span>{% if d.mark %} <span class="mk {{ d.mark }}">{{ MARKS[d.mark] }}</span>{% endif %}<a class="rc" href="/audit/{{ a.id }}/receipt/{{ d.key }}{{ RQ }}" title="This field's Merkle receipt (JSON): its leaf, the proof path and the report's root">receipt</a>{% if d.img %}<a class="rc" href="/judge/{{ d.form }}/{{ d.code }}?a={{ a.id }}" title="See the crop blind, type what the paper says, then see our verdict">Judge this verdict yourself</a>{% endif %}</div>
+      {% set jc = judge_count((d.form ~ '__' ~ d.code) if d.adjudicated else ('a:' ~ a.id ~ ':' ~ d.form ~ '__' ~ d.code)) %}{% if jc %}<div class="meta">{{ jc }}</div>{% endif %}
       <div class="vals"><div class="k"><span>Keyed</span><b>{{ d.keyed }}</b></div><div><span>Model digits</span><b>{{ d.model if d.model is not none else 'blank' }}</b></div><div><span>Model words</span><b>{{ d.words if d.words is not none else '–' }}</b></div></div>
       <ul class="ev">{% for s in d.signals %}<li>{{ s.text }}</li>{% endfor %}</ul>
       {% if d.second %}<div class="second {{ 'agree' if d.second.agrees else ('na' if not d.second.available else '') }}">{{ d.second.text[:1]|upper }}{{ d.second.text[1:] }}{% if d.demoted %} <span class="demoted">(strong on one reader; medium in strict mode)</span>{% endif %}</div>{% endif %}

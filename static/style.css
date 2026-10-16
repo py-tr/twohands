@@ -813,3 +813,46 @@ section.st-ans { margin-top: var(--s-6); }
 .gtake { margin: 14px 0 0; font-weight: 560; border-left: 3px solid var(--ink); padding-left: 12px; max-width: 60em; }
 .fold-note { margin: 10px 2px 0; font-size: .8rem; color: var(--muted); line-height: 1.45; }
 .fold-note a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Judge this verdict yourself; the 52's confirmation line; the hero's regulation line and live counter */
+.judge-body { max-width: 760px; }
+.j-img { background: var(--sunken); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.j-img img { display: block; width: 100%; height: auto; }
+.j-form { display: grid; gap: 12px; margin-top: 16px; }
+.j-in { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: .9rem; }
+.j-in input { font: 600 1.5rem/1.2 var(--mono); padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); width: 100%; max-width: 260px; }
+.j-flags { display: flex; gap: 18px; flex-wrap: wrap; font-size: .92rem; }
+.j-flags label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.j-act { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.j-err { color: var(--bad); font-weight: 600; }
+.j-reveal { margin-top: 16px; }
+.j-form[hidden], .j-reveal[hidden] { display: none; }
+.j-you { margin: 0 0 12px; }
+.j-vals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.judge-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 12px; }
+.judge-row .jc { font-size: .8rem; color: var(--muted); }
+.conf { margin-top: 8px; font-size: .84rem; color: var(--ink-2); line-height: 1.45; }
+.conf b { font-weight: 650; }
+.conf .ok { color: var(--ok); }
+.conf .pend { color: var(--warn); font-weight: 600; }
+.f-reg { margin: 12px 0 0; font-size: 1.04rem; color: var(--ink-2); max-width: 52em; line-height: 1.55; }
+.f-reg a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--line); }
+.f-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-5); margin-top: var(--s-6); align-items: stretch; }
+.f-hero .rcard, .f-hero .strip { height: 100%; }
+.f-hero + .fold-note { margin-top: 12px; }
+.strip .nums.four { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+.strip .nums.four .v { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+.strip .v .unit { font-size: .55em; font-weight: 650; letter-spacing: -0.01em; margin-left: 1px; color: var(--ink-2); }
+.strip .n-day .v { color: var(--ok); }
+.buyer { border: 1px solid var(--accent-soft); }
+@media (max-width: 860px) {
+  .f-hero { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .f-reg { font-size: .9rem; margin-top: 8px; }
+  .f-hero { margin-top: 14px; gap: 12px; }
+  .strip .nums.four { gap: 10px 12px; }
+  .strip .nums.four .v { font-size: 1.6rem; }
+  .rfoot .chip { white-space: normal; }
+  .j-vals { grid-template-columns: minmax(0, 1fr); }
+}

@@ -98,11 +98,12 @@ def test_first_screen_content_in_order(empty_worker):
     first = re.search(r'<section class="first".*?</section>', h, flags=re.S).group(0)
     t = _text(first)
     H = numbersmod.headline()
-    marks = [H1, SUB, f"{H['forms']} forms audited on AMD so far", f"{H['disagree']} disputes",
-             f"{H['cert_agree']} confirmed by the certified count", f"{H['forms']} in the pre-registered sample",
-             "measured sample", "reader: Gemma-4-31B-IT (sample) on AMD Token Factory",
-             "The paper: 271 · The first capture keyed: 272 · The certified count: 271",
-             "dispute confirmed by the certified count · measured sample", "202451B0100", "Pick any polling station",
+    from app.honest import REG_LINE
+    # H1, the regulated step, the receipt card first, then the live strip (third in the hero), then the actions
+    marks = [H1, REG_LINE, "The paper: 271 · The first capture keyed: 272 · The certified count: 271",
+             "dispute confirmed by the certified count · measured sample", "202451B0100",
+             f"{H['forms']} audited in total", f"{H['forms']} in the pre-registered sample",
+             "reader: Gemma-4-31B-IT (sample) on AMD Token Factory", "Pick any polling station",
              "Audit your capture", DIFF]
     pos = [t.find(m) for m in marks]
     assert all(p >= 0 for p in pos), [m for m, p in zip(marks, pos) if p < 0]
@@ -134,7 +135,8 @@ def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
     assert s["reader_model"] == "Gemma-4-31B-IT (sample), Qwen3.8-27B (live)"
     t = _text(client.get("/").text)
     first = t.split("Measured, not promised")[0]
-    assert f"{H['forms'] + 41} forms audited on AMD so far" in first
+    assert f"{H['forms'] + 41} audited in total" in first and "1 states complete" in first
+    assert "12.5 % of Baja California Sur so far" in first and "of 32" not in first
     assert f"{H['forms']} in the pre-registered sample · 41 live since" in first and "updated" in first
     assert "dispute confirmed by the certified count · live audit" in first
     rs = s["latest_receipts"]
@@ -278,7 +280,7 @@ def test_phone_first_screen(server):
 
         assert pg.evaluate("document.documentElement.scrollWidth") <= 390
         assert box("#menubtn") and box(".brand")
-        for sel in (".f-h1", ".n-aud", ".n-conf", "#rcard", ".f-actions .btn.primary"):
+        for sel in (".f-h1", "#reg", "#rcard", ".n-aud", ".f-actions .btn.primary"):
             b = box(sel)
             assert b and b["y"] + b["height"] <= fold, (sel, b)
         assert box(".n-disp") is None and box(".f-second") is None and box(".nav a") is None
@@ -299,8 +301,9 @@ def test_prep_procedure_note_under_the_counter():
     first = re.search(r'<section class="first".*?</section>', h, flags=re.S).group(0)
     t = _text(first)
     b = numbersmod.home(ST.storemod.get_store())["business"]["per_1000_g"]
-    note = f"This is that step, at {b} of AMD compute per 1,000 forms."
-    assert note in t and t.index("confirmed by the certified count") < t.index("Required by the PREP procedure") < t.index(note)
+    from app.honest import REG_LINE
+    note = f"The second capture costs {b} of AMD compute per 1,000 forms."
+    assert note in t and t.index(REG_LINE) < t.index("audited in total") < t.index(note)
     assert "CGex202311-03-ap-8-a.pdf" in first and 'href="/business.md"' in first
     assert client.get("/business.md").status_code == 200
 

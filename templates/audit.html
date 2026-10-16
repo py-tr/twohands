@@ -5,12 +5,13 @@
 <section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Audit mode</div>
   <h1>{{ H.keying_errors }} {{ L.unit }}</h1>
+  {% set CF = honest.confirmation(H) %}{% if CF %}<p class="conf" id="conf52" style="font-size:.95rem;margin:10px 0 0"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <b>{{ CF.person }} checked by a person</b>{% if CF.person_disagree %} · {{ CF.person_disagree }} read differently by a person{% endif %} · {{ CF.ai_only }} AI-adjudicated only{% if CF.note %} <span class="pend">({{ CF.note }})</span>{% endif %}. Below each one: judge it yourself.</p>{% endif %}
   <p class="lede">The model re-read {{ H.fields|int }} fields of {{ H.read }} randomly drawn forms that the official two-person capture had already keyed. It disagreed on {{ H.disagree }} ({{ H.flag_pct }}%). A person settled each one on the photo: in {{ H.keying_errors }} the paper shows the model's value, so the capture does not match the paper: {{ L.breakdown }}</p>
 </section>
 
 <section style="margin-top:28px">
   <div class="grid3">
-    <div class="card stat"><div class="v">{{ H.keying_errors }}</div><div class="l">{{ L.unit }}, in {{ H.fields|int }} fields</div><div class="s">{{ L.preliminary }}</div></div>
+    <div class="card stat"><div class="v">{{ H.keying_errors }}</div><div class="l">{{ L.unit }}, in {{ H.fields|int }} fields</div>{% if CF %}<div class="conf">{{ CF.text }}</div>{% endif %}<div class="s">{{ L.preliminary }}</div></div>
     <div class="card stat"><div class="v">{{ H.cert_agree }} of {{ H.cert_covered }}</div><div class="l">confirmed by the certified count where it covers the field</div><div class="s">All {{ H.cert_differ }} differences were recounts of the ballots, not readings of this paper. The certified count does not cover sections 2, 3, 4 and 7.</div></div>
     <div class="card stat"><div class="v">1 in {{ H.yield_one_in }}</div><div class="l">disputed fields is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }})</div><div class="s">The capture's overall error rate is at least 1 in {{ H.random_one_in }}. Recall: {{ L.recall }}</div></div>
   </div>
@@ -72,7 +73,8 @@
         <div class="box"><div class="l">Model read</div><div class="v">{{ e.model if e.model is not none else 'blank' }}</div></div>
         <div class="box {{ 'right' if e.cert_agrees }}"><div class="l">Certified count</div><div class="v">{{ e.certified if e.certified is not none else '—' }}</div>{% if e.certified is none %}<div class="tiny">not part of the certified data</div>{% else %}<div class="tiny">by {{ {'Cotejo': 'comparison', 'Recuento': 'recount'}.get(e.cert_mode, e.cert_mode) }}</div>{% endif %}</div>
       </div>
-      <p class="small" style="margin:12px 0 0">On the paper: {{ e.evidence }}{% if e.accepted %} <span class="muted">Form accepted by the gate.</span>{% endif %}</p>
+      <p class="small" style="margin:12px 0 0">On the paper: {{ e.evidence }}{% if e.accepted %} <span class="muted">Form {{ honest.TIER }}.</span>{% endif %}</p>
+      {% if e.img %}<div class="judge-row"><a class="btn sm" href="/judge/{{ e.clave }}/{{ e.code }}">Judge this verdict yourself</a>{% set jc = judge_count(e.clave ~ '__' ~ e.code) %}{% if jc %}<span class="jc">{{ jc }}</span>{% endif %}</div>{% endif %}
     </div>
   </div>
   {% endfor %}

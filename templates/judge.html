@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Judge this verdict · Two Hands{% endblock %}
+{% block content %}
+<section class="page-head judge">
+  <div class="eyebrow">Judge this verdict yourself</div>
+  <h1>What does the paper say?</h1>
+  <p class="lede">Form <span class="mono">{{ clave }}</span> · <b>{{ name }}</b>. You see only the photo: no capture, no model read, no verdict. Type what is written; then we show you ours.</p>
+</section>
+<section class="judge-body">
+  <div class="card">
+    {% if img %}<div class="j-img"><img src="{{ img }}" alt="Masked crop of {{ name }} on form {{ clave }}"></div>
+    {% else %}<p class="muted">No masked crop of this field.</p>{% endif %}
+    <form id="jf" class="j-form" autocomplete="off">
+      <label class="j-in">The paper says<input type="text" id="digits" inputmode="numeric" placeholder="e.g. 175" autofocus></label>
+      <div class="j-flags">
+        <label><input type="checkbox" id="blank"> blank</label>
+        <label><input type="checkbox" id="cant_tell"> can't tell</label>
+      </div>
+      <div class="j-act"><button class="btn primary" type="submit">Show our verdict</button><span id="jerr" class="j-err"></span></div>
+    </form>
+    <div id="reveal" class="j-reveal" hidden>
+      <p class="j-you">You read <b class="mono" id="r-you"></b>. <span id="r-agree"></span></p>
+      <div class="vals j-vals">
+        <div class="box right"><div class="l" id="r-paper-l">The paper, as adjudicated</div><div class="v" id="r-paper"></div></div>
+        <div class="box wrong"><div class="l">The capture keyed</div><div class="v" id="r-capture"></div></div>
+        <div class="box"><div class="l">The certified count</div><div class="v" id="r-cert"></div></div>
+      </div>
+      <p class="small" style="margin:12px 0 0"><b>Our verdict.</b> <span id="r-verdict"></span></p>
+      <p class="small muted" id="r-count" style="margin:8px 0 0"></p>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:12px">Your answer is stored anonymously as agree or disagree with our verdict, once per verdict: no address, no account, not what you typed. <a href="{{ back }}">Back</a></p>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var f = document.getElementById('jf'), e = document.getElementById('jerr'), d = document.getElementById('digits');
+  var url = '/api/judge/{{ clave }}/{{ code }}{{ "?a=" ~ audit if audit else "" }}';
+  var show = function (x) { return (x === null || x === undefined || x === '') ? '—' : String(x); };
+  f.addEventListener('submit', function (ev) {
+    ev.preventDefault(); e.textContent = '';
+    var body = {digits: d.value, blank: document.getElementById('blank').checked, cant_tell: document.getElementById('cant_tell').checked};
+    fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)})
+      .then(function (r) { return r.json().then(function (j) { return [r.ok, j]; }); })
+      .then(function (x) {
+        if (!x[0]) { e.textContent = x[1].error || 'not saved'; return; }
+        var j = x[1];
+        document.getElementById('r-you').textContent = show(j.reading);
+        document.getElementById('r-agree').textContent = j.agree ? 'That agrees with our verdict.' : 'That differs from our verdict.';
+        document.getElementById('r-paper-l').textContent = j.adjudicated ? 'The paper, as adjudicated' : 'The paper, as our model read it';
+        document.getElementById('r-paper').textContent = show(j.paper);
+        document.getElementById('r-capture').textContent = show(j.capture);
+        document.getElementById('r-cert').textContent = j.certified === null ? 'not covered' : show(j.certified);
+        document.getElementById('r-verdict').textContent = j.verdict_text;
+        document.getElementById('r-count').textContent = j.count_text ? j.count_text + '.' :
+          'Visitor counts appear once ' + j.show_from + ' people have judged this verdict.';
+        f.hidden = true; document.getElementById('reveal').hidden = false;
+      })
+      .catch(function () { e.textContent = 'not saved (server unreachable)'; });
+  });
+})();
+</script>
+{% endblock %}

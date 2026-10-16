@@ -21,7 +21,7 @@
   <div class="kpi"><div class="l">Forms in</div><div class="v">{{ k.n|int }}</div><div class="s">{{ '%.1f'|format(k.per_min) ~ ' forms/min' if k.per_min else 'measured reads' }}{% if k.last %} · last {{ k.last[11:] }}{% endif %}</div></div>
   <div class="kpi"><div class="l">Fields read</div><div class="v">{{ k.fields_read|int }}</div><div class="s">digits and words, on {{ k.forms_read }} forms</div></div>
   <div class="kpi"><div class="l">Agree with official capture</div><div class="v">{{ H.agree_pct }}%</div><div class="s">{{ H.agree|int }} of {{ H.fields|int }} fields · pre-registered {{ H.forms }}</div></div>
-  <div class="kpi"><div class="l">Accepted, no person</div><div class="v">{{ H.accepted_pct }}%</div><div class="s">{{ H.accepted }} of {{ H.forms }} forms · pre-registered {{ H.forms }}</div></div>
+  <div class="kpi"><div class="l">Accepted at second capture</div><div class="v">{{ H.accepted_pct }}%</div><div class="s">{{ H.accepted }} of {{ H.forms }} forms · pre-registered {{ H.forms }}</div></div>
   <div class="kpi"><div class="l">Capture errors found</div><div class="v">{{ H.keying_errors }}</div><div class="s">in {{ H.disagree }} disputed fields · <a href="/audit">each with its photo</a></div></div>
   <div class="kpi"><div class="l">Routed to review</div><div class="v">{{ k.routed_fields|int }}</div><div class="s">fields to key, on {{ k.routed_forms - k.awaiting_reread }} forms{% if k.awaiting_reread %} · {{ k.awaiting_reread }} more await a re-read{% endif %}</div></div>
   <div class="kpi"><div class="l">Paper inconsistencies</div><div class="v">{{ k.paper }}</div><div class="s">read right; the paper disagrees with itself</div></div>
