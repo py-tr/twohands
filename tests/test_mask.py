@@ -91,10 +91,15 @@ def test_every_stored_page_is_masked(path):
     """Every page under data/masked/: canonical size, the whole mask area black, gate regions not blacked out."""
     a = np.asarray(Image.open(path).convert("L"), dtype=float)
     H, W = a.shape
-    assert [W, H] == L["canonical"]["size"]
-    for x0, y0, x1, y1 in schema.mask_rects(S, "movil"):
+    s = S
+    if "ieebcs" in path.parts:  # PROTOCOL_IEEBCS: the page's own schema (BCS actas, 2400x1562, mask from x 0.662)
+        man = json.loads((REPO / "results" / "manifest_ieebcs300.json").read_text(encoding="utf-8"))
+        s = schema.load(next(i["schema"] for i in man["items"] if i["clave"] == path.stem))
+    lay = s["layout"]
+    assert [W, H] == lay["canonical"]["size"]
+    for x0, y0, x1, y1 in schema.mask_rects(s, "movil"):
         blk = a[int(y0 * H) + 2:int(y1 * H) - 2, int(x0 * W) + 2:int(x1 * W) - 2]
         assert blk.max() < 40 and blk.mean() < 8
-    for name_r, (x0, y0, x1, y1) in L["field_regions"].items():
+    for name_r, (x0, y0, x1, y1) in lay["field_regions"].items():
         reg = a[int(y0 * H):int(y1 * H), int(x0 * W):int(x1 * W)]
         assert (reg < 8).mean() < 0.05, name_r

@@ -1,0 +1,95 @@
+# Form schema: IEEBCS 2024 Acta de Escrutinio y Computo de Casilla, Diputaciones Locales (Baja California Sur)
+# Made with the Two Hands schema builder (/builder). Same format as schemas/mx_presidencia_2024.yaml:
+# page geometry (markers or the whole image, privacy mask, tiles), the ordered fields, the form's identities.
+# All coordinates are fractions of the canonical page: [x0, y0, x1, y1].
+form: mx_bcs_dl_2024
+title: IEEBCS 2024 Acta de Escrutinio y Computo de Casilla, Diputaciones Locales (Baja California Sur)
+
+layout:
+  canonical:
+    size: [2400, 1562]
+    markers: [[0.0158, 0.0243], [0.985, 0.0243], [0.985, 0.9768], [0.0158, 0.9768]]
+    marker_size: 0.0245
+  template: mx_bcs_dl_2024.template.npy
+  landmarks: mx_bcs_dl_2024.landmarks.npy
+  reference: mx_bcs_dl_2024.reference.npy
+  mask:
+    movil: [[0.662, 0.0, 1.0, 1.0]]
+    escaner: [[0.662, 0.0, 1.0, 1.0]]
+  feature_ref: mx_bcs_dl_2024.feature_ref.jpg
+  field_regions:
+    left_column_sec2_5: [0.0, 0.58, 0.33, 0.96]
+    section6_rows: [0.333, 0.116, 0.658, 0.72]
+    section7_sacados: [0.335, 0.76, 0.658, 0.82]
+  tiles:
+    - {name: left_column, box: [0.0, 0.5, 0.335, 1.0], says: the left column (sections 2-5)}
+    - {name: rows_top, box: [0.325, 0.07, 0.662, 0.43], says: the upper rows of section 6}
+    - {name: rows_bottom, box: [0.325, 0.38, 0.662, 0.84], says: 'the lower rows of section 6 (NO REGISTRADOS/AS, VOTOS NULOS, TOTAL) and section 7'}
+    - {name: logos, box: [0.33, 0.1, 0.395, 0.66], says: 'the logo cells of section 6, enlarged (for the labels)'}
+
+fields:
+  - {key: SOBRANTES, csv: TOTAL_BOLETAS_SOBRANTES, public: {code: SOBRANTES, name: Unused ballots}, where: section 2 Boletas sobrantes, label: {keywords: [SOBRANTE]}, box: [0.262, 0.594, 0.322, 0.63], words_box: [0.012, 0.594, 0.262, 0.63]}
+  - {key: VOTARON, csv: TOTAL_PERSONAS_VOTARON, public: {code: VOTARON, name: Voters on the list}, where: section 3 Personas de la lista nominal que votaron, label: {keywords: [LISTA], none: [REPRESENTA]}, box: [0.262, 0.7, 0.322, 0.738], words_box: [0.012, 0.7, 0.262, 0.738]}
+  - {key: REPRESENTANTES, csv: TOTAL_REP_PARTIDO_CI_VOTARON, public: {code: REPRESENTANTES, name: Representatives who voted}, where: section 4 Representaciones partidistas que votaron, label: {keywords: [REPRESENTA], none: [TOTAL, LISTA]}, box: [0.262, 0.818, 0.322, 0.856], words_box: [0.012, 0.818, 0.262, 0.856]}
+  - {key: PERSONAS_Y_REP, csv: null, public: {code: PERSONAS_Y_REP, name: Voters + representatives}, where: section 5 Total de personas y representantes que votaron, label: {keywords: [TOTAL, PERSONAS]}, box: [0.262, 0.912, 0.322, 0.95], words_box: [0.012, 0.912, 0.262, 0.95]}
+  - {key: SACADOS, csv: TOTAL_VOTOS_SACADOS, public: {code: SACADOS, name: Ballots taken from the boxes}, where: section 7 Total de votos sacados de las urnas, label: {keywords: [SACAD]}, box: [0.59, 0.784, 0.658, 0.82], words_box: [0.335, 0.784, 0.59, 0.82]}
+  - {key: CC_PAN_PRI_PRD_PRS_PHBCS, csv: CC_PAN-PRI-PRD-PRS-PHBCS, vote: true, public: {code: OPT01, name: Option 01}, label: {parties: [JUNTOS]}, box: [0.59, 0.116, 0.658, 0.1831], words_box: [0.392, 0.116, 0.59, 0.1831]}
+  - {key: CC_PT_PVEM_MORENA_NABCS, csv: CC_PT-PVEM-MORENA-NABCS, vote: true, public: {code: OPT02, name: Option 02}, label: {parties: [MORENA_CC]}, box: [0.59, 0.1831, 0.658, 0.2497], words_box: [0.392, 0.1831, 0.59, 0.2497]}
+  - {key: MC, csv: MC, vote: true, public: {code: OPT03, name: Option 03}, label: {parties: [MC]}, box: [0.59, 0.2497, 0.658, 0.3169], words_box: [0.392, 0.2497, 0.59, 0.3169]}
+  - {key: FXM, csv: FXM, vote: true, public: {code: OPT04, name: Option 04}, label: {parties: [FXM]}, box: [0.59, 0.3169, 0.658, 0.3841], words_box: [0.392, 0.3169, 0.59, 0.3841]}
+  - {key: ML, csv: ML, vote: true, public: {code: OPT05, name: Option 05}, label: {parties: [ML]}, box: [0.59, 0.3841, 0.658, 0.4513], words_box: [0.392, 0.3841, 0.59, 0.4513]}
+  - {key: PES, csv: PES, vote: true, public: {code: OPT06, name: Option 06}, label: {parties: [PES]}, box: [0.59, 0.4513, 0.658, 0.5186], words_box: [0.392, 0.4513, 0.59, 0.5186]}
+  - {key: NO_REGISTRADOS, csv: NO_REGISTRADOS, vote: true, public: {code: NO_REGISTRADOS, name: Unregistered candidates}, label: {keywords: [REGISTRAD]}, box: [0.59, 0.5186, 0.658, 0.5858], words_box: [0.392, 0.5186, 0.59, 0.5858]}
+  - {key: NULOS, csv: NULOS, vote: true, public: {code: NULOS, name: Null votes}, label: {keywords: [NULO]}, box: [0.59, 0.5858, 0.658, 0.6527], words_box: [0.392, 0.5858, 0.59, 0.6527]}
+  - {key: TOTAL, csv: TOTAL_VOTOS_ASENTADO, public: {code: TOTAL, name: TOTAL}, label: {keywords: [TOTAL], none: [NULO, SACAD, PERSONAS, REGISTRAD]}, box: [0.59, 0.6527, 0.658, 0.72], words_box: [0.392, 0.6527, 0.59, 0.72]}
+
+prompt_form: '''Acta de Escrutinio y Computo de Casilla de la eleccion de Diputaciones Locales'' (Baja California Sur local
+  form, type 2)'
+
+prompt_issuer: IEEBCS
+
+source:
+  election: diputaciones locales
+  tipo_acta: '02'
+  prep_zip: https://prep2024.ieebcs.org.mx/bdatos/20240603_2001_PREP_BCS.zip
+  prep_csv: data/raw/ieebcs/bdatos/20240603_2001_PREP_DIP_LOC_BCS/BCS_DIP_LOC_2024.csv
+  results_dir: results/ieebcs
+  masked_dir: data/masked/ieebcs
+  protocol: PROTOCOL_IEEBCS.md
+  official: results/ieebcs/official.json
+  readers: [gemma, qwen]
+  computos_csv: null
+
+party_aliases:
+  JUNTOS: [JUNTOS, JUNTOS POR BCS, PAN, PRI, PRD, PRS, PHBCS]
+  MORENA_CC: [MORENA, PT, PVEM, VERDE, NABCS, NUEVA ALIANZA]
+  MC: [MC, MOVIMIENTO CIUDADANO]
+  FXM: [FXM, FUERZA POR MEXICO, FUERZA MEXICO]
+  ML: [ML, MOVIMIENTO LABORISTA, LABORISTA]
+  PES: [PES, ENCUENTRO SOLIDARIO]
+
+variants:
+  sin_pes:
+    why: the districts with no PES candidacy print one section-6 row fewer (taller rows, same frame); PREP shows '-' in the
+      PES column
+    drop: [PES]
+    rows:
+      CC_PAN_PRI_PRD_PRS_PHBCS: [0.1172, 0.1924]
+      CC_PT_PVEM_MORENA_NABCS: [0.1924, 0.267]
+      MC: [0.267, 0.3415]
+      FXM: [0.3415, 0.4161]
+      ML: [0.4161, 0.491]
+      NO_REGISTRADOS: [0.491, 0.5656]
+      NULOS: [0.5656, 0.6399]
+      TOTAL: [0.6399, 0.7145]
+    layout:
+      template: mx_bcs_dl_2024.sin_pes.template.npy
+      reference: mx_bcs_dl_2024.sin_pes.reference.npy
+      landmarks: mx_bcs_dl_2024.sin_pes.landmarks.npy
+      feature_ref: mx_bcs_dl_2024.sin_pes.feature_ref.jpg
+
+identities:
+  - {name: rows sum to TOTAL, sum: '@vote', equals: [TOTAL]}
+  - {name: votaron + representantes = section 5, sum: [VOTARON, REPRESENTANTES], equals: [PERSONAS_Y_REP]}
+  - {name: section 5 = section 7, sum: [PERSONAS_Y_REP], equals: [SACADOS]}
+  - {name: section 7 = TOTAL, sum: [SACADOS], equals: [TOTAL]}

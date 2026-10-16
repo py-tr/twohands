@@ -1,0 +1,341 @@
+{
+ "purpose": "rectification assets of the BCS schemas (scripts/build_ieebcs_reference.py); pilot pages are outside the drawn sample; no value was read",
+ "layouts": {
+  "mx_bcs_dl_2024": {
+   "n_pages_used": 6,
+   "feature_ref_page": "030121C010002_166ea927",
+   "pages": [
+    {
+     "clave": "030121C010002_166ea927",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.896,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030130B010002_a40264c0",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.896,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030131B010002_4856c725",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.886,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030143B010002_1096be89",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.833,
+      "worst_px": 2.0
+     }
+    },
+    {
+     "clave": "030143C010002_82c767cc",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.91,
+      "worst_px": 2.0
+     }
+    },
+    {
+     "clave": "030143C020002_9253b160",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.853,
+      "worst_px": 1.0
+     }
+    }
+   ]
+  },
+  "mx_bcs_dl_2024@sin_pes": {
+   "n_pages_used": 6,
+   "feature_ref_page": "030001B010002_4f32d557",
+   "pages": [
+    {
+     "clave": "030001B010002_4f32d557",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.926,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030001C010002_edfd21e8",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.744,
+      "worst_px": 8.0
+     }
+    },
+    {
+     "clave": "030002B010002_3cc72b04",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.92,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030010B010002_83b6afe8",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.897,
+      "worst_px": 3.0
+     }
+    },
+    {
+     "clave": "030010C010002_bcabe061",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.93,
+      "worst_px": 2.0
+     }
+    },
+    {
+     "clave": "030019B010002_37179503",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.96,
+      "worst_px": 1.0
+     }
+    }
+   ]
+  },
+  "mx_bcs_ayto_2024": {
+   "n_pages_used": 6,
+   "feature_ref_page": "030001B010003_0214fc43",
+   "pages": [
+    {
+     "clave": "030001B010003_0214fc43",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.908,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030003B010003_a3e38245",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.905,
+      "worst_px": 2.0
+     }
+    },
+    {
+     "clave": "030003C010003_6efc7d88",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.892,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030002B010003_a702dc4a",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.945,
+      "worst_px": 2.0
+     }
+    },
+    {
+     "clave": "030010B010003_e4f02327",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.91,
+      "worst_px": 2.0
+     }
+    },
+    {
+     "clave": "030010C010003_ade32f57",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.931,
+      "worst_px": 2.0
+     }
+    }
+   ]
+  },
+  "mx_bcs_ayto_2024@sin_ml": {
+   "n_pages_used": 6,
+   "feature_ref_page": "030075B010003_08b1f228",
+   "pages": [
+    {
+     "clave": "030075B010003_08b1f228",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.938,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030075C010003_8cb9be1b",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.936,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030076B010003_56dc3b7e",
+     "layout": "escaner",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.935,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030094B010003_4e20251e",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.941,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030094C010003_9f2e577d",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.942,
+      "worst_px": 1.0
+     }
+    },
+    {
+     "clave": "030094C020003_db94ce3d",
+     "layout": "movil",
+     "markers_only": {
+      "located": true,
+      "markers_found": 4
+     },
+     "protocol_locator": {
+      "located": true,
+      "ecc": 0.952,
+      "worst_px": 1.0
+     }
+    }
+   ]
+  }
+ }
+}

@@ -4,6 +4,9 @@
     python -m twohands.run --schema mx_senado_2024 --manifest results/manifest_senado100.json --models gemma
         (another form type: PROTOCOL_SENADO.md; writes only the schema's source.results_dir, masks into its
         source.masked_dir; refuses unless that protocol is committed; add --mock --limit 3 for an offline dry run)
+    python -m twohands.run --schema mx_bcs_dl_2024,mx_bcs_ayto_2024 --manifest results/manifest_ieebcs300.json --models gemma
+        (a manifest over several form types: each item names its schema, ``name@variant`` for a printed row variant;
+        an item with "covered": false is never downloaded or read; PROTOCOL_IEEBCS.md)
 
 1. prepare: download each manifest acta to data/raw/img/ (gitignored), rectify + mask it into
    data/masked/<clave>.jpg, delete the raw file. Outcome per acta in results/prepare.jsonl.
@@ -75,6 +78,8 @@ def rel(p: Path) -> str:
 def prepare_one(it: dict, s: dict | None = None, masked_dir: Path | None = None) -> dict:
     """Download, locate + mask (schema ``s``; default the presidential acta) into ``masked_dir``, delete the raw."""
     k = it["clave"]
+    if it.get("covered") is False:  # a printed layout no schema covers (PROTOCOL_IEEBCS 3.3): routed, never read
+        return {"clave": k, "status": "not_covered", "reason": "printed layout not covered by the schemas"}
     dst = (masked_dir or MASKED) / f"{k}.jpg"
     if dst.exists():
         return {"clave": k, "status": "ok", "image": rel(dst), "cached": True}
@@ -114,16 +119,16 @@ def prepare_one(it: dict, s: dict | None = None, masked_dir: Path | None = None)
 def prepare_all(items: list[dict], s: dict | None = None, out_dir: Path | None = None,
                 masked_dir: Path | None = None) -> dict:
     path = (out_dir or RESULTS) / "prepare.jsonl"
-    done = {r["clave"]: r for r in jsonl(path) if r.get("status") in ("ok", "not_located", "unreadable")}
+    done = {r["clave"]: r for r in jsonl(path) if r.get("status") in ("ok", "not_located", "unreadable", "not_covered")}
     todo = [it for it in items if it["clave"] not in done]
     log(f"prepare: {len(done)} done, {len(todo)} to fetch")
     with ThreadPoolExecutor(int(os.environ.get("TWOHANDS_WORKERS", "2"))) as ex:
-        for r in ex.map(lambda it: prepare_one(it, s, masked_dir), todo):
+        for r in ex.map(lambda it: prepare_one(it, item_schema(it, s), masked_dir), todo):
             r["ts"] = now()
             append(path, r)
             if r["status"] != "ok":
                 log(f"prepare {r['clave']}: {r['status']} {r.get('reason', '')}")
-            if r["status"] in ("ok", "not_located", "unreadable"):
+            if r["status"] in ("ok", "not_located", "unreadable", "not_covered"):
                 done[r["clave"]] = r
     return done
 
@@ -136,7 +141,7 @@ def record(it: dict, prep: dict, model_key: str, s: dict, row: dict | None) -> d
             "prompt_sha256": reader.prompt_sha256(s), "image": prep.get("image"), "ts": now()}
     if row is None:  # never sent: the page was not located / not readable / not downloadable
         reason = {"not_located": "form not located", "unreadable": "image unreadable",
-                  "download_failed": "image not downloadable"}.get(prep.get("status"), prep.get("status"))
+                  "download_failed": "image not downloadable", "not_covered": "layout not covered"}.get(prep.get("status"), prep.get("status"))
         return base | {"no_call": True, "accepted": False, "routed": True,
                        "route_reasons": [f"{reason}: {prep.get('reason', '')}"], "route_codes": ["no_read"],
                        "fields": {}, "identities": [], "failing_fields": [], "latency_s": None, "cost_usd": 0.0}
@@ -195,14 +200,15 @@ def read_model(model_key: str, items: list[dict], prepared: dict, s: dict, budge
         counter = {"n": 0}
 
         def work(it):
+            s_it = item_schema(it, s)
             prep = prepared[it["clave"]]
             if prep.get("status") != "ok":
-                rec = record(it, prep, model_key, s, None)
+                rec = record(it, prep, model_key, s_it, None)
             else:
                 budget.check()
                 _CUR.clave = it["clave"]
-                row = reader.read(model_key, REPO / prep["image"], s, chat=chat)
-                rec = record(it, prep, model_key, s, row)
+                row = reader.read(model_key, REPO / prep["image"], s_it, chat=chat)
+                rec = record(it, prep, model_key, s_it, row)
             append(path, rec)
             counter["n"] += 1
             el = time.time() - t0
@@ -248,14 +254,21 @@ def committed_clean(relpath: str) -> bool:
     return not dirty
 
 
+def item_schema(it: dict, s: dict) -> dict:
+    """The schema of one manifest item: its own ``schema`` (``name@variant``) when it names one, else the run's."""
+    return schema.load(it["schema"]) if it.get("schema") else s
+
+
 _CUR = threading.local()  # the form being read (the dry-run mock answers per form)
 
 
-def mock_chat(s: dict, official: dict):
+def mock_chat(s0, official: dict | None = None):
     """Offline stand-in for ``amd.chat`` (dry runs only): replies with the official PREP values of the form being read,
     words = digits, the labels the schema expects, section 5 = votaron + representantes. No network, key or cost."""
     def chat(body):
-        vals = (official.get(getattr(_CUR, "clave", None)) or {}).get("prep") or {}
+        off = official.get(getattr(_CUR, "clave", None)) or {}
+        vals = off.get("prep") or {}
+        s = schema.load(off["schema"]) if off.get("schema") else (s0 or schema.load())
         items = []
         for f in s["fields"]:
             n = vals.get(f["key"])
@@ -283,7 +296,8 @@ def main(argv=None) -> int:
     ap.add_argument("--mock", action="store_true",
                     help="dry run: an offline fake client that echoes the official values (no network, no model)")
     a = ap.parse_args(argv)
-    s = schema.load(a.schema)
+    forms = [x.strip() for x in a.schema.split(",") if x.strip()]
+    s = schema.load(forms[0])
     src = schema.source(s)
     default_form = s["form"] == schema.DEFAULT
     if a.out:
@@ -298,8 +312,10 @@ def main(argv=None) -> int:
     man_path = Path(a.manifest) if a.manifest else RESULTS / "manifest.json"
     man_path = man_path if man_path.is_absolute() else REPO / man_path
     man = json.loads(man_path.read_text(encoding="utf-8"))
-    if man.get("schema", schema.DEFAULT) != s["form"]:
-        log(f"REFUSING: the manifest is for {man.get('schema', schema.DEFAULT)}, not {s['form']}")
+    man_forms = man.get("schema", schema.DEFAULT)
+    man_forms = sorted(man_forms) if isinstance(man_forms, list) else [man_forms]
+    if man_forms != sorted(forms) or any(it.get("schema", forms[0]).split("@")[0] not in forms for it in man["items"]):
+        log(f"REFUSING: the manifest is for {', '.join(man_forms)}, not {', '.join(forms)}")
         return 3
     items = man["items"][: a.limit] if a.limit else man["items"]
     log(f"run start: {len(items)} actas, schema {s['form']}, models {a.models}, prompt {reader.prompt_sha256(s)[:12]}, "
@@ -316,7 +332,9 @@ def main(argv=None) -> int:
     budget = Budget(a.max_daily_usd)
     if a.mock:
         off = {}
-        for p in sorted((REPO / "app" / "data").glob("official*.json")):
+        offs = sorted((REPO / "app" / "data").glob("official*.json"))
+        offs += [REPO / src["official"]] if src.get("official") else []
+        for p in offs:
             try:
                 off.update(json.loads(p.read_text(encoding="utf-8")))
             except ValueError:
@@ -328,8 +346,8 @@ def main(argv=None) -> int:
     for m in a.models.split(","):
         m = m.strip()
         if not default_form:
-            if m != "gemma":
-                log(f"REFUSING the {m} pass: {src['protocol']} pre-registers Gemma only")
+            if m not in src.get("readers", ["gemma"]):
+                log(f"REFUSING the {m} pass: {src['protocol']} pre-registers {', '.join(src.get('readers', ['gemma']))} only")
                 return 3
             if not a.mock and not committed_clean(src["protocol"]):
                 log(f"REFUSING: {src['protocol']} is not committed (or has uncommitted changes)")

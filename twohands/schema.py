@@ -12,11 +12,35 @@ from twohands import REPO
 DEFAULT = "mx_presidencia_2024"
 
 
+def _path(name: str) -> Path:
+    name = str(name).split("@", 1)[0]
+    return Path(name) if name.endswith(".yaml") else REPO / "schemas" / f"{name}.yaml"
+
+
 @lru_cache(maxsize=None)
 def load(name: str = DEFAULT) -> dict:
-    p = Path(name) if str(name).endswith(".yaml") else REPO / "schemas" / f"{name}.yaml"
+    """A form schema. ``name@variant`` is a printed layout variant declared in the schema's ``variants`` block (the
+    same form printed with fewer section-6 rows): ``drop`` removes fields, ``rows`` moves a field's box and words box
+    to [y0, y1], ``layout`` overrides layout keys (e.g. its own rectification assets)."""
+    import copy
+    p = _path(name)
     s = yaml.safe_load(p.read_text(encoding="utf-8"))
     s["_dir"] = str(p.parent)
+    if "@" in str(name):
+        v = str(name).split("@", 1)[1]
+        var = (s.get("variants") or {}).get(v)
+        if var is None:
+            raise KeyError(f"{p.name} declares no variant '{v}'")
+        s = copy.deepcopy(s)
+        s["form"] = f"{s['form']}@{v}"
+        drop = set(var.get("drop") or [])
+        s["fields"] = [f for f in s["fields"] if f["key"] not in drop]
+        for f in s["fields"]:
+            y = (var.get("rows") or {}).get(f["key"])
+            for b in ("box", "words_box"):
+                if y and f.get(b):
+                    f[b] = [f[b][0], y[0], f[b][2], y[1]]
+        s["layout"].update(var.get("layout") or {})
     s["keys"] = [f["key"] for f in s["fields"]]
     s["vote_keys"] = [f["key"] for f in s["fields"] if f.get("vote")]
     return s
@@ -62,5 +86,4 @@ def source(s: dict) -> dict:
 
 def sha256(name: str = DEFAULT) -> str:
     import hashlib
-    p = Path(name) if str(name).endswith(".yaml") else REPO / "schemas" / f"{name}.yaml"
-    return hashlib.sha256(p.read_bytes()).hexdigest()
+    return hashlib.sha256(_path(name).read_bytes()).hexdigest()

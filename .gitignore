@@ -29,3 +29,5 @@ live_audit/logs/
 live_audit/worker.lock
 live_audit/heartbeat.json
 live_audit/.*.tmp
+# BCS head-to-head masked pages (PROTOCOL_IEEBCS): ~142 MB, kept local, not committed
+data/masked/ieebcs/

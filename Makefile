@@ -1,11 +1,13 @@
 .PHONY: eval test
 
 # Every number on the site recomputed from the committed raw results, checked against what the app shows.
-# Without make: python -m twohands.eval; python scripts/gemma_vs_qwen.py; python scripts/build_report.py --check
+# Without make: python -m twohands.eval; python scripts/gemma_vs_qwen.py; python scripts/build_report.py --check;
+#   python scripts/ieebcs_score.py --check (the BCS head-to-head block of results/ieebcs_head_to_head.md; empty until the run)
 eval:
 	python -m twohands.eval
 	python scripts/gemma_vs_qwen.py
 	python scripts/build_report.py --check
+	python scripts/ieebcs_score.py --check
 
 test:
 	python -m pytest -q

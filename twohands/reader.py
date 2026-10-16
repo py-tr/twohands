@@ -41,7 +41,8 @@ def build_prompt(s: dict) -> str:
     nrows = len(s["fields"]) - len(head)
     sec = "\n".join(f"  {i + 1}. {f['where']}" for i, f in enumerate(head))
     form = s.get("prompt_form", PRES_FORM)
-    return f"""This is a Mexican INE 2024 {form}.
+    issuer = s.get("prompt_issuer", "INE")  # a state electoral institute's own acta (PROTOCOL_IEEBCS); INE by default
+    return f"""This is a Mexican {issuer} 2024 {form}.
 Image 1 is the whole form; its right-hand column is blacked out for privacy (ignore it). {imgs} Tiles overlap; use image 1 to keep every row aligned.
 Every quantity is written twice: in words ('Con letra') and in digit boxes ('Con numero'). Transcribe BOTH, independently.
 Return ONLY a JSON object {{"values": [...]}} with exactly {len(head) + nrows} items, in this order:
