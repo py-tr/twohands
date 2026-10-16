@@ -66,6 +66,20 @@
 
 {% else %}
 {# ---------------------------------------------------------------- pick a photo #}
+{% set fpractice = request.query_params.get('form') == 'practice' %}
+<div class="ftype" role="radiogroup" aria-label="Form type">
+  <label class="ftype-opt"><input type="radio" name="ftype" value="ine" {{ '' if fpractice else 'checked' }}><span><b>INE tally sheet, type 2</b><span class="small muted">the measured form</span></span></label>
+  <label class="ftype-opt"><input type="radio" name="ftype" value="practice" {{ 'checked' if fpractice else '' }}><span><b>Practice sheet (any language)</b><span class="small muted">print it, fill it, photograph it</span></span></label>
+</div>
+<div class="card practice-note" id="practiceNote" {{ '' if fpractice else 'hidden' }}>
+  <a href="/static/sheet/two-hands-sheet.pdf" class="practice-thumb"><img src="/static/sheet/two-hands-sheet.png" alt="The Two Hands practice sheet: 10 rows, words on the left, digit boxes on the right, and a TOTAL row" loading="lazy"></a>
+  <div>
+    <div class="eyebrow">Practice sheet</div>
+    <p style="margin:4px 0 8px"><b><a href="/static/sheet/two-hands-sheet.pdf">Print this sheet (PDF)</a>, fill it in your language, photograph it.</b></p>
+    <p class="small" style="margin:0 0 8px">Write each amount twice: in words, in your own language, and in the digit boxes. Make TOTAL the sum of rows 1 to 10. The model transcribes both; the referee is arithmetic, and arithmetic has no language. A row whose words the model cannot read routes, with the row named: the gate never accepts a row on its digits alone.</p>
+    <div class="demo-tag" role="note">{{ icon('alert') }}<b>Demonstration, not a measurement.</b></div>
+  </div>
+</div>
 <div class="grid2" style="align-items:start">
   <div>
     <div class="drop" id="drop">
@@ -121,6 +135,15 @@
   </div>
 </div>
 <style>
+.ftype { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 var(--s-4); }
+.ftype-opt { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; background: var(--card, #fff); }
+.ftype-opt > span { display: flex; flex-direction: column; }
+.ftype-opt:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.practice-note { display: flex; gap: 16px; align-items: flex-start; margin: 0 0 var(--s-4); }
+.practice-note[hidden] { display: none; }
+.practice-thumb img { width: 96px; height: auto; border: 1px solid var(--line); border-radius: 4px; display: block; }
+.demo-tag { display: inline-flex; gap: 6px; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); font-size: 13px; }
+@media (max-width: 560px) { .practice-note { flex-direction: column; } }
 .cpick { position: relative; display: inline-block; max-width: 100%; cursor: crosshair; line-height: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; touch-action: manipulation; }
 .cpick img { display: block; max-width: 100%; max-height: 62vh; width: auto; height: auto; user-select: none; -webkit-user-drag: none; }
 .cpick .dot { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; border: 3px solid #fff; background: var(--accent); box-shadow: 0 0 0 2px var(--accent), 0 2px 6px rgba(0,0,0,.4); color: #fff; font: 700 11px/16px var(--sans); text-align: center; pointer-events: none; }
@@ -142,12 +165,21 @@
   var drop = document.getElementById('drop'), idle = document.getElementById('dropIdle'), busy = document.getElementById('dropBusy'),
       fail = document.getElementById('dropFail'), pickEl = document.getElementById('dropPick');
   var lastFile = null, lastUrl = null, pts = [];
+  function practice() { var r = document.querySelector('input[name="ftype"]:checked'); return !!r && r.value === 'practice'; }
+  function endpoint() { return practice() ? '/api/try/practice' : '/api/upload'; }
+  document.querySelectorAll('input[name="ftype"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.getElementById('practiceNote').hidden = !practice();
+      history.replaceState(null, '', practice() ? '/try?form=practice' : '/try');
+    });
+  });
   function show(which) { idle.hidden = which !== 'idle'; busy.hidden = which !== 'busy'; fail.hidden = which !== 'fail'; pickEl.hidden = which !== 'pick'; }
   function mark(id, cls) { document.getElementById(id).className = cls; }
   function done(res) {
     if (res.ok && res.j.ok) {
       mark('stLoc', 'did'); mark('stMask', 'did'); mark('stQ', 'did');
       var url = res.j.page_url;
+      if (/^\/try\/practice\//.test(url)) { location.href = url + (res.j.job ? '?job=' + res.j.job : ''); return; }
       if (res.j.job) url += '#job=' + res.j.job + '&pos=' + (res.j.position || 0);
       else { try { sessionStorage.setItem('th_refused', res.j.message || ''); } catch (e) {} url += '#refused'; }
       location.href = url; return;
@@ -187,7 +219,7 @@
   document.getElementById('cpCancel').addEventListener('click', function () { show('fail'); });
   document.getElementById('cpUse').addEventListener('click', function () {
     if (pts.length !== 4) return;
-    send(lastFile, '/api/upload?corners=' + pts.map(function (p) { return p.join(','); }).join(','));
+    send(lastFile, endpoint() + '?corners=' + pts.map(function (p) { return p.join(','); }).join(','));
   });
   function send(body, url) {
     show('busy'); mark('stUp', 'now'); mark('stLoc', ''); mark('stMask', ''); mark('stQ', '');
@@ -197,13 +229,13 @@
       .then(function (res) { clearTimeout(t); done(res); })
       .catch(function () { clearTimeout(t); done({ok: false, j: {message: 'Could not reach the server.'}}); });
   }
-  function pick(e) { var f = e.target.files && e.target.files[0]; if (f) { lastFile = f; send(f, '/api/upload'); } e.target.value = ''; }
+  function pick(e) { var f = e.target.files && e.target.files[0]; if (f) { lastFile = f; send(f, endpoint()); } e.target.value = ''; }
   document.getElementById('camIn').addEventListener('change', pick);
   document.getElementById('fileIn').addEventListener('change', pick);
   document.getElementById('again').addEventListener('click', function () { show('idle'); });
   ['dragenter', 'dragover'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
   ['dragleave', 'drop'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
-  drop.addEventListener('drop', function (e) { var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) { lastFile = f; send(f, '/api/upload'); } });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) { lastFile = f; send(f, endpoint()); } });
   document.querySelectorAll('[data-sample]').forEach(function (b) {
     b.addEventListener('click', function () { window.scrollTo({top: 0, behavior: 'smooth'}); lastFile = null; send(null, '/api/upload/sample/' + b.dataset.sample); });
   });

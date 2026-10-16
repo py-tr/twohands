@@ -382,6 +382,8 @@ keyed files that are audited every month (trials, claims, loans). That is next, 
 
 **The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.**
 
+No second-language corpus with an official keyed record and usable terms was reachable; the language claim stays at what was measured.
+
 Forms of this kind, with rows that sum to a total and often words beside digits, are produced at these volumes every cycle.
 
 Every general election produces one handwritten result sheet per polling station, and most are keyed or read by

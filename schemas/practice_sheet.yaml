@@ -1,0 +1,52 @@
+# Form schema: Two Hands practice sheet: write each amount twice, in words and in digits
+# Made with the Two Hands schema builder (/builder). Same format as schemas/mx_presidencia_2024.yaml:
+# page geometry (markers or the whole image, privacy mask, tiles), the ordered fields, the form's identities.
+# All coordinates are fractions of the canonical page: [x0, y0, x1, y1].
+# PRIVACY: this sheet has no personal-data area (no names, no signatures), so the privacy mask region is EMPTY:
+#   nothing is blacked out, and the page is stored and read as photographed (straightened).
+# words_required: a row whose words were not read (null) routes, so no row is accepted on its digits alone.
+# reader_note: appended to the reader prompt; the words may be in any language, null when the model cannot tell.
+# identities: 'rows sum to TOTAL' (below) and 'words = digits' per field (every field has a words_box; the gate
+#   checks words against digits on each row, and with words_required a row with unread words routes).
+# Demonstration, not a measurement.
+form: practice_sheet
+title: 'Two Hands practice sheet: write each amount twice, in words and in digits'
+
+layout:
+  canonical:
+    size: [1240, 1754]
+    markers: [[0.0809, 0.0572], [0.919, 0.0572], [0.919, 0.9427], [0.0809, 0.9427]]
+    marker_size: 0.0569
+  template: practice_sheet.template.npy
+  mask:
+    movil: []
+    escaner: []
+  tiles:
+    - {name: rows_1_5, box: [0.0952, 0.1785, 0.9048, 0.4815], says: 'rows 1 to 5 (words on the left, digit boxes on the right)'}
+    - {name: rows_6_total, box: [0.0952, 0.4747, 0.9048, 0.8249], says: rows 6 to 10 and the TOTAL row}
+
+fields:
+  - {key: ROW01, type: integer, label: {keywords: ['1'], none: [TOTAL, '10']}, box: [0.6857, 0.2121, 0.9, 0.2593], words_box: [0.1714, 0.2121, 0.6667, 0.2593]}
+  - {key: ROW02, type: integer, label: {keywords: ['2'], none: [TOTAL]}, box: [0.6857, 0.266, 0.9, 0.3131], words_box: [0.1714, 0.266, 0.6667, 0.3131]}
+  - {key: ROW03, type: integer, label: {keywords: ['3'], none: [TOTAL]}, box: [0.6857, 0.3199, 0.9, 0.367], words_box: [0.1714, 0.3199, 0.6667, 0.367]}
+  - {key: ROW04, type: integer, label: {keywords: ['4'], none: [TOTAL]}, box: [0.6857, 0.3737, 0.9, 0.4209], words_box: [0.1714, 0.3737, 0.6667, 0.4209]}
+  - {key: ROW05, type: integer, label: {keywords: ['5'], none: [TOTAL]}, box: [0.6857, 0.4276, 0.9, 0.4747], words_box: [0.1714, 0.4276, 0.6667, 0.4747]}
+  - {key: ROW06, type: integer, label: {keywords: ['6'], none: [TOTAL]}, box: [0.6857, 0.4815, 0.9, 0.5286], words_box: [0.1714, 0.4815, 0.6667, 0.5286]}
+  - {key: ROW07, type: integer, label: {keywords: ['7'], none: [TOTAL]}, box: [0.6857, 0.5354, 0.9, 0.5825], words_box: [0.1714, 0.5354, 0.6667, 0.5825]}
+  - {key: ROW08, type: integer, label: {keywords: ['8'], none: [TOTAL]}, box: [0.6857, 0.5892, 0.9, 0.6364], words_box: [0.1714, 0.5892, 0.6667, 0.6364]}
+  - {key: ROW09, type: integer, label: {keywords: ['9'], none: [TOTAL]}, box: [0.6857, 0.6431, 0.9, 0.6902], words_box: [0.1714, 0.6431, 0.6667, 0.6902]}
+  - {key: ROW10, type: integer, label: {keywords: ['10'], none: [TOTAL]}, box: [0.6857, 0.697, 0.9, 0.7441], words_box: [0.1714, 0.697, 0.6667, 0.7441]}
+  - {key: TOTAL, type: integer, label: {keywords: [TOTAL]}, box: [0.6857, 0.771, 0.9, 0.8182], words_box: [0.1714, 0.771, 0.6667, 0.8182]}
+
+words_required: true
+
+reader_note: 'The amounts in words may be written in ANY language or script (for example Czech ''dvanáct'', English ''twelve'',
+  Spanish ''doce''). For "w", give the integer that the WORDS express, whatever the language. Read the words on their own:
+  never look at the digit boxes to decide what the words say. If you cannot tell what number the words express (a language
+  you cannot read, illegible handwriting, ambiguous wording), return null for "w". Never guess, and never copy the digits
+  into "w". The printed label of each row is its number (1 to 10) or TOTAL.'
+
+demonstration: true
+
+identities:
+  - {name: rows sum to TOTAL, sum: [ROW01, ROW02, ROW03, ROW04, ROW05, ROW06, ROW07, ROW08, ROW09, ROW10], equals: [TOTAL]}

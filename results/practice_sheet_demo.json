@@ -1,0 +1,182 @@
+{
+ "at": "2026-10-16T11:33:42+00:00",
+ "synthetic": true,
+ "model": "Gemma-4-31B-IT",
+ "secs": 170.7,
+ "usage": null,
+ "error": "GaveUp: gave up after 2 attempts",
+ "register": {
+  "locator": "corner markers + orientation template",
+  "score": 0.636,
+  "margin": 0.505,
+  "markers_found": 4,
+  "size": [
+   1240,
+   1754
+  ],
+  "deskew_deg": 0.0
+ },
+ "gemma_listed": true,
+ "registration_checks": [
+  {
+   "case": "straight",
+   "ok": true,
+   "locator": "corner markers + orientation template",
+   "deskew_deg": 0.0,
+   "corr_with_page": 0.947,
+   "secs": 0.24
+  },
+  {
+   "case": "turned 4°",
+   "ok": true,
+   "locator": "corner markers + orientation template",
+   "deskew_deg": 0.0,
+   "corr_with_page": 0.945,
+   "secs": 0.38
+  },
+  {
+   "case": "turned -9°",
+   "ok": true,
+   "locator": "corner markers + orientation template",
+   "deskew_deg": 0.0,
+   "corr_with_page": 0.948,
+   "secs": 0.23
+  },
+  {
+   "case": "turned 15°",
+   "ok": true,
+   "locator": "corner markers + orientation template",
+   "deskew_deg": 8.0,
+   "corr_with_page": 0.934,
+   "secs": 1.12
+  },
+  {
+   "case": "turned -25°",
+   "ok": true,
+   "locator": "corner markers + orientation template",
+   "deskew_deg": -16.0,
+   "corr_with_page": 0.754,
+   "secs": 3.23
+  },
+  {
+   "case": "landscape (90°)",
+   "ok": true,
+   "locator": "corner markers + orientation template",
+   "deskew_deg": 0.0,
+   "corr_with_page": 0.928,
+   "secs": 0.2
+  },
+  {
+   "case": "upside down",
+   "ok": true,
+   "locator": "corner markers + orientation template",
+   "deskew_deg": 0.0,
+   "corr_with_page": 0.907,
+   "secs": 0.21
+  }
+ ],
+ "truth": {
+  "rows": [
+   12,
+   7,
+   23,
+   5,
+   18,
+   40,
+   9,
+   31,
+   14,
+   66
+  ],
+  "total": 225
+ },
+ "content": "",
+ "parsed": null,
+ "accepted": false,
+ "reasons": [
+  "no parseable read"
+ ],
+ "codes": [
+  "shape"
+ ],
+ "fields": [
+  {
+   "key": "ROW01",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW02",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW03",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW04",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW05",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW06",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW07",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW08",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW09",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "ROW10",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  },
+  {
+   "key": "TOTAL",
+   "n": null,
+   "w": null,
+   "label": null,
+   "ok": true
+  }
+ ],
+ "identities": []
+}

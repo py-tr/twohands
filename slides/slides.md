@@ -289,6 +289,8 @@ Gemma-4-31B-IT keyed every field of the 289 read forms; alone it mis-keys 1 fiel
 
 **The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.**
 
+No second-language corpus with an official keyed record and usable terms was reachable; the language claim stays at what was measured.
+
 Forms of this kind, with rows that sum to a total and often words beside digits, are produced at these volumes every cycle.
 
 | General election | Result sheets (polling stations) |

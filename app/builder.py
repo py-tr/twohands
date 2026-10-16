@@ -790,7 +790,7 @@ Return ONLY a JSON object {{"values": [...]}} with exactly {n} items, in this or
 Each item is {{"label": the label printed next to that value, as printed, "n": integer from the digits or null if blank/illegible, "w": the integer meaning of the value written in words, or null when it has no words}}.
 Read the words independently of the digits; if they disagree, report both as written (do not make them agree).
 If a value is crossed out and rewritten, use the final value and add "fix": true to that item.
-Example item: {{"label": "MONDAY", "n": 8, "w": 8}}"""
+Example item: {{"label": "MONDAY", "n": 8, "w": 8}}""" + ("\n" + s["reader_note"] if s.get("reader_note") else "")
 
 
 def default_read(model: str, page: Path, s: dict) -> dict:
@@ -824,6 +824,23 @@ def default_read(model: str, page: Path, s: dict) -> dict:
     row["secs"] = round(time.time() - t, 1)
     row["parsed"] = reader.parse(row["content"])
     return row
+
+
+def gate_schema(parsed: Any, s: dict) -> gatemod.GateResult:
+    """The core gate (twohands.gate.gate, frozen, used as is), plus one schema option checked here: with
+    ``words_required: true`` a field that has a words box but whose words were NOT read (null) routes too, so no
+    field is accepted on its digits alone. Without the option this is exactly the core gate."""
+    g = gatemod.gate(parsed, s)
+    if s.get("words_required"):
+        for f in s["fields"]:
+            k = f["key"]
+            if f.get("words_box") and g.values.get(k) is not None and g.words.get(k) is None:
+                g.codes.append("words")
+                g.reasons.append(f"{k} words not read (no number for the words)")
+                if k not in g.failing_fields:
+                    g.failing_fields.append(k)
+        g.accepted = not g.reasons
+    return g
 
 
 def gate_view(g: gatemod.GateResult, s: dict) -> dict:
@@ -885,7 +902,7 @@ class BuilderLive(livemod.LiveManager):
                 self._fail(job, "read", "The model did not return a readable answer"
                            + (f" ({storemod.neutralize(row.get('error'))[:120]})." if row.get("error") else "."))
                 return
-            g = gatemod.gate(row["parsed"], s)
+            g = gate_schema(row["parsed"], s)
             view = gate_view(g, s)
             out = {"id": job.clave, "schema": s["form"], "model": pick["model"], "secs": row.get("secs"), "cost": cost,
                    "at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "parsed": row["parsed"], **view}
@@ -1084,5 +1101,5 @@ async def builder_gate_stored(slug: str, request: Request):
     r = stored_read()
     if r is None:
         raise HTTPException(404, "no stored read")
-    g = gatemod.gate(reader.parse(r.get("content") or ""), s)
+    g = gate_schema(reader.parse(r.get("content") or ""), s)
     return {"clave": r["clave"], "model": r.get("model"), "recorded_accepted": r.get("accepted"), **gate_view(g, s)}

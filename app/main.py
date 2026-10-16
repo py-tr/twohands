@@ -473,3 +473,7 @@ templates.env.globals["honest"] = honestmod
 # The IEEBCS head-to-head, placed by PROTOCOL_IEEBCS.md section 10 (hidden until results/ieebcs/score.json exists)
 from app import ieebcs_card as ieebcscardmod  # noqa: E402
 templates.env.globals["ieebcs_card"] = ieebcscardmod.card
+
+# Practice sheet on /try (additive): print it, fill it in your language, photograph it. Demonstration, not a measurement.
+from app import practice as practicemod  # noqa: E402
+app.include_router(practicemod.router)
