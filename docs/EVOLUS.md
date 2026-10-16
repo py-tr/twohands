@@ -14,6 +14,9 @@ the kickoff notes of 2026-10-15); we keep both up until then.
 
 ## Requirement 2: the main agent's model
 
+**Confirmed by the Evolus team (Discord, 2026-10-16, LazyLoad):** "Token Factory works fine on Evolus and does count for the Track."
+
+
 The Evolus agent's model is Gemma-4-31B-IT on the AMD Token Factory, connected under 'Your models' as an
 OpenAI-compatible server; the event page's Evolus section allows 'an open model through a vLLM endpoint on AMD
 Developer Cloud, or any OpenAI-compatible provider'; AMD stated that the Token Factory API key is all a team needs
