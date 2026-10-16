@@ -1,4 +1,4 @@
-"""Static mirror of every judge-facing page, for GitHub Pages or any file host.
+"""Static mirror of every public page, for GitHub Pages or any file host.
 
     python -m app.export_static out/ [--main-url https://twohands.example]     (or env TWOHANDS_MAIN_URL)
 

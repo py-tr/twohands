@@ -1,4 +1,4 @@
-"""`make eval` recomputes every judge-facing number from the committed raw results and agrees with the app; and it
+"""`make eval` recomputes every public number from the committed raw results and agrees with the app; and it
 really fails when a displayed number drifts."""
 import json
 

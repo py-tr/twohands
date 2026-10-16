@@ -1,4 +1,4 @@
-# Static mirror on GitHub Pages: every judge-facing page as static HTML with relative links (works under /<repo>/).
+# Static mirror on GitHub Pages: every public page as static HTML with relative links (works under /<repo>/).
 # Builds from the committed results only; no secrets are used or needed. Inert until the repo has a GitHub remote
 # and Pages is set to "GitHub Actions" (Settings -> Pages). Set the repository variable MAIN_URL to the live site.
 name: pages

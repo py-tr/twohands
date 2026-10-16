@@ -19,7 +19,7 @@ the form's own arithmetic decides what to trust; every dispute arrives with its 
 
 Two hands: two independent readers, and the paper's own arithmetic as the referee.
 
-**Sponsor-safe framing.** Clerical capture quality only: whether a typed number matches its paper. No results, no
+**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no
 parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact.
 The certified count is the official result. An independent demonstration, not an official INE product.
 

@@ -1,4 +1,4 @@
-"""ONE source of truth for every judge-facing number of the pre-registered 300-form run. No model call.
+"""ONE source of truth for every public number of the pre-registered 300-form run. No model call.
 
     python scripts/build_headline.py
       -> app/data/headline.json                 (read by the web app: Overview, Inbox, Audit, Results)

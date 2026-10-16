@@ -1,4 +1,4 @@
-"""What a hostile judge would check on the first screen and on Findings, computed, never typed in.
+"""What a skeptical reader would check on the first screen and on Findings, computed, never typed in.
 
   confirmation(H)   the 52 split by what confirms each: the certified count, a person (app/state/spotcheck.json,
                     the blind /check), or the AI adjudicator alone; "person check pending" until a person has checked

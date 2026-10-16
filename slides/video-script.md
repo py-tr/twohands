@@ -1,7 +1,7 @@
 # Video script: Two Hands (final, 4:05; limit 5:00, floor 3:00)
 
 One voice, English, short sentences. Screen capture of the hosted app, 1920x1080, browser zoom 125%.
-How to record, tabs, cuts and captions: [recording-guide.md](recording-guide.md). Captions: [two-hands.srt](two-hands.srt).
+Captions: [two-hands.srt](two-hands.srt).
 Reference screenshots of each state (taken from the app on 2026-10-16): [`shots/`](shots/).
 
 Words in **[brackets]** are read off the screen on the day (they change). Everything else is said exactly as written.

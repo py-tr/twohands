@@ -26,7 +26,7 @@ Price (proposal): **$1 per form audited (second capture + cotejo + receipts)**, 
 (links are kept in [`submission/links.json`](submission/links.json))
 <!-- links:end -->
 
-**Sponsor-safe framing.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result; the preliminary capture is preliminary by design. An independent demonstration, not an official INE product.
+**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result; the preliminary capture is preliminary by design. An independent demonstration, not an official INE product.
 
 | 52 | 1 in 5 |
 |---|---|

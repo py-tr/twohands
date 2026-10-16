@@ -1,5 +1,5 @@
-"""One source of truth: the pre-registered 300 summary (app/data/headline.json) is what every judge-facing page and
-doc shows, to the digit; no placeholders or 'pending' anywhere judge-facing; published files name no party."""
+"""One source of truth: the pre-registered 300 summary (app/data/headline.json) is what every public page and
+doc shows, to the digit; no placeholders or 'pending' anywhere public; published files name no party."""
 import glob
 import re
 

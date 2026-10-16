@@ -1,4 +1,4 @@
-"""What a hostile judge would write, answered on the page: the 52's confirmation breakdown, Judge this verdict
+"""What a skeptical reader would ask, answered on the page: the 52's confirmation breakdown, Judge this verdict
 yourself, the tiers in the regulation's words, the honest model line, the live counter and the buyer-card slot."""
 import html as htmlmod
 import json
