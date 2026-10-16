@@ -328,3 +328,12 @@ no model refused a parameter):
 - **caps** (`results/bakeoff_plan.json`): total $0.75 less the $0.10 reserve, water-filled: DeepSeek-V4.1-Flash $0.325
   (300 forms would need about $0.64), Qwen3.8-Flash-Next $0.325 (about $0.55). Both will read a first-n subset of the
   fixed order; n is reported.
+
+**Amendment 6, deviation 1 (2026-10-16 00:40 UTC, after 7 bake-off reads; no outcome looked at).** `/usage` showed
+DeepSeek-V4.1-Flash billed $0.062 for 14 requests while the calls files recorded $0.009: a call that times out on our side
+(the core client's 300 s) is still answered and billed by the endpoint, and its answer is lost. Two changes, both about
+money and time, none about the read: (1) the budget (per-day $0.40, the per-model caps) is measured on the **billed**
+cost per model from `GET /usage` (`by_model`; these models are used by this run only), snapshotted to
+`results/bakeoff_billing.json` every 4 calls, instead of the per-row cost; (2) bake-off calls wait up to **900 s** for the
+answer instead of 300 s. The reported cost per 1,000 forms stays the per-row cost of the answered reads, with the billed
+total (including the lost calls) reported beside it. Reads already made are kept.

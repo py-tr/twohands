@@ -253,16 +253,30 @@ def period_start(t: datetime) -> datetime:
     return r if t >= r else r - timedelta(days=1)
 
 
-def own_spend_since(start: datetime, models) -> float:
-    tot = 0.0
-    for m in models:
-        for r in jsonl(calls_path(m)):
-            if r.get("ts", "") >= start.strftime("%Y-%m-%dT%H:%M:%SZ"):
-                tot += r.get("cost_usd") or 0.0
-    for r in jsonl(PROBE):
-        if r.get("ts", "") >= start.strftime("%Y-%m-%dT%H:%M:%SZ"):
-            tot += sum((t.get("cost") or 0.0) for t in r.get("tries", []))
-    return tot
+BILLING = R / "bakeoff_billing.json"
+CALL_TIMEOUT_S = 900  # deviation 1 (PROTOCOL.md Amendment 6): a timed-out call is still billed, so wait for the answer
+
+
+def billed_now(models) -> dict:
+    """Billed cost per model from GET /usage (by_model; these models are used by this run only), appended to
+    results/bakeoff_billing.json. Timed-out calls are billed too, so this, not the per-row cost, is the budget."""
+    from twohands import amd
+    u = amd.usage()
+    bm = {x["model"]: {"cost": x.get("cost") or 0.0, "requests": x.get("requests"), "errors": x.get("errors")}
+          for x in u.get("by_model", [])}
+    snap = {"ts": now(), "daily_cost_used_usd": u.get("daily_cost_used_usd"),
+            "by_model": {m: bm.get(m, {"cost": 0.0, "requests": 0, "errors": 0}) for m in models}}
+    st = json.loads(BILLING.read_text(encoding="utf-8")) if BILLING.is_file() else {"period_base": {}, "snapshots": []}
+    ps = period_start(datetime.now(timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    if ps not in st["period_base"]:  # the first period started before any bake-off model was used: base 0
+        first = not st["period_base"]
+        st["period_base"][ps] = {m: (0.0 if first else snap["by_model"][m]["cost"]) for m in models}
+    st["snapshots"].append(snap)
+    BILLING.write_text(json.dumps(st, indent=1) + "\n", encoding="utf-8")
+    base = st["period_base"][ps]
+    return {"models": {m: snap["by_model"][m]["cost"] for m in models},
+            "today": sum(snap["by_model"][m]["cost"] - base.get(m, 0.0) for m in models),
+            "endpoint_today": float(u.get("daily_cost_used_usd") or 0)}
 
 
 def model_spend(m: str) -> float:
@@ -290,24 +304,33 @@ def cmd_run(a) -> int:
     spent_lock = threading.Lock()
     usage_state = {"n": 0}
 
-    def gate_budget(extra: str = "") -> None:
+    probed = sorted({r["model"] for r in jsonl(PROBE) if r.get("tries")})
+    billed = {"models": {}}
+
+    def gate_budget() -> None:
         with spent_lock:
             while True:
                 t = datetime.now(timezone.utc)
                 if t >= STOP_UTC:
                     raise SystemExit("stop time reached")
-                mine = own_spend_since(period_start(t), plan["models"])
-                total = None
                 try:
-                    total = float(amd.usage().get("daily_cost_used_usd") or 0)
+                    billed.update(billed_now(probed))
                 except Exception as e:  # noqa: BLE001
                     log(f"usage read failed: {type(e).__name__}")
-                if mine < DAILY_USD and (total is None or total < ENDPOINT_DAILY_CEILING):
+                    return
+                mine, total = billed["today"], billed["endpoint_today"]
+                if mine < DAILY_USD and total < ENDPOINT_DAILY_CEILING:
                     return
                 reset = period_start(t) + timedelta(days=1)
                 wait = (reset - t).total_seconds() + 180
-                log(f"budget: this run {mine:.3f} USD today, endpoint {total} USD: sleeping {wait / 3600:.1f} h to {reset:%H:%M} UTC")
+                log(f"budget: this run billed {mine:.3f} USD today, endpoint {total:.3f} USD: sleeping {wait / 3600:.1f} h to {reset:%H:%M} UTC")
                 time.sleep(wait)
+
+    orig_req = amd._req
+    amd._req = lambda path, body=None, timeout=None: orig_req(  # noqa: E731
+        path, body, timeout=CALL_TIMEOUT_S if path == "/chat/completions" else (timeout or 60))
+    if not a.dry:
+        gate_budget()
 
     for pas in range(6):
         done = {m: {k for k, r in last_rows(calls_path(m)).items() if not r.get("error")} for m in models}
@@ -326,12 +349,12 @@ def cmd_run(a) -> int:
             with spent_lock:
                 if m in stopped:
                     return
-                if model_spend(m) >= plan["models"][m]["cap_usd"]:
+                if billed["models"].get(m, 0.0) >= plan["models"][m]["cap_usd"]:
                     stopped.add(m)
-                    log(f"{m}: spend cap {plan['models'][m]['cap_usd']} USD reached at order position {i}: n = {i}")
+                    log(f"{m}: billed {billed['models'][m]:.4f} >= cap {plan['models'][m]['cap_usd']} USD at order position {i}")
                     return
                 usage_state["n"] += 1
-                check = usage_state["n"] % 8 == 1
+                check = usage_state["n"] % 4 == 0
             if check:
                 gate_budget()
             elif datetime.now(timezone.utc) >= STOP_UTC:
@@ -389,6 +412,18 @@ def truth(k: str, f: str, prep_val, V: dict, B: dict):
     return "capture", prep_val
 
 
+def plain_reason(reason: str) -> str:
+    r = reason or ""
+    m = __import__("re").search(r"At most (\d+) image", r)
+    if m:
+        return f"accepts at most {m.group(1)} images per request; ours has 7 (page + 6 tiles)"
+    if "finish_reason length" in r:
+        return "reasoning used all 6,000 output tokens; no JSON answer"
+    if "gave up after" in r:
+        return "unavailable: the provider answered HTTP 503 at every probe"
+    return r
+
+
 def compute() -> dict:
     from app.store import code_of
     from twohands.tiers import capture_gate, digits, usable, words
@@ -434,7 +469,7 @@ def compute() -> dict:
             elif mv == pv:
                 res["right"] += 1
             else:
-                res["pending"] += 1
+                res["unadjudicated"] += 1
                 pending.append(f"{k}__{code_of(f['key'])}")
         return res, wrong, pending
 
@@ -468,14 +503,15 @@ def compute() -> dict:
                 "field_agreement_pct": round(100 * agree / graded_n, 2) if graded_n else None,
                 "accepted": len(acc), "accepted_pct": round(100 * len(acc) / len(forms), 1) if forms else None,
                 "accepted_fields": sum(tot.values()), "accepted_wrong": tot["wrong"], "accepted_undecided": tot["undecided"],
-                "accepted_pending": tot["pending"], "wrong_fields": wrong, "pending_fields": pending,
+                "accepted_unadjudicated": tot["unadjudicated"], "wrong_fields": wrong, "unadjudicated_fields": pending,
                 "cost_per_1000_usd": round(1000 * spend_all / len(forms), 4) if forms else None,
                 "mean_latency_s": round(sum(lat) / len(lat), 1) if lat else None,
                 "finish_reason": dict(sorted(fr.items())),
                 "prompt_frozen": all(R_[k].get("prompt_sha256") == prompt for k in sent)}
 
     out = {"prompt_sha256": prompt, "order_sha256": plan["order_sha256"], "models": {}, "pairs": [],
-           "not_compatible": plan["not_compatible"], "params": {m: v["params"] for m, v in plan["models"].items()}}
+           "not_compatible": {m: plain_reason(r) for m, r in plan["not_compatible"].items() if "not vision-capable" not in r},
+           "not_vision": sorted(m for m, r in plan["not_compatible"].items() if "not vision-capable" in r), "params": {m: v["params"] for m, v in plan["models"].items()}}
     for m in models:
         forms = order[: n_of[m]]
         b = block(m, forms)
@@ -508,11 +544,21 @@ def compute() -> dict:
             out["pairs"].append({"a": a_, "b": b_, "n": n, "accepted": len(acc),
                                  "accepted_pct": round(100 * len(acc) / n, 1) if n else None,
                                  "accepted_fields": sum(tot.values()), "accepted_wrong": tot["wrong"],
-                                 "accepted_undecided": tot["undecided"], "accepted_pending": tot["pending"],
-                                 "wrong_fields": wrong, "pending_fields": pending})
-    out["pairs"].sort(key=lambda p: (p["accepted_wrong"] + p["accepted_pending"], -(p["accepted"] / p["n"] if p["n"] else 0)))
-    out["total_bakeoff_spend_usd"] = round(sum(model_spend(m) for m in plan["models"])
-                                           + sum(sum((t.get("cost") or 0.0) for t in r.get("tries", [])) for r in jsonl(PROBE)), 4)
+                                 "accepted_undecided": tot["undecided"], "accepted_unadjudicated": tot["unadjudicated"],
+                                 "wrong_fields": wrong, "unadjudicated_fields": pending})
+    # Amendment 6: safest pair = fewest accepted-field errors after adjudication, ties broken by more accepted forms
+    out["pairs"].sort(key=lambda p: (p["n"] == 0, p["accepted_wrong"] + p["accepted_unadjudicated"], -p["accepted"], p["a"], p["b"]))
+    recorded = (sum(model_spend(m) for m in plan["models"])
+                + sum(sum((t.get("cost") or 0.0) for t in r.get("tries", [])) for r in jsonl(PROBE)))
+    out["recorded_spend_usd"] = round(recorded, 4)
+    bill = json.loads(BILLING.read_text(encoding="utf-8")) if BILLING.is_file() else None
+    if bill and bill["snapshots"]:  # billed by the API, incl. calls that timed out on our side (no answer kept)
+        last = bill["snapshots"][-1]
+        out["billed_by_model_usd"] = {m: round(v["cost"], 4) for m, v in last["by_model"].items()}
+        out["billed_as_of"] = last["ts"]
+        out["total_bakeoff_spend_usd"] = round(sum(v["cost"] for v in last["by_model"].values()), 4)
+    else:
+        out["total_bakeoff_spend_usd"] = round(recorded, 4)
     return out
 
 
@@ -537,33 +583,43 @@ def markdown(d: dict) -> str:
         L += [f"**Best reader by field agreement: {best} ({M[best]['field_agreement_pct']}% of graded fields equal to the capture, "
               f"n = {M[best]['n']}).**" + (f" **Safest pair: {pair['a']} + {pair['b']}: {pair['accepted']} of {pair['n']} forms "
                                             f"accepted, {pair['accepted_wrong']} wrong accepted fields.**" if pair else ""), ""]
-    L += ["| model | n | field agreement with the capture | accepted forms (frozen gate) | accepted-field errors | "
-          "cost per 1,000 forms | mean latency |", "|---|---|---|---|---|---|---|"]
+    L += ["| model | n | reads parsed | field agreement with the capture | accepted forms (frozen gate) | accepted-field errors | "
+          "cost per 1,000 forms | mean latency |", "|---|---|---|---|---|---|---|---|"]
     for m, b in lb:
+        if not b["n"]:
+            L.append(f"| {m} | 0 | - | not read yet | - | - | - | - |")
+            continue
         err = f"{b['accepted_wrong']} of {b['accepted_fields']:,}"
         if b["accepted_undecided"]:
             err += f" ({b['accepted_undecided']} undecided)"
-        if b["accepted_pending"]:
-            err += f" ({b['accepted_pending']} not adjudicated)"
-        L.append(f"| {m}{' (reads from the 300 run)' if b['reused'] else ''} | {b['n']} | {b['field_agreement_pct']}% "
+        if b["accepted_unadjudicated"]:
+            err += f" ({b['accepted_unadjudicated']} not adjudicated)"
+        L.append(f"| {m}{' (reads from the 300 run)' if b['reused'] else ''} | {b['n']} | {b['parsed']} | {b['field_agreement_pct']}% "
                  f"({b['field_agreement']:,} / {b['graded_fields']:,}) | {b['accepted']} ({b['accepted_pct']}%) | {err} | "
                  f"${b['cost_per_1000_usd']:.2f} | {b['mean_latency_s']} s |")
     for m, why in d["not_compatible"].items():
-        L.append(f"| {m} | - | not compatible: {why} | - | - | - | - |")
-    L += ["", "Latency: bake-off models, the server time of the answered request; Gemma and Qwen, the time per form as recorded "
+        L.append(f"| {m} | - | - | not compatible: {why} | - | - | - | - |")
+    if d.get("not_vision"):
+        L += ["", "Not vision-capable on `/models` (no image input), so not probed as readers: " + ", ".join(d["not_vision"]) + "."]
+    L += ["", "Field agreement is over the reads that parsed: a model whose replies were cut off on hard forms is graded on "
+          "fewer, easier forms, so read it together with the parsed count.",
+          "", "Latency: bake-off models, the server time of the answered request; Gemma and Qwen, the time per form as recorded "
           "in the 300 run (includes waiting for the shared limiter, 2 in flight). Cost: every attempt on the n forms, "
           "per 1,000 forms. Gemma-4-31B-IT was withdrawn from Token Factory on 2026-10-15; its row uses its reads of the 300.", "",
           "## Two readers (both read the form, all 23 digit values agree, every digit read, words = digits where read, "
           "rows sum to TOTAL; Amendment 2 d)", "",
           "| pair | n | accepted forms | accepted-field errors |", "|---|---|---|---|"]
     for p in d["pairs"]:
+        if not p["n"]:
+            continue
         e = f"{p['accepted_wrong']} of {p['accepted_fields']:,}"
         if p["accepted_undecided"]:
             e += f" ({p['accepted_undecided']} undecided)"
-        if p["accepted_pending"]:
-            e += f" ({p['accepted_pending']} not adjudicated)"
+        if p["accepted_unadjudicated"]:
+            e += f" ({p['accepted_unadjudicated']} not adjudicated)"
         L.append(f"| {p['a']} + {p['b']} | {p['n']} | {p['accepted']} ({p['accepted_pct']}%) | {e} |")
-    L += ["", "Pairs are sorted by accepted-field errors (fewest first), then by accepted share.", "",
+    L += ["", "Pairs are listed as pre-registered: fewest accepted-field errors after adjudication first, ties broken by more accepted "
+          "forms (a count, so a pair on a first-n subset is compared on fewer forms; its share is shown).", "",
           "## Per-model parameters", ""]
     for m, prm in d["params"].items():
         L.append(f"- {m}: `{json.dumps(prm)}`")
@@ -571,10 +627,14 @@ def markdown(d: dict) -> str:
           "- Qwen3.8-27B: `{\"temperature\": 0, \"max_tokens\": 6000, \"reasoning_effort\": \"low\"}` (section 4)", "",
           "## Wrong accepted fields", ""]
     for m, b in M.items():
-        if b["wrong_fields"] or b["pending_fields"]:
+        if b["wrong_fields"] or b["unadjudicated_fields"]:
             L.append(f"- {m}: wrong {', '.join(b['wrong_fields']) or 'none'}"
-                     + (f"; not adjudicated {', '.join(b['pending_fields'])}" if b["pending_fields"] else ""))
-    L += ["", f"Total bake-off spend (probes + reads): ${d['total_bakeoff_spend_usd']:.4f}.", ""]
+                     + (f"; not adjudicated {', '.join(b['unadjudicated_fields'])}" if b["unadjudicated_fields"] else ""))
+    L += ["", f"Total bake-off spend, billed by the API (probes + reads, incl. calls that timed out on our side): "
+          f"${d['total_bakeoff_spend_usd']:.4f}" + (f" as of {d['billed_as_of']}" if d.get("billed_as_of") else "")
+          + f"; of it, answered calls recorded per row: ${d['recorded_spend_usd']:.4f}.", ""]
+    if d.get("billed_by_model_usd"):
+        L += ["Billed per model: " + ", ".join(f"{m} ${v:.4f}" for m, v in d["billed_by_model_usd"].items() if v) + ".", ""]
     return "\n".join(L)
 
 
@@ -584,9 +644,9 @@ def cmd_report(_a) -> int:
     OUT_MD.write_text(markdown(d), encoding="utf-8")
     for m, b in d["models"].items():
         print(f"{m:32s} n={b['n']:3d} agree {b['field_agreement_pct']}% acc {b['accepted']} wrong {b['accepted_wrong']} "
-              f"pending {b['accepted_pending']} undec {b['accepted_undecided']} $/1k {b['cost_per_1000_usd']} lat {b['mean_latency_s']}")
+              f"pending {b['accepted_unadjudicated']} undec {b['accepted_undecided']} $/1k {b['cost_per_1000_usd']} lat {b['mean_latency_s']}")
     for p in d["pairs"][:5]:
-        print("pair", p["a"], "+", p["b"], p["n"], p["accepted"], p["accepted_wrong"], p["accepted_pending"])
+        print("pair", p["a"], "+", p["b"], p["n"], p["accepted"], p["accepted_wrong"], p["accepted_unadjudicated"])
     return 0
 
 
@@ -602,9 +662,9 @@ def cmd_disputes(a) -> int:
     keyof = {code_of(f["key"]): f["key"] for f in s["fields"]}
     want = set()
     for b in d["models"].values():
-        want |= set(b["pending_fields"])
+        want |= set(b["unadjudicated_fields"])
     for p in d["pairs"]:
-        want |= set(p["pending_fields"])
+        want |= set(p["unadjudicated_fields"])
     comp = load_comp({x.split("__")[0] for x in want})
     with (REPO / "app" / "data" / "audit_sample_prep300.csv").open(encoding="utf-8", newline="") as fh:
         prep = {r["CLAVE_CASILLA"]: r for r in csv.DictReader(fh)}
