@@ -7,7 +7,9 @@
 #   python scripts/confirm100_score.py --check (the pre-registered 100-form confirmation, results/confirm100.md);
 #   python scripts/ine_metric.py --check (INE's 2024 acceptance metric as we read it, results/ine_metric.md);
 #   python scripts/national_counts.py --check (the cost of the problem from INE's 2024 files, results/national_counts.md);
-#   python scripts/price_check.py --check (the price, from app/pricing.py, in every doc that states it)
+#   python scripts/price_check.py --check (the price, from app/pricing.py, in every doc that states it);
+#   python scripts/amd_bench.py --check (the AMD evidence block from our logs, and the docs that quote it);
+#   python scripts/build_agree200.py --check (the seeded blind check of 200 agreeing fields)
 eval:
 	python -m twohands.eval
 	python scripts/gemma_vs_qwen.py
@@ -18,6 +20,8 @@ eval:
 	python scripts/ine_metric.py --check
 	python scripts/national_counts.py --check
 	python scripts/price_check.py --check
+	python scripts/amd_bench.py --check
+	python scripts/build_agree200.py --check
 
 test:
 	python -m pytest -q

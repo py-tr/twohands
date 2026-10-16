@@ -61,7 +61,7 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     # hero: 52 first, then the gate line with both tiers in one sentence (primary first), then the honest sentence
     assert home.index(L["keying"]["label"]) < home.index(gate_label(L)) < home.index(L["honest"])
     assert L["gate"]["label"].startswith("One reader: ") and "Two readers that must agree" in L["gate"]["label"]
-    assert L["gate_note"] in home and L["gemma_role"] in home
+    assert L["gate_note"] in client.get("/").text and L["gemma_role"] in home   # the note is the card's tooltip
     assert L["label_cost"] in res and L["harmonised"] in res
     rc = H["receipt"]
     assert (rc["paper"], rc["prep"], rc["certified"], rc["cert_mode"]) == (175, "75", 175, "Cotejo")
@@ -79,7 +79,7 @@ def test_docs_quote_the_summary():
         assert f"{H['label_gate']['read_right']} of them" in doc
     for doc in (readme, ev, slides):
         assert L["breakdown"] in re.sub(r"\s+", " ", doc) and "keying error" not in doc.lower()
-    assert "about 12 to 24 times" in ev
+    assert "up to 24 times if the model finds nearly every error" in ev and "ten times" not in ev
     lab = (REPO / "submission" / "lablab.md").read_text(encoding="utf-8")
     gem = (REPO / "docs" / "GEMMA.md").read_text(encoding="utf-8")
     flat = lambda d: re.sub(r"\s+", " ", d.replace("**", ""))  # noqa: E731

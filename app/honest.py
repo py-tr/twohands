@@ -28,8 +28,8 @@ from twohands import REPO
 
 TIER = "accepted at second capture"
 REG_LINE = ("The PREP rules require a second capture and a comparison for every acta (numeral 33) and a cotejo. "
-            "Two Hands does that second capture: it accepts what the paper's arithmetic confirms and sends the rest "
-            "to a person, with the photo.")
+            "Two Hands checks a finished capture against the photo, field by field: it accepts what the paper's "
+            "arithmetic confirms and sends the rest to a person, with the photo.")
 NUMERAL_33 = ("https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/"
               "CGex202311-03-ap-8-a.pdf")
 IEEBCS_PROTOCOL = REPO / "PROTOCOL_IEEBCS.md"
@@ -65,7 +65,7 @@ def confirmation(H: dict, answers: Optional[dict] = None) -> Optional[dict]:
     parts = [f"{len(cert)} confirmed by the certified count", f"{person} checked by a person"]
     if disagree:
         parts.append(f"{disagree} read differently by a person")
-    parts.append(f"{ai} AI-adjudicated only")
+    parts.append(f"{ai} judged from the photo by the AI adjudicator only")
     note = {"pending": "person check pending",
             "in_progress": f"person check in progress, {checked} of {len(rest)}", "done": None}[state]
     return {"total": len(items), "certified": len(cert), "person": person, "person_disagree": disagree, "ai_only": ai,

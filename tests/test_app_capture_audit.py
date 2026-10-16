@@ -137,7 +137,7 @@ def test_audit_pages_marks_and_exports(audits):
     rep = client.get(f"/audit/{aid}/report").text
     assert "<title>Audit report: 6,358 fields checked, 267 disputed</title>" in rep
     assert "each with its photo" in rep and "1 in 5" in rep and "52 of those 267" in rep
-    assert "Recall caveat" in rep and "measured recall" in rep and "Confirmed capture error" in rep
+    assert "Recall caveat" in rep and "it is unmeasured" in rep and "Confirmed capture error" in rep
     rows = [r for r in csv.DictReader(io.StringIO(client.get(f"/audit/{aid}/report.csv").text))
             if not r["position"].startswith("#")]  # the report fingerprint and input hashes close the file
     assert len(rows) == 267 and rows[0]["position"] == "1"

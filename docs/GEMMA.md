@@ -5,7 +5,7 @@ Two Hands' reader is **Gemma-4-31B-IT**, served on AMD GPUs by AMD Token Factory
 is the engineering behind that: what the model has to do, the one limit we had to work around, how the reply is
 made safe to accept, what it costs, and how it compares with Qwen3.8-27B on the same forms.
 
-**Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.**
+**Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted fields with Qwen3.8-27B; 0 wrong of 924 accepted fields with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814). Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.**
 
 ## 1. A job only a vision-language model can do
 
@@ -33,7 +33,7 @@ faint-form fields and agrees with the paper on 18.
 
 ### 2.1 The fixed image budget, and tiling around it
 
-**The limit.** On this endpoint Gemma gets a **fixed budget of about 263 tokens per image, whatever its resolution**.
+**The endpoint's limit.** On this endpoint Gemma gets a **fixed budget of about 263 tokens per image, whatever its resolution**.
 Measured on every read of the 300 run: 7 images per request, `usage.prompt_tokens_details.image_tokens` = **1,843**
 on all 289 reads (`results/calls_gemma.jsonl`), so 263 per image. Upscaling does not help: in the ledger spike a 2x
 upscale got the same prompt tokens and no gain (75.2% vs 74.6% cell accuracy on 8 sheets,
@@ -41,8 +41,10 @@ upscale got the same prompt tokens and no gain (75.2% vs 74.6% cell accuracy on 
 1,800 tokens per image on the pilot images ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 3) and 5,817 for the same 7
 images here (831 per image).
 
-The AMD Token Factory runs Gemma at a fixed image budget, so the 300's numbers and the public live read use that budget; the higher budget was measured on our self-hosted MI300X. (Self-hosted, Gemma 4 takes 70 to 1,120 soft tokens per image, set per request; the ablation and
-the confirmation's arm B are in `deploy/mi300x/STAGES.md` and Amendment 4.)
+The AMD Token Factory serves Gemma at a fixed image budget, so every number here uses that budget. Gemma 4 itself
+supports 70 to 1,120 soft tokens per image, set per request; on a self-hosted AMD GPU the tiles could be replaced by
+one high-budget image. We have not run that: a self-hosted run was planned (`deploy/mi300x/`, the draft Amendment 4)
+and not run, so no self-hosted number exists.
 
 **The workaround: spend more images, not more pixels.** Each request carries the masked page plus zoomed tiles cut
 from it (`schemas/mx_presidencia_2024.yaml`, `layout.tiles`; `twohands/mask.py`; `twohands/reader.build_body`):
@@ -117,7 +119,7 @@ From `results/calls_gemma.jsonl`, last read per form, 289 reads of the pre-regis
 
 | | Gemma-4-31B-IT on AMD |
 |---|---|
-| Mean latency per form | **87 s** wall clock on the shared endpoint, including queueing |
+| Server time per form | **83 s** mean (HTTP round trip of the answered request; 87 s wall clock with our limiter; `results/amd_benchmark.md`) |
 | Tokens in / out | 2,609 (1,843 of them image) / 804 |
 | Cost per form | **$0.000144**, so $0.14 per 1,000 forms |
 | Total Gemma spend, 300 run incl. retries | $0.042 |
@@ -136,10 +138,10 @@ complete: the comparison is on **all 300 forms** (289 located pages sent to both
 | Touchless (frozen gate accepted) | **55** (18.3%) | 31 (10.3%) |
 | Accepted fields wrong, vs the paper | 2 of 1,210 | 1 of 682 (2 more undecided on the paper) |
 | Replies cut at `max_tokens` | 0 | 50 |
-| Mean latency per form | **87 s** | 241 s |
+| Mean time per form (wall clock, incl. our limiter) | 87 s | 241 s |
 | Tokens in / out | 2,609 / 804 | 6,612 / 3,340 |
 | Cost per form read | **$0.000144** | $0.000597 |
-| **Two readers, strict mode (Amendment 2 d): both agree on all 23 digits** | **89 forms, 0 of 1,958 accepted fields wrong** | |
+| **Two readers, strict mode (Amendment 2 d, secondary; lighter gate): both agree on all 23 digits** | **89 forms, 0 of 1,958 accepted fields wrong** (full gate, section 7: 22 forms, 0 of 484) | |
 
 **Gemma accepts about 1.8 times as many forms with no person, at about a quarter of Qwen's cost per form**, with
 the same order of error on what it accepts. Both models' wrong accepted fields are unused ballots, the one graded

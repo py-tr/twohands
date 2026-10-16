@@ -127,39 +127,100 @@ def tier_lines(T: dict | None) -> dict:
     }
 
 
+ADJUDICATOR = "the AI adjudicator (the builder's model, which could see both values)"
 _FRACTION = {2: "half", 3: "a third", 4: "a quarter", 5: "a fifth"}
 
 
+def gemma_pairs() -> dict | None:
+    """From the bake-off pairs (app/data/bakeoff_300.json, recomputed by make eval): the model that is in every
+    compared two-reader pair with 0 accepted fields wrong, those pairs, and the compared pairs without it."""
+    d = storemod._jload(storemod.DATA / "bakeoff_300.json", None)
+    if not d or not d.get("pairs"):
+        return None
+    P = [p for p in d["pairs"] if p["n"] and not p.get("halted")]
+    clean = [p for p in P if p["accepted_wrong"] == 0 and p["accepted_unadjudicated"] == 0]
+    if not clean:
+        return None
+    common = set.intersection(*({p["a"], p["b"]} for p in clean))
+    m = next((x for x in sorted(common) if x.lower().startswith("gemma")), None)
+    if not m:
+        return None
+    other = lambda p: p["b"] if p["a"] == m else p["a"]  # noqa: E731
+    without = [p for p in P if m not in (p["a"], p["b"])]
+    return {"model": m, "clean": [{"with": other(p), "wrong": p["accepted_wrong"], "fields": p["accepted_fields"]}
+                                  for p in clean],
+            "without": [{"pair": f"{p['a']} + {p['b']}", "wrong": p["accepted_wrong"], "fields": p["accepted_fields"]}
+                        for p in without]}
+
+
+def gemma_pairs_line(GP: dict | None) -> str | None:
+    """'Gemma-4-31B-IT is in both zero-error two-reader pairs (...); the only pair without Gemma made errors (2 of 814).'"""
+    if not GP or not GP["clean"]:
+        return None
+    n = {1: "the", 2: "both", 3: "all three"}.get(len(GP["clean"]), f"all {len(GP['clean'])}")
+    c = "; ".join(f"{x['wrong']} wrong of {x['fields']:,} accepted fields with {x['with']}" for x in GP["clean"])
+    s = f"{GP['model']} is in {n} zero-error two-reader pair{'s' if len(GP['clean']) > 1 else ''} ({c})"
+    bad = [x for x in GP["without"] if x["wrong"]]
+    if bad and len(GP["without"]) == 1:
+        s += f"; the only pair without Gemma made errors ({bad[0]['wrong']} of {bad[0]['fields']:,})"
+    elif bad:
+        s += "; the pairs without Gemma made errors (" + ", ".join(f"{x['wrong']} of {x['fields']:,}" for x in bad) + ")"
+    return s + "."
+
+
+def checked_line() -> str:
+    """How far 'wrong' was checked: against the official capture, every disagreement on the photo; the agreeing
+    fields only through the blind /check?set=agree200 (a seeded random 200), and only once all 200 are answered."""
+    base = "against the official capture; every disagreement checked on the photo"
+    try:
+        from app import spotcheck
+        r = spotcheck.agree200_result()
+    except Exception:  # noqa: BLE001 - a missing state file must never break a page
+        r = None
+    if r and r["queue"] and r["answered"] == r["queue"]:
+        return f"{base}; and a random {r['queue']} agreeing fields were checked by a person: {r['agree']} agreed"
+    return f"{base}; fields where the model and the capture agree were not individually checked"
+
+
 def gate_lines(H: dict, T: dict | None) -> dict:
-    """The hero's gate line (both pre-registered tiers in one sentence, the one-reader primary first), the honest
+    """The hero's gate line (the one-reader primary first, then the two-reader tiers with their status), the honest
     sentence, and Gemma's role. Two-reader wording only when the tier file is loaded; else the one-reader sentences."""
     g_one = (f"One reader: {H['accepted_pct']}% of forms with no person, {H['acc_model_wrong']} wrong fields in "
              f"{H['acc_fields']:,}.")
     note = "the two-reader tier checks words = digits and row sums, without the section checks"
+    chk = checked_line()
     if not T or "tiers" not in T:
         return {"gate": {"value": None, "label": g_one + " The one-reader figure is the primary.", "small": None},
                 "honest": (f"Alone, the model mis-keys about 1 field in {H['model_one_in']}; the official two-person capture "
                            f"typed a wrong number in 1 field in {H['wrong_number_one_in']}. That is why the model never "
                            f"decides. The paper does, and a person sees the rest."),
-                "gemma_role": None}
+                "gemma_role": None, "checked": chk}
     t2, tg, tq = T["tiers"]["two_reader"], T["tiers"]["gemma"], T["tiers"]["qwen"]
+    s7 = T["tiers"].get("two_reader_s7")
+    full = (f"; with the full gate, {pct(s7['accepted'], T['forms'])}, {s7['errors']} wrong in {s7['fields']:,}"
+            if s7 else "")
     gq = storemod._jload(storemod.DATA / "gemma_vs_qwen.json", None) or {}
     share = gq.get("gemma_cost_share_of_qwen")
     k = round(1 / share) if share else None
     cost = (f", and costs {_FRACTION.get(k, f'1/{k}')} of the second reader" if k else "")
+    gp = gemma_pairs_line(gemma_pairs())
     return {
         "gate": {"value": None,
                  "label": (f"{g_one} Two readers that must agree, with the paper's sums as referee: "
-                           f"{pct(t2['accepted'], T['forms'])}, {t2['errors']} wrong in {t2['fields']:,}. Both "
-                           f"pre-registered; the one-reader figure is the primary."),
-                 "small": f"Note: {note}."},
+                           f"{pct(t2['accepted'], T['forms'])}, {t2['errors']} wrong in {t2['fields']:,} (secondary, lighter "
+                           f"gate{full}). The one-reader figure is the pre-registered primary."),
+                 "small": (f"The 30% tier is a secondary analysis, defined (Amendment 2) after the one-reader result was "
+                           f"seen and before the second reader ran; it uses the lighter gate (no section checks). Wrong is "
+                           f"judged {chk}.").replace("The 30% tier", f"The {pct(t2['accepted'], T['forms'])} tier")},
         "gate_note": note,
+        "checked": chk,
         "honest": (f"Alone, one model mis-keys 1 field in {H['model_one_in']}. Two models that agree, refereed by the paper, "
-                   f"mis-keyed {t2['errors']} of {t2['fields']:,}."),
-        "gemma_role": (f"Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms "
-                       f"alone ({tg['accepted']} against Qwen's {tq['accepted']}){cost}. In two-reader mode a second "
-                       f"model must agree with Gemma field by field before the paper's arithmetic accepts; the second "
-                       f"reader never overrides Gemma, it only withholds acceptance."),
+                   f"mis-keyed {t2['errors']} of {t2['fields']:,} accepted fields against the official capture."),
+        "gemma_role": ((gp + " " if gp else "")
+                       + f"Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms "
+                         f"alone ({tg['accepted']} against Qwen's {tq['accepted']}){cost}. In two-reader mode a second "
+                         f"model must agree with Gemma field by field before the paper's arithmetic accepts; the second "
+                         f"reader never overrides Gemma, it only withholds acceptance."),
     }
 
 
@@ -173,7 +234,9 @@ def lines(H: dict, T: dict | None = None) -> dict:
     r, v, rc, fa = H["recall"], H["verdicts"], H["receipt"], H["faint"]
     ci2 = r.get("ci2") or [0, 0]
     bt = {t["type"]: t["n"] for t in H["by_type"]}
-    high = (r.get("recall2_pct") or 0) >= 50
+    n_cert = sum(1 for x in H.get("keying_list") or [] if x.get("cert_agrees"))
+    dv = r.get("disputed_verdicts") or {}
+    r_conf, r_amb = dv.get("model_right", 0), dv.get("paper_ambiguous", 0)
     breakdown = (f"{bt['wrong_value']} wrong numbers typed; {bt['marked_illegible']} readable fields recorded as illegible, "
                  f"{H['illegible_on_faint']} of them on two faint pencil forms; {bt['keyed_blank']} numbers typed where the "
                  f"paper is blank; {bt['other']} other. Each with its photo.")
@@ -194,18 +257,21 @@ def lines(H: dict, T: dict | None = None) -> dict:
         "yield": {"value": f"1 in {H['yield_one_in']}",
                   "label": (f"disputed fields is a confirmed capture error ({H['keying_errors']} of {H['disagree']}). The "
                             f"capture's overall error rate is at least 1 in {H['random_one_in']} ({H['keying_errors']} of "
-                            f"{H['fields']:,} found so far).")
-                           + (" More than ten times the yield of a random check." if high else ""),
-                  "small": None},
+                            f"{H['fields']:,} found so far)."),
+                  "small": (f"Of the {H['keying_errors']}: {n_cert} confirmed by the certified count, "
+                            f"{H['keying_errors'] - n_cert} judged from the photo by {ADJUDICATOR}. Recall is unmeasured, "
+                            f"so the multiple between the two rates is too.")},
         "honest": GL["honest"],
         "gate": GL["gate"],
         "gemma_role": GL["gemma_role"],
         "gate_note": GL.get("gate_note"),
+        "checked": GL.get("checked"),
         "preliminary": "The first capture is preliminary by design; the certified count is the official result.",
         "recall": (f"On the forms the certified count settled by comparison, it differs from the first capture on {r['E']} "
                    f"fields; judged on the paper, {r['corrections']} of them are council corrections or blank rows (the "
-                   f"paper shows the capture's value), and the model disputed {r['C']} of the other {r['E2']} "
-                   f"(measured recall {r['recall2_pct']}%, Wilson 95% {100 * ci2[0]:.0f}% to {100 * ci2[1]:.0f}%; small n)."),
+                   f"paper shows the capture's value), and the model disputed {r['C']} of the other {r['E2']}: {r_conf} "
+                   f"a confirmed capture error, {r_amb} where the paper is ambiguous. Recall on confirmed capture errors "
+                   f"rests on {r_conf} field{'s' if r_conf != 1 else ''}: it is unmeasured."),
         "receipt": (f"The paper says {rc['paper']}, the first capture keyed {rc['prep']}, the certified count says "
                     f"{rc['certified']}."),
         "product": (f"Give us your keyed data and the scans. You get the {H['flag_pct']:.0f}% of fields to look at, "
@@ -234,7 +300,7 @@ def home(st: storemod.Store) -> dict:
     headline_cards = [dict(L[k], source=src) for k, src in (
         ("keying", "results/adjudication/SUMMARY.md + CERTIFIED.md (app/data/headline.json)"),
         ("gate", "app/data/headline.json (one reader, primary) + app/data/two_reader_300.json (two readers, Amendment 2 d)"),
-        ("yield", "results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md, \"Behind more than ten times the yield of a random check\""))] if H else []
+        ("yield", "results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md, \"Behind 1 in 5 vs at least 1 in 122\""))] if H else []
     q = st.run_metrics("spike-qwen") if "spike-qwen" in st.runs else None
     g = st.run_metrics("spike-gemma-v2")
     cpf_g = (H.get("gemma") or {}).get("cost_per_form") or g["cost_per_form"]

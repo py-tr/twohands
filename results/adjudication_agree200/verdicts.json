@@ -1,0 +1,1402 @@
+{
+ "010477C0300__PRD": {
+  "form_id": "010477C0300",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "010477C0300__SACADOS": {
+  "form_id": "010477C0300",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 400,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "020916B0100__PAN_PRD": {
+  "form_id": "020916B0100",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "020916B0100__PT": {
+  "form_id": "020916B0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 12,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "020916B0100__REPRESENTANTES": {
+  "form_id": "020916B0100",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "021095C0100__PVEM_MORENA": {
+  "form_id": "021095C0100",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "021095C0100__PVEM_PT": {
+  "form_id": "021095C0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "021481C0100__NULOS": {
+  "form_id": "021481C0100",
+  "field": "NULOS",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040396B0100__NO_REGISTRADAS": {
+  "form_id": "040396B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040396B0100__NULOS": {
+  "form_id": "040396B0100",
+  "field": "NULOS",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040396B0100__PAN_PRD": {
+  "form_id": "040396B0100",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040396B0100__PT_MORENA": {
+  "form_id": "040396B0100",
+  "field": "PT_MORENA",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040396B0100__PVEM_PT": {
+  "form_id": "040396B0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040396B0100__PVEM_PT_MORENA": {
+  "form_id": "040396B0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040396B0100__SOBRANTES": {
+  "form_id": "040396B0100",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 132,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040446B0100__REPRESENTANTES": {
+  "form_id": "040446B0100",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040446B0100__SACADOS": {
+  "form_id": "040446B0100",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 88,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "040446B0100__VOTARON": {
+  "form_id": "040446B0100",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 86,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "050908C0200__PRI": {
+  "form_id": "050908C0200",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 93,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "050908C0200__PT_MORENA": {
+  "form_id": "050908C0200",
+  "field": "PT_MORENA",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "051350C0600__PAN_PRI_PRD": {
+  "form_id": "051350C0600",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "051350C0600__PVEM_PT_MORENA": {
+  "form_id": "051350C0600",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "agree",
+  "paper": 16,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "060079C0300__SACADOS": {
+  "form_id": "060079C0300",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 434,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "070321B0100__PRD": {
+  "form_id": "070321B0100",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "070321B0100__PVEM_PT": {
+  "form_id": "070321B0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "071457C0200__NO_REGISTRADAS": {
+  "form_id": "071457C0200",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "071457C0200__PAN": {
+  "form_id": "071457C0200",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 21,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "071457C0200__PRI_PRD": {
+  "form_id": "071457C0200",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "071457C0200__PVEM": {
+  "form_id": "071457C0200",
+  "field": "PVEM",
+  "verdict": "agree",
+  "paper": 207,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "071741B0100__MC": {
+  "form_id": "071741B0100",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 26,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "071741B0100__PVEM_MORENA": {
+  "form_id": "071741B0100",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 9,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "071741B0100__PVEM_PT": {
+  "form_id": "071741B0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "072182B0100__NO_REGISTRADAS": {
+  "form_id": "072182B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "072182B0100__PVEM_PT": {
+  "form_id": "072182B0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "080310B0100__PT_MORENA": {
+  "form_id": "080310B0100",
+  "field": "PT_MORENA",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "080626B0100__PAN_PRI_PRD": {
+  "form_id": "080626B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "083340B0100__PRI": {
+  "form_id": "083340B0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 99,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "090273C0200__PRI": {
+  "form_id": "090273C0200",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 22,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "090747C0100__PRD": {
+  "form_id": "090747C0100",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "092199C0100__NO_REGISTRADAS": {
+  "form_id": "092199C0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "092199C0100__PT": {
+  "form_id": "092199C0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 20,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "092199C0100__REPRESENTANTES": {
+  "form_id": "092199C0100",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 4,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "093023C0200__PT_MORENA": {
+  "form_id": "093023C0200",
+  "field": "PT_MORENA",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "093492C0100__PAN_PRD": {
+  "form_id": "093492C0100",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "093492C0100__PAN_PRI_PRD": {
+  "form_id": "093492C0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 11,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "093492C0100__PRD": {
+  "form_id": "093492C0100",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "094655C0100__PVEM": {
+  "form_id": "094655C0100",
+  "field": "PVEM",
+  "verdict": "agree",
+  "paper": 9,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "094655C0100__PVEM_PT": {
+  "form_id": "094655C0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "094739B0100__PAN_PRI_PRD": {
+  "form_id": "094739B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 14,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "094739B0100__SACADOS": {
+  "form_id": "094739B0100",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 356,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "112693B0100__REPRESENTANTES": {
+  "form_id": "112693B0100",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "112747C0100__PAN_PRI": {
+  "form_id": "112747C0100",
+  "field": "PAN_PRI",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "120443B0100__PRI_PRD": {
+  "form_id": "120443B0100",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "120936B0100__MORENA": {
+  "form_id": "120936B0100",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 260,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "120936B0100__NO_REGISTRADAS": {
+  "form_id": "120936B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "121638C0100__PAN_PRI": {
+  "form_id": "121638C0100",
+  "field": "PAN_PRI",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "121638C0100__PRI": {
+  "form_id": "121638C0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 60,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "121638C0100__SACADOS": {
+  "form_id": "121638C0100",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 243,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "130991C0100__PAN": {
+  "form_id": "130991C0100",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 33,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "130991C0100__PAN_PRD": {
+  "form_id": "130991C0100",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "130991C0100__SACADOS": {
+  "form_id": "130991C0100",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 446,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "140167C0200__NO_REGISTRADAS": {
+  "form_id": "140167C0200",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "140704C0100__PAN": {
+  "form_id": "140704C0100",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 62,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "140704C0100__PAN_PRI": {
+  "form_id": "140704C0100",
+  "field": "PAN_PRI",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "140704C0100__PRI_PRD": {
+  "form_id": "140704C0100",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "140704C0100__PT": {
+  "form_id": "140704C0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 7,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "141702B0100__PAN_PRI_PRD": {
+  "form_id": "141702B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 10,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "141702B0100__PT": {
+  "form_id": "141702B0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 13,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "142969C1400__MC": {
+  "form_id": "142969C1400",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 64,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "143067C0300__TOTAL": {
+  "form_id": "143067C0300",
+  "field": "TOTAL",
+  "verdict": "agree",
+  "paper": 516,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "143194B0100__PVEM_PT": {
+  "form_id": "143194B0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "151983B0100__PAN_PRD": {
+  "form_id": "151983B0100",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "151983B0100__PAN_PRI_PRD": {
+  "form_id": "151983B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "151983B0100__PRI_PRD": {
+  "form_id": "151983B0100",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "152745C0100__PAN": {
+  "form_id": "152745C0100",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 208,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "152745C0100__PRI": {
+  "form_id": "152745C0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 20,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "152745C0100__SOBRANTES": {
+  "form_id": "152745C0100",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 102,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "152745C0100__TOTAL": {
+  "form_id": "152745C0100",
+  "field": "TOTAL",
+  "verdict": "agree",
+  "paper": 324,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "152745C0100__VOTARON": {
+  "form_id": "152745C0100",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 318,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "152896B0100__PAN": {
+  "form_id": "152896B0100",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 282,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "153089B0100__PRD": {
+  "form_id": "153089B0100",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 6,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "153089B0100__SACADOS": {
+  "form_id": "153089B0100",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 415,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "153743C0400__PAN_PRD": {
+  "form_id": "153743C0400",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "153743C0400__PT": {
+  "form_id": "153743C0400",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 16,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "153743C0400__SOBRANTES": {
+  "form_id": "153743C0400",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 336,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "153743C0400__TOTAL": {
+  "form_id": "153743C0400",
+  "field": "TOTAL",
+  "verdict": "agree",
+  "paper": 425,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "153743C0400__VOTARON": {
+  "form_id": "153743C0400",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 417,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "154414C0100__MORENA": {
+  "form_id": "154414C0100",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 164,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "154414C0100__PVEM": {
+  "form_id": "154414C0100",
+  "field": "PVEM",
+  "verdict": "agree",
+  "paper": 9,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "154414C0100__TOTAL": {
+  "form_id": "154414C0100",
+  "field": "TOTAL",
+  "verdict": "agree",
+  "paper": 320,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "155230B0100__PAN": {
+  "form_id": "155230B0100",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 171,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "155230B0100__PAN_PRI_PRD": {
+  "form_id": "155230B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 17,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "155230B0100__PRI": {
+  "form_id": "155230B0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 160,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "155230B0100__REPRESENTANTES": {
+  "form_id": "155230B0100",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "156878C0200__PAN_PRI_PRD": {
+  "form_id": "156878C0200",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 6,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "160812C0100__PRI_PRD": {
+  "form_id": "160812C0100",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "161613C0200__MORENA": {
+  "form_id": "161613C0200",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 120,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "161613C0200__PAN_PRD": {
+  "form_id": "161613C0200",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "161613C0200__PRI": {
+  "form_id": "161613C0200",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 29,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "161613C0200__TOTAL": {
+  "form_id": "161613C0200",
+  "field": "TOTAL",
+  "verdict": "agree",
+  "paper": 330,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "162325C0100__MORENA": {
+  "form_id": "162325C0100",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 173,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170127C0200__PRI": {
+  "form_id": "170127C0200",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 20,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170127C0200__PT": {
+  "form_id": "170127C0200",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 14,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170127C0200__PVEM_MORENA": {
+  "form_id": "170127C0200",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170127C0200__REPRESENTANTES": {
+  "form_id": "170127C0200",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170127C0200__SOBRANTES": {
+  "form_id": "170127C0200",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 248,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170688C0100__PRI": {
+  "form_id": "170688C0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 10,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170775B0100__PAN": {
+  "form_id": "170775B0100",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 7,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170775B0100__PAN_PRI_PRD": {
+  "form_id": "170775B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170775B0100__PVEM_MORENA": {
+  "form_id": "170775B0100",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170775B0100__SOBRANTES": {
+  "form_id": "170775B0100",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 73,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170788C0100__MORENA": {
+  "form_id": "170788C0100",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 172,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170788C0100__PRI": {
+  "form_id": "170788C0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 41,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "170849C0100__PAN_PRI_PRD": {
+  "form_id": "170849C0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "180847B0100__PRD": {
+  "form_id": "180847B0100",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "180847B0100__PRI_PRD": {
+  "form_id": "180847B0100",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "190190B0100__PRI_PRD": {
+  "form_id": "190190B0100",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "190190B0100__PVEM_PT_MORENA": {
+  "form_id": "190190B0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "agree",
+  "paper": 26,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "190190B0100__SACADOS": {
+  "form_id": "190190B0100",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 387,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "190661B0100__PRI": {
+  "form_id": "190661B0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 59,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "190661B0100__PT": {
+  "form_id": "190661B0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 4,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "190661B0100__PVEM_PT_MORENA": {
+  "form_id": "190661B0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "190661B0100__VOTARON": {
+  "form_id": "190661B0100",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 346,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "191903C0100__MC": {
+  "form_id": "191903C0100",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 70,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "191903C0100__PAN_PRI": {
+  "form_id": "191903C0100",
+  "field": "PAN_PRI",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "191990B0100__MC": {
+  "form_id": "191990B0100",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 63,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "191990B0100__MORENA": {
+  "form_id": "191990B0100",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 74,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "191990B0100__PAN_PRI": {
+  "form_id": "191990B0100",
+  "field": "PAN_PRI",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "191990B0100__PVEM_PT": {
+  "form_id": "191990B0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201215C0200__NULOS": {
+  "form_id": "201215C0200",
+  "field": "NULOS",
+  "verdict": "agree",
+  "paper": 20,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201215C0200__PRD": {
+  "form_id": "201215C0200",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 15,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201215C0200__PVEM_PT": {
+  "form_id": "201215C0200",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201215C0200__SOBRANTES": {
+  "form_id": "201215C0200",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 414,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201267B0100__PAN": {
+  "form_id": "201267B0100",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 26,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201267B0100__PT": {
+  "form_id": "201267B0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 20,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201365E0100__NO_REGISTRADAS": {
+  "form_id": "201365E0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201365E0100__PAN_PRI": {
+  "form_id": "201365E0100",
+  "field": "PAN_PRI",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201365E0100__PT_MORENA": {
+  "form_id": "201365E0100",
+  "field": "PT_MORENA",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "201365E0100__REPRESENTANTES": {
+  "form_id": "201365E0100",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "202005C0200__MC": {
+  "form_id": "202005C0200",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 11,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "202005C0200__PT": {
+  "form_id": "202005C0200",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 52,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "202202C0100__PAN_PRI_PRD": {
+  "form_id": "202202C0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "202202C0100__PRI": {
+  "form_id": "202202C0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 34,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "202202C0100__PT": {
+  "form_id": "202202C0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 14,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "202202C0100__SOBRANTES": {
+  "form_id": "202202C0100",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 278,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "202202C0100__VOTARON": {
+  "form_id": "202202C0100",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 395,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "210288C0100__NULOS": {
+  "form_id": "210288C0100",
+  "field": "NULOS",
+  "verdict": "agree",
+  "paper": 16,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "210288C0100__PVEM_PT": {
+  "form_id": "210288C0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211214C0400__PAN": {
+  "form_id": "211214C0400",
+  "field": "PAN",
+  "verdict": "agree",
+  "paper": 59,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211214C0400__PAN_PRD": {
+  "form_id": "211214C0400",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211214C0600__NO_REGISTRADAS": {
+  "form_id": "211214C0600",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211214C0600__NULOS": {
+  "form_id": "211214C0600",
+  "field": "NULOS",
+  "verdict": "agree",
+  "paper": 4,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211214C0600__PVEM_PT": {
+  "form_id": "211214C0600",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211468B0100__PAN_PRI_PRD": {
+  "form_id": "211468B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211577C0100__MC": {
+  "form_id": "211577C0100",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 37,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211577C0100__PAN_PRD": {
+  "form_id": "211577C0100",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211577C0100__PT": {
+  "form_id": "211577C0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 6,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "211577C0100__REPRESENTANTES": {
+  "form_id": "211577C0100",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "220172B0100__NO_REGISTRADAS": {
+  "form_id": "220172B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "220172B0100__PVEM_PT": {
+  "form_id": "220172B0100",
+  "field": "PVEM_PT",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "220313C0300__NULOS": {
+  "form_id": "220313C0300",
+  "field": "NULOS",
+  "verdict": "agree",
+  "paper": 10,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "220313C0300__PRD": {
+  "form_id": "220313C0300",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "220313C0300__PT": {
+  "form_id": "220313C0300",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 7,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "220313C0300__REPRESENTANTES": {
+  "form_id": "220313C0300",
+  "field": "REPRESENTANTES",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "220313C0300__VOTARON": {
+  "form_id": "220313C0300",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 526,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "240887B0100__PRI_PRD": {
+  "form_id": "240887B0100",
+  "field": "PRI_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "240887B0100__PVEM": {
+  "form_id": "240887B0100",
+  "field": "PVEM",
+  "verdict": "agree",
+  "paper": 5,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "240887B0100__TOTAL": {
+  "form_id": "240887B0100",
+  "field": "TOTAL",
+  "verdict": "agree",
+  "paper": 313,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "252706B0100__PRI": {
+  "form_id": "252706B0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 26,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "252706B0100__SOBRANTES": {
+  "form_id": "252706B0100",
+  "field": "SOBRANTES",
+  "verdict": "agree",
+  "paper": 295,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "253841C0100__PVEM_PT_MORENA": {
+  "form_id": "253841C0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "agree",
+  "paper": 6,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "260601C0800__MC": {
+  "form_id": "260601C0800",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 12,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "260601C0800__PAN_PRD": {
+  "form_id": "260601C0800",
+  "field": "PAN_PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "260601C0800__PVEM_MORENA": {
+  "form_id": "260601C0800",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "280699C0200__PRD": {
+  "form_id": "280699C0200",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "280731B0100__PAN_PRI_PRD": {
+  "form_id": "280731B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "agree",
+  "paper": 6,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "290221B0100__NULOS": {
+  "form_id": "290221B0100",
+  "field": "NULOS",
+  "verdict": "agree",
+  "paper": 9,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "290221B0100__SACADOS": {
+  "form_id": "290221B0100",
+  "field": "SACADOS",
+  "verdict": "agree",
+  "paper": 405,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "290221B0100__VOTARON": {
+  "form_id": "290221B0100",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 405,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "300474B0100__MC": {
+  "form_id": "300474B0100",
+  "field": "MC",
+  "verdict": "agree",
+  "paper": 34,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "300474B0100__MORENA": {
+  "form_id": "300474B0100",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 174,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "300474B0100__PT": {
+  "form_id": "300474B0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 16,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "300474B0100__VOTARON": {
+  "form_id": "300474B0100",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 362,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "303291B0100__PAN_PRI": {
+  "form_id": "303291B0100",
+  "field": "PAN_PRI",
+  "verdict": "agree",
+  "paper": 2,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "303291B0100__PVEM": {
+  "form_id": "303291B0100",
+  "field": "PVEM",
+  "verdict": "agree",
+  "paper": 27,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "303291B0100__PVEM_MORENA": {
+  "form_id": "303291B0100",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 3,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "303980B0100__PRI": {
+  "form_id": "303980B0100",
+  "field": "PRI",
+  "verdict": "agree",
+  "paper": 37,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "303980B0100__PVEM_MORENA": {
+  "form_id": "303980B0100",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "304552E0100__PT": {
+  "form_id": "304552E0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 28,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "310394B0100__PRD": {
+  "form_id": "310394B0100",
+  "field": "PRD",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "310394B0100__PT": {
+  "form_id": "310394B0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 9,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "310394B0100__PVEM_PT_MORENA": {
+  "form_id": "310394B0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "agree",
+  "paper": 14,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "310401C0100__PT": {
+  "form_id": "310401C0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 13,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "310401C0100__PVEM_MORENA": {
+  "form_id": "310401C0100",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "320473B0100__NO_REGISTRADAS": {
+  "form_id": "320473B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 0,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "321640B0100__MORENA": {
+  "form_id": "321640B0100",
+  "field": "MORENA",
+  "verdict": "agree",
+  "paper": 50,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "321640B0100__NO_REGISTRADAS": {
+  "form_id": "321640B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "321640B0100__PT": {
+  "form_id": "321640B0100",
+  "field": "PT",
+  "verdict": "agree",
+  "paper": 38,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "321640B0100__PVEM_MORENA": {
+  "form_id": "321640B0100",
+  "field": "PVEM_MORENA",
+  "verdict": "agree",
+  "paper": 1,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ },
+ "321640B0100__VOTARON": {
+  "form_id": "321640B0100",
+  "field": "VOTARON",
+  "verdict": "agree",
+  "paper": 342,
+  "evidence": "model and official capture agree (value hidden on the blind page)"
+ }
+}

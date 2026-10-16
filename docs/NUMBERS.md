@@ -18,11 +18,11 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | The model alone | 173 of 6,358 wrong, about 1 in 37 | verdicts `capture_right` (156) + `neither` (17) |
 | The capture typed a wrong number | 17 of 6,358, 1 in 374 | type "wrong numbers typed" of the 52 |
 | On the forms the gate accepts | 55 of 300 (18%); 2 of 1,210 fields wrong, about 1 in 605 | frozen gate, stored `accepted` |
-| Yield | 52 of 267 disputed = 1 in 5; overall capture error rate at least 52 of 6,358 = 1 in 122; multiple about 12 to 24x (EVALUATION) | |
-| Audit line (business case, slide 9b) | after the regulated first capture, second capture, comparison and verification, 0.8% of fields in the random sample still do not match the paper: 52 of 6,358 (0.82%), at least; 1 in 5 disputes (52 of 267, 19.5%) is a confirmed capture error | `keying_errors` / `fields` and `keying_errors` / `disagree` in `app/data/headline.json`; the capture is the published PREP 2024 CSV |
+| Yield | 52 of 267 disputed = 1 in 5; overall capture error rate at least 52 of 6,358 = 1 in 122; the multiple depends on recall, which is unmeasured; up to 24x if the model finds nearly every error (EVALUATION) | |
+| Audit line (business case, slide 9b) | in the preliminary capture (PREP, before the cómputos and any later cotejo correction), at least 0.8% of fields in the random sample do not match the paper (52 of 6,358, 0.82%); 1 in 5 disputes (52 of 267, 19.5%) is a capture error | `keying_errors` / `fields` and `keying_errors` / `disagree` in `app/data/headline.json`; the capture is the published PREP 2024 CSV |
 | Fields to look at | 267 of 6,358 = 4.2% | model digits != PREP |
 | Agreement with the capture | 6,091 of 6,358 = 95.80% | |
-| Recall | loose bound 7 of 23 (Wilson 16-51%); judged on the paper, 16 are corrections, measured 7 of 7 (Wilson 65-100%) | forms certified by comparison (Cotejo); vote rows + TOTAL; RECALL.md |
+| Recall | loose bound 7 of 23 (Wilson 16-51%); judged on the paper, 16 are corrections, the model disputed 7 of 7, of which 1 is a confirmed capture error and 6 are ambiguous on the paper: recall on confirmed capture errors is unmeasured | forms certified by comparison (Cotejo); vote rows + TOTAL; RECALL.md |
 | 52 by type | wrong numbers 17; readable recorded as illegible 27; typed where blank 6; other 2 | from PREP's keyed text and the paper value |
 | Cost per form (Gemma) | $0.000144; $0.14 per 1,000; ~$24 compute cost for 169,005 forms | mean `cost_usd` over the 289 reads |
 

@@ -1,3 +1,5 @@
+> **DRY RUN of the self-hosting kit, 2026-10-15, served by the AMD Token Factory: NOT a measurement on an MI300X.** No self-hosted run exists; every "MI300X" / "self-hosted" label in this file is the template the kit would fill on a real box.
+
 ## Amendment 4.1 ([date] [hh:mm] UTC, before any read of the 100-form confirmation set): arm B
 
 As Amendment 4 provides, the 43-form image-budget ablation (post-hoc, pilot forms only;

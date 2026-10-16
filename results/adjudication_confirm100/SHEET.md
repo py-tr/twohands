@@ -3,7 +3,7 @@
 Every field where the reader disagrees with the PREP capture. Crops are cut from masked pages only.
 Verdict: one of model_right, capture_right, neither, paper_ambiguous, unreadable, crop_wrong. Edit `verdicts.json` (or `adjudication.jsonl`).
 `neither` = the paper shows a value that is neither the model's nor the capture's (model wrong, capture also off).
-Adjudicated by a reviewer looking at the published crops (for the 100-form confirmation: an AI, an AI model, labelled as such); every crop is in results/adjudication/ for anyone to check.
+Adjudicator: the AI adjudicator (an AI model, the builder's model, which could see both the model's and the capture's values), from the photo, on the published crops; not blinded; the blind person check is /check?set=confirm100. Every crop is in results/adjudication_confirm100/ for anyone to check.
 Vote rows are named Option 01 to Option 15 in printed order (machine files keep INE's column names).
 
 | clave | field | model digits / words | PREP | Computos | form | verdict | paper | evidence (what is written) | crop |

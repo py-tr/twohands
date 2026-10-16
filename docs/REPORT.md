@@ -16,9 +16,13 @@ with the keyed record goes to a person with the crop of the paper. On a pre-regi
 capture does not match the paper** (1 in 5; Wilson 95% 15.2% to 24.6%), against
 a capture error rate of at least 1 in 122 for a random field. The frozen gate accepted
 **55 of 300 forms (18.3%) with no person**, with **2 wrong fields
-in 1,210** (Wilson 95% 0.04% to 0.60%); a pre-registered two-reader tier
-(Gemma and Qwen3.8-27B must agree) accepted 89 forms with
-0 wrong fields in 1,958. Every gate variant we tried is reported in
+in 1,210** (Wilson 95% 0.04% to 0.60%); a secondary two-reader tier
+(Gemma and Qwen3.8-27B must agree; defined in Amendment 2 after the one-reader result was seen and before the second
+reader ran; lighter gate, no section checks) accepted 89 forms with
+0 wrong fields in 1,958 (full gate, section 7:
+22 forms, 0 wrong in 484). Wrong
+is judged against the official capture; every disagreement was checked on the photo; fields where the model and the
+capture agree were not individually checked. Every gate variant we tried is reported in
 one table, pre-registered and post-hoc alike. Reading cost $0.000144 per form.
 
 ## 1. The problem
@@ -84,7 +88,7 @@ person with the failing fields named.
 
 **Adjudication.** Every field where Gemma's digits differ from the official capture (267 fields) was
 settled on the crop of the masked page, with one verdict: capture error (paper = model), model misread (paper =
-capture), neither, paper ambiguous, unreadable. One adjudicator (the builder, an AI agent, not a native speaker);
+capture), neither, paper ambiguous, unreadable. One adjudicator: the AI adjudicator (the builder's model, which could see both values; not a native speaker);
 crops are published so anyone can re-check. Truth = the capture unless the paper says otherwise.
 
 ## 4. Results
@@ -180,7 +184,8 @@ found. To estimate recall we use the 100 read forms the certified count settled 
 there the certified count differs from the first capture on 23 fields. Judged on the paper, 16
 of them are council corrections or blank rows (the paper shows the capture's value; a faithful read cannot dispute
 them). **The model disputed 7 of the remaining 7**: measured recall 100%, Wilson 95%
-65% to 100%. **n = 7**: this says little more than "recall is probably not low". Counting the
+65% to 100%. **n = 7**, and only 1 of them is a
+confirmed capture error (the rest are ambiguous on the paper): recall on confirmed capture errors is unmeasured. Counting the
 corrections in the denominator gives the loose bound 7 of 23 (16% to 51%).
 
 ### 4.5 Gemma vs Qwen
@@ -288,7 +293,7 @@ and on this sample every one that did went through the field outside every ident
 
 - One sample of 300 forms of one form type; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass),
   and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `365eb56`) was not run.
-- One adjudicator, an AI agent; crops are published for re-checking.
+- One adjudicator, the AI adjudicator (the builder's model, which could see both values); crops are published for re-checking.
 - Recall rests on 7 fields.
 - The two-reader strict tier checks words = digits and row sums only, without the section identities or labels.
 - Latency and throughput were measured on a shared, rate-limited endpoint.

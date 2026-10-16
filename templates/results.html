@@ -29,7 +29,7 @@
     <div class="card callout warn" style="border-left-width:4px">
       <div class="eyebrow" style="color:var(--warn)">Known limitation</div>
       <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One reader, one adjudicator, and recall only bounded.</p>
-      <p class="small muted">Every disagreement was settled by one reviewer (an AI agent) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; recall is measured on only 7 fields. The shared endpoint paces reads to about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
+      <p class="small muted">Every disagreement was settled from the photo by the AI adjudicator (the builder's model, which could see both values) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; fields where the model and the capture agree were not individually checked (a blind check of a random 200 is at /check?set=agree200); recall is unmeasured (of the 7 recall fields, 1 is a confirmed capture error). The multiple between 1 in 5 and 1 in 122 depends on recall, which we could not measure; up to 24 times if the model finds nearly every error. Our pacing on a shared key reads about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
     </div>
   </div>
 </section>

@@ -11,6 +11,11 @@ with random.Random(SHUFFLE_SEED).
 Second queue (?set=confirm100, additive): exactly the disagreement crops of the pre-registered 100-form confirmation
 (results/adjudication_confirm100/verdicts.json), shuffled with random.Random(SHUFFLE_SEED), the same blind page;
 answers go apart, to app/state/spotcheck_confirm100.json (app/confirm100.py turns them into the Results wording).
+
+Third queue (?set=agree200, additive): a seeded random 200 of the accepted fields where the model and the official
+capture AGREE, on the forms the two-reader tier accepts (results/adjudication_agree200/, scripts/build_agree200.py).
+The same blind page; answers go to app/state/spotcheck_agree200.json. agree200_result() feeds
+app/numbers.checked_line(), which states the result only once all 200 are answered.
 """
 from __future__ import annotations
 
@@ -33,7 +38,9 @@ OTHER_N, OTHER_SEED, SHUFFLE_SEED = 20, 7, 20261015
 AMBIG = ("paper_ambiguous", "unreadable")
 ADJ_C100 = REPO / "results" / "adjudication_confirm100"
 FILE_C100 = REPO / "app" / "state" / "spotcheck_confirm100.json"
-SETS = ("main", "confirm100")
+ADJ_A200 = REPO / "results" / "adjudication_agree200"
+FILE_A200 = REPO / "app" / "state" / "spotcheck_agree200.json"
+SETS = ("main", "confirm100", "agree200")
 _lock = threading.Lock()
 router = APIRouter()
 
@@ -47,11 +54,11 @@ def _set(set_: Optional[str]) -> str:
 
 
 def adj_dir(set_: Optional[str] = None) -> Path:
-    return ADJ_C100 if _set(set_) == "confirm100" else ADJ
+    return {"confirm100": ADJ_C100, "agree200": ADJ_A200}.get(_set(set_), ADJ)
 
 
 def answers_file(set_: Optional[str] = None) -> Path:
-    return FILE_C100 if _set(set_) == "confirm100" else FILE
+    return {"confirm100": FILE_C100, "agree200": FILE_A200}.get(_set(set_), FILE)
 
 
 def load_verdicts(set_: Optional[str] = None) -> dict:
@@ -87,8 +94,8 @@ def build_queue_c100(verdicts: dict) -> list[str]:
 
 
 def queue(set_: Optional[str] = None) -> list[str]:
-    if _set(set_) == "confirm100":
-        return build_queue_c100(load_verdicts("confirm100"))
+    if _set(set_) in ("confirm100", "agree200"):
+        return build_queue_c100(load_verdicts(set_))
     return build_queue(load_verdicts(), load_ledger())
 
 
@@ -149,6 +156,21 @@ def agrees(a: dict, v: dict) -> bool:
     if pv is not None and paper is not None and str(pv) == str(paper):
         return True
     return person_ambiguous(a) and v["verdict"] in AMBIG
+
+
+def agree200_result(answers: Optional[dict] = None) -> Optional[dict]:
+    """The blind check of 200 agreeing fields: answered, queue size, and how many the person read as the agreed value
+    (a ticked blank counts as agreeing with 0). None when the set is not built."""
+    try:
+        verdicts = load_verdicts("agree200")
+    except (OSError, ValueError):
+        return None
+    answers = load("agree200") if answers is None else answers
+    q = sorted(verdicts)
+    got = [k for k in q if answers.get(k)]
+    ok = sum(1 for k in got if agrees(answers[k], verdicts[k])
+             or (answers[k].get("blank") and str(verdicts[k].get("paper")) == "0"))
+    return {"queue": len(q), "answered": len(got), "agree": ok}
 
 
 def score(answers: dict, q: list[str], verdicts: dict) -> dict:

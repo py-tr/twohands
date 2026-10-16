@@ -50,18 +50,18 @@ reads the same file) from `results/calls_gemma.jsonl` (last read per form) and `
 | The model alone | wrong on 173 of 6,358 fields (156 + 17): about 1 in 37 |
 | Accepted with no person (frozen gate, primary) | 55 of 300 (18%): 27 phone photos, 28 scans |
 | Accepted fields wrong after adjudication | **2 of 1,210** (about 1 in 605; Wilson 95% 0.04% to 0.60%), so the headline rule (error rate <= 0.5%) keeps the single-reader tier |
-| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). More than ten times the yield of a random check. |
-| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n). (`results/adjudication/RECALL.md`) |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too. |
+| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. (`results/adjudication/RECALL.md`) |
 
-**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.** On accepted fields the
+**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.** Wrong is judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. On accepted fields the
 pair made 1 error and the model 2; we never claim the model beats the pair. The first capture is preliminary by
 design; the certified count is the official result.
 
-### Two readers: the stricter mode (Amendment 2, secondary)
+### Two readers (Amendment 2, secondary)
 
 Qwen3.8-27B read the same 289 located pages with the same frozen prompt and gate (239 usable reads; 50 replies were cut
-at `max_tokens` and are never accepted). Amendment 2 was committed before any Qwen read of the 300 and before any
-adjudication; these tiers are secondary and the headline rule is unchanged (Gemma alone, 2 of 1,210 wrong, is under
+at `max_tokens` and are never accepted). Amendment 2 was defined after the one-reader (Gemma) result was seen (its accept rate on the first ~299 forms) and
+committed before any Qwen read of the 300 and before any adjudication; these tiers are secondary and the headline rule is unchanged (Gemma alone, 2 of 1,210 wrong, is under
 0.5%). **Strict mode** (Amendment 2 d) accepts a form when Gemma and Qwen read the same digits on all 23 fields, every
 digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total.
 It drops the row-label check and the section identities and relies on the two readers' agreement instead, which is
@@ -76,12 +76,12 @@ why it accepts more forms than either reader alone.
 | POST-HOC v2-2R (Amendment 3) | 54 | 1,188 | 2 (1) | 1 (0.01% to 0.47%) |
 | POST-HOC v2-2R strict (in no amendment) | 45 | 990 | 1 (1) | 0 (0.00% to 0.39%) |
 
-**With two readers (strict mode): 89 forms, 0 wrong fields in 1,958.** The 3 accepted fields where the agreed read
+**With two readers (strict mode): 89 forms, 0 wrong fields in 1,958.** This 30% tier is a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). Beside it, the protocol's own full-gate two-reader tier (section 7): 22 forms (7%), 0 wrong in 484. The 3 accepted fields where the agreed read
 differs from the official capture (080310B0100 unused ballots, 202005C0200 Option 07, 220313C0300 ballots taken from
 the boxes) are all capture errors on the photo. Qwen alone's one wrong field is unused ballots on 090955C0200 (read 200,
 paper 206); its 2 undecided fields are ones where it equals the capture and the paper was judged ambiguous. Every
 accepted field in every tier that differs from the capture already had a verdict on the photo, so no new adjudication
-was needed. The bias note of the protocol applies: an error both readers share with the capture is not counted.
+was needed. The bias note of the protocol applies: an error both readers share with the capture is not counted. Fields where the model and the capture agree were not individually checked; a seeded random 200 of the 1,955 agreeing accepted fields is queued for a blind person check (`/check?set=agree200`, `scripts/build_agree200.py`), and the wording changes only once all 200 are answered.
 
 The two v2-2R rows are **post-hoc** (gate v2 was designed after seeing these reads, Amendment 3) and test nothing; the
 pre-registered test of v2 is the fresh 100-form draw. v2-2R accepts unused ballots, the one field in no identity, when
@@ -91,7 +91,8 @@ words say, removes it. Sources: `results/two_reader_300.md`, `app/data/two_reade
 (`scripts/two_reader_300.py`), `results/posthoc_v2_300.md`; `make eval` recomputes every number independently.
 
 **The pre-registered confirmation on 100 fresh forms: gate v2 accepted 22 forms, 0 of 484 accepted fields wrong;
-criterion met** (Amendment 3: accepted-field error <= 0.5% after adjudication; Wilson 95% 0.00% to 0.79%, so the interval
+criterion met** on the point estimate (wrong is judged against the official capture; every disagreement checked on the
+photo; agreeing fields not individually checked) (Amendment 3: accepted-field error <= 0.5% after adjudication; Wilson 95% 0.00% to 0.79%, so the interval
 still reaches above 0.5%, as the amendment said it would at this size). Gemma read all 100 (97 located; the 3 unlocated
 pages stay in the denominator); 14 phone photos and 8 scans accepted. The frozen gate (v1) accepted 23 with 1 wrong
 field in 506 (070212B0100 unused ballots, read 3114, paper 314: the field in no identity, with no words written), which
@@ -104,11 +105,11 @@ disagreement with PREP (3 fields) was adjudicated from crops by the AI adjudicat
 person" from the stored answers): `results/confirm100.md`, `results/adjudication_confirm100/`. Evidence for v2 across
 both sets, 1 wrong field in 1,518 accepted, is 1,034 post-hoc (the 300) plus 484 pre-registered (this run).
 
-### Behind "more than ten times the yield of a random check"
+### Behind "1 in 5 vs at least 1 in 122"
 
-On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). That is a small subset; Wilson 65-100%.
+On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). Recall on confirmed capture errors therefore rests on 1 field: it is unmeasured.
 
-The multiple: a random check finds a capture error in at least 1 field in 122 (52 of 6,358 found so far; a lower bound on the capture's error rate); in a disputed field, 1 in 5 (52 of 267). The multiple is about 12 to 24 times the yield per field checked: 24 if the model finds nearly every error, 12 if it finds half; "more than ten times" is the conservative end. Counting the 16 corrections in the denominator gives the loose bound, 7 of 23 disputed (Wilson 16-51%). (`results/adjudication/RECALL.md`)
+The multiple: a random check finds a capture error in at least 1 field in 122 (52 of 6,358 found so far; a lower bound on the capture's error rate); in a disputed field, 1 in 5 (52 of 267). The multiple depends on recall, which we could not measure; up to 24 times if the model finds nearly every error. The 1 in 122 is itself a lower bound built from the model's own finds. Counting the 16 corrections in the denominator gives the loose bound, 7 of 23 disputed (Wilson 16-51%). (`results/adjudication/RECALL.md`)
 
 ### The 52 capture errors by type
 
@@ -196,20 +197,23 @@ every PREP (Reglamento de Elecciones art. 347), and in 2024 UNAM centres audited
 ## Known limitations
 
 - A receipt-audit run on the public CORD benchmark was pre-registered (commit 365eb56) and not run for lack of time.
+- The pre-registered Qwen pass on the 100-form confirmation (Amendment 3) was not run: a protocol deviation.
 
-- **One reader, one adjudicator.** Every disagreement was settled by one reviewer (the builder, an AI agent, not a
-  native Spanish speaker) on published crops; anyone can re-check them, and the app's blind spot-check page lets a
+- **One reader, one adjudicator.** Every disagreement was settled from the photo by the AI adjudicator (the builder's
+  model, which could see both values; not a native Spanish speaker), on published crops; counts checked by a person are
+  reported separately; anyone can re-check them, and the app's blind spot-check page lets a
   person do so without seeing any AI or capture value.
 - **Recall rests on few fields.** We checked only where the model disagreed with the capture, so errors both made
-  are not counted directly. On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n).
+  are not counted directly. On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured.
 - **The label gate's cost.** The row-label check routed 86 forms; on 68 of them the read matched the paper on every
   graded field, including all 15 forms routed for a label alone. Each false alarm costs a person one look.
 - **One read is not two independent reads.** In one call the model can harmonise words and digits: on 010469C0400
   it read unused ballots as 239 in digits and 239 in words, while the paper says 234 in both. That field sits in no
   identity, so the gate accepted the form; it is one of the 2 wrong fields on accepted forms. The fix is separate
   reads or a second reader.
-- **Throughput on a shared key.** About 2 forms a minute under our pacing; mean latency 87 s per form on the 300
-  (wall clock, including queueing). A real deployment needs a dedicated AMD endpoint, which we have not measured.
+- **Throughput on a shared key.** About 2 forms a minute at our polite pace (2 requests in flight); server time
+  83 s mean per form on the 300 (HTTP round trip, incl. the shared endpoint's queue; 87 s wall clock with our limiter,
+  `results/amd_benchmark.md`). A real deployment needs a dedicated AMD endpoint, which we have not measured.
 - **Page locator.** 11 of 300 phone photos could not be located and go to a person before any model call.
 - **The gate cannot see an error that keeps the arithmetic true.** See the next section and the failure case.
 

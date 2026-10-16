@@ -44,11 +44,11 @@ def test_confirmation_breakdown_is_computed_and_pending_without_a_person(no_spot
     assert (c["total"], c["certified"], c["person"], c["ai_only"]) == (H["keying_errors"], n_cert, 0, H["keying_errors"] - n_cert)
     assert c["certified"] == H["cert_agree"] and c["state"] == "pending"
     assert c["text"] == (f"{H['cert_agree']} confirmed by the certified count · 0 checked by a person · "
-                         f"{H['keying_errors'] - H['cert_agree']} AI-adjudicated only (person check pending)")
+                         f"{H['keying_errors'] - H['cert_agree']} judged from the photo by the AI adjudicator only (person check pending)")
     for u in ("/", "/audit"):
         t = _text(client.get(u).text)
         line = (f"{H['cert_agree']} confirmed by the certified count · 0 checked by a person · "
-                f"{H['keying_errors'] - H['cert_agree']} AI-adjudicated only (person check pending)")
+                f"{H['keying_errors'] - H['cert_agree']} judged from the photo by the AI adjudicator only (person check pending)")
         assert line in t, u
 
 

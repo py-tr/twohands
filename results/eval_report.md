@@ -5,7 +5,7 @@ committed calls files, the adjudication verdicts, the manifests, the official fi
 of the 300 forms (`app/data/`), and git. Each number is recomputed independently of the scripts that wrote what
 the app reads, then compared with it.
 
-**302 checks, 0 mismatches.** Exit code 0.
+**303 checks, 0 mismatches.** Exit code 0.
 
 | number | recomputed | app shows | source | check |
 |---|---|---|---|---|
@@ -273,6 +273,7 @@ the app reads, then compared with it.
 | Rendered sentence 'gate' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'gemma_role' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'gate_note' | rebuilt | as rendered | app/numbers.py lines() | ok |
+| Rendered sentence 'checked' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'preliminary' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'recall' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'receipt' | rebuilt | as rendered | app/numbers.py lines() | ok |
@@ -295,7 +296,7 @@ the app reads, then compared with it.
 | sha256 results/manifest_confirm100.json | cc238efc2a11... vs pre-registered cc238efc2a11... |  | protocol | ok |
 | sha256 results/manifest_cord100.json | 0763c48c9380... vs pre-registered 0763c48c9380... |  | protocol | ok |
 | frozen prompt = reader.prompt_sha256() | 3664253035b9... |  | protocol | ok |
-| every model call used the frozen prompt | 911 rows in calls_confirm100_gemma.jsonl, calls_deepseek-v4.1-flash.jsonl, calls_gemma.jsonl, calls_qwen.jsonl, calls_qwen3.8-flash-next.jsonl |  | protocol | ok |
+| every model call used the frozen prompt | 1211 rows in calls_confirm100_gemma.jsonl, calls_deepseek-v4.1-flash.jsonl, calls_gemma.jsonl, calls_gemma_b4.jsonl, calls_qwen.jsonl, calls_qwen3.8-flash-next.jsonl |  | protocol | ok |
 | schema as pre-registered (at the protocol commit) | c9240632c3f0... at a93294c |  | protocol | ok |
 | PROTOCOL.md committed as on disk | clean |  | protocol | ok |
 | PROTOCOL_CORD.md committed as on disk | clean |  | protocol | ok |

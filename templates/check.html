@@ -31,7 +31,7 @@ kbd{font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:
 <body>
 <main>
 <div class="top">
-  <h1>Spot check{% if qset == 'confirm100' %} · confirmation 100{% endif %} <span class="muted small">blind: no AI or capture value is shown</span></h1>
+  <h1>Spot check{% if qset == 'confirm100' %} · confirmation 100{% elif qset == 'agree200' %} · 200 agreeing fields{% endif %} <span class="muted small">blind: no AI or capture value is shown</span></h1>
   <span class="small"><b id="cnt">{{ answered }}</b> of {{ n }} answered · <a href="/check/results{{ qs }}">results</a> (open when you are done)</span>
 </div>
 <div class="bar"><span style="width:{{ (100 * answered / n)|round(1) if n else 0 }}%"></span></div>
@@ -58,7 +58,7 @@ kbd{font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:
     </div>
   </form>
 </div>
-<p class="small muted">Type what is written, not what should be there. Tab moves between boxes; Enter saves and loads the next crop. Answers are stored in app/state/{{ 'spotcheck_confirm100.json' if qset == 'confirm100' else 'spotcheck.json' }}.</p>
+<p class="small muted">Type what is written, not what should be there. Tab moves between boxes; Enter saves and loads the next crop. Answers are stored in app/state/{{ 'spotcheck_' ~ qset ~ '.json' if qset != 'main' else 'spotcheck.json' }}.</p>
 <script>
 (function(){
   var f=document.getElementById('f'),e=document.getElementById('err');

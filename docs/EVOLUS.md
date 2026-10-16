@@ -3,7 +3,8 @@
 **User:** the records-office clerk who today double-keys every paper form. **Process:** a scanned form arrives; it is
 read, checked and either filed as a record or handed to a person with the failing field named. **Gain:** forms whose
 own arithmetic holds are filed with no keying (18% of a pre-registered random 300 with one reader, 2 wrong of 1,210
-accepted fields; 30% with two readers, 0 wrong of 1,958). The rest
+accepted fields; 30% with two readers, 0 wrong of 1,958, a secondary tier with a lighter gate, judged against the
+official capture). The rest
 reach the clerk with the field, its crop and a task written in English and Spanish.
 
 **Evolus event workspace: py_tr (event code AMDACT3).** Source: the Evolus API, `GET /api/v1/agents/{agentId}` ->

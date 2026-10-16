@@ -319,9 +319,13 @@ with the keyed record goes to a person with the crop of the paper. On a pre-regi
 capture does not match the paper** (1 in {H['yield_one_in']}; Wilson 95% {ci(H['keying_errors'], H['disagree'], 1)}), against
 a capture error rate of at least 1 in {H['random_one_in']} for a random field. The frozen gate accepted
 **{H['accepted']} of {forms} forms ({H['accepted_pct1']}%) with no person**, with **{H['acc_model_wrong']} wrong fields
-in {n(H['acc_fields'])}** (Wilson 95% {ci(H['acc_model_wrong'], H['acc_fields'])}); a pre-registered two-reader tier
-(Gemma and Qwen3.8-27B must agree) accepted {T['two_reader']['accepted']} forms with
-{T['two_reader']['errors']} wrong fields in {n(T['two_reader']['fields'])}. Every gate variant we tried is reported in
+in {n(H['acc_fields'])}** (Wilson 95% {ci(H['acc_model_wrong'], H['acc_fields'])}); a secondary two-reader tier
+(Gemma and Qwen3.8-27B must agree; defined in Amendment 2 after the one-reader result was seen and before the second
+reader ran; lighter gate, no section checks) accepted {T['two_reader']['accepted']} forms with
+{T['two_reader']['errors']} wrong fields in {n(T['two_reader']['fields'])} (full gate, section 7:
+{T['two_reader_s7']['accepted']} forms, {T['two_reader_s7']['errors']} wrong in {n(T['two_reader_s7']['fields'])}). Wrong
+is judged against the official capture; every disagreement was checked on the photo; fields where the model and the
+capture agree were not individually checked. Every gate variant we tried is reported in
 one table, pre-registered and post-hoc alike. Reading cost {usd(H['gemma']['cost_per_form'])} per form.
 
 ## 1. The problem
@@ -387,7 +391,7 @@ person with the failing fields named.
 
 **Adjudication.** Every field where Gemma's digits differ from the official capture ({n(H['disagree'])} fields) was
 settled on the crop of the masked page, with one verdict: capture error (paper = model), model misread (paper =
-capture), neither, paper ambiguous, unreadable. One adjudicator (the builder, an AI agent, not a native speaker);
+capture), neither, paper ambiguous, unreadable. One adjudicator: the AI adjudicator (the builder's model, which could see both values; not a native speaker);
 crops are published so anyone can re-check. Truth = the capture unless the paper says otherwise.
 
 ## 4. Results
@@ -467,7 +471,8 @@ found. To estimate recall we use the {rc['forms']} read forms the certified coun
 there the certified count differs from the first capture on {rc['E']} fields. Judged on the paper, {rc['corrections']}
 of them are council corrections or blank rows (the paper shows the capture's value; a faithful read cannot dispute
 them). **The model disputed {rc['C']} of the remaining {rc['E2']}**: measured recall {rc['recall2_pct']}%, Wilson 95%
-{ci(rc['C'], rc['E2'], 0)}. **n = {rc['E2']}**: this says little more than "recall is probably not low". Counting the
+{ci(rc['C'], rc['E2'], 0)}. **n = {rc['E2']}**, and only {rc['disputed_verdicts'].get('model_right', 0)} of them is a
+confirmed capture error (the rest are ambiguous on the paper): recall on confirmed capture errors is unmeasured. Counting the
 corrections in the denominator gives the loose bound {rc['C']} of {rc['E']} ({ci(rc['C'], rc['E'], 0)}).
 
 ### 4.5 Gemma vs Qwen
@@ -523,7 +528,7 @@ routed. The pre-registered locator would have left {len(D['orig_nl'])}.
 
 - One sample of {forms} forms of one form type{"; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass)" if c100 else "; the confirmation draw for gate v2 (Amendment 3) has not been read"},
   and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `{short(g['cord'])}`) was not run.
-- One adjudicator, an AI agent; crops are published for re-checking.
+- One adjudicator, the AI adjudicator (the builder's model, which could see both values); crops are published for re-checking.
 - Recall rests on {rc['E2']} fields.
 - The two-reader strict tier checks words = digits and row sums only, without the section identities or labels.
 - Latency and throughput were measured on a shared, rate-limited endpoint.

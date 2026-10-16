@@ -67,7 +67,7 @@
     <div class="card stat">
       <div class="v">{{ L.keying.value }}</div>
       <div class="l">{{ L.keying.label }}</div>
-      {% set CF = honest.confirmation(H) %}{% if CF %}<div class="conf" id="conf52"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <b>{{ CF.person }} checked by a person</b>{% if CF.person_disagree %} · {{ CF.person_disagree }} read differently by a person{% endif %} · {{ CF.ai_only }} AI-adjudicated only{% if CF.note %} <span class="pend">({{ CF.note }})</span>{% endif %}</div>{% endif %}
+      {% set CF = honest.confirmation(H) %}{% if CF %}<div class="conf" id="conf52"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <b>{{ CF.person }} checked by a person</b>{% if CF.person_disagree %} · {{ CF.person_disagree }} read differently by a person{% endif %} · <span title="The AI adjudicator is the builder's model, which could see both values; it judged from the photo.">{{ CF.ai_only }} judged from the photo by the AI adjudicator only</span>{% if CF.note %} <span class="pend">({{ CF.note }})</span>{% endif %}</div>{% endif %}
       <div class="s">{{ L.keying.small }}</div>
       <div class="s"><b>{{ H.cert_agree }} of {{ H.cert_covered }}</b> confirmed by the certified count where it covers the field. {{ L.keying.small2 }}</div>
       <div class="s"><b>{{ L.preliminary }}</b></div>
@@ -79,7 +79,7 @@
       <div class="l">of forms accepted at second capture: one reader, {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} accepted fields wrong{% if t2 %}; two readers, {{ t2.errors }} of {{ t2.fields|int }}{% endif %}</div>
       <div class="s">{{ honest.gate_label(L) }}</div>
       {% if n.confirm100 and n.confirm100.chip %}<div class="s"><a class="chip ok" id="c100chip" style="white-space:normal;text-decoration:none" href="/results#confirm100" title="{{ n.confirm100.wilson }}">{{ n.confirm100.chip }}</a></div>{% endif %}
-      {% if L.gate.small %}<div class="s">{{ L.gate.small }}</div>{% endif %}
+      {% if L.gate.small %}<details class="s"><summary>Status of each tier, and how "wrong" was checked</summary>{{ L.gate.small }}</details>{% endif %}
       <div class="src">{{ source("app/data/headline.json (one reader, primary) + app/data/two_reader_300.json (two readers, Amendment 2 d)") }}</div>
     </div>
     <div class="card stat">
@@ -92,6 +92,7 @@
     <div class="card stat">
       <div class="v">1 in {{ H.yield_one_in }} <span class="vs-word">vs</span> 1 in {{ H.random_one_in }}</div>
       <div class="l">{{ L.yield.value }} {{ L.yield.label }}</div>
+      {% if L.yield.small %}<details class="s"><summary>Who judged the 52; recall</summary>{{ L.yield.small }}</details>{% endif %}
       <div class="src">{{ source("results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md") }}</div>
     </div>
   </div>
@@ -136,6 +137,7 @@
         {% for t, pg in IC.lines %}<li>{{ t }} <span class="muted small">(<a href="{{ IC.url }}" target="_blank" rel="noopener">INE report</a>, {{ pg }})</span></li>{% endfor %}
       </ul>
       <p style="margin:8px 0"><b>{{ IC.pilot }}</b>{% if IC.colima %} <a href="{{ IC.colima.href }}">{{ IC.colima.text }}</a>{% endif %}</p>
+      <p class="small" style="margin:8px 0" id="offer-2027"><b>{{ buyer.OFFER_2027 }}</b> {{ buyer.forms_line() }} <span class="muted">{{ buyer.contact_line() }}</span></p>
       {% if IC.score %}<div class="vs" id="ine-metric" style="margin:10px 0">
         <div><p class="small" style="margin:0">{{ IC.score }}</p><p class="tiny muted" style="margin:4px 0 0"><i>{{ IC.label }}</i></p></div>
         <div class="mid">·</div>
@@ -154,6 +156,7 @@
       </div>
       <p class="small" style="margin:8px 0" id="price-lines">Anchor: {{ PT.anchor }}. Line 2, contingency: {{ PT.contingency }} ({{ PT.contingency_basis }}). Costs: {{ PT.compute }}; {{ PT.review }}; plus hosting and sales. Examples: {{ PT.ex_morelos }}; {{ PT.ex_largest }}; {{ PT.ex_federal }}. {{ PT.self_serve }} FX {{ PT.fx }}.</p>
       <p class="small" style="margin-bottom:6px">{{ L.product }} A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field.</p>
+      <p class="small" style="margin:8px 0" id="market-size">{{ buyer.MARKET_SIZE }} <span class="muted tiny">({{ buyer.MARKET_SIZE_SRC }})</span></p>
       <p class="small" style="margin:8px 0 4px"><b>Next markets, not measured:</b></p>
       <ol class="buyers small" id="next-markets">{% for m in buyer.NEXT_MARKETS %}<li>{{ m.text }} <span class="muted tiny">({{ m.source }})</span></li>{% endfor %}</ol>
       <div class="actions" style="margin:10px 0 4px"><a class="btn sm primary" href="/audit/request">{{ icon('audit') }}Request an audit</a><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/station">{{ icon('search') }}Pick any polling station</a></div>

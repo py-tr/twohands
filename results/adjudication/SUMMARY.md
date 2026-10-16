@@ -1,6 +1,6 @@
 # Second-keyer adjudication: Gemma vs the official PREP capture (Amendment 2 b)
 
-**Adjudicated by a reviewer looking at the published crops; every crop is in results/adjudication/ for anyone to check.**
+**Adjudicator: the AI adjudicator (an AI model, the builder's model, which could see both the model's and the capture's values), from the photo, on the published crops; not blinded; counts checked by a person are reported separately (the blind person check is /check, results at /check/results). Every crop is in results/adjudication/ for anyone to check.**
 Secondary analysis (Amendment 2). Crops are cut from masked pages only. The verdict is decided from what is written on the
 paper (digit boxes and words); the certified Computos value is shown only as a secondary note and never overrides the paper.
 Per-field verdicts and evidence: `verdicts.json`, `adjudication.jsonl`, `SHEET.md`. Vote rows are named Option 01 to
