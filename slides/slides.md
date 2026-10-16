@@ -287,6 +287,10 @@ Gemma-4-31B-IT keyed every field of the 289 read forms; alone it mis-keys 1 fiel
 
 ## One result sheet per polling station, every election
 
+**The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.**
+
+Forms of this kind, with rows that sum to a total and often words beside digits, are produced at these volumes every cycle.
+
 | General election | Result sheets (polling stations) |
 |---|---|
 | Mexico 2024, presidential | 169,005 |
