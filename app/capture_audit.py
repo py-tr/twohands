@@ -723,3 +723,78 @@ def queue_reads(a: dict, mgr, R: dict) -> dict:
         queued.append(p["form"])
     save(a)
     return {"queued": queued, "refused": refused}
+
+
+# ------------------------------------------------------------------------------------------- OpenTimestamps
+# Each report's Merkle root is anchored in time with OpenTimestamps (twohands/timestamp.py): the file "<root>\n" is
+# stamped on the public calendars (only a hash leaves the server) and its .ots proof is kept next to it. The sample
+# audit's root has a committed proof (results/sample_audit_root.txt.ots). TWOHANDS_OTS=0 turns stamping off.
+TIMESTAMPS = storemod.STATE / "timestamps"
+SAMPLE_ROOT_FILE = storemod.RESULTS / "sample_audit_root.txt"
+_HEX64 = re.compile(r"^[0-9a-f]{64}$")
+_STAMPING: dict = {}          # root -> time of the last attempt (in flight or failed), so a render never re-sends at once
+STAMP_RETRY_S = 600
+
+
+def _sample_root() -> Optional[str]:
+    try:
+        return SAMPLE_ROOT_FILE.read_text(encoding="utf-8").split()[0]
+    except (OSError, IndexError):
+        return None
+
+
+def stamped_file(root: str) -> Optional[Path]:
+    """The file whose SHA-256 the proof of ``root`` commits to: results/sample_audit_root.txt for the sample's root,
+    else <state>/timestamps/<root>.txt. None for an invalid root."""
+    if not _HEX64.match(root or ""):
+        return None
+    return SAMPLE_ROOT_FILE if root == _sample_root() else TIMESTAMPS / f"{root}.txt"
+
+
+def timestamp_of(root: str) -> Optional[dict]:
+    """The report's "anchored in time" line: date submitted, calendars, Bitcoin heights once upgraded, proof link."""
+    from twohands import timestamp as ots
+    p = stamped_file(root)
+    st = ots.status(p) if p else None
+    if not st or not st["matches"]:
+        return None
+    return st | {"proof": f"/timestamp/{root}.ots", "file": f"/timestamp/{root}.txt", "name": p.name,
+                 "n_calendars": len(st["pending"])}
+
+
+def stamping_enabled() -> bool:
+    import os
+    return os.environ.get("TWOHANDS_OTS", "1") != "0"
+
+
+def ensure_stamped(root: str, post=None, background: bool = True) -> str:
+    """Stamp a report root once (in a background thread unless ``background`` is False). Returns "stamped",
+    "started", "pending" (an attempt is in flight or failed less than STAMP_RETRY_S ago), "off" or "invalid"."""
+    import time
+    from twohands import timestamp as ots
+    p = stamped_file(root)
+    if p is None:
+        return "invalid"
+    if timestamp_of(root):
+        return "stamped"
+    if not stamping_enabled():
+        return "off"
+    with _lock:
+        if time.time() - _STAMPING.get(root, -1e18) < STAMP_RETRY_S:
+            return "pending"
+        _STAMPING[root] = time.time()
+
+    def go():
+        try:
+            if p != SAMPLE_ROOT_FILE:
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(root + "\n", encoding="utf-8", newline="\n")
+            ots.stamp_file(p, **({"post": post} if post else {}))
+            _STAMPING.pop(root, None)
+        except Exception as e:  # noqa: BLE001 (no calendar reachable: the report shows "not yet anchored")
+            print(f"[timestamp] {root[:16]}: {e}")
+    if background:
+        threading.Thread(target=go, daemon=True, name=f"ots-{root[:8]}").start()
+        return "started"
+    go()
+    return "stamped" if timestamp_of(root) else "pending"

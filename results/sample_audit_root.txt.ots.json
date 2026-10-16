@@ -1,0 +1,12 @@
+{
+ "submitted": "2026-10-15T23:51:07+00:00",
+ "calendars": [
+  "https://a.pool.opentimestamps.org",
+  "https://b.pool.opentimestamps.org",
+  "https://a.pool.eternitywall.com",
+  "https://ots.btc.catallaxy.com"
+ ],
+ "file": "sample_audit_root.txt",
+ "file_sha256": "5556a07998eae93d045fc1d552b3b8d240a2820cfa3f40b6e2361d3d1f81d3e2",
+ "verify": "ots verify sample_audit_root.txt.ots   (after a few hours: ots upgrade sample_audit_root.txt.ots)"
+}

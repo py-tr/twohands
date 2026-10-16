@@ -157,6 +157,11 @@ Each report prints a Merkle root over its disputed fields; each field's "receipt
 Check one field alone: `python -m twohands.verify_receipt receipt.json --crop crop.jpg` (a changed value or crop fails).
 The sample audit's root is published in `results/sample_audit_root.txt`, and `make eval` rebuilds it so it cannot drift.
 
+## Verify the timestamp
+
+Each report's root is anchored in Bitcoin with OpenTimestamps (only a hash goes to the public calendars); the report links the `.ots` proof, and the sample's is `results/sample_audit_root.txt.ots`. `pip install opentimestamps-client`, then `ots verify results/sample_audit_root.txt.ots`.
+The Bitcoin confirmation takes a few hours after stamping, so run `ots upgrade results/sample_audit_root.txt.ots` first (once) to fetch it; `twohands audit --timestamp` stamps a CLI report's `merkle_root.txt`.
+
 ## CLI
 
 `pip install -e ".[mcp]"` (from this folder) gives the `twohands` command (also `python -m twohands`). It reuses the

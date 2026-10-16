@@ -7,3 +7,5 @@ PROTOCOL.md -text
 *.sh text eol=lf
 deploy/Caddyfile text eol=lf
 Makefile text eol=lf
+results/sample_audit_root.txt -text
+*.ots binary

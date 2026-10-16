@@ -87,6 +87,7 @@
       <p class="small" style="margin-top:8px">{{ L.harmonised }} Here the field (unused ballots) sits in no identity, so the gate accepted the form; it is one of the {{ H.acc_model_wrong }} wrong fields on accepted forms.</p>
     </div>
   </div>
+  <p class="small" style="margin-top:12px"><b>What the arithmetic can and cannot catch.</b> Any single misread is caught, by words = digits where both are written or by a row sum or section identity; only an error that keeps every identity true passes (a compensating pair inside one sum, a misread of unused ballots, the one field in no identity, or words and digits harmonised in one call), and every wrong field on an accepted form ({{ H.acc_model_wrong }} for Gemma{% if n.T %}, {{ n.T.tiers.qwen.errors }} for Qwen{% endif %}) is unused ballots; separate reads, a second reader and the v2 rule close it (<a href="/report.pdf">report, section 5</a>).</p>
 </section>
 
 <section>

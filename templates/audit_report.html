@@ -132,6 +132,7 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
   <div class="fp">
     <div class="h">Merkle root of the {{ FP.merkle_n|int }} disputed fields</div>
     <div class="hash" id="merkleroot">{{ FP.merkle_root }}</div>
+    <div id="ots">{% if TS %}Anchored in time: {{ TS.date }}{% if TS.bitcoin %}, Bitcoin block {{ TS.bitcoin[0] }}{% else %}, submitted to {{ TS.n_calendars }} OpenTimestamps calendars (Bitcoin confirmation follows within hours){% endif %} · <a href="{{ TS.proof }}">proof</a> (<a href="{{ TS.file }}">{{ TS.name }}</a>.ots) · check: <code>ots verify {{ TS.name }}.ots</code>{% else %}Anchored in time: not yet (the root is being submitted to the OpenTimestamps calendars; reload in a minute).{% endif %}</div>
     <div>One leaf per listed field, in report order: SHA-256 of the form id, field, keyed value, model digits and words, evidence tier and the SHA-256 of its crop image. Each field's <b>receipt</b> link gives its leaf and the path to this root; anyone can check one field without the rest of the report: <code>python -m twohands.verify_receipt receipt.json --crop crop.jpg</code>.</div>
     <div class="sub">
     <div class="h">Report fingerprint</div>

@@ -238,8 +238,27 @@ def audit_report(aid: str, request: Request, only: Optional[str] = None, strict:
     if only:
         ctx["R"]["disputes"] = [d for d in ctx["R"]["disputes"] if d["mark"] != "not_error"]
     q = [k for k, v in (("strict=1", strict), (f"only={only}", only)) if v]
-    ctx.update(FP=ca.fingerprint(a, ctx["R"], only), strict=bool(strict), only=only, RQ=("?" + "&".join(q)) if q else "")
+    fp = ca.fingerprint(a, ctx["R"], only)
+    ca.ensure_stamped(fp["merkle_root"])
+    ctx.update(FP=fp, TS=ca.timestamp_of(fp["merkle_root"]), strict=bool(strict), only=only,
+               RQ=("?" + "&".join(q)) if q else "")
     return _t().TemplateResponse(request, "audit_report.html", ctx)
+
+
+@router.get("/timestamp/{name}")
+def timestamp_file(name: str):
+    """A report root's OpenTimestamps proof (<root>.ots) and the stamped file it commits to (<root>.txt).
+    Check: ots verify <file>.ots (ots upgrade first, once the calendars have confirmed in Bitcoin, a few hours)."""
+    root, _, ext = name.partition(".")
+    p = ca.stamped_file(root)
+    if p is None or ext not in ("txt", "ots"):
+        raise HTTPException(404, "no such timestamp")
+    f = p if ext == "txt" else p.with_name(p.name + ".ots")
+    if not f.is_file():
+        raise HTTPException(404, "not stamped yet")
+    fname = p.name + (".ots" if ext == "ots" else "")
+    return Response(f.read_bytes(), media_type="text/plain; charset=utf-8" if ext == "txt" else "application/octet-stream",
+                    headers={"Content-Disposition": f'attachment; filename="{fname}"'})
 
 
 @router.get("/audit/{aid}/receipt/{key}")

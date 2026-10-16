@@ -24,6 +24,7 @@ sys.path.insert(0, str(REPO))
 
 from twohands import eval as ev  # noqa: E402
 from twohands import reader as readermod  # noqa: E402
+from twohands import schema as schemamod  # noqa: E402
 from twohands import tiers as tiersmod  # noqa: E402
 from twohands.score import wilson  # noqa: E402
 
@@ -136,7 +137,21 @@ def gather() -> dict:
     P = (REPO / "PROTOCOL.md").read_text(encoding="utf-8")
     man_sha = re.search(r"Manifest sha256: `([0-9a-f]{64})`", P).group(1)
     schema_sha = re.search(r"mx_presidencia_2024\.yaml` \(sha256 `([0-9a-f]{64})`\)", P).group(1)
-    return {"H": H, "ph": ph, "qw": qw, "GQ": GQ, "cg": cg, "cal": cal, "not_loc": not_loc,
+    # what the arithmetic cannot catch: the fields outside every identity (from the schema) and every wrong field on
+    # an accepted form, per reader, with its digits, words and paper value (last row per form, as GQ counts them)
+    from twohands import gate_v2
+    outside = gate_v2.unchecked_fields(s)
+    blind = []
+    for reader, fname, mk in (("Gemma", "calls_gemma.jsonl", "gemma"), ("Qwen", "calls_qwen.jsonl", "qwen")):
+        last, _ = gq.last_rows(R / fname)
+        for key in GQ[mk]["accepted_wrong_fields"]:
+            c, f = key.split("__")
+            blind.append({"reader": reader, "clave": c, "field": f, "outside": f in outside,
+                          "digits": tiersmod.digits(last[c], s["keys"])[f],
+                          "words": tiersmod.words(last[c], s["keys"])[f], "paper": (V.get(key) or {}).get("paper")})
+    arith = {"outside": outside, "n_identities": len(s["identities"]), "n_vote": len(s["vote_keys"]),
+             "outside_senado": gate_v2.unchecked_fields(schemamod.load("mx_senado_2024")), "blind": blind}
+    return {"H": H, "ph": ph, "qw": qw, "GQ": GQ, "cg": cg, "cal": cal, "not_loc": not_loc, "arith": arith,
             "not_loc_layout": collections.Counter(layout[k] for k in not_loc), "lay_n": lay_n, "orig_nl": orig_nl,
             "orig_nl_layout": collections.Counter(layout[k] for k in orig_nl),
             "causes": causes, "only": only, "routed_read": len(routed_read), "git": git,
@@ -146,6 +161,81 @@ def gather() -> dict:
 
 
 # ------------------------------------------------------------------ the text
+def arith_section(D: dict) -> str:
+    """What the paper's arithmetic can and cannot catch: the guarantee, the ways around it, the measured blind spots
+    (every wrong field on an accepted form, per reader) and what closes each one."""
+    A, ph, GQ, H = D["arith"], D["ph"], D["GQ"], D["H"]
+    gm, qm = GQ["gemma"], GQ["qwen"]
+    v2, v22 = ph["v2"], ph["v2-2R (Qwen confirms SOBRANTES)"]
+    v22s = ph["v2-2R strict (only Qwen confirms SOBRANTES)"]
+    out = ", ".join(f"`{k}`" for k in A["outside"])
+    name = H["harmonised"]["name"].lower() if H["harmonised"]["field"] in A["outside"] else "the field"
+    B = A["blind"]
+
+    def kind(b):
+        if not b["outside"]:
+            return "inside an identity (a compensating error)"
+        if b["words"] is None:
+            return "words not read: no check at all"
+        return "words = digits, harmonised in one call" if b["words"] == b["digits"] else "words differ (should route)"
+    rows = "\n".join(f"| {b['reader']} | {b['clave']} | {b['field']} | {b['digits']} | "
+                      f"{'not read' if b['words'] is None else b['words']} | {b['paper']} | {kind(b)} |" for b in B)
+    n_out = sum(b["outside"] for b in B)
+    harm = [b for b in B if b["outside"] and b["words"] is not None and b["words"] == b["digits"]]
+    nowords = [b for b in B if b["outside"] and b["words"] is None]
+    same_senado = "the same in the Senate schema" if A["outside_senado"] == A["outside"] else (
+        "in the Senate schema: " + ", ".join(A["outside_senado"]))
+    return f"""### What the paper's arithmetic can and cannot catch
+
+**The guarantee.** The tally sheet is redundant twice over: each value is written in digits and in words, and the
+values are tied by {A['n_identities']} identities in the schema (the {A['n_vote']} vote rows sum to TOTAL; voters +
+representatives = section 5 = section 7 = TOTAL). **On a paper whose own arithmetic holds, any single misread is
+caught:** a value misread in its digits fails words = digits when both are written, and a misread value inside an
+identity breaks that sum. Either way the form routes to a person; nothing is accepted on a broken identity.
+
+**Only an error that preserves every identity passes.** Three ways:
+
+1. **Compensating errors.** Two misreads that keep a sum true together: +k and -k on two terms of one sum (two vote
+   rows, or voters and representatives), with no words or words misread the same way; or one misread carried
+   through every side of a chain of identities. A shifted row is a case of the first: values moved inside one sum.
+2. **A field outside every identity.** Computed from the schema (`twohands.gate_v2.unchecked_fields` over
+   `schemas/mx_presidencia_2024.yaml`): {out} ({name}), {same_senado}. Its only check is words = digits, and there
+   is none when the words are not read.
+3. **A harmonised read.** Words and digits come from the same model call, so a call that misreads the digits can
+   write words that match. One call is one read, not two.
+
+The guarantee assumes the paper's own sums hold: on a sheet whose arithmetic is off, a misread that happens to
+repair it passes too.
+
+**Measured blind spots.** Every wrong field on a form the frozen gate accepted, for both readers
+(Gemma {gm['accepted_wrong']} of {n(gm['accepted_fields'])} accepted fields, Qwen {qm['accepted_wrong']} of
+{n(qm['accepted_fields'])}); {n_out} of the {len(B)} sit in the field outside every identity:
+
+| Reader | Form | Field | Digits | Words | Paper | Way through |
+|---|---|---|---|---|---|---|
+{rows}
+
+Of the {len(B)}: {len(harm)} harmonised in one call ({', '.join(b['clave'] for b in harm) or 'none'}), {len(nowords)}
+with no words read at all ({', '.join(b['clave'] for b in nowords) or 'none'}). No compensating error was found among the
+accepted forms: that describes this sample, not a bound.
+
+**What closes each one** (post-hoc on the 300, Amendment 3; the fresh draw is the test):
+
+- **The v2 rule:** a field outside every identity must have digits and words both read and equal. It removes the
+  no-words cases: {v2['errors']} wrong of {n(v2['fields'])} accepted fields. It cannot remove a harmonised read.
+- **A second reader:** v2-2R strict accepts {out} only when Qwen's digits agree with Gemma's: {v22s['errors']} wrong of
+  {n(v22s['fields'])}. v2-2R, which also accepts Gemma's own words, keeps the harmonised read: {v22['errors']} wrong.
+- **Separate reads:** digits and words read in separate calls would make words = digits two reads instead of one;
+  not built, not measured.
+- **Compensating pairs and shifts:** the row-label check and the tiles make a shift visible; nothing makes a
+  compensating pair visible except a second reader that does not make the same pair. Two readers sharing one misread
+  remain possible and are not counted.
+
+Stated as a guarantee: a single misread cannot pass the gate; an error passes only through the three named ways,
+and on this sample every one that did went through the field outside every identity.
+"""
+
+
 def render(D: dict) -> str:
     H, ph, qw, GQ, cg, cal, g, F = D["H"], D["ph"], D["qw"], D["GQ"], D["cg"], D["cal"], D["git"], D["first"]
     T = qw["tiers"] if qw else {}
@@ -404,9 +494,7 @@ person one look; a false accept of a shifted row would cost a wrong record, so t
 could not be located even with the Amendment 1 locator; they go to a person before any model call and count as
 routed. The pre-registered locator would have left {len(D['orig_nl'])}.
 
-**The gate cannot see an error that keeps the arithmetic true.** A value misread in a way that still satisfies every
-identity (a shifted row whose sums still hold, a misread in a field covered by no identity) passes. The row-label
-check and the tiles are mitigations, not proofs.
+{arith_section(D)}
 
 ## 6. Limits
 

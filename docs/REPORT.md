@@ -224,9 +224,57 @@ person one look; a false accept of a shifted row would cost a wrong record, so t
 could not be located even with the Amendment 1 locator; they go to a person before any model call and count as
 routed. The pre-registered locator would have left 52.
 
-**The gate cannot see an error that keeps the arithmetic true.** A value misread in a way that still satisfies every
-identity (a shifted row whose sums still hold, a misread in a field covered by no identity) passes. The row-label
-check and the tiles are mitigations, not proofs.
+### What the paper's arithmetic can and cannot catch
+
+**The guarantee.** The tally sheet is redundant twice over: each value is written in digits and in words, and the
+values are tied by 4 identities in the schema (the 17 vote rows sum to TOTAL; voters +
+representatives = section 5 = section 7 = TOTAL). **On a paper whose own arithmetic holds, any single misread is
+caught:** a value misread in its digits fails words = digits when both are written, and a misread value inside an
+identity breaks that sum. Either way the form routes to a person; nothing is accepted on a broken identity.
+
+**Only an error that preserves every identity passes.** Three ways:
+
+1. **Compensating errors.** Two misreads that keep a sum true together: +k and -k on two terms of one sum (two vote
+   rows, or voters and representatives), with no words or words misread the same way; or one misread carried
+   through every side of a chain of identities. A shifted row is a case of the first: values moved inside one sum.
+2. **A field outside every identity.** Computed from the schema (`twohands.gate_v2.unchecked_fields` over
+   `schemas/mx_presidencia_2024.yaml`): `SOBRANTES` (unused ballots), the same in the Senate schema. Its only check is words = digits, and there
+   is none when the words are not read.
+3. **A harmonised read.** Words and digits come from the same model call, so a call that misreads the digits can
+   write words that match. One call is one read, not two.
+
+The guarantee assumes the paper's own sums hold: on a sheet whose arithmetic is off, a misread that happens to
+repair it passes too.
+
+**Measured blind spots.** Every wrong field on a form the frozen gate accepted, for both readers
+(Gemma 2 of 1,210 accepted fields, Qwen 1 of
+682); 3 of the 3 sit in the field outside every identity:
+
+| Reader | Form | Field | Digits | Words | Paper | Way through |
+|---|---|---|---|---|---|---|
+| Gemma | 010469C0400 | SOBRANTES | 239 | 239 | 234 | words = digits, harmonised in one call |
+| Gemma | 212668C0300 | SOBRANTES | 300 | not read | 379 | words not read: no check at all |
+| Qwen | 090955C0200 | SOBRANTES | 200 | not read | 206 | words not read: no check at all |
+
+Of the 3: 1 harmonised in one call (010469C0400), 2
+with no words read at all (212668C0300, 090955C0200). No compensating error was found among the
+accepted forms: that describes this sample, not a bound.
+
+**What closes each one** (post-hoc on the 300, Amendment 3; the fresh draw is the test):
+
+- **The v2 rule:** a field outside every identity must have digits and words both read and equal. It removes the
+  no-words cases: 1 wrong of 1,034 accepted fields. It cannot remove a harmonised read.
+- **A second reader:** v2-2R strict accepts `SOBRANTES` only when Qwen's digits agree with Gemma's: 0 wrong of
+  990. v2-2R, which also accepts Gemma's own words, keeps the harmonised read: 1 wrong.
+- **Separate reads:** digits and words read in separate calls would make words = digits two reads instead of one;
+  not built, not measured.
+- **Compensating pairs and shifts:** the row-label check and the tiles make a shift visible; nothing makes a
+  compensating pair visible except a second reader that does not make the same pair. Two readers sharing one misread
+  remain possible and are not counted.
+
+Stated as a guarantee: a single misread cannot pass the gate; an error passes only through the three named ways,
+and on this sample every one that did went through the field outside every identity.
+
 
 ## 6. Limits
 

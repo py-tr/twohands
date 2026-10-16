@@ -276,20 +276,27 @@ def _report_html(aid: str, strict: bool) -> Optional[str]:
     c = livemodel.chooser
     old = c._refreshing
     c._refreshing = True     # the footer's endpoint status must not start a model-list request from here
+    ots_env = os.environ.get("TWOHANDS_OTS")
+    os.environ["TWOHANDS_OTS"] = "0"   # nor a timestamp submission (the CLI stamps only with --timestamp)
     try:
         r = TestClient(app).get(f"/audit/{aid}/report" + ("?strict=1" if strict else ""))
         return r.text if r.status_code == 200 else None
     finally:
         c._refreshing = old
+        if ots_env is None:
+            os.environ.pop("TWOHANDS_OTS", None)
+        else:
+            os.environ["TWOHANDS_OTS"] = ots_env
 
 
 def audit(keyed: str | Path, scans: Optional[str | Path] = None, schema: str = DEFAULT_SCHEMA,
           out: Optional[str | Path] = None, from_stored: bool = False, strict: bool = False, model: str = "gemma",
           layout: str = "escaner", state: Optional[str | Path] = None, reader_fn: Optional[ReaderFn] = None,
-          receipts: bool = False, html: bool = True, log=print) -> dict:
+          receipts: bool = False, html: bool = True, log=print, stamp: bool = False, stamp_post=None) -> dict:
     """The audit, as the web app runs it: keyed CSV (+ scans) -> masked pages -> reads -> gate -> compare.
     Writes to ``out``: report.csv (the web app's CSV, with fingerprint and input hashes), report.html (the web app's
-    report page), merkle_root.txt, summary.json, disputes.json and, with ``receipts``, one Merkle receipt per field."""
+    report page), merkle_root.txt, summary.json, disputes.json and, with ``receipts``, one Merkle receipt per field.
+    With ``stamp``, merkle_root.txt is anchored in time on the OpenTimestamps calendars: merkle_root.txt.ots."""
     if schemamod.load(schema).get("form") != DEFAULT_SCHEMA:
         raise ValueError(f"the audit compares keyed files of {DEFAULT_SCHEMA} (the form whose capture columns the "
                          f"audit maps); use 'twohands read' and 'twohands gate' for {schema}")
@@ -321,7 +328,18 @@ def audit(keyed: str | Path, scans: Optional[str | Path] = None, schema: str = D
             o = Path(out)
             o.mkdir(parents=True, exist_ok=True)
             (o / "report.csv").write_text(ca.report_csv(a, R, fp), encoding="utf-8")
-            (o / "merkle_root.txt").write_text(fp["merkle_root"] + "\n", encoding="utf-8")
+            (o / "merkle_root.txt").write_text(fp["merkle_root"] + "\n", encoding="utf-8", newline="\n")
+            if stamp:
+                from twohands import timestamp as ots
+                try:
+                    m = ots.stamp_file(o / "merkle_root.txt", **({"post": stamp_post} if stamp_post else {}))
+                    summary["timestamp"] = {"proof": "merkle_root.txt.ots", "submitted": m["submitted"],
+                                            "calendars": m["calendars"]}
+                    log(f"timestamp: merkle_root.txt.ots ({len(m['calendars'])} calendars; "
+                        f"'ots upgrade' after a few hours, then 'ots verify')")
+                except OSError as e:
+                    summary["timestamp"] = {"error": str(e)}
+                    log(f"timestamp: not anchored ({e})")
             (o / "disputes.json").write_text(json.dumps(_disputes(R), ensure_ascii=False, indent=1), encoding="utf-8")
             if html:
                 page = _report_html(a["id"], strict)
@@ -362,7 +380,7 @@ def summary_line(S: dict) -> str:
 def cmd_audit(a) -> int:
     S = audit(a.keyed, a.scans, a.schema, a.out, from_stored=a.from_stored, strict=a.strict, model=a.model,
               layout=a.layout, state=a.state, reader_fn=default_reader(a.base_url) if not a.from_stored else None,
-              receipts=a.receipts, log=(lambda *x: None) if a.quiet else print)
+              receipts=a.receipts, stamp=a.timestamp, log=(lambda *x: None) if a.quiet else print)
     print(summary_line(S))
     if S.get("out"):
         print(f"report: {Path(S['out']) / 'report.html'}  csv: {Path(S['out']) / 'report.csv'}")
@@ -411,6 +429,8 @@ def main(argv=None) -> int:
     au.add_argument("--layout", default="escaner", choices=["escaner", "movil"], help="mask layout of the scans")
     au.add_argument("--state", help="where audits are kept (default: the web app's app/state/audits)")
     au.add_argument("--receipts", action="store_true", help="also write one Merkle receipt per disputed field")
+    au.add_argument("--timestamp", action="store_true",
+                    help="anchor merkle_root.txt with OpenTimestamps (sends only a hash to the public calendars)")
     au.add_argument("--base-url", help="the OpenAI-compatible endpoint (default: AMD_BASE_URL)")
     au.add_argument("--quiet", action="store_true")
     au.set_defaults(fn=cmd_audit)

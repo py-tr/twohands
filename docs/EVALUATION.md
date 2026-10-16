@@ -196,7 +196,52 @@ Elecciones art. 347), and in 2024 UNAM centres audited several state PREPs (sour
 - **Throughput on a shared key.** About 2 forms a minute under our pacing; mean latency 87 s per form on the 300
   (wall clock, including queueing). A real deployment needs a dedicated AMD endpoint, which we have not measured.
 - **Page locator.** 11 of 300 phone photos could not be located and go to a person before any model call.
-- **The gate cannot see an error that keeps the arithmetic true.** See the failure case.
+- **The gate cannot see an error that keeps the arithmetic true.** See the next section and the failure case.
+
+## What the paper's arithmetic can and cannot catch
+
+**The guarantee.** The tally sheet is redundant twice over: each value is written in digits and in words, and the
+values are tied by the schema's 4 identities (the 17 vote rows sum to TOTAL; voters + representatives = section 5 =
+section 7 = TOTAL). On a paper whose own arithmetic holds, **any single misread is caught**: a value misread in its
+digits fails words = digits when both are written, and a misread value inside an identity breaks that sum. The form
+then routes to a person.
+
+**Only an error that preserves every identity passes.** Three ways:
+
+1. **Compensating errors:** +k and -k on two terms of one sum (two vote rows, or voters and representatives), or one
+   misread carried through every side of a chain of identities. A shifted row is a case of this.
+2. **A field outside every identity.** Computed from the schema (`twohands.gate_v2.unchecked_fields` over
+   `schemas/mx_presidencia_2024.yaml`; the Senate schema gives the same): **SOBRANTES (unused ballots)**, and no other
+   field. Its only check is words = digits, and there is none when the words are not read.
+3. **A harmonised read:** words and digits come from one model call, so a call that misreads the digits can write
+   words that match. One call is one read, not two.
+
+(The guarantee assumes the paper's own sums hold; on a sheet whose arithmetic is off, a misread that repairs it passes.)
+
+**Measured blind spots.** Every wrong field on a form the frozen gate accepted, both readers (Gemma 2 of 1,210
+accepted fields, Qwen 1 of 682), is SOBRANTES:
+
+| Reader | Form | Digits | Words | Paper | Way through |
+|---|---|---|---|---|---|
+| Gemma | 010469C0400 | 239 | 239 | 234 | harmonised in one call (the 239/239 case) |
+| Gemma | 212668C0300 | 300 | not read | 379 | no words: no check at all |
+| Qwen | 090955C0200 | 200 | not read | 206 | no words: no check at all |
+
+No compensating error was found among the accepted forms; that describes this sample, not a bound.
+
+**What closes each one** (post-hoc on the 300, Amendment 3; the fresh 100-form draw is the test):
+
+- **The v2 rule** (a field outside every identity needs digits and words both read and equal) removes the no-words
+  cases: 1 wrong of 1,034 accepted fields. It cannot remove a harmonised read.
+- **A second reader:** v2-2R strict accepts SOBRANTES only when Qwen's digits agree: 0 wrong of 990. v2-2R, which
+  also accepts Gemma's own words, keeps 010469C0400: 1 wrong.
+- **Separate reads** of digits and words would make words = digits two reads; not built, not measured.
+- **Compensating errors:** the row-label check and the tiles make a shift visible; only a second reader that does not
+  make the same pair catches a compensating pair. Two readers sharing one misread remain possible and are not counted.
+
+So: a single misread cannot pass the gate; an error passes only through the three named ways, and on this sample every
+one that did went through the one field outside every identity. The report (`docs/REPORT.md`, section 5) computes
+these numbers from the committed results.
 
 ## Failure case: a silent row shift
 
