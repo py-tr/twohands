@@ -812,7 +812,7 @@ def main(argv=None) -> int:
     sg = strip_sum(H)
     for k, (got, shown) in sg.items():
         ok = same(got, shown)
-        table.append((f"Home strip: {k}", fmt(got), fmt(shown), "app/live_status.py (300 + live_audit/results.jsonl)", ok))
+        table.append((f"Home strip: {k}", fmt(got), fmt(shown), "app/live_status.py (300 + the live worker's rows)", ok))
         bad += [] if ok else [f"Home strip {k}: recomputed {got}, app shows {shown}"]
     for k, v in rec["integrity"].items():
         table.append((k, "ok" if not v else f"{len(v)} off", "", "integrity", not v))

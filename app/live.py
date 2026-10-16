@@ -6,8 +6,10 @@ Safety rails (the AMD Token Factory key is shared with the core's batch job: 20 
   * Every request goes through the core client (twohands.amd.chat), i.e. the core's shared rate limiter, with a
     short retry budget so a busy endpoint is reported in seconds, not minutes.
   * Budget guard when a job is queued AND again when it starts: the endpoint's own /usage
-    (daily_cost_remaining_usd must stay above LIVE_MIN_REMAINING_USD so the batch job keeps its headroom) and a
-    local daily cap on reads and dollars.
+    (daily_cost_remaining_usd must stay above LIVE_MIN_REMAINING_USD, i.e. the key is not spent) and a local daily
+    cap on reads and dollars: LIVE_MAX_USD_PER_DAY is the live share of the key's daily cap, $0.10 of $1.00
+    (twohands/budgets.py; the worker keeps it as its reserve, bulk runs stop at their own $0.30). Live requests take
+    the limiter's reserved live lane (4 of the 16 requests a minute).
   * Only a privacy-masked page is ever sent; a form without one cannot be read live.
   * AMD 503 / timeout: the job ends with code "endpoint_busy"; the browser shows the last measured read of the
     form (when it has one) under an honest banner, with a retry button.
@@ -31,9 +33,10 @@ from app import livemodel
 from app import store as storemod
 
 LIVE_MODEL = livemodel.CONFIGURED
-MIN_REMAINING_USD = float(os.environ.get("LIVE_MIN_REMAINING_USD", "0.25"))
+MIN_REMAINING_USD = float(os.environ.get("LIVE_MIN_REMAINING_USD", "0.02"))
 MAX_READS_PER_DAY = int(os.environ.get("LIVE_MAX_READS_PER_DAY", "40"))
-MAX_USD_PER_DAY = float(os.environ.get("LIVE_MAX_USD_PER_DAY", "0.05"))
+from twohands import budgets as _budgets  # noqa: E402
+MAX_USD_PER_DAY = _budgets.share("live")   # LIVE_MAX_USD_PER_DAY, default 0.10
 QUEUE_MAX = int(os.environ.get("LIVE_QUEUE_MAX", "4"))
 LIVE_RETRIES = int(os.environ.get("LIVE_RETRIES", "2"))
 LIVE_DIR = storemod.STATE / "live"
@@ -208,8 +211,8 @@ class LiveManager:
                                       "measured read of this form; retry in a minute.")
         rem = u.get("daily_cost_remaining_usd")
         if rem is not None and float(rem) < MIN_REMAINING_USD:
-            raise Refused("budget", "The shared AMD budget for today is nearly spent, and it is reserved for the "
-                                    "measured batch run. Please try again after the daily reset.")
+            raise Refused("budget", "The shared AMD budget for today is spent. "
+                                    "Please try again after the daily reset (16:00 UTC).")
         return u
 
     # ---- queue

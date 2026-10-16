@@ -40,8 +40,8 @@ def table() -> dict | None:
     full, light, two = by.get("gemma"), by.get("gemma_capture"), by.get("two_reader")
     take = None
     if full and light and two:
-        take = (f"Dropping the section checks takes one reader from {full['accepted']} to {light['accepted']} forms with no "
-                f"person ({light['accepted'] / full['accepted']:.1f} times as many), but errors rise to {light['errors']} in "
+        take = (f"Dropping the section checks takes one reader from {full['accepted']} to {light['accepted']} forms accepted "
+                f"at second capture ({light['accepted'] / full['accepted']:.1f} times as many), but errors rise to {light['errors']} in "
                 f"{light['fields']:,} fields ({light['err_pct']:.2f}%): the bookkeeping identities catch real misreads, not "
                 f"only inconsistent paper. With two readers the lighter gate is safe ({two['errors']} in {two['fields']:,}); "
                 f"with one reader it is not. Either way the paper decides, and every tier is published.")

@@ -40,7 +40,8 @@ kbd{font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:
 {% else %}
 <div class="card">
   <p style="margin:0 0 8px"><b>Item {{ i + 1 }} / {{ n }}</b> · field <b>{{ field }}</b> <span class="muted small">(the band framed in pink)</span></p>
-  <img src="/check/img/{{ i }}.jpg" alt="masked crop of one field">
+  <img id="crop" src="/check/img/{{ i }}.jpg?enh=1" alt="masked crop of one field">
+  <p class="small muted" style="margin:6px 0 0"><label><input type="checkbox" id="enh" checked onchange="document.getElementById('crop').src='/check/img/{{ i }}.jpg'+(this.checked?'?enh=1':'')"> Enhance faint pencil (display only; the image itself is unchanged)</label></p>
   <form id="f" autocomplete="off">
     <label class="in">Digit boxes say<input type="text" id="digits" inputmode="numeric" autofocus value="{{ prev.digits if prev.digits is not none else '' }}" placeholder="e.g. 175  (b = blank, ? = can't tell)"></label>
     <label class="in">Words say (as a number)<input type="text" id="words" inputmode="numeric" value="{{ prev.words if prev.words is not none else '' }}" placeholder="e.g. 175  (empty if no words)"></label>

@@ -130,11 +130,34 @@ def test_no_touchless_in_any_title():
 
 
 # ------------------------------------------------------------------------------------------------ (c) model line
-def test_model_line_names_the_withdrawal_and_omits_the_bench_until_it_ran(tmp_path, monkeypatch):
+def test_outage_window_is_computed_from_the_endpoint_log(tmp_path):
+    from twohands import amd
+    ws = honest.outage_windows("Gemma-4-31B-IT", amd.HEALTH)
+    assert ws and ws[0]["start"] == "2026-10-15T15:41:09Z" and ws[0]["end"] == "2026-10-16T02:06:46Z"
+    assert ws[0]["start_text"] == "2026-10-15 15:41 UTC" and ws[0]["end_text"] == "2026-10-16 02:06 UTC"
+    assert honest.outage_text().startswith("Gemma-4-31B-IT unavailable on the AMD Token Factory from 2026-10-15 15:41 UTC "
+                                           "(first HTTP 400) to 2026-10-16 02:06 UTC (first 200 again)")
+    log = tmp_path / "h.jsonl"     # a 400 on a batch read is one bad request, not an outage; an open window says so
+    rows = [{"ts": "2026-10-17T01:00:00Z", "model": "M", "status": 400, "kind": "read"},
+            {"ts": "2026-10-17T02:00:00Z", "model": "M", "status": 400, "kind": "probe"},
+            {"ts": "2026-10-17T02:30:00Z", "model": "M", "status": "withdrawn", "kind": "models"}]
+    log.write_text("".join(json.dumps(r) + chr(10) for r in rows))
+    w = honest.outage_windows("M", log)
+    assert len(w) == 1 and w[0]["start"] == "2026-10-17T02:00:00Z" and w[0]["end"] is None
+    assert "since 2026-10-17 02:00 UTC" in honest.outage_text("M", log)
+
+
+def test_reader_now_names_the_current_model_on_amd():
+    assert honest.reader_now() == "reader now: Gemma-4-31B-IT on AMD Token Factory"   # conftest: Gemma is listed
+    h = client.get("/").text
+    assert "reader now: Gemma-4-31B-IT on AMD Token Factory" in _text(h[h.index('id="amd"'):h.index('id="any-form"')])
+
+
+def test_model_line_names_the_outage_and_omits_the_bench_until_it_ran(tmp_path, monkeypatch):
     monkeypatch.setattr(honest, "RESULTS", tmp_path)
     s = honest.model_line()
-    assert s == ("Measured on Gemma-4-31B-IT on the AMD Token Factory; live reads use Qwen3.8-27B there since the "
-                 "organisers withdrew Gemma (Oct 15, 15:41 UTC).")
+    assert s == ("Measured on Gemma-4-31B-IT on the AMD Token Factory; Gemma-4-31B-IT was unavailable there from "
+                 "2026-10-15 15:41 UTC to 2026-10-16 02:06 UTC (endpoint log), when live reads used Qwen3.8-27B.")
     assert "MI300X" not in s
     (tmp_path / "bench_mi300x_20261016T000000Z.json").write_text(json.dumps({"meta": {"model": "gemma"}, "levels": [{"ok": 0}]}))
     assert "MI300X" not in honest.model_line()          # a run with no answered request is not a bench
@@ -191,11 +214,14 @@ def test_counter_never_shows_a_national_fraction_or_the_queue(monkeypatch):
 def test_buyer_slot_hidden_until_result_clears_the_threshold(tmp_path, monkeypatch):
     P = honest.placement()
     assert P and P["home_threshold"] == 0.90   # PROTOCOL_IEEBCS.md's ```placement block
-    f = tmp_path / "ieebcs_head_to_head.json"
-    monkeypatch.setattr(honest, "IEEBCS_RESULT", f)
+    from app import ieebcs_card
+    assert ieebcs_card.RESULT == honest.REPO / "results" / "ieebcs" / "score.json"   # the file ieebcs_score.py writes
+    f = tmp_path / "score.json"
+    monkeypatch.setattr(ieebcs_card, "RESULT", f)
     assert honest.buyer_card() is None and 'id="buyer"' not in client.get("/").text
-    res = {"model": "gemma", "n_actas": 300, "theirs": {"pct": 62.84},
-           "a_raw": {"matched": 8000, "fields": 10000, "pct": 80.0}}
+    res = {"model": "gemma", "n_actas": 300, "theirs": {"fields": 23077, "matched": 14501, "pct": 62.84, "source": "p. 19"},
+           "a_raw": {"matched": 8000, "fields": 10000, "pct": 80.0, "wilson95": [79.2, 80.8], "pages_located": 290,
+                     "pages_read": 288, "second_fields_of_located_pages": {"matched": 8000, "fields": 9700, "pct": 82.47}}}
     f.write_text(json.dumps(res))
     assert honest.buyer_card() is None and 'id="buyer"' not in client.get("/").text   # below 90%: not on Home
     res["a_raw"].update(matched=9300, pct=93.0)

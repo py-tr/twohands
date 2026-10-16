@@ -13,7 +13,7 @@
 2. read: Gemma over every prepared acta to completion, then Qwen. One row per form in
    results/calls_<model>.jsonl (stable record; see ``record``). Rows with an error are retried on resume.
 
-Budget: the shared ``twohands.ratelimit`` limiter (TWOHANDS_RPM=6 req/min total, 2 in flight); 429 honours
+Budget: the shared ``twohands.ratelimit`` limiter (TWOHANDS_RPM=16 req/min total, 4 of them reserved for live reads, so 12 for runs; 2 in flight; bulk share $0.30 a day, twohands/budgets.py); 429 honours
 Retry-After. GET /usage is read before the run and every 4 calls: if daily_cost_used_usd >= --max-daily-usd
 the runner sleeps until daily_reset_at (16:00 UTC) + 3 min and continues. Status: results/run_status.json.
 The API key is never printed or written.

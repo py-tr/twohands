@@ -9,7 +9,8 @@ up) plus a semaphore (``concurrency`` requests in flight).  A 429 with Retry-Aft
     with shared().slot():
         session.post(...)
 
-``shared()`` is the process-wide instance (env TWOHANDS_RPM, default 6; TWOHANDS_CONCURRENCY, default 2).  The clock and sleep functions are
+``shared()`` is the process-wide instance (env TWOHANDS_RPM, default 16 a minute in total, of which TWOHANDS_LIVE_RPM,
+default 4, are always reserved for live reads; TWOHANDS_CONCURRENCY, default 2; see twohands/budgets.py).  The clock and sleep functions are
 injectable so tests never sleep.
 """
 from __future__ import annotations
@@ -51,7 +52,7 @@ class RateLimiter:
         self._tokens = min(self.burst, self._tokens + (now - self._last) / self.interval_s)
         self._last = now
 
-    def acquire(self) -> float:
+    def acquire(self, live: bool = False) -> float:
         """Block until one request may start (token + not paused). Returns seconds waited.
         Does NOT take a concurrency slot: use ``slot()`` for that."""
         waited = 0.0
@@ -83,22 +84,30 @@ class RateLimiter:
         return s
 
     @contextlib.contextmanager
-    def slot(self) -> Iterator[float]:
-        """Concurrency slot + rate token for one request."""
+    def slot(self, live: bool = False) -> Iterator[float]:
+        """Concurrency slot + rate token for one request (``live``: a live read from the site, see FileRateLimiter)."""
         self._sem.acquire()
         try:
-            yield self.acquire()
+            yield self.acquire(live=True) if live else self.acquire()
         finally:
             self._sem.release()
 
 
 class FileRateLimiter(RateLimiter):
     """Cross-process pacing: one request start per 60/rpm s for EVERY process on this machine that uses the
-    same state file (the batch run and the web app's live button). State = {"next": t, "paused_until": t}
-    in a JSON file guarded by an O_EXCL lock file; in-flight concurrency stays per process."""
+    same state file (the batch run and the web app's live button). State = {"next": t, "next_live": t,
+    "paused_until": t} in a JSON file guarded by an O_EXCL lock file; in-flight concurrency stays per process.
 
-    def __init__(self, path, rpm: float = 6.0, concurrency: int = 2, stale_lock_s: float = 30.0) -> None:
+    ``rpm`` is the total; ``live_rpm`` of it is reserved for live reads: every other request starts at most
+    rpm - live_rpm a minute (lane "next"); a live read takes its own lane ("next_live", live_rpm a minute) or the
+    shared one, whichever is free first, so live reads always get at least live_rpm and the total stays <= rpm."""
+
+    def __init__(self, path, rpm: float = 6.0, concurrency: int = 2, stale_lock_s: float = 30.0,
+                 live_rpm: float = 0.0) -> None:
         super().__init__(rpm=rpm, concurrency=concurrency, burst=1.0)
+        self.live_rpm = float(live_rpm) if 0 < float(live_rpm) < float(rpm) else 0.0
+        self.bulk_interval_s = 60.0 / (self.rpm - self.live_rpm)
+        self.live_interval_s = 60.0 / self.live_rpm if self.live_rpm else None
         from pathlib import Path
         self.path = Path(path)
         self.lock = self.path.with_suffix(".lock")
@@ -136,17 +145,25 @@ class FileRateLimiter(RateLimiter):
 
     yield_to_live = False   # set in the live audit worker's process: it waits while a live read is queued
 
-    def acquire(self) -> float:
+    def acquire(self, live: bool = False) -> float:
         waited = 0.0
-        while self.yield_to_live and live_waiting(self.path):
+        while not live and self.yield_to_live and live_waiting(self.path):
             self._sleep(2.0)
             waited += 2.0
         while True:
             def take(st):
                 now = time.time()
-                start = max(st.get("next", 0.0), st.get("paused_until", 0.0))
+                paused = st.get("paused_until", 0.0)
+                start = max(st.get("next", 0.0), paused)
+                if live and self.live_interval_s:
+                    start_live = max(st.get("next_live", 0.0), paused)
+                    if now >= start_live:
+                        st["next_live"] = now + self.live_interval_s
+                        return 0.0
+                    if now < start:
+                        return min(start, start_live) - now
                 if now >= start:
-                    st["next"] = now + self.interval_s
+                    st["next"] = now + self.bulk_interval_s
                     return 0.0
                 return start - now
             w = self._locked(take)
@@ -166,7 +183,8 @@ class FileRateLimiter(RateLimiter):
         return s
 
 
-RPM = float(os.environ.get("TWOHANDS_RPM", "6"))
+RPM = float(os.environ.get("TWOHANDS_RPM", "16"))
+LIVE_RPM = float(os.environ.get("TWOHANDS_LIVE_RPM", "4"))
 CONCURRENCY = int(os.environ.get("TWOHANDS_CONCURRENCY", "2"))
 _shared: Optional[RateLimiter] = None
 _shared_lock = threading.Lock()
@@ -179,7 +197,7 @@ def shared() -> RateLimiter:
         if _shared is None:
             from pathlib import Path
             state = os.environ.get("TWOHANDS_RATE_FILE") or str(Path(__file__).resolve().parent.parent / "cache" / "ratelimit.json")
-            _shared = FileRateLimiter(state, RPM, CONCURRENCY)
+            _shared = FileRateLimiter(state, RPM, CONCURRENCY, live_rpm=LIVE_RPM)
         return _shared
 
 

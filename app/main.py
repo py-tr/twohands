@@ -467,3 +467,7 @@ from app import honest as honestmod  # noqa: E402
 app.include_router(judgemod.router)
 templates.env.globals["judge_count"] = judgemod.count_text
 templates.env.globals["honest"] = honestmod
+
+# The IEEBCS head-to-head, placed by PROTOCOL_IEEBCS.md section 10 (hidden until results/ieebcs/score.json exists)
+from app import ieebcs_card as ieebcscardmod  # noqa: E402
+templates.env.globals["ieebcs_card"] = ieebcscardmod.card

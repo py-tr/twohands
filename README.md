@@ -29,8 +29,8 @@ Others check the model against the source. We check the record against the paper
 
 **Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.**
 
-Measured on Gemma-4-31B-IT on the AMD Token Factory; live reads use Qwen3.8-27B there since the organisers withdrew
-Gemma (Oct 15, 15:41 UTC).
+Measured on Gemma-4-31B-IT on the AMD Token Factory; Gemma-4-31B-IT was unavailable
+there from 2026-10-15 15:41 UTC to 2026-10-16 02:06 UTC (endpoint log), when live reads used Qwen3.8-27B.
 
 ![Option 07 on form 050815B0100: the words say "ciento setenta y cinco", the boxes say 1 7 5](slides/receipt_050815B0100.jpg)
 

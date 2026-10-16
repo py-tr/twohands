@@ -1,0 +1,28 @@
+{# The IEEBCS head-to-head, three placements (app/ieebcs_card.py; PROTOCOL_IEEBCS.md section 10). Each macro renders
+   nothing when the rule does not place the comparison in its slot, or before results/ieebcs/score.json exists. #}
+{% macro ieebcs_home(c) %}{% if c %}
+    <div class="card buyer" id="buyer" data-tier="{{ c.tier }}">
+      <div class="eyebrow">{{ c.eyebrow }}</div>
+      <p class="rvals">{{ c.text }}</p>
+      <p class="tiny muted" style="margin:6px 0 8px">{{ c.footnote }}</p>
+      <a class="btn sm" href="/results#ieebcs">The head-to-head</a>
+    </div>
+{% endif %}{% endmacro %}
+{% macro ieebcs_buyer(c) %}{% if c %}
+      <div class="buyer-bench" id="buyer-benchmark" data-tier="{{ c.tier }}" style="margin-top:14px">
+        <div class="eyebrow">{{ c.eyebrow }}</div>
+        <p class="small" style="margin:6px 0 4px">{{ c.text }}</p>
+        <p class="tiny muted" style="margin:0">{{ c.footnote }} <a href="/results#ieebcs">The head-to-head</a></p>
+      </div>
+{% endif %}{% endmacro %}
+{% macro ieebcs_results(c) %}{% if c %}
+<section id="ieebcs">
+  <div class="sec-head"><div><h2>Head-to-head on the buyer's own actas</h2><p>Baja California Sur, 2024 PREP: their first capture (commercial cloud OCR) against an open model on AMD, pre-registered in PROTOCOL_IEEBCS.md.</p></div></div>
+  <div class="card" data-tier="{{ c.tier }}">
+    <p class="small" style="margin:0"><b>{{ c.text }}</b></p>
+    {% if c.why %}<p class="small" style="margin:8px 0 0">{{ c.why }}</p>{% endif %}
+    <p class="tiny muted" style="margin:8px 0 0">{{ c.footnote }}</p>
+    <p class="tiny muted" style="margin:8px 0 0">Source: results/ieebcs/score.json by scripts/ieebcs_score.py, recomputed by make eval; {{ c.details }}.</p>
+  </div>
+</section>
+{% endif %}{% endmacro %}

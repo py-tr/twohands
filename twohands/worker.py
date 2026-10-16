@@ -24,9 +24,11 @@ Labels (vote rows and TOTAL, on forms whose certified count was settled by compa
 Receipts: the Merkle scheme of twohands/merkle.py, one tree per state over its dispute leaves in audit order; the root
 of a completed state is final, the open state has a running root.
 
-Budget: GET /usage before every read. The worker sleeps until the daily reset (16:00 UTC) when the key's spend today
-reaches TWOHANDS_WORKER_DAILY_USD (0.60), when its remaining budget would drop below TWOHANDS_LIVE_RESERVE_USD (0.20,
-kept for the site's live-read button), or when the worker's own spend today reaches the cap. Every model request goes
+Budget (shares of the key's daily cap: twohands/budgets.py): GET /usage before every read. The worker sleeps until the
+daily reset (16:00 UTC) when its own spend today reaches its share TWOHANDS_WORKER_DAILY_USD (0.60), when the key's
+spend today leaves less than the live-read share (TWOHANDS_LIVE_RESERVE_USD, 0.10, kept for the site's live-read
+button), or when the key's remaining budget would drop below that reserve. The bulk runs' 0.30 is held by their own
+guard (amd.chat), so the worker never needs to stop for it. Every model request goes
 through the shared cross-process rate limiter (cache/ratelimit.json or TWOHANDS_RATE_FILE), so the worker and the live
 reads never exceed the key's pace together.
 
@@ -65,8 +67,10 @@ from twohands import REPO
 # ------------------------------------------------------------------------------------------------ configuration
 WORKER_DIR = Path(os.environ.get("TWOHANDS_WORKER_DIR") or REPO / "live_audit")
 SEED_DIR = os.environ.get("TWOHANDS_WORKER_SEED") or ""
-DAILY_USD = float(os.environ.get("TWOHANDS_WORKER_DAILY_USD", "0.60"))
-RESERVE_USD = float(os.environ.get("TWOHANDS_LIVE_RESERVE_USD", "0.20"))
+from twohands import budgets as _budgets  # noqa: E402
+DAILY_USD = _budgets.share("worker")                                                   # 0.60 of the key's 1.00
+RESERVE_USD = float(os.environ.get("TWOHANDS_LIVE_RESERVE_USD", str(_budgets.share("live"))))  # 0.10, the live share
+KEY_DAILY_USD = _budgets.KEY_DAILY_USD
 PAGE_KB = int(os.environ.get("TWOHANDS_WORKER_PAGE_KB", "150"))
 DISK_CAP_MB = float(os.environ.get("TWOHANDS_WORKER_DISK_MB", "2000"))
 FETCH_INTERVAL_S = max(1.0, float(os.environ.get("TWOHANDS_WORKER_FETCH_INTERVAL_S", "1.0")))  # never faster than 1/s
@@ -394,8 +398,10 @@ class Budget:
     """Daily spend guard, checked before every model call."""
 
     def __init__(self, usage: Callable[[], dict], cap: float = DAILY_USD, reserve: float = RESERVE_USD,
-                 own_today: Callable[[], float] = lambda: 0.0, now: Callable[[], datetime] = utcnow):
+                 own_today: Callable[[], float] = lambda: 0.0, now: Callable[[], datetime] = utcnow,
+                 key_cap: float = KEY_DAILY_USD):
         self.usage, self.cap, self.reserve, self.own_today, self.now = usage, cap, reserve, own_today, now
+        self.key_cap = key_cap
         self.last: dict = {}
 
     def check(self, est: float = 0.01) -> dict:
@@ -410,8 +416,8 @@ class Budget:
         self.last = {"used_usd": used, "remaining_usd": rem, "own_usd": round(own, 6), "ts": iso(now)}
         if own >= self.cap:
             why = f"worker spend today {own:.3f} >= {self.cap:.2f} USD"
-        elif used is not None and float(used) >= self.cap:
-            why = f"key spend today {float(used):.3f} >= {self.cap:.2f} USD"
+        elif used is not None and float(used) >= self.key_cap - self.reserve:
+            why = f"key spend today {float(used):.3f} >= {self.key_cap - self.reserve:.2f} USD (the live share kept)"
         elif rem is not None and float(rem) - est < self.reserve:
             why = f"remaining {float(rem):.3f} USD would go below the {self.reserve:.2f} USD live-read reserve"
         if why:
@@ -428,14 +434,15 @@ class Budget:
 
 # ------------------------------------------------------------------------------------------------ model choice
 class ModelChoice:
-    """Gemma-4-31B-IT whenever the endpoint lists it again, else Qwen3.8-27B. The list is re-read every ttl seconds;
-    when it cannot be read the last choice stands (Qwen at start: Gemma has been withdrawn since 15 Oct)."""
+    """The default reader is Gemma-4-31B-IT whenever the endpoint lists it, else Qwen3.8-27B (automatic fallback, and
+    back again once Gemma is listed). The list is re-read every ttl seconds; when it cannot be read the last choice
+    stands (Gemma at start; a 400 "not supported" on a read switches to Qwen at once, see withdrawn())."""
 
     def __init__(self, list_models: Optional[Callable[[], list]] = None, ttl: float = 600.0,
                  clock: Callable[[], float] = time.time):
         self.list_models = list_models or self._fetch
         self.ttl, self.clock = ttl, clock
-        self._at, self.key = -1e18, FALLBACK
+        self._at, self.key = -1e18, PRIMARY
 
     @staticmethod
     def _fetch() -> list:

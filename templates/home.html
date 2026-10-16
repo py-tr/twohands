@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_icons.html" import icon, source %}
+{% from "_ieebcs_card.html" import ieebcs_home, ieebcs_buyer %}
 {% block title %}Two Hands · receipts for every number keyed from paper{% endblock %}
 {% macro cap(v) -%}{{ {'Ilegible': '"illegible"', 'Sin dato': '"no data"'}.get(v, v) }}{%- endmacro %}
 {% block content %}
@@ -24,14 +25,7 @@
       {% endfor %}
     </a>
     {% endif %}
-    {% set bc = honest.buyer_card() %}
-    {% if bc %}
-    <div class="card buyer" id="buyer">
-      <div class="eyebrow">The buyer's own benchmark</div>
-      <p class="rvals">Baja California Sur's 2024 PREP: their first capture matched {{ bc.theirs_pct }}% of fields; ours {{ bc.ours_pct }}% ({{ bc.matched|int }} of {{ bc.fields|int }} fields, {{ bc.n_actas }} actas, pre-registered).</p>
-      <a class="btn sm" href="/results#ieebcs">The head-to-head</a>
-    </div>
-    {% endif %}
+    {{ ieebcs_home(honest.buyer_card()) }}
     {% set C = honest.strip_figures(ls) %}
     <div class="strip card" id="strip" data-kind="{{ ls.kind }}">
       {% if C.live %}
@@ -127,6 +121,7 @@
         <li><b>Now: election-capture audits.</b> {{ cited.prep_audit.text }}. We add the field-by-field check against the paper. Next window: {{ cited.window_2027.text }}.</li>
         <li><b>Next, not measured:</b> clinical-trial source-data verification ({{ cited.sdv_cost.text }}); internal audit of keyed loan and claim files.</li>
       </ul>
+      {{ ieebcs_buyer(ieebcs_card("buyer")) }}
       <div class="vs" style="margin-top:14px">
         <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">measured AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, {{ H.read }} reads)</div></div>
         <div class="mid">·</div>
@@ -142,6 +137,7 @@
       <h3>Open models on the AMD endpoint</h3>
       <p class="small muted">{{ cited.endpoint.text }}. Every measured read went through it, and the live audit reads through it now.</p>
       <p class="small" id="modelline" style="margin:8px 0 0"><b>{{ honest.model_line() }}</b></p>
+      <p class="small" id="readernow" style="margin:4px 0 0">{{ honest.reader_now() }}</p>
       {% for m in n.amd.models %}
       <div class="amd-model">
         <div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div>

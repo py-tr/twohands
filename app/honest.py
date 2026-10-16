@@ -5,16 +5,19 @@
   gate_label(L)     the gate tiers in the regulation's words ("accepted at second capture"), from numbers.lines()
   strip_figures(ls)       the live strip: states complete, the current state's %, +N a day for the worker's daily budget
                     on AMD, total audited. Never a national fraction, never the queue size
-  model_line()      which model measured, which reads live, and (only once results/bench_mi300x_*.json holds a
-                    real run of Gemma) the self-hosted MI300X bench
-  buyer_card()      the IEEBCS head-to-head card, only when its result file exists and clears the pre-registered
-                    Home threshold (PROTOCOL_IEEBCS.md, the ```placement block); else None
+  model_line()      which model measured, Gemma's outage window on the endpoint (computed from the endpoint log), and
+                    (only once results/bench_mi300x_*.json holds a real run of Gemma) the self-hosted MI300X bench
+  outage_windows()  from results/endpoint_health.jsonl: each span from Gemma's first HTTP 400 to its first 200 again
+  reader_now()      "reader now: <model> on AMD Token Factory", the model the reads use at this moment
+  buyer_card()      the IEEBCS head-to-head Home card (app/ieebcs_card.py, slot "home"): only when
+                    results/ieebcs/score.json exists and clears the pre-registered Home threshold; else None
 
 A new small module so app/numbers.py stays as the bake-off left it; every figure comes from a results or state file.
 """
 from __future__ import annotations
 
 import glob
+from datetime import datetime
 import json
 import math
 import re
@@ -29,7 +32,6 @@ REG_LINE = ("The PREP rules require a second capture and a comparison for every 
             "to a person, with the photo.")
 NUMERAL_33 = ("https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/"
               "CGex202311-03-ap-8-a.pdf")
-IEEBCS_RESULT = REPO / "results" / "ieebcs_head_to_head.json"
 IEEBCS_PROTOCOL = REPO / "PROTOCOL_IEEBCS.md"
 RESULTS = REPO / "results"
 
@@ -136,15 +138,105 @@ def bench_ran() -> Optional[dict]:
     return None
 
 
+def _health_rows(path: Optional[Path] = None) -> list[dict]:
+    from twohands import amd
+    out = []
+    try:
+        lines = Path(path or amd.HEALTH).read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return out
+    for ln in lines:
+        try:
+            out.append(json.loads(ln))
+        except ValueError:
+            pass
+    return out
+
+
+_OUT_CACHE: dict = {}
+
+
+def outage_windows(model: str = "Gemma-4-31B-IT", path: Optional[Path] = None) -> list[dict]:
+    """Every span in the endpoint log (results/endpoint_health.jsonl) from the model's first HTTP 400 on a probe or
+    live read (the endpoint's "model not supported"; app/health.py reads a 400 there as withdrawn, while a 400 on a
+    batch read is one bad request, not an outage) to its first 200 after it: {"start", "end" (None while still out),
+    "hours"}. Computed from the file, never typed."""
+    from twohands import amd
+    p = Path(path or amd.HEALTH)
+    try:
+        key = (str(p), model, p.stat().st_mtime, p.stat().st_size)
+    except OSError:
+        return []
+    if key in _OUT_CACHE:
+        return _OUT_CACHE[key]
+    rows = sorted((r for r in _health_rows(p) if r.get("model") == model and r.get("ts")), key=lambda r: r["ts"])
+    out, start = [], None
+    for r in rows:
+        if start is None and r.get("status") == 400 and r.get("kind") in ("probe", "live"):
+            start = r["ts"]
+        elif start is not None and r.get("status") == 200:
+            out.append({"start": start, "end": r["ts"]})
+            start = None
+    if start is not None:
+        out.append({"start": start, "end": None})
+    for w in out:
+        a = datetime.strptime(w["start"], "%Y-%m-%dT%H:%M:%SZ")
+        w["start_text"] = a.strftime("%Y-%m-%d %H:%M UTC")
+        if w["end"]:
+            b = datetime.strptime(w["end"], "%Y-%m-%dT%H:%M:%SZ")
+            w["end_text"], w["hours"] = b.strftime("%Y-%m-%d %H:%M UTC"), round((b - a).total_seconds() / 3600, 1)
+        else:
+            w["end_text"], w["hours"] = None, None
+    _OUT_CACHE.clear()
+    _OUT_CACHE[key] = out
+    return out
+
+
+def outage_text(model: str = "Gemma-4-31B-IT", path: Optional[Path] = None) -> Optional[str]:
+    """The endpoint log's sentence on the model's unavailability, or None when the log shows none."""
+    ws = outage_windows(model, path)
+    if not ws:
+        return None
+    parts = []
+    for w in ws:
+        if w["end"]:
+            parts.append(f"from {w['start_text']} (first HTTP 400) to {w['end_text']} (first 200 again), {w['hours']} h")
+        else:
+            parts.append(f"since {w['start_text']} (first HTTP 400; no 200 since)")
+    return f"{model} unavailable on the AMD Token Factory " + "; ".join(parts)
+
+
+def reader_now() -> str:
+    """The reader at this moment: the live worker's latest model while it runs, else the live read's choice from the
+    endpoint's cached model list (app/livemodel.py; never blocks the page on a fetch)."""
+    model = None
+    try:
+        from app import live_status
+        L = live_status.live_part()
+        if L and L.get("running") and L.get("reader"):
+            model = L["reader"]
+    except Exception:  # noqa: BLE001 - Home must never break on the strip
+        model = None
+    if not model:
+        try:
+            from app import livemodel
+            model = livemodel.chooser.choose(block=False)["model"]
+        except Exception:  # noqa: BLE001
+            from twohands.reader import MODELS
+            model = MODELS["gemma"]
+    return f"reader now: {model} on AMD Token Factory"
+
+
 def model_line() -> str:
-    from app import livemodel
     from twohands.reader import MODELS
-    m = re.match(r"(\d{4})-(\d{2})-(\d{2}) (\d{2}:\d{2}) UTC", livemodel.WITHDRAWN_SINCE)
-    month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][int(m.group(2)) - 1]
-    when = f"{month} {int(m.group(3))}, {m.group(4)} UTC"
-    g, q = MODELS[livemodel.PRIMARY], MODELS[livemodel.FALLBACK]
-    s = (f"Measured on {g} on the AMD Token Factory; live reads use {q} there since the organisers withdrew Gemma "
-         f"({when})")
+    g, q = MODELS["gemma"], MODELS["qwen"]
+    s = f"Measured on {g} on the AMD Token Factory"
+    ws = outage_windows(g)
+    if ws:
+        w = ws[-1]
+        s += (f"; {g} was unavailable there from {w['start_text']} to {w['end_text']} (endpoint log), when live reads "
+              f"used {q}" if w["end"] else f"; {g} is unavailable there since {w['start_text']} (endpoint log); live "
+                                           f"reads use {q}")
     if bench_ran():
         s += "; benchmarked on self-hosted Gemma on an AMD Instinct MI300X"
     return s + "."
@@ -153,43 +245,12 @@ def model_line() -> str:
 # ------------------------------------------------------------------------------------------- (d) the buyer card slot
 def placement() -> Optional[dict]:
     """The machine-readable ```placement block of PROTOCOL_IEEBCS.md, or None when there is none."""
-    try:
-        t = IEEBCS_PROTOCOL.read_text(encoding="utf-8")
-    except OSError:
-        return None
-    m = re.search(r"```placement\s*\n(.*?)```", t, flags=re.S)
-    if not m:
-        return None
-    out = {}
-    for line in m.group(1).splitlines():
-        if ":" in line:
-            k, v = line.split(":", 1)
-            v = v.strip()
-            try:
-                out[k.strip()] = float(v)
-            except ValueError:
-                out[k.strip()] = v
-    return out if "home_threshold" in out else None
+    from app import ieebcs_card
+    return ieebcs_card.placement(IEEBCS_PROTOCOL)
 
 
 def buyer_card() -> Optional[dict]:
-    """The IEEBCS head-to-head on Home: only when results/ieebcs_head_to_head.json exists and its strict per-field
-    match (metric 5a, the a_raw block of scripts/ieebcs_score.py) reaches the pre-registered home_threshold."""
-    P = placement()
-    if not P or not IEEBCS_RESULT.is_file():
-        return None
-    try:
-        d = json.loads(IEEBCS_RESULT.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return None
-    a = d.get("a_raw") or {}
-    pct = d.get(str(P.get("metric", ""))) if isinstance(d.get(str(P.get("metric", ""))), (int, float)) else a.get("pct")
-    if pct is None:
-        return None
-    share = pct / 100 if pct > 1 else pct
-    if share < P["home_threshold"]:
-        return None
-    th = d.get("theirs") or {}
-    return {"ours_pct": round(100 * share, 1), "theirs_pct": th.get("pct"), "n_actas": d.get("n_actas"),
-            "matched": a.get("matched"), "fields": a.get("fields"), "model": d.get("model"),
-            "threshold_pct": round(100 * P["home_threshold"])}
+    """The IEEBCS head-to-head on Home: app/ieebcs_card.card("home"), from results/ieebcs/score.json (the file
+    scripts/ieebcs_score.py writes); only when its strict per-field match reaches the pre-registered home_threshold."""
+    from app import ieebcs_card
+    return ieebcs_card.card("home")

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_icons.html" import icon, source %}
+{% from "_ieebcs_card.html" import ieebcs_results %}
 {% block title %}Results · Two Hands{% endblock %}
 {% block content %}
 {% set si = meta.single_image %}
@@ -43,7 +44,7 @@
         <tr><td><b>Fields compared</b></td><td>{{ H.fields|int }}; the model agrees with the capture on {{ H.agree|int }} ({{ H.agree_pct }}%), disputes {{ H.disagree }} ({{ H.flag_pct }}%) on {{ H.disagree_forms }} forms</td></tr>
         <tr><td><b>The {{ H.disagree }} disputes, settled on the photo</b></td><td>capture does not match the paper {{ v.model_right }} · model misread {{ v.capture_right }} · both off {{ v.neither }} · paper ambiguous {{ v.paper_ambiguous }} · unreadable {{ v.unreadable }}{% if v.crop_wrong %} · crop to redo {{ v.crop_wrong }}{% endif %}</td></tr>
         <tr><td><b>The model alone</b></td><td>wrong on {{ H.model_wrong }} of {{ H.fields|int }} fields, about 1 in {{ H.model_one_in }}</td></tr>
-        <tr><td><b>Accepted by the gate, no person</b></td><td>{{ H.accepted }} of {{ H.forms }} forms ({{ H.accepted_pct }}%; {{ H.accepted_movil }} phone photos, {{ H.accepted_escaner }} scans); {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong, about 1 in {{ H.acc_one_in }} (Wilson 95% {{ '%.2f'|format(100 * H.acc_wrong_ci[0]) }}% to {{ '%.2f'|format(100 * H.acc_wrong_ci[1]) }}%)</td></tr>
+        <tr><td><b>Accepted at second capture</b></td><td>{{ H.accepted }} of {{ H.forms }} forms ({{ H.accepted_pct }}%; {{ H.accepted_movil }} phone photos, {{ H.accepted_escaner }} scans); {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong, about 1 in {{ H.acc_one_in }} (Wilson 95% {{ '%.2f'|format(100 * H.acc_wrong_ci[0]) }}% to {{ '%.2f'|format(100 * H.acc_wrong_ci[1]) }}%)</td></tr>
         <tr><td><b>Capture errors found</b></td><td>{{ H.keying_errors }} on {{ H.keying_forms }} forms; the certified count covers {{ H.cert_covered }} and confirms the image on {{ H.cert_agree }}; all {{ H.cert_differ }} differences were recounts</td></tr>
         <tr><td><b>Yield</b></td><td>1 in {{ H.yield_one_in }} disputed fields is a confirmed capture error; the capture's overall error rate is at least 1 in {{ H.random_one_in }}</td></tr>
         <tr><td><b>Recall</b></td><td>{{ L.recall }} Before judging the paper: {{ H.recall.C }} of {{ H.recall.E }} (Wilson 95% {{ '%.0f'|format(100 * H.recall.ci[0]) }}% to {{ '%.0f'|format(100 * H.recall.ci[1]) }}%), a loose lower bound.</td></tr>
@@ -62,7 +63,7 @@
   <div class="card" style="padding:6px 8px">
     <div class="tablewrap">
     <table class="rtable gtable">
-      <thead><tr><th>Tier</th><th>Readers</th><th>Accepted, no person</th><th>Accepted fields wrong on the paper</th><th></th></tr></thead>
+      <thead><tr><th>Tier</th><th>Readers</th><th>Accepted at second capture</th><th>Accepted fields wrong on the paper</th><th></th></tr></thead>
       <tbody>
       {% for r in G.rows %}
         <tr class="{{ 'hl' if r.key in ('gemma', 'two_reader') }}{{ ' ph' if r.post_hoc }}">
@@ -95,7 +96,7 @@
     <div class="card">
       <dl class="kv small">
         <dt>Same {{ gq.n }} forms{% if not gq.complete %} <span class="muted">(Qwen pass running)</span>{% endif %}</dt><dd>Gemma / Qwen3.8-27B</dd>
-        <dt>Accepted, no person</dt><dd>{{ gq.g.touchless }} / {{ gq.q.touchless }} forms</dd>
+        <dt>Accepted at second capture</dt><dd>{{ gq.g.touchless }} / {{ gq.q.touchless }} forms</dd>
         <dt>Accepted fields wrong</dt><dd>{{ gq.g.accepted_wrong }} of {{ gq.g.accepted_fields }} / {{ gq.q.accepted_wrong }} of {{ gq.q.accepted_fields }}</dd>
         <dt>Cost per form</dt><dd>{{ gq.g.cost_per_read_usd|usd(6) }} / {{ gq.q.cost_per_read_usd|usd(6) }}{% if gq.cost_ratio %} <span class="muted">(about 1/{{ gq.cost_ratio }})</span>{% endif %}</dd>
         <dt>Mean latency</dt><dd>{{ '%.0f'|format(gq.g.mean_latency_s) }} s / {{ '%.0f'|format(gq.q.mean_latency_s) }} s</dd>
@@ -138,6 +139,8 @@
   {{ source("results/calls_*.jsonl (last read per form), results/bakeoff_plan.json, results/adjudication/verdicts*.json; app/data/bakeoff_300.json and results/bakeoff_300.md by scripts/bakeoff.py report, recomputed by make eval") }}
 </section>
 {% endif %}
+
+{{ ieebcs_results(ieebcs_card("results")) }}
 
 <section id="limits">
   <div class="sec-head"><div><h2>Limitations we measured</h2></div></div>
@@ -256,6 +259,8 @@
   <div class="card amd-status">
     <span class="amdpill {{ amd.state }} on-light"><span class="pdot"></span>{{ amd.label }}</span>
     <p class="small" style="margin:10px 0 0">{{ amd.detail }}</p>
+    {% set ot = honest.outage_text() %}{% if ot %}<p class="small" id="outage" style="margin:8px 0 0">Endpoint log: {{ ot }}.</p>{% endif %}
+    <p class="small" style="margin:4px 0 0">{{ honest.reader_now() }}</p>
     {% for m in n.amd.models %}<div class="amd-model"><div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div><div class="figs">{{ '%.0f'|format(m.secs) }} s mean per form<br>{{ m.cpf|usd(6) }} per form</div></div>{% endfor %}
     <p class="tiny" style="margin:8px 0 0">{{ source("results/endpoint_health.jsonl (probes of the endpoint); app/health.py") }}</p>
   </div>

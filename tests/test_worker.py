@@ -314,15 +314,15 @@ def test_budget_guard_trips_on_cap_reserve_and_own_spend():
     reset = datetime(2026, 10, 16, 16, 3, tzinfo=timezone.utc).timestamp()
     ok = W.Budget(lambda: {"daily_cost_used_usd": 0.30, "daily_cost_remaining_usd": 0.70}, now=lambda: now)
     ok.check()
-    for u, own in (({"daily_cost_used_usd": 0.60, "daily_cost_remaining_usd": 0.40}, 0.0),   # the key's spend cap
-                   ({"daily_cost_used_usd": 0.10, "daily_cost_remaining_usd": 0.205}, 0.0),  # the live-read reserve
+    for u, own in (({"daily_cost_used_usd": 0.90, "daily_cost_remaining_usd": 0.40}, 0.0),   # key cap less live share
+                   ({"daily_cost_used_usd": 0.10, "daily_cost_remaining_usd": 0.105}, 0.0),  # the live-read reserve
                    ({}, 0.60)):                                                            # /usage down: own spend
         b = W.Budget(lambda u=u: u, own_today=lambda own=own: own, now=lambda: now)
         with pytest.raises(W.BudgetPaused) as e:
             b.check()
         assert e.value.until == reset
     late = datetime(2026, 10, 16, 17, 0, tzinfo=timezone.utc)
-    b = W.Budget(lambda: {"daily_cost_used_usd": 0.7}, now=lambda: late)
+    b = W.Budget(lambda: {"daily_cost_used_usd": 0.95}, now=lambda: late)
     with pytest.raises(W.BudgetPaused) as e:
         b.check()
     assert e.value.until == datetime(2026, 10, 17, 16, 3, tzinfo=timezone.utc).timestamp()
@@ -332,7 +332,7 @@ def test_budget_guard_trips_on_cap_reserve_and_own_spend():
 
 def test_budget_pause_stops_reads_and_shows_on_live(three, monkeypatch):
     P, ep = three["P"], three["ep"]
-    ep.used = 0.65
+    ep.used = 0.95
     w = make_worker(P.root, ep, Ine())
     with pytest.raises(Halt):
         w.run(max_steps=1)
@@ -343,7 +343,7 @@ def test_budget_pause_stops_reads_and_shows_on_live(three, monkeypatch):
     # with one audited form, the page shows the pause
     ep.used = 0.0
     make_worker(P.root, ep, Ine()).run(limit=1)
-    ep.used = 0.65
+    ep.used = 0.95
     with pytest.raises(Halt):
         make_worker(P.root, ep, Ine()).run(max_steps=1)
     monkeypatch.setattr(W, "WORKER_DIR", P.root)
@@ -546,7 +546,7 @@ def test_three_reads_in_flight_by_default(three):
 
 def test_concurrent_budget_pause_drains_then_waits(three):
     P, ep = three["P"], three["ep"]
-    ep.used = 0.65
+    ep.used = 0.95
     w = make_worker(P.root, ep, Ine(), concurrency=3)
     with pytest.raises(Halt):
         w.run()

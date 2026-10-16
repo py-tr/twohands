@@ -12,6 +12,7 @@ import urllib.request
 from pathlib import Path
 
 from twohands import REPO
+from twohands import budgets
 from twohands.ratelimit import parse_retry_after, shared
 
 TIMEOUT_S = 300
@@ -74,14 +75,22 @@ def health(model, status, secs, kind="read", note=""):
 
 def chat(body: dict, retries: int = 6, log=print, kind: str = "read", timing: dict | None = None) -> tuple[dict, int]:
     """POST /chat/completions through the shared limiter. Returns (response, attempts). If ``timing`` is a dict, its
-    "http_s" is set to the server time of the answered attempt (no limiter wait, no retries)."""
+    "http_s" is set to the server time of the answered attempt (no limiter wait, no retries).
+
+    Budget role (twohands/budgets.py): kind "live" and "worker" are themselves, anything else is a bulk run. A bulk
+    run waits (until the 16:00 UTC reset) while the bulk share of the key's daily cap is spent; every answered
+    request's cost goes to the spend ledger under its role. Live reads take the limiter's reserved live lane."""
     lim = shared()
+    role = budgets.role_of(kind)
+    if role == "bulk":
+        budgets.wait_for_share("bulk", log=log)
     for attempt in range(1, retries + 1):
-        with lim.slot():
+        with lim.slot(live=True) if role == "live" else lim.slot():
             t0 = time.time()
             try:
                 r = _req("/chat/completions", body)
                 health(body.get("model"), 200, time.time() - t0, kind)
+                budgets.record(role, ((r or {}).get("usage") or {}).get("cost") if isinstance(r, dict) else None)
                 if timing is not None:
                     timing["http_s"] = round(time.time() - t0, 1)
                 return r, attempt

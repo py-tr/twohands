@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import Response, FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 
 from twohands import REPO
 
@@ -176,14 +176,27 @@ def check(request: Request, i: Optional[int] = None):
 
 
 @router.get("/check/img/{i}.jpg")
-def check_img(i: int):
+def check_img(i: int, enh: int = 0):
     q = queue()
     if not 0 <= i < len(q):
         raise HTTPException(404)
     p = _crop_path(q[i])  # cut from the MASKED page by twohands.adjudicate (never a raw image)
     if not p.is_file():
         raise HTTPException(404)
+    if enh:
+        return Response(_enhanced(p), media_type="image/jpeg", headers={"Cache-Control": "no-store"})
     return FileResponse(p, media_type="image/jpeg", headers={"Cache-Control": "no-store"})
+
+
+def _enhanced(p: Path) -> bytes:
+    """Display-only darkening for faint pencil: grayscale, autocontrast, gamma 3. The stored crop is unchanged."""
+    import io
+    from PIL import Image, ImageOps
+    im = ImageOps.autocontrast(Image.open(p).convert("L"), cutoff=(1, 5))
+    im = im.point([int(255 * (v / 255) ** 3.0) for v in range(256)])
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=90)
+    return buf.getvalue()
 
 
 @router.post("/api/check/{i}")
