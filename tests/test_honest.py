@@ -75,6 +75,9 @@ def test_judge_flow_blind_then_reveal_then_counts(votes):
     # blind: the crop and the field name, none of the values
     assert "/crop/" in h and "What does the paper say?" in t
     body = t.split("What does the paper say?")[1]
+    # the Spanish number-word helper is the same on every judge page (it reveals nothing about this field)
+    assert "Spanish number words, in English" in body
+    body = re.sub(r"Spanish number words, in English.*?Your answer", "", body, flags=re.S)
     for v in (str(x["paper"]), str(x["prep"])):
         assert not re.search(rf"(?<!\d){re.escape(v)}(?!\d)", body.replace(x["clave"], "")), v
     # reveal

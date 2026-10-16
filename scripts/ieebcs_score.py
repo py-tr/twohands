@@ -122,6 +122,9 @@ def score(model: str = "gemma") -> dict | None:
     vall = collections.Counter(d.get("verdict") or "unadjudicated" for d in disagreements)
     out = {
         "model": model, "n_actas": tot["actas"], "theirs": THEIRS,
+        # the served model id of every call: "Gemma-4-31B-IT" is the AMD Token Factory, "google/gemma-4-31B-it" a
+        # self-hosted vLLM server on an MI300X (scripts/endpoint_switch.py); the page names the stack from it
+        "served_models": sorted({r.get("model") for r in calls.values() if r.get("model")}),
         "a_raw": {"matched": tot["matched"], "fields": tot["fields"], "pct": pct(tot["matched"], tot["fields"]),
                   "wilson95": wilson(tot["matched"], tot["fields"]),
                   "second_fields_of_located_pages": {"matched": tot["matched_read"], "fields": tot["fields_read"],

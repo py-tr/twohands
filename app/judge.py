@@ -24,6 +24,7 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 
+from app import caption as captionmod
 from app import numbers as numbersmod
 from app import spotcheck
 from app import store as storemod
@@ -166,7 +167,8 @@ def judge_page(clave: str, code: str, request: Request, a: Optional[str] = None)
     from app.main import templates
     back = f"/audit/{a}/report" if a else "/audit"
     return templates.TemplateResponse(request, "judge.html", {
-        "nav": "audit", "clave": clave, "code": code, "name": it["name"], "img": it["img"], "audit": a, "back": back})
+        "nav": "audit", "clave": clave, "code": code, "name": it["name"], "img": it["img"], "audit": a, "back": back,
+        "helper": captionmod.HELPER})
 
 
 @router.post("/api/judge/{clave}/{code}")
@@ -184,4 +186,5 @@ async def judge_answer(clave: str, code: str, request: Request, a: Optional[str]
         "agree": agree, "recorded": status, "paper": it["paper"], "capture": it["capture"],
         "certified": it["certified"], "verdict": it["verdict"], "verdict_text": it["verdict_text"],
         "adjudicated": it["adjudicated"], "n": c["n"], "agreed": c["agree"],
+        "caption": captionmod.caption(clave, code),
         "count_text": count_text(it["item"]), "show_from": SHOW_FROM})

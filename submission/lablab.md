@@ -13,8 +13,11 @@ Gemma on AMD read 300 random handwritten tally sheets: 52 fields where the offic
 
 ## Long description
 
-Every number typed from a paper form, checked against the photo of that paper, with the photo as proof. A vision
-model on AMD reads the form; the form's own arithmetic decides what to trust; every dispute arrives with its crop.
+Every number typed from a paper form, checked against the photo of that paper, with the photo as proof. Others
+check the model against the source. We check the record against the paper. A vision model on AMD reads the form;
+the form's own arithmetic decides what to trust; every dispute arrives with its crop.
+
+Two hands: two independent readers, and the paper's own arithmetic as the referee.
 
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
 the official double-keyed capture: the model found 52 fields where the capture does not match the paper, 22 of them
@@ -29,13 +32,16 @@ Two Hands is that second capture: a model, refereed by the paper, with a receipt
 those steps, 0.8% of fields in our random sample still do not match the paper (52 of 6,358, at least); our second
 capture puts 1 in 5 of its disputes on a confirmed capture error.
 
-Who pays: the PREP operators who pay the capturistas, and the state institutes that contract them; the outside
-auditors, for an audit of a finished capture. Numeral 33 names a person, so a model as the second capture is a
-change the institute must approve: we show evidence, not compliance. It costs $0.14 to $0.65 of AMD compute per
-1,000 forms, offered at $100 per 1,000. A state's count is about 1,000 to 21,000 forms (one per polling station),
-so one state is about $100 to $2,100. Next, not measured: trial source-data checks and keyed files.
+Who pays: the regulated second capture. PREP operators and vendors, who pay people for it today, and the state
+institutes (OPLEs) that contract them; then the outside auditors, for an audit of a finished capture. Clinical
+trials, insurance claims and customs declarations are the next market, not measured. Numeral 33 names a person, so
+a model as the second capture is a change the institute must approve: we show evidence, not compliance. It costs
+$0.14 to $0.65 of AMD compute per 1,000 forms, offered at $100 per 1,000: compute is under 1% of the price, which
+also covers review labour for routed fields, hosting and sales. A state's count is about 1,000 to 21,000 forms (one
+per polling station), so one state is about $100 to $2,100.
 
-Others check the model against the source. We check the record against the paper.
+When an agent keys a form, the paper still has to agree. Receipts work the same for a model as for a person; in our
+measurement, Gemma is the agent.
 
 One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary.
 (The two-reader tier checks words = digits and row sums, without the section checks.)
@@ -43,8 +49,9 @@ One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers th
 Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.
 
 What runs on AMD: every measured read of the 300 is Gemma-4-31B-IT on AMD GPUs through AMD Token Factory, one
-request per form, at $0.000144 and 87 s per form on the shared endpoint. Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance. The organisers withdrew Gemma from the endpoint on 15
-October, so live reads in the app now use Qwen3.8-27B on AMD. Page locating, the privacy mask and the gate run on
+request per form, at $0.000144 and 87 s per form on the shared endpoint. Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance. Live reads in the app use Gemma-4-31B-IT on the Token
+Factory too: it is back there since 2026-10-16 02:06 UTC, after it was unavailable from 2026-10-15 15:41 UTC
+(endpoint log), when live reads used Qwen3.8-27B. Page locating, the privacy mask and the gate run on
 CPU.
 
 Limits: one reader accepts only 18% of forms with no person (1 field in 605 wrong on those), two readers 30%;

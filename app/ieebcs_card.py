@@ -99,6 +99,16 @@ def _why(d: dict) -> str:
     return s + f". On the located pages the match is {sec.get('pct')}%."
 
 
+def stack(d: dict) -> str:
+    """The serving stack of the run, named from the served model ids in score.json: the AMD Token Factory serves
+    "Gemma-4-31B-IT"; a self-hosted vLLM server on an MI300X serves the Hugging Face id ("google/gemma-4-31B-it")."""
+    served = d.get("served_models") or [_model_name(d.get("model"))]
+    names = []
+    for m in served:
+        names.append(f"self-hosted vLLM on MI300X, {m}" if "/" in str(m) else f"Token Factory, {m}")
+    return "; ".join(dict.fromkeys(names))
+
+
 def facts(d: dict) -> dict:
     a, th = d["a_raw"], d.get("theirs") or {}
     sec = a.get("second_fields_of_located_pages") or {}
@@ -106,7 +116,8 @@ def facts(d: dict) -> dict:
     return {"ours_pct": a["pct"], "matched": a["matched"], "fields": a["fields"], "ci": ci,
             "located_pct": sec.get("pct"), "pages_located": a.get("pages_located"), "n_actas": d.get("n_actas"),
             "theirs_pct": th.get("pct"), "theirs_matched": th.get("matched"), "theirs_fields": th.get("fields"),
-            "theirs_source": th.get("source"), "model_key": d.get("model"), "model": _model_name(d.get("model"))}
+            "theirs_source": th.get("source"), "model_key": d.get("model"), "model": _model_name(d.get("model")),
+            "stack": stack(d)}
 
 
 def card(slot: str, d: Optional[dict] = None, P: Optional[dict] = None) -> Optional[dict]:
@@ -122,7 +133,7 @@ def card(slot: str, d: Optional[dict] = None, P: Optional[dict] = None) -> Optio
     theirs = (f"Commercial cloud OCR as the first capture in the 2024 Baja California Sur PREP: "
               f"{f['theirs_matched']:,} of {f['theirs_fields']:,} fields matched the manual capture, "
               f"{f['theirs_pct']}% (IEEBCS final report, p. 19).")
-    ours = (f"Open {f['model']} on AMD, on a pre-registered sample of {f['n_actas']} of the same state's published "
+    ours = (f"Open {f['model']} on AMD ({f['stack']}), on a pre-registered sample of {f['n_actas']} of the same state's published "
             f"actas, against the same published values: {f['ours_pct']}% of all fields "
             f"({f['matched']:,} of {f['fields']:,})")
     out = {"slot": slot, "tier": t, **f, "footnote": FOOTNOTE, "details": DETAILS,
@@ -135,7 +146,7 @@ def card(slot: str, d: Optional[dict] = None, P: Optional[dict] = None) -> Optio
                    text=f"{theirs} {ours}; {f['located_pct']}% on the {f['pages_located']} pages the locator accepted.")
     else:
         line = (f"Strict per-field match {f['ours_pct']}% ({f['matched']:,} of {f['fields']:,} numeric fields on all "
-                f"{f['n_actas']} actas, {f['model']}; Wilson 95% {f['ci'][0]}-{f['ci'][1]}%); {f['located_pct']}% on "
+                f"{f['n_actas']} actas, {f['stack']}; Wilson 95% {f['ci'][0]}-{f['ci'][1]}%); {f['located_pct']}% on "
                 f"the {f['pages_located']} pages the locator accepted. Theirs: {f['theirs_pct']}% "
                 f"({f['theirs_matched']:,} of {f['theirs_fields']:,}, {f['theirs_source']}).")
         why = None

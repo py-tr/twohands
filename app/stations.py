@@ -190,7 +190,7 @@ def answer(clave: str, st: Optional[storemod.Store] = None) -> dict:
     if r is not None and has_img and r.error is None:
         from app import live_status
         ev = storemod.evaluate(r)
-        rcs = [x for x in live_status._measured_receipts(st) if x["clave"] == clave]
+        rcs = [x for x in live_status._measured_receipts(st, include_pilot=True) if x["clave"] == clave]
         errs = [{"code": e["code"], "name": e["name"], "paper": e.get("paper"), "capture": e.get("prep"),
                  "certified": e.get("certified"), "img": f"/crop/{clave}/{e['code']}.jpg?pad=0.012&label=0"}
                 for e in _keying(clave) if not any(x["code"] == e["code"] for x in rcs)]

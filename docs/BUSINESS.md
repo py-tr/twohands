@@ -266,8 +266,17 @@ the same job as ours: compare the keyed case-report data with the source page. W
 
 ### Next market, not measured: internal audit of keyed files
 
-Loan files, insurance claims, registries, survey returns. Any file that was keyed from paper and still has the
-scans. We have not measured any of these.
+Loan files, insurance claims, customs declarations, registries, survey returns. Any file that was keyed from paper
+and still has the scans. We have not measured any of these.
+
+### A second line, not the hero: agents that key forms
+
+When an agent keys a form, the paper still has to agree. Receipts work the same for a model as for a person; in our
+measurement, Gemma is the agent. Gemma-4-31B-IT keyed every field of the 289 read forms of the pre-registered 300;
+alone it mis-keys 173 of 6,358 fields, 1 in 37 (`results/adjudication/SUMMARY.md`), and the same identities that
+route a person's slip route the model's: words = digits, rows sum to the total, sections agree. The buyer is anyone
+who lets an agent fill a form from paper and must answer for the record. Next market, not measured: we have not sold
+or run this for an agent other than our own reader.
 
 ## 2. The product and the price
 
@@ -318,6 +327,19 @@ not minutes.
 Compute with both readers is about $0.65 per 1,000 forms, under 1% of the proposed price. Hosting, support and
 sales are not measured and are not in that figure. For scale only: auditing all 169,005 forms of the 2024 national presidential capture
 (PREP 2024 CSV, `docs/NUMBERS.md` B) is $20 to $86 compute cost and would bill about $16,900.
+
+### Unit economics
+
+| Per 1,000 forms | Value | Source |
+|---|---|---|
+| Proposed price | **$100** | proposal |
+| Measured AMD compute, Gemma-4-31B-IT | $0.14 | mean $0.000144 per form over 289 reads, `results/calls_gemma.jsonl` |
+| Measured AMD compute, Qwen3.8-27B (second reader) | $0.51 | mean $0.000507 per form over 43 pilot reads, `docs/NUMBERS.md` A2 |
+| **Measured AMD compute, both readers** | **$0.65** | sum of the two |
+
+Compute is under 1% of the price (0.65%). The price also covers review labour for routed fields, hosting and sales;
+compute is the smallest part. Review labour is not measured in minutes (no citable per-field time, see above); in
+fields it is 1 in 24 disputed, and every routed form names its failing field.
 
 ### Small enough to buy without a tender
 

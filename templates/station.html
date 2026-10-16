@@ -55,14 +55,16 @@
       {% for r in a.receipts %}
       <div class="card st-rc">
         <img src="{{ r.img }}" alt="Masked crop of {{ r.name }}">
-        <p class="rvals">{{ r.name }}: the paper: <b class="okv">{{ r.paper }}</b> · the first capture keyed: <b class="badv">{{ cap(r.capture) }}</b> · the certified count: <b class="okv">{{ r.certified }}</b></p>
-        <span class="chip ok"><span class="dot"></span>dispute confirmed by the certified count</span>
+        <p class="rvals">{{ r.name }}: the paper: <b class="okv">{{ r.paper }}</b> · the first capture keyed: <b class="badv">{{ cap(r.capture) }}</b> · {% if r.certified is not none %}the certified count: <b class="okv">{{ r.certified }}</b>{% else %}the certified count does not cover this field{% endif %}</p>
+        {% if r.caption %}<p class="small en-cap"><b>In English:</b> {{ r.caption }}{% if r.enhanced %} · <i>enhanced for display</i>{% endif %}</p>{% endif %}
+        <span class="chip {{ 'ok' if r.confirmation != 'ai' else 'warn' }}"><span class="dot"></span>{{ r.conf_label }}</span>{% if r.verify %} <a class="tiny" href="{{ r.verify }}">verify this receipt</a>{% endif %}
       </div>
       {% endfor %}
       {% for e in a.errors %}
       <div class="card st-rc">
         <img src="{{ e.img }}" alt="Masked crop of {{ e.name }}">
         <p class="rvals">{{ e.name }}: the paper: <b class="okv">{{ e.paper }}</b> · the first capture keyed: <b class="badv">{{ cap(e.capture) }}</b>{% if e.certified is not none %} · the certified count: <b>{{ e.certified }}</b>{% endif %}</p>
+        {% set ec = en_caption(a.clave, e.code) %}{% if ec %}<p class="small en-cap"><b>In English:</b> {{ ec }}</p>{% endif %}
         <span class="chip bad"><span class="dot"></span>capture does not match the paper</span>{% if e.certified is none %} <span class="tiny">the certified count does not cover this field</span>{% endif %}
       </div>
       {% endfor %}

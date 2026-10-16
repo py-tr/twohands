@@ -1,7 +1,10 @@
 # Two Hands: receipts for every number keyed from paper
 
-Every number typed from a paper form, checked against the photo of that paper, with the photo as proof. A vision
-model on AMD reads the form; the form's own arithmetic decides what to trust; every dispute arrives with its crop.
+Every number typed from a paper form, checked against the photo of that paper, with the photo as proof. Others
+check the model against the source. We check the record against the paper. A vision model on AMD reads the form;
+the form's own arithmetic decides what to trust; every dispute arrives with its crop.
+
+Two hands: two independent readers, and the paper's own arithmetic as the referee.
 
 The PREP rules require a second capture and a comparison for every acta (numeral 33) and a cotejo. Two Hands does that
 second capture: it accepts what the paper's arithmetic confirms and sends the rest to a person, with the photo.
@@ -11,12 +14,11 @@ the official double-keyed capture: the model found 52 fields where the capture d
 confirmed by the certified count · 0 checked by a person · 30 AI-adjudicated only; person check pending: `/check`). Errors we did not plant, in a record we did not write, in a sample drawn
 before any model read.
 
-Who pays: auditors who already check the count's system, trial monitors who verify source data against charts,
-internal audit of keyed files. By hand, checking numbers against paper does not pay. Here it costs $0.14 to $0.65
+Who pays: the regulated second capture. PREP operators and vendors, who pay people for it today, and the state
+institutes (OPLEs) that contract them; then the outside auditors, for an audit of a finished capture. Clinical
+trials, insurance claims and customs declarations are the next market, not measured. Here it costs $0.14 to $0.65
 of AMD compute per 1,000 forms, offered at $100 per 1,000 audited. A state's count is about 1,000 to 21,000 forms
 (one per polling station), so one state audit is about $100 to $2,100.
-
-Others check the model against the source. We check the record against the paper.
 
 **Live demo:** add at submission · **Video:** add at submission ·
 **Audit report sample:** add at submission (in the repo: [the 52, each with its crop](results/adjudication/SUMMARY.md)) ·
@@ -54,7 +56,7 @@ capture keyed 75, the certified count says 175. One of the 52.*
 
 | | |
 |---|---|
-| **Buyer** | Now: the outside auditors of Mexico's preliminary count (PREP), mostly universities. Next, not measured: clinical-trial monitors, internal audit of keyed loan and claim files |
+| **Buyer** | Now, the regulated second capture: PREP operators and vendors, and the state institutes (OPLEs) that contract them; then the outside auditors of the PREP, mostly universities. Next market, not measured: clinical trials, insurance claims, customs declarations |
 | **Price** | Proposal: $100 per 1,000 forms audited, two readers and the report included |
 | **Measured cost on AMD** | $0.14 per 1,000 forms (Gemma, 289 reads); $0.65 with the second reader (Qwen, 43 pilot reads) |
 | **Proof** | Pre-registered random 300; every dispute with its photo; `make eval` recomputes every number offline |
@@ -252,7 +254,10 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 
 ## Business detail
 
-- **Buyer, now.** Reglamento de Elecciones art. 347: every state institute has its PREP audited by an outside body,
+- **Buyer, now: the regulated second capture.** PREP operators and vendors pay people for the second capture
+  (PTO numeral 33), and the state institutes (OPLEs) contract them and approve the process (RE art. 339.1 d,
+  art. 346.1). Full list in [docs/BUSINESS.md](docs/BUSINESS.md#who-pays).
+- **Then the auditors.** Reglamento de Elecciones art. 347: every state institute has its PREP audited by an outside body,
   preferably academic. In February 2024, 26 of 32 institutes had named one, all universities or research centres
   ([INE annex](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf)).
   The audit covers the computer system; we add the field-by-field check against the paper.
@@ -265,11 +270,15 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 - **Yield (measured).** A person looks at about 5 disputed fields per confirmed capture error, against about 122
   at random: 267 disputed fields found 52; 267 random fields would find about 2. The strong-evidence tier is right
   12 of 18 times.
-- **Price (proposal).** $100 per 1,000 forms audited, two readers and the report included. Measured AMD compute:
-  $0.14 per 1,000 (Gemma) plus $0.51 (Qwen, pilot).
-- **Next markets, not measured.** Clinical-trial source-data verification (site monitoring and source document
+- **Unit economics.** $100 per 1,000 forms (proposed price) against measured AMD compute of $0.65 per 1,000 forms
+  ($0.14 Gemma, 289 reads; $0.51 Qwen, 43 pilot reads): compute is under 1% of the price. The price also covers
+  review labour for routed fields, hosting and sales; compute is the smallest part.
+- **A second line, not the hero.** When an agent keys a form, the paper still has to agree. Receipts work the same
+  for a model as for a person; in our measurement, Gemma is the agent (alone it mis-keys 1 field in 37; the paper's
+  arithmetic catches it the same way).
+- **Next market, not measured.** Clinical-trial source-data verification (site monitoring and source document
   verification: 15-30% of trial costs, [Lindblad et al., Clinical Trials 2014](https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf));
-  internal audit of keyed loan and claim files.
+  insurance claims; customs declarations; internal audit of keyed loan files.
 - **Competition.** OCR and IDP platforms (Tesseract, ABBYY, Rossum, Hypatos, UiPath, Textract, Document AI)
   extract; none says it audits an existing capture with a crop per finding.
 - **Same job elsewhere (volume, not measured).** One result sheet per polling station: Nigeria 176,846, Kenya

@@ -4,8 +4,8 @@
 a commercial cloud OCR (a custom Google Document AI model), field by field on crops of the acta: 14,501 of 23,077
 fields matched the manual capture, **62.84%** (IEEBCS, *Informe final del PREP, PELO 2023-2024*, p. 19).
 
-**Ours.** Gemma-4-31B-IT, open weights, self-hosted with vLLM on one AMD Instinct MI300X, one read per acta at
-temperature 0, on a pre-registered stratified sample of 300 of the same state's published actas (seed 20261020),
+**Ours.** Gemma-4-31B-IT, open weights, on the AMD Token Factory (Token Factory, Gemma-4-31B-IT; the current run,
+`scripts/_gemma_tf_runs.sh`), one read per acta at temperature 0, on a pre-registered stratified sample of 300 of the same state's published actas (seed 20261020),
 scored against the same PREP's published values. Both election types (diputaciones locales, ayuntamientos), in their
 published proportion. The numbers below are written by `scripts/ieebcs_score.py` from the committed raw files and are
 checked by `make eval`.
@@ -13,6 +13,10 @@ checked by `make eval`.
 <!-- BEGIN NUMBERS (scripts/ieebcs_score.py) -->
 Empty until the run (PROTOCOL_IEEBCS.md). No acta of the sample has been read by a model.
 <!-- END NUMBERS -->
+
+Stack, per run: the rows carry the served model id. "Gemma-4-31B-IT" is the Token Factory; a self-hosted vLLM
+server on an AMD Instinct MI300X serves "google/gemma-4-31B-it" (`scripts/endpoint_switch.py`), and only rows with
+that id may be called MI300X reads. PROTOCOL_IEEBCS.md section 4 allows either; this run is the Token Factory.
 
 ## What is and is not comparable (PROTOCOL_IEEBCS.md section 6)
 - **Same:** the state, the election, the actas (the same published PREP images, fetched from the PREP's own S3

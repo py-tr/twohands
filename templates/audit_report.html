@@ -115,7 +115,7 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
   {% for d in R.disputes %}
   <div class="item">
     <div class="rk">{{ d.pos }}</div>
-    <div>{% if d.img %}<img src="{{ d.img }}" alt="crop of {{ d.name }} on {{ d.form }}">{% else %}<span class="meta">no masked page</span>{% endif %}</div>
+    <div>{% if d.img %}<img src="{{ d.img }}" alt="crop of {{ d.name }} on {{ d.form }}">{% set ec = en_caption(d.form, d.code) %}{% if ec %}<div class="meta en-cap">In English: {{ ec }}</div>{% endif %}{% else %}<span class="meta">no masked page</span>{% endif %}</div>
     <div class="body">
       <div class="hd"><span class="mono">{{ d.form }}</span> · {{ d.name }} <span class="tier {{ d.tier }}">{{ d.tier }}</span>{% if d.mark %} <span class="mk {{ d.mark }}">{{ MARKS[d.mark] }}</span>{% endif %}<a class="rc" href="/audit/{{ a.id }}/receipt/{{ d.key }}{{ RQ }}" title="This field's Merkle receipt (JSON): its leaf, the proof path and the report's root">receipt</a>{% if d.img %}<a class="rc" href="/judge/{{ d.form }}/{{ d.code }}?a={{ a.id }}" title="See the crop blind, type what the paper says, then see our verdict">Judge this verdict yourself</a>{% endif %}</div>
       {% set jc = judge_count((d.form ~ '__' ~ d.code) if d.adjudicated else ('a:' ~ a.id ~ ':' ~ d.form ~ '__' ~ d.code)) %}{% if jc %}<div class="meta">{{ jc }}</div>{% endif %}

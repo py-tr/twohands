@@ -4,14 +4,15 @@
 <section class="page-head judge">
   <div class="eyebrow">Judge this verdict yourself</div>
   <h1>What does the paper say?</h1>
-  <p class="lede">Form <span class="mono">{{ clave }}</span> · <b>{{ name }}</b>. You see only the photo: no capture, no model read, no verdict. Type what is written; then we show you ours.</p>
+  <p class="lede">Form <span class="mono">{{ clave }}</span> · <b>{{ name }}</b>. You see only the photo: no capture, no model read, no verdict. Type the digits in the boxes; the words are optional, and you need no Spanish (the helper below gives every number word). Then we show you ours.</p>
 </section>
 <section class="judge-body">
   <div class="card">
     {% if img %}<div class="j-img"><img src="{{ img }}" alt="Masked crop of {{ name }} on form {{ clave }}"></div>
     {% else %}<p class="muted">No masked crop of this field.</p>{% endif %}
     <form id="jf" class="j-form" autocomplete="off">
-      <label class="j-in">The paper says<input type="text" id="digits" inputmode="numeric" placeholder="e.g. 175" autofocus></label>
+      <label class="j-in">The digits in the boxes<input type="text" id="digits" inputmode="numeric" placeholder="e.g. 175" autofocus></label>
+      <label class="j-in j-words">The words, as a number (optional)<input type="text" id="words" inputmode="numeric" placeholder="e.g. 175"></label>
       <div class="j-flags">
         <label><input type="checkbox" id="blank"> blank</label>
         <label><input type="checkbox" id="cant_tell"> can't tell</label>
@@ -25,10 +26,16 @@
         <div class="box wrong"><div class="l">The capture keyed</div><div class="v" id="r-capture"></div></div>
         <div class="box"><div class="l">The certified count</div><div class="v" id="r-cert"></div></div>
       </div>
+      <p class="small en-cap" id="r-caption" style="margin:12px 0 0" hidden></p>
       <p class="small" style="margin:12px 0 0"><b>Our verdict.</b> <span id="r-verdict"></span></p>
       <p class="small muted" id="r-count" style="margin:8px 0 0"></p>
     </div>
   </div>
+  <details class="card j-help" open style="margin-top:12px">
+    <summary class="small"><b>Spanish number words, in English</b></summary>
+    <table class="j-helper small">{% for w, n in helper %}<tr><td><i>{{ w }}</i></td><td class="mono">{{ n }}</td></tr>{% endfor %}</table>
+    <p class="tiny muted" style="margin:6px 0 0">Example: <i>ciento setenta y cinco</i> = 100 + 70 + 5 = 175; <i>cuatrocientos dieciséis</i> = 400 + 16 = 416.</p>
+  </details>
   <p class="small muted" style="margin-top:12px">Your answer is stored anonymously as agree or disagree with our verdict, once per verdict: no address, no account, not what you typed. <a href="{{ back }}">Back</a></p>
 </section>
 {% endblock %}
@@ -40,7 +47,7 @@
   var show = function (x) { return (x === null || x === undefined || x === '') ? '—' : String(x); };
   f.addEventListener('submit', function (ev) {
     ev.preventDefault(); e.textContent = '';
-    var body = {digits: d.value, blank: document.getElementById('blank').checked, cant_tell: document.getElementById('cant_tell').checked};
+    var body = {digits: d.value, words: document.getElementById('words').value, blank: document.getElementById('blank').checked, cant_tell: document.getElementById('cant_tell').checked};
     fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)})
       .then(function (r) { return r.json().then(function (j) { return [r.ok, j]; }); })
       .then(function (x) {
@@ -53,6 +60,8 @@
         document.getElementById('r-capture').textContent = show(j.capture);
         document.getElementById('r-cert').textContent = j.certified === null ? 'not covered' : show(j.certified);
         document.getElementById('r-verdict').textContent = j.verdict_text;
+        var rc = document.getElementById('r-caption');
+        if (j.caption) { rc.textContent = 'In English: ' + j.caption; rc.hidden = false; }
         document.getElementById('r-count').textContent = j.count_text ? j.count_text + '.' :
           'Visitor counts appear once ' + j.show_from + ' people have judged this verdict.';
         f.hidden = true; document.getElementById('reveal').hidden = false;

@@ -2,6 +2,7 @@
 <div class="card err">
   <div>
     {% if e.has_image %}<img loading="lazy" style="border-radius:10px;border:1px solid var(--line);width:100%" src="/crop/{{ e.clave }}/{{ e.code }}.jpg?pad=0.014" alt="crop of {{ e.name }} on {{ e.clave }}">
+    {% set ec = en_caption(e.clave, e.code) %}{% if ec %}<p class="small en-cap"><b>In English:</b> {{ ec }}</p>{% endif %}
     {% else %}<div class="placeholder" style="padding:26px"><strong>No crop</strong>This form has no masked page in this repo.</div>{% endif %}
   </div>
   <div>

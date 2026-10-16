@@ -1,12 +1,13 @@
 """Audit your capture: pages and API (/audit/new, /audit/{id}, its report and CSV). Logic in app/capture_audit.py."""
 from __future__ import annotations
 
+import re
 import threading
 from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 
 from app import capture_audit as ca
 from app import numbers as numbersmod
@@ -274,6 +275,49 @@ def audit_receipt(aid: str, key: str, request: Request, only: Optional[str] = No
     if r is None:
         raise HTTPException(404, "no disputed field with that key in this report")
     return JSONResponse(r, headers={"Content-Disposition": f'inline; filename="receipt-{key}.json"'})
+
+
+def _sample_audit_id() -> str:
+    """The most recent stored sample audit (the official capture of the 300 against the stored Gemma reads), or a new
+    one. No model call."""
+    best = None
+    for d in ca.AUDITS.glob("a*/audit.json") if ca.AUDITS.is_dir() else []:
+        a = ca.load(d.parent.name)
+        if a and a.get("source") == "sample" and a.get("confirmed_mapping") and (best is None or a["at"] > best["at"]):
+            best = a
+    return (best or ca.sample())["id"]
+
+
+@router.get("/crop/enhanced/{clave}/{code}.jpg")
+def crop_enhanced(clave: str, code: str, pad: float = 0.012):
+    """A crop darkened for display only (faint pencil): grayscale, autocontrast cutoff (1, 5), gamma 3, as /check's
+    enhancement (app/spotcheck.py). The stored page and the hashed crop are unchanged; pages label it "enhanced for
+    display"."""
+    import io
+    from PIL import Image, ImageOps
+    from app import crops
+    p = storemod.get_store().masked_image(clave)
+    key = storemod.key_of(code)
+    if p is None or key is None or storemod.MASKED not in p.resolve().parents:
+        raise HTTPException(404, "no masked crop")
+    try:
+        raw = crops.crop_bytes(str(p), p.stat().st_mtime, key, max(0.0, min(pad, 0.05)), False)
+    except KeyError:
+        raise HTTPException(404, "unknown field")
+    im = ImageOps.autocontrast(Image.open(io.BytesIO(raw)).convert("L"), cutoff=(1, 5))
+    im = im.point([int(255 * (v / 255) ** 3.0) for v in range(256)])
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=90)
+    return Response(buf.getvalue(), media_type="image/jpeg", headers={"Cache-Control": "public, max-age=3600"})
+
+
+@router.get("/verify/{clave}/{code}")
+def verify_receipt(clave: str, code: str):
+    """Home's "verify this receipt": the field's Merkle receipt in the sample audit of the 300 (leaf, proof path,
+    root; the root is anchored with OpenTimestamps on the report page)."""
+    if not re.match(r"^[0-9A-Z]{6,16}$", clave) or not re.match(r"^[A-Z0-9_]{2,24}$", code):
+        raise HTTPException(404, "unknown receipt")
+    return RedirectResponse(f"/audit/{_sample_audit_id()}/receipt/{clave}__{code}", status_code=302)
 
 
 @router.get("/audit/{aid}/report.csv")

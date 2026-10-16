@@ -22,11 +22,31 @@ footer: "Two Hands · AMD Developer Hackathon ACT III"
 
 # Two Hands
 
-## The model reads, the paper decides.
+## Receipts for every number keyed from paper
+
+Two hands: two independent readers, and the paper's own arithmetic as the referee.
 
 A second keyer that shows its proof. An open vision model on AMD GPUs re-reads every field of forms already keyed. The form's own arithmetic decides what is accepted; every disputed field goes to a person with its photo.
 
 <p class="small">Demo, video and repo links: on the submission page.</p>
+
+---
+
+<!-- Slide 1b: the receipt (the video's first 10 s) -->
+
+## One receipt
+
+![w:900](receipt_050815B0100.jpg)
+
+Form 050815B0100, Option 07. **The first capture keyed 75. The paper says 175. The certified count says 175.**
+
+In English: words "ciento setenta y cinco" = 175 · boxes: 1 7 5. Confirmation: certified count, by comparison (INE Computos, "Cotejo").
+
+![w:700](receipt_070207C0100_enhanced.jpg)
+
+Second card, 070207C0100 TOTAL (faint pencil, *enhanced for display*): the capture recorded it as illegible; the model read 416; the certified count, after a recount, says 416. Words "Cuatrocientos dieciseis" = 416 · boxes: 4 1 6.
+
+<p class="small">Both from the pre-registered random 300, two of the 52 fields where the capture does not match the paper. Masked crops; INE PREP 2024, free-use terms; not an official INE product. Each card's Merkle receipt: "verify this receipt" on the app's Home card.</p>
 
 ---
 
@@ -223,7 +243,7 @@ On INE's published 2024 capture, after all of the above: **0.8% of fields still 
 
 **Now.** PREP operators and vendors, who pay the capturistas for the second capture, and the 32 state institutes (OPLEs) that contract them and approve the process (Reglamento de Elecciones art. 339.1 d, art. 346.1 "desarrollado por terceros"). Next window: 32 concurrent local processes, election day **6 June 2027**. **Secondary:** the outside auditors (art. 347; in 2024, 26 of 32 named, all universities or research centres), for an audit of a finished capture.
 
-**Next, not measured.** Clinical-trial source-data verification (site monitoring and source document verification: 15-30% of trial costs); keyed loan and claim files.
+**Next market, not measured.** Clinical-trial source-data verification (site monitoring and source document verification: 15-30% of trial costs); insurance claims; customs declarations.
 
 | Yield (measured) | Cost (measured) | Price (proposal) |
 |---|---|---|
@@ -232,6 +252,34 @@ On INE's published 2024 capture, after all of the above: **0.8% of fields still 
 Small enough to buy without a tender: the lowest federal direct-award ceiling is MXN 309,000 per operation (PEF 2026, Anexo 9). State institutes buy under state rules, not checked one by one.
 
 <p class="small">Sources: INE annex 5, CCOE 23-02-2024; IEEH/CG/022/2024; INE Central Electoral 30-31 July 2026; PEF 2026 (DOF); PREP 2024 CSV; Lindblad et al., Clinical Trials 2014. Full case: docs/BUSINESS.md.</p>
+
+---
+
+<!-- Slide 10a: unit economics -->
+
+## Unit economics, per 1,000 forms
+
+<div class="cols">
+<div><div class="big">$100</div>proposed price per 1,000 forms audited, two readers and the report included</div>
+<div><div class="big">$0.65</div>measured AMD compute per 1,000 forms: $0.14 Gemma-4-31B-IT (289 reads of the 300) + $0.51 Qwen3.8-27B (43 pilot reads)</div>
+<div><div class="big">&lt; 1%</div>compute is under 1% of the price (0.65%)</div>
+</div>
+
+The price also covers review labour for routed fields, hosting and sales; compute is the smallest part.
+
+<p class="small">Measured: results/calls_gemma.jsonl (mean $0.000144 per form), docs/NUMBERS.md A2 (Qwen, $0.000507 per form). Price: proposal. docs/BUSINESS.md, "Unit economics".</p>
+
+---
+
+<!-- Slide 10a2: the second business line -->
+
+## When an agent keys a form, the paper still has to agree
+
+Receipts work the same for a model as for a person; in our measurement, Gemma is the agent.
+
+Gemma-4-31B-IT keyed every field of the 289 read forms; alone it mis-keys 1 field in 37, and the same paper arithmetic that catches a person's slip catches the model's. A second line, not the hero: the buyer is anyone who lets an agent fill a form from paper.
+
+<p class="small">Measured: results/adjudication/SUMMARY.md (173 of 6,358 fields). Next market, not measured.</p>
 
 ---
 
@@ -282,4 +330,4 @@ Double keying copies the paper; it cannot say which paper is wrong: 19.2% of nat
 - **Failure case:** read as one image, a ledger row shifted one year. Sums still held: 26 of 870 accepted cells wrong. Fixed with tiles and a row-label check.
 - **Next:** audit one state PREP beside its auditor; add a case-report-form schema.
 
-**The model reads, the paper decides.**
+**Receipts for every number keyed from paper.**

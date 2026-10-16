@@ -100,8 +100,10 @@ def test_first_screen_content_in_order(empty_worker):
     H = numbersmod.headline()
     from app.honest import REG_LINE
     # H1, the regulated step, the receipt card first, then the live strip (third in the hero), then the actions
-    marks = [H1, REG_LINE, "The paper: 271 · The first capture keyed: 272 · The certified count: 271",
-             "dispute confirmed by the certified count · measured sample", "202451B0100",
+    marks = [H1, "Two hands: two independent readers, and the paper's own arithmetic as the referee.", REG_LINE,
+             "The paper: 175 · The first capture keyed: 75 · The certified count: 175",
+             'In English: words: "ciento setenta y cinco" = 175 · boxes: 1 7 5',
+             "certified count, by comparison", "050815B0100", "verify this receipt",
              f"{H['forms']} audited in total", f"{H['forms']} in the pre-registered sample",
              "reader: Gemma-4-31B-IT (sample) on AMD Token Factory", "Pick any polling station",
              "Audit your capture", DIFF]
@@ -112,8 +114,10 @@ def test_first_screen_content_in_order(empty_worker):
     # removed: the replay animation, any pilot number, the word touchless
     assert 'id="reader"' not in h and "loopData" not in h and "hero.js" not in h
     assert "pilot" not in t.lower() and "touchless" not in t.lower() and "spike" not in t.lower()
-    # the receipt card goes to Findings
-    assert re.search(r'<a class="rcard card" href="/audit"', first)
+    # the receipt card links to Findings and to the field's Merkle receipt
+    assert 'id="rcard"' in first and 'href="/audit"' in first and 'href="/verify/050815B0100/OPT07"' in first
+    # the faint-pencil TOTAL is the second card, enhanced for display and labelled so
+    assert '/crop/enhanced/070207C0100/TOTAL.jpg' in first and "enhanced for display" in first
 
 
 def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
@@ -138,21 +142,31 @@ def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
     assert f"{H['forms'] + 41} audited in total" in first and "1 states complete" in first
     assert "12.5 % of Baja California Sur so far" in first and "of 32" not in first
     assert f"{H['forms']} in the pre-registered sample · 41 live since" in first and "updated" in first
-    assert "dispute confirmed by the certified count · live audit" in first
+    # receipts come from the pre-registered random 300 only, never the live worker or the pilot
     rs = s["latest_receipts"]
-    assert (rs[0]["clave"], rs[0]["code"]) == ("202451B0100", "TOTAL")
-    assert rs[1]["clave"] == "060102C0100"            # a live TOTAL before the measured TOTALs
-    assert rs[-1]["code"].startswith("OPT")
+    assert (rs[0]["clave"], rs[0]["code"]) == ("050815B0100", "OPT07")
+    assert all(r["sample"] == "pre-registered random 300" for r in rs)
+    assert "060102C0100" not in t and "060101C0100" not in t
 
 
 def test_default_receipt_and_rotation_order(empty_worker):
     s = LS.status()
     rs = s["latest_receipts"]
-    r0 = rs[0]
-    assert (r0["clave"], r0["code"], r0["paper"], r0["capture"], r0["certified"]) == ("202451B0100", "TOTAL", 271, "272", 271)
-    orders = [LS._field_order(r["code"]) for r in rs]
-    assert orders == sorted(orders)
-    assert all(r["paper"] == r["certified"] and str(r["paper"]) != r["capture"] for r in rs)
+    got = [(r["clave"], r["code"], r["paper"], r["capture"], r["certified"], r["conf_label"]) for r in rs[:4]]
+    from app import spotcheck
+    person = bool(spotcheck.load())
+    assert got[:2] == [("050815B0100", "OPT07", 175, "75", 175, "certified count, by comparison"),
+                       ("070207C0100", "TOTAL", 416, "Ilegible", 416, "certified count, by recount")]
+    assert [g[:5] for g in got[2:]] == [("250767B0100", "VOTARON", 390, "3", None), ("080310B0100", "SOBRANTES", 180, "480", None)]
+    if not person:   # nobody has spot-checked yet: never "confirmed by a person"
+        assert all(g[5] == LS.AI_LABEL for g in got[2:])
+    # every receipt is in the random 300 (results/manifest.json), none from the pilot
+    import json
+    from twohands import REPO
+    man = {i["clave"] for i in json.loads((REPO / "results" / "manifest.json").read_text(encoding="utf-8"))["items"]}
+    assert all(r["clave"] in man for r in rs) and len(rs) <= 8
+    assert all(str(r["paper"]) != r["capture"] for r in rs)
+    assert all(r["certified"] is None or r["certified"] == r["paper"] for r in rs)
     j = client.get("/api/live-strip").json()
     assert j["kind"] == "measured" and j["label"] == "measured sample"
 
@@ -319,3 +333,39 @@ def test_results_has_every_gate_tier_in_one_table():
     assert all(r["post_hoc"] == r["key"].startswith("v2") for r in G["rows"])
     t = _text(client.get("/results").text)
     assert t.count("Every gate tier, one table") == 1 and G["takeaway"] in t
+
+
+def test_ieebcs_card_names_the_stack_per_run():
+    from app import ieebcs_card
+    assert ieebcs_card.stack({"model": "gemma", "served_models": ["Gemma-4-31B-IT"]}) == "Token Factory, Gemma-4-31B-IT"
+    assert ieebcs_card.stack({"model": "gemma", "served_models": ["google/gemma-4-31B-it"]}) == \
+        "self-hosted vLLM on MI300X, google/gemma-4-31B-it"
+
+
+def test_verify_this_receipt_resolves_to_the_published_root(empty_worker):
+    from twohands import REPO
+    root = (REPO / "results" / "sample_audit_root.txt").read_text(encoding="utf-8").split()[0]
+    j = client.get("/verify/070207C0100/TOTAL", follow_redirects=True).json()
+    assert j["root"] == root and j["leaf"]["form"] == "070207C0100" and j["leaf"]["field"] == "TOTAL"
+
+
+def test_spanish_number_words_are_captioned_in_english():
+    from app import caption as C
+    assert C.es_to_int("ciento setenta y cinco") == 175 and C.es_to_int("Cuatrocientos dieciseis") == 416
+    assert C.es_to_int("Trecientos Noventa") == 390 and C.es_to_int("veinti siete") == 27
+    assert C.es_to_int("Dos cuarenta y siete") is None and C.es_to_int("Veinti...") is None
+    # every parsed caption of the adjudication agrees with the adjudicated paper value
+    for k, v in C._verdicts().items():
+        w = C.parse_evidence(v.get("evidence", ""))["words"]
+        n = C.es_to_int(w) if w else None
+        if n is not None and isinstance(v.get("paper"), int):
+            assert n == v["paper"], k
+    assert C.caption("080310B0100", "SOBRANTES") == 'words: "CIENTO OCHENTA" = 180 · boxes: 1 8 0'
+
+
+def test_judge_page_asks_digits_and_helps_with_spanish(empty_worker):
+    t = _text(client.get("/judge/050815B0100/OPT07").text)
+    assert "The digits in the boxes" in t and "(optional)" in t and "novecientos" in t
+    assert "ciento setenta y cinco" not in t.lower().replace("ciento setenta y cinco = 100", "")  # no reveal before answering
+    a = _text(client.get("/audit").text)
+    assert 'In English: words: "ciento setenta y cinco" = 175 · boxes: 1 7 5' in a

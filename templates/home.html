@@ -10,20 +10,22 @@
 <section class="first" id="first" aria-label="Live audit">
   <div class="fold">
   <h1 class="f-h1">Receipts for every number keyed from paper.</h1>
+  <p class="f-two" id="twohands">Two hands: two independent readers, and the paper's own arithmetic as the referee.</p>
   {% set rl = honest.REG_LINE.split('(numeral 33)') %}
   <p class="f-reg" id="reg">{{ rl[0] }}<a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">(numeral 33)</a>{{ rl[1] }}</p>
   <div class="f-hero">
     {% set rs = ls.latest_receipts[:8] %}
     {% if rs %}
-    <a class="rcard card" href="/audit" id="rcard" aria-label="A dispute confirmed by the certified count; open the findings">
+    <div class="rcard card" id="rcard" role="group" aria-label="Receipts from the pre-registered random 300">
       {% for r in rs %}
       <div class="rslide{{ ' on' if loop.first }}" data-i="{{ loop.index0 }}"{% if not loop.first %} hidden{% endif %}>
-        <div class="rimg"><img src="{{ r.img }}" alt="Masked crop of {{ r.name }} on form {{ r.clave }}"{% if not loop.first %} loading="lazy"{% endif %}></div>
-        <p class="rvals">The paper: <b class="okv">{{ r.paper }}</b> · The first capture keyed: <b class="badv">{{ cap(r.capture) }}</b> · The certified count: <b class="okv">{{ r.certified }}</b></p>
-        <div class="rfoot"><span class="chip ok"><span class="dot"></span>dispute confirmed by the certified count · {{ 'live audit' if r.source == 'live' else 'measured sample' }}</span><span class="rid"><span class="mono">{{ r.clave }}</span> · {{ r.name }}{% if r.state %} · {{ r.state }}{% endif %}</span></div>
+        <a class="rimg" href="/audit"><img src="{{ r.img }}" alt="Masked crop of {{ r.name }} on form {{ r.clave }}"{% if not loop.first %} loading="lazy"{% endif %}></a>
+        <p class="rvals">The paper: <b class="okv">{{ r.paper }}</b> · The first capture {{ 'recorded' if r.capture in ('Ilegible', 'Sin dato') else 'keyed' }}: <b class="badv">{{ cap(r.capture) }}</b> · {% if r.certified is not none %}The certified count: <b class="okv">{{ r.certified }}</b>{% else %}The certified count: <span class="muted">does not cover this field</span>{% endif %}</p>
+        {% if r.caption or r.enhanced %}<p class="rcap">{% if r.caption %}In English: {{ r.caption }}{% endif %}{% if r.enhanced %}{{ ' · ' if r.caption }}<i>enhanced for display</i> (faint pencil){% endif %}</p>{% endif %}
+        <div class="rfoot"><span class="chip {{ 'ok' if r.confirmation != 'ai' else 'warn' }}"><span class="dot"></span>{{ r.conf_label }}</span><span class="rid"><span class="mono">{{ r.clave }}</span> · {{ r.name }}{% if r.state %} · {{ r.state }}{% endif %} · <a href="/audit">random 300</a> · <a class="rverify" href="{{ r.verify }}" title="This field's Merkle receipt in the sample audit (JSON), with the OpenTimestamps-anchored root">verify this receipt</a></span></div>
       </div>
       {% endfor %}
-    </a>
+    </div>
     {% endif %}
     {{ ieebcs_home(honest.buyer_card()) }}
     {% set C = honest.strip_figures(ls) %}

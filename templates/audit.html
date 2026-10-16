@@ -30,7 +30,7 @@
       {% for e in featured %}
       <figure style="margin:0">
         {% if e.img %}<img loading="lazy" src="{{ e.img }}" alt="crop of {{ e.name }} on {{ e.clave }}">{% endif %}
-        <figcaption class="small" style="margin-top:8px"><b>{{ e.name }}</b>: the paper says <b>{{ e.paper }}</b>; the capture keyed <b class="mono" style="color:var(--bad)">{{ e.prep }}</b></figcaption>
+        <figcaption class="small" style="margin-top:8px"><b>{{ e.name }}</b>: the paper says <b>{{ e.paper }}</b>; the capture keyed <b class="mono" style="color:var(--bad)">{{ e.prep }}</b>{% set ec = en_caption(e.clave, e.code) %}{% if ec %}<br><span class="en-cap"><b>In English:</b> {{ ec }}</span>{% endif %}</figcaption>
       </figure>
       {% endfor %}
       <figure style="margin:0">
@@ -74,6 +74,7 @@
         <div class="box {{ 'right' if e.cert_agrees }}"><div class="l">Certified count</div><div class="v">{{ e.certified if e.certified is not none else '—' }}</div>{% if e.certified is none %}<div class="tiny">not part of the certified data</div>{% else %}<div class="tiny">by {{ {'Cotejo': 'comparison', 'Recuento': 'recount'}.get(e.cert_mode, e.cert_mode) }}</div>{% endif %}</div>
       </div>
       <p class="small" style="margin:12px 0 0">On the paper: {{ e.evidence }}{% if e.accepted %} <span class="muted">Form {{ honest.TIER }}.</span>{% endif %}</p>
+      {% set ec = en_caption(e.clave, e.code) %}{% if ec %}<p class="small en-cap"><b>In English:</b> {{ ec }}</p>{% endif %}
       {% if e.img %}<div class="judge-row"><a class="btn sm" href="/judge/{{ e.clave }}/{{ e.code }}">Judge this verdict yourself</a>{% set jc = judge_count(e.clave ~ '__' ~ e.code) %}{% if jc %}<span class="jc">{{ jc }}</span>{% endif %}</div>{% endif %}
     </div>
   </div>

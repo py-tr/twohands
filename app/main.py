@@ -54,6 +54,8 @@ templates.env.filters["int"] = fmt_int
 templates.env.filters["field_list"] = lambda fields: [{"code": f["code"], "name": f["name"]} for f in fields]
 templates.env.filters["plain"] = lambda t: re.sub(r"\s*\((spike|v\d)[^)]*\)", "", t or "").replace(" (spike)", "").replace("3_outage", "3, during an endpoint outage")
 templates.env.globals["cited"] = numbersmod.CITED
+from app import caption as captionmod  # noqa: E402
+templates.env.globals["en_caption"] = captionmod.caption   # Spanish number words, in English
 templates.env.globals["amd_status"] = healthmod.status
 templates.env.globals["STATUSES"] = inboxmod.STATUSES
 

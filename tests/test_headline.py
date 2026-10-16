@@ -44,7 +44,7 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     for t in (home, res, aud):
         assert L["breakdown"] in t
     assert L["honest"] in home and L["preliminary"] in home
-    assert "The paper: 271 · The first capture keyed: 272 · The certified count: 271" in home   # the strip's receipt card
+    assert "The paper: 175 · The first capture keyed: 75 · The certified count: 175" in home   # the receipt card (random 300)
     for k in ("keying", "yield"):
         assert L[k]["label"] in home and (L[k]["small"] or "") in home
     assert gate_label(L) in home and (L["gate"]["small"] or "") in home   # the tiers in the regulation's words
