@@ -229,3 +229,15 @@ home_threshold: 0.90
 buyer_section_threshold: 0.80
 metric: strict_per_field_match
 ```
+
+## 11. Plumbing check (added before any read of the 300; pre-registered as such)
+
+Before any metric is computed, a person compares our parsed read with the published CSV row on 5 actas (the first 5
+located actas in manifest order), by eye, field by field, to catch a mis-mapped column or a wrong field order in the
+join. Its only possible outcome is a fix to the **join/mapping code** (which CSV column feeds which schema field), recorded
+here with the diff. **No prompt, schema box, tiling or gate change is allowed from it.** If a mapping fix is made, all
+metrics are computed after it, on all actas, and the check and fix are reported on Results.
+
+Also fixed now: the one acta the locator rejected, and the special-station actas with no schema, count as unmatched in
+the strict denominator (section 5), and the strict figure is the one used in the comparison line and the placement rule
+(section 10).
