@@ -146,7 +146,7 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
     </table>
     </div>
   </div>
-  <div class="reqcta"><span>Audit your own capture: ${{ cited.price_proposal.value }} per 1,000 forms, report within 24 hours.</span><a href="/audit/request">Request an audit</a></div>
+  <div class="reqcta"><span>Audit your own capture: {{ cited.price_proposal.text }}, report within 24 hours.</span><a href="/audit/request">Request an audit</a></div>
   <p class="foot">Crops are cut from masked pages only.{% if a.source == 'sample' %} Keyed data of the sample: INE PREP 2024, reused under INE's free-use terms (Libre-Uso-MX); an independent demonstration of clerical capture quality, not an official INE product.{% endif %}</p>
 </article>
 <script>

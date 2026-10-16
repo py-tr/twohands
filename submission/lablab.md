@@ -32,13 +32,14 @@ Two Hands is that second capture: a model, refereed by the paper, with a receipt
 those steps, 0.8% of fields in our random sample still do not match the paper (52 of 6,358, at least); our second
 capture puts 1 in 5 of its disputes on a confirmed capture error.
 
-Who pays: the regulated second capture. PREP operators and vendors, who pay people for it today, and the state
-institutes (OPLEs) that contract them; then the outside auditors, for an audit of a finished capture. Clinical
-trials, insurance claims and customs declarations are the next market, not measured. Numeral 33 names a person, so
-a model as the second capture is a change the institute must approve: we show evidence, not compliance. It costs
-$0.14 to $0.65 of AMD compute per 1,000 forms, offered at $100 per 1,000: compute is under 1% of the price, which
-also covers review labour for routed fields, hosting and sales. A state's count is about 1,000 to 21,000 forms (one
-per polling station), so one state is about $100 to $2,100.
+Who pays: the state institutes (OPLEs) that run the regulated second capture; PREP vendors and the outside
+auditors are the channel. The buyer already budgeted for this: INE put MXN 9.5M in its 2024 draft budget for an
+automated capture service, set an 80% bar on words and digits, and its advisers asked for a pilot (INE CCOE report,
+26-08-2024, pp. 4, 5, 10). Numeral 33 names a person, so a model as the second capture is a change the institute must
+approve: we show evidence, not compliance. Price (proposal): $1 per form audited (second capture + cotejo + receipts), or $5 per confirmed capture error, $0 if none is found.
+INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone. Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (GUESS: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales. Example:
+Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling. Health facility reports (DHIS2), mortgage post-closing QC and clinical-trial source data
+verification are the next markets, not measured.
 
 When an agent keys a form, the paper still has to agree. Receipts work the same for a model as for a person; in our
 measurement, Gemma is the agent.

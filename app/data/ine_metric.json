@@ -1,0 +1,66 @@
+{
+ "label": "INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.",
+ "source": "https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf",
+ "definition": "results/ine_metric_DEFINITION.md",
+ "forms": 300,
+ "usable_reads": 289,
+ "fields_per_form": 22,
+ "capture_not_a_number": {
+  "Ilegible": 68,
+  "Sin dato": 207
+ },
+ "primary_per_field_words_and_digits": {
+  "k": 5508,
+  "n": 6600,
+  "pct": 83.45,
+  "ci": [
+   82.54,
+   84.33
+  ]
+ },
+ "words_only": {
+  "k": 5581,
+  "n": 6600,
+  "pct": 84.56,
+  "ci": [
+   83.67,
+   85.41
+  ]
+ },
+ "digits_only": {
+  "k": 5879,
+  "n": 6600,
+  "pct": 89.08,
+  "ci": [
+   88.3,
+   89.81
+  ]
+ },
+ "conditional_per_field": {
+  "k": 5508,
+  "n": 6087,
+  "pct": 90.49,
+  "ci": [
+   89.72,
+   91.2
+  ]
+ },
+ "per_acta_strict": {
+  "k": 98,
+  "n": 300,
+  "pct": 32.67,
+  "ci": [
+   27.61,
+   38.16
+  ]
+ },
+ "vs_paper_per_field": {
+  "k": 5547,
+  "n": 6600,
+  "pct": 84.05,
+  "ci": [
+   83.14,
+   84.91
+  ]
+ }
+}

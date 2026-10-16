@@ -233,43 +233,83 @@ UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annu
 
 On INE's published 2024 capture, after all of the above: **0.8% of fields still do not match the paper** (52 of 6,358, at least); our second capture puts **1 in 5** of its disputes on a confirmed capture error.
 
-**$100 per 1,000 forms** (proposal) · measured AMD compute **$0.14 per 1,000** (Gemma), $0.65 with the second reader.
+**$1 per form audited (second capture + cotejo + receipts)** (proposal) · measured AMD compute **$0.00014 per form** (Gemma).
 
 <p class="small">PTO: repositoriodocumental.ine.mx, CGex202311-03-ap-8-a.pdf. All 32 state PREPs: Reglamento de Elecciones art. 339.1 d, Anexo 13 numerals 15 and 21. Numeral 33 names a person: a model as the second capture is a change the institute must approve. We show evidence, not compliance. Measured: app/data/headline.json, results/calls_gemma.jsonl.</p>
 
 ---
 
-<!-- Slide 10: market and model -->
+<!-- Slide 10: the buyer (not the hero) -->
 
-## Market and model: who pays for the second capture
+## The buyer already budgeted for this
 
-**Now.** PREP operators and vendors, who pay the capturistas for the second capture, and the 32 state institutes (OPLEs) that contract them and approve the process (Reglamento de Elecciones art. 339.1 d, art. 346.1 "desarrollado por terceros"). Next window: 32 concurrent local processes, election day **6 June 2027**. **Secondary:** the outside auditors (art. 347; in 2024, 26 of 32 named, all universities or research centres), for an audit of a finished capture.
+- INE put MXN 9.5M in its 2024 draft budget for an automated capture service. <span class="small">(p. 4)</span>
+- IPN quoted MXN 19.9M for the service. <span class="small">(p. 4)</span>
+- The acceptance bar was 80% agreement on words and digits. <span class="small">(p. 5)</span>
+- The best entrant reached 75%; INE declined it as untested in a real election, and its advisers (COTAPREP) recommended a pilot. <span class="small">(pp. 5, 10)</span>
 
-**Next market, not measured.** Clinical-trial source-data verification (site monitoring and source document verification: 15-30% of trial costs); insurance claims; customs declarations.
+**The pilot INE's advisers recommended can run on 2024's own forms today.**
 
-| Yield (measured) | Cost (measured) | Price (proposal) |
-|---|---|---|
-| **About 5 fields looked at per confirmed capture error, vs about 122 at random.** 267 disputed fields found 52; 267 random fields would find about 2. Strong tier: 12 of 18 | $0.14 per 1,000 forms (Gemma) + $0.51 (Qwen, pilot) on AMD | **$100 per 1,000 forms audited**, report included. One state: 1,017 to 20,908 sheets, **about $100 to $2,100** |
+On that metric as we read it, Gemma's existing reads of our pre-registered 300 agree with the official capture in words and digits on 83.5% of fields (5,508 of 6,600; failed reads and blank or illegible captures count against us). <span class="small"><i>INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.</i></span>
 
-Small enough to buy without a tender: the lowest federal direct-award ceiling is MXN 309,000 per operation (PEF 2026, Anexo 9). State institutes buy under state rules, not checked one by one.
+Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields (two readers, the paper's sums as referee).
 
-<p class="small">Sources: INE annex 5, CCOE 23-02-2024; IEEH/CG/022/2024; INE Central Electoral 30-31 July 2026; PEF 2026 (DOF); PREP 2024 CSV; Lindblad et al., Clinical Trials 2014. Full case: docs/BUSINESS.md.</p>
+<p class="small">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10. Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Accepted set: results/two_reader_300.md.</p>
+
+---
+
+<!-- Slide 10-2: who pays, in order -->
+
+## Who pays: the state institute, through three firms
+
+1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. We check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185).
+2. Baja California Sur bought an AI first capture by direct award (Google Document AI, MXN 93,834.49); it matched the human capture on 2.88% of actas and 62.84% of fields. A machine already keys; the question is who referees it.
+3. Every state institute decides whether to run its PREP alone or with a third party at least six months before election day: for 6 June 2027, by about 6 December 2026. Guerrero has already decided: in-house, "con acompañamiento de un ente especializado".
+4. The buyer is the state institute (OPLE); the PREP vendors and the outside auditors are the channel. At least 13 of the 17 outsourced 2024 state PREPs went to three firms: Informática Electoral S.C. (at least 8 states), Grupo Proisi (4) and PoderNet (1).
+
+<p class="small">Sources: IMPEPAC Informe Final PREP 23-24 p. 56; IEEBCS Informe final PREP 2023-2024 pp. 19, 31; IEPC Guerrero Acuerdo 057/SO/16-07-2026; INE UTSI Anexo 3 (Feb 2024). Full case: docs/BUSINESS.md.</p>
+
+---
+
+<!-- Slide 10-3: the cost of the problem -->
+
+## The cost of the problem
+
+On the 52,167 polling stations that were not recounted, INE's two official records of the same paper, the preliminary capture and the certified count, disagree on at least one vote field in 3,382 (6.5%). A difference says two captures disagree, not which one is right; the photo does. On our 300, the photo sided with the certified count on 22 of the 31 it covered.
+
+The preliminary count is preliminary by design; the certified count is the official result.
+
+19.2% (26,336 of 137,196) of fully captured national forms fail their own row sum in the official capture. The official capture recorded 28,607 fields as "Ilegible" on 6,009 actas.
+
+<p class="small">Sources: results/national_counts.md (PREP 2024 CSV; Cómputos Distritales 2024 CSV); results/adjudication/CERTIFIED.md. Clerical only: no party, no totals, no outcome.</p>
+
+---
+
+<!-- Slide 10-4: next markets -->
+
+## Next markets, not measured
+
+1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
+2. US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
+3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism we measured on election forms.
+
+<p class="small">Sources: WHO DQR Module 3 (2020); dhis2.org/about; Kenya MOH 711A; Fannie Mae Selling Guide D1-3-01, D1-3-02; CFPB HMDA 2023; Clinical Leader, Nov 2014; Lindblad et al., Clinical Trials 2014. Links: docs/BUSINESS.md.</p>
 
 ---
 
 <!-- Slide 10a: unit economics -->
 
-## Unit economics, per 1,000 forms
+## Unit economics, per form
 
 <div class="cols">
-<div><div class="big">$100</div>proposed price per 1,000 forms audited, two readers and the report included</div>
-<div><div class="big">$0.65</div>measured AMD compute per 1,000 forms: $0.14 Gemma-4-31B-IT (289 reads of the 300) + $0.51 Qwen3.8-27B (43 pilot reads)</div>
-<div><div class="big">&lt; 1%</div>compute is under 1% of the price (0.65%)</div>
+<div><div class="big">$1</div>per form audited (second capture + cotejo + receipts), proposal. Or line 2: $5 per confirmed capture error, $0 if none is found</div>
+<div><div class="big">$0.00014</div>measured AMD compute per form, Gemma-4-31B-IT (289 reads of the 300)</div>
+<div><div class="big">$0.09-0.13</div>review labour for routed fields per form (GUESS: 20 s per disputed crop at $18-25 an hour)</div>
 </div>
 
-The price also covers review labour for routed fields, hosting and sales; compute is the smallest part.
+Anchor: INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone. Plus hosting and sales, not measured. Examples: Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling; the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest; the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M.
 
-<p class="small">Measured: results/calls_gemma.jsonl (mean $0.000144 per form), docs/NUMBERS.md A2 (Qwen, $0.000507 per form). Price: proposal. docs/BUSINESS.md, "Unit economics".</p>
+<p class="small">Contingency: measured: 52 confirmed capture errors in 267 disputed fields (19.5%, 1 in 5.1) on 289 read forms, 180 per 1,000 forms; $1 / 0.180 = $5.56, rounded down to $5. Self-serve (CLI / MCP, you review your own disputes): $0.10 per form. FX: MXN 18.3835 per USD (ECB, 2026-10-16). Price: app/pricing.py (one config value); docs/BUSINESS.md, "The price".</p>
 
 ---
 
@@ -302,10 +342,13 @@ Forms of this kind, with rows that sum to a total and often words beside digits,
 | Kenya 2022, presidential | 46,229 Form 34A |
 | India 2024, Lok Sabha | 1,052,664 |
 | Indonesia 2024 | 820,161 domestic TPS |
+| Peru 2026, first round | 92,766 actas |
+
+**Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by us.**
 
 **A live problem.** Indonesia's 2024 count app read photographed result sheets by machine; a KPU commissioner attributed input errors partly to the system misreading digits ("a 3 read as an 8"). Result-sheet capture errors are the thing we check. Volume only; we have measured Mexico alone.
 
-<p class="small">Sources: PREP 2024 CSV; INEC Polling Units page; IEBC press release 17-08-2022; PIB/ECI data release; KPU RI voter-roll recap (July 2023); Antara 15 and 19 Feb 2024. Links: docs/BUSINESS.md.</p>
+<p class="small">Sources: PREP 2024 CSV; INEC Polling Units page; IEBC press release 17-08-2022; PIB/ECI data release; KPU RI voter-roll recap (July 2023); Antara 15 and 19 Feb 2024; Peru: ONPE RJ 000093-2026 (El Peruano, 6 Jun 2026), El Búho May 2026. Links: docs/BUSINESS.md.</p>
 
 ---
 

@@ -14,11 +14,12 @@ the official double-keyed capture: the model found 52 fields where the capture d
 confirmed by the certified count · 0 checked by a person · 30 AI-adjudicated only; person check pending: `/check`). Errors we did not plant, in a record we did not write, in a sample drawn
 before any model read.
 
-Who pays: the regulated second capture. PREP operators and vendors, who pay people for it today, and the state
-institutes (OPLEs) that contract them; then the outside auditors, for an audit of a finished capture. Clinical
-trials, insurance claims and customs declarations are the next market, not measured. Here it costs $0.14 to $0.65
-of AMD compute per 1,000 forms, offered at $100 per 1,000 audited. A state's count is about 1,000 to 21,000 forms
-(one per polling station), so one state audit is about $100 to $2,100.
+Who pays: the state institutes (OPLEs) that run the regulated second capture; PREP vendors and the outside auditors
+are the channel. The buyer already budgeted for this: INE put MXN 9.5M in its 2024 draft budget for an automated capture service, set an
+80% bar on words and digits, and its advisers asked for a pilot ([INE report](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10).
+Price (proposal): **$1 per form audited (second capture + cotejo + receipts)**, or $5 per confirmed capture error, $0 if none is found. INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone. Measured AMD compute is $0.00014
+per form. Health facility reports (DHIS2), mortgage post-closing QC and clinical-trial source data verification are
+the next markets, not measured.
 
 **Live demo:** add at submission · **Video:** add at submission ·
 **Audit report sample:** add at submission (in the repo: [the 52, each with its crop](results/adjudication/SUMMARY.md)) ·
@@ -56,8 +57,8 @@ capture keyed 75, the certified count says 175. One of the 52.*
 
 | | |
 |---|---|
-| **Buyer** | Now, the regulated second capture: PREP operators and vendors, and the state institutes (OPLEs) that contract them; then the outside auditors of the PREP, mostly universities. Next market, not measured: clinical trials, insurance claims, customs declarations |
-| **Price** | Proposal: $100 per 1,000 forms audited, two readers and the report included |
+| **Buyer** | The state institutes (OPLEs) that run the regulated second capture; PREP vendors (three firms ran at least 13 of 17 outsourced 2024 state PREPs) and the outside auditors are the channel. Next markets, not measured: health facility reports (DHIS2), mortgage post-closing QC, clinical-trial source data verification |
+| **Price** | Proposal: $1 per form audited (second capture + cotejo + receipts); or $5 per confirmed capture error, $0 if none is found. INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone |
 | **Measured cost on AMD** | $0.14 per 1,000 forms (Gemma, 289 reads); $0.65 with the second reader (Qwen, 43 pilot reads) |
 | **Proof** | Pre-registered random 300; every dispute with its photo; `make eval` recomputes every number offline |
 
@@ -157,7 +158,7 @@ budget guard.
 (`app/data/audit_sample_prep300.csv`, built by `scripts/build_audit_sample.py`) against the stored Gemma reads. No
 model call; 6,358 fields checked; the same 267 disputes as `results/adjudication/`. 12 of the 18 ranked strong are
 confirmed capture errors, 13 of the 169 ranked weak (the rule was written before that check, on the same forms).
-To have us run one on your forms: `/audit/request` ($100 per 1,000 forms, report within 24 hours).
+To have us run one on your forms: `/audit/request` ($1 per form audited, report within 24 hours).
 
 ## Verify a receipt
 
@@ -256,33 +257,32 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 
 - **Buyer, now: the regulated second capture.** PREP operators and vendors pay people for the second capture
   (PTO numeral 33), and the state institutes (OPLEs) contract them and approve the process (RE art. 339.1 d,
-  art. 346.1). Full list in [docs/BUSINESS.md](docs/BUSINESS.md#who-pays).
+  art. 346.1). Full list in [docs/BUSINESS.md](docs/BUSINESS.md#the-buyer-already-budgeted-for-this).
 - **Then the auditors.** Reglamento de Elecciones art. 347: every state institute has its PREP audited by an outside body,
   preferably academic. In February 2024, 26 of 32 institutes had named one, all universities or research centres
   ([INE annex](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf)).
   The audit covers the computer system; we add the field-by-field check against the paper.
 - **Next window.** The federal election and 32 concurrent local processes, election day 6 June 2027
   ([INE](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
-- **Size of one job.** The 2024 PREP file has about 1,000 (Colima) to 21,000 (Estado de México) presidential
-  tally sheets per state, median about 4,150: about $100 to $2,100 per state audit, under the lowest federal
-  direct-award ceiling (MXN 309,000, [PEF 2026 Anexo 9](https://dof.gob.mx/2025/SHCP/PEF_2026.html)); states buy
-  under their own rules.
+- **Size of one job (at $1 per form audited).** Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling; the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest; the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M. Federal
+  direct-award ceilings: MXN 309,000 to 1,145,000 ([PEF 2026 Anexo 9](https://dof.gob.mx/2025/SHCP/PEF_2026.html));
+  states buy under their own rules.
 - **Yield (measured).** A person looks at about 5 disputed fields per confirmed capture error, against about 122
   at random: 267 disputed fields found 52; 267 random fields would find about 2. The strong-evidence tier is right
   12 of 18 times.
-- **Unit economics.** $100 per 1,000 forms (proposed price) against measured AMD compute of $0.65 per 1,000 forms
-  ($0.14 Gemma, 289 reads; $0.51 Qwen, 43 pilot reads): compute is under 1% of the price. The price also covers
-  review labour for routed fields, hosting and sales; compute is the smallest part.
+- **Unit economics.** $1 per form audited (second capture + cotejo + receipts) (proposal). Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (GUESS: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales,
+  not measured. Line 2: $5 per confirmed capture error, $0 if none is found (measured: 52 confirmed capture errors in 267 disputed fields (19.5%, 1 in 5.1) on 289 read forms, 180 per 1,000 forms; $1 / 0.180 = $5.56, rounded down to $5). Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 - **A second line, not the hero.** When an agent keys a form, the paper still has to agree. Receipts work the same
   for a model as for a person; in our measurement, Gemma is the agent (alone it mis-keys 1 field in 37; the paper's
   arithmetic catches it the same way).
-- **Next market, not measured.** Clinical-trial source-data verification (site monitoring and source document
-  verification: 15-30% of trial costs, [Lindblad et al., Clinical Trials 2014](https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf));
-  insurance claims; customs declarations; internal audit of keyed loan files.
+- **Next markets, not measured** (sources in [docs/BUSINESS.md](docs/BUSINESS.md#next-markets-not-measured)):
+  1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
+  2. US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
+  3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism we measured on election forms.
 - **Competition.** OCR and IDP platforms (Tesseract, ABBYY, Rossum, Hypatos, UiPath, Textract, Document AI)
   extract; none says it audits an existing capture with a crop per finding.
-- **Same job elsewhere (volume, not measured).** One result sheet per polling station: Nigeria 176,846, Kenya
-  46,229, India 1,052,664, Indonesia 820,161; sources in
+- **Same job elsewhere (volume, not measured).** Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by us. One result sheet per polling station: Nigeria
+  176,846, Kenya 46,229, India 1,052,664, Indonesia 820,161, Peru 92,766; sources in
   [docs/BUSINESS.md](docs/BUSINESS.md#the-same-job-in-other-countries-volume-only-not-measured).
 - **Why double keying is not enough.** It copies the paper faithfully but cannot say which paper is wrong: 19.2% of
   nationally captured tally forms (26,336 of 137,196) fail their own row sum. Table in

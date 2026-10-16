@@ -1,0 +1,15 @@
+{
+ "actas_with_ilegible": 6009,
+ "captured": 162517,
+ "fields_ilegible_count_nonzero": 2356,
+ "fields_number_differs": 12326,
+ "fields_sindato_count_nonzero": 1459,
+ "ilegible_fields": 28607,
+ "not_recounted": 52167,
+ "not_recounted_differ": 3382,
+ "not_recounted_differ_pct": 6.5,
+ "sources": {
+  "prep": "data/raw/prep/PRES_2024.csv (PREP 2024 final cut, https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip)",
+  "computos": "data/raw/computos/PRES_2024.csv (Cómputos Distritales 2024, presidential)"
+ }
+}

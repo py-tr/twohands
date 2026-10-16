@@ -28,13 +28,14 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
 
 from app import numbers as numbersmod
+from app import pricing as pricingmod
 from app import store as storemod
 
 router = APIRouter()
 log = logging.getLogger("twohands.request")
 
 REQUESTS = storemod.STATE / "requests.jsonl"
-PRICE_PER_1000 = numbersmod.CITED["price_proposal"]["value"]    # $100 per 1,000 forms audited (docs/BUSINESS.md 2)
+PRICE_PER_FORM = pricingmod.PRICE_PER_FORM_USD    # $1 per form audited (app/pricing.py, the one config value)
 TURNAROUND = "report within 24 hours"
 RATE_N, RATE_WINDOW_S = 5, 3600
 MAX_FORMS = 10_000_000
@@ -60,8 +61,8 @@ def _t():
 
 
 def price(forms: int) -> int:
-    """$ for a request of `forms` forms: PRICE_PER_1000 per 1,000 forms, pro rata, rounded up to the dollar."""
-    return math.ceil(forms * PRICE_PER_1000 / 1000)
+    """$ for a request of `forms` forms: PRICE_PER_FORM per form, rounded up to the dollar."""
+    return pricingmod.quote(forms)
 
 
 def smtp_configured() -> bool:
@@ -192,7 +193,7 @@ def notify(rec: dict) -> bool:
 
 
 def _ctx(**kw) -> dict:
-    return {"nav": "auditnew", "FORM_TYPES": FORM_TYPES, "WHERE": WHERE, "PRICE": PRICE_PER_1000,
+    return {"nav": "auditnew", "FORM_TYPES": FORM_TYPES, "WHERE": WHERE, "PRICE": PRICE_PER_FORM, "PT": pricingmod.texts(),
             "TURNAROUND": TURNAROUND, "today": datetime.now(timezone.utc).date().isoformat(), **kw}
 
 
@@ -220,7 +221,7 @@ async def request_submit(request: Request):
                                                          "or write to us."}), status_code=429)
     now = datetime.now(timezone.utc)
     rec = {"id": f"R-{now:%Y%m%d}-{secrets.token_hex(3)}", "at": now.isoformat(timespec="seconds"), **rec,
-           "price_usd": price(rec["forms"]), "price_basis": f"${PRICE_PER_1000} per 1,000 forms audited",
+           "price_usd": price(rec["forms"]), "price_basis": pricingmod.texts()["price"],
            "turnaround": TURNAROUND, "status": "received"}
     store(rec)
     notified = notify(rec)

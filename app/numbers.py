@@ -5,6 +5,7 @@ constants here, each carrying the file and URL it is cited from; docs/NUMBERS.md
 """
 from __future__ import annotations
 
+from app import pricing as _pricing
 from app import store as storemod
 
 # ------------------------------------------------------------------ cited context (not measured by us)
@@ -57,9 +58,9 @@ CITED = {
         "source": "Lindblad et al. (incl. Ball), Clinical Trials 2014; 11: 205-217, "
                   "https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf"},
     "price_proposal": {
-        "value": 100, "text": "$100 per 1,000 forms audited",
-        "what": "proposed price, two readers and the report included (a proposal, not a measured number)",
-        "source": "docs/BUSINESS.md section 2"},
+        "value": _pricing.PRICE_PER_FORM_USD, "text": _pricing.texts()["price"],
+        "what": "proposed price, second capture + cotejo + receipts (a proposal, not a measured number)",
+        "source": "app/pricing.py (the one config value); docs/BUSINESS.md section 2"},
     "volunteers": {
         "text": "~16,000 volunteers, 4 transcriptions per value",
         "source": "Hawkins et al., Geoscience Data Journal 2022, quoted in spikes/ledger-rescue/README.md §1"},

@@ -43,6 +43,7 @@
       </div>
       {% endif %}
       <p class="meta" id="stripMeta">{% for x in ls.samples %}{{ x.forms|int }} in the {{ x.name }}{{ ' · ' }}{% endfor %}{% if ls.live %}<span class="ldot{{ ' on' if ls.running }}"></span>{{ ls.live.forms|int }} live since {{ ls.live.since_text }}{% if ls.updated_min_ago is not none %} (updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}){% endif %} · {% else %}<span class="tag">measured sample</span> · {% endif %}reader: {{ ls.reader_model }} on AMD Token Factory · <a href="/live">live audit</a></p>
+      <p class="meta d-only" id="stripPrice"><b>{{ pricing.texts().price_long }}</b> · <a href="/audit/request">request an audit</a></p>
     </div>
   </div>
   <p class="fold-note d-only">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms.</p>
@@ -114,25 +115,49 @@
   </div>
 </section>
 
+{% set CL = buyer.cost_lines(H) %}{% if CL %}
+<section id="cost-of-problem">
+  <div class="sec-head"><div><h2>The cost of the problem</h2><p>From INE's own 2024 files. Clerical only: no party, no totals.</p></div></div>
+  <div class="card">
+    <p style="margin:0 0 8px"><b>{{ CL.main }}</b></p>
+    <p class="small" style="margin:0 0 6px">{{ CL.preliminary }} {{ CL.rowsum }} {{ CL.illegible }}</p>
+    {% set SY = buyer.synthesis(H) %}{% if SY %}<p class="small muted" style="margin:6px 0">{{ SY }}</p>{% endif %}
+    <div style="margin-top:8px">{{ source(CL.source) }}</div>
+  </div>
+</section>
+{% endif %}
 <section>
   <div class="grid2">
     <div class="card">
+{% set PT = pricing.texts() %}{% set IC = buyer.ine_card() %}
       <div class="eyebrow">Who pays</div>
-      <h3>Auditors of keyed data</h3>
-      <p style="margin:8px 0 12px"><b>1 disputed field in {{ H.yield_one_in }} is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }}): the second capture finds what the first one keyed wrong, with the photo.</b> Auditors already check the count's system. Nobody checks the captured numbers against the paper, because by hand it does not pay. This does it for cents.</p>
-      <ul class="buyers">
-        <li><b>Now: election-capture audits.</b> {{ cited.prep_audit.text }}. We add the field-by-field check against the paper. Next window: {{ cited.window_2027.text }}.</li>
-        <li><b>Next, not measured:</b> clinical-trial source-data verification ({{ cited.sdv_cost.text }}); internal audit of keyed loan and claim files.</li>
+      <h3 id="ine-buyer">{{ IC.title }}</h3>
+      <ul class="buyers" style="margin:8px 0 8px">
+        {% for t, pg in IC.lines %}<li>{{ t }} <span class="muted small">(<a href="{{ IC.url }}" target="_blank" rel="noopener">INE report</a>, {{ pg }})</span></li>{% endfor %}
       </ul>
+      <p style="margin:8px 0"><b>{{ IC.pilot }}</b>{% if IC.colima %} <a href="{{ IC.colima.href }}">{{ IC.colima.text }}</a>{% endif %}</p>
+      {% if IC.score %}<div class="vs" id="ine-metric" style="margin:10px 0">
+        <div><p class="small" style="margin:0">{{ IC.score }}</p><p class="tiny muted" style="margin:4px 0 0"><i>{{ IC.label }}</i></p></div>
+        <div class="mid">·</div>
+        <div><p class="small" style="margin:0"><b>{{ IC.beside }}</b></p></div>
+      </div>{% endif %}
+      <p class="small" style="margin:8px 0"><b>1 disputed field in {{ H.yield_one_in }} is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }}): the second capture finds what the first one keyed wrong, with the photo.</b> Auditors check the count's system; nobody checks the captured numbers against the paper, because by hand it does not pay.</p>
+      <div style="margin:6px 0 12px">{{ source(IC.source ~ ". Metric: " ~ IC.def_src ~ ".") }}</div>
+      <ol class="buyers" id="market-lines">
+        {% for m in buyer.market_lines() %}<li>{{ m.text }} <span class="muted tiny">({{ m.source }})</span></li>{% endfor %}
+      </ol>
       {{ ieebcs_buyer(ieebcs_card("buyer")) }}
       <div class="vs" style="margin-top:14px">
         <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">measured AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, {{ H.read }} reads)</div></div>
         <div class="mid">·</div>
-        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">proposed price per 1,000 forms audited, two readers and the report included</div></div>
+        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">proposed price per form audited (second capture + cotejo + receipts)</div></div>
       </div>
-      <p class="small" style="margin-bottom:6px">{{ L.product }} A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field. Keying twice copies the paper; it cannot say which paper is wrong: {{ cited.base_rate.text }} of nationally captured forms fail their own row sum.</p>
+      <p class="small" style="margin:8px 0" id="price-lines">Anchor: {{ PT.anchor }}. Line 2, contingency: {{ PT.contingency }} ({{ PT.contingency_basis }}). Costs: {{ PT.compute }}; {{ PT.review }}; plus hosting and sales. Examples: {{ PT.ex_morelos }}; {{ PT.ex_largest }}; {{ PT.ex_federal }}. {{ PT.self_serve }} FX {{ PT.fx }}.</p>
+      <p class="small" style="margin-bottom:6px">{{ L.product }} A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field.</p>
+      <p class="small" style="margin:8px 0 4px"><b>Next markets, not measured:</b></p>
+      <ol class="buyers small" id="next-markets">{% for m in buyer.NEXT_MARKETS %}<li>{{ m.text }} <span class="muted tiny">({{ m.source }})</span></li>{% endfor %}</ol>
       <div class="actions" style="margin:10px 0 4px"><a class="btn sm primary" href="/audit/request">{{ icon('audit') }}Request an audit</a><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/station">{{ icon('search') }}Pick any polling station</a></div>
-      <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". 2027: " ~ cited.window_2027.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". Price: " ~ cited.price_proposal.source ~ ". Row sums: " ~ cited.base_rate.source ~ ".") }}</div>
+      <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". 2027: " ~ cited.window_2027.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". Price: " ~ cited.price_proposal.source ~ "; " ~ pricing.SOURCES.ine ~ "; " ~ pricing.SOURCES.morelos ~ "; wage: " ~ pricing.SOURCES.wage ~ "; ceilings: " ~ pricing.SOURCES.ceiling ~ "; FX: " ~ pricing.SOURCES.fx ~ ". Row sums: " ~ cited.base_rate.source ~ ".") }}</div>
     </div>
 
     <div class="card" id="amd">

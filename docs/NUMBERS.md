@@ -67,7 +67,10 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | UNAM centres audited 2024 state PREPs | Aguascalientes, Mexico City, Hidalgo, Puebla, Querétaro, Veracruz | INE annex 5, https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf |
 | 2027 window | federal election + 32 concurrent local processes; election day 6 June 2027 | INE Central Electoral 2026-07-30 and 2026-07-31 (URLs in `app/numbers.py` `window_2027`) |
 | Site monitoring and source document verification | 15-30% of clinical-trial costs | Lindblad et al. (incl. Ball), Clinical Trials 2014; 11: 205-217, https://www.acepidemiology.org/assets/docs/Ball%20Clinical%20Trials%202014.pdf |
-| Proposed price (a proposal, not measured) | $100 per 1,000 forms audited | docs/BUSINESS.md section 2 |
+| Proposed price (a proposal, not measured) | $1 per form audited (second capture + cotejo + receipts); line 2: $5 per confirmed capture error, $0 if none is found | app/pricing.py; docs/BUSINESS.md section 2 |
+| FX for every MXN / USD conversion | MXN 18.3835 per USD (ECB, 2026-10-16) | https://api.frankfurter.app/latest?from=USD&to=MXN (ECB reference rate, fetched 2026-10-16) |
+| INE's 2024 acceptance metric as we read it (primary, per field) | see results/ine_metric.md | scripts/ine_metric.py; definition results/ine_metric_DEFINITION.md |
+| PREP vs certified count, not-recounted stations differing | see results/national_counts.md | scripts/national_counts.py |
 | Volunteers | ~16,000, 4 transcriptions per value | Hawkins et al., Geoscience Data Journal 2022, quoted in `spikes/ledger-rescue/README.md` §1 |
 
 **Not shown:** a cost for a human keyer. We found no citable figure, so the business panel shows only our compute cost.

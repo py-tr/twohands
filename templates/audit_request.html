@@ -20,7 +20,7 @@
     <div class="rq-id" id="rid">{{ done.id }}</div>
     <dl class="kv">
       {% if done.forms %}<dt>Forms</dt><dd>{{ '{:,}'.format(done.forms) }}</dd>
-      <dt>Price</dt><dd><b>${{ '{:,}'.format(done.price_usd) }}</b> <span class="muted small">(${{ PRICE }} per 1,000 forms audited)</span></dd>
+      <dt>Price</dt><dd><b>${{ '{:,}'.format(done.price_usd) }}</b> <span class="muted small">({{ PT.price }})</span></dd>
       <dt>Deadline</dt><dd>{{ done.deadline }}</dd>{% endif %}
       <dt>Turnaround</dt><dd>{{ TURNAROUND[:1]|upper }}{{ TURNAROUND[1:] }} of receiving the keyed data and scans</dd>
       <dt>Status</dt><dd>Received{% if notified %}; the operator has been notified by email{% endif %}</dd>
@@ -49,7 +49,7 @@
     </fieldset>
     <div class="rq-row2">
       <label class="rq-f"><span>Deadline</span><input name="deadline" type="date" min="{{ today }}" required value="{{ f.deadline or '' }}">{% if err.deadline %}<em class="rq-err">{{ err.deadline }}</em>{% endif %}</label>
-      <div class="rq-f rq-quote"><span>Price</span><b id="quote">{% if f.forms %}&nbsp;{% else %}${{ PRICE }} per 1,000 forms{% endif %}</b></div>
+      <div class="rq-f rq-quote"><span>Price</span><b id="quote">{% if f.forms %}&nbsp;{% else %}{{ PT.price }}{% endif %}</b></div>
     </div>
     <label class="rq-f"><span>Anything we should know <i class="muted">(optional)</i></span><textarea name="notes" rows="3" maxlength="1000">{{ f.notes or '' }}</textarea></label>
     <label class="rq-hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
@@ -57,7 +57,8 @@
   </form>
 
   <aside class="card au-what">
-    <div class="rq-price"><span class="big-num">${{ PRICE }}</span><span class="small muted">per 1,000 forms audited, two readers and the report included</span></div>
+    <div class="rq-price"><span class="big-num">${{ PRICE }}</span><span class="small muted">per form audited (second capture + cotejo + receipts)</span></div>
+    <p class="tiny muted" style="margin:8px 0 0">Or line 2, contingency: {{ PT.contingency }}. Anchor: {{ PT.anchor }}. {{ PT.self_serve }}</p>
     <div class="rq-turn">{{ icon('check') }}<b>{{ TURNAROUND[:1]|upper }}{{ TURNAROUND[1:] }}</b></div>
     <h3 style="margin-top:16px">What you get</h3>
     <ul class="au-list">
@@ -84,7 +85,7 @@
   if (!f || !q) return;
   function upd() {
     var n = parseInt((f.value || '').replace(/[\s,._]/g, ''), 10);
-    q.textContent = n > 0 ? '$' + Math.ceil(n * P / 1000).toLocaleString('en-US') + ' for ' + n.toLocaleString('en-US') + ' forms' : '$' + P + ' per 1,000 forms';
+    q.textContent = n > 0 ? '$' + Math.ceil(n * P).toLocaleString('en-US') + ' for ' + n.toLocaleString('en-US') + ' forms' : {{ PT.price|tojson }};
   }
   f.addEventListener('input', upd); upd();
 })();

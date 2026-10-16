@@ -471,6 +471,12 @@ app.include_router(judgemod.router)
 templates.env.globals["judge_count"] = judgemod.count_text
 templates.env.globals["honest"] = honestmod
 
+# The buyer section, the price and the cost of the problem: app/buyer.py and app/pricing.py (the one price config)
+from app import buyer as buyermod  # noqa: E402
+from app import pricing as pricingmod  # noqa: E402
+templates.env.globals["buyer"] = buyermod
+templates.env.globals["pricing"] = pricingmod
+
 # The IEEBCS head-to-head, placed by PROTOCOL_IEEBCS.md section 10 (hidden until results/ieebcs/score.json exists)
 from app import ieebcs_card as ieebcscardmod  # noqa: E402
 templates.env.globals["ieebcs_card"] = ieebcscardmod.card

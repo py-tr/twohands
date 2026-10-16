@@ -52,7 +52,7 @@ def test_form_shows_fields_price_and_turnaround():
     h = r.text
     for name in ("org", "email", "forms", "form_type", "where", "link", "deadline", 'name="website"'):
         assert f'name="{name}"' in h or name in h
-    assert "$100" in h and "per 1,000 forms audited" in h and "Report within 24 hours" in h
+    assert "$1" in h and "per form audited" in h and "Report within 24 hours" in h
     _clean(h, "/audit/request")
 
 
@@ -69,14 +69,14 @@ def test_valid_request_is_stored_with_id_and_no_email_without_smtp(isolated):
     assert len(rows) == 1
     rec = rows[0]
     assert rec["id"] in r.text and rq._RID.match(rec["id"])
-    assert rec["forms"] == 2500 and rec["price_usd"] == 250 and rec["status"] == "received"
+    assert rec["forms"] == 2500 and rec["price_usd"] == 2500 and rec["status"] == "received"
     assert rec["link"].startswith("https://") and rec["form_type"] == "tally"
-    assert "Request received" in r.text and "$250" in r.text and "notified by email" not in r.text
+    assert "Request received" in r.text and "$2,500" in r.text and "notified by email" not in r.text
     assert rq.load(rec["id"]) == rec
 
 
 def test_price_is_pro_rata_rounded_up():
-    assert rq.price(1000) == 100 and rq.price(2500) == 250 and rq.price(1) == 1 and rq.price(1017) == 102
+    assert rq.price(1000) == 1000 and rq.price(2500) == 2500 and rq.price(1) == 1 and rq.price(1017) == 1017
 
 
 def test_invalid_request_is_not_stored(isolated):
@@ -144,7 +144,7 @@ def test_operator_emailed_only_when_smtp_configured(isolated, monkeypatch, caplo
     m = sent[0]
     rec = _stored(isolated)[-1]
     assert m["To"] == "operator@example.org" and m["Reply-To"] == "auditor@example.org" and rec["id"] in m["Subject"]
-    assert "1,017" in m.get_content() and "$102" in m.get_content()
+    assert "1,017" in m.get_content() and "$1,017" in m.get_content()
     # the SMTP settings are never logged or stored
     assert SECRET not in caplog.text and "smtp.example.org" not in caplog.text
     assert SECRET not in isolated.read_text(encoding="utf-8")
