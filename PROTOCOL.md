@@ -419,3 +419,88 @@ catches 300 vs 379 and lets 239 vs 234 and Qwen's 200 vs 206 through; the two-re
 Gemma primary: v3 accepts 22 fields on 56 forms, 38 touchless (v2: 47, v1: 55), 1,214 accepted graded fields (v2:
 1,034), 0 errors; 3 wrong SOBRANTES caught (212668C0300, 010469C0400, 154383E0100), 15 correct SOBRANTES sent to a
 person. The band alone: catches 212668C0300 only, 0 correct SOBRANTES routed.
+
+## Amendment 8 (2026-10-16 ~15:00 UTC, before any read of it): two Gemma reads as the two hands, on the 300 (secondary)
+
+**What it is.** A **secondary** analysis. The primary analysis (section 7), the headline rule and every number already
+reported are unchanged, and the result is reported **whatever it shows**. Gemma-4-31B-IT is served again on AMD Token
+Factory (the chain of `scripts/_gemma_tf_runs.sh`); no read described here exists when this amendment is committed
+(`results/calls_gemma_b4.jsonl` does not exist).
+
+**The two reads, on the full pre-registered 300** (`results/manifest.json`, sha256 `605af977…e081`; the same masked pages
+of Amendment 1, `results/prepare.jsonl`; unlocated pages count as routed in every denominator):
+- **Read A** = the existing reads of the 300 (`results/calls_gemma.jsonl`, last row per form): Gemma-4-31B-IT on the Token
+  Factory, masked page + 6 tiles, frozen prompt sha256 `3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f`.
+  Not re-read.
+- **Read B** (new) = Gemma-4-31B-IT on the Token Factory, masked page + **4 tiles** (the earlier pilot tiling, as in
+  Amendment 4's 43-form secondary: the schema's first four tiles = left column, the 7 single-party rows, the 8 coalition
+  rows, NO REGISTRADAS / NULOS / TOTAL + section 7; no enlarged logo strips), **temperature 0**, `max_tokens` 2000, JPEG
+  q88, the same parser and the frozen gate via `twohands.run.record`. The prompt is the frozen prompt built from the same
+  schema with the four tiles named, so its text differs only in the image list: **prompt sha256
+  `54014b0f04f73b47a64c3082997e397755027ea8be4d79d388034c86e0df72d1`** (recorded on every row). Output
+  `results/calls_gemma_b4.jsonl` (resumable by clave; rows with an API error are re-read; a reply cut at `max_tokens` is
+  not a usable read). Code: `scripts/gemma_tf_reads2.py b4`, which refuses to start unless this amendment is committed.
+  Budget: the bulk share of the shared key (`twohands/budgets.py`; `TWOHANDS_BULK_DAILY_USD=0.70` while the live worker
+  is not deployed); it runs only after the chain of `scripts/_gemma_tf_runs.sh` has finished (`scripts/_gemma_tf_runs2.sh`).
+
+**Analysis (a): a Gemma+Gemma two-reader tier.** The Amendment 2 (d) rule (`twohands/tiers.py::two_reader`: the two
+readers' 23 digit values agree, every digit read, both readers' words equal the agreed digits wherever read, the vote
+rows sum to TOTAL) with **read A as the first reader and read B as the second**. Reported: accepted forms (/ 300, by
+capture type) and **accepted-field errors** on the graded fields, compared with the **Gemma+Qwen tier as reported: 89
+forms, 0 wrong of 1,958 accepted fields** (`results/two_reader_300.md`), on the same 300. Truth per accepted field: an
+existing verdict where one exists (`results/adjudication/verdicts.json`, then `verdicts_bakeoff.json`); otherwise a read
+equal to the capture counts as right (section 6); a NEW disagreement with the capture on an accepted field is settled by
+the **certified count, automatically,** where it applies (a vote row or TOTAL whose Cómputos Distritales record is a
+cotejo, not a recount), else by the **AI adjudicator** (an AI model, an AI agent, reading the masked crop), labelled so. Also
+reported: the **shared-mistake count** (fields where both reads are wrong with the same value) for Gemma+Gemma and for
+Gemma+Qwen. **The risk, named in advance:** two reads by the same model may share their mistakes, so agreement between
+them is weaker evidence than agreement between two different models (e.g. the 239 / 239 harmonisation: on 010469C0400
+Gemma read SOBRANTES 239 where the paper says 234; a second Gemma read may give the same 239, and such a shared misread
+passes the two-reader rule). If same-model reads share mistakes, the report says so in those words.
+
+**Analysis (b): the tiling ablation, page + 4 vs page + 6 tiles, on identical forms.** For read A and read B on the
+same 300: **field agreement** with the PREP capture (digits equal / graded fields with a numeric capture, over forms both
+reads parsed, and over each read's own parsed forms); the **accept rate** under the frozen gate (v1), unlocated pages
+and failed reads in the denominator; and **accepted-field errors** after adjudication (truth as in (a)); plus latency and
+cost per form. Reported whatever it shows; it chooses nothing (the production tiling stays page + 6).
+
+**Scoring:** `scripts/gemma_tf_reads2.py score-b4` -> `results/gemma_b4_300.json` and `.md`; disagreements still awaiting
+the AI adjudicator are listed there, and no error count is called final while any is pending.
+
+## Amendment 8b (2026-10-16 ~15:00 UTC, before any Colima read): the complete-state audit of Colima on the Token Factory
+
+**Why this amendment.** The Colima whole-state read was planned for the self-hosted MI300X as an un-registered stretch
+run (`scripts/confirm_read.py --set state06`, `deploy/mi300x/README-session.md`); PROTOCOL.md does not pre-register it,
+and Amendment 5 (a draft, never merged) only refers to "the Colima census" and "labels as for Colima". This amendment
+pre-registers it on AMD Token Factory. No model read of any Colima page exists when it is committed (`results/colima/`
+does not exist; no `results/stretch_state06_*.jsonl` exists).
+
+**Forms.** The whole of Colima's located presidential casilla actas: the **982** pages located and masked by
+`scripts/stage_state.py` (`results/prepare_state06.jsonl`, status ok; pages in `data/masked/state06/`). Colima rows of
+the PREP CSV with no image or not located are listed as not read (routed), never replaced. Forms that are also in the
+300, the pilot, the calibration or the confirmation sets are read again and flagged, never counted twice in a pooled
+figure.
+
+**Reader.** Gemma-4-31B-IT on the Token Factory, the frozen prompt (sha256 `3664253035b9…193f`), the same schema, page +
+6 tiles, JPEG q88, temperature 0, `max_tokens` 2000, the same parser, `twohands.run.record` rows. Output
+`results/colima/calls_gemma.jsonl` (resumable by clave). Code: `scripts/gemma_tf_reads2.py colima`, which refuses
+unless this amendment is committed; the same budget rules as Amendment 8; it runs after read B of Amendment 8.
+
+**Gates, as pre-registered:** **v1** (the frozen gate, section 5) **primary**; **v2** (Amendment 3); **v3** (Amendment 7;
+LISTA_NOMINAL and REPRESENTANTES_PP_CI from the PREP CSV). There is no second reader for Colima, so v3's two-read rule
+(b) fails on every form (Amendment 7: "No usable second read = (b) fails") and every SOBRANTES goes to a person under v3;
+the report says so. Reported for each gate: accepted forms (/ all Colima presidential actas in the PREP CSV and / 982
+located), by capture type; accepted fields; accepted-field errors after adjudication with Wilson 95% CI; route causes.
+
+**Labels (the Colima way).** Every disagreement between Gemma and the first capture (PREP) on a graded field is reported
+under exactly one label, never pooled across labels without saying so: **confirmed by the certified count** (automatic:
+Cómputos Distritales covers the field, on a form settled by cotejo not recount, and equals Gemma's reading or the
+capture's); **confirmed by a person** (a field the user checked on the masked crop); **AI adjudicator's reading** (an AI model
+on the masked crop; labelled as such, never presented as confirmed); **paper ambiguous or unreadable** (excluded from
+both error counts, listed with crops).
+
+**The report** is produced by the site's own capture-audit report generator (the one behind `/audit/new`:
+`app/capture_audit.py` + `GET /audit/{id}/report`), with Colima's official PREP first capture as the keyed file and
+Gemma's Colima reads as the stored reads, saved to `results/colima/` (HTML and CSV, with its fingerprint), beside the gate
+counts above (`scripts/gemma_tf_reads2.py score-colima` -> `results/colima/colima_audit.json` and `.md`). A partial
+state is never shipped as complete: if the read does not finish, its n and the forms not read are listed.
