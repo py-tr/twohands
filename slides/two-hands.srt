@@ -184,7 +184,7 @@ Three: the audit checks the software, not the typed numbers.
 
 47
 00:03:13,059 --> 00:03:18,656
-INE budgeted MXN 9.5 million for this, with an 80% bar.
+INE tried to buy a machine first capture: MXN 9.5 million, an 80% bar.
 
 48
 00:03:18,706 --> 00:03:25,715
@@ -192,7 +192,7 @@ On that metric, as we read it, computed after the fact, we reach 83.5%.
 
 49
 00:03:25,765 --> 00:03:29,950
-State institutes buy it, at $1 per form.
+Auditors and PREP operators buy the check, at $1 per form.
 
 50
 00:03:30,000 --> 00:03:32,610

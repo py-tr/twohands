@@ -24,15 +24,56 @@ ANEXO3_URL = ("https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/12345
 UAM_URL = "https://ine.mx/wp-content/uploads/2024/06/2024-PREP-InformeFinalAuditoriav1.pdf"
 ONPE_URL = "https://elperuano.pe/noticia/297403-onpe-conozca-el-procedimiento-que-se-sigue-durante-el-computo-de-los-votos"
 
-INE_TITLE = "The buyer already budgeted for this"
+INE_TITLE = "Institutes already tried to buy machine reading"
 INE_LINES = [
-    ("INE put MXN 9.5M in its 2024 draft budget for an automated capture service.", "p. 4"),
+    ("INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different "
+     "step from our check, and bought none (last line).", "p. 4"),
     ("IPN quoted MXN 19.9M for the service.", "p. 4"),
     ("The acceptance bar was 80% agreement on words and digits.", "p. 5"),
     ("The best entrant reached 75%; INE declined it as untested in a real election, and its advisers (COTAPREP) "
      "recommended a pilot.", "pp. 5, 10"),
 ]
-PILOT = "The pilot INE's advisers recommended can run on 2024's own forms today."
+PILOT = ("Our engine is an automated capture with a referee. For 2027 we offer an independent check of a finished "
+         "capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a "
+         "pilot on 2024's own forms.")
+
+# ------------------------------------------------------------------ one product, one buyer, for 2027
+OFFER_2027 = ("Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a "
+              "finished capture, field by field against the photo. It needs no rule change: it is an outside check, "
+              "which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the "
+              "institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term "
+              "path, not the 2027 product.")
+MARKET_SIZE = ("How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169,005 presidential "
+               "sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three "
+               "per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas "
+               "for three offices), so roughly 500,000 to 700,000 actas in a concurrent year; at $1 per acta, under $1M "
+               "per three-year cycle at list price. Mexico's PREPs are the beachhead; the same field-level check "
+               "applies wherever keyed values must match paper.")
+MARKET_SIZE_SRC = ("PREP 2024 CSV (169,005 presidential sheets); IMPEPAC Informe Final PREP 23-24, pp. 3-4 (Morelos "
+                   "local actas); INE Central Electoral 2026-07-30 (32 concurrent local processes). The 2-3 local actas "
+                   "per polling station is our estimate.")
+
+# ------------------------------------------------------------------ contact status: ONE flag, flipped by the user
+CONTACT = {"contacted": False, "date": None, "who": None}   # set contacted=True, date="YYYY-MM-DD", who="..." once sent
+
+
+def contact_line() -> str:
+    if not CONTACT["contacted"]:
+        return "Status: no buyer contacted yet."
+    return f"Status: first contact sent on {CONTACT['date']} to {CONTACT['who']}; nobody has bought this yet."
+
+
+def forms_line() -> str:
+    """Which form the buyer processes, and the status of our local-acta evidence (the BCS head-to-head)."""
+    from app import ieebcs_card
+    try:
+        d = ieebcs_card.load()
+    except Exception:  # noqa: BLE001
+        d = None
+    status = ("scored (the head-to-head card)" if d else "read on AMD, not yet scored: no result is shown until it is")
+    return ("Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The "
+            "presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is "
+            f"the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): {status}.")
 METRIC_LABEL = ("INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they "
                 "were made; the definition was committed before computation; not the same test set or conditions as "
                 "INE's trial.")
@@ -60,8 +101,9 @@ def ine_card() -> dict:
         score = (f"On that metric as we read it, Gemma's existing reads of our pre-registered 300 agree with the "
                  f"official capture in words and digits on {p['pct']:.1f}% of fields ({p['k']:,} of {p['n']:,}; failed "
                  f"reads and blank or illegible captures count against us).")
+    from app.numbers import checked_line
     beside = (f"Beside it, the result that decides acceptance: {t2['errors']} wrong of {t2['fields']:,} accepted fields "
-              f"(two readers, the paper's sums as referee)." if t2 else None)
+              f"(two readers, the paper's sums as referee), judged {checked_line()}." if t2 else None)
     return {"title": INE_TITLE, "lines": INE_LINES, "source": INE_SRC, "url": INE_URL, "pilot": PILOT,
             "colima": _colima(), "score": score, "label": METRIC_LABEL, "beside": beside,
             "def_src": "results/ine_metric_DEFINITION.md (committed before computation); results/ine_metric.md"}
@@ -91,7 +133,8 @@ def market_lines() -> list[dict]:
          "source": f"Anexo 13 numeral 33 punto 7, as cited in IEPC Guerrero Acuerdo 057/SO/16-07-2026, considerando XI "
                    f"and XXVI-XXVII, {GRO_URL}"},
         {"k": "channel",
-         "text": ("The buyer is the state institute (OPLE); the PREP vendors and the outside auditors are the channel. "
+         "text": ("The 2027 buyer is the outside auditor or the contracted PREP operator, paid by the state institute "
+                  "(OPLE). "
                   "At least 13 of the 17 outsourced 2024 state PREPs went to three firms: Informática Electoral S.C. "
                   "(at least 8 states), Grupo Proisi (4) and PoderNet (1)."),
          "source": f"INE UTSI, Anexo 3 'Terceros que auxiliarán a los OPL', Feb 2024, {ANEXO3_URL}; Morelos: IMPEPAC "
@@ -129,9 +172,9 @@ def synthesis(H: dict) -> Optional[str]:
     from app.numbers import CITED
     return (f"The problem: INE's two official captures of the same paper disagree on {d['not_recounted_differ_pct']}% "
             f"of the polling stations that were not recounted, and {CITED['base_rate']['text']} of captured forms fail "
-            f"their own row sum. The gap: the mandated audit checks the software, not the keyed values. The buyer: INE "
-            f"budgeted MXN 9.5M for automated capture, set an 80% bar that no entrant met, and its advisers asked for a "
-            f"pilot.")
+            f"their own row sum. The gap: the mandated audit checks the software, not the keyed values. The appetite: INE "
+            f"tried to buy an automated first capture in 2024 (an MXN 9.5M draft line, unspent), set an 80% bar that no "
+            f"entrant met, and its advisers asked for a pilot.")
 
 
 NEXT_MARKETS = [
