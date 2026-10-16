@@ -20,7 +20,7 @@
       </div>
       <p class="meta" id="stripMeta">{% if ls.kind == 'live' %}<span class="ldot{{ ' on' if ls.running }}"></span>{% if ls.updated_min_ago is not none %}updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}{% else %}live audit{% endif %}{% else %}<span class="tag">measured sample</span>{% endif %} · {{ ls.states_complete }} · reader: {{ ls.reader_model }} on AMD Token Factory</p>
     </div>
-    <p class="fold-note d-only">Required by the PREP procedure: every acta gets a second capture and a comparison (<a href="https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/CGex202311-03-ap-8-a.pdf" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>). This is that step, for {{ n.business.per_1000_g }} per 1,000 forms.</p>
+    <p class="fold-note d-only">Required by the PREP procedure: every acta gets a second capture and a comparison (<a href="https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/CGex202311-03-ap-8-a.pdf" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>). This is that step, at {{ n.business.per_1000_g }} of AMD compute per 1,000 forms.</p>
     </div>
     {% set rs = ls.latest_receipts[:8] %}
     {% if rs %}
