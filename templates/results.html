@@ -16,7 +16,7 @@
     <div><div class="eyebrow" style="margin-bottom:4px">Technical report</div><b>Everything on this page, with method, sources and limits, as one PDF.</b></div>
     <a class="btn primary" href="/report.pdf">{{ icon('download') }}Report (PDF)</a>
   </div>
-  <p class="small res-jump">On this page: <a href="#gemma">Gemma vs Qwen</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a></p>
+  <p class="small res-jump">On this page: <a href="#gemma">Gemma vs the other readers</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a></p>
 </section>
 
 <section style="margin-top:20px">
@@ -115,23 +115,30 @@
 {% set gq = n.amd.gemma %}
 {% if gq %}
 <section id="gemma">
-  <div class="sec-head"><div><h2>Gemma vs Qwen on AMD</h2><p>The same {{ gq.n }} forms of the pre-registered run, each read by both models with the frozen prompt.</p></div></div>
+  {% set W = n.amd.why %}
+  <div class="sec-head"><div><h2>Gemma vs the other readers on AMD</h2><p>Same pre-registered forms, same frozen prompt, same gate; every reader on AMD Token Factory.</p></div></div>
+  {% if W %}
+  <p class="gtake" id="why-gemma">{{ W.lead }}</p>
+  <div class="card" style="padding:6px 8px;margin-top:12px"><div class="tablewrap"><table class="rtable">
+    <thead><tr>{% for h in W.head %}<th>{{ h }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for r in W.rows %}<tr{% if r.gemma %} class="hl"{% endif %}><td style="white-space:nowrap">{% if r.gemma and not r.pair %}<b>{{ r.who }}</b>{% else %}{{ r.who }}{% endif %}</td><td>{{ r.acc }}</td><td>{{ r.wrong }}</td><td>{{ r.cost }}</td><td>{{ r.time }}</td></tr>
+    {% endfor %}</tbody>
+  </table></div></div>
+  <p class="tiny muted">{{ W.note }}</p>
+  {% if W.caught %}
+  <h3 id="caught" style="margin-top:18px">Misreads the arithmetic caught</h3>
+  <p class="small" style="margin:0 0 10px">Gemma read the digits and the words the same wrong way, so only the form's sums could catch it; the failed sum was the only reason the gate refused the form.</p>
   <div class="grid2">
-    <div class="card">
-      {% if L.gemma_role %}<p style="margin:0 0 10px"><b>{{ L.gemma_role }}</b></p>{% endif %}
-      <p class="small" style="margin:0">Gemma-4-31B-IT reads each field twice, the handwritten digits and the amount written in Spanish words, plus the printed label of each row, on phone photos and faint pencil. It gets a fixed ~{{ gq.img_g }} tokens per image whatever the resolution, so each request is the page plus 6 zoomed tiles (the vote rows at ~8x the page's token density); on rainfall ledgers that took Gemma from 79% to 97% of cells right. Frozen prompt <code>{{ gq.prompt }}…</code>; the first complete JSON is parsed, a reply cut at <code>max_tokens</code> is never accepted.</p>
-    </div>
-    <div class="card">
-      <dl class="kv small">
-        <dt>Same {{ gq.n }} forms{% if not gq.complete %} <span class="muted">(Qwen pass running)</span>{% endif %}</dt><dd>Gemma / Qwen3.8-27B</dd>
-        <dt>Accepted at second capture</dt><dd>{{ gq.g.touchless }} / {{ gq.q.touchless }} forms</dd>
-        <dt>Accepted fields wrong</dt><dd>{{ gq.g.accepted_wrong }} of {{ gq.g.accepted_fields }} / {{ gq.q.accepted_wrong }} of {{ gq.q.accepted_fields }}</dd>
-        <dt>Cost per form</dt><dd>{{ gq.g.cost_per_read_usd|usd(6) }} / {{ gq.q.cost_per_read_usd|usd(6) }}{% if gq.cost_ratio %} <span class="muted">(about 1/{{ gq.cost_ratio }})</span>{% endif %}</dd>
-        <dt>Mean latency</dt><dd>{{ '%.0f'|format(gq.g.mean_latency_s) }} s / {{ '%.0f'|format(gq.q.mean_latency_s) }} s</dd>
-      </dl>
-      <p class="tiny muted" style="margin:10px 0 0">Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
-      <div style="margin-top:10px">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl, last read per form, via scripts/gemma_vs_qwen.py (results/gemma_vs_qwen.md). Tiling: docs/sources/ledger-rescue-pilot.md. docs/GEMMA.md.") }}</div>
-    </div>
+    {% for c in W.caught %}<div class="card"><img src="{{ c.url }}" alt="{{ c.name }} on form {{ c.clave }}, masked page, right of the logo column" style="width:100%;height:auto;border-radius:6px" loading="lazy"><p class="small" style="margin:8px 0 0">{{ c.line }}</p></div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endif %}
+  <div class="card" style="margin-top:14px">
+    <p class="small" style="margin:0">Gemma-4-31B-IT reads each field twice, the handwritten digits and the amount written in Spanish words, plus the printed label of each row, on phone photos and faint pencil. It gets a fixed ~{{ gq.img_g }} tokens per image whatever the resolution, so each request is the page plus 6 zoomed tiles (the vote rows at ~8x the page's token density); on rainfall ledgers that took Gemma from 79% to 97% of cells right. Frozen prompt <code>{{ gq.prompt }}…</code>; the first complete JSON is parsed, a reply cut at <code>max_tokens</code> is never accepted.</p>
+    <p class="tiny muted" style="margin:10px 0 0">Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
+    <div style="margin-top:10px">{{ source("app/data/bakeoff_300.json (scripts/bakeoff.py report), results/calls_gemma.jsonl, results/adjudication/certified.json; via app/why_gemma.py, checked by scripts/why_gemma.py --check (make eval). Tiling: docs/sources/ledger-rescue-pilot.md. docs/GEMMA.md.") }}</div>
   </div>
 </section>
 {% endif %}

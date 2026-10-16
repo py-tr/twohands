@@ -285,7 +285,8 @@ def test_phone_first_screen(server):
         pytest.skip(f"no browser: {e}")
     try:
         pg = br.new_page(viewport={"width": 390, "height": 844})
-        pg.goto(server + "/", wait_until="domcontentloaded")
+        pg.goto(server + "/", wait_until="load")
+        pg.evaluate("document.fonts.ready.then(() => true)")   # measure with the web font, as a phone shows it
         fold = 844
 
         def box(sel):

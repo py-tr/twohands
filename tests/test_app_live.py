@@ -91,6 +91,11 @@ def test_live_read_streams_fields_and_verdict(mgr):
     assert kinds.count("identity") == len(storemod.schema()["identities"])
     v = next(e for e in evs if e["type"] == "verdict")
     assert v["accepted"] and v["line"] == "Accepted: 0 fields to key"
+    # the receipt next to the verdict: model, endpoint, tokens in/out, latency and cost of this call
+    assert v["model"] == "Gemma-4-31B-IT" and v["endpoint"] == "AMD Token Factory"   # conftest: Gemma is listed
+    assert (v["prompt_tokens"], v["completion_tokens"], v["secs"], v["cost"]) == (2000, 700, 1.2, 0.00012)
+    js = (Path(livemod.__file__).resolve().parents[1] / "static" / "live.js").read_text(encoding="utf-8")
+    assert "data-receipt" in js and "tokens in / " in js and "ev.endpoint" in js and "ev.prompt_tokens" in js
     assert kinds[-1] == "done"
     # the queued second read now runs and writes the same budget file: wait for it before reading any file
     drain(mgr)

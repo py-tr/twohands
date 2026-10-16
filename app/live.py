@@ -39,6 +39,7 @@ from twohands import budgets as _budgets  # noqa: E402
 MAX_USD_PER_DAY = _budgets.share("live")   # LIVE_MAX_USD_PER_DAY, default 0.10
 QUEUE_MAX = int(os.environ.get("LIVE_QUEUE_MAX", "4"))
 LIVE_RETRIES = int(os.environ.get("LIVE_RETRIES", "2"))
+ENDPOINT = "AMD Token Factory"   # every live read goes to the hosted endpoint (twohands/amd.py); the receipt names it
 LIVE_DIR = storemod.STATE / "live"
 BUDGET_FILE = storemod.STATE / "live_budget.json"
 
@@ -317,14 +318,15 @@ class LiveManager:
                 job.emit(type="identity", name=i["name"], ok=i["ok"], lhs=i["lhs"], rhs=i["rhs"])
             out_dir = job.out_dir or LIVE_DIR
             out_dir.mkdir(parents=True, exist_ok=True)
-            out = {"clave": job.clave, "model": model_name, "model_fallback": pick["fallback"], "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            out = {"clave": job.clave, "model": model_name, "endpoint": ENDPOINT, "model_fallback": pick["fallback"], "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                    "secs": row.get("secs"), "usage": u, "cost": cost, "finish_reason": row.get("finish_reason"),
                    "parsed": row["parsed"], "accepted": ev["accepted"], "reasons": ev["reasons"]}
             name = f"{job.clave}.json" if job.out_dir is None else f"{job.clave}.read.json"
             (out_dir / name).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
             job.state = "done"
             job.emit(type="verdict", accepted=ev["accepted"], line=ev["line"], reasons=[storemod.neutralize(x) for x in ev["reasons"]],
-                     secs=row.get("secs"), cost=cost, model=model_name, fallback=pick["fallback"])
+                     secs=row.get("secs"), cost=cost, model=model_name, fallback=pick["fallback"], endpoint=ENDPOINT,
+                     prompt_tokens=u.get("prompt_tokens"), completion_tokens=u.get("completion_tokens"))
         except Exception as e:  # noqa: BLE001
             self._fail(job, "internal", f"Live read failed ({type(e).__name__})."
                        + (" Showing the last measured read." if job.fallback else ""))

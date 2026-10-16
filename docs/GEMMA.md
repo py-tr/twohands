@@ -5,7 +5,36 @@ Two Hands' reader is **Gemma-4-31B-IT**, served on AMD GPUs by AMD Token Factory
 is the engineering behind that: what the model has to do, the one limit we had to work around, how the reply is
 made safe to accept, what it costs, and how it compares with Qwen3.8-27B on the same forms.
 
-**Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted fields with Qwen3.8-27B; 0 wrong of 924 accepted fields with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814). Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.**
+<!-- why-gemma:start -->
+Same 300 forms, same gate, on AMD: Gemma accepts 1.8x the forms Qwen3.8-27B does at the same error rate, 4.6x cheaper and 2.8x faster, with no truncated answers. Every zero-error two-reader pair includes Gemma; the only pair without it made errors (2 of 814).
+
+| Reader | Forms accepted | Wrong of accepted fields | $ per 1,000 forms | Mean time per read |
+|---|---|---|---|---|
+| **Gemma-4-31B-IT** | **55 of 300 (18%)** | 2 of 1,210 | $0.14 | 87 s |
+| Qwen3.8-27B | 31 of 300 (10%) | 1 of 682 (+2 undecided) | $0.64 | 241 s |
+| Qwen3.8-Flash-Next | 17 of 128 (13%) | 0 of 374 (+1 undecided) | $2.11 | 120 s |
+| Gemma-4-31B-IT + Qwen3.8-27B | 89 of 300 (30%) | **0 of 1,958** | $0.78 | – |
+| Gemma-4-31B-IT + Qwen3.8-Flash-Next | 42 of 128 (33%) | **0 of 924** | $2.25 | – |
+| Qwen3.8-27B + Qwen3.8-Flash-Next | 37 of 128 (29%) | 2 of 814 (+1 undecided) | $2.75 | – |
+
+*Pairs: all 23 digits agree, lighter gate (secondary). Qwen3.8-Flash-Next: first 128 forms (budget rule). Source: app/data/bakeoff_300.json.*
+<!-- why-gemma:end -->
+
+## Misreads the arithmetic caught
+
+Two of Gemma's misreads on the 300, where it read the digits and the words the same wrong way, so only the form's own
+sums could catch them. In both, the failed sum was the only reason the gate refused the form, and the paper's value
+balances it. Crops are cut from the masked page, right of the logo column (`app/why_gemma.py`, `scripts/why_gemma.py`).
+
+<!-- caught:start -->
+![Option 02 on form 122655C0100, masked page, right of the logo column](caught/122655C0100_OPT02.jpg)
+
+Form 122655C0100, Option 02: Gemma read 23 in the digits and 23 in the words; the paper says 123 (the official capture keyed 123, the certified count says 123). The gate refused the form: rows sum to TOTAL, 366 ≠ 466; with the paper's 123 it is 466 = 466.
+
+![Option 04 on form 110922C0100, masked page, right of the logo column](caught/110922C0100_OPT04.jpg)
+
+Form 110922C0100, Option 04: Gemma read 54 in the digits and 54 in the words; the paper says 51 (the official capture keyed 51, the certified count says 51). The gate refused the form: rows sum to TOTAL, 329 ≠ 326; with the paper's 51 it is 326 = 326.
+<!-- caught:end -->
 
 ## 1. A job only a vision-language model can do
 

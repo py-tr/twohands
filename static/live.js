@@ -93,8 +93,10 @@ window.LiveJob = function (root) {
       }
       else if (ev.type === 'verdict') {
         step('answer', 'did', ''); step('verdict', 'did', '');
-        banner(ev.accepted ? 'ok' : 'warn', '<b>' + esc(ev.line) + '</b><br><span class="small">Read live by ' + esc(ev.model) + ' on AMD in ' + esc(ev.secs) +
-          ' s, cost $' + Number(ev.cost || 0).toFixed(6) + '.</span>');
+        var tok = function (n) { return n == null ? '?' : Number(n).toLocaleString('en-US'); };
+        banner(ev.accepted ? 'ok' : 'warn', '<b>' + esc(ev.line) + '</b><br><span class="small" data-receipt>Receipt: read live by ' + esc(ev.model) + ' on ' + esc(ev.endpoint || 'AMD') +
+          ' · ' + tok(ev.prompt_tokens) + ' tokens in / ' + tok(ev.completion_tokens) + ' out · ' + esc(ev.secs) +
+          ' s · cost $' + Number(ev.cost || 0).toFixed(6) + '.</span>');
       } else if (ev.type === 'error') {
         step(current || 'send', 'fail', '');
         var busy = ev.code === 'endpoint_busy';

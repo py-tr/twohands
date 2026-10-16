@@ -3,6 +3,7 @@ upload never touches the disk, a page that cannot be located stores nothing, and
 same live-read path. No request reaches AMD (mocked reader and usage)."""
 import io
 import json
+import re
 import os
 import tempfile
 import threading
@@ -50,7 +51,8 @@ def env(tmp_path, monkeypatch):
         gate.wait(5)
         r = storemod.get_store().runs["spike-gemma-v2"]["reads"][SAMPLE]
         items = [{"label": None, "n": r.values[f["key"]], "w": r.words[f["key"]]} for f in storemod.schema()["fields"]]
-        return {"parsed": {"values": items}, "secs": 1.0, "usage": {"cost": 0.0001}}
+        return {"parsed": {"values": items}, "secs": 1.0,
+                "usage": {"cost": 0.0001, "prompt_tokens": 2609, "completion_tokens": 804}}
 
     m = livemod.LiveManager(reader_fn=reader, usage_fn=lambda: {"daily_cost_remaining_usd": 0.9}, reveal_delay=0)
     old = app.state.live
@@ -125,6 +127,9 @@ def test_upload_stores_only_the_masked_page_and_queues_a_read(env):
     # the result page renders from what was stored, and stays neutral
     html = client.get(f"/try/{uid}").text
     assert f"/upload/{uid}.jpg" in html and "Read again" in html
+    # the receipt next to the gate verdict: model, endpoint, tokens in/out, latency, cost of this call
+    rc = re.search(r'<span class="small" data-receipt>(.*?)</span>', html, flags=re.S).group(1)
+    assert "on AMD Token Factory" in rc and "2,609 tokens in / 804 out" in rc and "1.0 s" in rc and "$0.000100" in rc
     _clean(html, "try result")
     assert client.get(f"/upload/{uid}.jpg").status_code == 200
 

@@ -183,7 +183,7 @@
         <dt>Input per form</dt><dd>1 masked page + zoomed tiles, one request</dd>
         <dt>Live audit</dt><dd>{% if ls.kind == 'live' %}{{ ls.forms_audited|int }} forms so far, reader {{ ls.reader_model }}{% else %}not started yet{% endif %} · <a href="/live">status</a></dd>
       </dl>
-      {% if L.gemma_role %}<p class="small" style="margin:12px 0 0">{{ L.gemma_role }} <a href="/results#gemma">Gemma vs Qwen</a></p>{% endif %}
+      {% if L.why_gemma %}<p class="small" style="margin:12px 0 0">{{ L.why_gemma }} <a href="/results#gemma">Gemma vs the other readers</a></p>{% endif %}
       <div style="margin-top:14px">{{ source("Latency and cost: Gemma, means over the reads of the pre-registered run (results/calls_gemma.jsonl); Qwen, means over the 43 pilot reads.") }}</div>
     </div>
   </div>

@@ -61,7 +61,7 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     # hero: 52 first, then the gate line with both tiers in one sentence (primary first), then the honest sentence
     assert home.index(L["keying"]["label"]) < home.index(gate_label(L)) < home.index(L["honest"])
     assert L["gate"]["label"].startswith("One reader: ") and "Two readers that must agree" in L["gate"]["label"]
-    assert L["gate_note"] in client.get("/").text and L["gemma_role"] in home   # the note is the card's tooltip
+    assert L["gate_note"] in client.get("/").text and L["why_gemma"] in home   # the note is the card's tooltip
     assert L["label_cost"] in res and L["harmonised"] in res
     rc = H["receipt"]
     assert (rc["paper"], rc["prep"], rc["certified"], rc["cert_mode"]) == (175, "75", 175, "Cotejo")
@@ -83,10 +83,13 @@ def test_docs_quote_the_summary():
     lab = (REPO / "submission" / "lablab.md").read_text(encoding="utf-8")
     gem = (REPO / "docs" / "GEMMA.md").read_text(encoding="utf-8")
     flat = lambda d: re.sub(r"\s+", " ", d.replace("**", ""))  # noqa: E731
-    assert gate_label(L) in flat(readme) and L["gemma_role"] in flat(readme)   # README: the regulation's words
+    assert gate_label(L) in flat(readme) and L["why_gemma"] in flat(readme)   # README: the regulation's words
     for doc in (slides, lab):
-        assert (L["gate"]["label"] in flat(doc) or gate_label(L) in flat(doc)) and L["gemma_role"] in flat(doc)
-    assert L["honest"] in flat(lab) and L["gemma_role"] in flat(gem)
+        assert L["gate"]["label"] in flat(doc) or gate_label(L) in flat(doc)
+    assert L["gemma_role"] in flat(slides)   # the slides keep the long Gemma role (speaker note)
+    assert L["honest"] in flat(lab) and L["why_gemma"] in flat(lab) and L["why_gemma"] in flat(gem)
+    first = readme[:readme.index("## Contents")]
+    assert L["why_gemma"] in flat(first) and "| **Gemma-4-31B-IT** |" in first   # the Gemma table on the first screen
     m = re.search(r"## Short description \((\d+) characters\)\n\n(.+)\n", lab.replace("\r\n", "\n"))
     assert m and len(m.group(2)) == int(m.group(1)) <= 255
     assert L["two_readers"] in re.sub(r"\s+", " ", ev.replace("**", ""))

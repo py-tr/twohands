@@ -774,7 +774,7 @@ footer .brand { margin-bottom: var(--s-3); }
   .d-only, #stripPrice { display: none; }
   .m-only { display: block; }
   .fold { min-height: calc(100vh - 56px - 24px); min-height: calc(100svh - 56px - 24px); display: flex; flex-direction: column; }
-  .f-h1 { font-size: 1.85rem; }
+  .f-h1 { font-size: 1.6rem; }   /* two lines at 390 px once Inter has loaded; 1.85rem wrapped to three and pushed the main button below the fold */
   .f-live { margin-top: 16px; gap: 12px; }
   .f-actions { margin-top: 14px; }
   .f-second { display: none; }

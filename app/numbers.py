@@ -264,6 +264,7 @@ def lines(H: dict, T: dict | None = None) -> dict:
         "honest": GL["honest"],
         "gate": GL["gate"],
         "gemma_role": GL["gemma_role"],
+        "why_gemma": _why_gemma_lead(),
         "gate_note": GL.get("gate_note"),
         "checked": GL.get("checked"),
         "preliminary": "The first capture is preliminary by design; the certified count is the official result.",
@@ -324,6 +325,7 @@ def home(st: storemod.Store) -> dict:
         "live": _live_stats(st),
         "gemma": _gemma_vs_qwen(),
         "bakeoff": _bakeoff(),
+        "why": _why_gemma(),
     }
     return {"confirm100": _confirm100(), "headline": headline_cards, "H": H, "L": L, "T": tiers(), "business": business, "cited": CITED, "amd": amd,
             "ledger": lm, "pilot": g, "pilot_q": q}
@@ -338,6 +340,22 @@ def _confirm100():
         return None
     from app import confirm100 as c100
     return {"v2": d["lines"]["v2"], "v3": d["lines"]["v3"], **(c100.texts() or {})}
+
+
+def _why_gemma_lead():
+    """'Same 300 forms, same gate, on AMD: Gemma accepts 1.8x the forms ...' (app/why_gemma.py, from bakeoff_300.json)."""
+    from app import why_gemma
+    return why_gemma.lead()
+
+
+def _why_gemma():
+    """The Gemma table and the misreads the arithmetic caught, for the results page (app/why_gemma.py)."""
+    from app import why_gemma
+    d = why_gemma.load()
+    if not d:
+        return None
+    return {"lead": why_gemma.lead(d), "head": why_gemma.HEAD, "rows": why_gemma.rows(d), "note": why_gemma.note(d),
+            "caught": [dict(c, line=why_gemma.caught_line(c)) for c in why_gemma.caught()]}
 
 
 def _bakeoff():

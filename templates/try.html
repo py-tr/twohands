@@ -48,7 +48,7 @@
       <ul class="jobsteps" data-live-steps style="margin-top:2px" hidden></ul>
       {% if not ev %}<div data-live-msg></div>{% endif %}
       {% if ev %}
-      <div data-live-msg><div class="banner {{ 'ok' if ev.accepted else '' }}">{{ icon('check' if ev.accepted else 'alert') }}<div class="grow"><b>{{ ev.line }}</b><br><span class="small">Read on AMD by {{ up.read.model }} in {{ up.read.secs }} s, cost ${{ '%.6f'|format(up.read.cost or 0) }}.</span></div></div></div>
+      <div data-live-msg><div class="banner {{ 'ok' if ev.accepted else '' }}">{{ icon('check' if ev.accepted else 'alert') }}<div class="grow"><b>{{ ev.line }}</b>{% set u = up.read.usage or {} %}<br><span class="small" data-receipt>Receipt: read by {{ up.read.model }} on {{ up.read.endpoint or 'AMD Token Factory' }} · {{ '{:,}'.format(u.prompt_tokens) if u.prompt_tokens is not none else '?' }} tokens in / {{ '{:,}'.format(u.completion_tokens) if u.completion_tokens is not none else '?' }} out · {{ up.read.secs }} s · cost ${{ '%.6f'|format(up.read.cost or 0) }}.</span></div></div></div>
       <div class="tiles" data-live-tiles>
         {% for f in ev.fields %}<div class="tile in {{ 'ok' if f.status == 'ok' else 'bad' }}"><div class="k">{{ f.name }}</div><div class="v">{{ '–' if f.n is none else f.n }} <span>{% if f.w is not none %}words {{ f.w }}{% endif %}</span></div>{% if f.status != 'ok' %}<div class="tiny" style="color:var(--bad)">{{ f.msg }}</div>{% endif %}</div>{% endfor %}
       </div>
@@ -152,7 +152,7 @@
 {% endif %}
 {% endblock %}
 {% block scripts %}
-<script src="/static/live.js?v=5"></script>
+<script src="/static/live.js?v=6"></script>
 <script>
 (function () {
   var live = document.getElementById('live');
