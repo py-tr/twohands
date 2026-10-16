@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Two Hands cover</title>
+<style>
+  :root { --navy: #12324a; --ink: #f3f1ea; --muted: #b9c6d2; --accent: #ffd9a8; --paper: #fbfaf7; --red: #c2410c; }
+  html, body { margin: 0; height: 100%; }
+  body { width: 1920px; background: var(--navy); color: var(--ink); font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+         display: flex; align-items: center; overflow: hidden; }
+  .wrap { display: grid; grid-template-columns: 900px 820px; gap: 72px; padding: 0 64px 0 64px; align-items: center; }
+  .brand { font-size: 34px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 26px; }
+  h1 { font-size: 92px; line-height: 1.04; margin: 0 0 34px; font-weight: 800; color: #fff; }
+  .sub { font-size: 40px; line-height: 1.3; color: var(--muted); margin: 0 0 44px; }
+  .badge { display: inline-flex; align-items: center; gap: 16px; font-size: 40px; font-weight: 700; color: var(--navy);
+           background: var(--accent); border-radius: 14px; padding: 14px 28px; }
+  .card { background: var(--paper); border-radius: 26px; padding: 34px 34px 30px; color: #1d232b; box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+  .card img { width: 100%; display: block; border-radius: 10px; border: 2px solid #e3e0d8; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 26px; }
+  .cell { border: 3px solid #e3e0d8; border-radius: 16px; padding: 16px 18px 12px; text-align: left; }
+  .cell.bad { border-color: var(--red); }
+  .cell.ok { border-color: var(--navy); }
+  .k { font-size: 24px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #5a6470; }
+  .v { font-size: 108px; font-weight: 800; line-height: 1.0; color: var(--navy); }
+  .bad .v { color: var(--red); text-decoration: line-through; text-decoration-thickness: 8px; }
+  .cap { font-size: 24px; color: #5a6470; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <div class="brand">Two Hands</div>
+    <h1>Receipts for every number keyed from paper</h1>
+    <p class="sub">Two independent readers, and the paper's own arithmetic as the referee.</p>
+    <span class="badge">Gemma on AMD</span>
+  </div>
+  <div class="card">
+    <img src="receipt_050815B0100.jpg" alt="Handwritten row: words 'ciento setenta y cinco', boxes 1 7 5">
+    <div class="row">
+      <div class="cell"><div class="k">Paper</div><div class="v">175</div></div>
+      <div class="cell bad"><div class="k">Keyed</div><div class="v">75</div></div>
+      <div class="cell ok"><div class="k">Certified</div><div class="v">175</div></div>
+    </div>
+    <div class="cap">Form 050815B0100, Option 07 · INE PREP 2024, masked crop</div>
+  </div>
+</div>
+</body>
+</html>

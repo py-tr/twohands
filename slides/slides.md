@@ -4,244 +4,128 @@ size: 16:9
 paginate: true
 theme: default
 title: Two Hands
+description: Receipts for every number keyed from paper. Gemma on AMD.
 style: |
-  section { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-size: 28px; padding: 56px 72px; color: #1d232b; background: #fbfaf7; }
-  h1 { font-size: 52px; color: #12324a; margin-bottom: 0.3em; }
-  h2 { font-size: 38px; color: #12324a; }
+  section { justify-content: flex-start !important; font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif; font-size: 25px; line-height: 1.38; padding: 44px 64px 52px; color: #1d232b; background: #fbfaf7; justify-content: flex-start; }
+  section::after { font-size: 14px; color: #8a929b; }
+  h1 { font-size: 50px; line-height: 1.12; color: #12324a; margin: 0 0 14px; }
+  h2 { font-size: 36px; color: #12324a; margin: 0 0 16px; }
   strong { color: #12324a; }
-  table { font-size: 22px; }
-  .big { font-size: 64px; font-weight: 700; color: #12324a; line-height: 1.1; }
-  .small { font-size: 18px; color: #5a6470; }
-  .cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 24px; }
-  .two { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
-  footer { font-size: 14px; color: #8a929b; }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 0 0 10px; padding-left: 1.1em; }
+  li { margin-bottom: 6px; }
+  table { font-size: 19px; border-collapse: collapse; }
+  th, td { padding: 5px 10px; }
+  footer { font-size: 13px; color: #8a929b; left: 64px; }
+  .src { position: absolute; left: 64px; right: 64px; bottom: 42px; font-size: 13.5px; line-height: 1.3; color: #66707b; margin: 0; }
+  .lead { font-size: 30px; color: #3b4550; }
+  .big { font-size: 60px; font-weight: 800; color: #12324a; line-height: 1.0; }
+  .mid { font-size: 21px; }
+  .small { font-size: 17px; color: #5a6470; }
+  .tag { display: inline-block; font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9a3412; background: #fdebd8; border-radius: 4px; padding: 2px 8px; margin-bottom: 10px; }
+  .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 26px; }
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+  .card { background: #fff; border: 1px solid #e3e0d8; border-radius: 10px; padding: 16px 20px; }
+  .card.hi { border: 2px solid #12324a; }
+  .card.warn { border: 2px solid #c2410c; }
+  .k { font-size: 16px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #66707b; }
+  .v { font-size: 64px; font-weight: 800; line-height: 1.05; color: #12324a; }
+  .v.bad { color: #c2410c; text-decoration: line-through; text-decoration-thickness: 4px; }
+  .rule { border-top: 2px solid #12324a; padding-top: 10px; margin-top: 12px; }
+  section.title { justify-content: center; background: #12324a; color: #f3f1ea; }
+  section.title h1 { color: #fff; font-size: 58px; }
+  section.title strong { color: #ffd9a8; }
+  section.title .lead { color: #d6dde4; }
+  section.title::after, section.title footer { color: #9fb1c2; }
+  img { background: transparent; }
 footer: "Two Hands · AMD Developer Hackathon ACT III"
 ---
 
-<!-- Slide 1: the one sentence -->
+<!-- _class: title -->
 
-# Two Hands
+# Two Hands: receipts for every number keyed from paper
 
-## Receipts for every number keyed from paper
+<p class="lead">Two hands: two independent readers, and the paper's own arithmetic as the referee.</p>
 
-Two hands: two independent readers, and the paper's own arithmetic as the referee.
+A second keyer that shows its proof. An open vision model, **Gemma on AMD**, re-reads every field of forms already keyed; the paper's arithmetic decides what is accepted; a person sees every disputed field with its photo.
 
-A second keyer that shows its proof. An open vision model on AMD GPUs re-reads every field of forms already keyed. The form's own arithmetic decides what is accepted; every disputed field goes to a person with its photo.
-
-<p class="small">Demo, video and repo links: on the submission page.</p>
+<p class="small" style="color:#9fb1c2">Measured on a pre-registered random 300 of Mexico's 2024 handwritten tally sheets. An independent demonstration of clerical capture quality, not an official INE product.</p>
 
 ---
-
-<!-- Slide 1b: the receipt (the video's first 10 s) -->
 
 ## One receipt
 
-![w:900](receipt_050815B0100.jpg)
+![w:1000](receipt_050815B0100.jpg)
 
-Form 050815B0100, Option 07. **The first capture keyed 75. The paper says 175. The certified count says 175.**
+<div class="cols3" style="margin-top:18px">
+<div class="card"><div class="k">The paper</div><div class="v">175</div><div class="mid">words "ciento setenta y cinco" = one hundred seventy-five · boxes 1 7 5</div></div>
+<div class="card warn"><div class="k">The first capture keyed</div><div class="v bad">75</div><div class="mid">one of 52 fields where the capture does not match the paper</div></div>
+<div class="card hi"><div class="k">The certified count</div><div class="v">175</div><div class="mid">settled by comparison with the paper ("Cotejo")</div></div>
+</div>
 
-In English: words "ciento setenta y cinco" = 175 · boxes: 1 7 5. Confirmation: certified count, by comparison (INE Computos, "Cotejo").
+<p class="src">Form 050815B0100, Option 07, from the pre-registered random 300 (masked crop). Sources: app/data/headline.json ("receipt"); INE PREP 2024 and Cómputos Distritales 2024, free-use terms. Each receipt is Merkle-anchored: "verify this receipt" in the app.</p>
 
-![w:700](receipt_070207C0100_enhanced.jpg)
-
-Second card, 070207C0100 TOTAL (faint pencil, *enhanced for display*): the capture recorded it as illegible; the model read 416; the certified count, after a recount, says 416. Words "Cuatrocientos dieciseis" = 416 · boxes: 4 1 6.
-
-<p class="small">Both from the pre-registered random 300, two of the 52 fields where the capture does not match the paper. Masked crops; INE PREP 2024, free-use terms; not an official INE product. Each card's Merkle receipt: "verify this receipt" on the app's Home card.</p>
+<!--
+The video opens on this card. The model read 175 from both the words and the boxes; the first capture keyed 75; the certified count says 175.
+-->
 
 ---
 
-<!-- Slide 2: the problem -->
+## The problem, from INE's own files
 
-## Today every form is typed twice
+<div class="cols3">
+<div class="card"><div class="big">6.5%</div><p class="mid" style="margin-top:10px">of the 52,167 polling stations that were not recounted: INE's two official captures of the same paper disagree on at least one vote field (3,382).</p></div>
+<div class="card"><div class="big">19.2%</div><p class="mid" style="margin-top:10px">of fully captured national forms fail their own row sum in the official capture (26,336 of 137,196).</p></div>
+<div class="card"><div class="big" style="font-size:40px;line-height:1.25">software,<br>not values</div><p class="mid" style="margin-top:10px">The mandated outside audit of each PREP, by rule, checks the software, not the keyed values against the paper.</p></div>
+</div>
 
-Organisations key paper forms twice, because one keyer's mistakes cannot be found any other way. Mexico's 2024 national capture programme did this for every tally sheet.
+<p class="rule">A difference says two captures disagree, not which one is right; the photo does.</p>
 
-Double keying copies the paper faithfully. It cannot say which paper is wrong: **19.2%** of nationally captured tally forms (26,336 of 137,196) fail their own row sum.
+The preliminary count is preliminary by design; the certified count is the official result.
 
-<p class="small">Source: PREP 2024 CSV. See docs/NUMBERS.md.</p>
+<p class="src">Sources: results/national_counts.md (PREP 2024 CSV; Cómputos Distritales 2024 CSV); audit scope: Reglamento de Elecciones art. 347.1 and INE's 2024 PREP audit report (UAM-I), PDF p. 7. Clerical only: no party, no totals, no outcome.</p>
+
+<!--
+Full line, as computed (app/buyer.py): On the 52,167 polling stations that were not recounted, INE's two official records of the same paper, the preliminary capture and the certified count, disagree on at least one vote field in 3,382 (6.5%). A difference says two captures disagree, not which one is right; the photo does. On our 300, the photo sided with the certified count on 22 of the 31 it covered.
+-->
 
 ---
 
-<!-- Slide 3: how it works -->
+## How it works: two hands and a referee
 
-## Many forms check themselves
-
-<div class="cols">
-<div>
-
-**1. Mask**
-Locate the page. Black out the names-and-signatures column before anything is stored or sent.
-
-</div>
-<div>
-
-**2. Read on AMD**
-Gemma-4-31B-IT reads every field twice: digits and words. Plus the printed label of each row.
-
-</div>
-<div>
-
-**3. Gate**
-Words = digits. Rows sum to TOTAL. Sections agree. All pass: accepted. Any fail: a person sees the field.
-
-</div>
+<div class="cols3">
+<div class="card"><div class="k">Hand 1</div><p><strong>Gemma-4-31B-IT on AMD</strong> reads every field twice, the handwritten digits and the amount in words, plus each row's printed label.</p></div>
+<div class="card"><div class="k">Hand 2</div><p><strong>A second, independent reader</strong> (Qwen3.8-27B on AMD) must agree field by field. It never overrides Gemma; it only withholds acceptance.</p></div>
+<div class="card hi"><div class="k">The referee</div><p><strong>The paper's arithmetic:</strong> words = digits, rows sum to TOTAL, sections agree, every row label where it belongs.</p></div>
 </div>
 
-A form type is one schema file. A new form is configuration, not code.
+<div class="cols2" style="margin-top:22px">
+<div><strong>The gate.</strong> Every identity holds: accepted. Any fails: the form is routed, with the failing field named. It never guesses a value.</div>
+<div><strong>A person sees the rest:</strong> the field, both reads and the crop. One value typed; the identities re-check at once. Names column masked before anything is stored or sent.</div>
+</div>
+
+<p class="src">A form type is one schema file. Pipeline: locate the page and mask it (CPU) → one request per form on AMD Token Factory → gate (plain Python). docs/ARCHITECTURE.md.</p>
 
 ---
 
-<!-- Slide 4: a routed form -->
+## Measured, not promised
 
-## A routed form names its failing field
-
-<div class="two">
-<div>
-
-Form 211294C0100. The TOTAL digits say **262**. The words say **162**. The rows sum to 262.
-
-The gate does not guess. It sends this one field to a person.
-
-</div>
-<div>
-
-![w:520](../data/masked/spike/211294C0100.jpg)
-
-<p class="small">Masked page. INE PREP 2024, free-use terms. Not an official INE product.</p>
-
-</div>
+<div class="cols3">
+<div class="card"><div class="big">52</div><p class="mid">fields where the official capture does not match the paper, each with its photo; <strong>22</strong> confirmed by the certified count (of the 31 it covers)</p></div>
+<div class="card"><div class="k">One reader (primary)</div><div class="big">18%</div><p class="mid">of forms accepted with no person: 2 wrong of 1,210 fields</p><div class="k" style="margin-top:8px">Two readers</div><div class="big">30%</div><p class="mid">0 wrong of 1,958 fields</p></div>
+<div class="card hi"><div class="k">Confirmation, 100 fresh forms</div><div class="big">0 / 484</div><p class="mid">accepted fields wrong (Wilson 95% upper bound 0.79%); pre-registered bar ≤ 0.5% met on the point estimate</p></div>
 </div>
 
----
+<p class="rule"><strong>Alone, one model mis-keys 1 field in 37. Behind the gate, 1 in 605 accepted fields is wrong.</strong></p>
 
-<!-- Slide 5: headline numbers -->
-
-## Results: a pre-registered random 300
-
-<div class="cols">
-<div><div class="big">52</div>fields where the official capture does not match the paper<br><span class="small">17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo.</span></div>
-<div>One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary.<br><span class="small">Note: the two-reader tier checks words = digits and row sums, without the section checks.</span></div>
-<div><div class="big">1 in 5</div>disputed fields is a confirmed capture error (52 of 267)<br><span class="small">the capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far); more than ten times the yield of a random check</span></div>
-</div>
-
-**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.**
-
-<p class="small">One reader: about 1 in 605 accepted fields wrong. Gemma-4-31B-IT on AMD. Protocol committed (a93294c, Amendment 1 b0e443c) before any model read. The first capture is preliminary by design; the certified count is the official result. Recall: on forms the certified count settled by comparison, 16 of its 23 differences from the first capture are council corrections or blank rows; the model disputed all 7 others (small n).</p>
+<p class="src">Pre-registered random 300 (protocol a93294c, Amendments 1-3, committed before any model read); Gemma-4-31B-IT read 289. The two-reader tier checks words = digits and row sums, without the section checks. Confirmation: gate v2, seed 20261017, results/confirm100.md (truth: AI adjudicator on published crops, labelled). app/data/headline.json; results/two_reader_300.md.</p>
 
 ---
-
-<!-- Slide 6: audit mode -->
-
-## Audit mode: one capture error
-
-<div class="two">
-<div>
-
-Form 050815B0100, Option 07. **The paper says 175, the first capture keyed 75, the certified count says 175.**
-
-The 52: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. On 250767B0100 the capture shifted a whole column by one row.
-
-</div>
-<div>
-
-![w:520](receipt_050815B0100.jpg)
-
-<p class="small">Masked crop. INE PREP 2024, free-use terms. Not an official INE product. Rows are Option 01 to 15; no party is named or compared.</p>
-
-</div>
-</div>
-
----
-
-<!-- Slide 7: safeguard -->
-
-## A person sees everything the paper cannot settle
-
-The review desk shows only the failing field, the model's digits and words, and the crop. A person types one value. The identities re-check at once.
-
-If the paper contradicts itself, the person escalates it. Nothing is corrected silently. A page that cannot be located is never sent.
-
----
-
-<!-- Slide 8: AMD -->
-
-## What ran on AMD
-
-| | Gemma-4-31B-IT | Qwen3.8-27B |
-|---|---|---|
-| Role | primary reader | second reader |
-| Mean latency per form | 87 s (300 run) | 85 s (pilot) |
-| Tokens in / out | ~2,609 / 804 | ~8,739 / 1,667 |
-| Cost per form | $0.000144 | $0.000507 |
-
-Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
-
-AMD Token Factory, the organisers' hosted AMD GPUs. One request per form. ~2 forms/min under our shared-key pacing.
-
-**Evolus event workspace: py_tr (event code AMDACT3).** Its agent "Intake clerk" runs Gemma-4-31B-IT on the same Token Factory; every strong-evidence dispute the live audit finds opens an "Audit finding" case there (at most 60 a day).
-
-<p class="small">Gemma: means over the 289 reads of the pre-registered run. Qwen: pilot, 43 forms. Locating, masking and the gate run on CPU.</p>
-
----
-
-<!-- Slide 8b: Gemma on AMD -->
-
-## Gemma on AMD: what it took
-
-Gemma-4-31B-IT reads every value twice, the **handwritten digits** and the **amount in Spanish words**, plus the printed label of each row. Phone photos, faint pencil.
-
-- **Fixed ~263 image tokens per image**, whatever the resolution. So: page + 6 zoomed tiles in one request. Ledgers: **79% → 97%** cells right once tiled.
-- **Frozen prompt** (sha256 `3664253035b9…`), rows not named: Gemma reports each row's label, a shifted row is caught.
-- **Junk after the answer:** first complete JSON parsed, `max_tokens` 2000, `length` never accepted. 289/289 `stop`.
-
-| Same 300 forms, same prompt and gate | Gemma | Qwen3.8-27B |
-|---|---|---|
-| Accepted, no person | **55** | 31 |
-| Accepted fields wrong | 2 of 1,210 | 1 of 682 |
-| Cost per form | **$0.000144** | $0.000597 |
-| Mean latency | **87 s** | 241 s |
-
-<p class="small">results/gemma_vs_qwen.md (scripts/gemma_vs_qwen.py; both passes complete). Gemma was withdrawn from AMD Token Factory on 2026-10-15 ~15:41 UTC; live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs. docs/GEMMA.md.</p>
-
----
-
-<!-- Slide 9: second form type -->
-
-## A second form, a different century
-
-UK rainfall ledgers, 1850 to 1960. Twelve months must add up to the clerk's annual total.
-
-**Spike, 40 sheets, 4,915 cells.** 306 of 380 year-columns accepted. **3,976 of 3,976** accepted cells (spike, 40 sheets) match the 16,000 volunteers.
-
-<p class="small">Rainfall Rescue, Hawkins et al. 2022. Images linked, not redistributed.</p>
-
----
-
-<!-- Slide 9b: the regulated process, 1:1 -->
-
-## The rule already asks for a second capture
-
-| INE's PREP process (PTO 2023-2024) | Two Hands |
-|---|---|
-| Digitalización (num. 4 c, 23-28) | the same image; page located, names column masked |
-| First capture, automatic or human (30-32) | taken as given |
-| **Second capture by a person (33)** | **the model reads every field: digits, words, row label** |
-| **Comparison: all equal, done (33)** | **field by field; agreement + the paper's sums accept** |
-| Third capture on mismatch (34) | only the disputed fields, ordered by evidence |
-| Centro de Verificación (35) | gets what the paper itself does not settle |
-| Cotejo: published data vs the acta (4 f, 45) | a crop and a mark for every disputed field, CSV |
-
-On INE's published 2024 capture, after all of the above: **0.8% of fields still do not match the paper** (52 of 6,358, at least); our second capture puts **1 in 5** of its disputes on a confirmed capture error.
-
-**$1 per form audited (second capture + cotejo + receipts)** (proposal) · measured AMD compute **$0.00014 per form** (Gemma).
-
-<p class="small">PTO: repositoriodocumental.ine.mx, CGex202311-03-ap-8-a.pdf. All 32 state PREPs: Reglamento de Elecciones art. 339.1 d, Anexo 13 numerals 15 and 21. Numeral 33 names a person: a model as the second capture is a change the institute must approve. We show evidence, not compliance. Measured: app/data/headline.json, results/calls_gemma.jsonl.</p>
-
----
-
-<!-- Slide 10: the buyer (not the hero) -->
 
 ## The buyer already budgeted for this
+
+<div class="cols2">
+<div>
 
 - INE put MXN 9.5M in its 2024 draft budget for an automated capture service. <span class="small">(p. 4)</span>
 - IPN quoted MXN 19.9M for the service. <span class="small">(p. 4)</span>
@@ -250,135 +134,149 @@ On INE's published 2024 capture, after all of the above: **0.8% of fields still 
 
 **The pilot INE's advisers recommended can run on 2024's own forms today.**
 
-On that metric as we read it, Gemma's existing reads of our pre-registered 300 agree with the official capture in words and digits on 83.5% of fields (5,508 of 6,600; failed reads and blank or illegible captures count against us). <span class="small"><i>INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.</i></span>
+</div>
+<div class="card mid">
+
+<div class="big">83.5%</div>
+
+On that metric as we read it, Gemma's existing reads of our pre-registered 300 agree with the official capture in words and digits on 83.5% of fields (5,508 of 6,600; failed reads and blank or illegible captures count against us).
+
+<p class="small"><i>INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.</i></p>
 
 Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields (two readers, the paper's sums as referee).
 
-<p class="small">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10. Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Accepted set: results/two_reader_300.md.</p>
+</div>
+</div>
 
----
+<p class="src">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf). Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Buyer: the state institute (OPLE); PREP vendors and outside auditors are the channel (docs/BUSINESS.md).</p>
 
-<!-- Slide 10-2: who pays, in order -->
-
-## Who pays: the state institute, through three firms
-
+<!--
+Who pays, in order (app/buyer.py, word for word):
 1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. We check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185).
 2. Baja California Sur bought an AI first capture by direct award (Google Document AI, MXN 93,834.49); it matched the human capture on 2.88% of actas and 62.84% of fields. A machine already keys; the question is who referees it.
 3. Every state institute decides whether to run its PREP alone or with a third party at least six months before election day: for 6 June 2027, by about 6 December 2026. Guerrero has already decided: in-house, "con acompañamiento de un ente especializado".
 4. The buyer is the state institute (OPLE); the PREP vendors and the outside auditors are the channel. At least 13 of the 17 outsourced 2024 state PREPs went to three firms: Informática Electoral S.C. (at least 8 states), Grupo Proisi (4) and PoderNet (1).
-
-<p class="small">Sources: IMPEPAC Informe Final PREP 23-24 p. 56; IEEBCS Informe final PREP 2023-2024 pp. 19, 31; IEPC Guerrero Acuerdo 057/SO/16-07-2026; INE UTSI Anexo 3 (Feb 2024). Full case: docs/BUSINESS.md.</p>
-
----
-
-<!-- Slide 10-3: the cost of the problem -->
-
-## The cost of the problem
-
-On the 52,167 polling stations that were not recounted, INE's two official records of the same paper, the preliminary capture and the certified count, disagree on at least one vote field in 3,382 (6.5%). A difference says two captures disagree, not which one is right; the photo does. On our 300, the photo sided with the certified count on 22 of the 31 it covered.
-
-The preliminary count is preliminary by design; the certified count is the official result.
-
-19.2% (26,336 of 137,196) of fully captured national forms fail their own row sum in the official capture. The official capture recorded 28,607 fields as "Ilegible" on 6,009 actas.
-
-<p class="small">Sources: results/national_counts.md (PREP 2024 CSV; Cómputos Distritales 2024 CSV); results/adjudication/CERTIFIED.md. Clerical only: no party, no totals, no outcome.</p>
+-->
 
 ---
 
-<!-- Slide 10-4: next markets -->
+## Price and unit economics
 
-## Next markets, not measured
+<div class="cols2">
+<div>
+<div class="card hi"><div class="k">Line 1 (proposal)</div><div class="big">$1</div><p class="mid">$1 per form audited (second capture + cotejo + receipts)</p></div>
+<div class="card" style="margin-top:14px"><div class="k">Line 2</div><p class="mid" style="margin:4px 0 0"><strong>$5 per confirmed capture error, $0 if none is found</strong></p></div>
+</div>
+<div class="mid" style="font-size:19.5px">
 
-1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
-2. US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
-3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism we measured on election forms.
+**Costs per form.** AMD compute $0.00014 per form (measured) · review labour for routed fields about $0.09 to $0.13 per form (GUESS: 20 s per disputed crop) · hosting and sales, not measured.
 
-<p class="small">Sources: WHO DQR Module 3 (2020); dhis2.org/about; Kenya MOH 711A; Fannie Mae Selling Guide D1-3-01, D1-3-02; CFPB HMDA 2023; Clinical Leader, Nov 2014; Lindblad et al., Clinical Trials 2014. Links: docs/BUSINESS.md.</p>
+**Anchor.** INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone.
 
----
+**Per state.**
+- Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling
+- the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest
+- the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M
 
-<!-- Slide 10a: unit economics -->
-
-## Unit economics, per form
-
-<div class="cols">
-<div><div class="big">$1</div>per form audited (second capture + cotejo + receipts), proposal. Or line 2: $5 per confirmed capture error, $0 if none is found</div>
-<div><div class="big">$0.00014</div>measured AMD compute per form, Gemma-4-31B-IT (289 reads of the 300)</div>
-<div><div class="big">$0.09-0.13</div>review labour for routed fields per form (GUESS: 20 s per disputed crop at $18-25 an hour)</div>
+</div>
 </div>
 
-Anchor: INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone. Plus hosting and sales, not measured. Examples: Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling; the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest; the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M.
-
-<p class="small">Contingency: measured: 52 confirmed capture errors in 267 disputed fields (19.5%, 1 in 5.1) on 289 read forms, 180 per 1,000 forms; $1 / 0.180 = $5.56, rounded down to $5. Self-serve (CLI / MCP, you review your own disputes): $0.10 per form. FX: MXN 18.3835 per USD (ECB, 2026-10-16). Price: app/pricing.py (one config value); docs/BUSINESS.md, "The price".</p>
+<p class="src">Line 2 basis: 52 confirmed capture errors in 267 disputed fields on 289 read forms, $1 / 0.180 = $5.56, rounded down. Review: 0.92 crops per form measured, $18 to $25 an hour. FX: MXN 18.3835 per USD (ECB, 2026-10-16). Ceilings: PEF 2026 Anexo 9. One config: app/pricing.py; docs/BUSINESS.md.</p>
 
 ---
 
-<!-- Slide 10a2: the second business line -->
+## Gemma on AMD
 
-## When an agent keys a form, the paper still has to agree
+**Gemma-4-31B-IT is the primary reader in every mode.** Every form of the 300, on AMD GPUs via AMD Token Factory: one request per form (page + 6 zoomed tiles).
 
-Receipts work the same for a model as for a person; in our measurement, Gemma is the agent.
+<div class="cols3">
+<div class="card hi"><div class="k">AMD compute per form</div><div class="big" style="font-size:48px">$0.000144</div></div>
+<div class="card"><div class="k">Mean latency per form</div><div class="big" style="font-size:48px">87 s</div><p class="small" style="margin:4px 0 0">shared endpoint, ~2 forms/min</p></div>
+<div class="card"><div class="k">Tokens per form</div><div class="big" style="font-size:48px">2,609 / 804</div><p class="small" style="margin:4px 0 0">in / out; 289 of 289 replies end in stop</p></div>
+</div>
 
-Gemma-4-31B-IT keyed every field of the 289 read forms; alone it mis-keys 1 field in 37, and the same paper arithmetic that catches a person's slip catches the model's. A second line, not the hero: the buyer is anyone who lets an agent fill a form from paper.
+<p style="margin-top:16px"><strong>Open-model bake-off, same forms, prompt and gate:</strong> Gemma-4-31B-IT is the per-dollar leader and accepts the most forms. Gemma + Qwen3.8-27B is the safest pair: 0 wrong in 1,958.</p>
 
-<p class="small">Measured: results/adjudication/SUMMARY.md (173 of 6,358 fields). Next market, not measured.</p>
+| Open model on AMD Token Factory | Gemma-4-31B-IT | Qwen3.8-27B | Qwen3.8-Flash-Next |
+|---|---|---|---|
+| Forms accepted, no person | **55 of 300** | 31 of 300 | 17 of 128 |
+| Cost per 1,000 forms | **$0.14** | $0.64 | $2.11 |
+| Mean latency per form | **87 s** | 241 s | 120 s |
 
----
-
-<!-- Slide 10b: volume -->
-
-## One result sheet per polling station, every election
-
-**The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.**
-
-No second-language corpus with an official keyed record and usable terms was reachable; the language claim stays at what was measured.
-
-Forms of this kind, with rows that sum to a total and often words beside digits, are produced at these volumes every cycle.
-
-| General election | Result sheets (polling stations) |
-|---|---|
-| Mexico 2024, presidential | 169,005 |
-| Nigeria 2023 | 176,846 polling units |
-| Kenya 2022, presidential | 46,229 Form 34A |
-| India 2024, Lok Sabha | 1,052,664 |
-| Indonesia 2024 | 820,161 domestic TPS |
-| Peru 2026, first round | 92,766 actas |
-
-**Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by us.**
-
-**A live problem.** Indonesia's 2024 count app read photographed result sheets by machine; a KPU commissioner attributed input errors partly to the system misreading digits ("a 3 read as an 8"). Result-sheet capture errors are the thing we check. Volume only; we have measured Mexico alone.
-
-<p class="small">Sources: PREP 2024 CSV; INEC Polling Units page; IEBC press release 17-08-2022; PIB/ECI data release; KPU RI voter-roll recap (July 2023); Antara 15 and 19 Feb 2024; Peru: ONPE RJ 000093-2026 (El Peruano, 6 Jun 2026), El Búho May 2026. Links: docs/BUSINESS.md.</p>
+<p class="src">results/bakeoff_300.md (Amendment 6), results/gemma_vs_qwen.md, results/calls_gemma.jsonl; docs/GEMMA.md. Gemma was withdrawn from Token Factory 2026-10-15 15:41 UTC and back 2026-10-16 02:06 UTC (endpoint log); every measured read of the 300 is Gemma on AMD.</p>
 
 ---
 
-<!-- Slide 11: competition -->
+## Evolus: where the case lives
 
-## Competition: others extract, we audit
+<div class="cols2">
+<div>
 
-| | Handwriting | Proves each accepted value | Audits an existing capture | Photo per finding | Open model on AMD |
-|---|---|---|---|---|---|
-| **Two Hands** | yes (measured) | the paper's identities | **yes** | yes | yes |
-| Tesseract | "won't work very well" | no | no | no | open, CPU |
-| ABBYY, Rossum, UiPath, Document AI | yes (vendor pages) | unknown | not a stated feature | unknown | no |
-| AWS Textract | English only | confidence score | not a stated feature | no | no |
-| Sampling audit (status quo) | a person | sampled fields only | at the random rate | if filed | n/a |
-| Double keying | people | no | no | no | n/a |
+**Workspace py_tr** (event code AMDACT3).
 
-IDP platforms route a share of documents to people (Rossum's Starter plan, from $18,000 a year, includes a human-in-the-loop validation screen); we add the paper's own arithmetic as a free verifier and a photo for every dispute.
+- **Agent "Intake clerk"** on Gemma-4-31B-IT, AMD Token Factory: drafts each finding "for the auditor to confirm". It never decides.
+- **Workflows:** "Audit finding" (the live audit opens a case per strong-evidence dispute, at most 60 a day), "Review hand-off", "Record filing".
+- **AI Tool** `translate`: every review task in English and Spanish. **Scripts** re-check the paper's identities with no AI.
 
-Double keying copies the paper; it cannot say which paper is wrong: 19.2% of national tally captures fail their own row sum. Cloud extraction lists at $30 to $70 per 1,000 pages with forms; it extracts, it does not audit.
+</div>
+<div class="card hi">
 
-<p class="small">Vendor sources, and Hypatos (mostly unknown): docs/BUSINESS.md section 3.</p>
+<div class="k">Requirement 2, confirmed</div>
+
+<p style="font-size:28px; margin-top:8px">"Token Factory works fine on Evolus and does count for the Track."</p>
+
+<p class="small">The Evolus team, Discord, 2026-10-16</p>
+
+<p class="mid">The decision stays with the paper's arithmetic, never with a model; Evolus records each run as a workflow audit.</p>
+
+</div>
+</div>
+
+<p class="src">docs/EVOLUS.md; evolus/ (built and driven over the Evolus REST API, docs/evolus-openapi.json). Workspace and model endpoint stay online until Nov 15, 2026 for the Evolus review.</p>
 
 ---
 
-<!-- Slide 12: limits, failure, close -->
+## The next markets, not measured
 
-## Where it breaks
+1. **Health facility reports (DHIS2):** WHO's Data Quality Review recounts paper source documents against what was keyed; DHIS2 runs in 80+ countries; monthly forms carry their own totals.
+2. **US mortgage post-closing QC:** lenders re-check at least 10% of closed loans against source documents every month; 4.4 million closed-end originations in 2023.
+3. **Clinical-trial source data verification:** it corrects 1.1% of site data while monitoring takes 15-30% of trial costs.
+4. **Peru:** ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant; not measured by us.
 
-- **Limitations:** the row-label check routed 86 forms, and 68 of them were read right (all 15 label-only routes). In one call the model can harmonise words and digits, so one read is not two independent reads; the fix is separate reads or a second reader. ~2 forms/min on a shared endpoint.
-- **Failure case:** read as one image, a ledger row shifted one year. Sums still held: 26 of 870 accepted cells wrong. Fixed with tiles and a row-label check.
-- **Next:** audit one state PREP beside its auditor; add a case-report-form schema.
+<p class="rule"><strong>The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.</strong></p>
 
-**Receipts for every number keyed from paper.**
+<p class="src">Sources: WHO DQR Module 3 (2020); dhis2.org/about; Kenya MOH 711A; Fannie Mae Selling Guide D1-3-01, D1-3-02; CFPB HMDA 2023; Lindblad et al., Clinical Trials 2014; ONPE RJ 000093-2026 (El Peruano, 6 Jun 2026). Links: docs/BUSINESS.md.</p>
+
+<!--
+Word for word (app/buyer.py):
+Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
+US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
+Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism we measured on election forms.
+Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by us.
+-->
+
+---
+
+## Limits and the failure case
+
+- **SOBRANTES (unused ballots)** is the one graded field in no identity printed on the form: every accepted-field error on the 300 was SOBRANTES. Gate v3 (pre-registered) accepts it only when two independent reads agree; otherwise a person sees it.
+- **Digit insertion:** on 070212B0100 the model read 3114 where the paper says 314; the frozen gate accepted it, gate v2 did not.
+- **Harmonised reads:** in one call the model can make words and digits agree (010469C0400: words and digits 239, paper 234). One read is not two independent reads; the fix is a second reader.
+- **Label-gate false alarms:** the row-label check routed 86 forms; 68 of them were read right on every field.
+- **Failure case:** a rainfall ledger read as one image shifted a row one year; sums still held, 26 of 870 accepted cells wrong. Tiles and the row-label check removed it.
+
+<p class="rule"><strong>Safeguard:</strong> accept only when every identity holds; everything else goes to a person with the field named. Fail closed when the page cannot be located (11 of 300).</p>
+
+<p class="src">app/data/headline.json ("harmonised", "label_gate"); results/confirm100.md; results/bakeoff_300.md ("Wrong accepted fields"); README "Limits and failure cases"; docs/EVALUATION.md.</p>
+
+---
+
+<!-- _class: title -->
+
+# Receipts for every number keyed from paper.
+
+<p class="lead">A second keyer that shows its proof: two independent readers on AMD, and the paper's own arithmetic as the referee. Every disputed field goes to a person with its photo.</p>
+
+**Live demo:** add at submission · **Video:** add at submission · **Repo:** add at submission
+
+<p class="small" style="color:#9fb1c2">Reproduce every number offline: <code>make eval</code>. Gemma-4-31B-IT on AMD Token Factory · Evolus workspace py_tr. Vote rows shown as Option 01 to 15; no party is named or compared.</p>
