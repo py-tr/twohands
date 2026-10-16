@@ -176,4 +176,4 @@ def test_header_chip_amber_when_gemma_missing(monkeypatch):
                                                   _row(QWEN, "live", 200, 0, now, lat=95.0)])
     health._cache.update(at=0.0, v=None, key=None)
     html = client.get("/").text
-    assert "AMD live · Gemma unavailable" in html and 'amdpill degraded' in html
+    assert "AMD status: AMD live · Gemma unavailable" in html and 'pdot degraded' in html   # the More menu

@@ -8,8 +8,8 @@
 <div class="sec-head page-head" style="align-items:flex-end">
   <div>
     <div class="eyebrow">API</div>
-    <h1>Everything on screen is an endpoint</h1>
-    <p class="lede">Plain JSON over HTTP. Field codes are neutral: vote rows are OPT01 to OPT15 in printed order, the other lines by name (TOTAL, NULOS, ...).</p>
+    <h1>Everything on screen is an endpoint, a command and a tool</h1>
+    <p class="lede">Plain JSON over HTTP, a CLI, and an MCP server (<a href="#cli">CLI</a> · <a href="#mcp">MCP</a>). Field codes are neutral: vote rows are OPT01 to OPT15 in printed order, the other lines by name (TOTAL, NULOS, ...).</p>
   </div>
   <div class="actions" style="margin-top:0"><a class="btn primary" href="/docs">{{ icon('api') }}Interactive reference (OpenAPI)</a></div>
 </div>
@@ -34,7 +34,29 @@
     <p class="small muted">One record per form: status, fields to key, reason, and every value. Filter with <span class="mono">?status=accepted,resolved</span> to take only what is final.</p>
     {{ snippet('c3', "curl -s \"" ~ base ~ "/api/export.csv?status=accepted,resolved\" -o records.csv") }}
   </div>
+  <div class="card">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="method">GET</span><span class="mono">/api/station/{station}</span><span class="method post">POST</span><span class="mono">/api/station/{station}/queue</span></div>
+    <h3 style="margin:12px 0 6px">Any polling station</h3>
+    <p class="small muted">What we have for one station: a measured read with its receipts, the live audit's read, or "not audited yet"; queue a live read and get its place. Search ids with <span class="mono">/api/station/search?q=2024</span>; the live strip's numbers at <span class="mono">/api/live-strip</span>.</p>
+    {{ snippet('c4', "curl -s " ~ base ~ "/api/station/202451B0100") }}
+  </div>
 </div>
+
+<section id="cli">
+  <div class="sec-head"><div><h2>CLI</h2><p><span class="mono">pip install -e ".[mcp]"</span> (from the repo) gives the <span class="mono">twohands</span> command (also <span class="mono">python -m twohands</span>). It reuses the core and the web app's audit module, so it gives the same disputes, order, CSV, fingerprint and Merkle root as Audit your capture.</p></div></div>
+  <div class="card">
+    {{ snippet('c5', "twohands audit --keyed capture.csv --scans scans/ --schema mx_presidencia_2024 --out report/\ntwohands audit --keyed app/data/audit_sample_prep300.csv --from-stored --out report/   # no model call\ntwohands read form.jpg [--masked] [--layout movil|escaner]      # locate, mask, one read, the gate\ntwohands gate values.json [--variant v1|v2|v2b]                 # exit 0 accepted, 2 routed to a person\ntwohands verify-receipt receipt.json [--crop crop.jpg] [--root <hex>]") }}
+    <p class="small muted" style="margin:10px 0 0"><span class="mono">audit</span> masks each scan in memory, reads only the forms without a read through the configured OpenAI-compatible endpoint, and writes report.html, report.csv, merkle_root.txt, summary.json and disputes.json. <span class="mono">--from-stored</span> uses the stored pre-registered reads only, and reproduces the published sample root.</p>
+  </div>
+</section>
+
+<section id="mcp">
+  <div class="sec-head"><div><h2>MCP</h2><p>An MCP server on the official Python SDK (twohands/mcp_server.py) with four tools: <span class="mono">read_form</span>, <span class="mono">gate</span>, <span class="mono">audit_capture</span> and <span class="mono">verify_receipt</span>.</p></div></div>
+  <div class="card">
+    {{ snippet('c6', "twohands mcp                          # stdio (Desktop MCP clients: command twohands, args [\"mcp\"])\ntwohands mcp --http --port 8765      # streamable HTTP at /mcp") }}
+    <p class="small muted" style="margin:10px 0 0">File paths must lie under the repo, the working directory or TWOHANDS_MCP_ROOTS; over HTTP, tools that would call the model are refused unless started with <span class="mono">--allow-reads</span>.</p>
+  </div>
+</section>
 {% endblock %}
 {% block scripts %}
 <script>

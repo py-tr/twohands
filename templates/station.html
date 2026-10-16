@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}{% if a %}{{ a.clave }} · {% endif %}Pick any polling station · Two Hands{% endblock %}
+{% macro cap(v) -%}{{ {'Ilegible': '"illegible"', 'Sin dato': '"no data"'}.get(v|string, v) }}{%- endmacro %}
+{% macro wstatus(w) -%}
+{% if not w %}{% elif w.pause %}{{ w.pause_text or 'Paused' }}{% if w.resume_at %}; reads resume at {{ w.resume_at|replace('T', ' ')|replace('Z', ' UTC') }}{% endif %}.{% elif w.running %}The live audit is running{% if w.reader %} ({{ w.reader }} on AMD){% endif %}; requested stations are read first.{% else %}The live audit is not running at the moment; a queued station keeps its place and is read when it resumes.{% endif %}
+{%- endmacro %}
+{% block content %}
+<section class="page-head st-head">
+  <div class="eyebrow">Pick any polling station</div>
+  <h1>Any of {{ '{:,}'.format(N) }} tally sheets, by its station id</h1>
+  <p class="lede">Type a station id (clave) or pick a state, district and station. If we have the form, you get its masked page and its receipts now. If not, queue a live read on AMD.</p>
+</section>
+
+<section class="st-pick card">
+  <form class="st-search" action="/station" method="get" autocomplete="off" role="search">
+    <label for="stq" class="small muted">Station id</label>
+    <div class="st-in">
+      <input id="stq" name="c" value="{{ q }}" placeholder="e.g. 202451B0100" maxlength="11" spellcheck="false" inputmode="text" aria-autocomplete="list" aria-controls="stList" aria-expanded="false">
+      <button class="btn primary" type="submit">{{ icon('search') }}Look up</button>
+      <ul class="st-list" id="stList" role="listbox" hidden></ul>
+    </div>
+  </form>
+  <div class="st-or small muted">or pick</div>
+  <div class="st-tree">
+    <select id="selState" aria-label="State"><option value="">State</option>{% for s in states %}<option value="{{ s.ent }}">{{ s.name }}</option>{% endfor %}</select>
+    <select id="selDist" aria-label="District" disabled><option value="">District</option></select>
+    <select id="selSt" aria-label="Station" disabled><option value="">Station</option></select>
+  </div>
+  {% if examples and not a %}
+  <p class="small st-ex">Try: {% for e in examples %}<a class="mono" href="/station?c={{ e.clave }}">{{ e.clave }}</a> <span class="muted">({{ e.what }})</span>{{ ' · ' if not loop.last }}{% endfor %}</p>
+  {% endif %}
+</section>
+
+{% if q and not a %}
+<section class="card st-ans"><p style="margin:0"><b>{{ q }}</b> is not a station id. A station id has 11 characters, for example <span class="mono">202451B0100</span>.</p></section>
+{% endif %}
+
+{% if a %}
+<section class="st-ans" id="answer" data-kind="{{ a.kind }}">
+  <div class="st-title">
+    <h2 class="mono">{{ a.clave }}</h2>
+    {% if a.loc %}<span class="muted">{{ a.loc.state }} · district {{ a.loc.dist }}, {{ a.loc.district }}</span>{% endif %}
+  </div>
+
+  {% if a.kind == 'measured' %}
+  <div class="st-grid">
+    <a class="st-page card" href="{{ a.viewer }}"><img src="{{ a.img }}" alt="Privacy-masked tally sheet {{ a.clave }}"></a>
+    <div class="st-side">
+      <div class="card">
+        <span class="chip accent">in a measured sample · instant answer</span>
+        <p style="margin:10px 0 4px"><b>{{ a.line }}</b></p>
+        <p class="small muted" style="margin:0">{{ a.run }}</p>
+      </div>
+      {% for r in a.receipts %}
+      <div class="card st-rc">
+        <img src="{{ r.img }}" alt="Masked crop of {{ r.name }}">
+        <p class="rvals">{{ r.name }}: the paper: <b class="okv">{{ r.paper }}</b> · the first capture keyed: <b class="badv">{{ cap(r.capture) }}</b> · the certified count: <b class="okv">{{ r.certified }}</b></p>
+        <span class="chip ok"><span class="dot"></span>dispute confirmed by the certified count</span>
+      </div>
+      {% endfor %}
+      {% for e in a.errors %}
+      <div class="card st-rc">
+        <img src="{{ e.img }}" alt="Masked crop of {{ e.name }}">
+        <p class="rvals">{{ e.name }}: the paper: <b class="okv">{{ e.paper }}</b> · the first capture keyed: <b class="badv">{{ cap(e.capture) }}</b>{% if e.certified is not none %} · the certified count: <b>{{ e.certified }}</b>{% endif %}</p>
+        <span class="chip bad"><span class="dot"></span>capture does not match the paper</span>{% if e.certified is none %} <span class="tiny">the certified count does not cover this field</span>{% endif %}
+      </div>
+      {% endfor %}
+      {% if not a.receipts and not a.errors %}<p class="small muted">No field on this form where the capture does not match the paper.</p>{% endif %}
+      <a class="btn" href="{{ a.viewer }}">{{ icon('forms') }}Open the full viewer</a>
+    </div>
+  </div>
+
+  {% elif a.kind == 'live' %}
+  <div class="st-grid">
+    {% if a.img %}<div class="st-page card"><img src="{{ a.img }}" alt="Privacy-masked tally sheet {{ a.clave }}"></div>{% endif %}
+    <div class="st-side">
+      <div class="card">
+        <span class="chip ok"><span class="dot"></span>audited live on AMD · instant answer</span>
+        <p style="margin:10px 0 4px"><b>{{ 'Accepted: every identity on the paper holds' if a.accepted else 'Routed: the paper does not settle every field' }}</b></p>
+        <p class="small muted" style="margin:0">Read by {{ a.reader }} on AMD Token Factory, {{ a.ts|replace('T', ' ')|replace('Z', ' UTC') }}.</p>
+      </div>
+      {% for d in a.disputes %}
+      <div class="card st-rc">
+        <img src="{{ d.img }}" alt="Masked crop of {{ d.name }}">
+        <p class="rvals">{{ d.name }}: the paper: <b class="okv">{{ d.paper }}</b> · the first capture keyed: <b class="badv">{{ d.capture }}</b>{% if d.certified is not none %} · the certified count: <b>{{ d.certified }}</b>{% endif %}</p>
+        <span class="chip {{ 'ok' if d.label == 'confirmed' else ('bad' if d.label == 'model_misread' else 'warn') }}"><span class="dot"></span>{{ d.label_text }}</span>
+        <a class="tiny" href="{{ d.receipt }}">receipt (Merkle path)</a>
+      </div>
+      {% else %}
+      <p class="small muted">No dispute: the model's read matches the official capture on every field.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% elif a.kind == 'staged' %}
+  <div class="st-grid">
+    <div class="st-page card"><img src="{{ a.img }}" alt="Privacy-masked tally sheet {{ a.clave }}"></div>
+    <div class="st-side">
+      <div class="card">
+        <span class="chip warn"><span class="dot"></span>staged: masked, not read yet</span>
+        <p class="small" style="margin:10px 0 0">The masked page is staged for a read on AMD.{% if a.position %} Queued for a live read: position <b>{{ a.position }}</b> of {{ a.waiting }}.{% endif %}</p>
+        {% if a.queueable and not a.position %}<button class="btn primary" id="qbtn" data-clave="{{ a.clave }}" style="margin-top:12px">{{ icon('play') }}Queue a live read on AMD</button>{% endif %}
+        <p class="small muted" id="qmsg" style="margin:10px 0 0">{{ wstatus(a.worker) }}</p>
+      </div>
+    </div>
+  </div>
+
+  {% elif a.kind in ('not_audited', 'queued') %}
+  <div class="card st-queue">
+    <h3>Not audited yet{% if a.kind == 'queued' %}: queued for a live read on AMD{% endif %}</h3>
+    <p class="small">This station is in the live audit's queue. Queue a live read and it goes to the front: the worker fetches the image from INE's public PREP site, masks it in memory, reads it on AMD and checks it against the official capture and the certified count, under the same daily budget as everything else.</p>
+    <div class="st-qrow">
+      {% if a.kind == 'queued' %}
+      <div class="qpos"><div class="v num">{{ a.position }}</div><div class="l">position, of {{ a.waiting }} waiting</div></div>
+      {% else %}
+      <button class="btn primary lg" id="qbtn" data-clave="{{ a.clave }}">{{ icon('play') }}Queue a live read on AMD</button>
+      {% if a.waiting %}<span class="small muted">{{ a.waiting }} station{{ 's' if a.waiting != 1 }} waiting</span>{% endif %}
+      {% endif %}
+    </div>
+    <p class="small muted" id="qmsg" style="margin:12px 0 0">{{ wstatus(a.worker) }}</p>
+  </div>
+
+  {% elif a.kind == 'live_unread' %}
+  <div class="card"><p style="margin:0">The live audit reached this station but could not read it: {{ a.why }}. A person would look at it.</p></div>
+
+  {% elif a.kind == 'not_queueable' %}
+  <div class="card"><p style="margin:0">This station is in PREP 2024 but not in the live audit's queue: it has no single standard PREP image (no image, a repeated id, or another document type), or it belongs to a measured sample without a stored page.</p></div>
+
+  {% else %}
+  <div class="card"><p style="margin:0">No presidential tally sheet with this id in PREP 2024.</p></div>
+  {% endif %}
+  <p class="tiny" style="margin-top:12px">Masked images only: the names-and-signatures column is blacked out before anything is stored. Vote rows are Option 01 to 15; nothing is totalled across forms. The certified count is the official result; this is not an INE product.</p>
+</section>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var q = document.getElementById('stq'), list = document.getElementById('stList'), t = null, items = [], sel = -1;
+  function go(k) { location.href = '/station?c=' + encodeURIComponent(k); }
+  function render() {
+    list.innerHTML = '';
+    items.forEach(function (it, i) {
+      var li = document.createElement('li'); li.setAttribute('role', 'option'); li.className = i === sel ? 'on' : '';
+      li.innerHTML = '<span class="mono"></span><span class="muted"></span>';
+      li.firstChild.textContent = it.clave; li.lastChild.textContent = (it.state || '') + (it.dist ? ' · district ' + it.dist : '');
+      li.addEventListener('mousedown', function (e) { e.preventDefault(); go(it.clave); });
+      list.appendChild(li);
+    });
+    list.hidden = !items.length; q.setAttribute('aria-expanded', items.length ? 'true' : 'false');
+  }
+  if (q) {
+    q.addEventListener('input', function () {
+      clearTimeout(t); var v = q.value.trim();
+      if (v.length < 2) { items = []; render(); return; }
+      t = setTimeout(function () {
+        fetch('/api/station/search?q=' + encodeURIComponent(v)).then(function (r) { return r.json(); })
+          .then(function (j) { items = j.results || []; sel = -1; render(); }).catch(function () {});
+      }, 120);
+    });
+    q.addEventListener('keydown', function (e) {
+      if (!items.length) return;
+      if (e.key === 'ArrowDown') { sel = Math.min(items.length - 1, sel + 1); render(); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { sel = Math.max(0, sel - 1); render(); e.preventDefault(); }
+      else if (e.key === 'Enter' && sel >= 0) { e.preventDefault(); go(items[sel].clave); }
+      else if (e.key === 'Escape') { items = []; render(); }
+    });
+    q.addEventListener('blur', function () { setTimeout(function () { items = []; render(); }, 150); });
+  }
+  var sS = document.getElementById('selState'), sD = document.getElementById('selDist'), sT = document.getElementById('selSt');
+  function fill(el, ph, opts) {
+    el.innerHTML = ''; var o = document.createElement('option'); o.value = ''; o.textContent = ph; el.appendChild(o);
+    opts.forEach(function (x) { var p = document.createElement('option'); p.value = x[0]; p.textContent = x[1]; el.appendChild(p); });
+    el.disabled = !opts.length;
+  }
+  sS.addEventListener('change', function () {
+    fill(sD, 'District', []); fill(sT, 'Station', []);
+    if (!sS.value) return;
+    fetch('/api/station/states/' + sS.value).then(function (r) { return r.json(); }).then(function (j) {
+      fill(sD, 'District (' + j.districts.length + ')', j.districts.map(function (d) { return [d.dist, d.dist + ' · ' + d.name + ' (' + d.n + ')']; }));
+    });
+  });
+  sD.addEventListener('change', function () {
+    fill(sT, 'Station', []);
+    if (!sD.value) return;
+    fetch('/api/station/states/' + sS.value + '/' + sD.value).then(function (r) { return r.json(); }).then(function (j) {
+      fill(sT, 'Station (' + j.stations.length + ')', j.stations.map(function (s) { return [s.clave, s.clave + (s.have === 'measured' ? '  · measured' : s.have === 'live' ? '  · audited live' : '')]; }));
+    });
+  });
+  sT.addEventListener('change', function () { if (sT.value) go(sT.value); });
+  var ans = document.getElementById('answer');
+  if (ans && window.innerWidth < 700) ans.scrollIntoView();
+  var b = document.getElementById('qbtn'), m = document.getElementById('qmsg');
+  if (b) b.addEventListener('click', function () {
+    b.disabled = true;
+    fetch('/api/station/' + b.dataset.clave + '/queue', {method: 'POST'}).then(function (r) { return r.json(); }).then(function (j) {
+      if (j.queued) {
+        var d = document.createElement('div'); d.className = 'qpos';
+        d.innerHTML = '<div class="v num"></div><div class="l"></div>';
+        d.firstChild.textContent = j.position; d.lastChild.textContent = 'position, of ' + j.waiting + ' waiting';
+        b.replaceWith(d);
+      } else { b.disabled = false; if (m) m.textContent = j.message || 'Not queued.'; }
+    }).catch(function () { b.disabled = false; });
+  });
+})();
+</script>
+{% endblock %}

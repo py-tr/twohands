@@ -101,9 +101,8 @@ def test_hero_loop_is_a_real_read_with_one_red_field():
     assert all(0 <= f["box"][0] and f["box"][0] + f["box"][2] <= 100.5 for f in d["fields"])
     assert not d["accepted"] and all(i["ok"] for i in d["identities"][:-1]) and d["identities"][-1]["ok"] is False
     html = client.get("/").text
-    assert 'id="loopData"' in html and "Try a form" in html and "Use your own photo" in html
+    assert 'id="loopData"' not in html   # the replay hero was cut from Home (tests/test_cut.py); the data stays for scripts
     _clean(html, "/")
-    json.loads(html.split('id="loopData">', 1)[1].split("</script>", 1)[0])
 
 
 def test_no_raw_file_paths_in_judge_copy():

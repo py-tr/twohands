@@ -31,13 +31,14 @@ from twohands import schema as schemamod  # noqa: E402
 from twohands.gate import gate  # noqa: E402
 from twohands.gate_v2 import gate_v2  # noqa: E402
 from twohands.score import wilson  # noqa: E402
-from twohands.tiers import digits, judge, two_reader, usable  # noqa: E402
+from twohands.tiers import capture_gate, digits, judge, two_reader, usable, words  # noqa: E402
 
 R = REPO / "results"
 OUT_JSON = REPO / "app" / "data" / "two_reader_300.json"
 OUT_MD = R / "two_reader_300.md"
 LABELS = {
     "gemma": "Gemma alone (frozen gate, primary)",
+    "gemma_capture": "Gemma alone, capture gate (Amendment 2 c: words = digits, rows = TOTAL)",
     "qwen": "Qwen alone (frozen gate)",
     "two_reader": "Two readers, strict mode (Amendment 2 d)",
     "two_reader_s7": "Two readers, both frozen gates (section 7)",
@@ -97,6 +98,7 @@ def compute() -> dict:
 
     tr = {k: two_reader(G.get(k), Q.get(k), s) for k in claves}
     rules = {"gemma": (G, lambda k: frozen(G.get(k))),
+             "gemma_capture": (G, lambda k: usable(G.get(k)) and capture_gate(digits(G[k], keys), (words(G[k], keys),), s)[0]),
              "qwen": (Q, lambda k: frozen(Q.get(k))),
              "two_reader": (G, lambda k: tr[k][0]),
              "two_reader_s7": (G, lambda k: frozen(G.get(k)) and frozen(Q.get(k))

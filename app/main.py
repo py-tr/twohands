@@ -17,7 +17,8 @@ from fastapi.templating import Jinja2Templates
 from PIL import Image
 
 from app import health as healthmod
-from app import hero as heromod
+from app import hero as heromod  # noqa: F401 (kept for scripts that import it)
+from app import live_status as livestatusmod
 from app import inbox as inboxmod
 from app import numbers as numbersmod
 from app import review as reviewmod
@@ -87,8 +88,14 @@ def page(request: Request, name: str, nav: str, **ctx):
 def home(request: Request):
     s = st()
     n = numbersmod.home(s)
-    return page(request, "home.html", "home", n=n, schema=storemod.schema(),
-                heroloop=heromod.loop_data(s), receipt=heromod.receipt(s, n["H"]))
+    return page(request, "home.html", "home", n=n, schema=storemod.schema(), ls=livestatusmod.status(s))
+
+
+@app.get("/api/live-strip")
+def live_strip():
+    """The Home strip: forms audited on AMD, disputes, confirmed by the certified count, and the receipts it rotates
+    (the live audit's numbers once the worker has audited a form; until then the measured sample's, labelled so)."""
+    return livestatusmod.public(livestatusmod.status())
 
 
 @app.get("/forms", response_class=HTMLResponse)
@@ -172,7 +179,9 @@ def results(request: Request):
     appendix = [s.run_metrics(rid) for rid in s.run_order() if rid.startswith("verify_")]
     live = s.run_metrics("live") if "live" in s.runs else None
     q = reviewmod.queue(s)
+    from app import gates as gatesmod
     return page(request, "results.html", "results", n=n, H=n["H"], L=n["L"], pilot=pilot, appendix=appendix, live=live,
+                G=gatesmod.table(),
                 lm=s.ledger_metrics(), meta=s.ledger.get("meta", {}), queue_n=len(q),
                 resolved=sum(1 for x in q if x["review"]))
 
@@ -290,6 +299,12 @@ def report_pdf():
     if not p.is_file():
         raise HTTPException(404, "report not built")
     return FileResponse(p, media_type="application/pdf", filename="two-hands-report.pdf")
+
+
+@app.get("/business.md")
+def business_md():
+    """docs/BUSINESS.md as plain text (the PREP procedure citations the Home strip links to)."""
+    return FileResponse(REPO / "docs" / "BUSINESS.md", media_type="text/plain; charset=utf-8")
 
 
 @app.get("/healthz")
@@ -441,3 +456,7 @@ templates.env.globals["live_audit_block"] = liveauditmod.block
 # Schema builder (additive): draw a new self-checking form, save it in the engine format, test it live: /builder
 from app import builder as buildermod  # noqa: E402
 app.include_router(buildermod.router)
+
+# Pick any polling station (additive): search or pick a station; instant answer or a queued live read: /station
+from app import stations as stationsmod  # noqa: E402
+app.include_router(stationsmod.router)

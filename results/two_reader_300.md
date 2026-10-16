@@ -11,6 +11,7 @@ Accepted fields are judged against the paper where an adjudication verdict read 
 | tier | accepted (/300) | Movil / Escaner | accepted fields | differ from capture | of which capture errors | wrong vs the paper (Wilson 95%) | undecided | not adjudicated |
 |---|---|---|---|---|---|---|---|---|
 | Gemma alone (frozen gate, primary) | 55 | 27 / 28 | 1,210 | 3 | 1 | 2 (0.04% to 0.60%) | 0 | 0 |
+| Gemma alone, capture gate (Amendment 2 c: words = digits, rows = TOTAL) | 143 | 87 / 56 | 3,146 | 27 | 7 | 14 (0.27% to 0.75%) | 6 | 0 |
 | Qwen alone (frozen gate) | 31 | 8 / 23 | 682 | 2 | 1 | 1 (0.03% to 0.83%) | 2 | 0 |
 | Two readers, strict mode (Amendment 2 d) | 89 | 51 / 38 | 1,958 | 3 | 3 | 0 (0.00% to 0.20%) | 0 | 0 |
 | Two readers, both frozen gates (section 7) | 22 | 6 / 16 | 484 | 1 | 1 | 0 (0.00% to 0.79%) | 0 | 0 |
@@ -25,6 +26,35 @@ Undecided: a field where the reader equals the capture but the paper was judged 
 - 010469C0400 SOBRANTES: reader 239, capture 234, paper 234 (capture_right; reader wrong); crop `results/adjudication/010469C0400__SOBRANTES.jpg`
 - 080310B0100 SOBRANTES: reader 180, capture 480, paper 180 (model_right; reader right); crop `results/adjudication/080310B0100__SOBRANTES.jpg`
 - 212668C0300 SOBRANTES: reader 300, capture 379, paper 379 (capture_right; reader wrong); crop `results/adjudication/212668C0300__SOBRANTES.jpg`
+
+## Gemma alone, capture gate (Amendment 2 c: words = digits, rows = TOTAL)
+- 010469C0400 SOBRANTES: reader 239, capture 234, paper 234 (capture_right; reader wrong); crop `results/adjudication/010469C0400__SOBRANTES.jpg`
+- 030150B0100 SOBRANTES: reader 77, capture 277, paper 277 (capture_right; reader wrong); crop `results/adjudication/030150B0100__SOBRANTES.jpg`
+- 030150B0100 REPRESENTANTES: reader 104, capture 4, paper 4 (capture_right; reader wrong); crop `results/adjudication/030150B0100__REPRESENTANTES.jpg`
+- 050815B0100 OPT07: reader 175, capture 75, paper 175 (model_right; reader right); crop `results/adjudication/050815B0100__OPT07.jpg`
+- 080310B0100 SOBRANTES: reader 180, capture 480, paper 180 (model_right; reader right); crop `results/adjudication/080310B0100__SOBRANTES.jpg`
+- 080305B0100 OPT02: reader 15, capture Ilegible, paper 15 (model_right; reader right); crop `results/adjudication/080305B0100__OPT02.jpg`
+- 094821C0200 SOBRANTES: reader 0, capture 242, paper 242 (capture_right; reader wrong); crop `results/adjudication/094821C0200__SOBRANTES.jpg`
+- 094821C0200 VOTARON: reader 342, capture 392, paper 392 (capture_right; reader wrong); crop `results/adjudication/094821C0200__VOTARON.jpg`
+- 094821C0200 REPRESENTANTES: reader 62, capture 2, paper 2 (capture_right; reader wrong); crop `results/adjudication/094821C0200__REPRESENTANTES.jpg`
+- 094821C0200 SACADOS: reader 388, capture 386, paper 388 (model_right; reader right); crop `results/adjudication/094821C0200__SACADOS.jpg`
+- 094821C0200 TOTAL: reader 388, capture 386, paper 388 (model_right; reader right); crop `results/adjudication/094821C0200__TOTAL.jpg`
+- 090955C0200 SOBRANTES: reader 200, capture 206, paper 206 (capture_right; reader wrong); crop `results/adjudication/090955C0200__SOBRANTES.jpg`
+- 090955C0200 REPRESENTANTES: reader 100, capture 0, paper 0 (capture_right; reader wrong); crop `results/adjudication/090955C0200__REPRESENTANTES.jpg`
+- 141113C0100 SOBRANTES: reader 256, capture 255, paper 255 (capture_right; reader wrong); crop `results/adjudication/141113C0100__SOBRANTES.jpg`
+- 141113C0100 VOTARON: reader 441, capture 497, paper 497 (capture_right; reader wrong); crop `results/adjudication/141113C0100__VOTARON.jpg`
+- 154476C0300 SOBRANTES: reader 370, capture 371, paper 371 (capture_right; reader wrong); crop `results/adjudication/154476C0300__SOBRANTES.jpg`
+- 155673C0300 VOTARON: reader 314, capture 164, paper None (unreadable; reader undecided); crop `results/adjudication/155673C0300__VOTARON.jpg`
+- 154448C0100 REPRESENTANTES: reader 804, capture 4, paper 4/804 (paper_ambiguous; reader undecided); crop `results/adjudication/154448C0100__REPRESENTANTES.jpg`
+- 155191C0100 VOTARON: reader 785, capture 185, paper 185/485? (paper_ambiguous; reader undecided); crop `results/adjudication/155191C0100__VOTARON.jpg`
+- 160026B0100 SOBRANTES: reader 47, capture 247, paper 247 (capture_right; reader wrong); crop `results/adjudication/160026B0100__SOBRANTES.jpg`
+- 202005C0200 OPT07: reader 75, capture 15, paper 75 (model_right; reader right); crop `results/adjudication/202005C0200__OPT07.jpg`
+- 201201B0100 VOTARON: reader 716, capture 316, paper 316/716 (paper_ambiguous; reader undecided); crop `results/adjudication/201201B0100__VOTARON.jpg`
+- 201201B0100 SACADOS: reader 716, capture 316, paper 316 (capture_right; reader wrong); crop `results/adjudication/201201B0100__SACADOS.jpg`
+- 212668C0300 SOBRANTES: reader 300, capture 379, paper 379 (capture_right; reader wrong); crop `results/adjudication/212668C0300__SOBRANTES.jpg`
+- 220313C0300 SACADOS: reader 0, capture 527, paper 0 (model_right; reader right); crop `results/adjudication/220313C0300__SACADOS.jpg`
+- 281139E0202 VOTARON: reader 275, capture 215, paper 215/275 (paper_ambiguous; reader undecided); crop `results/adjudication/281139E0202__VOTARON.jpg`
+- 281139E0202 REPRESENTANTES: reader 0, capture 10, paper 10/0 (paper_ambiguous; reader undecided); crop `results/adjudication/281139E0202__REPRESENTANTES.jpg`
 
 ## Qwen alone (frozen gate)
 - 080310B0100 SOBRANTES: reader 180, capture 480, paper 180 (model_right; reader right); crop `results/adjudication/080310B0100__SOBRANTES.jpg`

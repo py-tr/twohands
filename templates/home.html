@@ -1,92 +1,92 @@
 {% extends "base.html" %}
 {% from "_icons.html" import icon, source %}
 {% block title %}Two Hands · receipts for every number keyed from paper{% endblock %}
+{% macro cap(v) -%}{{ {'Ilegible': '"illegible"', 'Sin dato': '"no data"'}.get(v, v) }}{%- endmacro %}
 {% block content %}
 {% set b = n.business %}
 {% set H = n.H %}
 {% set L = n.L %}
-<section class="hero">
-  <div>
-    <div class="eyebrow">The model reads. The paper decides.</div>
-    <h1>Receipts for every number <em>keyed from paper.</em></h1>
-    <p class="lede">An open vision model on AMD re-reads every field of forms that were already keyed. The form's own arithmetic decides what it can accept; every field where the model and the keyed data disagree goes to a person, with its photo.</p>
-    <p class="product">{{ L.product }}</p>
-    <div class="actions">
-      <a class="btn primary lg" href="/audit">{{ icon('audit') }}See the {{ H.keying_errors }} capture errors</a>
-      <a class="btn dark lg" href="/audit/new">{{ icon('upload') }}Audit your capture</a>
-    </div>
-    <p class="small muted" style="margin:12px 0 0">Also: <a href="/form/211294C0100">Try a form</a> · <a href="/try">Use your own photo</a> · <a href="/keyer">Try being the second keyer</a></p>
-    <ul class="trust">
-      <li>{{ icon('check') }}Names and signatures blacked out before any model sees the page</li>
-      <li>{{ icon('check') }}Accepted only when every identity on the paper holds</li>
-      <li>{{ icon('check') }}Gemma-4-31B-IT on AMD, {{ b.per_1000_g }} per 1,000 forms</li>
-    </ul>
-  </div>
-
-  {% if heroloop %}
-  <div class="reader" id="reader" aria-label="A real form being read: fields fill in, the paper's identities are checked, one field is routed to a person; then a capture error the model found">
-    <div class="reader-top">
-      <span class="live-dot"></span><span class="id" id="rId">{{ heroloop.clave }}</span><span class="chip ghost" id="rChip">phone photo</span>
-      <span class="stage" id="rStage">Reading on AMD</span>
-      <span class="clock" id="rClock" title="This is a replay of the stored read of this form">replay{% if heroloop.secs %} · read in {{ "%.0f"|format(heroloop.secs) }} s{% endif %}</span>
-    </div>
-    <div class="reader-body">
-      <div class="bed"><div class="frame" id="rFrame">
-        <img src="{{ heroloop.img }}" alt="Privacy-masked tally sheet {{ heroloop.clave }}" fetchpriority="high">
-        <div class="scan" id="rScan" style="opacity:0"></div>
-      </div></div>
-      <div class="panel">
-        <h4>Fields read · digits and words</h4>
-        <div class="ftiles" id="rTiles"></div>
-        <h4>The paper's identities</h4>
-        <div class="idl" id="rIds"></div>
-        <div class="vbar" id="rVerdict">Waiting for the read</div>
+<section class="first" id="first" aria-label="Live audit">
+  <div class="fold">
+  <h1 class="f-h1">Receipts for every number keyed from paper.</h1>
+  <p class="f-sub d-only">A vision model on AMD reads the form; the form's own arithmetic decides; every dispute comes with its photo.</p>
+  <div class="f-live">
+    <div class="f-left">
+    <div class="strip card" id="strip" data-kind="{{ ls.kind }}">
+      <div class="nums">
+        <div class="n n-aud"><div class="v num" data-k="forms_audited">{{ ls.forms_audited|int }}</div><div class="l">forms audited on AMD so far</div></div>
+        <div class="n n-disp"><div class="v num" data-k="disputes">{{ ls.disputes|int }}</div><div class="l">disputes</div></div>
+        <div class="n n-conf"><div class="v num" data-k="certified_confirmed">{{ ls.certified_confirmed|int }}</div><div class="l">confirmed by the certified count</div></div>
       </div>
+      <p class="meta" id="stripMeta">{% if ls.kind == 'live' %}<span class="ldot{{ ' on' if ls.running }}"></span>{% if ls.updated_min_ago is not none %}updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}{% else %}live audit{% endif %}{% else %}<span class="tag">measured sample</span>{% endif %} · {{ ls.states_complete }} · reader: {{ ls.reader_model }} on AMD Token Factory</p>
     </div>
-    {% if receipt %}
-    <div class="receipt" id="rReceipt" aria-hidden="true">
-      <div class="rc-card">
-        <div class="rc-head"><span class="chip bad"><span class="dot"></span>capture error</span><span class="mono">{{ receipt.clave }} · {{ receipt.name }}</span></div>
-        {% if receipt.img %}<img src="{{ receipt.img }}" alt="crop of {{ receipt.name }} on {{ receipt.clave }}" loading="lazy">{% endif %}
-        <p class="rc-line">{{ L.receipt }}</p>
-        <div class="rc-vals">
-          <div class="ok"><div class="l">The paper says</div><div class="v">{{ receipt.paper }}</div></div>
-          <div class="bad"><div class="l">First capture keyed</div><div class="v">{{ receipt.prep }}</div></div>
-          <div class="ok"><div class="l">Certified count</div><div class="v">{{ receipt.certified }}</div><div class="t">by comparison</div></div>
-        </div>
-        <p class="rc-foot">The model read {{ receipt.model }}. One of {{ H.keying_errors }}, each with its photo, on the <a href="/audit">audit page</a>.</p>
+    <p class="fold-note d-only">Required by the PREP procedure: every acta gets a second capture and a comparison (<a href="https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/CGex202311-03-ap-8-a.pdf" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>). This is that step, for {{ n.business.per_1000_g }} per 1,000 forms.</p>
+    </div>
+    {% set rs = ls.latest_receipts[:8] %}
+    {% if rs %}
+    <a class="rcard card" href="/audit" id="rcard" aria-label="A dispute confirmed by the certified count; open the findings">
+      {% for r in rs %}
+      <div class="rslide{{ ' on' if loop.first }}" data-i="{{ loop.index0 }}"{% if not loop.first %} hidden{% endif %}>
+        <div class="rimg"><img src="{{ r.img }}" alt="Masked crop of {{ r.name }} on form {{ r.clave }}"{% if not loop.first %} loading="lazy"{% endif %}></div>
+        <p class="rvals">The paper: <b class="okv">{{ r.paper }}</b> · The first capture keyed: <b class="badv">{{ cap(r.capture) }}</b> · The certified count: <b class="okv">{{ r.certified }}</b></p>
+        <div class="rfoot"><span class="chip ok"><span class="dot"></span>dispute confirmed by the certified count</span><span class="rid"><span class="mono">{{ r.clave }}</span> · {{ r.name }}{% if r.state %} · {{ r.state }}{% endif %}</span></div>
       </div>
-    </div>
+      {% endfor %}
+    </a>
     {% endif %}
   </div>
-  <script type="application/json" id="loopData">{{ heroloop|tojson }}</script>
-  {% endif %}
+  <div class="f-actions">
+    <a class="btn primary lg" href="/station">{{ icon('search') }}Pick any polling station</a>
+    <a class="btn dark lg f-second" href="/audit/new">{{ icon('upload') }}Audit your capture</a>
+  </div>
+  <p class="f-diff d-only">Others check the model against the source. We check the record against the paper.</p>
+  </div>
+  <div class="m-only below-fold">
+    <p class="f-sub">A vision model on AMD reads the form; the form's own arithmetic decides; every dispute comes with its photo.</p>
+    <a class="btn dark lg" href="/audit/new">Audit your capture</a>
+    <p class="f-diff">Others check the model against the source. We check the record against the paper.</p>
+  </div>
 </section>
 
 {% if H %}
-<section>
-  <div class="sec-head"><div><h2>Measured on a pre-registered random sample of {{ H.forms }} forms</h2><p>Sample, prompt and gate were committed before any model read. Graded field by field against the official two-person capture; every disagreement settled on the photo.</p></div><a class="btn sm" href="/results">Method and caveats {{ icon('arrow') }}</a></div>
-  <div class="grid3">
-    {% for h in n.headline %}
-    <div class="card stat"{% if not h.value %} title="{{ L.gate_note }}"{% endif %}>
-      {% if h.value %}<div class="v">{{ h.value }}</div>{% endif %}
-      <div class="l"{% if not h.value %} style="font-size:1.05rem;line-height:1.45"{% endif %}>{{ h.label }}</div>
-      {% if h.small %}<div class="s">{{ h.small }}</div>{% endif %}
-      {% if h.small2 %}<div class="s">{{ h.small2 }}</div>{% endif %}
-      {% if loop.first %}<div class="s"><b>{{ L.preliminary }}</b></div>{% endif %}
-      <div class="src">{{ source(h.source) }}</div>
+<section id="measured">
+  <div class="sec-head"><div><h2>Measured, not promised</h2><p>A pre-registered random sample of {{ H.forms }} forms: sample, prompt and gate committed before any model read; every disagreement settled on the photo.</p></div><a class="btn sm" href="/results">Method and caveats {{ icon('arrow') }}</a></div>
+  <div class="grid4 measured">
+    <div class="card stat">
+      <div class="v">{{ L.keying.value }}</div>
+      <div class="l">{{ L.keying.label }}</div>
+      <div class="s">{{ L.keying.small }}</div>
+      <div class="s"><b>{{ H.cert_agree }} of {{ H.cert_covered }}</b> confirmed by the certified count where it covers the field. {{ L.keying.small2 }}</div>
+      <div class="s"><b>{{ L.preliminary }}</b></div>
+      <div class="src">{{ source("results/adjudication/SUMMARY.md + CERTIFIED.md (app/data/headline.json)") }}</div>
     </div>
-    {% endfor %}
+    <div class="card stat" title="{{ L.gate_note }}">
+      {% set t2 = (n.T.tiers.two_reader if n.T else None) %}
+      <div class="v">{{ H.accepted_pct }}%{% if t2 %} · {{ '%.0f'|format(100 * t2.accepted / n.T.forms) }}%{% endif %}</div>
+      <div class="l">of forms need no person: one reader, {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} accepted fields wrong{% if t2 %}; two readers, {{ t2.errors }} of {{ t2.fields|int }}{% endif %}</div>
+      <div class="s">{{ L.gate.label }}</div>
+      {% if L.gate.small %}<div class="s">{{ L.gate.small }}</div>{% endif %}
+      <div class="src">{{ source("app/data/headline.json (one reader, primary) + app/data/two_reader_300.json (two readers, Amendment 2 d)") }}</div>
+    </div>
+    <div class="card stat">
+      <div class="v">1 in {{ H.model_one_in }} <span class="vs-word">vs</span> 1 in {{ H.acc_one_in }}</div>
+      <div class="l">{{ L.rate.label }}</div>
+      <div class="s">{{ L.rate.small }}</div>
+      <div class="s">{{ L.honest }}</div>
+      <div class="src">{{ source("results/adjudication/SUMMARY.md (app/data/headline.json)") }}</div>
+    </div>
+    <div class="card stat">
+      <div class="v">1 in {{ H.yield_one_in }} <span class="vs-word">vs</span> 1 in {{ H.random_one_in }}</div>
+      <div class="l">{{ L.yield.value }} {{ L.yield.label }}</div>
+      <div class="src">{{ source("results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md") }}</div>
+    </div>
   </div>
-  <div class="card honest">
-    <p>{{ L.honest }}</p>
-  </div>
-  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them. The gate accepted {{ H.accepted }} forms ({{ H.accepted_pct }}%) with no person.{% if L.two_readers %} {{ L.two_readers }}{% endif %} Recall: {{ L.recall }}</p>
+  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them.{% if L.two_readers %} {{ L.two_readers }}{% endif %} Recall: {{ L.recall }}</p>
 </section>
 {% endif %}
 
 <section>
-  <div class="sec-head"><div><h2>How it works</h2><p>Every form type is one schema file: where the fields are, and which identities the paper must satisfy. A new form type is configuration, not code.</p></div></div>
+  <div class="sec-head"><div><h2>How it works</h2><p>Every form type is one schema file: where the fields are, and which identities the paper must satisfy.</p></div></div>
   <div class="flow">
     <div class="step"><div class="k">01 · image</div><h3>Photo or scan</h3><p>The page is located, straightened, and the names-and-signatures column is blacked out before anything is stored or sent.</p></div>
     <div class="arrow">{{ icon('arrow') }}</div>
@@ -96,7 +96,7 @@
     <div class="arrow">{{ icon('arrow') }}</div>
     <div class="split">
       <div class="step ok"><h3>Accepted</h3><p>0 fields to key.</p></div>
-      <div class="step rv"><h3>Review desk</h3><p>The failing field is named; a person types one value.</p></div>
+      <div class="step rv"><h3>Dispute, with its photo</h3><p>The field is named; a person decides on the crop.</p></div>
     </div>
   </div>
 </section>
@@ -104,8 +104,8 @@
 <section>
   <div class="grid2">
     <div class="card">
-      <div class="eyebrow">Business</div>
-      <h3>Who pays: auditors of keyed data</h3>
+      <div class="eyebrow">Who pays</div>
+      <h3>Auditors of keyed data</h3>
       <p style="margin:8px 0 12px"><b>Auditors already check the count's system. Nobody checks the captured numbers against the paper, because by hand it does not pay. This does it for cents, with a photo for every dispute.</b></p>
       <ul class="buyers">
         <li><b>Now: election-capture audits.</b> {{ cited.prep_audit.text }}. We add the field-by-field check against the paper. Next window: {{ cited.window_2027.text }}.</li>
@@ -116,15 +116,15 @@
         <div class="mid">·</div>
         <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">proposed price per 1,000 forms audited, two readers and the report included</div></div>
       </div>
-      <p class="small" style="margin-bottom:6px">A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field; 1 in {{ H.yield_one_in }} of those is a confirmed capture error. Keying twice copies the paper; it cannot say which paper is wrong: {{ cited.base_rate.text }} of nationally captured forms fail their own row sum.</p>
-      <div class="actions" style="margin:10px 0 4px"><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/audit/request">{{ icon('audit') }}Request an audit</a></div>
+      <p class="small" style="margin-bottom:6px">{{ L.product }} A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field. Keying twice copies the paper; it cannot say which paper is wrong: {{ cited.base_rate.text }} of nationally captured forms fail their own row sum.</p>
+      <div class="actions" style="margin:10px 0 4px"><a class="btn sm primary" href="/audit/request">{{ icon('audit') }}Request an audit</a><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/station">{{ icon('search') }}Pick any polling station</a></div>
       <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". 2027: " ~ cited.window_2027.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". Price: " ~ cited.price_proposal.source ~ ". Row sums: " ~ cited.base_rate.source ~ ".") }}</div>
     </div>
 
-    <div class="card">
-      <div class="eyebrow">What ran on AMD</div>
+    <div class="card" id="amd">
+      <div class="eyebrow">What runs on AMD</div>
       <h3>Open models on the AMD endpoint</h3>
-      <p class="small muted">{{ cited.endpoint.text }}. Every measured read went through it; the live button on each form calls it again.</p>
+      <p class="small muted">{{ cited.endpoint.text }}. Every measured read went through it, and the live audit reads through it now.</p>
       {% for m in n.amd.models %}
       <div class="amd-model">
         <div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div>
@@ -137,66 +137,37 @@
       {% endfor %}
       <dl class="kv" style="margin-top:14px">
         <dt>Input per form</dt><dd>1 masked page + zoomed tiles, one request</dd>
-        <dt>Throughput</dt><dd>{{ cited.spike_throughput.text }} <span class="muted small">(shared-endpoint pacing)</span></dd>
-        {% if n.amd.live %}<dt>Live reads here</dt><dd>{{ n.amd.live.n }} so far, {{ '%.0f'|format(n.amd.live.secs or 0) }} s mean, {{ n.amd.live.cost|usd(6) }} mean cost</dd>{% endif %}
-        <dt>Second form type</dt><dd>Same model reads 1850-1960 rainfall ledgers: {{ n.ledger.usd_per_sheet|usd(5) }} per sheet (spike, 40 sheets)</dd>
+        <dt>Live audit</dt><dd>{% if ls.kind == 'live' %}{{ ls.forms_audited|int }} forms so far, reader {{ ls.reader_model }}{% else %}not started yet{% endif %} · <a href="/live">status</a></dd>
       </dl>
-      {% set gq = n.amd.gemma %}
-      {% if gq %}
-      <div class="gemma-amd" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line, rgba(127,127,127,.25))">
-        <div class="eyebrow" style="margin-bottom:6px">Gemma on AMD</div>
-        {% if L.gemma_role %}<p class="small" style="margin:0 0 8px"><b>{{ L.gemma_role }}</b></p>{% endif %}
-        <p class="small" style="margin:0 0 8px">Gemma-4-31B-IT reads each field twice, the handwritten digits and the amount written in Spanish words, plus the printed label of each row, on phone photos and faint pencil. It gets a fixed ~{{ gq.img_g }} tokens per image whatever the resolution, so each request is the page plus 6 zoomed tiles (the vote rows at ~8x the page's token density); on rainfall ledgers that took Gemma from 79% to 97% of cells right. Frozen prompt <code>{{ gq.prompt }}…</code>; the first complete JSON is parsed, a reply cut at <code>max_tokens</code> is never accepted.</p>
-        <dl class="kv small">
-          <dt>Same {{ gq.n }} forms{% if not gq.complete %} <span class="muted">(Qwen pass running)</span>{% endif %}</dt><dd>Gemma / Qwen3.8-27B</dd>
-          <dt>Accepted, no person</dt><dd>{{ gq.g.touchless }} / {{ gq.q.touchless }} forms</dd>
-          <dt>Accepted fields wrong</dt><dd>{{ gq.g.accepted_wrong }} of {{ gq.g.accepted_fields }} / {{ gq.q.accepted_wrong }} of {{ gq.q.accepted_fields }}</dd>
-          <dt>Cost per form</dt><dd>{{ gq.g.cost_per_read_usd|usd(6) }} / {{ gq.q.cost_per_read_usd|usd(6) }}{% if gq.cost_ratio %} <span class="muted">(about 1/{{ gq.cost_ratio }})</span>{% endif %}</dd>
-          <dt>Mean latency</dt><dd>{{ '%.0f'|format(gq.g.mean_latency_s) }} s / {{ '%.0f'|format(gq.q.mean_latency_s) }} s</dd>
-        </dl>
-        <p class="tiny muted" style="margin:8px 0 0">Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15 at about 15:41 UTC ("Requested model Gemma-4-31B-IT not supported"), so live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
-        <div style="margin-top:10px">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl, last read per form, via scripts/gemma_vs_qwen.py (results/gemma_vs_qwen.md). Tiling: spikes/ledger-rescue/README.md. docs/GEMMA.md.") }}</div>
-      </div>
-      {% endif %}
-      <div style="margin-top:14px">{{ source("Latency and cost: Gemma, means over the reads of the pre-registered run (results/calls_gemma.jsonl); Qwen, means over the 43 pilot reads. Throughput: " ~ cited.spike_throughput.source ~ ".") }}</div>
+      {% if L.gemma_role %}<p class="small" style="margin:12px 0 0">{{ L.gemma_role }} <a href="/results#gemma">Gemma vs Qwen</a></p>{% endif %}
+      <div style="margin-top:14px">{{ source("Latency and cost: Gemma, means over the reads of the pre-registered run (results/calls_gemma.jsonl); Qwen, means over the 43 pilot reads.") }}</div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="sec-head"><div><h2>Two form types, measured</h2><p>Two very different self-checking forms, each graded against an independent human transcription.</p></div></div>
-  <div class="grid2">
-    <div class="card">
-      <span class="chip accent">Polling-station tally sheets · Mexico 2024</span>
-      <h3 style="margin-top:12px">Every number written twice, four identities</h3>
-      <p class="small muted">Pre-registered random sample, graded against the official two-person capture of the same image and the later certified count.</p>
-      <dl class="kv small">
-        <dt>Forms</dt><dd>{{ H.forms }} ({{ H.read }} read, {{ H.fields|int }} fields)</dd>
-        <dt>Agree with the capture</dt><dd>{{ H.agree_pct }}% of fields ({{ H.disagree }} to look at, {{ H.flag_pct }}%)</dd>
-        <dt>Accepted, no person</dt><dd>{{ H.accepted }} forms ({{ H.accepted_pct }}%), {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong</dd>
-        <dt>Capture errors found</dt><dd>{{ H.keying_errors }} fields where the capture does not match the paper, each with its photo</dd>
-      </dl>
-      <div class="actions" style="margin-top:16px"><a class="btn sm" href="/form/211294C0100">TOTAL: digits 262, words 162</a><a class="btn sm" href="/form/201720E0100">An accepted form</a></div>
+<section id="any-form">
+  <div class="sec-head"><div><h2>Any form that checks itself</h2><p>A new form type is a schema file, not code: draw the fields, write the identities, test it live.</p></div><a class="btn sm" href="/builder">Open the builder {{ icon('arrow') }}</a></div>
+  <div class="anyform">
+    <div class="card gifcard">
+      <video class="builder-gif" src="/static/builder.webm" poster="/static/builder-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="20 seconds of the schema builder: fields drawn, an identity written, the form tested"></video>
     </div>
-    <div class="card">
-      <span class="chip accent">Rainfall ledgers · UK 1850-1960</span>
-      <h3 style="margin-top:12px">Twelve months must add up to the year</h3>
-      <p class="tiny" style="margin:4px 0 0">Spike, 40 sheets.</p>
-      <p class="small muted">Graded against the transcription by {{ cited.volunteers.text }}.</p>
-      <dl class="kv small">
-        <dt>Sheets</dt><dd>{{ n.ledger.sheets }} sheets, {{ n.ledger.cells|int }} cells</dd>
-        <dt>Accepted</dt><dd>{{ n.ledger.acc_cols }} of {{ n.ledger.cols }} year-columns ({{ '%.1f'|format(100 * n.ledger.acc_cols / n.ledger.cols) }}%)</dd>
-        <dt>Accepted cells right</dt><dd>{{ n.ledger.acc_ok|int }} of {{ n.ledger.acc_cells|int }} (spike, 40 sheets)</dd>
-      </dl>
-      <div class="actions" style="margin-top:16px"><a class="btn sm" href="/forms#ledgers">Open a ledger sheet</a></div>
-    </div>
-  </div>
-  <div class="card" style="margin-top:20px">
-    <div class="sec-head" style="margin-bottom:10px"><div><h3>A form type is a schema file</h3><p class="small">The identities the gate applies to the tally sheet, verbatim from its schema:</p></div></div>
+    <div class="anyform-side">
+      <div class="card">
+        <span class="chip accent">Polling-station tally sheets · Mexico 2024</span>
+        <p class="small" style="margin:10px 0 0">Every number written twice, four identities. {{ H.forms }} forms pre-registered, {{ H.fields|int }} fields graded against the official two-person capture and the certified count.</p>
+      </div>
+      <div class="card">
+        <span class="chip accent">Rainfall ledgers · UK 1850-1960</span>
+        <p class="small" style="margin:10px 0 0">Twelve months must add up to the year. {{ n.ledger.acc_ok|int }} of {{ n.ledger.acc_cells|int }} accepted cells right against the transcription by {{ cited.volunteers.text }} (spike, 40 sheets). <a href="/forms#ledgers">Open a ledger sheet</a></p>
+      </div>
+      <div class="card">
+        <p class="small" style="margin:0 0 6px">The identities the gate applies to the tally sheet, verbatim from its schema:</p>
 <div class="code">identities:
 {% for i in schema.identities %}  - name: "{{ i.name }}"   sum: {{ i.sum if i.sum is string else '[' ~ i.sum|join(', ') ~ ']' }}   equals: [{{ i.equals|join(', ') }}]
 {% endfor %}</div>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}
-{% block scripts %}<script src="/static/hero.js?v=4"></script>{% endblock %}
+{% block scripts %}<script src="/static/home.js?v=1"></script>{% endblock %}

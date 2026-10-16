@@ -42,7 +42,8 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
         assert "keying error" not in t.lower()
     for t in (home, res, aud):
         assert L["breakdown"] in t
-    assert L["honest"] in home and L["preliminary"] in home and L["receipt"] in home
+    assert L["honest"] in home and L["preliminary"] in home
+    assert "The paper: 271 · The first capture keyed: 272 · The certified count: 271" in home   # the strip's receipt card
     for k in ("keying", "gate", "yield"):
         assert L[k]["label"] in home and (L[k]["small"] or "") in home
     assert L["keying"]["small2"] in home and L["faint"] in aud
@@ -54,7 +55,7 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     assert f"{H['acc_model_wrong']} of {H['acc_fields']:,} fields wrong" in res
     assert L["qwen"] in res and L["qwen"] not in home and "Second-reader pass" not in home
     assert L["two_readers"] and L["two_readers"] in home and "0 wrong fields in" in L["two_readers"]
-    assert "Two readers: the stricter mode" in res
+    assert "Every gate tier, one table" in res
     # hero: 52 first, then the gate line with both tiers in one sentence (primary first), then the honest sentence
     assert home.index(L["keying"]["label"]) < home.index(L["gate"]["label"]) < home.index(L["honest"])
     assert L["gate"]["label"].startswith("One reader: ") and "Two readers that must agree" in L["gate"]["label"]

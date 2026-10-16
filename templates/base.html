@@ -23,24 +23,35 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/style.css?v=13">
+<link rel="stylesheet" href="/static/style.css?v=14">
 </head>
 <body>
 {% set amd = amd_status() %}
+{% set la = live_audit_block() %}
 <header class="top">
   <div class="wrap">
     <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
     <nav class="nav" id="nav" aria-label="Main">
-      <a href="/" class="{{ 'on' if nav == 'home' }}">{{ icon('home') }}Overview</a>
-      <a href="/try" class="{{ 'on' if nav == 'try' }}">{{ icon('camera') }}Try it</a>
-      <a href="/inbox" class="{{ 'on' if nav in ('inbox', 'forms') }}">{{ icon('inbox') }}Inbox</a>
-      <a href="/review" class="{{ 'on' if nav == 'review' }}">{{ icon('review') }}<span>Review<span class="lbl-long"> desk</span></span></a>
-      <a href="/audit/new" class="{{ 'on' if nav == 'auditnew' }}">{{ icon('upload') }}<span>Audit<span class="lbl-long"> your capture</span></span></a>
-      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">{{ icon('audit') }}Findings</a>
-      <a href="/results" class="{{ 'on' if nav == 'results' }}">{{ icon('results') }}Results</a>
-      <a href="/api" class="{{ 'on' if nav == 'api' }}">{{ icon('api') }}API</a>
+      <a href="/" class="{{ 'on' if nav == 'home' }}">Home</a>
+      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">Findings</a>
+      <a href="/audit/new" class="{{ 'on' if nav in ('auditnew', 'review', 'request') }}">Audit your capture</a>
+      <a href="/try" class="{{ 'on' if nav == 'try' }}">Try it</a>
+      <a href="/results" class="{{ 'on' if nav == 'results' }}">Results</a>
+      <a href="/api" class="{{ 'on' if nav == 'api' }}">API</a>
+      <details class="more" id="more">
+        <summary>More</summary>
+        <div class="more-menu">
+          <a href="/inbox">Inbox</a>
+          <a href="/keyer">Keyer</a>
+          <a href="/builder">Builder</a>
+          <a href="/results#amd"><span class="pdot {{ amd.state }}"></span>AMD status: {{ amd.label }}</a>
+          <a href="/results#evolus">Evolus</a>
+          <a href="/about-data">Data and credits</a>
+        </div>
+      </details>
     </nav>
-    <span class="amdpill {{ amd.state }}" title="{{ amd.detail }}" tabindex="0"><span class="pdot"></span>{{ amd.label }}</span>
+    {% set lk = la.status.kind if la else 'idle' %}
+    <a class="livedot {{ lk }}" href="/live" title="{{ la.status.text if la else 'Live audit on AMD: not started' }}"><span class="ldot"></span><span class="ltxt">{{ 'Live' if lk == 'live' else 'Live audit' }}</span></a>
     <button class="menubtn" id="menubtn" aria-label="Menu" aria-expanded="false" aria-controls="nav">{{ icon('menu') }}</button>
   </div>
 </header>
@@ -56,16 +67,19 @@
     <div>
       <h4>Product</h4>
       <ul>
+        <li><a href="/station">Pick any polling station</a></li>
+        <li><a href="/audit">Findings</a></li>
+        <li><a href="/audit/new">Audit your capture</a> · <a href="/review">Review desk</a></li>
+        <li><a href="/audit/request">Request an audit</a></li>
         <li><a href="/try">Try it with a photo</a></li>
-        <li><a href="/inbox">Inbox and export</a></li>
-        <li><a href="/review">Review desk</a></li>
-        <li><a href="/audit/new">Audit your capture</a></li>
-        <li><a href="/audit">Capture errors found</a></li>
-        <li><a href="/builder">Add a new form type</a></li>
-        <li><a href="/keyer">Be the second keyer</a></li>
-        <li><a href="/results">Results and method</a></li>
-        <li><a href="/report.pdf">Report</a></li>
-        <li><a href="/api">API</a></li>
+        <li><a href="/results">Results</a> · <a href="/report.pdf">Report</a> (PDF)</li>
+        <li><a href="/api">API, CLI and MCP</a></li>
+        <li><a href="/live">Live audit on AMD</a></li>
+      </ul>
+      <h4 style="margin-top:18px">More</h4>
+      <ul>
+        <li><a href="/inbox">Inbox</a> · <a href="/keyer">Keyer</a> · <a href="/builder">Builder</a></li>
+        <li><a href="/results#amd">AMD status</a> · <a href="/results#evolus">Evolus</a> · <a href="/about-data">Data and credits</a></li>
       </ul>
     </div>
     <div>
@@ -81,8 +95,9 @@
 </div></footer>
 <script>
 (function () {
-  var b = document.getElementById('menubtn'), n = document.getElementById('nav');
+  var b = document.getElementById('menubtn'), n = document.getElementById('nav'), m = document.getElementById('more');
   if (b) b.addEventListener('click', function () { var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o ? 'true' : 'false'); });
+  if (m) document.addEventListener('click', function (e) { if (m.open && !m.contains(e.target)) m.open = false; });
 })();
 </script>
 {% block scripts %}{% endblock %}

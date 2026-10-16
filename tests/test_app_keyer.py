@@ -105,6 +105,6 @@ def test_reveal_scores_against_the_paper():
 
 
 def test_overview_links_the_keyer_and_check_is_unchanged():
-    assert 'href="/keyer"' in client.get("/").text and "Try being the second keyer" in client.get("/").text
+    assert 'href="/keyer"' in client.get("/").text   # in the More menu
     html = client.get("/check?i=0").text
     assert "Spot check" in html and "/check/img/0.jpg" in html and "keyer" not in html

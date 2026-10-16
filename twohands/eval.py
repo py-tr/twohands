@@ -328,7 +328,15 @@ def amendment2(ctx) -> dict | None:
         return p is not None and gate_v2(p, s, "v2", second=dig(Q[k]) if ok(Q.get(k)) else None,
                                          second_required=req).accepted
 
-    rules = {"gemma": (G, lambda k: gate_ok(G.get(k))), "qwen": (Q, lambda k: gate_ok(Q.get(k))),
+    def light(k):  # Amendment 2 (c), Gemma alone: every digit read; words = digits where read; rows = TOTAL
+        if not ok(G.get(k)):
+            return False
+        d = dig(G[k])
+        if None in d.values() or any(w is not None and w != d[x] for x, w in dig(G[k], "w").items()):
+            return False
+        return sum(d[x] for x in votes) == d["TOTAL"]
+
+    rules = {"gemma": (G, lambda k: gate_ok(G.get(k))), "gemma_capture": (G, light), "qwen": (Q, lambda k: gate_ok(Q.get(k))),
              "two_reader": (G, strict),
              "two_reader_s7": (G, lambda k: gate_ok(G.get(k)) and gate_ok(Q.get(k)) and dig(G[k]) == dig(Q[k])),
              "v2_2r": (G, lambda k: v22(k, False)), "v2_2r_strict": (G, lambda k: v22(k, True))}

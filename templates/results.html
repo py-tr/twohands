@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "_icons.html" import source %}
+{% from "_icons.html" import icon, source %}
 {% block title %}Results · Two Hands{% endblock %}
 {% block content %}
 {% set si = meta.single_image %}
@@ -7,10 +7,18 @@
 <section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Evaluation</div>
   <h1>What we measured, and where it breaks</h1>
-  <p class="lede">The headline is the pre-registered random sample of {{ H.forms }} forms: sample, prompt, gate and metrics were committed before any model read. Every figure for it comes from one computed summary, the same one the Overview, Inbox and Audit pages read.</p>
+  <p class="lede">The headline is the pre-registered random sample of {{ H.forms }} forms: sample, prompt, gate and metrics were committed before any model read. Every figure for it comes from one computed summary, the same one Home, Inbox and Findings read.</p>
 </section>
 
-<section style="margin-top:36px">
+<section style="margin-top:24px">
+  <div class="card res-report">
+    <div><div class="eyebrow" style="margin-bottom:4px">Technical report</div><b>Everything on this page, with method, sources and limits, as one PDF.</b></div>
+    <a class="btn primary" href="/report.pdf">{{ icon('download') }}Report (PDF)</a>
+  </div>
+  <p class="small res-jump">On this page: <a href="#gemma">Gemma vs Qwen</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a></p>
+</section>
+
+<section style="margin-top:20px">
   <div class="grid2">
     <div class="card callout ok" style="border-left-width:4px">
       <div class="eyebrow" style="color:var(--ok)">Business result</div>
@@ -35,7 +43,7 @@
         <tr><td><b>Fields compared</b></td><td>{{ H.fields|int }}; the model agrees with the capture on {{ H.agree|int }} ({{ H.agree_pct }}%), disputes {{ H.disagree }} ({{ H.flag_pct }}%) on {{ H.disagree_forms }} forms</td></tr>
         <tr><td><b>The {{ H.disagree }} disputes, settled on the photo</b></td><td>capture does not match the paper {{ v.model_right }} · model misread {{ v.capture_right }} · both off {{ v.neither }} · paper ambiguous {{ v.paper_ambiguous }} · unreadable {{ v.unreadable }}{% if v.crop_wrong %} · crop to redo {{ v.crop_wrong }}{% endif %}</td></tr>
         <tr><td><b>The model alone</b></td><td>wrong on {{ H.model_wrong }} of {{ H.fields|int }} fields, about 1 in {{ H.model_one_in }}</td></tr>
-        <tr><td><b>Accepted by the gate, no person (touchless)</b></td><td>{{ H.accepted }} of {{ H.forms }} forms ({{ H.accepted_pct }}%; {{ H.accepted_movil }} phone photos, {{ H.accepted_escaner }} scans); {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong, about 1 in {{ H.acc_one_in }} (Wilson 95% {{ '%.2f'|format(100 * H.acc_wrong_ci[0]) }}% to {{ '%.2f'|format(100 * H.acc_wrong_ci[1]) }}%)</td></tr>
+        <tr><td><b>Accepted by the gate, no person</b></td><td>{{ H.accepted }} of {{ H.forms }} forms ({{ H.accepted_pct }}%; {{ H.accepted_movil }} phone photos, {{ H.accepted_escaner }} scans); {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong, about 1 in {{ H.acc_one_in }} (Wilson 95% {{ '%.2f'|format(100 * H.acc_wrong_ci[0]) }}% to {{ '%.2f'|format(100 * H.acc_wrong_ci[1]) }}%)</td></tr>
         <tr><td><b>Capture errors found</b></td><td>{{ H.keying_errors }} on {{ H.keying_forms }} forms; the certified count covers {{ H.cert_covered }} and confirms the image on {{ H.cert_agree }}; all {{ H.cert_differ }} differences were recounts</td></tr>
         <tr><td><b>Yield</b></td><td>1 in {{ H.yield_one_in }} disputed fields is a confirmed capture error; the capture's overall error rate is at least 1 in {{ H.random_one_in }}</td></tr>
         <tr><td><b>Recall</b></td><td>{{ L.recall }} Before judging the paper: {{ H.recall.C }} of {{ H.recall.E }} (Wilson 95% {{ '%.0f'|format(100 * H.recall.ci[0]) }}% to {{ '%.0f'|format(100 * H.recall.ci[1]) }}%), a loose lower bound.</td></tr>
@@ -48,34 +56,87 @@
 </section>
 
 {% set T = n.T %}
-{% if T %}
-<section>
-  <div class="sec-head"><div><h2>Two readers: the stricter mode</h2><p>Secondary analyses pre-registered in Amendment 2, before any Qwen read of the {{ T.forms }} and before any adjudication. The headline above stays single-reader Gemma; the two-reader tier is the stricter mode. Rows marked post-hoc use gate v2, designed after seeing these reads, and test nothing.</p></div></div>
+{% if G %}
+<section id="tiers">
+  <div class="sec-head"><div><h2>Every gate tier, one table</h2><p>The same {{ G.forms }} forms under every gate we ran. Gemma full gate is the pre-registered primary; the light gate (c) and two readers (d) were pre-registered in Amendment 2, before any Qwen read and before any adjudication. Rows marked post-hoc were designed after seeing these reads and test nothing.</p></div></div>
   <div class="card" style="padding:6px 8px">
     <div class="tablewrap">
-    <table class="rtable">
-      <thead><tr><th>Mode</th><th>Accepted, no person</th><th>Accepted fields</th><th>Differ from the capture<br>(of which capture errors)</th><th>Wrong on the paper<br>(Wilson 95%)</th></tr></thead>
+    <table class="rtable gtable">
+      <thead><tr><th>Tier</th><th>Readers</th><th>Accepted, no person</th><th>Accepted fields wrong on the paper</th><th></th></tr></thead>
       <tbody>
-      {% for key in ("gemma", "qwen", "two_reader", "two_reader_s7", "v2_2r", "v2_2r_strict") %}
-        {% set t = T.tiers[key] %}
-        <tr{% if key == "two_reader" %} class="hl"{% endif %}>
-          <td><b>{{ t.label }}</b></td>
-          <td>{{ t.accepted }} of {{ T.forms }} ({{ '%.0f'|format(100 * t.accepted / T.forms) }}%; {{ t.movil }} phone photos, {{ t.escaner }} scans)</td>
-          <td>{{ t.fields|int }}</td>
-          <td>{{ t.disagree }} ({{ t.capture_errors }})</td>
-          <td>{{ t.errors }}{% if t.ci %} ({{ '%.2f'|format(100 * t.ci[0]) }}% to {{ '%.2f'|format(100 * t.ci[1]) }}%){% endif %}{% if t.undecided %}; {{ t.undecided }} undecided{% endif %}{% if t.unadjudicated %}; {{ t.unadjudicated }} not adjudicated{% endif %}</td>
+      {% for r in G.rows %}
+        <tr class="{{ 'hl' if r.key in ('gemma', 'two_reader') }}{{ ' ph' if r.post_hoc }}">
+          <td><b>{{ r.label }}</b><div class="tiny">{{ r.gate }}</div></td>
+          <td>{{ r.readers }}</td>
+          <td>{{ r.accepted }} of {{ G.forms }} ({{ r.accepted_pct }}%)</td>
+          <td>{{ r.errors }} in {{ r.fields|int }}{% if r.err_pct is not none %} ({{ '%.2f'|format(r.err_pct) }}%){% endif %}{% if r.undecided %}; {{ r.undecided }} undecided on the paper{% endif %}</td>
+          <td>{% if r.post_hoc %}<span class="chip warn">post-hoc</span>{% elif r.key == 'gemma' %}<span class="chip accent">primary</span>{% else %}<span class="chip ghost">pre-registered</span>{% endif %}</td>
         </tr>
       {% endfor %}
       </tbody>
     </table>
     </div>
   </div>
-  <p class="small" style="margin-top:10px">Strict mode accepts a form when Gemma and Qwen read the same digits on all 23 fields, every digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total. It drops the row-label check and the section identities and relies on the two readers' agreement instead, which is why it accepts more forms than either reader alone. The two readers agree on all 23 digits on {{ T.agree_all_23 }} forms. Every accepted field that differs from the capture already had a verdict on the photo. Post-hoc v2-2R (Amendment 3) accepts unused ballots when Gemma's words match its digits or Qwen agrees; the strict variant, in no amendment, requires Qwen to agree, because one call can harmonise its own words and digits.</p>
-  <p class="tiny">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl (last read per form), results/adjudication/verdicts.json; app/data/two_reader_300.json and results/two_reader_300.md by scripts/two_reader_300.py, recomputed by make eval") }}</p>
+  {% if G.takeaway %}<p class="gtake">{{ G.takeaway }}</p>{% endif %}
+  <p class="small" style="margin-top:10px">Two readers, light gate: Gemma and Qwen read the same digits on all 23 fields, every digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total. It drops the row-label check and the section identities and relies on the two readers' agreement instead. The two readers agree on all 23 digits on {{ T.agree_all_23 }} forms.</p>
+  <p class="tiny">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl (last read per form), results/adjudication/verdicts.json; app/data/two_reader_300.json by scripts/two_reader_300.py; results/posthoc_v2_300.json; both recomputed by make eval") }}</p>
 </section>
 {% endif %}
 
-<section>
+{% set gq = n.amd.gemma %}
+{% if gq %}
+<section id="gemma">
+  <div class="sec-head"><div><h2>Gemma vs Qwen on AMD</h2><p>The same {{ gq.n }} forms of the pre-registered run, each read by both models with the frozen prompt.</p></div></div>
+  <div class="grid2">
+    <div class="card">
+      {% if L.gemma_role %}<p style="margin:0 0 10px"><b>{{ L.gemma_role }}</b></p>{% endif %}
+      <p class="small" style="margin:0">Gemma-4-31B-IT reads each field twice, the handwritten digits and the amount written in Spanish words, plus the printed label of each row, on phone photos and faint pencil. It gets a fixed ~{{ gq.img_g }} tokens per image whatever the resolution, so each request is the page plus 6 zoomed tiles (the vote rows at ~8x the page's token density); on rainfall ledgers that took Gemma from 79% to 97% of cells right. Frozen prompt <code>{{ gq.prompt }}…</code>; the first complete JSON is parsed, a reply cut at <code>max_tokens</code> is never accepted.</p>
+    </div>
+    <div class="card">
+      <dl class="kv small">
+        <dt>Same {{ gq.n }} forms{% if not gq.complete %} <span class="muted">(Qwen pass running)</span>{% endif %}</dt><dd>Gemma / Qwen3.8-27B</dd>
+        <dt>Accepted, no person</dt><dd>{{ gq.g.touchless }} / {{ gq.q.touchless }} forms</dd>
+        <dt>Accepted fields wrong</dt><dd>{{ gq.g.accepted_wrong }} of {{ gq.g.accepted_fields }} / {{ gq.q.accepted_wrong }} of {{ gq.q.accepted_fields }}</dd>
+        <dt>Cost per form</dt><dd>{{ gq.g.cost_per_read_usd|usd(6) }} / {{ gq.q.cost_per_read_usd|usd(6) }}{% if gq.cost_ratio %} <span class="muted">(about 1/{{ gq.cost_ratio }})</span>{% endif %}</dd>
+        <dt>Mean latency</dt><dd>{{ '%.0f'|format(gq.g.mean_latency_s) }} s / {{ '%.0f'|format(gq.q.mean_latency_s) }} s</dd>
+      </dl>
+      <p class="tiny muted" style="margin:10px 0 0">Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15 at about 15:41 UTC ("Requested model Gemma-4-31B-IT not supported"), so live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
+      <div style="margin-top:10px">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl, last read per form, via scripts/gemma_vs_qwen.py (results/gemma_vs_qwen.md). Tiling: spikes/ledger-rescue/README.md. docs/GEMMA.md.") }}</div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% set bk = n.amd.bakeoff %}
+{% if bk %}
+<section id="bakeoff">
+  <div class="sec-head"><div><h2>Which open model on AMD reads handwriting best, and which pair is the safest second keyer</h2><p>Every vision model on AMD Token Factory that accepts the 7-image request, on the same pre-registered forms, the same frozen prompt <code>{{ bk.prompt }}…</code>, temperature 0, the same gate (Amendment 6, a secondary analysis). Refereed by the paper: accepted-field errors are judged on the crops.</p></div></div>
+  <div class="tablewrap"><table class="small">
+    <thead><tr><th>model</th><th>n</th><th>field agreement with the capture</th><th>accepted forms</th><th>accepted-field errors</th><th>cost per 1,000 forms</th><th>mean latency</th></tr></thead>
+    <tbody>
+    {% for b in bk.models %}
+      <tr{% if loop.first %} class="hl"{% endif %}><td>{{ b.model }}{% if b.reused %} <span class="muted">(300 run)</span>{% endif %}</td><td>{{ b.n }}</td><td>{{ b.field_agreement_pct }}%</td><td>{{ b.accepted }}</td><td>{{ b.accepted_wrong }} of {{ b.accepted_fields }}{% if b.accepted_pending %} <span class="muted">({{ b.accepted_pending }} not adjudicated)</span>{% endif %}</td><td>${{ '%.2f'|format(b.cost_per_1000_usd) }}</td><td>{{ b.mean_latency_s }} s</td></tr>
+    {% endfor %}
+    {% for m, why in bk.not_compatible.items() %}
+      <tr><td>{{ m }}</td><td colspan="6" class="muted">not compatible: {{ why }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  <h3 style="margin-top:16px">Best two-reader pairs</h3>
+  <div class="tablewrap"><table class="small">
+    <thead><tr><th>pair</th><th>n</th><th>accepted forms</th><th>accepted-field errors</th></tr></thead>
+    <tbody>
+    {% for p in bk.pairs %}
+      <tr{% if loop.first %} class="hl"{% endif %}><td>{{ p.a }} + {{ p.b }}</td><td>{{ p.n }}</td><td>{{ p.accepted }} ({{ p.accepted_pct }}%)</td><td>{{ p.accepted_wrong }} of {{ p.accepted_fields }}{% if p.accepted_pending %} <span class="muted">({{ p.accepted_pending }} not adjudicated)</span>{% endif %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  <p class="tiny muted">A model with n &lt; 300 read the first n forms of a fixed, capture-stratified shuffled order (pre-registered budget rule). Two readers: all 23 digit values agree, every digit read, words equal digits where read, rows sum to TOTAL. Disputes on accepted forms not already settled were decided by the certified count where it applies, else by an AI adjudicator on the crop.</p>
+  {{ source("results/calls_*.jsonl (last read per form), results/bakeoff_plan.json, results/adjudication/verdicts*.json; app/data/bakeoff_300.json and results/bakeoff_300.md by scripts/bakeoff.py report, recomputed by make eval") }}
+</section>
+{% endif %}
+
+<section id="limits">
   <div class="sec-head"><div><h2>Limitations we measured</h2></div></div>
   <div class="grid2">
     <div class="card callout warn" style="border-left-width:4px">
@@ -90,7 +151,7 @@
   <p class="small" style="margin-top:12px"><b>What the arithmetic can and cannot catch.</b> Any single misread is caught, by words = digits where both are written or by a row sum or section identity; only an error that keeps every identity true passes (a compensating pair inside one sum, a misread of unused ballots, the one field in no identity, or words and digits harmonised in one call), and every wrong field on an accepted form ({{ H.acc_model_wrong }} for Gemma{% if n.T %}, {{ n.T.tiers.qwen.errors }} for Qwen{% endif %}) is unused ballots; separate reads, a second reader and the v2 rule close it (<a href="/report.pdf">report, section 5</a>).</p>
 </section>
 
-<section>
+<section id="failure">
   <div class="sec-head"><div><h2>One failure, shown honestly</h2><p>The arithmetic gate has a blind spot: an error that keeps the arithmetic true.</p></div></div>
   <div class="card callout bad" style="border-left-width:4px">
     <h3>Silent column shift on a rainfall ledger</h3>
@@ -100,7 +161,7 @@
   </div>
 </section>
 
-<section>
+<section id="safeguard">
   <div class="sec-head"><div><h2>The safeguard: a person sees everything the paper cannot settle</h2></div></div>
   <div class="grid2">
     <div class="card">
@@ -114,7 +175,10 @@
   </div>
 </section>
 
-<section>
+<section id="all-runs">
+  <details class="allruns">
+    <summary><h2>All runs</h2><span class="muted small">The 43-form pilot, the ledger spike, the re-reads during endpoint outages, and the live reads. Not part of any headline.</span></summary>
+<div class="allrun">
   <div class="sec-head"><div><h2>Pilot (43 hand-picked forms)</h2><p>Before the pre-registered run: 43 forms chosen to be difficult, from 10 districts. Not random, so these rates do not generalise; they are here for the record.</p></div></div>
   <div class="card" style="padding:6px 8px">
     <div class="tablewrap">
@@ -148,9 +212,9 @@
     </div>
   </div>
   <p class="tiny" style="margin-top:10px">"Routed, read perfectly": the gate sent the form to a person although every field was read right, because the paper itself is inconsistent. Pilot runs predate the row-label check.</p>
-</section>
+</div>
 
-<section>
+<div class="allrun">
   <div class="sec-head"><div><h2>Appendix: re-reads and endpoint outages</h2><p>Not part of any headline.</p></div></div>
   <div class="card">
     <p class="small" style="margin-top:0">During the pre-registered run, {{ H.rereads.forms }} of the {{ H.forms }} forms had a first call fail during endpoint outages (HTTP 503) and were re-read later with the same frozen prompt; the last read of each form counts ({{ H.rereads.rows }} rows in results/calls_gemma.jsonl).</p>
@@ -168,6 +232,29 @@
     <p class="tiny">The attempt made during an outage returned no usable read for any field, which is why it shows every field as differing.</p>
     {% endif %}
     {% if live %}<p class="small" style="margin-bottom:0">Live reads made from this site: {{ live.forms }} forms, mean {{ '%.0f'|format(live.mean_secs or 0) }} s.</p>{% endif %}
+  </div>
+</div>
+  </details>
+</section>
+
+<section id="evolus">
+  <div class="sec-head"><div><h2>Evolus</h2><p>The same process runs as a case on Evolus (Evolus Business Agents track); the masked page is the input, and an open model on AMD reasons over it.</p></div></div>
+  <div class="grid3">
+    <div class="card"><h3>Accepted form</h3><p class="small" style="margin:0">Starts the workflow "Record filing": a deterministic script re-checks the paper's identities inside Evolus and files the record.</p></div>
+    <div class="card"><h3>Routed form</h3><p class="small" style="margin:0">Starts "Review hand-off": the agent "Intake clerk" (an open model on the AMD Token Factory) writes the review task, the AI Tool translate turns it into Spanish, and the task reaches a person on our <a href="/review">review desk</a>.</p></div>
+    <div class="card"><h3>Audit findings and a third reader</h3><p class="small" style="margin:0">From an audit report, each strong-evidence field opens an "Audit finding" case with a drafted finding and a score a script recomputes. An Evolus extractor reads as a third reader, gated and compared, never trusted blindly.</p></div>
+  </div>
+  <p class="tiny" style="margin-top:10px">Each form page and the review desk show the form's Evolus run: id, steps and status. {{ source("docs/EVOLUS.md; evolus/ (python -m evolus setup, python -m evolus run); results/evolus_runs.jsonl, results/evolus_audit_runs.jsonl") }}</p>
+</section>
+
+<section id="amd">
+  {% set amd = amd_status() %}
+  <div class="sec-head"><div><h2>AMD status</h2><p>{{ n.cited.endpoint.text }}.</p></div><a class="btn sm" href="/live">Live audit {{ icon('arrow') }}</a></div>
+  <div class="card amd-status">
+    <span class="amdpill {{ amd.state }} on-light"><span class="pdot"></span>{{ amd.label }}</span>
+    <p class="small" style="margin:10px 0 0">{{ amd.detail }}</p>
+    {% for m in n.amd.models %}<div class="amd-model"><div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div><div class="figs">{{ '%.0f'|format(m.secs) }} s mean per form<br>{{ m.cpf|usd(6) }} per form</div></div>{% endfor %}
+    <p class="tiny" style="margin:8px 0 0">{{ source("results/endpoint_health.jsonl (probes of the endpoint); app/health.py") }}</p>
   </div>
 </section>
 {% endblock %}
