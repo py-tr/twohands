@@ -111,28 +111,32 @@ Full line, as computed (app/buyer.py): On the 52,167 polling stations that were 
 ## Measured, not promised
 
 <div class="cols3">
-<div class="card"><div class="big">52</div><p class="mid">fields where the official capture does not match the paper, each with its photo; <strong>22</strong> confirmed by the certified count (of the 31 it covers)</p></div>
-<div class="card"><div class="k">One reader (primary)</div><div class="big">18%</div><p class="mid">of forms accepted with no person: 2 wrong of 1,210 fields</p><div class="k" style="margin-top:8px">Two readers</div><div class="big">30%</div><p class="mid">0 wrong of 1,958 fields</p></div>
-<div class="card hi"><div class="k">Confirmation, 100 fresh forms</div><div class="big">0 / 484</div><p class="mid">accepted fields wrong (Wilson 95% upper bound 0.79%); pre-registered bar ≤ 0.5% met on the point estimate</p></div>
+<div class="card"><div class="big">52</div><p class="mid">fields where the official capture does not match the paper, each with its photo; <strong>22</strong> confirmed by the certified count, 30 judged from the photo by the AI adjudicator</p></div>
+<div class="card"><div class="k">One reader (primary)</div><div class="big">18%</div><p class="mid">of forms accepted with no person: 2 wrong of 1,210 fields</p><div class="k" style="margin-top:8px">Two readers (secondary)</div><div class="big">30%</div><p class="mid">0 wrong of 1,958 fields (lighter gate; full gate: 7%, 0 of 484)</p></div>
+<div class="card hi"><div class="k">Confirmation, 100 fresh forms</div><div class="big">0 / 484</div><p class="mid">accepted fields wrong; the 95% upper bound (0.79%) is above the pre-registered 0.5% bar, so the bar is met on the point estimate only</p></div>
 </div>
 
 <p class="rule"><strong>Alone, one model mis-keys 1 field in 37. Behind the gate, 1 in 605 accepted fields is wrong.</strong></p>
 
-<p class="src">Pre-registered random 300 (protocol a93294c, Amendments 1-3, committed before any model read); Gemma-4-31B-IT read 289. The two-reader tier checks words = digits and row sums, without the section checks. Confirmation: gate v2, seed 20261017, results/confirm100.md (truth: AI adjudicator on published crops, labelled). app/data/headline.json; results/two_reader_300.md.</p>
+<p class="src">Pre-registered random 300 (protocol a93294c, Amendments 1-3, committed before any model read); Gemma-4-31B-IT read 289. The 30% tier is a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). Wrong = against the official capture; every disagreement checked on the photo; agreeing fields not individually checked. Confirmation: gate v2, seed 20261017, results/confirm100.md (truth: AI adjudicator on published crops, labelled). app/data/headline.json; results/two_reader_300.md.</p>
+
+<!--
+As computed (app/numbers.py lines(), word for word): 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; with the full gate, 7%, 0 wrong in 484). The one-reader figure is the pre-registered primary. The 30% tier is a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). Wrong is judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture. 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too.
+-->
 
 ---
 
-## The buyer already budgeted for this
+## Institutes already tried to buy machine reading
 
 <div class="cols2">
 <div>
 
-- INE put MXN 9.5M in its 2024 draft budget for an automated capture service. <span class="small">(p. 4)</span>
+- INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from our check, and bought none (last line). <span class="small">(p. 4)</span>
 - IPN quoted MXN 19.9M for the service. <span class="small">(p. 4)</span>
 - The acceptance bar was 80% agreement on words and digits. <span class="small">(p. 5)</span>
 - The best entrant reached 75%; INE declined it as untested in a real election, and its advisers (COTAPREP) recommended a pilot. <span class="small">(pp. 5, 10)</span>
 
-**The pilot INE's advisers recommended can run on 2024's own forms today.**
+**Our engine is an automated capture with a referee. For 2027 we offer an independent check of a finished capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a pilot on 2024's own forms.**
 
 </div>
 <div class="card mid">
@@ -143,19 +147,21 @@ On that metric as we read it, Gemma's existing reads of our pre-registered 300 a
 
 <p class="small"><i>INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.</i></p>
 
-Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields (two readers, the paper's sums as referee).
+Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields (two readers, the paper's sums as referee), judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked.
 
 </div>
 </div>
 
-<p class="src">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf). Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Buyer: the state institute (OPLE); PREP vendors and outside auditors are the channel (docs/BUSINESS.md).</p>
+<p class="src">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf). Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Buyer, 2027: the outside auditor or the contracted PREP operator, for an independent check of a finished capture; no rule change needed (docs/BUSINESS.md).</p>
 
 <!--
-Who pays, in order (app/buyer.py, word for word):
+Who pays, in order (app/buyer.py, word for word): Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): read on AMD, not yet scored: no result is shown until it is. Status: no buyer contacted yet.
+How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year; at $1 per acta, under $1M per three-year cycle at list price. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper.
+
 1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. We check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185).
 2. Baja California Sur bought an AI first capture by direct award (Google Document AI, MXN 93,834.49); it matched the human capture on 2.88% of actas and 62.84% of fields. A machine already keys; the question is who referees it.
 3. Every state institute decides whether to run its PREP alone or with a third party at least six months before election day: for 6 June 2027, by about 6 December 2026. Guerrero has already decided: in-house, "con acompañamiento de un ente especializado".
-4. The buyer is the state institute (OPLE); the PREP vendors and the outside auditors are the channel. At least 13 of the 17 outsourced 2024 state PREPs went to three firms: Informática Electoral S.C. (at least 8 states), Grupo Proisi (4) and PoderNet (1).
+4. The 2027 buyer is the outside auditor or the contracted PREP operator, paid by the state institute (OPLE). At least 13 of the 17 outsourced 2024 state PREPs went to three firms: Informática Electoral S.C. (at least 8 states), Grupo Proisi (4) and PoderNet (1).
 -->
 
 ---
@@ -187,23 +193,27 @@ Who pays, in order (app/buyer.py, word for word):
 
 ## Gemma on AMD
 
-**Gemma-4-31B-IT is the primary reader in every mode.** Every form of the 300, on AMD GPUs via AMD Token Factory: one request per form (page + 6 zoomed tiles).
+**Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted fields with Qwen3.8-27B; 0 wrong of 924 accepted fields with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814).** Every form of the 300, on AMD GPUs via AMD Token Factory: one request per form (page + 6 zoomed tiles).
 
 <div class="cols3">
-<div class="card hi"><div class="k">AMD compute per form</div><div class="big" style="font-size:48px">$0.000144</div></div>
-<div class="card"><div class="k">Mean latency per form</div><div class="big" style="font-size:48px">87 s</div><p class="small" style="margin:4px 0 0">shared endpoint, ~2 forms/min</p></div>
+<div class="card hi"><div class="k">All 169,005 national forms</div><div class="big" style="font-size:48px">~$24</div><p class="small" style="margin:4px 0 0">of AMD compute ($0.000144 per form, measured)</p></div>
+<div class="card"><div class="k">Server time per form</div><div class="big" style="font-size:48px">83 s</div><p class="small" style="margin:4px 0 0">HTTP round trip on the shared endpoint; 87 s wall clock includes our own pacing</p></div>
 <div class="card"><div class="k">Tokens per form</div><div class="big" style="font-size:48px">2,609 / 804</div><p class="small" style="margin:4px 0 0">in / out; 289 of 289 replies end in stop</p></div>
 </div>
 
-<p style="margin-top:16px"><strong>Open-model bake-off, same forms, prompt and gate:</strong> Gemma-4-31B-IT is the per-dollar leader and accepts the most forms. Gemma + Qwen3.8-27B is the safest pair: 0 wrong in 1,958.</p>
+<p style="margin-top:16px"><strong>Open-model bake-off, same forms, prompt and gate:</strong> Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Qwen3.8-Flash-Next agrees most with the capture, at about fifteen times the price.</p>
 
 | Open model on AMD Token Factory | Gemma-4-31B-IT | Qwen3.8-27B | Qwen3.8-Flash-Next |
 |---|---|---|---|
 | Forms accepted, no person | **55 of 300** | 31 of 300 | 17 of 128 |
 | Cost per 1,000 forms | **$0.14** | $0.64 | $2.11 |
-| Mean latency per form | **87 s** | 241 s | 120 s |
+| Time per form (Gemma, Qwen-27B: wall clock; Flash-Next: server) | **87 s** | 241 s | 120 s |
 
-<p class="src">results/bakeoff_300.md (Amendment 6), results/gemma_vs_qwen.md, results/calls_gemma.jsonl; docs/GEMMA.md. Gemma was withdrawn from Token Factory 2026-10-15 15:41 UTC and back 2026-10-16 02:06 UTC (endpoint log); every measured read of the 300 is Gemma on AMD.</p>
+<p class="src">results/bakeoff_300.md (Amendment 6), results/gemma_vs_qwen.md, results/calls_gemma.jsonl; docs/GEMMA.md. Gemma was unavailable on Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (endpoint log); every measured read of the 300 is Gemma on AMD. Server time and cost: results/amd_benchmark.md.</p>
+
+<!--
+Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted fields with Qwen3.8-27B; 0 wrong of 924 accepted fields with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814). Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
+-->
 
 ---
 
@@ -238,12 +248,15 @@ Who pays, in order (app/buyer.py, word for word):
 
 ## The next markets, not measured
 
+<!-- Slide 10b: volume -->
+
 1. **Health facility reports (DHIS2):** WHO's Data Quality Review recounts paper source documents against what was keyed; DHIS2 runs in 80+ countries; monthly forms carry their own totals.
 2. **US mortgage post-closing QC:** lenders re-check at least 10% of closed loans against source documents every month; 4.4 million closed-end originations in 2023.
 3. **Clinical-trial source data verification:** it corrects 1.1% of site data while monitoring takes 15-30% of trial costs.
 4. **Peru:** ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant; not measured by us.
 
 <p class="rule"><strong>The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.</strong></p>
+<p class="small">No second-language corpus with an official keyed record and usable terms was reachable; the language claim stays at what was measured.</p>
 
 <p class="src">Sources: WHO DQR Module 3 (2020); dhis2.org/about; Kenya MOH 711A; Fannie Mae Selling Guide D1-3-01, D1-3-02; CFPB HMDA 2023; Lindblad et al., Clinical Trials 2014; ONPE RJ 000093-2026 (El Peruano, 6 Jun 2026). Links: docs/BUSINESS.md.</p>
 

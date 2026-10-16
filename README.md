@@ -6,17 +6,16 @@ the form's own arithmetic decides what to trust; every dispute arrives with its 
 
 Two hands: two independent readers, and the paper's own arithmetic as the referee.
 
-The PREP rules require a second capture and a comparison for every acta (numeral 33) and a cotejo. Two Hands does that
-second capture: it accepts what the paper's arithmetic confirms and sends the rest to a person, with the photo.
+The PREP rules require a second capture and a comparison for every acta (numeral 33) and a cotejo. Two Hands checks a finished capture against the photo, field by field: it accepts what the paper's arithmetic confirms and sends the rest to a person, with the photo.
 
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
 the official double-keyed capture: the model found 52 fields where the capture does not match the paper (22
-confirmed by the certified count · 0 checked by a person · 30 AI-adjudicated only; person check pending: `/check`). Errors we did not plant, in a record we did not write, in a sample drawn
+confirmed by the certified count; the other 30 judged from the photo by the AI adjudicator, the builder's model, which could see both values; a blind person check is in progress at `/check`). Errors we did not plant, in a record we did not write, in a sample drawn
 before any model read.
 
-Who pays: the state institutes (OPLEs) that run the regulated second capture; PREP vendors and the outside auditors
-are the channel. The buyer already budgeted for this: INE put MXN 9.5M in its 2024 draft budget for an automated capture service, set an
-80% bar on words and digits, and its advisers asked for a pilot ([INE report](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10).
+**Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.**
+The appetite is on record: INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from our check, and bought none: no entrant met its 80% bar on words and digits, and its advisers asked for a pilot ([INE report](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10).
+Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): read on AMD, not yet scored: no result is shown until it is. Status: no buyer contacted yet.
 Price (proposal): **$1 per form audited (second capture + cotejo + receipts)**, or $5 per confirmed capture error, $0 if none is found. INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone. Measured AMD compute is $0.00014
 per form. Health facility reports (DHIS2), mortgage post-closing QC and clinical-trial source data verification are
 the next markets, not measured.
@@ -29,11 +28,15 @@ the next markets, not measured.
 (links are kept in [`submission/links.json`](submission/links.json))
 <!-- links:end -->
 
+**Sponsor-safe framing.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result; the preliminary capture is preliminary by design. An independent demonstration, not an official INE product.
+
 | 52 | 18% · 30% | 1 in 5 |
 |---|---|---|
-| fields where the official capture does not match the paper, each with its photo: 22 confirmed by the certified count · 0 checked by a person · 30 AI-adjudicated only (person check pending) | One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958. Both pre-registered; the one-reader figure is the primary. (Note: the two-reader tier checks words = digits and row sums, without the section checks.) | disputed fields is a confirmed capture error (52 of 267) |
+| fields where the official capture does not match the paper, each with its photo: 22 confirmed by the certified count · 0 checked by a person · 30 judged from the photo by the AI adjudicator only (the builder's model, which could see both values; a blind person check is in progress at `/check`) | One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; with the full gate, 7%, 0 wrong in 484). The one-reader figure is the pre-registered primary. | disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). |
 
-**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.**
+**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.**
+
+The 30% tier is a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). Wrong is judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too.
 
 Measured on Gemma-4-31B-IT on the AMD Token Factory. Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader.
 
@@ -80,10 +83,11 @@ official two-person capture (PREP); every disagreement was settled on a crop of 
 | **Fields where the official capture does not match the paper** | **52**: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. The certified count covers 31 and confirms the paper on 22; all 9 differences were recounts |
 | The model alone | wrong on 173 of 6,358 fields: about **1 in 37** |
 | Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** (one reader, the primary) |
-| Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong** (Amendment 2, pre-registered; the two-reader tier checks words = digits and row sums, without the section checks) |
+| Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong**: a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). With the full gate (section 7): 22 of 300 (7%), **0 of 484 fields wrong** |
+| How "wrong" was checked | Judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. |
 | Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (Wilson 95% upper 0.79%, above the 0.5% bar: the point estimate meets it, the bound does not) ([`results/confirm100.md`](results/confirm100.md)) |
-| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). More than ten times the yield of a random check. |
-| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n). |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too. |
+| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. |
 
 The first capture is preliminary by design; the certified count is the official result.
 
@@ -93,19 +97,27 @@ verdict and crop: [`results/adjudication/`](results/adjudication/SUMMARY.md).
 
 ## What ran on AMD
 
+**Standing workload.** The live audit reads INE's public presidential tally sheets on AMD, one form at a time, and shows
+a public counter of reads on Home and at `/live` (computed from the worker's state). On a fresh deployment it starts at
+zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qwen3.8-27B during Gemma's gap.
+
+**AMD evidence.**
+
 | | |
 |---|---|
-| Hardware | AMD GPUs behind **AMD Token Factory**, the organisers' hosted AMD inference endpoint (OpenAI-compatible) |
-| Primary reader | **Gemma-4-31B-IT**, temperature 0, one request per form; every measured read of the 300 |
-| Second reader | **Qwen3.8-27B**, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
-| Measured on the 300 | Gemma: **87 s** mean latency on the shared endpoint, **$0.000144** per form, ~2,609 tokens in / 804 out, 289 of 289 replies `stop` |
-| Pilot (43 forms) | Gemma 49 s, $0.000118 per form; Qwen 85 s, $0.000507 per form (on the 300: Qwen 241 s, $0.000597) |
-| Throughput | ~2 forms/min under our 6 req/min, 2-in-flight pacing on the shared endpoint |
-| Cost | **$0.14 per 1,000 forms** (Gemma, measured on the 300); about **$24** of compute to audit all 169,005 forms with Gemma, about $101 with Qwen at its cost on the 300 ($0.000597 per form) |
-| Live reads | Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log, `results/endpoint_health.jsonl`); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. |
+| Hardware | AMD GPUs behind the **AMD Token Factory** ([notebooks.amd.com/tokenfactory](https://notebooks.amd.com/tokenfactory)), which AMD describes as "GPU Accelerated AMD ROCm"; the endpoint does not report the GPU model, so we name no card |
+| Model | **Gemma-4-31B-IT**, temperature 0, one request per form (masked page + 6 zoomed tiles); every measured read of the 300 and of the 100-form confirmation |
+| Serving | hosted by AMD, OpenAI-compatible API; our client is `twohands/amd.py` (standard library only) |
+| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median: the HTTP round trip of the answered request on the shared endpoint, 289 answered reads of Gemma-4-31B-IT, 2,609 tokens in and 804 out per form (about 10 output tokens a second per request). About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
+| Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with its tokens and billed cost from the API's `usage` (`results/calls_*.jsonl`); the model catalogue snapshot during the outage ([docs/AMD.md](docs/AMD.md)) |
+| Outage | Gemma was unavailable on the shared endpoint from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (`results/endpoint_health.jsonl`); every stored Gemma number is Gemma on AMD |
+| Second reader | **Qwen3.8-27B** on the same endpoint, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
+| What ran on AMD | every model read: Gemma (primary), Qwen3.8-27B (second reader), the bake-off models; the Evolus agent's model |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
 
-Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
+The 87 s per form reported for the 300 run is wall clock on a shared key under our own pacing (2 requests in flight), not GPU time; the endpoint's own round trip, which includes its queue, was 83 s of it.
+
+Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted fields with Qwen3.8-27B; 0 wrong of 924 accepted fields with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814). Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
 
 Full detail and the raw result files: [docs/AMD.md](docs/AMD.md). How Gemma is made to work here, and Gemma vs
 Qwen on the same forms: [docs/GEMMA.md](docs/GEMMA.md).
@@ -242,14 +254,17 @@ phone photos with no per-form training. It never decides: the paper's arithmetic
 ## Limits and failure cases
 
 - **Touchless share.** The gate accepts 18% of forms with no person; the rest are routed.
-- **One reader, one adjudicator.** The adjudicator is an AI agent working on published crops, which anyone can
-  re-check. Recall is only bounded (7 of 7, small n).
+- **One reader, one adjudicator.** The adjudicator is the AI adjudicator (the builder's model, which could see both
+  values), working from the photo on published crops, which anyone can re-check; person-checked counts are reported
+  separately (`/check`). Fields where the model and the capture agree were not individually checked (a seeded random
+  200 is queued for a blind person check at `/check?set=agree200`). Recall is unmeasured: 1 of the 7 recall fields is a
+  confirmed capture error.
 - **Row-label check.** It is costly: it routed 86 forms, and on 68 of them the read matched the paper on every
   field (all 15 routed for a label alone).
 - **Not independent.** In one call the model can harmonise words and digits, so one read is not two independent
   reads. The fix is separate reads or a second reader.
 - **Pages not located.** 11 of the 300 went to a person before any model call.
-- **Speed.** The shared endpoint paces us to about 2 forms a minute.
+- **Speed.** At our polite pace on a shared key (2 requests in flight) we read about 2 forms a minute; a dedicated endpoint was not measured.
 - **Failure case.** On a rainfall ledger read as one image, Gemma shifted a whole row of values one year to the
   left. Every shifted column still summed to its total, so the checksum accepted 26 wrong cells (of 870
   accepted). Zoomed tiles removed it (0 of 3,976 accepted cells wrong; spike, 40 sheets). On the tally sheet we
@@ -261,9 +276,10 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 
 ## Business detail
 
-- **Buyer, now: the regulated second capture.** PREP operators and vendors pay people for the second capture
-  (PTO numeral 33), and the state institutes (OPLEs) contract them and approve the process (RE art. 339.1 d,
-  art. 346.1). Full list in [docs/BUSINESS.md](docs/BUSINESS.md#the-buyer-already-budgeted-for-this).
+- **Buyer, 2027: an independent check of a finished capture.** The outside auditor or the contracted PREP operator,
+  paid by the state institute (OPLE); no rule change needed. A model as the regulated second capture (PTO numeral 33)
+  needs the institute's approval after INE's opinion (RE art. 339.1 d, 339.2): the longer-term path. Full case in
+  [docs/BUSINESS.md](docs/BUSINESS.md#institutes-already-tried-to-buy-machine-reading).
 - **Then the auditors.** Reglamento de Elecciones art. 347: every state institute has its PREP audited by an outside body,
   preferably academic. In February 2024, 26 of 32 institutes had named one, all universities or research centres
   ([INE annex](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf)).

@@ -603,9 +603,9 @@ def family(m: str) -> str:
 
 
 def model_verdict(d: dict) -> str | None:
-    """The one-sentence verdict, from the computed blocks: accuracy leader (field agreement), its price against the
-    cheapest model, the per-dollar leader (lowest cost per 1,000 forms) and the model accepting the most forms, and the
-    safest pre-registered pair (the first compared pair)."""
+    """The one-sentence verdict, from the computed blocks. It leads with the reader every zero-error pair shares (and
+    what the compared pairs without it did), then the per-dollar leader / most forms accepted, then the model that
+    agrees most with the capture and its price. Field agreement with the capture is not accuracy on the paper."""
     M = {m: b for m, b in d["models"].items() if b["n"] and not b.get("halted")}
     if not M:
         return None
@@ -613,16 +613,26 @@ def model_verdict(d: dict) -> str | None:
     cheap = min(M, key=lambda m: M[m]["cost_per_1000_usd"])
     most = max(M, key=lambda m: M[m]["accepted"])
     ratio = round(M[acc]["cost_per_1000_usd"] / M[cheap]["cost_per_1000_usd"])
-    s = f"{acc} is the accuracy leader"
+    P = [p for p in d["pairs"] if p["n"] and not p["halted"]]
+    clean = [p for p in P if p["accepted_wrong"] == 0 and p["accepted_unadjudicated"] == 0]
+    parts = []
+    common = set.intersection(*({p["a"], p["b"]} for p in clean)) if clean else set()
+    if len(clean) > 1 and len(common) == 1:
+        m = next(iter(common))
+        c = "; ".join(f"{p['accepted_wrong']} wrong of {p['accepted_fields']:,} with {p['b'] if p['a'] == m else p['a']}"
+                      for p in clean)
+        s = f"{m} is in {'both' if len(clean) == 2 else f'all {len(clean)}'} zero-error two-reader pairs ({c})"
+        without = [p for p in P if m not in (p["a"], p["b"])]
+        if len(without) == 1 and without[0]["accepted_wrong"]:
+            s += (f"; the only pair without {family(m)} made errors ({without[0]['accepted_wrong']} of "
+                  f"{without[0]['accepted_fields']:,})")
+        parts.append(s)
+    parts.append(f"{cheap} is the per-dollar leader" + (" and accepts the most forms" if most == cheap else
+                                                       f"; {most} accepts the most forms"))
     if acc != cheap:
-        s += f" at about {_WORDS.get(ratio, f'{ratio} times')} {family(cheap)}'s price"
-    s += f"; {cheap} is the per-dollar leader" + (" and accepts the most forms" if most == cheap else
-                                                  f"; {most} accepts the most forms")
-    pair = next((p for p in d["pairs"] if p["n"] and not p["halted"]), None)
-    if pair:
-        s += (f"; {family(pair['a'])} + {family(pair['b'])} is the safest pair ({pair['accepted_wrong']} wrong in "
-              f"{pair['accepted_fields']:,})")
-    return s + "."
+        parts.append(f"{acc} agrees most with the official capture, at about {_WORDS.get(ratio, f'{ratio} times')} "
+                     f"{family(cheap)}'s price (agreement with the capture is not accuracy on the paper)")
+    return "; ".join(parts) + "."
 
 
 def markdown(d: dict) -> str:
@@ -669,7 +679,9 @@ def markdown(d: dict) -> str:
           "fewer, easier forms, so read it together with the parsed count.",
           "", "Latency: bake-off models, the server time of the answered request; Gemma and Qwen, the time per form as recorded "
           "in the 300 run (includes waiting for the shared limiter, 2 in flight). Cost: every attempt on the n forms, "
-          "per 1,000 forms. Gemma-4-31B-IT was withdrawn from Token Factory on 2026-10-15; its row uses its reads of the 300.", "",
+          "per 1,000 forms. Gemma's server time per answered request in the 300 run, measured like the bake-off models', "
+          "is in `results/amd_benchmark.md`. Gemma-4-31B-IT was unavailable on the Token Factory from 2026-10-15 15:41 to "
+          "2026-10-16 02:06 UTC; its row uses its reads of the 300, made before that gap.", "",
           "## Two readers (both read the form, all 23 digit values agree, every digit read, words = digits where read, "
           "rows sum to TOTAL; Amendment 2 d)", "",
           "| pair | n | accepted forms | accepted-field errors |", "|---|---|---|---|"]

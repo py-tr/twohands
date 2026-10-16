@@ -4,7 +4,7 @@ Open-model bake-off on AMD Token Factory (PROTOCOL.md Amendment 6; secondary ana
 
 Every reader got the same masked page + 6 tiles and the same frozen prompt (sha256 `3664253035b9...`), temperature 0, the same parser and the same frozen gate. Forms are taken in a fixed capture-stratified shuffled order (sha256 `8de453814d3d...`); a model with n < 300 read the first n forms of that order (budget rule, Amendment 6). Accepted-field errors are judged against the paper where a verdict exists (the Amendment 2 adjudication, the certified count where it applies, or the AI adjudicator on the crops), otherwise against the official capture.
 
-**Qwen3.8-Flash-Next is the accuracy leader at about fifteen times Gemma's price; Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Gemma + Qwen is the safest pair (0 wrong in 1,958).**
+**Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 with Qwen3.8-27B; 0 wrong of 924 with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814); Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Qwen3.8-Flash-Next agrees most with the official capture, at about fifteen times Gemma's price (agreement with the capture is not accuracy on the paper).**
 
 | model | n | reads parsed | field agreement with the capture | accepted forms (frozen gate) | accepted-field errors | cost per 1,000 forms | mean latency |
 |---|---|---|---|---|---|---|---|
@@ -25,7 +25,7 @@ Not vision-capable on `/models` (no image input), so not probed as readers: Deep
 
 Field agreement is over the reads that parsed: a model whose replies were cut off on hard forms is graded on fewer, easier forms, so read it together with the parsed count.
 
-Latency: bake-off models, the server time of the answered request; Gemma and Qwen, the time per form as recorded in the 300 run (includes waiting for the shared limiter, 2 in flight). Cost: every attempt on the n forms, per 1,000 forms. Gemma-4-31B-IT was withdrawn from Token Factory on 2026-10-15; its row uses its reads of the 300.
+Latency: bake-off models, the server time of the answered request; Gemma and Qwen, the time per form as recorded in the 300 run (includes waiting for the shared limiter, 2 in flight). Cost: every attempt on the n forms, per 1,000 forms. Gemma's server time per answered request in the 300 run, measured like the bake-off models', is in `results/amd_benchmark.md`. Gemma-4-31B-IT was unavailable on the Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC; its row uses its reads of the 300, made before that gap.
 
 ## Two readers (both read the form, all 23 digit values agree, every digit read, words = digits where read, rows sum to TOTAL; Amendment 2 d)
 

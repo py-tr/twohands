@@ -253,5 +253,5 @@
  },
  "billed_as_of": "2026-10-16T02:15:48Z",
  "total_bakeoff_spend_usd": 0.405,
- "model_verdict": "Qwen3.8-Flash-Next is the accuracy leader at about fifteen times Gemma's price; Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Gemma + Qwen is the safest pair (0 wrong in 1,958)."
+ "model_verdict": "Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 with Qwen3.8-27B; 0 wrong of 924 with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814); Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Qwen3.8-Flash-Next agrees most with the official capture, at about fifteen times Gemma's price (agreement with the capture is not accuracy on the paper)."
 }
