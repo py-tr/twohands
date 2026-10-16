@@ -1,0 +1,12 @@
+{
+ "submitted": "2026-10-16T23:55:02+00:00",
+ "calendars": [
+  "https://a.pool.opentimestamps.org",
+  "https://b.pool.opentimestamps.org",
+  "https://a.pool.eternitywall.com",
+  "https://ots.btc.catallaxy.com"
+ ],
+ "file": "history_anchor.txt",
+ "file_sha256": "032901a6b199d18c4ac5397ce40cd44908eb133266a197ee2d52f2c1cdaa831d",
+ "verify": "ots verify history_anchor.txt.ots   (after a few hours: ots upgrade history_anchor.txt.ots)"
+}
