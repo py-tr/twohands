@@ -1,0 +1,231 @@
+1
+00:00:00,000 --> 00:00:02,891
+The paper says 175.
+
+2
+00:00:02,941 --> 00:00:06,421
+The official capture typed 75.
+
+3
+00:00:06,471 --> 00:00:09,950
+The certified count says 175.
+
+4
+00:00:10,000 --> 00:00:15,950
+Two Hands checks every number typed from paper, against the paper.
+
+5
+00:00:16,000 --> 00:00:19,950
+On AMD, 310 forms audited so far.
+
+6
+00:00:20,000 --> 00:00:24,274
+Pick any polling station. 169,000 of them.
+
+7
+00:00:24,324 --> 00:00:31,301
+This one we have read: the page and its receipts, at once.
+
+8
+00:00:31,351 --> 00:00:34,004
+This one, not yet.
+
+9
+00:00:34,054 --> 00:00:39,950
+One click, and the reader on AMD takes it next.
+
+10
+00:00:40,000 --> 00:00:42,807
+How does it work? Two hands.
+
+11
+00:00:42,857 --> 00:00:48,521
+The model on AMD reads every number twice: the digits, and the words.
+
+12
+00:00:48,571 --> 00:00:51,787
+Then the gate: the form's own arithmetic.
+
+13
+00:00:51,837 --> 00:00:55,460
+If it all adds up, nobody types anything.
+
+14
+00:00:55,510 --> 00:00:59,950
+If not, a person sees the rest, with the photo.
+
+15
+00:01:00,000 --> 00:01:01,768
+Measured, not promised.
+
+16
+00:01:01,818 --> 00:01:05,859
+300 random forms, chosen before any model read.
+
+17
+00:01:05,909 --> 00:01:10,859
+52 fields where the capture does not match the paper.
+
+18
+00:01:10,909 --> 00:01:15,405
+Then we tested the fix on 100 new forms.
+
+19
+00:01:15,455 --> 00:01:18,586
+Zero wrong, in 484 accepted fields.
+
+20
+00:01:18,636 --> 00:01:24,950
+That is not proof of zero. It means: fewer than 1 in 100.
+
+21
+00:01:25,000 --> 00:01:27,354
+This is the product.
+
+22
+00:01:27,404 --> 00:01:32,162
+An auditor brings the typed data and the scans.
+
+23
+00:01:32,212 --> 00:01:36,488
+Here, the sample: 6,000 fields, checked in seconds.
+
+24
+00:01:36,538 --> 00:01:38,892
+267 disputes, strongest first.
+
+25
+00:01:38,942 --> 00:01:42,738
+Each has its photo and a receipt.
+
+26
+00:01:42,788 --> 00:01:46,104
+One fingerprint seals the whole report.
+
+27
+00:01:46,154 --> 00:01:49,950
+Change one number, and the check fails.
+
+28
+00:01:50,000 --> 00:01:52,807
+Now a live read.
+
+29
+00:01:52,857 --> 00:01:58,521
+One request to Gemma, on the AMD Token Factory.
+
+30
+00:01:58,571 --> 00:02:04,236
+We cut the wait. The timer stays on screen.
+
+31
+00:02:04,286 --> 00:02:07,093
+It took 90 seconds.
+
+32
+00:02:07,143 --> 00:02:09,950
+Every check holds: accepted.
+
+33
+00:02:10,000 --> 00:02:12,582
+Arithmetic has no language.
+
+34
+00:02:12,632 --> 00:02:19,424
+I filled this practice sheet by hand, in Czech and in English.
+
+35
+00:02:19,474 --> 00:02:25,739
+The model reads my words and my digits. The sums decide.
+
+36
+00:02:25,789 --> 00:02:29,950
+This is a demonstration, not a measurement.
+
+37
+00:02:30,000 --> 00:02:34,450
+Each strong finding becomes a case in Evolus.
+
+38
+00:02:34,500 --> 00:02:37,450
+This is our workspace, py_tr.
+
+39
+00:02:37,500 --> 00:02:43,450
+The agent runs on Gemma, on AMD, and drafts the finding.
+
+40
+00:02:43,500 --> 00:02:47,950
+A script, not the model, scores the evidence.
+
+41
+00:02:48,000 --> 00:02:49,950
+The auditor decides.
+
+42
+00:02:50,000 --> 00:02:51,362
+Who pays?
+
+43
+00:02:51,412 --> 00:02:56,068
+The problem, in three lines from INE's own files.
+
+44
+00:02:56,118 --> 00:03:02,185
+One: on 6.5% of stations, two official records of one paper disagree.
+
+45
+00:03:02,235 --> 00:03:07,832
+Two: almost one form in five fails its own row sum.
+
+46
+00:03:07,882 --> 00:03:13,009
+Three: the audit checks the software, not the typed numbers.
+
+47
+00:03:13,059 --> 00:03:18,656
+INE budgeted MXN 9.5 million for this, with an 80% bar.
+
+48
+00:03:18,706 --> 00:03:25,715
+On that metric, as we read it, computed after the fact, we reach 83.5%.
+
+49
+00:03:25,765 --> 00:03:29,950
+State institutes buy it, at $1 per form.
+
+50
+00:03:30,000 --> 00:03:32,610
+Where does it fail?
+
+51
+00:03:32,660 --> 00:03:38,993
+Unused ballots sit in no sum, so arithmetic cannot check them.
+
+52
+00:03:39,043 --> 00:03:42,184
+Once, the model read 3,114.
+
+53
+00:03:42,234 --> 00:03:46,439
+The paper says 314. One digit added.
+
+54
+00:03:46,489 --> 00:03:50,163
+The first gate would accept it.
+
+55
+00:03:50,213 --> 00:03:54,950
+Gate version two sent it to a person.
+
+56
+00:03:55,000 --> 00:03:56,950
+Two Hands.
+
+57
+00:03:57,000 --> 00:04:02,283
+Receipts for every number keyed from paper.
+
+58
+00:04:02,333 --> 00:04:04,950
+Running on AMD.
