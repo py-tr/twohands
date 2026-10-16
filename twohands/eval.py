@@ -530,7 +530,12 @@ def protocol_checks() -> list[tuple[str, bool | None, str]]:
             except json.JSONDecodeError:
                 continue
             rows.setdefault(p.name, []).append(r)
-            if not r.get("no_call") and r.get("prompt_sha256") != prompt:
+            allowed = {prompt}
+            if p.name == "calls_gemma_b4.jsonl":  # Amendment 8: read B, page + 4 tiles, its own pre-registered prompt
+                sec = P[P.find("## Amendment 8"):] if "## Amendment 8" in P else ""
+                nxt = sec.find(chr(10) + "## ", 5)
+                allowed.update(re.findall(r"[0-9a-f]{64}", sec[:nxt] if nxt > 0 else sec))
+            if not r.get("no_call") and r.get("prompt_sha256") not in allowed:
                 bad.append(f"{p.name}:{r.get('clave')}")
     out.append(("every model call used the frozen prompt", not bad,
                 f"{sum(map(len, rows.values()))} rows in {', '.join(rows)}" + (f"; off: {bad[:5]}" if bad else "")))
