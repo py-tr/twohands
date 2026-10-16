@@ -76,7 +76,7 @@ capture keyed 75, the certified count says 175. One of the 52.*
 | **Buyer** | The state institutes (OPLEs) that run the regulated second capture; PREP vendors (three firms ran at least 13 of 17 outsourced 2024 state PREPs) and the outside auditors are the channel. Next markets, not measured: health facility reports (DHIS2), mortgage post-closing QC, clinical-trial source data verification |
 | **Price** | Proposal: $1 per form audited (second capture + cotejo + receipts); or $5 per confirmed capture error, $0 if none is found. INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone |
 | **Measured cost on AMD** | $0.14 per 1,000 forms (Gemma, 289 reads); $0.65 with the second reader (Qwen, 43 pilot reads) |
-| **Proof** | Pre-registered random 300; every dispute with its photo; `make eval` recomputes every number offline |
+| **Proof** | Pre-registered random 300; every dispute with its photo; `make eval` recomputes every number offline (commit hashes remapped once: [docs/HISTORY.md](docs/HISTORY.md)) |
 
 Product, in one line: give us your keyed data and the scans; you get the 4% of fields to look at, each with its
 photo. Full case, with every source: [docs/BUSINESS.md](docs/BUSINESS.md).

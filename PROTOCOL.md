@@ -1,5 +1,7 @@
 # Pre-registered protocol: 300 held-out INE 2024 presidential actas
 
+> Note added 2026-10-17: commit hashes in this file predate a one-time history rewrite; the map is in [docs/HISTORY.md](docs/HISTORY.md) (author and committer dates preserved).
+
 Status: **frozen before the first model call of this run.** Everything below was written, and committed to git,
 before any of the 300 actas was sent to a model. The commit hash of this file is recorded in
 `results/RUN.md` once the run starts. Whatever the numbers turn out to be, they ship.
