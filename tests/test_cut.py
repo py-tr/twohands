@@ -98,11 +98,11 @@ def test_first_screen_content_in_order(empty_worker):
     first = re.search(r'<section class="first".*?</section>', h, flags=re.S).group(0)
     t = _text(first)
     H = numbersmod.headline()
-    marks = [H1, SUB, f"{H['read']} forms audited on AMD so far", f"{H['disagree']} disputes",
-             f"{H['cert_agree']} confirmed by the certified count", "measured sample",
-             "reader: Gemma-4-31B-IT on AMD Token Factory",
+    marks = [H1, SUB, f"{H['forms']} forms audited on AMD so far", f"{H['disagree']} disputes",
+             f"{H['cert_agree']} confirmed by the certified count", f"{H['forms']} in the pre-registered sample",
+             "measured sample", "reader: Gemma-4-31B-IT (sample) on AMD Token Factory",
              "The paper: 271 · The first capture keyed: 272 · The certified count: 271",
-             "dispute confirmed by the certified count", "202451B0100", "Pick any polling station",
+             "dispute confirmed by the certified count · measured sample", "202451B0100", "Pick any polling station",
              "Audit your capture", DIFF]
     pos = [t.find(m) for m in marks]
     assert all(p >= 0 for p in pos), [m for m, p in zip(marks, pos) if p < 0]
@@ -127,11 +127,16 @@ def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
                         "reader": "Qwen3.8-27B"}]}
     monkeypatch.setattr(LS, "_summary", lambda: fake)
     s = LS.status()
-    assert (s["kind"], s["forms_audited"], s["disputes"], s["certified_confirmed"]) == ("live", 41, 9, 3)
-    assert s["states_complete"].startswith("1 of 32 states complete") and s["reader_model"] == "Qwen3.8-27B"
+    H = numbersmod.headline()
+    # the strip sums the measured sample and the live worker, the same way for all three numbers
+    assert (s["kind"], s["forms_audited"], s["disputes"], s["certified_confirmed"]) ==         ("live", H["forms"] + 41, H["disagree"] + 9, H["cert_agree"] + 3)
+    assert s["states_complete"].startswith("1 of 32 states complete")
+    assert s["reader_model"] == "Gemma-4-31B-IT (sample), Qwen3.8-27B (live)"
     t = _text(client.get("/").text)
-    assert "41 forms audited on AMD so far" in t and "measured sample" not in t.split("Measured, not promised")[0]
-    assert "updated" in t and "reader: Qwen3.8-27B on AMD Token Factory" in t
+    first = t.split("Measured, not promised")[0]
+    assert f"{H['forms'] + 41} forms audited on AMD so far" in first
+    assert f"{H['forms']} in the pre-registered sample · 41 live since" in first and "updated" in first
+    assert "dispute confirmed by the certified count · live audit" in first
     rs = s["latest_receipts"]
     assert (rs[0]["clave"], rs[0]["code"]) == ("202451B0100", "TOTAL")
     assert rs[1]["clave"] == "060102C0100"            # a live TOTAL before the measured TOTALs
@@ -294,7 +299,7 @@ def test_prep_procedure_note_under_the_counter():
     first = re.search(r'<section class="first".*?</section>', h, flags=re.S).group(0)
     t = _text(first)
     b = numbersmod.home(ST.storemod.get_store())["business"]["per_1000_g"]
-    note = f"This is that step, for {b} per 1,000 forms."
+    note = f"This is that step, at {b} of AMD compute per 1,000 forms."
     assert note in t and t.index("confirmed by the certified count") < t.index("Required by the PREP procedure") < t.index(note)
     assert "CGex202311-03-ap-8-a.pdf" in first and 'href="/business.md"' in first
     assert client.get("/business.md").status_code == 200

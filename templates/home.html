@@ -18,7 +18,7 @@
         <div class="n n-disp"><div class="v num" data-k="disputes">{{ ls.disputes|int }}</div><div class="l">disputes</div></div>
         <div class="n n-conf"><div class="v num" data-k="certified_confirmed">{{ ls.certified_confirmed|int }}</div><div class="l">confirmed by the certified count</div></div>
       </div>
-      <p class="meta" id="stripMeta">{% if ls.kind == 'live' %}<span class="ldot{{ ' on' if ls.running }}"></span>{% if ls.updated_min_ago is not none %}updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}{% else %}live audit{% endif %}{% else %}<span class="tag">measured sample</span>{% endif %} · {{ ls.states_complete }} · reader: {{ ls.reader_model }} on AMD Token Factory</p>
+      <p class="meta" id="stripMeta">{% for x in ls.samples %}{{ x.forms|int }} in the {{ x.name }}{{ ' · ' }}{% endfor %}{% if ls.live %}<span class="ldot{{ ' on' if ls.running }}"></span>{{ ls.live.forms|int }} live since {{ ls.live.since_text }}{% if ls.updated_min_ago is not none %} (updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}){% endif %} · {% else %}<span class="tag">measured sample</span> · {% endif %}reader: {{ ls.reader_model }} on AMD Token Factory</p>
     </div>
     <p class="fold-note d-only">Required by the PREP procedure: every acta gets a second capture and a comparison (<a href="https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/CGex202311-03-ap-8-a.pdf" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>). This is that step, at {{ n.business.per_1000_g }} of AMD compute per 1,000 forms.</p>
     </div>
@@ -29,7 +29,7 @@
       <div class="rslide{{ ' on' if loop.first }}" data-i="{{ loop.index0 }}"{% if not loop.first %} hidden{% endif %}>
         <div class="rimg"><img src="{{ r.img }}" alt="Masked crop of {{ r.name }} on form {{ r.clave }}"{% if not loop.first %} loading="lazy"{% endif %}></div>
         <p class="rvals">The paper: <b class="okv">{{ r.paper }}</b> · The first capture keyed: <b class="badv">{{ cap(r.capture) }}</b> · The certified count: <b class="okv">{{ r.certified }}</b></p>
-        <div class="rfoot"><span class="chip ok"><span class="dot"></span>dispute confirmed by the certified count</span><span class="rid"><span class="mono">{{ r.clave }}</span> · {{ r.name }}{% if r.state %} · {{ r.state }}{% endif %}</span></div>
+        <div class="rfoot"><span class="chip ok"><span class="dot"></span>dispute confirmed by the certified count · {{ 'live audit' if r.source == 'live' else 'measured sample' }}</span><span class="rid"><span class="mono">{{ r.clave }}</span> · {{ r.name }}{% if r.state %} · {{ r.state }}{% endif %}</span></div>
       </div>
       {% endfor %}
     </a>

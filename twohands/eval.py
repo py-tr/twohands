@@ -589,6 +589,26 @@ def sample_audit_root() -> str:
 SAMPLE_ROOT = R / "sample_audit_root.txt"
 
 
+def strip_sum(H: dict) -> dict:
+    """Home strip: forms read on AMD = the pre-registered sample + the live worker's audited forms; disputes and
+    certified-confirmed fields summed the same way. Recomputed from headline numbers above and the worker's
+    results.jsonl (first terminal row per form), compared with what app/live_status.py shows."""
+    from app import live_status
+    from twohands import worker as W
+    seen, forms, disputes, confirmed = set(), 0, 0, 0
+    for r in W.read_jsonl(W.Paths(W.WORKER_DIR).results):
+        if r.get("status") in W.TERMINAL and r.get("clave") not in seen:
+            seen.add(r.get("clave"))
+            if r["status"] == "audited":
+                forms += 1
+                disputes += len(r.get("disputes", []))
+                confirmed += sum(d.get("label") == "confirmed" for d in r.get("disputes", []))
+    s = live_status.status()
+    return {"forms read on AMD": (H["forms"] + forms, s["forms_audited"]),
+            "disputes": (H["disagree"] + disputes, s["disputes"]),
+            "confirmed by the certified count": (H["cert_agree"] + confirmed, s["certified_confirmed"])}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--out", default=str(REPORT), help="where to write the markdown report")
@@ -668,6 +688,11 @@ def main(argv=None) -> int:
     table.append(("Sample audit Merkle root", root[:16], pub[:16], "results/sample_audit_root.txt", ok))
     bad += [] if ok else [f"sample audit Merkle root: recomputed {root}, published {pub}"]
 
+    sg = strip_sum(H)
+    for k, (got, shown) in sg.items():
+        ok = same(got, shown)
+        table.append((f"Home strip: {k}", fmt(got), fmt(shown), "app/live_status.py (300 + live_audit/results.jsonl)", ok))
+        bad += [] if ok else [f"Home strip {k}: recomputed {got}, app shows {shown}"]
     for k, v in rec["integrity"].items():
         table.append((k, "ok" if not v else f"{len(v)} off", "", "integrity", not v))
         bad += [] if not v else [f"{k}: {v[:5]}"]

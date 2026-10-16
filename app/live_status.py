@@ -3,9 +3,9 @@
     status() -> {forms_audited, disputes, certified_confirmed, updated_at, updated_min_ago, states_complete,
                  reader_model, latest_receipts[], kind, label}
 
-kind "live": the worker's numbers (app/live_audit.summary(), from twohands/worker.py's directory).
-kind "measured": until the worker has audited a form, the measured 300-form sample (app/data/headline.json), labelled
-"measured sample". Never invented numbers.
+The three numbers count every form read on AMD: the measured samples (samples(), from their computed summaries) plus
+the live worker (app/live_audit.summary(), from twohands/worker.py's directory), disputes and certified-confirmed
+fields summed the same way; twohands.eval recomputes the sum. Never invented numbers.
 
 Receipts are disputes the certified count confirmed (paper == certified != first capture), on any measured sample or
 the live audit. The first is 202451B0100 TOTAL when our data has it as paper 271 / capture 272 / certified 271; then
@@ -106,32 +106,74 @@ def _summary() -> Optional[dict]:
         return None
 
 
-def status(st: Optional[storemod.Store] = None) -> dict:
-    st = st or storemod.get_store()
-    v = _summary()
-    measured = _measured_receipts(st)
-    if v and v.get("audited"):
-        states = v.get("states") or []
-        done = [s["name"] for s in states if s.get("complete")]
-        cur = next((s for s in states if not s.get("complete")), None)
-        sc = (f"{len(done)} of {v.get('queue_states') or 32} states complete"
-              + (f", {cur['name']} {cur['pct']:g}%" if cur else ""))
-        return {"kind": "live", "label": "live audit", "forms_audited": v["audited"], "disputes": v["disputes"],
-                "certified_confirmed": v["confirmed"], "updated_at": v.get("updated"),
-                "updated_min_ago": _ago(v.get("updated")), "states_complete": sc,
-                "reader_model": v.get("reader_now") or (v.get("readers") or [None])[-1],
-                "running": (v.get("status") or {}).get("kind") == "live", "status": v.get("status"),
-                "latest_receipts": order_receipts(_live_receipts(v) + measured)}
+def samples() -> list[dict]:
+    """The measured samples the strip counts, each from its computed summary. Today the pre-registered 300
+    (app/data/headline.json); a further run (confirmation, Senate, ...) joins here once it has a computed summary with
+    forms, disputes and certified-confirmed fields."""
     H = numbersmod.headline() or {}
-    return {"kind": "measured", "label": "measured sample", "forms_audited": H.get("read", 0),
-            "disputes": H.get("disagree", 0), "certified_confirmed": H.get("cert_agree", 0),
-            "certified_covered": H.get("cert_covered", 0), "forms_drawn": H.get("forms", 0),
-            "updated_at": None, "updated_min_ago": None,
-            "states_complete": f"pre-registered random sample of {H.get('forms', 0)} forms", "reader_model": READER_MEASURED,
-            "running": False, "status": (v or {}).get("status"), "latest_receipts": order_receipts(measured)}
+    out = []
+    if H:
+        out.append({"name": "pre-registered sample", "forms": H["forms"], "disputes": H["disagree"],
+                    "confirmed": H["cert_agree"], "reader": READER_MEASURED})
+    return out
+
+
+def live_part() -> Optional[dict]:
+    """The live worker's share: forms audited, disputes, certified-confirmed, since when, updated when."""
+    v = _summary()
+    if not v or not v.get("audited"):
+        return None
+    try:
+        from app import stations
+        first = min((r["ts"] for r in stations.all_live_rows().values() if r.get("status") == "audited"), default=None)
+    except Exception:  # noqa: BLE001
+        first = None
+    states = v.get("states") or []
+    done = [s["name"] for s in states if s.get("complete")]
+    cur = next((s for s in states if not s.get("complete")), None)
+    return {"forms": v["audited"], "disputes": v["disputes"], "confirmed": v["confirmed"], "since": first,
+            "since_text": _day(first), "updated_at": v.get("updated"), "updated_min_ago": _ago(v.get("updated")),
+            "reader": v.get("reader_now") or (v.get("readers") or [None])[-1],
+            "running": (v.get("status") or {}).get("kind") == "live", "status": v.get("status"),
+            "states_complete": (f"{len(done)} of {v.get('queue_states') or 32} states complete"
+                                + (f", {cur['name']} {cur['pct']:g}%" if cur else "")), "v": v}
+
+
+def _day(ts: Optional[str]) -> Optional[str]:
+    if not ts:
+        return None
+    try:
+        d = datetime.fromisoformat(ts.replace("Z", "+00:00")).astimezone(timezone.utc)
+    except ValueError:
+        return None
+    return f"{d.day} {d.strftime('%b')}"
+
+
+def status(st: Optional[storemod.Store] = None) -> dict:
+    """The strip: every form read on AMD, across the measured samples and the live worker, with disputes and
+    certified-confirmed fields summed the same way."""
+    st = st or storemod.get_store()
+    S = samples()
+    L = live_part()
+    parts = S + ([{"name": "live", **{k: L[k] for k in ("forms", "disputes", "confirmed")}}] if L else [])
+    readers = []
+    for s in S:
+        readers.append(f"{s['reader']} (sample)")
+    if L and L["reader"]:
+        readers.append(f"{L['reader']} (live)")
+    rs = _measured_receipts(st)
+    if L:
+        rs = _live_receipts(L["v"]) + rs
+    return {"kind": "live" if L else "measured", "label": "measured sample and live audit" if L else "measured sample",
+            "forms_audited": sum(x["forms"] for x in parts), "disputes": sum(x["disputes"] for x in parts),
+            "certified_confirmed": sum(x["confirmed"] for x in parts), "parts": parts, "samples": S,
+            "live": {k: L[k] for k in L if k != "v"} if L else None,
+            "updated_at": L["updated_at"] if L else None, "updated_min_ago": L["updated_min_ago"] if L else None,
+            "states_complete": L["states_complete"] if L else None, "reader_model": ", ".join(readers),
+            "running": bool(L and L["running"]), "latest_receipts": order_receipts(rs)}
 
 
 def public(s: dict) -> dict:
     return storemod.public({k: s[k] for k in ("kind", "label", "forms_audited", "disputes", "certified_confirmed",
-                                              "updated_at", "updated_min_ago", "states_complete", "reader_model",
-                                              "running", "latest_receipts")})
+                                              "parts", "live", "updated_at", "updated_min_ago", "states_complete",
+                                              "reader_model", "running", "latest_receipts")})
