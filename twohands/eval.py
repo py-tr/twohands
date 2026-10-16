@@ -593,7 +593,32 @@ def protocol_checks() -> list[tuple[str, bool | None, str]]:
         else:
             out.append((f"{what} committed before {before}", c[1] < t,
                         f"{c[0][:7]} {utc(c[1])} < {utc(t)}"))
+    out.append(cited_commits_resolve())
     return out
+
+
+CITE = re.compile(r"\b(?:commit|committed(?: in)?|protocol)\s+`?([0-9a-f]{7,40})\b", re.I)
+
+
+def cited_commits_resolve() -> tuple:
+    """Every commit a doc cites exists in this history, or is an original hash listed in docs/commit-map.txt (the
+    history was rewritten once; PROTOCOL*.md is append-only, so it keeps the original hashes; see docs/HISTORY.md)."""
+    mp = REPO / "docs" / "commit-map.txt"
+    cmap = dict(p for p in (ln.split() for ln in (mp.read_text(encoding="utf-8").splitlines() if mp.is_file() else []))
+                if len(p) == 2)
+    files = [f for f in (git("ls-files", "*.md", "*.py", "*.html") or "").splitlines()
+             if not f.startswith("results/") and f != "docs/HISTORY.md"]
+    bad, n = [], 0
+    for f in files:
+        for h in CITE.findall((REPO / f).read_text(encoding="utf-8", errors="replace")):
+            n += 1
+            if git("cat-file", "-e", f"{h}^{{commit}}") is not None:
+                continue
+            new = next((v for k, v in cmap.items() if k.startswith(h)), None)
+            if not (new and git("cat-file", "-e", f"{new}^{{commit}}") is not None):
+                bad.append(f"{f}: {h}")
+    return ("every cited commit exists (directly or via docs/commit-map.txt)", not bad,
+            f"{n} citations" + (f"; missing: {bad[:5]}" if bad else ""))
 
 
 # ------------------------------------------------------------------ compare with what the app displays
