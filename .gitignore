@@ -31,3 +31,6 @@ live_audit/heartbeat.json
 live_audit/.*.tmp
 # BCS head-to-head masked pages (PROTOCOL_IEEBCS): ~142 MB, kept local, not committed
 data/masked/ieebcs/
+
+# private drafts (kept outside the public repo)
+outreach/
