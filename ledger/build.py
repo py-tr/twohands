@@ -139,7 +139,7 @@ def main() -> int:
             "price_per_token": {"in": 3.5e-8, "out": 7e-8, "source": "spikes/ledger-rescue/evaluate.py (usd formula)"}}
     sc = json.loads((DATA / "scores.json").read_text(encoding="utf-8"))["models"].get("gemma", {})
     meta["single_image"] = {k: sc.get(k) for k in ("sheets", "cells", "cell_acc", "acc_cols", "cols", "acc_col_cells", "acc_col_exact")}
-    meta["single_image"]["source"] = "spikes/ledger-rescue/scores.json (models.gemma: one image per sheet, no tiles)"
+    meta["single_image"]["source"] = "data/pilot/ledger-rescue/scores.json (models.gemma: one image per sheet, no tiles)"
     OUT.write_text(json.dumps({"meta": meta, "sheets": sheets}), encoding="utf-8")
     nc = sum(len(s["cols"]) for s in sheets)
     na = sum(c["accepted"] for s in sheets for c in s["cols"])

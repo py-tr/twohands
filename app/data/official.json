@@ -49,7 +49,7 @@
 "entidad": "GUERRERO",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "141097C0100": {
 "prep": {
@@ -101,7 +101,7 @@
 "entidad": "JALISCO",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "120293C0100": {
 "prep": {
@@ -153,7 +153,7 @@
 "entidad": "GUERRERO",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "010452B0100": {
 "prep": {
@@ -205,7 +205,7 @@
 "entidad": "AGUASCALIENTES",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "151794C0200": {
 "prep": {
@@ -257,7 +257,7 @@
 "entidad": "MEXICO",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "300449C0100": {
 "prep": {
@@ -309,7 +309,7 @@
 "entidad": "VERACRUZ",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "304052B0100": {
 "prep": {
@@ -361,7 +361,7 @@
 "entidad": "VERACRUZ",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "302307C0100": {
 "prep": {
@@ -413,7 +413,7 @@
 "entidad": "VERACRUZ",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "201720E0100": {
 "prep": {
@@ -465,7 +465,7 @@
 "entidad": "OAXACA",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "070159C0300": {
 "prep": {
@@ -517,7 +517,7 @@
 "entidad": "CHIAPAS",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "302541B0100": {
 "prep": {
@@ -569,7 +569,7 @@
 "entidad": "VERACRUZ",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "201280B0100": {
 "prep": {
@@ -621,7 +621,7 @@
 "entidad": "OAXACA",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "070332E0100": {
 "prep": {
@@ -673,7 +673,7 @@
 "entidad": "CHIAPAS",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "010441C0100": {
 "prep": {
@@ -725,7 +725,7 @@
 "entidad": "AGUASCALIENTES",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "200144B0100": {
 "prep": {
@@ -777,7 +777,7 @@
 "entidad": "OAXACA",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "120301C0400": {
 "prep": {
@@ -829,7 +829,7 @@
 "entidad": "GUERRERO",
 "stratum": "A_clean",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "211294C0100": {
 "prep": {
@@ -884,7 +884,7 @@
 "TOTAL": 262,
 "SACADOS": 262
 },
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "201791B0100": {
 "prep": {
@@ -936,7 +936,7 @@
 "entidad": "OAXACA",
 "stratum": "B_paper_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "072055C0300": {
 "prep": {
@@ -988,7 +988,7 @@
 "entidad": "CHIAPAS",
 "stratum": "B_paper_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "202451B0100": {
 "prep": {
@@ -1043,7 +1043,7 @@
 "TOTAL": 271,
 "SACADOS": 271
 },
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "302539C0100": {
 "prep": {
@@ -1095,7 +1095,7 @@
 "entidad": "VERACRUZ",
 "stratum": "B_paper_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "156034C0100": {
 "prep": {
@@ -1147,7 +1147,7 @@
 "entidad": "MEXICO",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "095566C0300": {
 "prep": {
@@ -1199,7 +1199,7 @@
 "entidad": "CIUDAD DE MEXICO",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "211298B0100": {
 "prep": {
@@ -1253,7 +1253,7 @@
 "adjudicated": {
 "MC": 39
 },
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "304968C0100": {
 "prep": {
@@ -1305,7 +1305,7 @@
 "entidad": "VERACRUZ",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "211420C0400": {
 "prep": {
@@ -1359,7 +1359,7 @@
 "adjudicated": {
 "PVEM_MORENA": 2
 },
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "120306C0900": {
 "prep": {
@@ -1411,7 +1411,7 @@
 "entidad": "GUERRERO",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "202156B0100": {
 "prep": {
@@ -1463,7 +1463,7 @@
 "entidad": "OAXACA",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "120295C0300": {
 "prep": {
@@ -1515,7 +1515,7 @@
 "entidad": "GUERRERO",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "200742B0100": {
 "prep": {
@@ -1567,7 +1567,7 @@
 "entidad": "OAXACA",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "304069B0100": {
 "prep": {
@@ -1619,7 +1619,7 @@
 "entidad": "VERACRUZ",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "070394C0100": {
 "prep": {
@@ -1671,7 +1671,7 @@
 "entidad": "CHIAPAS",
 "stratum": "C_prep_ne_certified",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "093954C0200": {
 "prep": {
@@ -1725,7 +1725,7 @@
 "adjudicated": {
 "PAN": 69
 },
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "156723B0100": {
 "prep": {
@@ -1779,7 +1779,7 @@
 "adjudicated": {
 "PAN_PRI_PRD": 5
 },
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "156044B0100": {
 "prep": {
@@ -1831,7 +1831,7 @@
 "entidad": "MEXICO",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "202338B0100": {
 "prep": {
@@ -1883,7 +1883,7 @@
 "entidad": "OAXACA",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "010474B0100": {
 "prep": {
@@ -1935,7 +1935,7 @@
 "entidad": "AGUASCALIENTES",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "122837B0100": {
 "prep": {
@@ -1987,7 +1987,7 @@
 "entidad": "GUERRERO",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "010445C0100": {
 "prep": {
@@ -2039,7 +2039,7 @@
 "entidad": "AGUASCALIENTES",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "201717C0100": {
 "prep": {
@@ -2091,7 +2091,7 @@
 "entidad": "OAXACA",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "302296C0200": {
 "prep": {
@@ -2143,7 +2143,7 @@
 "entidad": "VERACRUZ",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "151806B0100": {
 "prep": {
@@ -2195,7 +2195,7 @@
 "entidad": "MEXICO",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 },
 "191790C0100": {
 "prep": {
@@ -2247,6 +2247,6 @@
 "entidad": "NUEVO LEON",
 "stratum": "D_recounted_sum_mismatch",
 "adjudicated": {},
-"source": "spikes/tally-witness/data/truth_rows.json"
+"source": "data/pilot/tally-witness/truth_rows.json"
 }
 }
