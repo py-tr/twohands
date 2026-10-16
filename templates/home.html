@@ -77,6 +77,7 @@
       <div class="v">{{ H.accepted_pct }}%{% if t2 %} · {{ '%.0f'|format(100 * t2.accepted / n.T.forms) }}%{% endif %}</div>
       <div class="l">of forms accepted at second capture: one reader, {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} accepted fields wrong{% if t2 %}; two readers, {{ t2.errors }} of {{ t2.fields|int }}{% endif %}</div>
       <div class="s">{{ honest.gate_label(L) }}</div>
+      {% if n.confirm100 and n.confirm100.chip %}<div class="s"><a class="chip ok" id="c100chip" style="white-space:normal;text-decoration:none" href="/results#confirm100" title="{{ n.confirm100.wilson }}">{{ n.confirm100.chip }}</a></div>{% endif %}
       {% if L.gate.small %}<div class="s">{{ L.gate.small }}</div>{% endif %}
       <div class="src">{{ source("app/data/headline.json (one reader, primary) + app/data/two_reader_300.json (two readers, Amendment 2 d)") }}</div>
     </div>

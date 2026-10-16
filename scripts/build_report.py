@@ -167,7 +167,8 @@ def confirm100() -> dict | None:
     if not p.is_file():
         return None
     res = jload(p)
-    return {"line": res["lines"]["v2"], "line_v3": res["lines"]["v3"]}
+    from app import confirm100 as c100mod  # the Results page's wording; person check from /check?set=confirm100
+    return {"line": res["lines"]["v2"], "line_v3": res["lines"]["v3"], "t": c100mod.texts()}
 
 
 # ------------------------------------------------------------------ the text
@@ -193,6 +194,12 @@ def arith_section(D: dict) -> str:
     n_out = sum(b["outside"] for b in B)
     harm = [b for b in B if b["outside"] and b["words"] is not None and b["words"] == b["digits"]]
     nowords = [b for b in B if b["outside"] and b["words"] is None]
+    c100t = (D.get("c100") or {}).get("t") or {}
+    ins = c100t.get("insertion")
+    held = (f"\n\n**Held out on the fresh {c100t['n']}** (pre-registered, Amendment 3): the frozen gate let one more "
+            f"through, a digit insertion ({ins['read']} for {ins['paper']}) on {ins['clave']}, unused ballots with the "
+            f"words line blank. The v2 rule blocked it. The measured kinds so far: "
+            f"{'; '.join(m['text'] for m in c100t['modes'])}." if ins else "")
     same_senado = "the same in the Senate schema" if A["outside_senado"] == A["outside"] else (
         "in the Senate schema: " + ", ".join(A["outside_senado"]))
     return f"""### What the paper's arithmetic can and cannot catch
@@ -227,7 +234,7 @@ repair it passes too.
 
 Of the {len(B)}: {len(harm)} harmonised in one call ({', '.join(b['clave'] for b in harm) or 'none'}), {len(nowords)}
 with no words read at all ({', '.join(b['clave'] for b in nowords) or 'none'}). No compensating error was found among the
-accepted forms: that describes this sample, not a bound.
+accepted forms: that describes this sample, not a bound.{held}
 
 **What closes each one** (post-hoc on the 300, Amendment 3; the fresh draw is the test):
 
@@ -261,8 +268,9 @@ def render(D: dict) -> str:
     forms = H["forms"]
     first_t = lambda t: ev.utc(t) if t else "no such call yet"  # noqa: E731
     c100 = D.get("c100")
-    c100_text = (f"**Confirmation.** In {c100['line']} (`results/confirm100.md`). Also, {c100['line_v3']}."
-                 if c100 else "The confirmation draw for gate v2 (Amendment 3) has not been scored yet.")
+    c100_text = (f"{c100['t']['para']} (`results/confirm100.md`)\n\n{c100['t']['held'] or ''}\n\n"
+                 f"**Gate v3.** {c100['t']['v3_line']}"
+                 if c100 and c100.get("t") else "The confirmation draw for gate v2 (Amendment 3) has not been scored yet.")
 
     def gate_row(name, status, o, errors, undecided=0):
         return (f"| {name} | {status} | {o['accepted']} ({pct(o['accepted'], forms)}) | {o['movil']} / {o['escaner']} | "

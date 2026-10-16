@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px
 <body>
 <main>
 <h1>Spot check: the person vs the AI adjudication</h1>
-<p class="muted">Agree = the person's digit value equals the AI's paper value, or both say ambiguous / unreadable. <a href="/check">Back to the queue</a></p>
+<p class="muted">Agree = the person's digit value equals the AI's paper value, or both say ambiguous / unreadable. <a href="/check{{ qs }}">Back to the queue</a></p>
 <div class="card">
   <div class="big">{{ r.agree }} / {{ r.answered }}{% if r.rate is not none %} <span class="muted" style="font-size:18px">({{ (100 * r.rate)|round(1) }}%)</span>{% endif %}</div>
   <div class="muted">answered {{ r.answered }} of {{ r.queue }} in the queue · on the model_right verdicts: {{ r.model_right.agree }} / {{ r.model_right.n }}</div>

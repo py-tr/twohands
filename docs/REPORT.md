@@ -129,7 +129,11 @@ test nothing**; they are shown so that no variant is hidden.
 | Gate v2-2R (unused ballots confirmed by words or Qwen) | POST-HOC (Amendment 3) | 54 (18.0%) | 27 / 27 | 1,188 | 1 | 0.01% to 0.47% | 0 |
 | Gate v2-2R strict (unused ballots only if Qwen agrees) | POST-HOC (in no amendment) | 45 (15.0%) | 19 / 26 | 990 | 0 | 0.00% to 0.39% | 0 |
 
-**Confirmation.** In the pre-registered confirmation on 100 fresh forms: gate v2 accepted 22 forms, 0 of 484 accepted fields wrong; criterion met (`results/confirm100.md`). Also, gate v3 (Amendment 7, pre-registered before these reads) accepted the other 22 fields on 24 forms (0 touchless), 0 of 504 accepted fields wrong; criterion met; 24 SOBRANTES sent to a person (no second reader was run, so the two-read rule routes every SOBRANTES).
+Confirmation on fresh data (Amendment 3, pre-registered before any read): 100 forms drawn after the fix was designed, Gemma on the AMD Token Factory. The fixed gate (v2) accepted 22 forms; 0 of their 484 fields were wrong against the official capture, with 3 disagreements adjudicated from crops by the AI adjudicator (person check pending). The pre-registered criterion was an error rate under 0.5%; the point estimate meets it, and the sample is too small to exclude 0.5% at 95% confidence (Wilson upper bound 0.79%). Evidence for v2 across both sets: 1 wrong field in 1,518 accepted, of which 1,034 are a post-hoc re-score of the 300 and 484 are this pre-registered run. (`results/confirm100.md`)
+
+On the same 100 forms the original gate would have accepted one wrong field: the model read 3114 where the paper says 314, a digit inserted. The v2 rule "a field in no identity needs its digits and words both read and equal" (Amendment 3, condition 2(a); here the words line was blank) blocked it. That is the held-out test of a rule designed after the first run, and it passed.
+
+**Gate v3.** v3 on the 100: 0 wrong of 504 accepted; with no second reader in this run every SOBRANTES went to a person, so the full v3 test waits for the 3,000 with Qwen.
 
 The two-reader strict mode drops the row-label check and the section identities and relies on the readers'
 agreement instead, which is why it accepts more forms than either reader alone. The two readers agree on all 23
@@ -261,6 +265,8 @@ repair it passes too.
 Of the 3: 1 harmonised in one call (010469C0400), 2
 with no words read at all (212668C0300, 090955C0200). No compensating error was found among the
 accepted forms: that describes this sample, not a bound.
+
+**Held out on the fresh 100** (pre-registered, Amendment 3): the frozen gate let one more through, a digit insertion (3114 for 314) on 070212B0100, unused ballots with the words line blank. The v2 rule blocked it. The measured kinds so far: harmonised in one call (239/239 for 234); blank words (300 for 379); digit insertion (3114 for 314).
 
 **What closes each one** (post-hoc on the 300, Amendment 3; the fresh draw is the test):
 

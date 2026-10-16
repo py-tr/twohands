@@ -99,8 +99,10 @@ is exactly the error v2 exists to stop; v2b (secondary) accepted 29 with 0 wrong
 before these reads) accepted the other 22 fields on 24 forms, 0 of 504 wrong, but no Qwen pass was run on the 100, so its
 two-read rule sends every unused-ballots field to a person (0 touchless); with words + ballot stock alone, 21 of the 24
 would be touchless and both wrong unused-ballot reads (3114 vs 314, 207 vs 217) are caught. Every accepted-field
-disagreement with PREP (3 fields) was adjudicated on its crop by an AI adjudicator (an AI model), labelled as such:
-`results/confirm100.md`, `results/adjudication_confirm100/`.
+disagreement with PREP (3 fields) was adjudicated from crops by the AI adjudicator (an AI model), labelled as such
+(person check pending: the blind queue `/check?set=confirm100`; the Results page and docs/REPORT.md switch to "checked by a
+person" from the stored answers): `results/confirm100.md`, `results/adjudication_confirm100/`. Evidence for v2 across
+both sets, 1 wrong field in 1,518 accepted, is 1,034 post-hoc (the 300) plus 484 pre-registered (this run).
 
 ### Behind "more than ten times the yield of a random check"
 
@@ -239,12 +241,16 @@ accepted fields, Qwen 1 of 682), is SOBRANTES:
 | Gemma | 212668C0300 | 300 | not read | 379 | no words: no check at all |
 | Qwen | 090955C0200 | 200 | not read | 206 | no words: no check at all |
 
-No compensating error was found among the accepted forms; that describes this sample, not a bound.
+No compensating error was found among the accepted forms; that describes this sample, not a bound. **Held out on the
+fresh 100** (pre-registered, Amendment 3): the frozen gate let one more through, a **digit insertion (3114 for 314)** on
+070212B0100, unused ballots with the words line blank; the v2 rule blocked it. The measured kinds so far: harmonised in
+one call (239/239 for 234), blank words (300 for 379) and digit insertion (3114 for 314).
 
 **What closes each one** (post-hoc on the 300, Amendment 3; the fresh 100-form draw is the test):
 
 - **The v2 rule** (a field outside every identity needs digits and words both read and equal) removes the no-words
-  cases: 1 wrong of 1,034 accepted fields. It cannot remove a harmonised read.
+  cases: 1 wrong of 1,034 accepted fields (post-hoc). On the fresh 100 it blocked the digit insertion (3114 for 314)
+  and accepted 0 wrong of 484. It cannot remove a harmonised read.
 - **A second reader:** v2-2R strict accepts SOBRANTES only when Qwen's digits agree: 0 wrong of 990. v2-2R, which
   also accepts Gemma's own words, keeps 010469C0400: 1 wrong.
 - **Separate reads** of digits and words would make words = digits two reads; not built, not measured.

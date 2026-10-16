@@ -7,6 +7,10 @@ Answers go to app/state/spotcheck.json. /check/results then compares them with t
 Queue (deterministic): all model_right verdicts + 20 drawn with random.Random(7) from the other classes (crop_wrong
 excluded: its crop does not show the written value) + every verdict on an accepted form; deduplicated, then shuffled
 with random.Random(SHUFFLE_SEED).
+
+Second queue (?set=confirm100, additive): exactly the disagreement crops of the pre-registered 100-form confirmation
+(results/adjudication_confirm100/verdicts.json), shuffled with random.Random(SHUFFLE_SEED), the same blind page;
+answers go apart, to app/state/spotcheck_confirm100.json (app/confirm100.py turns them into the Results wording).
 """
 from __future__ import annotations
 
@@ -27,13 +31,31 @@ ADJ = REPO / "results" / "adjudication"
 FILE = REPO / "app" / "state" / "spotcheck.json"
 OTHER_N, OTHER_SEED, SHUFFLE_SEED = 20, 7, 20261015
 AMBIG = ("paper_ambiguous", "unreadable")
+ADJ_C100 = REPO / "results" / "adjudication_confirm100"
+FILE_C100 = REPO / "app" / "state" / "spotcheck_confirm100.json"
+SETS = ("main", "confirm100")
 _lock = threading.Lock()
 router = APIRouter()
 
 
 # ------------------------------------------------------------------ data
-def load_verdicts() -> dict:
-    return json.loads((ADJ / "verdicts.json").read_text(encoding="utf-8"))
+def _set(set_: Optional[str]) -> str:
+    s = set_ or "main"
+    if s not in SETS:
+        raise HTTPException(404)
+    return s
+
+
+def adj_dir(set_: Optional[str] = None) -> Path:
+    return ADJ_C100 if _set(set_) == "confirm100" else ADJ
+
+
+def answers_file(set_: Optional[str] = None) -> Path:
+    return FILE_C100 if _set(set_) == "confirm100" else FILE
+
+
+def load_verdicts(set_: Optional[str] = None) -> dict:
+    return json.loads((adj_dir(set_) / "verdicts.json").read_text(encoding="utf-8"))
 
 
 def load_ledger() -> dict:
@@ -57,25 +79,35 @@ def build_queue(verdicts: dict, ledger: dict) -> list[str]:
     return q
 
 
-def queue() -> list[str]:
+def build_queue_c100(verdicts: dict) -> list[str]:
+    """Every disagreement crop of the 100-form confirmation, nothing else, in a fixed shuffled order."""
+    q = sorted(verdicts)
+    random.Random(SHUFFLE_SEED).shuffle(q)
+    return q
+
+
+def queue(set_: Optional[str] = None) -> list[str]:
+    if _set(set_) == "confirm100":
+        return build_queue_c100(load_verdicts("confirm100"))
     return build_queue(load_verdicts(), load_ledger())
 
 
-def load() -> dict:
+def load(set_: Optional[str] = None) -> dict:
     try:
-        return json.loads(FILE.read_text(encoding="utf-8"))
+        return json.loads(answers_file(set_).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
 
 
-def save_answer(item: str, ans: dict) -> None:
+def save_answer(item: str, ans: dict, set_: Optional[str] = None) -> None:
+    f = answers_file(set_)
     with _lock:
-        d = load()
+        d = load(set_)
         d[item] = ans
-        FILE.parent.mkdir(parents=True, exist_ok=True)
-        tmp = FILE.with_suffix(".tmp")
+        f.parent.mkdir(parents=True, exist_ok=True)
+        tmp = f.with_suffix(".tmp")
         tmp.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
-        tmp.replace(FILE)
+        tmp.replace(f)
 
 
 def as_int(x) -> Optional[int]:
@@ -152,35 +184,41 @@ def _field_of(item: str) -> str:
     return name_of(item.split("__", 1)[1])
 
 
-def _crop_path(item: str) -> Path:
+def _crop_path(item: str, set_: Optional[str] = None) -> Path:
     from twohands.adjudicate import crop_name
     clave, key = item.split("__", 1)
-    return ADJ / crop_name(clave, key)
+    return adj_dir(set_) / crop_name(clave, key)
+
+
+def _qs(set_: Optional[str]) -> dict:
+    """Query-string pieces that keep the page on its queue: ('?set=confirm100', '&set=confirm100') or ('', '')."""
+    s = _set(set_)
+    return {"qset": s, "qs": "" if s == "main" else f"?set={s}", "qa": "" if s == "main" else f"&set={s}"}
 
 
 @router.get("/check", response_class=HTMLResponse)
-def check(request: Request, i: Optional[int] = None):
-    q, ans = queue(), load()
+def check(request: Request, i: Optional[int] = None, set: Optional[str] = None):  # noqa: A002 (the query name)
+    q, ans, Q = queue(set), load(set), _qs(set)
     if i is None:
         i = next((n for n, k in enumerate(q) if k not in ans), len(q))
     if i >= len(q):
         return _templates(request).TemplateResponse(request, "check.html", {"nav": "check", "done": True, "n": len(q),
-                                                                          "answered": sum(k in ans for k in q)})
+                                                                          "answered": sum(k in ans for k in q), **Q})
     if i < 0:
         raise HTTPException(404)
     item = q[i]
     prev = ans.get(item) or {}
     return _templates(request).TemplateResponse(request, "check.html", {
         "nav": "check", "done": False, "i": i, "n": len(q), "answered": sum(k in ans for k in q),
-        "field": _field_of(item), "prev": prev})
+        "field": _field_of(item), "prev": prev, **Q})
 
 
 @router.get("/check/img/{i}.jpg")
-def check_img(i: int, enh: int = 0):
-    q = queue()
+def check_img(i: int, enh: int = 0, set: Optional[str] = None):  # noqa: A002
+    q = queue(set)
     if not 0 <= i < len(q):
         raise HTTPException(404)
-    p = _crop_path(q[i])  # cut from the MASKED page by twohands.adjudicate (never a raw image)
+    p = _crop_path(q[i], set)  # cut from the MASKED page by twohands.adjudicate (never a raw image)
     if not p.is_file():
         raise HTTPException(404)
     if enh:
@@ -200,31 +238,31 @@ def _enhanced(p: Path) -> bytes:
 
 
 @router.post("/api/check/{i}")
-async def check_answer(i: int, request: Request):
-    q = queue()
+async def check_answer(i: int, request: Request, set: Optional[str] = None):  # noqa: A002
+    q = queue(set)
     if not 0 <= i < len(q):
         raise HTTPException(404)
     try:
         a = clean_answer(await request.json())
     except ValueError as e:
         return JSONResponse({"error": str(e)}, status_code=400)
-    save_answer(q[i], a)
-    ans = load()
+    save_answer(q[i], a, set)
+    ans = load(set)
     nxt = next((n for n in list(range(i + 1, len(q))) + list(range(0, i)) if q[n] not in ans), len(q))
     return {"ok": True, "next": nxt, "answered": sum(k in ans for k in q), "n": len(q)}
 
 
 @router.get("/check/results", response_class=HTMLResponse)
-def check_results(request: Request):
-    q = queue()
-    res = _neutral(score(load(), q, load_verdicts()))
-    return _templates(request).TemplateResponse(request, "check_results.html", {"nav": "check", "r": res})
+def check_results(request: Request, set: Optional[str] = None):  # noqa: A002
+    q = queue(set)
+    res = _neutral(score(load(set), q, load_verdicts(set)))
+    return _templates(request).TemplateResponse(request, "check_results.html", {"nav": "check", "r": res, **_qs(set)})
 
 
 @router.get("/api/check/results")
-def check_results_json():
-    q = queue()
-    return _neutral(score(load(), q, load_verdicts()))
+def check_results_json(set: Optional[str] = None):  # noqa: A002
+    q = queue(set)
+    return _neutral(score(load(set), q, load_verdicts(set)))
 
 
 def _neutral(res: dict) -> dict:

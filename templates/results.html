@@ -74,12 +74,39 @@
           <td>{% if r.post_hoc %}<span class="chip warn">post-hoc</span>{% elif r.key == 'gemma' %}<span class="chip accent">primary</span>{% else %}<span class="chip ghost">pre-registered</span>{% endif %}</td>
         </tr>
       {% endfor %}
+      {% set C = n.confirm100 %}
+      {% if C and C.para %}
+        <tr class="sub"><td colspan="5" class="tiny"><b>Fresh {{ C.n }} forms</b> (pre-registered confirmation, Amendment 3; gate v3, Amendment 7). Different forms, so different denominators.</td></tr>
+        <tr class="hl" id="tier-c100-v2">
+          <td><b>Gemma, gate v2, fresh {{ C.n }}</b><div class="tiny">the fix, tested on forms drawn after it was designed</div></td>
+          <td>Gemma</td>
+          <td>{{ C.v2.forms_accepted }} of {{ C.n }}</td>
+          <td>{{ C.v2.errors|length }} in {{ '{:,}'.format(C.v2.fields) }} (Wilson upper bound {{ C.upper }})</td>
+          <td><span class="chip ghost">pre-registered</span></td>
+        </tr>
+        <tr id="tier-c100-v3">
+          <td><b>Gemma, gate v3, fresh {{ C.n }}</b><div class="tiny">words + two reads + ballot stock</div></td>
+          <td>Gemma (no second reader run)</td>
+          <td>{{ C.v3.forms_accepted }} of {{ C.n }} ({{ C.v3.touchless }} touchless)</td>
+          <td colspan="1">{{ C.v3_line }}</td>
+          <td><span class="chip ghost">pre-registered</span></td>
+        </tr>
+        <tr class="ph" id="tier-v2-pooled">
+          <td><b>Gemma, gate v2, both sets pooled</b><div class="tiny">{{ '{:,}'.format(C.p2.fields) }} fields from the {{ G.forms }} (post-hoc re-score, {{ '%.0f'|format(100 * C.post_hoc_share) }}% of the pool) + {{ '{:,}'.format(C.v2.fields) }} from the fresh {{ C.n }} (pre-registered)</div></td>
+          <td>Gemma</td>
+          <td>{{ C.p2.accepted }} of {{ G.forms }} + {{ C.v2.forms_accepted }} of {{ C.n }}</td>
+          <td>{{ C.pooled_errors }} in {{ '{:,}'.format(C.pooled_fields) }}</td>
+          <td><span class="chip warn">{{ '%.0f'|format(100 * C.post_hoc_share) }}% post-hoc</span></td>
+        </tr>
+      {% endif %}
       </tbody>
     </table>
     </div>
   </div>
   {% if G.takeaway %}<p class="gtake">{{ G.takeaway }}</p>{% endif %}
-  {% if n.confirm100 %}<p class="gtake" id="confirm100"><b>Confirmation.</b> {{ n.confirm100.v2[0]|upper }}{{ n.confirm100.v2[1:] }}. Also, {{ n.confirm100.v3 }}. {{ source("results/confirm100.md (scripts/confirm100_score.py; crops and AI-adjudicated verdicts in results/adjudication_confirm100/), recomputed by make eval") }}</p>{% endif %}
+  {% if n.confirm100 and n.confirm100.para %}<p class="gtake" id="confirm100" data-person-checked="{{ 1 if n.confirm100.person.checked else 0 }}">{{ n.confirm100.para }}</p>
+  {% if n.confirm100.held %}<p class="gtake" id="confirm100-held">{{ n.confirm100.held }}</p>{% endif %}
+  <p class="tiny">{{ source("results/confirm100.md (scripts/confirm100_score.py; crops and AI-adjudicated verdicts in results/adjudication_confirm100/), results/posthoc_v2_300.md, recomputed by make eval; the person check of the disagreement crops: /check?set=confirm100 (app/state/spotcheck_confirm100.json)") }}</p>{% endif %}
   <p class="small" style="margin-top:10px">Two readers, light gate: Gemma and Qwen read the same digits on all 23 fields, every digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total. It drops the row-label check and the section identities and relies on the two readers' agreement instead. The two readers agree on all 23 digits on {{ T.agree_all_23 }} forms.</p>
   <p class="tiny">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl (last read per form), results/adjudication/verdicts.json; app/data/two_reader_300.json by scripts/two_reader_300.py; results/posthoc_v2_300.json; both recomputed by make eval") }}</p>
 </section>
@@ -156,6 +183,7 @@
     </div>
   </div>
   <p class="small" style="margin-top:12px"><b>What the arithmetic can and cannot catch.</b> Any single misread is caught, by words = digits where both are written or by a row sum or section identity; only an error that keeps every identity true passes (a compensating pair inside one sum, a misread of unused ballots, the one field in no identity, or words and digits harmonised in one call), and every wrong field on an accepted form ({{ H.acc_model_wrong }} for Gemma{% if n.T %}, {{ n.T.tiers.qwen.errors }} for Qwen{% endif %}) is unused ballots; separate reads, a second reader and the v2 rule close it (<a href="/report.pdf">report, section 5</a>).</p>
+  {% if n.confirm100 and n.confirm100.modes %}<p class="small" id="failure-modes"><b>Measured ways through the frozen gate</b> (Gemma, unused ballots): {% for m in n.confirm100.modes %}{{ m.text }} on {{ m.clave }}{{ '; ' if not loop.last else '.' }}{% endfor %} The v2 rule blocks the blank-words case and the digit insertion; only a second reader removes the harmonised read.</p>{% endif %}
 </section>
 
 <section id="failure">

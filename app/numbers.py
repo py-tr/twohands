@@ -269,7 +269,8 @@ def _confirm100():
     d = storemod._jload(REPO / "results" / "confirm100.json", None)
     if not d or not d.get("lines"):
         return None
-    return {"v2": d["lines"]["v2"], "v3": d["lines"]["v3"]}
+    from app import confirm100 as c100
+    return {"v2": d["lines"]["v2"], "v3": d["lines"]["v3"], **(c100.texts() or {})}
 
 
 def _bakeoff():
