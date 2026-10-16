@@ -1,7 +1,7 @@
 {
  "agent_id": "d2df2a29-89dc-4974-aa65-f44b97716e75",
  "agent": "798f7408-9506-4b31-81c0-83fb588cd417:d2df2a29-89dc-4974-aa65-f44b97716e75",
- "model_key": "own/Qwen3.8-27B",
+ "model_key": "own/Gemma-4-31B-IT",
  "extractor_agent_id": "c0f02cca-8ee6-4cee-84f1-1eac3ea22cce",
  "extractor_id": "",
  "library_id": "",
@@ -15,7 +15,9 @@
   "filing_workflow": "Record filing",
   "audit_workflow": "Audit finding"
  },
- "updated_at": "2026-10-15T15:58:33+00:00",
+ "updated_at": "2026-10-16T14:58:23+00:00",
  "filing_workflow_id": "7f665314-5ce3-40af-a10f-ebfe5ac7531f",
- "audit_workflow_id": "59ede564-39b1-451c-a7a8-43aba97752a6"
+ "audit_workflow_id": "59ede564-39b1-451c-a7a8-43aba97752a6",
+ "workspace_name": "py_tr",
+ "workspace_name_source": "Evolus API: GET /api/v1/agents/{agentId} -> application.name"
 }

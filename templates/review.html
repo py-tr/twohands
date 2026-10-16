@@ -47,6 +47,7 @@
           {% if it.review %}<button class="btn sm" data-act="reopen">Reopen</button>{% endif %}
         </div>
         {% with ec = evolus_case(it.clave), compact = true %}{% include "_evolus.html" %}{% endwith %}
+        {% if not evolus_case(it.clave) %}<div class="evo-send" style="margin-top:10px"><button type="button" class="btn sm" data-evolus="{{ it.clave }}">Send to Evolus</button> <span class="tiny muted">Starts the workflow "Review hand-off" in the Evolus workspace: the Intake clerk (Gemma-4-31B-IT on AMD) drafts the task, in English and Spanish.</span></div>{% endif %}
         <div class="out">{% if it.review %}<div class="msg {{ 'ok' if it.review.status == 'resolved' else 'warn' }} small">{{ it.review.status|capitalize }} {{ it.review.at }}{% if it.review.note %}: {{ it.review.note }}{% endif %}</div>{% endif %}</div>
       </form>
     </div>
@@ -66,6 +67,18 @@
   if (more) more.addEventListener('click', function () { shown += 12; render(); });
   render();
 })();
+document.querySelectorAll('[data-evolus]').forEach(function (b) {  // review desk -> Evolus "Review hand-off"
+  b.addEventListener('click', function () {
+    var box = b.parentNode; b.disabled = true; b.textContent = 'Sending...';
+    fetch('/api/evolus/send/' + encodeURIComponent(b.dataset.evolus), {method: 'POST'}).then(function (r) {
+      return r.json().then(function (j) { return [r.ok, j]; });
+    }).then(function (x) {
+      var t = document.createElement('span'); t.className = 'tiny';
+      t.textContent = x[0] ? ' Sent. The Evolus run appears here when it returns (reload in a minute or two).' : ' ' + (x[1].detail || 'Not sent.');
+      box.appendChild(t); b.textContent = x[0] ? 'Sent to Evolus' : 'Send to Evolus'; b.disabled = x[0];
+    });
+  });
+});
 document.querySelectorAll('.qcard').forEach(function (card) {
   var clave = card.dataset.clave, form = card.querySelector('form'), out = card.querySelector('.out'), chip = card.querySelector('[data-status]');
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }

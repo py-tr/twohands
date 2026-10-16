@@ -306,14 +306,23 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 
 ## Evolus
 
+**Evolus event workspace: py_tr (event code AMDACT3).** The name is read from the Evolus API
+(`application.name`) and shown on the site's Evolus section. The workspace stays online until Nov 15, 2026 for the
+Evolus team's review.
+
 The same process runs as a case on **Evolus** (Evolus Business Agents track). The masked page is the input, and an
-open model on AMD reasons over it.
+open model on AMD reasons over it: the agent "Intake clerk" runs **Gemma-4-31B-IT on the AMD Token Factory**,
+connected under "Your models" as an OpenAI-compatible server (requirement 2: [docs/EVOLUS.md](docs/EVOLUS.md)).
+
+- **Live audit (critical path):** every strong-evidence dispute the live worker finds starts one run of the workflow
+  **"Audit finding"** (the clerk drafts the finding, a Script recomputes the evidence score with no AI); the case
+  comes back to the site. Capped at `EVOLUS_DAILY_RUNS` (60) runs a day to protect the shared AMD key.
 
 - **Accepted form:** starts the workflow **"Record filing"**. A deterministic Script re-checks the paper's
   identities inside Evolus and files the record.
 - **Routed form:** starts the workflow **"Review hand-off"**. The agent **"Intake clerk"** (an open model on the
   AMD Token Factory, connected under "Your models") writes the review task, the AI Tool `translate` turns it into
-  Spanish, and the task reaches a person on our review desk.
+  Spanish, and the task reaches a person on our review desk ("Send to Evolus" on any routed form).
 - **Third reader:** an Evolus extractor ("Tally sheet reader"), gated and compared, never trusted blindly.
 
 The form page and the review desk show each form's Evolus run: id, steps and status. Details, endpoints and the
@@ -322,10 +331,12 @@ real run: [docs/EVOLUS.md](docs/EVOLUS.md).
 ```bash
 python -m evolus setup            # find or create every Evolus block (idempotent) -> evolus/ids.json
 python -m evolus run --pick 2,3   # run the case on 2 accepted + 3 routed forms -> results/evolus_runs.jsonl
+python -m twohands.worker run     # the live audit; strong disputes -> "Audit finding" (EVOLUS_LIVE=0 turns it off)
 ```
 
 Environment: `EVOLUS_KEY`, `EVOLUS_APP_ID`; optional `EVOLUS_USER_KEY` (needed to create the extractor schema and
-the library), `EVOLUS_REVIEWER_EMAIL`, `TWOHANDS_GATE_TOKEN`, `TWOHANDS_PUBLIC_URL`, `EVOLUS_CALLBACK_KEY`.
+the library), `EVOLUS_REVIEWER_EMAIL`, `TWOHANDS_GATE_TOKEN`, `TWOHANDS_PUBLIC_URL`, `EVOLUS_CALLBACK_KEY`, `EVOLUS_DAILY_RUNS`,
+`EVOLUS_LIVE`.
 
 ## Live audit
 

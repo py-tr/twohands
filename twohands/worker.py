@@ -593,6 +593,7 @@ class Worker:
         self.stop_flag = threading.Event()
         self.last_progress = clock()
         self._urls: dict = {}
+        self.evolus = None   # evolus.live.LiveHook: strong-evidence disputes -> Evolus "Audit finding" (set in main)
         self._load()
 
     # ---- state
@@ -777,6 +778,13 @@ class Worker:
                                            "reader": r["reader"], "ts": r["ts"], **{x: d[x] for x in d if x != "leaf"}})
         self.rows[r["clave"]] = r
         write_atomic(self.P.roots, json.dumps(self.roots(), indent=1))
+        if self.evolus is not None and r.get("disputes"):
+            try:   # queues only; sending and polling run on the hook's own thread, capped per day
+                n = self.evolus.on_result(r)
+                if n:
+                    self.log.info("%s: %d strong-evidence dispute(s) queued for Evolus 'Audit finding'", r["clave"], n)
+            except Exception as e:  # noqa: BLE001 - Evolus never stops the audit
+                self.log.warning("evolus hook: %s", type(e).__name__)
 
     # ---- loop
     def wait_until(self, until: float, pause: str, why: str) -> None:
@@ -1033,6 +1041,12 @@ def main(argv=None) -> int:
             except (ValueError, OSError):
                 pass
         watchdog(w)
+        try:
+            from evolus.live import hook_for
+            w.evolus = hook_for(P.root, log=lg.info)
+        except Exception as e:  # noqa: BLE001 - the audit runs without Evolus
+            lg.warning("evolus hook not started: %s", type(e).__name__)
+        lg.info("evolus: %s", "strong-evidence disputes start 'Audit finding' runs" if w.evolus else "off (not configured)")
         lg.info("worker start: %d of %d forms done, reader %s, cap %.2f USD/day, reserve %.2f USD",
                 len(w.rows), len(w.items()), w.models.choose(), w.budget.cap, w.budget.reserve)
         n = w.run(limit=a.limit)

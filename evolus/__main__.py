@@ -152,8 +152,8 @@ a public HTTPS URL first.
      twohands mcp --http --host 127.0.0.1 --port 8765 --public-host {host}
    behind HTTPS (a reverse proxy, or a tunnel such as `cloudflared tunnel --url http://127.0.0.1:8765`).
    Check it from outside: an MCP client listing tools at {url} shows read_form, gate, audit_capture, verify_receipt.
-2. In the Evolus workspace: MCP servers -> add a custom server to the application's MCP collection:
-     transport: Streamable HTTP   url: {url}   name: Two Hands
+2. In the Evolus workspace (py_tr): the Connectors page -> add a custom MCP server by hand:
+     name: Two Hands   transport: Streamable HTTP   url: {url}   auth: none (read-only tools; model reads off)
    Copy the new server's id (a UUID).
 3. Attach it to the agent (agent {agent}):
      python -m evolus mcp-register --url {url} --server-id <that id> --apply
@@ -202,7 +202,10 @@ def main(argv=None) -> int:
     sub.add_parser("check").set_defaults(fn=cmd_check)
     sub.add_parser("fields").set_defaults(fn=cmd_fields)
     su = sub.add_parser("setup")
-    su.add_argument("--model", default="Qwen3.8-27B", help="the connected model (Your models), e.g. Gemma-4-31B-IT")
+    from evolus.config import load_ids
+    cur = str(load_ids().get("model_key") or "").split("/", 1)[-1]
+    su.add_argument("--model", default=cur or "Gemma-4-31B-IT",
+                    help="the connected model (Your models); default: the agents' current model (evolus/ids.json)")
     su.add_argument("--model-key", default="", help="exact Evolus model key, e.g. own/<alias>, if the guess fails")
     su.add_argument("--reviewer-email", default=Settings.load().reviewer_email, help="adds an Email hand-off step")
     su.add_argument("--rebuild", action="store_true", help="delete and recreate the workflow")

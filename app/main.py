@@ -63,6 +63,7 @@ templates.env.globals["STATUSES"] = inboxmod.STATUSES
 from evolus import web as evolusweb  # noqa: E402
 app.include_router(evolusweb.router)
 templates.env.globals["evolus_case"] = evolusweb.panel
+templates.env.globals["evolus_info"] = evolusweb.info
 
 # Blind spot-check of the AI adjudication by a person (additive): /check, /check/results
 from app import spotcheck as spotcheckmod  # noqa: E402

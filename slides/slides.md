@@ -178,6 +178,8 @@ Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts
 
 AMD Token Factory, the organisers' hosted AMD GPUs. One request per form. ~2 forms/min under our shared-key pacing.
 
+**Evolus event workspace: py_tr (event code AMDACT3).** Its agent "Intake clerk" runs Gemma-4-31B-IT on the same Token Factory; every strong-evidence dispute the live audit finds opens an "Audit finding" case there (at most 60 a day).
+
 <p class="small">Gemma: means over the 289 reads of the pre-registered run. Qwen: pilot, 43 forms. Locating, masking and the gate run on CPU.</p>
 
 ---

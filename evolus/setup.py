@@ -369,6 +369,13 @@ class Setup:
                                                        "filing_workflow": FILING, "audit_workflow": "Audit finding"},
                          "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds")})
         save_ids(self.ids)
+        try:   # the event workspace's name (application.name), shown on the site and in docs/EVOLUS.md
+            from evolus import live
+            ws = live.workspace(self.c, refresh=True)
+            self.ids = load_ids()
+            self.log(f"workspace: {ws['line']} (from {ws['source']})")
+        except Exception:  # noqa: BLE001 - the name is informative only
+            pass
         for n in self.notes:
             self.log("note: " + n)
         return self.ids

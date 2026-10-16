@@ -5,6 +5,34 @@ read, checked and either filed as a record or handed to a person with the failin
 own arithmetic holds are filed with no keying (49% on our difficult pilot, 0 of 462 accepted fields wrong). The rest
 reach the clerk with the field, its crop and a task written in English and Spanish.
 
+**Evolus event workspace: py_tr (event code AMDACT3).** Source: the Evolus API, `GET /api/v1/agents/{agentId}` ->
+`application.name` = `py_tr` (application `798f7408-...`, created 2026-10-15 through the event join link), cached in
+`evolus/ids.json` by `python -m evolus setup` and shown in the Evolus section of the site (`/results#evolus`), in the
+README and on the "What ran on AMD" slide. Evolus asked that the name be shown clearly and that the workspace and
+the model endpoint stay online until **Nov 15, 2026** for their review (`../notes/rules.md`, delta 2026-10-16, and
+the kickoff notes of 2026-10-15); we keep both up until then.
+
+## Requirement 2: the main agent's model
+
+The Evolus agent's model is Gemma-4-31B-IT on the AMD Token Factory, connected under 'Your models' as an
+OpenAI-compatible server; the event page's Evolus section allows 'an open model through a vLLM endpoint on AMD
+Developer Cloud, or any OpenAI-compatible provider'; AMD stated that the Token Factory API key is all a team needs
+for ACT III.
+
+Sources, quoted in `../notes/rules.md`: the event page's Evolus block, "Bring your own model. Event workspaces run
+their agents on the model each team connects: an open model through a vLLM endpoint on AMD Developer Cloud, or any
+OpenAI-compatible provider" (page refresh of 2026-10-15, item 6; the Requirements line on the same page still says
+"through your own vLLM endpoint on AMD Developer Cloud"); and AMD (Maharshi, Discord, delta 2026-10-15 ~18:11 UTC):
+"for hackathon no cloud credits needed only apikey from notebooks.amd.com/tokenfactory". Evolus's answer to another
+team's question whether a Token Factory-connected agent counts was still pending on 2026-10-16 (delta of that day).
+
+Both agents ("Intake clerk", "Tally sheet reader") were moved from Qwen3.8-27B to Gemma-4-31B-IT on 2026-10-16
+(`python -m evolus setup --model Gemma-4-31B-IT`), after Gemma answered a probe on the Token Factory and then a chat
+through the Evolus agent itself (`POST /v1/chat/completions`, model `{applicationId}:{agentId}`, reply "ready"). The
+agent reads back `modelKey own/gemma-4-31b-it`, `modelState ok`. The runs recorded below were made on Qwen3.8-27B,
+while Gemma was withdrawn from the Token Factory (2026-10-15). If a self-hosted vLLM is ever connected, it is listed
+here as a second model under "Your models"; none is connected today.
+
 Evolus is where the case lives. Our code (`evolus/`) builds the workspace and drives it over the Evolus REST API
 (spec: [`docs/evolus-openapi.json`](evolus-openapi.json), OpenAPI 3.0.4). The decision stays with the paper's
 arithmetic, never with a model.
@@ -15,10 +43,36 @@ masked page ──► primary read (Gemma-4-31B-IT on AMD, measured) ──► o
                                                                                ▼
   accepted ──► workflow "Record filing": Script re-checks the paper's identities in Evolus (no AI)
                ──► CreateFile (JSON record) ──► Output                 [+ library "Records register"]
-  routed   ──► workflow "Review hand-off": AgentCall "Intake clerk" (open model on AMD Token Factory)
+  routed   ──► workflow "Review hand-off": AgentCall "Intake clerk" (Gemma-4-31B-IT on AMD Token Factory)
                ──► AI Tool translate (Spanish) ──► Script (assemble the task) ──► [Email] ──► Output
                ──► the task lands on the Two Hands review desk (notes EN/ES, crop link, run status)
 ```
+
+## In the critical path: the live audit
+
+The live worker (`twohands/worker.py`, the standing audit of presidential tally sheets) calls Evolus for every form
+it commits (`evolus/live.py`, `LiveHook`). Each **strong-evidence dispute** (the model's read differs from the
+official capture; evidence score >= 6 under the audit's rule, `app/capture_audit.evidence`; not on a form whose
+row-label check failed; not on a form where the certified count shows the model misread) starts one run of the
+workflow **"Audit finding"**, with the same input as an audit case (`case_id` `live-<form>-<Option NN>`). Not every
+routed form goes to Evolus: each run is one call on the shared AMD key, so
+
+- runs are capped at **60 per UTC day** (`EVOLUS_DAILY_RUNS`, counted in `cache/evolus_daily.json`; the review
+  desk's sends count too); over the cap a dispute is logged as not sent, never queued for later;
+- each start takes a token from the shared rate limiter (`cache/ratelimit.json`), like every other AMD call;
+- sending and polling run on the hook's own thread; an Evolus error is recorded on the case and never stops the audit.
+
+The case comes back as designed for audit cases: our side polls the execution (or a Webhook callback delivers it,
+merged by execution id), and the finding, the recomputed score and the run status are stored in
+`live_audit/evolus_cases.json`. The site shows today's count and the latest cases in its Evolus section
+(`/results#evolus`; JSON at `GET /api/evolus/live`). `EVOLUS_LIVE=0` turns the hook off; without `EVOLUS_KEY`,
+`EVOLUS_APP_ID` and the workflow id it is off by itself. The running worker picks the hook up at its next start.
+Tests: `tests/test_evolus_live.py` (Evolus mocked).
+
+**Review desk.** Each routed form on `/review` without an Evolus case has **Send to Evolus**
+(`POST /api/evolus/send/{form}`): it runs the intake case for that form in the background (workflow "Review
+hand-off": the Intake clerk drafts the task, AI Tool translate, Script), within the same daily cap; the run then
+shows on the card.
 
 ## The audit process in Evolus ("Audit your capture")
 
@@ -45,7 +99,7 @@ audit report ──► "Open as Evolus cases" (strong tier, at most 18, shared l
 
 | Building block (in use) | Type | What it does in the audit |
 |---|---|---|
-| **Intake clerk** | agent, `own/Qwen3.8-27B` on the AMD Token Factory | Drafts the auditor's finding: what the paper shows, what was keyed, which identity supports the paper. It never decides; every finding ends "for the auditor to confirm". |
+| **Intake clerk** | agent, `own/Gemma-4-31B-IT` on the AMD Token Factory (Qwen3.8-27B until 2026-10-16) | Drafts the auditor's finding: what the paper shows, what was keyed, which identity supports the paper. It never decides; every finding ends "for the auditor to confirm". |
 | **Audit finding** | workflow: AgentCall, Script, Script, [Webhook], Output | One run per disputed field; the case lands back in Two Hands with status `open`. |
 | Script "Recompute the evidence score" | workflow step, no AI | Our evidence rule in JavaScript, run on the raw sums we send: the model cannot change the score. Checked against our Python rule on all 267 disputes (`tests/test_evolus_audit.py`). |
 | Workflow audits | `GET/PUT /api/v1/workflow-audits` | Evolus records each run; the auditor's status is written to it as `clientData`. |
@@ -55,7 +109,10 @@ audit report ──► "Open as Evolus cases" (strong tier, at most 18, shared l
 | **Tally sheet reader** + schema "Tally sheet type 2" | data extractor | Once `EVOLUS_USER_KEY` is set: an independent third read of a form, compared field by field. |
 | **Records register** | knowledge library | Once `EVOLUS_USER_KEY` is set: accepted records, and each finding the auditor confirms, filed as documents the clerk can answer from. |
 
-The last two need a personal User API key. They **activate by themselves**: the next `python -m evolus run`,
+The last two need a personal User API key. **Checked 2026-10-16:** the workspace key in `EVOLUS_KEY`, sent as
+`X-User-ApiKey` (+ `X-Application-Id`) on `GET /api/v1/agents/{agentId}/json` and `GET /api/v1/memories`, is refused
+with HTTP 401 `auth.invalid_user_api_key`: one key does **not** work as both. `EVOLUS_USER_KEY` is not set, so the
+extractor schema and the library are not created yet; everything else is ready. They **activate by themselves**: the next `python -m evolus run`,
 `python -m evolus audit` or "Open as Evolus cases" after `EVOLUS_USER_KEY` appears in the environment or `.env` runs
 the idempotent setup, builds both and uses them (`evolus.setup.ensure_user_blocks`). Without the key nothing is faked:
 they are listed as not created.
@@ -82,7 +139,7 @@ status goes.
 
 | Name in the workspace | Block | What it does |
 |---|---|---|
-| **Intake clerk** | agent, model `own/Qwen3.8-27B` (AMD Token Factory, under "Your models") | Writes the review task for a routed form: which field to check and why. Never guesses a value. |
+| **Intake clerk** | agent, model `own/Gemma-4-31B-IT` (AMD Token Factory, under "Your models"; Qwen3.8-27B until 2026-10-16) | Writes the review task for a routed form: which field to check and why. Never guesses a value. |
 | **Tally sheet reader** | agent marked as data extractor | Independent third reader of the masked page (schema "Tally sheet type 2", 23 fields). |
 | **Review hand-off** | workflow, 4 steps, on | AgentCall (Intake clerk) → AI Tool `translate` → Script (assemble) → Output. Optional Email step to a reviewer. |
 | **Record filing** | workflow, 3 steps, on | Script: the form's 4 identities, generated from our schema, re-checked in Evolus with zero AI → CreateFile → Output. |
@@ -136,11 +193,12 @@ Our side: `POST /api/gate` (Bearer `TWOHANDS_GATE_TOKEN`), `GET /api/evolus/case
 
 The one manual step is **connecting the model**, done once in the Evolus UI under "Your models": an
 OpenAI-compatible server with the AMD Token Factory base URL and key, models `Gemma-4-31B-IT` and `Qwen3.8-27B`.
+`python -m evolus setup` keeps the agents' current model unless `--model` is given, and records the workspace name.
 Everything else is one command:
 
 ```bash
 python -m evolus setup                          # find or create agents, extractor, library, workflows; switch on
-python -m evolus setup --model Gemma-4-31B-IT   # move both agents to Gemma (one command, idempotent)
+python -m evolus setup --model Gemma-4-31B-IT   # move both agents to Gemma (done 2026-10-16; idempotent)
 python -m evolus check                          # which blocks are configured; agents; AI Tools
 python -m evolus run --pick 2,3                 # 2 accepted + 3 routed forms -> results/evolus_runs.jsonl
 python -m evolus audit --max 18                 # the sample audit's strong fields -> results/evolus_audit_runs.jsonl
@@ -154,9 +212,29 @@ Keys come only from the environment or an untracked `.env`: `EVOLUS_KEY`, `EVOLU
 put it in `.env` as `EVOLUS_USER_KEY`, and run `python -m evolus setup` again. Without it, setup creates everything
 else and lists these two as not created.
 
+## MCP server as an Evolus block (when the app is public)
+
+Evolus (Discord, 2026-10-16, `../notes/rules.md`): a custom MCP server can be added by hand from the workspace's
+**Connectors** page. Evolus connects from its cloud, so it needs a public HTTPS URL; it is not registered yet.
+Steps, once the app has a host:
+
+1. Run the server behind HTTPS: `twohands mcp --http --host 127.0.0.1 --port 8765 --public-host <host>`, with a
+   reverse proxy (Caddy, or `cloudflared tunnel --url http://127.0.0.1:8765`) forwarding `https://<host>/mcp`. Model
+   reads stay off over HTTP (no `--allow-reads`): the tools gate values, audit stored reads and verify receipts.
+2. Check from outside: an MCP client lists `read_form`, `gate`, `audit_capture`, `verify_receipt` at `https://<host>/mcp`.
+3. In the workspace **py_tr** -> **Connectors** -> add a custom MCP server: name `Two Hands`, transport
+   **Streamable HTTP**, URL **`https://<host>/mcp`**, authentication **none** (the server holds no key; every tool is
+   read-only and refuses model calls). If the proxy is set to require a bearer token, enter it as the connector's
+   `Authorization: Bearer <token>` header instead; never commit it.
+4. Copy the connector's id and attach it to the Intake clerk:
+   `python -m evolus mcp-register --url https://<host>/mcp --server-id <id> --apply`
+   (`POST /api/v1/agents/{agentId}/mcpserver/{mcpServerId}`, then reads the agent back to show it in `mcpServers`).
+5. Ask the clerk in the workspace chat: "gate these values: ...".
+
 ## AMD calls
 
-Our limiter (6 req/min) cannot see calls that Evolus makes from its servers, so the audit runner takes one token
+The live worker's Evolus runs: at most 60 a day (`EVOLUS_DAILY_RUNS`), one AMD call each, each paced by the shared
+limiter. Our limiter (6 req/min) cannot see calls that Evolus makes from its servers, so the audit runner takes one token
 from the shared limiter (`cache/ratelimit.json`, also used by the batch) before each run it starts, keeps at most 2
 runs in flight and sends at most 18 per click. Each audit case is exactly 1 AMD call (Evolus retries a failing AgentCall up to 3 times). Per routed form there is 1 AgentCall
 (Evolus retries a failing call up to 3 times); an accepted form makes none (the filing Script is not AI). The
