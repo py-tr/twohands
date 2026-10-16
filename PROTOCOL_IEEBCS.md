@@ -212,3 +212,20 @@ box adjustment re-saved). Builder gaps met, recorded here, not fixed in the buil
 Engine support added for this run (no pre-registered prompt, schema or gate changed): schema variants
 (`name@variant`), a schema-level `prompt_issuer` (default "INE", so earlier prompts are byte-identical), and a runner
 manifest over several form types with per-item schema and a "not covered" status.
+
+## 10. Placement rule (pre-registered before any read)
+
+Where the comparison is shown depends only on the strict-denominator per-field match (metric 5a: all numeric fields on all
+sampled actas, unlocated pages and null reads counted as unmatched), fixed now:
+
+- **≥ 90%**: a card on the Home page ("the buyer's own benchmark"), plus the buyer section, Results and one slide.
+- **80% to < 90%**: the buyer section, Results and one slide; not on Home.
+- **< 80%**: a row on Results with the reading of why; not on Home or in the buyer section.
+
+The comparison is published in every case (section 8).
+
+```placement
+home_threshold: 0.90
+buyer_section_threshold: 0.80
+metric: strict_per_field_match
+```
