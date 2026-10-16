@@ -130,7 +130,7 @@ Before the pre-registered run. Kept for the record; it is not a headline.
 
 **Sample.** 43 forms from 10 districts in 10 states, 23 phone photos and 20 scans. **Deliberately enriched with
 trouble**: 16 clean, 5 with a paper row-sum mismatch, 12 where the official capture differs from the certified
-count, 10 recounted (`spikes/tally-witness/README.md` section 2). Not random, and its accept rate does not
+count, 10 recounted ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 2). Not random, and its accept rate does not
 generalise: we once called it a lower bound, and the random 300 accepted 18% against the pilot's 49%.
 
 | Reader | Accepted | Accepted fields wrong (raw vs capture, then after eye check) | Routed but read perfectly | USD / form |
@@ -141,13 +141,13 @@ generalise: we once called it a lower bound, and the random 300 accepted 18% aga
 | Both agree on every field + gate | 20 / 43 | 0 | | $0.00063 |
 
 Sources: the app's results page, computed from the spike result files (snapshot `app/data/spike_runs.json`) and
-`data/pilot/tally-witness/adjudicate.json`; the two-reader row from `spikes/tally-witness/README.md` section 3.
+`data/pilot/tally-witness/adjudicate.json`; the two-reader row from [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 3.
 
 "Routed but read perfectly" means every field was right but the paper itself is inconsistent (rows that do not
 add up, words that disagree with digits). Those are correct routings, not reader errors.
 
 Base rate for context: in the official national capture, 19.2% of fully captured forms (26,336 of 137,196) fail
-their own row sum (PREP 2024 CSV, `spikes/tally-witness/README.md` section 1).
+their own row sum (PREP 2024 CSV, [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 1).
 
 ### Capture errors found in the pilot
 
@@ -188,9 +188,10 @@ Source: `ledger/ledger.json` (built from the pilot copies in `data/pilot/ledger-
 
 On 289 random forms already keyed twice, the model sent **267 of 6,358 fields (4.2%)** to a person, and **52** of
 those were fields where the official capture does not match the paper, each with its photo. The AMD compute cost was
-**$0.000144 per form** (mean over the 289 reads), about $0.14 per 1,000 forms: $20 to $86 compute cost to audit all 169,005
-forms (Gemma, Qwen). The buyer is the auditor: Mexico requires an outside audit of every PREP (Reglamento de
-Elecciones art. 347), and in 2024 UNAM centres audited several state PREPs (sources in the README).
+**$0.000144 per form** (mean over the 289 reads), about $0.14 per 1,000 forms: about $24 of compute to audit all 169,005
+forms with Gemma (about $101 with Qwen at its cost on the 300). The buyer is the state institute (OPLE) that runs the
+regulated second capture; PREP vendors and the outside auditors are the channel: Mexico requires an outside audit of
+every PREP (Reglamento de Elecciones art. 347), and in 2024 UNAM centres audited several state PREPs (sources in the README).
 
 ## Known limitations
 

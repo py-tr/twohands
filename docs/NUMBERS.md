@@ -38,13 +38,13 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | Routed, read perfectly | 7 (Gemma v2), 10 (Qwen) | the same | Rejected forms where every graded field equals the adjudicated truth. |
 | Cost per form | $0.000118 (Gemma v2), $0.000507 (Qwen) | `usage.cost` in each result file | Mean over the 43 reads. |
 | Per 1,000 forms | $0.12 / $0.51 | cost per form × 1,000 | |
-| Compute cost to audit the national set | $20 to $86 compute cost to audit all 169,005 forms | cost per form × 169,005 (cited, below) | |
+| Compute cost to audit the national set, at pilot costs | about $20 (Gemma) / $86 (Qwen) for 169,005 forms | pilot cost per form × 169,005 (cited, below) | The headline uses the costs measured on the 300: about $24 (Gemma, A1 above) and about $101 (Qwen, $0.000597, `results/gemma_vs_qwen.md`). |
 | Mean latency | 49 s (Gemma v2), 85 s (Qwen) | `secs` in each result file | Wall-clock per request on the shared endpoint, including queueing. |
 | Tokens per form | about 2,153 in / 641 out (Gemma), 8,739 / 1,667 (Qwen) | `usage.prompt_tokens / completion_tokens` | Means. |
 | Ledger: sheets, cells | 40 sheets, 4,915 cells | `ledger/ledger.json` (built by `ledger/build.py` from the pilot copies in `data/pilot/ledger-rescue` and `results/pilot/ledger-rescue`, which used the spike's own `evaluate.py`) | Cells where the volunteers have a value. |
 | Ledger: year-columns accepted | 306 of 380 (80.5%) | the same | Tiled Gemma (`gemmatile`), no re-reads. The spike README's "81.6%" includes re-reads; the app shows 80.5%. |
 | Ledger: accepted cells right | 3,976 of 3,976 (spike, 40 sheets) | the same | Within 0.005 in of the volunteers. |
-| Ledger: cost per sheet | $0.00011 | token counts × prices in `spikes/ledger-rescue/evaluate.py` | |
+| Ledger: cost per sheet | $0.00011 | token counts × prices in `docs/sources/ledger-rescue-pilot.md, appendix` | |
 | Ledger failure case | 26 of 870 accepted cells wrong (single-image read) | `data/pilot/ledger-rescue/scores.json` `models.gemma` (copied into `ledger.json` meta) | Silent column shift, README §4. |
 | Every-run table (results page) | all runs | every `results/*.jsonl` (core runs), the spike runs, live reads | Picked up automatically; see C. |
 | Live reads (home, after the first one) | n, mean secs, mean cost | `app/state/live/*.json` | Written by the live button. |
@@ -53,13 +53,13 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 
 | Shown as | Value | Source |
 |---|---|---|
-| National presidential tally forms | 169,005 | PREP 2024 CSV, https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip. Counted in `spikes/tally-witness/README.md` §1. |
-| Every form keyed twice, third review on mismatch | (text) | nmas.com.mx, quoted in `spikes/tally-witness/README.md` §5 |
-| Forms failing their own row sum | 19.2% (26,336 of 137,196) | PREP 2024 CSV, computed in `spikes/tally-witness/README.md` §1 |
-| State-level counts in 2027 | ~32 | `spikes/tally-witness/README.md` §5 |
-| AI-recognition pilot by a state institute | IEEQ Querétaro 2024, 264 polling stations | `spikes/tally-witness/README.md` §5 |
-| Endpoint | AMD Token Factory, the organisers' AMD route | `notes/rules.md` |
-| Throughput | ~2 forms/min under 6 req/min, 2-concurrent pacing | `spikes/tally-witness/README.md` §3 |
+| National presidential tally forms | 169,005 | PREP 2024 CSV, https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip. Counted in [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) §1. |
+| Every form keyed twice, third review on mismatch | (text) | nmas.com.mx, quoted in [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) §5 |
+| Forms failing their own row sum | 19.2% (26,336 of 137,196) | PREP 2024 CSV, computed in [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) §1 |
+| State-level counts in 2027 | ~32 | [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) §5 |
+| AI-recognition pilot by a state institute | IEEQ Querétaro 2024, 264 polling stations | [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) §5 |
+| Endpoint | AMD Token Factory, the organisers' AMD route | [docs/sources/event-rules.md](sources/event-rules.md) |
+| Throughput | ~2 forms/min under 6 req/min, 2-concurrent pacing | [sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) §3 |
 | PREP second capture by a person, system comparison (PTO numeral 33); third capture on mismatch (34); Centro de Verificación (35); automatic first capture allowed (30); cotejo (4 f, 3 j, 45) | INE federal PTO 2023-2024, quoted verbatim in docs/BUSINESS.md section 0 | https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/155635/CGex202311-03-ap-8-a.pdf |
 | State PREPs: minimum phases captura and verificación (Anexo 13 num. 15 III-IV), roles capturista and verificador (num. 21 III-IV); each OPL approves its own PTO (RE art. 339.1 d), system may be built by third parties (art. 346.1) | Reglamento de Elecciones, consolidated Sept 2026; Anexo 13 as modified by INE/CG825/2022 (latest per INE Dirección Jurídica, Feb 2025) | https://sidj.ine.mx/restWSsidj-nc/app/doc/662/20/1; https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/146752/CGor202211-29-ap-25-a.pdf; https://ine.mx/wp-content/uploads/2025/02/DJ-Anexos-ReglamentoElecciones-05-02-25.pdf |
 | 2024 state PREPs: IEEBCS took a Google Document AI reading as first capture, matching the manual capture on 14,501 of 23,077 fields (62.84%), 65 of 2,254 actas (2.88%); 2,254 of 2,256 actas captured. IMPEPAC: operator Informática Electoral S.C. (IMPEPAC/LP/001/2024); actas captured 2,476 / 2,525 / 2,507 (gubernatura / diputaciones / ayuntamientos) | OPLE final PREP reports, quoted in docs/BUSINESS.md section 0b | https://www.ieebcs.org.mx/documentos/acuerdos/INFORME_FINAL_PREP_PLE_2023-2024.pdf pp. 6, 18-19; https://impepac.mx/wp-content/uploads/2024/07/Informe%20Final%20PREP_23-24_V_2.0.pdf pp. 3-4; https://impepac.mx/wp-content/uploads/2024/04/Informe_Marzo-2024_PREP.pdf p. 19 |
@@ -71,7 +71,7 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | FX for every MXN / USD conversion | MXN 18.3835 per USD (ECB, 2026-10-16) | https://api.frankfurter.app/latest?from=USD&to=MXN (ECB reference rate, fetched 2026-10-16) |
 | INE's 2024 acceptance metric as we read it (primary, per field) | see results/ine_metric.md | scripts/ine_metric.py; definition results/ine_metric_DEFINITION.md |
 | PREP vs certified count, not-recounted stations differing | see results/national_counts.md | scripts/national_counts.py |
-| Volunteers | ~16,000, 4 transcriptions per value | Hawkins et al., Geoscience Data Journal 2022, quoted in `spikes/ledger-rescue/README.md` §1 |
+| Volunteers | ~16,000, 4 transcriptions per value | Hawkins et al., Geoscience Data Journal 2022, quoted in [sources/ledger-rescue-pilot.md](sources/ledger-rescue-pilot.md) §1 |
 
 **Not shown:** a cost for a human keyer. We found no citable figure, so the business panel shows only our compute cost.
 
@@ -97,4 +97,4 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
   URL and consultation date in the footer, plus a statement that the app is not an official INE product.
 - **Rainfall ledgers.** The source repository (github.com/ed-hawkins/rainfall-rescue) has no licence file, so no sheet
   image is copied. The app shows our extracted values only and links each sheet to its public PDF page with attribution.
-  Zenodo lists the data as CC-BY-4.0; see `spikes/ledger-rescue/README.md` §1.
+  Zenodo lists the data as CC-BY-4.0; see [sources/ledger-rescue-pilot.md](sources/ledger-rescue-pilot.md) §1.

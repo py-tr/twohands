@@ -1,7 +1,8 @@
 # Pilot ("spike") files copied into this repo
 
 The 43-form tally-sheet pilot and the 40-sheet rainfall-ledger pilot were run in sibling working folders
-(`../spikes/tally-witness`, `../spikes/ledger-rescue`, outside this repo). The files the code reads were copied here on
+(`../spikes/tally-witness`, `../spikes/ledger-rescue`: the builder's local folders, outside this repo and not
+published; their write-ups are copied in [`docs/sources/`](../../docs/sources/README.md)). The files the code reads were copied here on
 2026-10-16, byte for byte, so the repo is self-contained. JSON and CSV only: no images (the pilot's unmasked acta
 images and the ledger sheet scans stay out), no code. Checked before copying: the tally files hold PREP / Computos
 numeric rows, the public PREP image URL, sample stratum and model reads of the 22 numeric fields (no names; the

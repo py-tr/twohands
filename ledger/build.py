@@ -6,7 +6,7 @@ viewer links to the public PDF page instead.
 
 Inputs are in-repo copies of the spike's files (data/pilot/SOURCES.md): data/pilot/ledger-rescue/ (sheet list, picked
 sheets, the volunteers' CSVs, the spike's scores.json) and results/pilot/ledger-rescue/ (the Gemma reads). The scoring
-functions below are the spike's own (spikes/ledger-rescue/score.py + evaluate.py), copied verbatim in logic, so the
+functions below are the spike's own (the ledger pilot's score.py + evaluate.py, docs/sources/ledger-rescue-pilot.md), copied verbatim in logic, so the
 numbers are exactly the spike's. Reader: Gemma-4-31B-IT, whole sheet + 3 zoomed strips ("gemmatile"), no re-reads.
 """
 from __future__ import annotations
@@ -133,10 +133,10 @@ def main() -> int:
         sheets.append({"id": name, "station": station, "page": int(idx) + 1, "csv": t["file"],
                        "pdf": f"{RAW}/{station}/{station}.pdf", "years": [c["year"] for c in cols], "cols": cols,
                        "prompt_tokens": u.get("prompt_tokens"), "completion_tokens": u.get("completion_tokens")})
-    meta = {"model": "Gemma-4-31B-IT", "reader": "whole sheet + 3 zoomed strips (spikes/ledger-rescue/tile.py)",
+    meta = {"model": "Gemma-4-31B-IT", "reader": "whole sheet + 3 zoomed strips (page + 3 strips, docs/sources/ledger-rescue-pilot.md §3)",
             "truth": "Rainfall Rescue volunteer transcription (source CSVs, github.com/ed-hawkins/rainfall-rescue)",
             "tolerance_in": 0.005, "months": MONTHS,
-            "price_per_token": {"in": 3.5e-8, "out": 7e-8, "source": "spikes/ledger-rescue/evaluate.py (usd formula)"}}
+            "price_per_token": {"in": 3.5e-8, "out": 7e-8, "source": "docs/sources/ledger-rescue-pilot.md, appendix (usd formula)"}}
     sc = json.loads((DATA / "scores.json").read_text(encoding="utf-8"))["models"].get("gemma", {})
     meta["single_image"] = {k: sc.get(k) for k in ("sheets", "cells", "cell_acc", "acc_cols", "cols", "acc_col_cells", "acc_col_exact")}
     meta["single_image"]["source"] = "data/pilot/ledger-rescue/scores.json (models.gemma: one image per sheet, no tiles)"

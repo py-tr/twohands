@@ -129,8 +129,8 @@
         <dt>Cost per form</dt><dd>{{ gq.g.cost_per_read_usd|usd(6) }} / {{ gq.q.cost_per_read_usd|usd(6) }}{% if gq.cost_ratio %} <span class="muted">(about 1/{{ gq.cost_ratio }})</span>{% endif %}</dd>
         <dt>Mean latency</dt><dd>{{ '%.0f'|format(gq.g.mean_latency_s) }} s / {{ '%.0f'|format(gq.q.mean_latency_s) }} s</dd>
       </dl>
-      <p class="tiny muted" style="margin:10px 0 0">Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15 at about 15:41 UTC ("Requested model Gemma-4-31B-IT not supported"), so live reads now fall back to Qwen on AMD. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
-      <div style="margin-top:10px">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl, last read per form, via scripts/gemma_vs_qwen.py (results/gemma_vs_qwen.md). Tiling: spikes/ledger-rescue/README.md. docs/GEMMA.md.") }}</div>
+      <p class="tiny muted" style="margin:10px 0 0">Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
+      <div style="margin-top:10px">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl, last read per form, via scripts/gemma_vs_qwen.py (results/gemma_vs_qwen.md). Tiling: docs/sources/ledger-rescue-pilot.md. docs/GEMMA.md.") }}</div>
     </div>
   </div>
 </section>
@@ -193,7 +193,7 @@
     <h3>Silent column shift on a rainfall ledger</h3>
     <p class="small" style="margin-top:8px">Read as one image, {{ meta.model }} put Balcombe Gables' 1887 values under 1886, and so on along the row. Every shifted column still sums to its total, so the checksum accepted wrong cells: on that reader, {{ si.acc_col_cells - si.acc_col_exact }} of {{ si.acc_col_cells }} accepted cells were wrong ({{ si.cells|int }} cells read, {{ si.cell_acc }}% right overall). Zoomed tiles removed it ({{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} accepted cells wrong; spike, 40 sheets), but tiling is a mitigation, not a proof.</p>
     <p class="small"><b>What we built because of it:</b> on the tally sheet the reader must report the printed label it sees on every row, and the gate rejects a row whose label is not the one expected at that position, so a shifted or doubled row cannot pass. Its cost is measured above.</p>
-    <p class="tiny" style="margin:0">Sources: {{ si.source }}; spikes/ledger-rescue/README.md §4.</p>
+    <p class="tiny" style="margin:0">Sources: {{ si.source }}; docs/sources/ledger-rescue-pilot.md §4.</p>
   </div>
 </section>
 

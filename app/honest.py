@@ -227,6 +227,22 @@ def reader_now() -> str:
     return f"reader now: {model} on AMD Token Factory"
 
 
+def errors_since(model: str, since: str, path: Optional[Path] = None) -> int:
+    """Provider 500s on the model's read requests in the endpoint log after `since` (ISO, Z)."""
+    p = path or (RESULTS / "endpoint_health.jsonl")
+    n = 0
+    try:
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if '"status": 500' not in line or model not in line:
+                continue
+            r = json.loads(line)
+            if r.get("model") == model and r.get("kind") == "read" and r.get("ts", "") > since:
+                n += 1
+    except (OSError, ValueError):
+        return 0
+    return n
+
+
 def model_line() -> str:
     from twohands.reader import MODELS
     g, q = MODELS["gemma"], MODELS["qwen"]
@@ -236,9 +252,16 @@ def model_line() -> str:
         # an open window (still out) if there is one, else the longest: the withdrawal, not a minutes-long probe blip
         opened = [w for w in ws if not w["end"]]
         w = opened[-1] if opened else max(ws, key=lambda w: (w["hours"], w["start"]))
-        s += (f"; {g} was unavailable there from {w['start_text']} to {w['end_text']} (endpoint log), when live reads "
-              f"used {q}" if w["end"] else f"; {g} is unavailable there since {w['start_text']} (endpoint log); live "
-                                           f"reads use {q}")
+        if w["end"]:
+            s += (f". {g} was unavailable on the AMD Token Factory from {w['start_text'][:-4]} to {w['end_text']} (our "
+                  f"probe log); since then it serves again")
+            if errors_since(g, w["end"]):
+                s += ", with intermittent provider 500s on vision requests that succeed on retry"
+            s += (f". Live reads use Gemma when it is listed, and fall back to {q} otherwise; every receipt names "
+                  f"its reader")
+        else:
+            s += (f". {g} is unavailable on the AMD Token Factory since {w['start_text']} (our probe log); live reads "
+                  f"use {q} until it is listed again; every receipt names its reader")
     if bench_ran():
         s += "; benchmarked on self-hosted Gemma on an AMD Instinct MI300X"
     return s + "."

@@ -39,15 +39,15 @@ Source: per-call `usage`, `cost` and wall-clock `secs` in the pilot result files
 
 - **Latency is wall-clock on a shared endpoint**, including queueing, not raw GPU time.
 - **Throughput:** about 2 forms per minute, bounded by our 6 req/min, 2-in-flight pacing, not by the GPU
-  (`spikes/tally-witness/README.md` section 3).
+  ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 3).
 - **Reliability in the pilot:** all 86 Gemma calls finished with `stop` at 605-660 completion tokens, no parse
-  failures; Qwen 43 of 43 `stop` (`spikes/tally-witness/README.md` section 3).
+  failures; Qwen 43 of 43 `stop` ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 3).
 - **Total pilot spend:** about $0.031 for both models over 43 forms (same source).
 - **Image budget:** Gemma receives a fixed ~265 tokens per image, Qwen ~1,800, which is why zoomed tiles
   matter for Gemma (same source).
 
 Second form type, same model on the same endpoint: rainfall ledgers, whole sheet + 3 zoomed strips,
-**$0.00011 per sheet** (spike, 40 sheets) (`ledger/ledger.json`, prices from `spikes/ledger-rescue/evaluate.py`).
+**$0.00011 per sheet** (spike, 40 sheets) (`ledger/ledger.json`, prices from `docs/sources/ledger-rescue-pilot.md, appendix`).
 
 ## Endpoint behaviour we saw (and logged)
 
@@ -60,26 +60,34 @@ Second form type, same model on the same endpoint: rainfall ledgers, whole sheet
   (two Gemma attempts) and 451 s (Qwen, 2 forms) (`results/verify_spike_*.jsonl`, shown on the app's results
   page). We report these as they are.
 
-### 2026-10-15 ~15:41 UTC: Gemma-4-31B-IT withdrawn from the endpoint
+### 2026-10-15 15:41 to 2026-10-16 02:06 UTC: Gemma-4-31B-IT unavailable on the endpoint
 
-- **What happened.** Since about 15:41 UTC on 2026-10-15, AMD Token Factory no longer offers Gemma-4-31B-IT.
-  `GET /models` (17:35 UTC) lists `DeepSeek-V4.1-Flash, DeepSeek-V4-Flash, DeepSeek-V4-Flash-Vision-Exp,
-  GLM-5.3-Flash, MiMo-V2.6-Flash, MinerU2.5-Pro, MiniCPM5-2B, MiniCPM-V-4.7-1B, MiniCPM-V-4.7-35B-A3B, Qwen3.8-27B,
-  Qwen3.8-Flash-Next`, without Gemma. A Gemma call answers HTTP 400:
+**Current state.** Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06
+UTC (our probe log, `results/endpoint_health.jsonl`); since then it serves again, with intermittent provider 500s on
+vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise;
+every receipt names its reader.
+
+- **What the log shows.** The first Gemma probe answering HTTP 400 is 2026-10-15 15:41:09 UTC; the first 200 after
+  the gap is 2026-10-16 02:06:46 UTC. In between, `GET /models` listed `DeepSeek-V4.1-Flash, DeepSeek-V4-Flash,
+  DeepSeek-V4-Flash-Vision-Exp, GLM-5.3-Flash, MiMo-V2.6-Flash, MinerU2.5-Pro, MiniCPM5-2B, MiniCPM-V-4.7-1B,
+  MiniCPM-V-4.7-35B-A3B, Qwen3.8-27B, Qwen3.8-Flash-Next`, without Gemma, and a Gemma call answered HTTP 400:
   `{"error":{"message":"Requested model Gemma-4-31B-IT not supported","type":"invalid_request_error","param":null,"code":null}}`.
-  The health probe logs it as status 400 on every Gemma probe since then (`results/endpoint_health.jsonl`); the app
-  reads those rows, and its own `kind: "models"` rows, as **withdrawn**, not as an outage. Qwen3.8-27B still answers.
+  The app reads those rows, and its own `kind: "models"` rows, as **withdrawn**, not as an outage. AMD acknowledged
+  the Gemma issue on the lablab Discord on 2026-10-15 ([docs/sources/event-rules.md](sources/event-rules.md)).
+- **Since it returned.** From 02:06 to 19:30 UTC on 2026-10-16 the log holds 1,009 Gemma read requests: 778 answered
+  200, 190 answered a provider 500, the rest 400/502/504/429/timeouts. The runner backs off and retries; a form whose
+  read never succeeds goes to a person and stays in the denominator.
 - **Live demo.** The live read checks `GET /models` (cached 5 min, `app/livemodel.py`). While Gemma is not listed it
   reads with Qwen3.8-27B using Qwen's own frozen prompt and parameters from the 300 run (the core reader's `qwen`
   path: temperature 0, `reasoning_effort: "low"`, `max_tokens` 6000), and the live panel says so in a banner; the
   header chip shows "AMD live · Gemma unavailable". When Gemma is listed again the live read switches back by itself.
-  Check after the switch: one live read of masked form 201720E0100 with Qwen on AMD, 89.1 s, $0.000518
+  Check of the fallback during the gap: one live read of masked form 201720E0100 with Qwen on AMD, 89.1 s, $0.000518
   (6,612 tokens in, 2,369 out), accepted by the gate.
-- **Stored results are unchanged.** Every Gemma number in this repo (pilot and the pre-registered 300) was read by
-  Gemma on AMD before the withdrawal.
-- **The 100-form confirmation (PROTOCOL.md, Amendment 3) specifies Gemma first.** We do not substitute Qwen for
-  Gemma in it. It waits for Gemma to return to the endpoint; if Gemma does not return before the deadline, it is
-  reported as **not run**.
+- **Stored results are unchanged.** Every Gemma number of the pilot and the pre-registered 300 was read by Gemma on
+  AMD before the gap.
+- **The 100-form confirmation (PROTOCOL.md, Amendment 3) was read by Gemma after it returned** (2026-10-16 08:51 to
+  11:06 UTC, `results/calls_confirm100_gemma.jsonl`): gate v2 accepted 22 forms, **0 of 484 accepted fields wrong**
+  (Wilson 95% upper 0.79%), criterion met (`results/confirm100.md`).
 
 ## Pre-registered run on AMD: 300 forms (measured)
 
@@ -97,8 +105,9 @@ summarised in `app/data/headline.json` by `scripts/build_headline.py`. What it m
 
 ## Cost at scale
 
-- **$20 to $86 compute cost to audit all 169,005 forms** (national presidential tally sheets): about $24 compute cost with Gemma at the cost measured on the 300
-  ($0.000144 x 169,005; form count from the PREP 2024 CSV); about $86 compute cost with Qwen at its pilot cost.
-- **Time on the shared endpoint:** at about 2 forms a minute, about 59 days (`spikes/tally-witness/README.md`
+- **About $24 of compute to audit all 169,005 forms** (national presidential tally sheets) with Gemma at the cost measured on the 300
+  ($0.000144 x 169,005; form count from the PREP 2024 CSV); about $101 with Qwen at its cost on the 300 ($0.000597 per form; $86 at its
+  pilot cost).
+- **Time on the shared endpoint:** at about 2 forms a minute, about 59 days ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md)
   section 3). That pacing is a property of a shared hackathon key. A production run would use a dedicated AMD
   Instinct endpoint; we have not measured one, so we give no number for it.

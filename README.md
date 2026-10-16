@@ -21,10 +21,13 @@ Price (proposal): **$1 per form audited (second capture + cotejo + receipts)**, 
 per form. Health facility reports (DHIS2), mortgage post-closing QC and clinical-trial source data verification are
 the next markets, not measured.
 
-**Live demo:** add at submission · **Video:** add at submission ·
+<!-- links:start -->
+**Live demo:** add at submission · **Video:** add at submission · **Repository:** add at submission ·
 **Audit report sample:** add at submission (in the repo: [the 52, each with its crop](results/adjudication/SUMMARY.md)) ·
 **How to reproduce:** [`make eval`](#reproduce-every-number) ·
 **Report:** [technical report (PDF)](report/two-hands-report.pdf), source [`docs/REPORT.md`](docs/REPORT.md)
+(links are kept in [`submission/links.json`](submission/links.json))
+<!-- links:end -->
 
 | 52 | 18% · 30% | 1 in 5 |
 |---|---|---|
@@ -32,8 +35,7 @@ the next markets, not measured.
 
 **Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958.**
 
-Measured on Gemma-4-31B-IT on the AMD Token Factory; Gemma-4-31B-IT was unavailable
-there from 2026-10-15 15:41 UTC to 2026-10-16 02:06 UTC (endpoint log), when live reads used Qwen3.8-27B.
+Measured on Gemma-4-31B-IT on the AMD Token Factory. Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader.
 
 ![Option 07 on form 050815B0100: the words say "ciento setenta y cinco", the boxes say 1 7 5](slides/receipt_050815B0100.jpg)
 
@@ -50,7 +52,7 @@ capture keyed 75, the certified count says 175. One of the 52.*
 6. [How it works](#how-it-works)
 7. [Limits and failure cases](#limits-and-failure-cases)
 8. [Business detail](#business-detail)
-9. [Data, credit and framing](#data-credit-and-framing)
+9. [Data and privacy](#data-and-privacy) · [Data, credit and framing](#data-credit-and-framing)
 10. [Evolus](#evolus) · [Docker](#run-with-docker) · [Deploy](#deploy) · [Repo map](#repo-map)
 
 ## Who pays
@@ -79,6 +81,7 @@ official two-person capture (PREP); every disagreement was settled on a crop of 
 | The model alone | wrong on 173 of 6,358 fields: about **1 in 37** |
 | Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** (one reader, the primary) |
 | Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong** (Amendment 2, pre-registered; the two-reader tier checks words = digits and row sums, without the section checks) |
+| Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (Wilson 95% upper 0.79%, above the 0.5% bar: the point estimate meets it, the bound does not) ([`results/confirm100.md`](results/confirm100.md)) |
 | Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). More than ten times the yield of a random check. |
 | Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7 (measured recall 100%, Wilson 95% 65% to 100%; small n). |
 
@@ -96,10 +99,10 @@ verdict and crop: [`results/adjudication/`](results/adjudication/SUMMARY.md).
 | Primary reader | **Gemma-4-31B-IT**, temperature 0, one request per form; every measured read of the 300 |
 | Second reader | **Qwen3.8-27B**, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
 | Measured on the 300 | Gemma: **87 s** mean latency on the shared endpoint, **$0.000144** per form, ~2,609 tokens in / 804 out, 289 of 289 replies `stop` |
-| Pilot (43 forms) | Gemma 49 s, $0.000118 per form; Qwen 85 s, $0.000507 per form |
+| Pilot (43 forms) | Gemma 49 s, $0.000118 per form; Qwen 85 s, $0.000507 per form (on the 300: Qwen 241 s, $0.000597) |
 | Throughput | ~2 forms/min under our 6 req/min, 2-in-flight pacing on the shared endpoint |
-| Cost | **$0.14 per 1,000 forms** (Gemma); $20 to $86 compute cost to audit all 169,005 forms (Gemma, Qwen) |
-| Live reads | Gemma-4-31B-IT was withdrawn from AMD Token Factory on 2026-10-15; live reads in the app now fall back to Qwen on AMD, with a banner |
+| Cost | **$0.14 per 1,000 forms** (Gemma, measured on the 300); about **$24** of compute to audit all 169,005 forms with Gemma, about $101 with Qwen at its cost on the 300 ($0.000597 per form) |
+| Live reads | Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log, `results/endpoint_health.jsonl`); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
 
 Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
@@ -111,12 +114,15 @@ Qwen on the same forms: [docs/GEMMA.md](docs/GEMMA.md).
 
 ```bash
 pip install -r requirements.txt
+cp .env.example .env                    # optional: fill in AMD_KEY and AMD_BASE_URL for live reads
 python run_app.py                       # http://127.0.0.1:8000
 python -m pytest -q                     # tests
 ```
 
 The app serves the measured reads from the result files in this repo. No API key is needed to browse. The
-"Read live on AMD" button needs `AMD_KEY` and `AMD_BASE_URL` in the environment (never committed).
+"Read live on AMD" button needs `AMD_KEY` and `AMD_BASE_URL` in the environment or in `.env` (never committed).
+[`.env.example`](.env.example) lists every environment variable the app, the worker, the CLI, the Evolus
+integration and the deploy scripts read, one comment each, no values.
 
 ### Reproduce every number
 
@@ -288,6 +294,19 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
   nationally captured tally forms (26,336 of 137,196) fail their own row sum. Table in
   [docs/BUSINESS.md](docs/BUSINESS.md#3-competitive-analysis).
 
+## Data and privacy
+
+- **Masking.** Every page is privacy-masked before it is stored or sent to a model: the column with the officials'
+  names and signatures is blacked out (`schemas/*.yaml`, `twohands/mask.py`); `tests/test_mask.py` checks every stored page
+  is masked.
+- **No personal data stored.** The repo holds masked pages, numeric fields and crops of vote rows. Audit requests
+  and uploads live in `app/state/`, which is not committed; email is sent only when SMTP is configured.
+- **Not in the repo.** Unmasked originals (`data/raw/`) and the builder's outreach drafts to institutions are kept
+  outside the repository and are never committed.
+- **Terms.** INE data is reused under INE's free-use terms (Libre-Uso-MX: extraction, commercial use and derived
+  datasets permitted; cite the source and date; do not imply an official position or endorsement). Source, quote
+  and date: [docs/sources/tally-witness-pilot.md](docs/sources/tally-witness-pilot.md) section 1.
+
 ## Data, credit and framing
 
 - **Tally sheets:** INE PREP 2024 (prep2024.ine.mx) and certified Cómputos Distritales 2024
@@ -370,8 +389,8 @@ docker compose up --build         # http://localhost:8000
 ```
 
 The image is `python:3.13-slim` with OpenCV headless and runs as a non-root user. Keys are read at run time from an
-untracked `.env` next to `docker-compose.yml` (`AMD_KEY`, `AMD_BASE_URL`, the Evolus variables above); `.env` is
-excluded from the image by `.dockerignore`.
+untracked `.env` next to `docker-compose.yml`: `cp .env.example .env` and fill in `AMD_KEY`, `AMD_BASE_URL` and, for
+Evolus, the Evolus variables above. `.env` is excluded from the image by `.dockerignore`.
 
 `data/masked` and `results` are mounted read-only; `app/state` (review desk, live reads, Evolus callbacks) is a
 writable volume. Without a `.env` the app still serves every measured result. Inside the container the live-read
@@ -381,7 +400,7 @@ rate limiter uses its own file (`app/state/ratelimit.json`), so it does not see 
 
 `deploy/deploy.sh user@IP [domain]` installs Docker, copies the repo (never `.env`, `data/raw`, `cache`) and your
 `.env` (scp, mode 600), and starts the app behind Caddy: HTTPS for a domain, plain HTTP on the IP otherwise;
-variables in `deploy/.env.prod.example`.
+variables in `deploy/.env.prod.example` (a subset of [`.env.example`](.env.example)).
 
 `python -m app.export_static out/ --main-url URL` writes a static mirror (relative links, masked images only, live
 parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push to main.
@@ -395,9 +414,12 @@ parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push t
 | `app/`, `templates/`, `static/` | FastAPI web app: viewer, review desk, audit gallery, results, live read |
 | `ledger/` | the rainfall-ledger snapshot (second form type) |
 | `results/` | manifest, prepare log, run log, every raw model call |
-| `PROTOCOL.md` | the pre-registered protocol for the 300-form run, with Amendments 1-3 |
+| `PROTOCOL.md` | the pre-registered protocol for the 300-form run, with Amendments 1-3 and 6-8 (drafts 4 and 5 in their own files) |
 | `scripts/build_headline.py` | computes every headline number into `app/data/headline.json` (+ adjudication SUMMARY, RECALL) |
 | `submission/lablab.md` | the submission page text |
+| `submission/links.json` | the one place the submission links (repo, demo, video, sample report, slides) are kept |
+| `docs/sources/` | the event rules we cite (public URLs, dated Discord quotes) and the pilot write-ups, copied with their origin |
+| `.env.example` | every environment variable, one comment each, no values |
 | `tests/` | gate, mask, rate limiter, app routes, privacy and neutrality tests |
 | `evolus/` | Evolus integration: REST client, the intake case, gate endpoint, CLI (`python -m evolus`) |
 | `twohands/cli.py`, `twohands/mcp_server.py` | the `twohands` command and the MCP server (`pyproject.toml`) |

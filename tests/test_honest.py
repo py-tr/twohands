@@ -188,10 +188,13 @@ def test_model_line_names_the_outage_and_omits_the_bench_until_it_ran(tmp_path, 
     opened = [w for w in ws if not w["end"]]
     w = opened[-1] if opened else max(ws, key=lambda w: (w["hours"], w["start"]))   # still out, else the longest
     if w["end"]:
-        assert s == ("Measured on Gemma-4-31B-IT on the AMD Token Factory; Gemma-4-31B-IT was unavailable there from "
-                     f"{w['start_text']} to {w['end_text']} (endpoint log), when live reads used Qwen3.8-27B.")
+        assert s.startswith("Measured on Gemma-4-31B-IT on the AMD Token Factory. Gemma-4-31B-IT was unavailable on "
+                            f"the AMD Token Factory from {w['start_text'][:-4]} to {w['end_text']} (our probe log); "
+                            "since then it serves again")
+        assert s.endswith("Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt "
+                          "names its reader.")
     else:
-        assert f"is unavailable there since {w['start_text']}" in s
+        assert f"is unavailable on the AMD Token Factory since {w['start_text']}" in s
     assert "MI300X" not in s
     (tmp_path / "bench_mi300x_20261016T000000Z.json").write_text(json.dumps({"meta": {"model": "gemma"}, "levels": [{"ok": 0}]}))
     assert "MI300X" not in honest.model_line()          # a run with no answered request is not a bench

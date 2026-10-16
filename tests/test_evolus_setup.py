@@ -9,7 +9,7 @@ from evolus import setup as setupmod
 from evolus.client import EvolusClient
 from evolus.config import Settings
 
-SECRET = "evk_TESTSECRET_setup_0123456789"
+SECRET = "evk_FAKE_FOR_TESTS_setup_0123456789"
 USER = "usr_TESTSECRET_user_0123456789"
 
 

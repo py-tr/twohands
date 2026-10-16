@@ -38,7 +38,8 @@ def test_gemma_missing_uses_qwen_with_banner_and_records_withdrawn():
     rec = []
     p = chooser(["DeepSeek-V4-Flash", QWEN], rec).choose()
     assert p["key"] == "qwen" and p["model"] == QWEN and p["fallback"]
-    assert p["banner"] == ("Gemma-4-31B-IT is currently not offered by the AMD endpoint (since 2026-10-15 15:41 UTC). "
+    assert p["banner"] == ("Gemma-4-31B-IT is not listed by the AMD endpoint right now (it was also unavailable "
+                           "2026-10-15 15:41 to 2026-10-16 02:06 UTC). "
                            "This live read uses Qwen3.8-27B on AMD; the stored results above were read by Gemma on AMD.")
     assert rec and rec[-1][0] == GEMMA and rec[-1][1] == "withdrawn"
 
@@ -143,7 +144,7 @@ def test_live_read_gemma_missing_reads_with_qwen_and_banner(mgr_with):
     m = mgr_with([QWEN], _ok)
     m.chooser.refresh()  # pages never wait on AMD: the list is fetched in the background on a cold cache
     page = client.get(f"/form/{FORM}").text
-    assert "Gemma-4-31B-IT is currently not offered by the AMD endpoint" in page
+    assert "Gemma-4-31B-IT is not listed by the AMD endpoint right now" in page
     evs = _events(client.post(f"/api/live/{FORM}").json()["job"])
     assert m.calls == ["qwen"]
     n = next(e for e in evs if e["type"] == "notice")

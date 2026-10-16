@@ -2,15 +2,16 @@
 
 **User:** the records-office clerk who today double-keys every paper form. **Process:** a scanned form arrives; it is
 read, checked and either filed as a record or handed to a person with the failing field named. **Gain:** forms whose
-own arithmetic holds are filed with no keying (49% on our difficult pilot, 0 of 462 accepted fields wrong). The rest
+own arithmetic holds are filed with no keying (18% of a pre-registered random 300 with one reader, 2 wrong of 1,210
+accepted fields; 30% with two readers, 0 wrong of 1,958). The rest
 reach the clerk with the field, its crop and a task written in English and Spanish.
 
 **Evolus event workspace: py_tr (event code AMDACT3).** Source: the Evolus API, `GET /api/v1/agents/{agentId}` ->
 `application.name` = `py_tr` (application `798f7408-...`, created 2026-10-15 through the event join link), cached in
 `evolus/ids.json` by `python -m evolus setup` and shown in the Evolus section of the site (`/results#evolus`), in the
 README and on the "What ran on AMD" slide. Evolus asked that the name be shown clearly and that the workspace and
-the model endpoint stay online until **Nov 15, 2026** for their review (`../notes/rules.md`, delta 2026-10-16, and
-the kickoff notes of 2026-10-15); we keep both up until then.
+the model endpoint stay online until **Nov 15, 2026** for their review (Evolus on the lablab Discord, 2026-10-16, and
+the Evolus CTO at the kickoff; quoted in [sources/event-rules.md](sources/event-rules.md)); we keep both up until then.
 
 ## Requirement 2: the main agent's model
 
@@ -22,18 +23,19 @@ OpenAI-compatible server; the event page's Evolus section allows 'an open model 
 Developer Cloud, or any OpenAI-compatible provider'; AMD stated that the Token Factory API key is all a team needs
 for ACT III.
 
-Sources, quoted in `../notes/rules.md`: the event page's Evolus block, "Bring your own model. Event workspaces run
+Sources, quoted in [sources/event-rules.md](sources/event-rules.md): the event page's Evolus block, "Bring your own model. Event workspaces run
 their agents on the model each team connects: an open model through a vLLM endpoint on AMD Developer Cloud, or any
-OpenAI-compatible provider" (page refresh of 2026-10-15, item 6; the Requirements line on the same page still says
-"through your own vLLM endpoint on AMD Developer Cloud"); and AMD (Maharshi, Discord, delta 2026-10-15 ~18:11 UTC):
-"for hackathon no cloud credits needed only apikey from notebooks.amd.com/tokenfactory". Evolus's answer to another
-team's question whether a Token Factory-connected agent counts was still pending on 2026-10-16 (delta of that day).
+OpenAI-compatible provider" (page refresh of 2026-10-13; the Requirements line on the same page still says
+"through your own vLLM endpoint on AMD Developer Cloud"); and AMD (Maharshi, AMD admin, lablab Discord, 2026-10-15 ~18:11 UTC):
+"for hackathon no cloud credits needed only apikey from notebooks.amd.com/tokenfactory". Evolus then confirmed it (above).
 
 Both agents ("Intake clerk", "Tally sheet reader") were moved from Qwen3.8-27B to Gemma-4-31B-IT on 2026-10-16
 (`python -m evolus setup --model Gemma-4-31B-IT`), after Gemma answered a probe on the Token Factory and then a chat
 through the Evolus agent itself (`POST /v1/chat/completions`, model `{applicationId}:{agentId}`, reply "ready"). The
-agent reads back `modelKey own/gemma-4-31b-it`, `modelState ok`. The runs recorded below were made on Qwen3.8-27B,
-while Gemma was withdrawn from the Token Factory (2026-10-15). If a self-hosted vLLM is ever connected, it is listed
+agent reads back `modelKey own/gemma-4-31b-it`, `modelState ok`. The runs dated 2026-10-15 in `results/evolus_runs.jsonl`
+and `results/evolus_audit_runs.jsonl` were made on Qwen3.8-27B while Gemma was unavailable on the Token Factory
+(2026-10-15 15:41 to 2026-10-16 02:06 UTC, `results/endpoint_health.jsonl`); runs since the move (2026-10-16) use
+Gemma-4-31B-IT. If a self-hosted vLLM is ever connected, it is listed
 here as a second model under "Your models"; none is connected today.
 
 Evolus is where the case lives. Our code (`evolus/`) builds the workspace and drives it over the Evolus REST API
@@ -79,7 +81,7 @@ shows on the card.
 
 ## The audit process in Evolus ("Audit your capture")
 
-The buyer is a capture auditor. Two Hands compares a keyed CSV with the paper and orders every disputed field by its
+The buyer is the state institute (OPLE) that runs the regulated second capture; the capture auditor who works for it is the user here. Two Hands compares a keyed CSV with the paper and orders every disputed field by its
 evidence (`app/capture_audit.py`). On the audit report, **Open as Evolus cases** sends each strong-evidence field
 (18 on the sample of 300 forms) to the workflow **Audit finding**, one run per field (`evolus/audit.py`). Each case
 comes back to the report next to its photo, and the auditor's **Confirm** / **Not an error** is written back.
@@ -217,7 +219,7 @@ else and lists these two as not created.
 
 ## MCP server as an Evolus block (when the app is public)
 
-Evolus (Discord, 2026-10-16, `../notes/rules.md`): a custom MCP server can be added by hand from the workspace's
+Evolus (lablab Discord, 2026-10-16, [sources/event-rules.md](sources/event-rules.md)): a custom MCP server can be added by hand from the workspace's
 **Connectors** page. Evolus connects from its cloud, so it needs a public HTTPS URL; it is not registered yet.
 Steps, once the app has a host:
 

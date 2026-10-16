@@ -24,10 +24,12 @@ PRIMARY = "gemma"
 FALLBACK = "qwen"
 CONFIGURED = os.environ.get("TWOHANDS_LIVE_MODEL", PRIMARY)
 TTL_S = 300.0
-WITHDRAWN_SINCE = "2026-10-15 15:41 UTC"
-BANNER = ("Gemma-4-31B-IT is currently not offered by the AMD endpoint (since " + WITHDRAWN_SINCE + "). "
+# Our probe log (results/endpoint_health.jsonl): Gemma-4-31B-IT was not served from the first HTTP 400 to the first
+# 200 after it. Since then it serves again, with intermittent provider 500s on vision requests that succeed on retry.
+GEMMA_GAP = "2026-10-15 15:41 to 2026-10-16 02:06 UTC"
+BANNER = ("Gemma-4-31B-IT is not listed by the AMD endpoint right now (it was also unavailable " + GEMMA_GAP + "). "
           "This live read uses Qwen3.8-27B on AMD; the stored results above were read by Gemma on AMD.")
-BANNER_TRY = ("Gemma-4-31B-IT is currently not offered by the AMD endpoint (since " + WITHDRAWN_SINCE + "). "
+BANNER_TRY = ("Gemma-4-31B-IT is not listed by the AMD endpoint right now (it was also unavailable " + GEMMA_GAP + "). "
               "This live read uses Qwen3.8-27B on AMD; the stored results on this site were read by Gemma on AMD.")
 
 _NOT_SUPPORTED = re.compile(r"\b400\b.*not supported", re.I | re.S)

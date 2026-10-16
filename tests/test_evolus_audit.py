@@ -21,7 +21,7 @@ from evolus.config import Settings
 from tests.test_app_neutral import _clean
 from tests.test_evolus_setup import SECRET as WS_SECRET, Workspace
 
-SECRET = "evk_TESTSECRET_audit_0123456789"
+SECRET = "evk_FAKE_FOR_TESTS_audit_0123456789"
 CB = "cb_TESTSECRET_audit_987654321"
 USER = "usr_TESTSECRET_audit_555555555"
 web = TestClient(app)

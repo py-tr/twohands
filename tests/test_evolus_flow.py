@@ -12,7 +12,7 @@ from evolus import web as evolusweb
 from evolus.client import EvolusClient
 from evolus.config import Settings, redact
 
-SECRET = "evk_TESTSECRET_0123456789abcdef"
+SECRET = "evk_FAKE_FOR_TESTS_0123456789abcdef"
 GATE = "gate_TOKEN_abcdef123456"
 CB = "cb_KEY_987654321zyx"
 

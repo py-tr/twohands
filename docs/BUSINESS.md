@@ -205,7 +205,7 @@ On the 52,167 polling stations that were not recounted, INE's two official recor
 
 19.2% (26,336 of 137,196) of fully captured national forms fail their own row sum in the official capture. The official capture recorded 28,607 fields as "Ilegible" on 6,009 actas.
 
-Sources: results/national_counts.md (scripts/national_counts.py, PREP 2024 CSV and Cómputos Distritales 2024 CSV); the 300: results/adjudication/CERTIFIED.md; row sums: PREP 2024 CSV, computed in spikes/tally-witness/README.md §1. Clerical only: no party, no totals, no outcome. Recounts are triggered by legal causes on the paper, not by the PREP, so we claim no recount savings.
+Sources: results/national_counts.md (scripts/national_counts.py, PREP 2024 CSV and Cómputos Distritales 2024 CSV); the 300: results/adjudication/CERTIFIED.md; row sums: PREP 2024 CSV, computed in docs/sources/tally-witness-pilot.md §1. Clerical only: no party, no totals, no outcome. Recounts are triggered by legal causes on the paper, not by the PREP, so we claim no recount savings.
 
 ### Two 2024 state PREPs, from their own final reports
 

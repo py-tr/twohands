@@ -14,26 +14,26 @@ CITED = {
         "value": 169005, "text": "169,005",
         "what": "presidential tally forms (type 2) in the official 2024 capture",
         "source": "PREP 2024 CSV, https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip "
-                  "(counted in spikes/tally-witness/README.md §1)"},
+                  "(counted in docs/sources/tally-witness-pilot.md §1)"},
     "double_keying": {
         "text": "keyed twice by two capturistas, third review on mismatch",
-        "source": "nmas.com.mx, quoted in spikes/tally-witness/README.md §5"},
+        "source": "nmas.com.mx, quoted in docs/sources/tally-witness-pilot.md §5"},
     "base_rate": {
         "value": 0.192, "text": "19.2%", "num": "26,336", "den": "137,196",
         "what": "of fully captured national forms fail their own row sum in the official capture",
-        "source": "PREP 2024 CSV, computed in spikes/tally-witness/README.md §1"},
+        "source": "PREP 2024 CSV, computed in docs/sources/tally-witness-pilot.md §1"},
     "state_counts_2027": {
         "text": "~32 state-level counts in 2027",
-        "source": "spikes/tally-witness/README.md §5 (6 June 2027 midterm, ~32 state PREPs)"},
+        "source": "docs/sources/tally-witness-pilot.md §5 (6 June 2027 midterm, ~32 state PREPs)"},
     "ieeq_pilot": {
         "text": "IEEQ Querétaro 2024 piloted AI recognition on 264 polling stations' forms",
-        "source": "spikes/tally-witness/README.md §5"},
+        "source": "docs/sources/tally-witness-pilot.md §5"},
     "endpoint": {
         "text": "AMD Token Factory (organisers' hosted AMD GPU endpoint, OpenAI-compatible)",
-        "source": "notes/rules.md (Token Factory is the sanctioned AMD route; serves Gemma-4-31B-IT)"},
+        "source": "docs/sources/event-rules.md (Token Factory is the sanctioned AMD route; serves Gemma-4-31B-IT)"},
     "spike_throughput": {
         "text": "~2 forms/min", "what": "bounded by the 6 req/min, 2-concurrent pacing used in the spike",
-        "source": "spikes/tally-witness/README.md §3"},
+        "source": "docs/sources/tally-witness-pilot.md §3"},
     "prep_audit": {
         "text": "Mexico requires an outside audit of every preliminary-results programme (PREP); Reglamento de "
                 "Elecciones art. 347 gives preference to academic or research institutions. In February 2024, 26 of 32 "
@@ -63,7 +63,7 @@ CITED = {
         "source": "app/pricing.py (the one config value); docs/BUSINESS.md section 2"},
     "volunteers": {
         "text": "~16,000 volunteers, 4 transcriptions per value",
-        "source": "Hawkins et al., Geoscience Data Journal 2022, quoted in spikes/ledger-rescue/README.md §1"},
+        "source": "Hawkins et al., Geoscience Data Journal 2022, quoted in docs/sources/ledger-rescue-pilot.md §1"},
 }
 
 

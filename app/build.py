@@ -27,11 +27,11 @@ COMP_CSV = REPO / "data" / "raw" / "computos" / "PRES_2024.csv"
 SPIKE_RUNS = [
     # id, directory, file prefix, model, label, method note
     ("spike-gemma-v2", "results_v2", "gemma__", "Gemma-4-31B-IT", "Gemma-4-31B-IT, page + 4 tiles (spike v2)",
-     "spikes/tally-witness/read2.py; frozen reader v2"),
+     "pilot reader v2 (docs/sources/tally-witness-pilot.md §2); frozen reader v2"),
     ("spike-qwen", "results", "qwen__", "Qwen3.8-27B", "Qwen3.8-27B, page + 3 tiles (spike)",
-     "spikes/tally-witness/read.py; reasoning low"),
+     "pilot reader v1 (docs/sources/tally-witness-pilot.md §2); reasoning low"),
     ("spike-gemma-v1", "results", "gemma__", "Gemma-4-31B-IT", "Gemma-4-31B-IT, page + 3 tiles (spike v1)",
-     "spikes/tally-witness/read.py"),
+     "pilot reader v1 (docs/sources/tally-witness-pilot.md §2)"),
 ]
 
 CERT_COL = {"TOTAL": "TOTAL_VOTOS_CALCULADOS"}

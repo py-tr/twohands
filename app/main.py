@@ -58,6 +58,8 @@ from app import caption as captionmod  # noqa: E402
 templates.env.globals["en_caption"] = captionmod.caption   # Spanish number words, in English
 templates.env.globals["amd_status"] = healthmod.status
 templates.env.globals["STATUSES"] = inboxmod.STATUSES
+from app import links as linksmod  # noqa: E402  (submission links: one file, submission/links.json)
+templates.env.globals["submission_links"] = linksmod.published
 
 # Evolus integration (additive): gate endpoint, case API, workflow callback; the panel reads the case records
 from evolus import web as evolusweb  # noqa: E402

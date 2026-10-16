@@ -64,8 +64,11 @@ Option 01 to Option 15. "Capture error" means the capture does not match the pap
 
 ## Links
 
-Live demo: add at submission · Video: add at submission · Audit report sample: add at submission · How to
-reproduce: `make eval` in the repo
+<!-- links:start -->
+Live demo: add at submission · Video: add at submission · Repository: add at submission · Audit report sample: add at submission · Slides (PDF): add at submission · How to reproduce: `make eval` in the repo
+<!-- links:end -->
+
+(Filled from `submission/links.json` by `python scripts/fill_links.py`.)
 
 ## Technology tags
 

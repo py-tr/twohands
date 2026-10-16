@@ -19,3 +19,10 @@ slides
 live_audit/logs
 live_audit/worker.lock
 live_audit/heartbeat.json
+# local-only working data: not in the repo, so not in the image
+out
+outreach
+data/masked/ext3000
+data/masked/ieebcs
+data/masked/senado
+data/masked/state*

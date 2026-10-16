@@ -37,8 +37,8 @@ faint-form fields and agrees with the paper on 18.
 Measured on every read of the 300 run: 7 images per request, `usage.prompt_tokens_details.image_tokens` = **1,843**
 on all 289 reads (`results/calls_gemma.jsonl`), so 263 per image. Upscaling does not help: in the ledger spike a 2x
 upscale got the same prompt tokens and no gain (75.2% vs 74.6% cell accuracy on 8 sheets,
-`spikes/ledger-rescue/README.md` "Why tiling matters"). Qwen3.8-27B's image budget grows with the pixels: about
-1,800 tokens per image on the pilot images (`spikes/tally-witness/README.md` section 3) and 5,817 for the same 7
+[sources/ledger-rescue-pilot.md](sources/ledger-rescue-pilot.md) "Why tiling matters"). Qwen3.8-27B's image budget grows with the pixels: about
+1,800 tokens per image on the pilot images ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 3) and 5,817 for the same 7
 images here (831 per image).
 
 The AMD Token Factory runs Gemma at a fixed image budget, so the 300's numbers and the public live read use that budget; the higher budget was measured on our self-hosted MI300X. (Self-hosted, Gemma 4 takes 70 to 1,120 soft tokens per image, set per request; the ablation and
@@ -64,8 +64,8 @@ already masked page and never reach into the privacy mask (`tests/test_mask.py`)
 
 | Evidence | Before | After |
 |---|---|---|
-| Rainfall ledgers, 40 sheets (`spikes/ledger-rescue/README.md` section 3) | single image: **79.2%** cells exact, 17.6% of year-columns pass the checksum, 0% of sheets | page + 3 strips: **96.8%** cells exact, 80.5% of columns pass, and 3,976 of 3,976 accepted cells right |
-| Tally sheets, 43-form pilot (`spikes/tally-witness/README.md` section 3) | page + 3 tiles: 92.4% fields exact, 17/43 accepted | page + 4 tiles + targeted prompt: **96.5%** fields exact, 21/43 accepted, 462/462 accepted fields right |
+| Rainfall ledgers, 40 sheets ([sources/ledger-rescue-pilot.md](sources/ledger-rescue-pilot.md) section 3) | single image: **79.2%** cells exact, 17.6% of year-columns pass the checksum, 0% of sheets | page + 3 strips: **96.8%** cells exact, 80.5% of columns pass, and 3,976 of 3,976 accepted cells right |
+| Tally sheets, 43-form pilot ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md) section 3) | page + 3 tiles: 92.4% fields exact, 17/43 accepted | page + 4 tiles + targeted prompt: **96.5%** fields exact, 21/43 accepted, 462/462 accepted fields right |
 
 Single-image Gemma on the ledgers also produced the one error an arithmetic check cannot catch, a silent column
 shift where every shifted column still balances (26 wrong cells accepted); tiling removed it (same README, section
@@ -153,14 +153,16 @@ Caveats, stated as measured: the two passes ran at different times on a shared e
 Qwen from 11:53 UTC on 2026-10-15), so latency reflects endpoint load as much as the model; the adjudication was done
 on Gemma's disagreements with the capture, but every accepted Qwen field that differs from the capture turned out to
 have a verdict already (none is left unadjudicated); in the 43-form pilot, where Qwen was not truncated, it was the
-slightly more accurate reader (97.4% vs 96.5% fields exact) at 4.3x the cost (`spikes/tally-witness/README.md`
+slightly more accurate reader (97.4% vs 96.5% fields exact) at 4.3x the cost ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md)
 section 3).
 
-## 4. Gemma withdrawn from the endpoint (2026-10-15)
+## 4. Gemma unavailable on the endpoint (2026-10-15 15:41 to 2026-10-16 02:06 UTC)
 
-At about 15:41 UTC on 2026-10-15 AMD Token Factory stopped offering Gemma-4-31B-IT: `GET /models` no longer lists
-it, and a call answers HTTP 400 `"Requested model Gemma-4-31B-IT not supported"` (`results/endpoint_health.jsonl`,
-[AMD.md](AMD.md)). Since then the **live** read button falls back to Qwen3.8-27B on AMD, with Qwen's own frozen
-parameters, and says so in a banner; it switches back by itself when Gemma is listed again (`app/livemodel.py`).
+Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log,
+`results/endpoint_health.jsonl`): `GET /models` did not list it, and a call answered HTTP 400 `"Requested model
+Gemma-4-31B-IT not supported"` ([AMD.md](AMD.md)). Since then it serves again, with intermittent provider 500s on
+vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise,
+with Qwen's own frozen parameters and a banner (`app/livemodel.py`); every receipt names its reader.
 **Every measured read of the 300-form run (289 forms read; 11 pages could not be located and were never sent) is
-Gemma on AMD GPUs, made before the withdrawal**; no stored Gemma number was produced by another model.
+Gemma on AMD GPUs, made before the gap**, and the 100-form confirmation was read by Gemma after it returned; no stored
+Gemma number was produced by another model.

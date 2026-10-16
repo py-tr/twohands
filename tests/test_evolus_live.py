@@ -14,7 +14,7 @@ from evolus.config import Settings
 from tests.test_worker import Ine, make_worker, three  # noqa: F401 - fixture
 from twohands import worker as W
 
-SECRET = "evk_TESTSECRET_live_0123456789"
+SECRET = "evk_FAKE_FOR_TESTS_live_0123456789"
 
 
 @pytest.fixture(autouse=True)

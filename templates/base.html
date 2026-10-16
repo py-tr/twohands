@@ -80,6 +80,7 @@
       <ul>
         <li><a href="/inbox">Inbox</a> · <a href="/keyer">Keyer</a> · <a href="/builder">Builder</a></li>
         <li><a href="/results#amd">AMD status</a> · <a href="/results#evolus">Evolus</a> · <a href="/about-data">Data and credits</a></li>
+        {% for label, url in submission_links() %}<li><a href="{{ url }}" rel="noopener">{{ label }}</a></li>{% endfor %}
       </ul>
     </div>
     <div>

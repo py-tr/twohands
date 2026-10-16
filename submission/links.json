@@ -1,0 +1,8 @@
+{
+  "_note": "The ONE place for the submission links. Fill the empty values at submission, then run `python scripts/fill_links.py` to write them into README.md and submission/lablab.md; the web app's footer reads this file directly. Empty = not published yet.",
+  "repo": "",
+  "demo": "",
+  "video": "",
+  "audit_report_sample": "",
+  "slides_pdf": ""
+}
