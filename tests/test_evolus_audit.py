@@ -324,3 +324,15 @@ def test_a_hanging_run_times_out_and_a_later_call_collects_it_without_resending(
     again = auditmod.AuditRunner(client(fast), a, limiter=lim, max_cases=0, sleep=lambda s: None).run(R["disputes"])
     assert {c["run_status"] for c in again} == {"Completed"} and len(again) == 3
     assert fast.inputs == [] and lim.n == 3          # collected, not re-sent: no new AMD call
+
+
+def test_saved_runs_newest_first_with_model(tmp_path):
+    from evolus import audit as auditmod
+    p = tmp_path / "runs.jsonl"
+    rows = [{"case_id": "a-1", "returned_at": "2026-10-15T16:00:00+00:00", "finding": "old"},
+            {"case_id": "b-1", "returned_at": "2026-10-16T19:32:00+00:00", "finding": "new", "model": "Gemma-4-31B-IT"},
+            {"case_id": "a-1", "returned_at": "2026-10-15T16:01:00+00:00", "finding": "old, last row"}]
+    p.write_text("\n".join(json.dumps(r) for r in rows) + "\nnot json\n", encoding="utf-8")
+    got = auditmod.saved_runs(p)
+    assert [r["case_id"] for r in got] == ["b-1", "a-1"]
+    assert got[0]["model"] == "Gemma-4-31B-IT" and got[1]["finding"] == "old, last row"

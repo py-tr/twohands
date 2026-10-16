@@ -142,7 +142,8 @@
 .practice-note { display: flex; gap: 16px; align-items: flex-start; margin: 0 0 var(--s-4); }
 .practice-note[hidden] { display: none; }
 .practice-thumb img { width: 96px; height: auto; border: 1px solid var(--line); border-radius: 4px; display: block; }
-.demo-tag { display: inline-flex; gap: 6px; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); font-size: 13px; }
+.demo-tag { display: inline-flex; gap: 6px; align-items: center; width: max-content; max-width: 100%; padding: 4px 10px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); font-size: 13px; line-height: 1.3; }
+.demo-tag svg { width: 14px; height: 14px; flex: none; }
 @media (max-width: 560px) { .practice-note { flex-direction: column; } }
 .cpick { position: relative; display: inline-block; max-width: 100%; cursor: crosshair; line-height: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; touch-action: manipulation; }
 .cpick img { display: block; max-width: 100%; max-height: 62vh; width: auto; height: auto; user-select: none; -webkit-user-drag: none; }

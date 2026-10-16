@@ -280,6 +280,12 @@
     <p style="margin:0"><b>{{ evo.line }}</b></p>
     <p class="small" style="margin:6px 0 0">The agent "Intake clerk" runs on <b>{{ evo.model or 'Gemma-4-31B-IT' }}</b> on the AMD Token Factory, connected in the workspace under "Your models" as an OpenAI-compatible server. Blocks: agent "Intake clerk", workflows "Review hand-off", "Record filing" and "Audit finding", AI Tool translate{% if evo.extractor_ready %}, extractor "{{ evo.names.extractor_agent }}"{% endif %}. <span class="tiny">Name from {{ evo.source }}.</span></p>
     <p class="small" style="margin:6px 0 0"><b>In the live audit:</b> every strong-evidence dispute the <a href="/live">live worker</a> finds starts one "Audit finding" run in Evolus (at most {{ evo.cap }} a day, to protect the shared AMD key). Today: {{ evo.runs_today }} of {{ evo.cap }}. {% if evo.live_total %}{{ evo.live_total }} live cases so far, {{ evo.live_returned }} returned with a drafted finding.{% endif %}</p>
+    {% if evo.saved_cases %}
+    <p class="small" style="margin:10px 0 0"><b>Recorded "Audit finding" cases</b> (newest first, {{ evo.saved_total }} with a drafted finding; results/evolus_audit_runs.jsonl):</p>
+    <ul class="tiny" style="margin:6px 0 0;padding-left:18px">
+      {% for c in evo.saved_cases %}<li><span class="mono">{{ c.form }}</span> · {{ c.field }} · {{ (c.returned_at or c.at or '')[:16]|replace('T', ' ') }} UTC · drafted by the Intake clerk on <b>{{ c.model or 'an earlier model (not recorded)' }}</b> · run <span class="mono">{{ (c.execution_id or '')[:8] }}</span>: {{ c.finding[:220] }}</li>{% endfor %}
+    </ul>
+    {% endif %}
     {% if evo.live_cases %}
     <ul class="tiny" style="margin:8px 0 0;padding-left:18px">
       {% for c in evo.live_cases %}<li><span class="mono">{{ c.form }}</span> · {{ c.field }} · run <span class="mono">{{ (c.execution_id or '')[:8] }}</span>: <b>{{ c.run_status }}</b>, case {{ c.case_status }}{% if c.finding %}: {{ c.finding[:180] }}{% endif %}</li>{% endfor %}

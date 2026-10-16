@@ -135,6 +135,30 @@ def parameters(inp: dict) -> dict:
             "crop_url": inp.get("crop_url") or "", "tier": inp["evidence_tier"]}
 
 
+def agent_model() -> str:
+    """The model the agent "Intake clerk" runs on (evolus/ids.json model_key, set by setup), recorded per case."""
+    from evolus.config import load_ids
+    return str(load_ids().get("model_key") or "").split("/", 1)[-1]
+
+
+def saved_runs(path: Optional[Path] = None) -> list[dict]:
+    """The recorded "Audit finding" cases (results/evolus_audit_runs.jsonl), newest first; the last row per case."""
+    try:
+        lines = Path(path or RESULTS).read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return []
+    rows: dict = {}
+    for ln in lines:
+        try:
+            r = json.loads(ln)
+        except ValueError:
+            continue
+        if isinstance(r, dict) and r.get("case_id"):
+            rows[r["case_id"]] = r
+    return sorted(rows.values(), key=lambda r: (r.get("returned_at") or r.get("at") or "", r.get("started_at") or ""),
+                  reverse=True)
+
+
 # ------------------------------------------------------------------------------------------- case records (per audit)
 _lock = threading.RLock()
 
@@ -226,7 +250,7 @@ class AuditRunner:
         case = {"key": d["key"], "case_id": inp["case_id"], "form": d["form"], "field": d["name"], "code": d["code"],
                 "workflow": WORKFLOW, "workflow_id": self.s.audit_workflow_id, "case_status": STATUS.get(d.get("mark")),
                 "sent": {k: inp[k] for k in ("keyed", "model_digits", "model_words", "breaks", "supports", "evidence_tier", "app_score")},
-                "started_at": _now(), "run_status": "Pending"}
+                "started_at": _now(), "run_status": "Pending", "model": agent_model()}
         waited = self._limiter().acquire()   # one AMD call follows (the AgentCall step): take a shared token
         cb = f"{self.s.public_url}/api/evolus/callback" if self.s.public_url and self.s.callback_key else None
         try:

@@ -124,7 +124,7 @@ table.sum td.n { text-align: right; font-variant-numeric: tabular-nums; font-wei
       {% if d.second %}<div class="second {{ 'agree' if d.second.agrees else ('na' if not d.second.available else '') }}">{{ d.second.text[:1]|upper }}{{ d.second.text[1:] }}{% if d.demoted %} <span class="demoted">(strong on one reader; medium in strict mode)</span>{% endif %}</div>{% endif %}
       {% if d.tier == 'strong' %}{% set c = EV.get(d.key) %}
       <div class="evo" data-k="{{ d.key }}"{% if not c %} hidden{% endif %}>
-        <div class="st">Evolus audit case · run <span class="mono rid">{{ (c.execution_id or '')[:8] if c else '' }}</span> · <span class="rs">{{ c.run_status if c else '' }}</span> · status <b class="cs">{{ c.case_status if c else 'open' }}</b></div>
+        <div class="st">Evolus audit case · run <span class="mono rid">{{ (c.execution_id or '')[:8] if c else '' }}</span> · <span class="rs">{{ c.run_status if c else '' }}</span> · status <b class="cs">{{ c.case_status if c else 'open' }}</b>{% if c and c.model %} · drafted on <b>{{ c.model }}</b>{% endif %}</div>
         <div class="fd">{{ c.finding if c and c.finding else ('Waiting for the drafted finding…' if c and not c.error else (c.error if c else '')) }}</div>
         <div><button data-mark="confirmed" class="{{ 'on' if d.mark == 'confirmed' }}">Confirm</button><button data-mark="not_error" class="{{ 'on' if d.mark == 'not_error' }}">Not an error</button></div>
       </div>{% endif %}
