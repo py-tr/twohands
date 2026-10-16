@@ -311,3 +311,20 @@ in later passes, then count as routed).
 **Headline (plain):** "Which open model on AMD reads handwriting best, and which pair is the safest second keyer": best
 reader = highest field agreement with the capture; safest pair = fewest accepted-field errors after adjudication, ties
 broken by more accepted forms.
+
+**Amendment 6, probe record and plan (2026-10-16 00:15 UTC, after the probes, before any bake-off read).** `GET /models`
+lists 11 models, 7 vision-capable (Gemma-4-31B-IT is no longer listed). One probe call each on the pilot page
+(`results/bakeoff_probe.jsonl`), Qwen's frozen parameters (temperature 0, `max_tokens` 6000, `reasoning_effort: "low"`;
+no model refused a parameter):
+- **compatible:** Qwen3.8-Flash-Next (23 values, finish `stop`, $0.00184), DeepSeek-V4.1-Flash (23 values, `stop`,
+  $0.00213); Qwen3.8-27B (reads of the 300 reused);
+- **not compatible:** MiniCPM-V-4.7-1B (HTTP 400 "At most 4 image(s) may be provided in one prompt": our request has 7);
+  DeepSeek-V4-Flash-Vision-Exp and MiMo-V2.6-Flash (reply cut at the 6,000-token cap with no JSON: reasoning used every
+  token); DeepSeek-V4-Flash, GLM-5.3-Flash, MiniCPM5-2B, MinerU2.5-Pro (not vision-capable on `/models`);
+- **unavailable at the probe:** MiniCPM-V-4.7-35B-A3B (provider HTTP 503 on all 3 attempts of the probe and of one repeat
+  at 00:12 UTC). Rule, fixed now: re-probed with one call every 2 h until 2026-10-17 06:00 UTC; if it then accepts the
+  request it joins with a $0.10 reserve as its cap, from the first form of the order, after a committed plan update; if
+  never, it is reported "not compatible (unavailable)" and the reserve is split equally between the other two caps.
+- **caps** (`results/bakeoff_plan.json`): total $0.75 less the $0.10 reserve, water-filled: DeepSeek-V4.1-Flash $0.325
+  (300 forms would need about $0.64), Qwen3.8-Flash-Next $0.325 (about $0.55). Both will read a first-n subset of the
+  fixed order; n is reported.

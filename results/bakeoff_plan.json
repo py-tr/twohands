@@ -1,0 +1,53 @@
+{
+ "ts": "2026-10-16T00:13:06Z",
+ "order_sha256": "8de453814d3db5c455a5f4b72d753484f5ded1bb37710a50a288e65dd03437b4",
+ "daily_usd": 0.4,
+ "total_usd": 0.75,
+ "endpoint_daily_ceiling": 0.9,
+ "stop_utc": "2026-10-17T12:00:00Z",
+ "prompt_sha256": "3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f",
+ "models": {
+  "DeepSeek-V4.1-Flash": {
+   "params": {
+    "temperature": 0,
+    "max_tokens": 6000,
+    "reasoning_effort": "low"
+   },
+   "probe_cost_usd": 0.0021329168,
+   "est_full_300_usd": 0.6399,
+   "cap_usd": 0.325,
+   "calls_file": "results/calls_deepseek-v4.1-flash.jsonl"
+  },
+  "Qwen3.8-Flash-Next": {
+   "params": {
+    "temperature": 0,
+    "max_tokens": 6000,
+    "reasoning_effort": "low"
+   },
+   "probe_cost_usd": 0.00184044,
+   "est_full_300_usd": 0.5521,
+   "cap_usd": 0.325,
+   "calls_file": "results/calls_qwen3.8-flash-next.jsonl"
+  }
+ },
+ "not_compatible": {
+  "DeepSeek-V4-Flash": "not vision-capable on /models (no image input)",
+  "DeepSeek-V4-Flash-Vision-Exp": "reply not parseable as {\"values\": [...]} (finish_reason length)",
+  "GLM-5.3-Flash": "not vision-capable on /models (no image input)",
+  "MiMo-V2.6-Flash": "reply not parseable as {\"values\": [...]} (finish_reason length)",
+  "MinerU2.5-Pro": "not vision-capable on /models (no image input)",
+  "MiniCPM-V-4.7-1B": "request refused or unanswered: GaveUp: HTTP 400: {\"error\":{\"message\":\"At most 4 image(s) may be provided in one prompt. (parameter=image)\",\"type\":\"BadRequestError\",\"param\":\"image\",\"code\":400}",
+  "MiniCPM-V-4.7-35B-A3B": "request refused or unanswered: GaveUp: gave up after 3 attempts",
+  "MiniCPM5-2B": "not vision-capable on /models (no image input)"
+ },
+ "unavailable_at_probe": {
+  "MiniCPM-V-4.7-35B-A3B": {
+   "reserve_usd": 0.1,
+   "rule": "provider answered 5xx on every probe attempt: re-probed (one call) every 2 h until 2026-10-17 06:00 UTC; if it then accepts the request it joins with cap = this reserve, from the order's first form, with its params recorded in a committed plan update before its first read; if it never does, it stays 'not compatible (unavailable)' and at 06:00 UTC the reserve is split equally among the other caps"
+  }
+ },
+ "reused": {
+  "Gemma-4-31B-IT": "results/calls_gemma.jsonl",
+  "Qwen3.8-27B": "results/calls_qwen.jsonl"
+ }
+}

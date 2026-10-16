@@ -48,6 +48,11 @@ TOTAL_USD = 0.75
 ENDPOINT_DAILY_CEILING = 0.90  # never push the shared key's day past this (its limit is 1.00)
 STOP_UTC = datetime(2026, 10, 17, 12, 0, tzinfo=timezone.utc)
 CONCURRENCY = 4
+RESERVE_USD = 0.10
+UNAVAILABLE_RULE = ("provider answered 5xx on every probe attempt: re-probed (one call) every 2 h until 2026-10-17 06:00 UTC; "
+                    "if it then accepts the request it joins with cap = this reserve, from the order's first form, with its "
+                    "params recorded in a committed plan update before its first read; if it never does, it stays "
+                    "'not compatible (unavailable)' and at 06:00 UTC the reserve is split equally among the other caps")
 _lock = threading.Lock()
 
 
@@ -162,62 +167,67 @@ def vision_models() -> list:
     return out
 
 
+def probe_one(mid: str, s: dict) -> tuple[dict, list]:
+    params, tries = dict(BASE_PARAMS), []
+    while True:
+        row = call(mid, PILOT_PAGE, params, s, retries=3)
+        p = row["parsed"]
+        u = row.get("usage") or {}
+        tries.append({"params": dict(params), "error": row.get("error"), "finish_reason": row.get("finish_reason"),
+                      "parsed": isinstance((p or {}).get("values"), list),
+                      "n_values": len(p["values"]) if p and isinstance(p.get("values"), list) else None,
+                      "cost": u.get("cost"), "prompt_tokens": u.get("prompt_tokens"),
+                      "completion_tokens": u.get("completion_tokens"), "secs": row["secs"],
+                      "content_head": (row.get("content") or "")[:300]})
+        err = row.get("error") or ""
+        if "HTTP 400" in err and "reasoning" in err.lower() and "reasoning_effort" in params:
+            params.pop("reasoning_effort")  # the API rejects the parameter: drop it, record it
+            continue
+        return params, tries
+
+
 def cmd_probe(a) -> int:
     s = schemamod.load()
     have = {r["model"]: r for r in jsonl(PROBE) if r.get("final")}
     listed = vision_models()
-    for x in listed:
+
+    def one(x):
         mid = x["id"]
-        if mid in have and not a.force:
-            continue
         rec = {"ts": now(), "model": mid, "listed_input": x["input"], "listed_output": x["output"],
                "pricing": x["pricing"], "page": PILOT_PAGE.relative_to(REPO).as_posix(),
-               "prompt_sha256": reader.prompt_sha256(s)}
+               "prompt_sha256": reader.prompt_sha256(s), "tries": []}
         if not x["vision"]:
-            rec.update(final=True, compatible=False, reason="not vision-capable on /models (no image input)", tries=[])
+            rec.update(final=True, compatible=False, reason="not vision-capable on /models (no image input)")
+        elif mid in DONE:
+            rec.update(final=True, compatible=True, reason="read on the 300 before Amendment 6; reads reused")
+        else:
+            params, tries = probe_one(mid, s)
+            t = tries[-1]
+            ok = t["parsed"] and not t["error"]
+            reason = ("accepts the 7-image request and returns parseable JSON" if ok else
+                      (f"request refused or unanswered: {t['error'][:160]}" if t["error"] else
+                       f"reply not parseable as {{\"values\": [...]}} (finish_reason {t['finish_reason']})"))
+            rec.update(final=True, compatible=bool(ok), reason=reason, params=params, tries=tries)
+            print(mid, "OK" if ok else "NOT COMPATIBLE", reason, t.get("n_values"), t.get("cost"), t.get("secs"), flush=True)
+        with _lock:
             with open(PROBE, "a", encoding="utf-8") as fh:
                 fh.write(json.dumps(rec) + "\n")
-            continue
-        if mid in DONE:
-            rec.update(final=True, compatible=True, reason="read on the 300 before Amendment 6; reads reused", tries=[])
-            with open(PROBE, "a", encoding="utf-8") as fh:
-                fh.write(json.dumps(rec) + "\n")
-            continue
-        params, tries = dict(BASE_PARAMS), []
-        while True:
-            row = call(mid, PILOT_PAGE, params, s, retries=4)
-            p = row["parsed"]
-            u = row.get("usage") or {}
-            tries.append({"params": dict(params), "error": row.get("error"), "finish_reason": row.get("finish_reason"),
-                          "parsed": isinstance((p or {}).get("values"), list),
-                          "n_values": len(p["values"]) if p and isinstance(p.get("values"), list) else None,
-                          "cost": u.get("cost"), "prompt_tokens": u.get("prompt_tokens"),
-                          "completion_tokens": u.get("completion_tokens"), "secs": row["secs"],
-                          "content_head": (row.get("content") or "")[:300]})
-            err = row.get("error") or ""
-            if "HTTP 400" in err and "reasoning" in err.lower() and "reasoning_effort" in params:
-                params.pop("reasoning_effort")  # the API rejects the parameter: drop it, record it
-                continue
-            break
-        t = tries[-1]
-        ok = t["parsed"] and not t["error"]
-        reason = ("accepts the 7-image request and returns parseable JSON" if ok else
-                  (f"request refused: {t['error'][:160]}" if t["error"] else
-                   f"reply not parseable as {{\"values\": [...]}} (finish_reason {t['finish_reason']})"))
-        rec.update(final=True, compatible=bool(ok), reason=reason, params=params, tries=tries)
-        with open(PROBE, "a", encoding="utf-8") as fh:
-            fh.write(json.dumps(rec) + "\n")
-        print(mid, "OK" if ok else "NOT COMPATIBLE", reason, t.get("n_values"), t.get("cost"), t.get("secs"))
+
+    todo = [x for x in listed if (a.force or x["id"] not in have) and (not a.only or x["id"] in a.only.split(","))]
+    with ThreadPoolExecutor(8) as ex:
+        list(ex.map(one, todo))
     return 0
 
 
 def cmd_plan(_a) -> int:
     """Per-model spend caps from the probe cost (water-filling TOTAL_USD, 15% margin), decided before any read."""
-    probes = {r["model"]: r for r in jsonl(PROBE) if r.get("final")}
+    probes = {r["model"]: r for r in jsonl(PROBE) if r.get("final")}  # the last probe of a model counts
     run = {m: r for m, r in probes.items() if r["compatible"] and m not in DONE}
     est = {m: (r["tries"][-1]["cost"] or 0.0) for m, r in run.items()}
     need = {m: 300 * c * 1.15 for m, c in est.items()}
-    left, caps, todo = TOTAL_USD, {}, sorted(run, key=lambda m: (need[m], m))
+    unavailable = {m: r for m, r in probes.items() if not r["compatible"] and "gave up after" in (r["reason"] or "")}
+    reserve = round(RESERVE_USD * len(unavailable), 4)  # a model the provider could not serve at the probe (5xx)
+    left, caps, todo = TOTAL_USD - reserve, {}, sorted(run, key=lambda m: (need[m], m))
     while todo:
         share = left / len(todo)
         m = todo.pop(0)
@@ -230,6 +240,7 @@ def cmd_plan(_a) -> int:
                            "est_full_300_usd": round(300 * est[m], 4), "cap_usd": caps[m],
                            "calls_file": calls_path(m).relative_to(REPO).as_posix()} for m in sorted(run)},
             "not_compatible": {m: r["reason"] for m, r in sorted(probes.items()) if not r["compatible"]},
+            "unavailable_at_probe": {m: {"reserve_usd": RESERVE_USD, "rule": UNAVAILABLE_RULE} for m in sorted(unavailable)},
             "reused": {m: calls_path(m).relative_to(REPO).as_posix() for m in DONE}}
     PLAN.write_text(json.dumps(plan, indent=1) + "\n", encoding="utf-8")
     print(json.dumps(plan, indent=1))
@@ -379,7 +390,7 @@ def truth(k: str, f: str, prep_val, V: dict, B: dict):
 
 
 def compute() -> dict:
-    from twohands.gate import gate
+    from app.store import code_of
     from twohands.tiers import capture_gate, digits, usable, words
     s = schemamod.load()
     keys = s["keys"]
@@ -400,8 +411,6 @@ def compute() -> dict:
         while n < len(order) and order[n] in rows[m] and not rows[m][order[n]].get("error"):
             n += 1
         n_of[m] = n
-    for m in models:  # a form whose every attempt failed counts as a routed no-read (PROTOCOL 2.3)
-        pass
 
     def accepted(m, k):
         r = rows[m].get(k)
@@ -421,12 +430,12 @@ def compute() -> dict:
                     res["right"] += 1
                 else:
                     res["wrong"] += 1
-                    wrong.append(f"{k}__{f['key']}")
+                    wrong.append(f"{k}__{code_of(f['key'])}")
             elif mv == pv:
                 res["right"] += 1
             else:
                 res["pending"] += 1
-                pending.append(f"{k}__{f['key']}")
+                pending.append(f"{k}__{code_of(f['key'])}")
         return res, wrong, pending
 
     def block(m, forms):
@@ -581,14 +590,63 @@ def cmd_report(_a) -> int:
     return 0
 
 
+def cmd_disputes(a) -> int:
+    """NEW disagreements with the capture on accepted forms (single reader or pair) that no verdict covers. For each:
+    the certified count where it applies (vote row or TOTAL, Computos cotejo, not a recount) is recorded automatically;
+    the rest get a crop for the AI adjudicator and are listed in results/adjudication/bakeoff_pending.json."""
+    from twohands.adjudicate import COMP_ALIAS, boxes, crop, crop_name, load_comp
+    d = compute()
+    V, B = load_verdicts()
+    s = schemamod.load()
+    from app.store import code_of
+    keyof = {code_of(f["key"]): f["key"] for f in s["fields"]}
+    want = set()
+    for b in d["models"].values():
+        want |= set(b["pending_fields"])
+    for p in d["pairs"]:
+        want |= set(p["pending_fields"])
+    comp = load_comp({x.split("__")[0] for x in want})
+    with (REPO / "app" / "data" / "audit_sample_prep300.csv").open(encoding="utf-8", newline="") as fh:
+        prep = {r["CLAVE_CASILLA"]: r for r in csv.DictReader(fh)}
+    bx = boxes(s)
+    cert_cols = {"NO_REGISTRADAS": "CANDIDATO/A NO REGISTRADO/A", "NULOS": "VOTOS NULOS", "TOTAL": "TOTAL_VOTOS_CALCULADOS"}
+    plan = json.loads(PLAN.read_text(encoding="utf-8"))
+    models = list(DONE) + sorted(plan["models"])
+    rows = {m: last_rows(calls_path(m)) for m in models}
+    pending = []
+    for x in sorted(want):
+        k, c = x.split("__")
+        f = keyof[c]
+        fs = next(ff for ff in s["fields"] if ff["key"] == f)
+        reads = {m: ((rows[m].get(k) or {}).get("fields") or {}).get(f, {}).get("n") for m in models if rows[m].get(k)}
+        cp = comp.get(k) or {}
+        col = cert_cols.get(f, COMP_ALIAS.get(fs["csv"], fs["csv"])) if (fs.get("vote") or f == "TOTAL") else None
+        cval = num(cp.get(col)) if (cp and col) else None
+        obs = (cp.get("OBSERVACIONES") or "").strip()
+        if cval is not None and "Recuento" not in obs:
+            B[f"{k}__{f}"] = {"form_id": k, "field": f, "verdict": "paper", "paper": cval, "by": "certified count",
+                              "evidence": f"Computos {col} = {cval} ({obs}); capture {prep[k][fs['csv']]}; reads {reads}"}
+            continue
+        page = REPO / "data" / "masked" / f"{k}.jpg"
+        cpath = R / "adjudication" / crop_name(k, f)
+        if not cpath.exists():
+            crop(page, bx[f], cpath)
+        pending.append({"key": f"{k}__{f}", "crop": cpath.relative_to(REPO).as_posix(), "capture": prep[k][fs["csv"]],
+                        "computos": cval, "computos_obs": obs, "reads": reads})
+    VB.write_text(json.dumps(B, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    (R / "adjudication" / "bakeoff_pending.json").write_text(json.dumps(pending, indent=1) + "\n", encoding="utf-8")
+    print(len(want), "new disputes;", len(want) - len(pending), "by the certified count;", len(pending), "for the AI adjudicator")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["order", "probe", "plan", "run", "report"])
+    ap.add_argument("cmd", choices=["order", "probe", "plan", "run", "report", "disputes"])
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--only", default=None)
     ap.add_argument("--dry", action="store_true")
     a = ap.parse_args(argv)
-    return {"order": cmd_order, "probe": cmd_probe, "plan": cmd_plan, "run": cmd_run, "report": cmd_report}[a.cmd](a)
+    return {"order": cmd_order, "probe": cmd_probe, "plan": cmd_plan, "run": cmd_run, "report": cmd_report, "disputes": cmd_disputes}[a.cmd](a)
 
 
 if __name__ == "__main__":
