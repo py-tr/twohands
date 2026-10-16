@@ -7,9 +7,9 @@
 
 The 43 masked pilot pages (data/masked/spike/<clave>.jpg) are read with the PRODUCTION reader (frozen prompt, page +
 6 tiles, temperature 0) and gated with the frozen gate (v1) and gate v2 (Amendment 3). Reference: the stored
-Token Factory Gemma-4-31B-IT run on the same 43 forms, spike v2 (../spikes/tally-witness/scores_gemma_v2.json and
+Token Factory Gemma-4-31B-IT run on the same 43 forms, spike v2 (data/pilot/tally-witness/scores_gemma_v2.json and
 app/data/spike_runs.json "spike-gemma-v2"): its accept decisions and its accepted-field accuracy against the
-adjudicated truth (PREP capture + ../spikes/tally-witness/adjudicate.json). Note: the reference used the spike's v2
+adjudicated truth (PREP capture + data/pilot/tally-witness/adjudicate.json). Note: the reference used the spike's v2
 prompt and gate, so this compares serving stacks AND reader versions; per-field digit agreement on all 43 forms is
 the stack-level number least affected by that.
 
@@ -32,7 +32,7 @@ from twohands import reader, schema  # noqa: E402
 from twohands.gate import gate  # noqa: E402
 from twohands.gate_v2 import gate_v2  # noqa: E402
 
-SPIKE = REPO.parent / "spikes" / "tally-witness"
+SPIKE = REPO / "data" / "pilot" / "tally-witness"  # in-repo copy, data/pilot/SOURCES.md
 PAGES = REPO / "data" / "masked" / "spike"
 RESULTS = REPO / "results"
 
@@ -46,9 +46,9 @@ def load_reference(spike: Path = SPIKE, runs_json: Path = REPO / "app" / "data" 
     """{claves, truth{clave:{KEY:int|None}}, ref{clave:{accepted, values{KEY:int}}}} from the stored spike v2 run."""
     s = schema.load()
     graded = [f for f in s["fields"] if f.get("csv")]
-    sample = json.loads((spike / "data" / "sample.json").read_text(encoding="utf-8"))
+    sample = json.loads((spike / "sample.json").read_text(encoding="utf-8"))
     claves = [x["clave"] for x in sample]
-    tr = json.loads((spike / "data" / "truth_rows.json").read_text(encoding="utf-8"))
+    tr = json.loads((spike / "truth_rows.json").read_text(encoding="utf-8"))
     adj = json.loads((spike / "adjudicate.json").read_text(encoding="utf-8"))
     truth = {}
     for k in claves:

@@ -1,0 +1,72 @@
+[
+ {
+  "station": "BALCOMBE-GABLES",
+  "sheets": [
+   "TYRain_1860-1869_01_pt2-page-145.csv",
+   "TYRain_1870-1879_02_pt1-page-103.csv",
+   "TYRain_1880-1889_02_pt2-page-065.csv",
+   "TYRain_1890-1899_04_pt1-page-091.csv",
+   "TYRain_1900-1909_04_pt1-page-110.csv",
+   "TYRain_1910-1919_04_pt1-page-150.csv",
+   "TYRain_1920-1930_04_pt1-page-166.csv",
+   "ERROR_TYRain_1931-1940_04_pt1-page-207.csv"
+  ]
+ },
+ {
+  "station": "BARKBY-HALL",
+  "sheets": [
+   "TYRain_1870-1879_06_pt2-page-105.csv",
+   "TYRain_1880-1889_07_pt5-page-021.csv",
+   "TYRain_1890-1899_13_pt1-page-078.csv",
+   "TYRain_1900-1909_17_pt1-page-031.csv",
+   "TYRain_1910-1919_15_pt1-page-287.csv",
+   "TYRain_1920-1930_16_pt1-page-157.csv",
+   "TYRain_1931-1940_15_pt1-page-039.csv",
+   "TYRain_1941-1950_17_pt1-page-126.csv",
+   "TYRain_1951-1960_15_pt1-page-128.csv"
+  ]
+ },
+ {
+  "station": "BALCOMBE-HIGHLEY-MANOR",
+  "sheets": [
+   "TYRain_1880-1889_02_pt2-page-066.csv",
+   "TYRain_1890-1899_04_pt1-page-090.csv",
+   "TYRain_1900-1909_04_pt1-page-109.csv",
+   "TYRain_1910-1919_04_pt1-page-153.csv",
+   "TYRain_1920-1930_04_pt1-page-169.csv",
+   "TYRain_1931-1940_04_pt1-page-210.csv",
+   "TYRain_1941-1950_04_pt1-page-153.csv",
+   "TYRain_1951-1960_03_pt1-page-112.csv"
+  ]
+ },
+ {
+  "station": "BARROWFORD-RES",
+  "sheets": [
+   "TYRain_1880-1889_09_pt1-page-058.csv",
+   "TYRain_1890-1899_15_pt1-page-051.csv",
+   "TYRain_1900-1909_19_pt1-page-180.csv",
+   "TYRain_1910-1919_18_pt1-page-152.csv",
+   "ERROR_TYRain_1920-1930_20_pt1-page-152.csv",
+   "TYRain_1931-1940_17_pt1-page-254.csv",
+   "TYRain_1941-1950_20_pt1-page-069.csv",
+   "ERROR_TYRain_1951-1960_18_pt1-page-063.csv"
+  ]
+ },
+ {
+  "station": "ARDNAMURCHAN-LIGHTHOUSE",
+  "sheets": [
+   "TYRain_1840-1849_E_pt3-page-122.csv",
+   "TYRain_1850-1859_H_pt1-page-164.csv",
+   "TYRain_1860-1869_07_pt2-page-057.csv",
+   "TYRain_1870-1879_11_pt3-page-059.csv",
+   "TYRain_1880-1889_15_pt1-page-042.csv",
+   "TYRain_1890-1899_24_pt1-page-143.csv",
+   "TYRain_1900-1909_28_pt1-page-156.csv",
+   "TYRain_1910-1919_27_pt1-page-003.csv",
+   "ERROR_TYRain_1920-1930_31_pt1-page-142.csv",
+   "TYRain_1931-1940_25_pt1-page-234.csv",
+   "ERROR_TYRain_1941-1950_30_pt1-page-072.csv",
+   "TYRain_1951-1960_27_pt1-page-168.csv"
+  ]
+ }
+]

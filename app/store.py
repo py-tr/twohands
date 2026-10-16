@@ -1,13 +1,13 @@
 """Data layer: every number the app shows is computed here from a results file.
 
 Sources (all read-only):
-  app/data/spike_runs.json   spike reads (snapshot of spikes/tally-witness/results*/, by app/build.py)
+  app/data/spike_runs.json   spike reads (snapshot of results/pilot/tally-witness/, by app/build.py)
   app/data/official.json     official PREP capture, certified Computos values, adjudicated fields
   app/data/official_senado.json  PREP's capture of the Senate actas (PROTOCOL_SENADO.md; scripts/senado_draw.py)
   results/senado/calls_*.jsonl   the Senate run (schemas/mx_senado_2024.yaml: same keys, labels and identities, so
                                  the presidential schema evaluates it unchanged); run id "senado_calls_<model>"
   results/*.jsonl            core runs (verify runs, the pre-registered 300-form run, ...): picked up automatically
-  ledger/ledger.json         rainfall ledgers (snapshot of spikes/ledger-rescue, by ledger/build.py)
+  ledger/ledger.json         rainfall ledgers (snapshot of results/pilot/ledger-rescue, by ledger/build.py)
   app/state/live/*.json      live reads made from the web app
 Images: only masked pages under data/masked/** (made by twohands.mask). Nothing else is ever served.
 """

@@ -1,0 +1,23 @@
+{
+ "_note": "Fields where the PREP capture disagrees with the digits written on the PREP image, verified by eye (crops) on 2026-10-14. Truth here = the digit boxes.",
+ "202451B0100": {
+  "TOTAL": 271,
+  "SACADOS": 271
+ },
+ "211420C0400": {
+  "PVEM_MORENA": 2
+ },
+ "156723B0100": {
+  "PAN_PRI_PRD": 5
+ },
+ "211294C0100": {
+  "TOTAL": 262,
+  "SACADOS": 262
+ },
+ "093954C0200": {
+  "PAN": 69
+ },
+ "211298B0100": {
+  "MC": 39
+ }
+}

@@ -30,8 +30,8 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 
 | Shown as | Value now | Computed from | Method |
 |---|---|---|---|
-| Pilot accept rate (results, pilot table) | 49% = 21 of 43 forms | `app/data/spike_runs.json`, a snapshot of `spikes/tally-witness/results_v2/gemma__*.json` | Gate = completeness + words = digits + the 4 schema identities (`schemas/mx_presidencia_2024.yaml`). Same checks as the spike's `score.py` FULL gate. The spike reads predate the row-label check. |
-| Accepted fields wrong | 0 of 462 (Gemma), 0 of 484 (Qwen) | the same, plus `app/data/official.json` (from `spikes/tally-witness/data/truth_rows.json` and `adjudicate.json`) | 22 graded fields per form against the PREP capture. "After eye check" swaps in the fields in `adjudicate.json`. Raw disagreements: 5 (Gemma), 4 (Qwen). |
+| Pilot accept rate (results, pilot table) | 49% = 21 of 43 forms | `app/data/spike_runs.json`, a snapshot of `results/pilot/tally-witness/results_v2/gemma__*.json` | Gate = completeness + words = digits + the 4 schema identities (`schemas/mx_presidencia_2024.yaml`). Same checks as the spike's `score.py` FULL gate. The spike reads predate the row-label check. |
+| Accepted fields wrong | 0 of 462 (Gemma), 0 of 484 (Qwen) | the same, plus `app/data/official.json` (from `data/pilot/tally-witness/truth_rows.json` and `adjudicate.json`) | 22 graded fields per form against the PREP capture. "After eye check" swaps in the fields in `adjudicate.json`. Raw disagreements: 5 (Gemma), 4 (Qwen). |
 | Pilot capture errors | 6 fields on 5 forms | `adjudicate.json` entries on forms that a spike reader accepted | 093954C0200, 156723B0100, 202451B0100 (TOTAL and section 7), 211298B0100, 211420C0400. The app labels vote rows "Option NN" and never by party. |
 | Certified count | covers 5 of the 6 fields and matches the image on all 5 | `official.json` `cert` (Cómputos) | Section 7 (SACADOS) is not in the certified data. One of the five (156723B) was certified by recount, four by comparison (Cotejo). This replaces the earlier hand count in the spike README; the app shows the computed figure. |
 | Paper inconsistency (not a capture error) | 211294C TOTAL: words 162, digits 262 | `adjudicate.json` + spike reads | The capture applied its words-prevail rule. Shown separately from capture errors and never counted with them. The same form's SACADOS (262 in words and digits, keyed 162) is a capture error on a routed form. |
@@ -41,11 +41,11 @@ Overview, Inbox, Audit and Results pages all read that one file, so they cannot 
 | Compute cost to audit the national set | $20 to $86 compute cost to audit all 169,005 forms | cost per form × 169,005 (cited, below) | |
 | Mean latency | 49 s (Gemma v2), 85 s (Qwen) | `secs` in each result file | Wall-clock per request on the shared endpoint, including queueing. |
 | Tokens per form | about 2,153 in / 641 out (Gemma), 8,739 / 1,667 (Qwen) | `usage.prompt_tokens / completion_tokens` | Means. |
-| Ledger: sheets, cells | 40 sheets, 4,915 cells | `ledger/ledger.json` (built by `ledger/build.py` from `spikes/ledger-rescue`, which used the spike's own `evaluate.py`) | Cells where the volunteers have a value. |
+| Ledger: sheets, cells | 40 sheets, 4,915 cells | `ledger/ledger.json` (built by `ledger/build.py` from the pilot copies in `data/pilot/ledger-rescue` and `results/pilot/ledger-rescue`, which used the spike's own `evaluate.py`) | Cells where the volunteers have a value. |
 | Ledger: year-columns accepted | 306 of 380 (80.5%) | the same | Tiled Gemma (`gemmatile`), no re-reads. The spike README's "81.6%" includes re-reads; the app shows 80.5%. |
 | Ledger: accepted cells right | 3,976 of 3,976 (spike, 40 sheets) | the same | Within 0.005 in of the volunteers. |
 | Ledger: cost per sheet | $0.00011 | token counts × prices in `spikes/ledger-rescue/evaluate.py` | |
-| Ledger failure case | 26 of 870 accepted cells wrong (single-image read) | `spikes/ledger-rescue/scores.json` `models.gemma` (copied into `ledger.json` meta) | Silent column shift, README §4. |
+| Ledger failure case | 26 of 870 accepted cells wrong (single-image read) | `data/pilot/ledger-rescue/scores.json` `models.gemma` (copied into `ledger.json` meta) | Silent column shift, README §4. |
 | Every-run table (results page) | all runs | every `results/*.jsonl` (core runs), the spike runs, live reads | Picked up automatically; see C. |
 | Live reads (home, after the first one) | n, mean secs, mean cost | `app/state/live/*.json` | Written by the live button. |
 

@@ -1,0 +1,1829 @@
+{
+ "gemma": [
+  {
+   "clave": "122838C0100",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 20,
+   "n": 22,
+   "adj_ok": 20,
+   "adj_wrong": {
+    "VOTARON": [
+     205,
+     285
+    ],
+    "PRI": [
+     66,
+     6
+    ]
+   },
+   "wrong": {
+    "VOTARON": [
+     205,
+     285
+    ],
+    "PRI": [
+     66,
+     6
+    ]
+   },
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PRI": [
+     66,
+     6
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "PRI digits 66 != words 6",
+    "sum rows 346 != TOTAL 286",
+    "VOTARON+REP 206 != sec5 286"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "PRI digits 66 != words 6",
+    "sum rows 346 != TOTAL 286"
+   ],
+   "prep_sum_ok": true,
+   "cost": 0.0001192842,
+   "secs": 21.1,
+   "fix": []
+  },
+  {
+   "clave": "141097C0100",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": false,
+   "reasons": [
+    "PRI digits 38 != words 138"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "PRI digits 38 != words 138"
+   ],
+   "prep_sum_ok": true,
+   "cost": 0.0001210356,
+   "secs": 42.5,
+   "fix": [
+    "PRI"
+   ]
+  },
+  {
+   "clave": "120293C0100",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001180256,
+   "secs": 41.4,
+   "fix": []
+  },
+  {
+   "clave": "010452B0100",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001179556,
+   "secs": 38.3,
+   "fix": [
+    "MC"
+   ]
+  },
+  {
+   "clave": "151794C0200",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "PAN_PRI": [
+     8,
+     0
+    ]
+   },
+   "wrong": {
+    "PAN_PRI": [
+     8,
+     0
+    ]
+   },
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN_PRI": [
+     8,
+     0
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sum rows 405 != TOTAL 397"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "sum rows 405 != TOTAL 397"
+   ],
+   "prep_sum_ok": true,
+   "cost": 0.0001178506,
+   "secs": 38.3,
+   "fix": []
+  },
+  {
+   "clave": "300449C0100",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001191806,
+   "secs": 39.6,
+   "fix": []
+  },
+  {
+   "clave": "304052B0100",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001172206,
+   "secs": 44.5,
+   "fix": [
+    "MORENA"
+   ]
+  },
+  {
+   "clave": "302307C0100",
+   "stratum": "A_clean",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001186906,
+   "secs": 44.8,
+   "fix": []
+  },
+  {
+   "clave": "201720E0100",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001193206,
+   "secs": 42.7,
+   "fix": []
+  },
+  {
+   "clave": "070159C0300",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001189006,
+   "secs": 39.7,
+   "fix": []
+  },
+  {
+   "clave": "302541B0100",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001186906,
+   "secs": 120.0,
+   "fix": []
+  },
+  {
+   "clave": "201280B0100",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001191806,
+   "secs": 117.0,
+   "fix": []
+  },
+  {
+   "clave": "070332E0100",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 20,
+   "n": 22,
+   "adj_ok": 20,
+   "adj_wrong": {
+    "SOBRANTES": [
+     107,
+     117
+    ],
+    "PRD": [
+     9,
+     4
+    ]
+   },
+   "wrong": {
+    "SOBRANTES": [
+     107,
+     117
+    ],
+    "PRD": [
+     9,
+     4
+    ]
+   },
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PRD": [
+     9,
+     4
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "SOBRANTES digits 107 != words 112",
+    "PRD digits 9 != words 4",
+    "sum rows 251 != TOTAL 246"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "SOBRANTES digits 107 != words 112",
+    "PRD digits 9 != words 4",
+    "sum rows 251 != TOTAL 246"
+   ],
+   "prep_sum_ok": true,
+   "cost": 0.0001190406,
+   "secs": 22.2,
+   "fix": []
+  },
+  {
+   "clave": "010441C0100",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001189006,
+   "secs": 136.7,
+   "fix": []
+  },
+  {
+   "clave": "200144B0100",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001187606,
+   "secs": 46.1,
+   "fix": []
+  },
+  {
+   "clave": "120301C0400",
+   "stratum": "A_clean",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001191806,
+   "secs": 33.2,
+   "fix": []
+  },
+  {
+   "clave": "211294C0100",
+   "stratum": "B_paper_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 20,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {
+    "SACADOS": [
+     262,
+     162
+    ],
+    "TOTAL": [
+     262,
+     162
+    ]
+   },
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": false,
+   "reasons": [
+    "TOTAL digits 262 != words 162"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "TOTAL digits 262 != words 162"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001177106,
+   "secs": 23.1,
+   "fix": []
+  },
+  {
+   "clave": "201791B0100",
+   "stratum": "B_paper_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "TOTAL": [
+     274,
+     273
+    ]
+   },
+   "wrong": {
+    "TOTAL": [
+     274,
+     273
+    ]
+   },
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": false,
+   "reasons": [
+    "TOTAL digits 274 != words 273"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "TOTAL digits 274 != words 273"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001175706,
+   "secs": 24.4,
+   "fix": []
+  },
+  {
+   "clave": "072055C0300",
+   "stratum": "B_paper_sum_mismatch",
+   "dig": "E",
+   "parsed": true,
+   "ok": 20,
+   "n": 22,
+   "adj_ok": 20,
+   "adj_wrong": {
+    "REPRESENTANTES": [
+     null,
+     0
+    ],
+    "TOTAL": [
+     442,
+     450
+    ]
+   },
+   "wrong": {
+    "REPRESENTANTES": [
+     null,
+     0
+    ],
+    "TOTAL": [
+     442,
+     450
+    ]
+   },
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": false,
+   "reasons": [
+    "REPRESENTANTES empty",
+    "TOTAL digits 442 != words 450"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "REPRESENTANTES empty",
+    "TOTAL digits 442 != words 450"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001189706,
+   "secs": 85.0,
+   "fix": []
+  },
+  {
+   "clave": "202451B0100",
+   "stratum": "B_paper_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 20,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {
+    "SACADOS": [
+     271,
+     272
+    ],
+    "TOTAL": [
+     271,
+     272
+    ]
+   },
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": false,
+   "cost": 0.0001177806,
+   "secs": 40.7,
+   "fix": []
+  },
+  {
+   "clave": "302539C0100",
+   "stratum": "B_paper_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 18,
+   "n": 22,
+   "adj_ok": 18,
+   "adj_wrong": {
+    "VOTARON": [
+     277,
+     311
+    ],
+    "SACADOS": [
+     279,
+     319
+    ],
+    "MORENA": [
+     238,
+     258
+    ],
+    "TOTAL": [
+     379,
+     319
+    ]
+   },
+   "wrong": {
+    "VOTARON": [
+     277,
+     311
+    ],
+    "SACADOS": [
+     279,
+     319
+    ],
+    "MORENA": [
+     238,
+     258
+    ],
+    "TOTAL": [
+     379,
+     319
+    ]
+   },
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "MORENA": [
+     238,
+     258
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sum rows 359 != TOTAL 379",
+    "SACADOS 279 != TOTAL 379"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "sum rows 359 != TOTAL 379"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001162406,
+   "secs": 57.0,
+   "fix": []
+  },
+  {
+   "clave": "156034C0100",
+   "stratum": "C_prep_ne_certified",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 4,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN": [
+     17,
+     14
+    ],
+    "PRI": [
+     28,
+     16
+    ],
+    "PVEM": [
+     15,
+     14
+    ],
+    "PT": [
+     15,
+     24
+    ],
+    "MC": [
+     43,
+     36
+    ],
+    "MORENA": [
+     180,
+     177
+    ],
+    "PAN_PRI_PRD": [
+     1,
+     4
+    ],
+    "PAN_PRI": [
+     1,
+     0
+    ],
+    "PVEM_PT_MORENA": [
+     22,
+     0
+    ],
+    "PVEM_PT": [
+     0,
+     24
+    ],
+    "PVEM_MORENA": [
+     3,
+     0
+    ],
+    "NO_REGISTRADAS": [
+     0,
+     2
+    ],
+    "NULOS": [
+     7,
+     8
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sec5 334 != SACADOS 335"
+   ],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001187606,
+   "secs": 25.5,
+   "fix": []
+  },
+  {
+   "clave": "095566C0300",
+   "stratum": "C_prep_ne_certified",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 3,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN": [
+     312,
+     324
+    ],
+    "PRI": [
+     36,
+     30
+    ],
+    "PRD": [
+     6,
+     10
+    ],
+    "PVEM": [
+     6,
+     5
+    ],
+    "MC": [
+     13,
+     20
+    ],
+    "MORENA": [
+     80,
+     65
+    ],
+    "PAN_PRI_PRD": [
+     18,
+     17
+    ],
+    "PAN_PRI": [
+     7,
+     6
+    ],
+    "PAN_PRD": [
+     1,
+     0
+    ],
+    "PVEM_PT_MORENA": [
+     6,
+     7
+    ],
+    "PVEM_PT": [
+     0,
+     1
+    ],
+    "PT_MORENA": [
+     0,
+     3
+    ],
+    "NO_REGISTRADAS": [
+     2,
+     1
+    ],
+    "NULOS": [
+     4,
+     1
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sec5 492 != SACADOS 494"
+   ],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001160656,
+   "secs": 28.3,
+   "fix": []
+  },
+  {
+   "clave": "211298B0100",
+   "stratum": "C_prep_ne_certified",
+   "dig": "M",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {
+    "MC": [
+     39,
+     34
+    ]
+   },
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": false,
+   "cost": 0.0001156806,
+   "secs": 39.4,
+   "fix": []
+  },
+  {
+   "clave": "304968C0100",
+   "stratum": "C_prep_ne_certified",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 15,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PVEM": [
+     0,
+     8
+    ],
+    "NO_REGISTRADAS": [
+     8,
+     0
+    ]
+   },
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001186206,
+   "secs": 42.7,
+   "fix": []
+  },
+  {
+   "clave": "211420C0400",
+   "stratum": "C_prep_ne_certified",
+   "dig": "M",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {
+    "PVEM_MORENA": [
+     2,
+     0
+    ]
+   },
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": false,
+   "cost": 0.0001172556,
+   "secs": 40.4,
+   "fix": []
+  },
+  {
+   "clave": "120306C0900",
+   "stratum": "C_prep_ne_certified",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 10,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN": [
+     19,
+     28
+    ],
+    "PRI": [
+     34,
+     32
+    ],
+    "PRD": [
+     4,
+     5
+    ],
+    "PVEM": [
+     28,
+     24
+    ],
+    "MC": [
+     28,
+     19
+    ],
+    "MORENA": [
+     195,
+     208
+    ],
+    "NULOS": [
+     8,
+     0
+    ]
+   },
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001172556,
+   "secs": 75.8,
+   "fix": []
+  },
+  {
+   "clave": "202156B0100",
+   "stratum": "C_prep_ne_certified",
+   "dig": "E",
+   "parsed": true,
+   "ok": 19,
+   "n": 22,
+   "adj_ok": 19,
+   "adj_wrong": {
+    "PT": [
+     78,
+     28
+    ],
+    "MC": [
+     16,
+     10
+    ],
+    "MORENA": [
+     175,
+     125
+    ]
+   },
+   "wrong": {
+    "PT": [
+     78,
+     28
+    ],
+    "MC": [
+     16,
+     10
+    ],
+    "MORENA": [
+     175,
+     125
+    ]
+   },
+   "cert_ok": 15,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PT": [
+     78,
+     28
+    ],
+    "MORENA": [
+     175,
+     125
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "MORENA digits 175 != words 125",
+    "sum rows 330 != TOTAL 230",
+    "sec5 230 != SACADOS 229",
+    "SACADOS 229 != TOTAL 230"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "MORENA digits 175 != words 125",
+    "sum rows 330 != TOTAL 230"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001186906,
+   "secs": 112.2,
+   "fix": []
+  },
+  {
+   "clave": "120295C0300",
+   "stratum": "C_prep_ne_certified",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 4,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN": [
+     9,
+     5
+    ],
+    "PRI": [
+     10,
+     15
+    ],
+    "PRD": [
+     0,
+     2
+    ],
+    "PVEM": [
+     20,
+     14
+    ],
+    "PT": [
+     14,
+     10
+    ],
+    "MC": [
+     17,
+     19
+    ],
+    "MORENA": [
+     223,
+     218
+    ],
+    "PAN_PRI_PRD": [
+     3,
+     1
+    ],
+    "PVEM_PT_MORENA": [
+     27,
+     33
+    ],
+    "PVEM_PT": [
+     0,
+     1
+    ],
+    "PVEM_MORENA": [
+     5,
+     2
+    ],
+    "PT_MORENA": [
+     3,
+     4
+    ],
+    "NULOS": [
+     5,
+     8
+    ]
+   },
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001190406,
+   "secs": 23.3,
+   "fix": []
+  },
+  {
+   "clave": "200742B0100",
+   "stratum": "C_prep_ne_certified",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "NULOS": [
+     1,
+     0
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "SOBRANTES digits 106 != words 150",
+    "sum rows 100 != TOTAL 99"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "SOBRANTES digits 106 != words 150",
+    "sum rows 100 != TOTAL 99"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001176406,
+   "secs": 19.6,
+   "fix": []
+  },
+  {
+   "clave": "304069B0100",
+   "stratum": "C_prep_ne_certified",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 5,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN": [
+     29,
+     30
+    ],
+    "PRI": [
+     6,
+     20
+    ],
+    "PRD": [
+     4,
+     3
+    ],
+    "PVEM": [
+     4,
+     48
+    ],
+    "PT": [
+     3,
+     11
+    ],
+    "MC": [
+     35,
+     30
+    ],
+    "MORENA": [
+     160,
+     133
+    ],
+    "PAN_PRI_PRD": [
+     4,
+     1
+    ],
+    "PVEM_PT_MORENA": [
+     9,
+     15
+    ],
+    "PVEM_MORENA": [
+     2,
+     0
+    ],
+    "PT_MORENA": [
+     1,
+     0
+    ],
+    "NULOS": [
+     6,
+     21
+    ]
+   },
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001177106,
+   "secs": 19.4,
+   "fix": []
+  },
+  {
+   "clave": "070394C0100",
+   "stratum": "C_prep_ne_certified",
+   "dig": "E",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PVEM": [
+     54,
+     154
+    ]
+   },
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": true,
+   "cost": 0.0001189006,
+   "secs": 27.7,
+   "fix": []
+  },
+  {
+   "clave": "093954C0200",
+   "stratum": "C_prep_ne_certified",
+   "dig": "E",
+   "parsed": true,
+   "ok": 20,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "VOTARON": [
+     429,
+     427
+    ]
+   },
+   "wrong": {
+    "VOTARON": [
+     429,
+     427
+    ],
+    "PAN": [
+     69,
+     64
+    ]
+   },
+   "cert_ok": 17,
+   "cert_n": 17,
+   "cert_wrong": {},
+   "accepted": false,
+   "reasons": [
+    "sec5 432 != SACADOS 430"
+   ],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": false,
+   "cost": 0.0001194606,
+   "secs": 45.1,
+   "fix": []
+  },
+  {
+   "clave": "156723B0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {
+    "PAN_PRI_PRD": [
+     5,
+     3
+    ]
+   },
+   "cert_ok": 11,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PVEM": [
+     21,
+     22
+    ],
+    "MC": [
+     60,
+     62
+    ],
+    "MORENA": [
+     246,
+     248
+    ],
+    "PVEM_MORENA": [
+     2,
+     1
+    ],
+    "NO_REGISTRADAS": [
+     3,
+     2
+    ],
+    "NULOS": [
+     9,
+     11
+    ]
+   },
+   "accepted": true,
+   "reasons": [],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": false,
+   "cost": 0.0001175356,
+   "secs": 42.2,
+   "fix": [
+    "MC"
+   ]
+  },
+  {
+   "clave": "156044B0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 10,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PRD": [
+     1,
+     2
+    ],
+    "PT": [
+     24,
+     23
+    ],
+    "MORENA": [
+     136,
+     135
+    ],
+    "PVEM_PT": [
+     0,
+     1
+    ],
+    "PVEM_MORENA": [
+     5,
+     4
+    ],
+    "NO_REGISTRADAS": [
+     0,
+     1
+    ],
+    "NULOS": [
+     7,
+     11
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sum rows 280 != TOTAL 281",
+    "sec5 283 != SACADOS 281"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "sum rows 280 != TOTAL 281"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001191806,
+   "secs": 44.5,
+   "fix": []
+  },
+  {
+   "clave": "202338B0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 19,
+   "n": 22,
+   "adj_ok": 19,
+   "adj_wrong": {
+    "REPRESENTANTES": [
+     null,
+     0
+    ],
+    "PAN_PRI_PRD": [
+     0,
+     1
+    ],
+    "NULOS": [
+     3,
+     0
+    ]
+   },
+   "wrong": {
+    "REPRESENTANTES": [
+     null,
+     0
+    ],
+    "PAN_PRI_PRD": [
+     0,
+     1
+    ],
+    "NULOS": [
+     3,
+     0
+    ]
+   },
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN_PRI_PRD": [
+     0,
+     1
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "REPRESENTANTES empty",
+    "PAN_PRI_PRD digits 0 != words 1",
+    "NULOS digits 3 != words 0",
+    "sum rows 91 != TOTAL 92"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "REPRESENTANTES empty",
+    "PAN_PRI_PRD digits 0 != words 1",
+    "NULOS digits 3 != words 0",
+    "sum rows 91 != TOTAL 92"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001163456,
+   "secs": 45.8,
+   "fix": []
+  },
+  {
+   "clave": "010474B0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "SOBRANTES": [
+     271,
+     277
+    ]
+   },
+   "wrong": {
+    "SOBRANTES": [
+     271,
+     277
+    ]
+   },
+   "cert_ok": 12,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PRI": [
+     130,
+     129
+    ],
+    "PT": [
+     9,
+     0
+    ],
+    "MORENA": [
+     165,
+     164
+    ],
+    "PAN_PRI": [
+     0,
+     2
+    ],
+    "NULOS": [
+     0,
+     8
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "SOBRANTES digits 271 != words 277",
+    "PRI digits 130 != words 100",
+    "sum rows 413 != TOTAL 423",
+    "VOTARON+REP 423 != sec5 700",
+    "sec5 700 != SACADOS 423"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "SOBRANTES digits 271 != words 277",
+    "PRI digits 130 != words 100",
+    "sum rows 413 != TOTAL 423"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001179906,
+   "secs": 39.7,
+   "fix": []
+  },
+  {
+   "clave": "122837B0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "M",
+   "parsed": true,
+   "ok": 22,
+   "n": 22,
+   "adj_ok": 22,
+   "adj_wrong": {},
+   "wrong": {},
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "MORENA": [
+     171,
+     172
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sum rows 252 != TOTAL 254"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "sum rows 252 != TOTAL 254"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001166606,
+   "secs": 61.9,
+   "fix": []
+  },
+  {
+   "clave": "010445C0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "E",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "SACADOS": [
+     null,
+     425
+    ]
+   },
+   "wrong": {
+    "SACADOS": [
+     null,
+     425
+    ]
+   },
+   "cert_ok": 8,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN": [
+     18,
+     88
+    ],
+    "PVEM": [
+     16,
+     13
+    ],
+    "MORENA": [
+     224,
+     223
+    ],
+    "PAN_PRI_PRD": [
+     2,
+     1
+    ],
+    "PAN_PRI": [
+     1,
+     2
+    ],
+    "PVEM_PT_MORENA": [
+     12,
+     14
+    ],
+    "PT_MORENA": [
+     0,
+     2
+    ],
+    "NO_REGISTRADAS": [
+     12,
+     1
+    ],
+    "NULOS": [
+     6,
+     7
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "SACADOS empty",
+    "PAN digits 18 != words 88",
+    "NO_REGISTRADAS digits 12 != words 2",
+    "sum rows 365 != TOTAL 425"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "SACADOS empty",
+    "PAN digits 18 != words 88",
+    "NO_REGISTRADAS digits 12 != words 2",
+    "sum rows 365 != TOTAL 425"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001182706,
+   "secs": 42.0,
+   "fix": []
+  },
+  {
+   "clave": "201717C0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "E",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "SOBRANTES": [
+     206,
+     236
+    ]
+   },
+   "wrong": {
+    "SOBRANTES": [
+     206,
+     236
+    ]
+   },
+   "cert_ok": 12,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PT": [
+     30,
+     29
+    ],
+    "MORENA": [
+     182,
+     188
+    ],
+    "PVEM_PT": [
+     1,
+     0
+    ],
+    "PT_MORENA": [
+     9,
+     10
+    ],
+    "NULOS": [
+     15,
+     16
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "SOBRANTES digits 206 != words 246",
+    "sum rows 455 != TOTAL 451",
+    "sec5 496 != SACADOS 451"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "SOBRANTES digits 206 != words 246",
+    "sum rows 455 != TOTAL 451"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001193206,
+   "secs": 26.1,
+   "fix": []
+  },
+  {
+   "clave": "302296C0200",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "E",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "PVEM_PT_MORENA": [
+     6,
+     0
+    ]
+   },
+   "wrong": {
+    "PVEM_PT_MORENA": [
+     6,
+     0
+    ]
+   },
+   "cert_ok": 12,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PRI": [
+     27,
+     26
+    ],
+    "MORENA": [
+     181,
+     177
+    ],
+    "PAN_PRI": [
+     1,
+     2
+    ],
+    "PVEM_PT_MORENA": [
+     6,
+     7
+    ],
+    "PT_MORENA": [
+     4,
+     3
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sec5 333 != SACADOS 328"
+   ],
+   "core_accepted": true,
+   "core_reasons": [],
+   "prep_sum_ok": false,
+   "cost": 0.0001187606,
+   "secs": 45.4,
+   "fix": []
+  },
+  {
+   "clave": "151806B0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "E",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "SACADOS": [
+     446,
+     448
+    ]
+   },
+   "wrong": {
+    "SACADOS": [
+     446,
+     448
+    ]
+   },
+   "cert_ok": 16,
+   "cert_n": 17,
+   "cert_wrong": {
+    "PAN_PRI": [
+     2,
+     3
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sum rows 447 != TOTAL 448",
+    "sec5 448 != SACADOS 446",
+    "SACADOS 446 != TOTAL 448"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "sum rows 447 != TOTAL 448"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001193206,
+   "secs": 114.5,
+   "fix": []
+  },
+  {
+   "clave": "191790C0100",
+   "stratum": "D_recounted_sum_mismatch",
+   "dig": "E",
+   "parsed": true,
+   "ok": 21,
+   "n": 22,
+   "adj_ok": 21,
+   "adj_wrong": {
+    "VOTARON": [
+     304,
+     0
+    ]
+   },
+   "wrong": {
+    "VOTARON": [
+     304,
+     0
+    ]
+   },
+   "cert_ok": 11,
+   "cert_n": 17,
+   "cert_wrong": {
+    "MORENA": [
+     118,
+     117
+    ],
+    "PAN_PRI_PRD": [
+     7,
+     1
+    ],
+    "PVEM_PT_MORENA": [
+     0,
+     7
+    ],
+    "PVEM_PT": [
+     1,
+     4
+    ],
+    "PT_MORENA": [
+     0,
+     1
+    ],
+    "NULOS": [
+     16,
+     6
+    ]
+   },
+   "accepted": false,
+   "reasons": [
+    "sum rows 282 != TOTAL 276",
+    "sec5 304 != SACADOS 276"
+   ],
+   "core_accepted": false,
+   "core_reasons": [
+    "sum rows 282 != TOTAL 276"
+   ],
+   "prep_sum_ok": false,
+   "cost": 0.0001190406,
+   "secs": 49.3,
+   "fix": []
+  }
+ ]
+}

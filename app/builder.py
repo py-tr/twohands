@@ -921,10 +921,10 @@ def _t():
 def builder_page(request: Request):
     samples = [{"id": k, "label": v["label"], "tag": v["tag"], "note": v.get("note"), "filled": v["filled"]}
                for k, v in SAMPLES.items()]
-    third = REPO.parent / "notes" / "third-form-feasibility.md"
+    third = (REPO / "schemas" / "mx_senado_2024.yaml").is_file()
     return _t().TemplateResponse(request, "builder.html", {"nav": "builder", "samples": samples,
                                                            "live": request.app.state.live.status(),
-                                                           "third": third.is_file()})
+                                                           "third": third})
 
 
 @router.get("/builder/sample/{name}")

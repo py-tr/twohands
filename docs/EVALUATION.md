@@ -127,7 +127,7 @@ generalise: we once called it a lower bound, and the random 300 accepted 18% aga
 | Both agree on every field + gate | 20 / 43 | 0 | | $0.00063 |
 
 Sources: the app's results page, computed from the spike result files (snapshot `app/data/spike_runs.json`) and
-`spikes/tally-witness/adjudicate.json`; the two-reader row from `spikes/tally-witness/README.md` section 3.
+`data/pilot/tally-witness/adjudicate.json`; the two-reader row from `spikes/tally-witness/README.md` section 3.
 
 "Routed but read perfectly" means every field was right but the paper itself is inconsistent (rows that do not
 add up, words that disagree with digits). Those are correct routings, not reader errors.
@@ -168,7 +168,7 @@ paper contradicts itself, so the gate routed the form to a person. That is the g
 | Accepted cells right | **3,976 of 3,976** (spike, 40 sheets; Wilson 95% upper 0.10% error) |
 | Cost | $0.00011 per sheet |
 
-Source: `ledger/ledger.json` (built from `spikes/ledger-rescue` with the spike's own scorer).
+Source: `ledger/ledger.json` (built from the pilot copies in `data/pilot/ledger-rescue`, `results/pilot/ledger-rescue` with the spike's own scorer).
 
 ## Business result
 
@@ -248,7 +248,7 @@ these numbers from the committed results.
 On the rainfall ledgers, read as **one image**, Gemma put Balcombe Gables' 1887 values under 1886, and so on
 along the row. Every shifted column still summed to its total, so the checksum accepted wrong cells: **26 of
 870 accepted cells were wrong** on that reader (79.2% of all 4,915 cells right). Source:
-`spikes/ledger-rescue/scores.json` (`models.gemma`), README section 4.
+`data/pilot/ledger-rescue/scores.json` (`models.gemma`), README section 4.
 
 What we did about it:
 1. **Zoomed tiles** removed it on the ledgers (0 of 3,976 accepted cells wrong; spike, 40 sheets). Tiling is a mitigation, not a proof.

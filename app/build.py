@@ -4,7 +4,8 @@
 
 Writes app/data/spike_runs.json (every spike read, as returned by the model) and app/data/official.json
 (per form: the official PREP capture, the certified Computos values, adjudicated fields, sample stratum).
-If the PREP / Computos CSVs are available (paths from spikes/tally-witness/common.py), official values are
+Inputs are the in-repo pilot copies (data/pilot/tally-witness, results/pilot/tally-witness; data/pilot/SOURCES.md).
+If the PREP / Computos CSVs are in data/raw/ (python -m twohands.sample downloads PREP), official values are
 also added for every clave that appears in results/*.jsonl, so a new run gets its official numbers by
 re-running this command; no code change.
 """
@@ -16,18 +17,12 @@ import json
 import sys
 from pathlib import Path
 
-from twohands import REPO
+from twohands import PILOT_DATA, PILOT_RESULTS, REPO
 from twohands import schema as schemamod
 
-ROOT = REPO.parent
-TW = ROOT / "spikes" / "tally-witness"
 OUT = REPO / "app" / "data"
-PREP_CSV = next((p for p in (REPO / "data" / "raw" / "prep" / "PRES_2024.csv",
-                              Path("~/AppData/Local/Temp/tw/prep/pres/PRES_2024.csv")) if p.is_file()),
-                REPO / "data" / "raw" / "prep" / "PRES_2024.csv")
-COMP_CSV = next((p for p in (REPO / "data" / "raw" / "computos" / "PRES_2024.csv",
-                              Path("~/AppData/Local/Temp/tw/prep/comp/PRES_2024.csv")) if p.is_file()),
-                REPO / "data" / "raw" / "computos" / "PRES_2024.csv")
+PREP_CSV = REPO / "data" / "raw" / "prep" / "PRES_2024.csv"
+COMP_CSV = REPO / "data" / "raw" / "computos" / "PRES_2024.csv"
 
 SPIKE_RUNS = [
     # id, directory, file prefix, model, label, method note
@@ -94,16 +89,16 @@ def result_claves() -> set[str]:
 def main() -> int:
     s = schemamod.load()
     OUT.mkdir(parents=True, exist_ok=True)
-    sample = {x["clave"]: x for x in json.loads((TW / "data" / "sample.json").read_text(encoding="utf-8"))}
-    truth = json.loads((TW / "data" / "truth_rows.json").read_text(encoding="utf-8"))
-    adj = {k: v for k, v in json.loads((TW / "adjudicate.json").read_text(encoding="utf-8")).items() if not k.startswith("_")}
+    sample = {x["clave"]: x for x in json.loads((PILOT_DATA / "sample.json").read_text(encoding="utf-8"))}
+    truth = json.loads((PILOT_DATA / "truth_rows.json").read_text(encoding="utf-8"))
+    adj = {k: v for k, v in json.loads((PILOT_DATA / "adjudicate.json").read_text(encoding="utf-8")).items() if not k.startswith("_")}
 
     official = {}
     for k, tr in truth.items():
         o = official_from_rows(tr["prep"], _comp_fix(tr["computos"]) if tr.get("computos") else None, s)
         o["stratum"] = sample.get(k, {}).get("stratum")
         o["adjudicated"] = adj.get(k, {})
-        o["source"] = "spikes/tally-witness/data/truth_rows.json"
+        o["source"] = "data/pilot/tally-witness/truth_rows.json"
         official[k] = o
 
     missing = result_claves() - set(official)
@@ -127,8 +122,8 @@ def main() -> int:
     runs = []
     for rid, d, prefix, model, label, method in SPIKE_RUNS:
         rows = []
-        for x in json.loads((TW / "data" / "sample.json").read_text(encoding="utf-8")):
-            p = TW / d / f"{prefix}{x['clave']}.json"
+        for x in json.loads((PILOT_DATA / "sample.json").read_text(encoding="utf-8")):
+            p = PILOT_RESULTS / d / f"{prefix}{x['clave']}.json"
             if not p.is_file():
                 continue
             o = json.loads(p.read_text(encoding="utf-8"))
@@ -137,7 +132,7 @@ def main() -> int:
                          "finish": o.get("finish"), "cost": u.get("cost"),
                          "prompt_tokens": u.get("prompt_tokens"), "completion_tokens": u.get("completion_tokens")})
         runs.append({"id": rid, "model": model, "label": label, "method": method, "kind": "spike",
-                     "source": f"spikes/tally-witness/{d}/{prefix}*.json", "rows": rows})
+                     "source": f"results/pilot/tally-witness/{d}/{prefix}*.json", "rows": rows})
     (OUT / "spike_runs.json").write_text(json.dumps(runs, ensure_ascii=False), encoding="utf-8")
     (OUT / "official.json").write_text(json.dumps(official, ensure_ascii=False, indent=0), encoding="utf-8")
     print(f"official values for {len(official)} forms; spike runs: " + ", ".join(f"{r['id']}={len(r['rows'])}" for r in runs))

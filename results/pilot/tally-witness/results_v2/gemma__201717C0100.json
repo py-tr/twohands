@@ -1,0 +1,133 @@
+{
+ "content": "```json\n{\n  \"SOBRANTES\": {\n    \"n\": 206,\n    \"w\": 246\n  },\n  \"VOTARON\": {\n    \"n\": 494,\n    \"w\": 494\n  },\n  \"REPRESENTANTES\": {\n    \"n\": 2,\n    \"w\": 2\n  },\n  \"PERSONAS_Y_REP\": {\n    \"n\": 496,\n    \"w\": 496\n  },\n  \"SACADOS\": {\n    \"n\": 451,\n    \"w\": 451\n  },\n  \"PAN\": {\n    \"n\": 21,\n    \"w\": 21\n  },\n  \"PRI\": {\n    \"n\": 36,\n    \"w\": 36\n  },\n  \"PRD\": {\n    \"n\": 4,\n    \"w\": 4\n  },\n  \"PVEM\": {\n    \"n\": 81,\n    \"w\": 81\n  },\n  \"PT\": {\n    \"n\": 30,\n    \"w\": 30\n  },\n  \"MC\": {\n    \"n\": 49,\n    \"w\": 49\n  },\n  \"MORENA\": {\n    \"n\": 182,\n    \"w\": 182\n  },\n  \"PAN_PRI_PRD\": {\n    \"n\": 4,\n    \"w\": 4\n  },\n  \"PAN_PRI\": {\n    \"n\": 0,\n    \"w\": 0\n  },\n  \"PAN_PRD\": {\n    \"n\": 1,\n    \"w\": 1\n  },\n  \"PRI_PRD\": {\n    \"n\": 1,\n    \"w\": 1\n  },\n  \"PVEM_PT_MORENA\": {\n    \"n\": 18,\n    \"w\": 18\n  },\n  \"PVEM_PT\": {\n    \"n\": 1,\n    \"w\": 1\n  },\n  \"PVEM_MORENA\": {\n    \"n\": 3,\n    \"w\": 3\n  },\n  \"PT_MORENA\": {\n    \"n\": 9,\n    \"w\": 9\n  },\n  \"NO_REGISTRADAS\": {\n    \"n\": 0,\n    \"w\": 0\n  },\n  \"NULOS\": {\n    \"n\": 15,\n    \"w\": 15\n  },\n  \"TOTAL\": {\n    \"n\": 451,\n    \"w\": 451\n  }\n}\n```",
+ "usage": {
+  "prompt_tokens": 2168,
+  "total_tokens": 2817,
+  "completion_tokens": 649,
+  "prompt_tokens_details": {
+   "cached_tokens": 58,
+   "image_tokens": 1348,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "reasoning_tokens": 0,
+  "cost": 0.0001193206,
+  "cost_details": {
+   "upstream_inference_cost": 0.0001193206,
+   "upstream_inference_prompt_cost": 7.38906e-05,
+   "upstream_inference_completions_cost": 4.543e-05,
+   "total_cost": 0.0001193206,
+   "input_cost": 7.385e-05,
+   "output_cost": 4.543e-05,
+   "cached_input_cost": 4.06e-08,
+   "cache_write_input_cost": 0,
+   "request_cost": 0,
+   "web_search_cost": 0,
+   "image_input_cost": null,
+   "image_output_cost": null,
+   "audio_input_cost": null
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 0,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ },
+ "finish": "stop",
+ "secs": 26.1,
+ "parsed": {
+  "SOBRANTES": {
+   "n": 206,
+   "w": 246
+  },
+  "VOTARON": {
+   "n": 494,
+   "w": 494
+  },
+  "REPRESENTANTES": {
+   "n": 2,
+   "w": 2
+  },
+  "PERSONAS_Y_REP": {
+   "n": 496,
+   "w": 496
+  },
+  "SACADOS": {
+   "n": 451,
+   "w": 451
+  },
+  "PAN": {
+   "n": 21,
+   "w": 21
+  },
+  "PRI": {
+   "n": 36,
+   "w": 36
+  },
+  "PRD": {
+   "n": 4,
+   "w": 4
+  },
+  "PVEM": {
+   "n": 81,
+   "w": 81
+  },
+  "PT": {
+   "n": 30,
+   "w": 30
+  },
+  "MC": {
+   "n": 49,
+   "w": 49
+  },
+  "MORENA": {
+   "n": 182,
+   "w": 182
+  },
+  "PAN_PRI_PRD": {
+   "n": 4,
+   "w": 4
+  },
+  "PAN_PRI": {
+   "n": 0,
+   "w": 0
+  },
+  "PAN_PRD": {
+   "n": 1,
+   "w": 1
+  },
+  "PRI_PRD": {
+   "n": 1,
+   "w": 1
+  },
+  "PVEM_PT_MORENA": {
+   "n": 18,
+   "w": 18
+  },
+  "PVEM_PT": {
+   "n": 1,
+   "w": 1
+  },
+  "PVEM_MORENA": {
+   "n": 3,
+   "w": 3
+  },
+  "PT_MORENA": {
+   "n": 9,
+   "w": 9
+  },
+  "NO_REGISTRADAS": {
+   "n": 0,
+   "w": 0
+  },
+  "NULOS": {
+   "n": 15,
+   "w": 15
+  },
+  "TOTAL": {
+   "n": 451,
+   "w": 451
+  }
+ }
+}

@@ -1,0 +1,260 @@
+[
+ {
+  "clave": "122838C0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/acapulco2/93c6ae48597cdc52215f530fde2f792009e46dcf09f29a5e66cf374d040e3015.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "141097C0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/jalisco14/guadalajara8/dd07b2ba493be26b747bb47ebf2e38078bb427df550de1cba4eed3733557a4eb.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "120293C0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/acapulco2/fc95f8bfd0c1b7b21aad03766e79fefca2fd4fd2cda4faaac08fb9fcb6c11a08.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "010452B0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/jesus_maria1/27f97169865660e0625bacf35462a40d1ea2f5bdd2e0141dc0ca8c36fdd93340.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "151794C0200",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ecatepec_de_morelos10/a231ff1d75e09c57a634d6df0456e5db67adf2e3c7bc79919719284bbd63a63a.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "300449C0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/b2961b9bd7ff02cc3b482c6230d2ee026f0e492d8250cf3c6a2295f33c93d59c.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "304052B0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/fddac9b844eb49c5a52b30bd60cec192f73c2b1a99b487c553ca05f178217e15.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "302307C0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/db8b2ac1df2033518ee6ee5513912558d0a013ebfb9bd5f852956dd7ed4d4538.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "201720E0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/abd449d19b3b5466f11482d70ccb2ce5d3a13264b5ef07d2522464d39a9bee84.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "070159C0300",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/bochil2/fe8ec078446fa3893006233c3a0724b5142d6345f947f92c027c04670bb3c0de.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "302541B0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/fac2683f2cc19b7797cc37fb5c91b1137ad168605c396c3766aa22d8158c4034.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "201280B0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/fdc5fbfe9676caab33bb5f7e99922bacf92d2862e62fca65ffd08adc38c74154.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "070332E0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/bochil2/e1dde84bc3d320253dca4014561c0d0aa4fbd236d058d7f4d4b945ddcd2a05be.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "010441C0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/jesus_maria1/a162a00f9a81b295881b3a6be6f0c878b49204b264211f4b157e351375d3cad7.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "200144B0100",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/d45f92b7ba20a180ccb62a47f39190c82ae063301d876fa8d02e49c38b2a2b26.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "120301C0400",
+  "stratum": "A_clean",
+  "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/acapulco2/62a47b8d5263444f7b1dd4e61324b02bcc788e12568a9be0ea8feff053c74c3b.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "211294C0100",
+  "stratum": "B_paper_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza6/89253590c91499b7edd9f37aece287a1d56f5adc6723b65a141a4df4cada36ee.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "201791B0100",
+  "stratum": "B_paper_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/6ae0ccd27e4ab01d68fd0f142f6c148f060a70bbacd9c461404be80a7d69731a.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "072055C0300",
+  "stratum": "B_paper_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/bochil2/f7d4367980619c24784f024aca2333cc53790aac0c154413a124e4e0b9c16ca9.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "202451B0100",
+  "stratum": "B_paper_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/b40aa4b6d3964d1cb755777fcccff3356521595a4357b5498cb5c99d4ae32ef1.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "302539C0100",
+  "stratum": "B_paper_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/f30a0179719ceee37d964a3a84ed7b13aaf0c8d6cfe4f9b0e608853e5f71a27c.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "156034C0100",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ecatepec_de_morelos10/901afd924f900a1077350d3ba76fd9cd4c3e2996548d6c83db3a7283852582b3.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "095566C0300",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/tlalpan5/d57a7ffde3cdb387f9364bd1b61ecf69f861b77d728b5779fe3a26fdd7bdc75f.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "211298B0100",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza6/d2b983b188227076b963a090ea1adc0fdf936c93aa212b458f721687b8ee4ed7.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "304968C0100",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/973f99c4e8e7b7bc30beb469b4cb1a9779908992fa72e3f222a52efb68628b64.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "211420C0400",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/puebla21/heroica_puebla_de_zaragoza6/f960a4544e0d00523d73810fd4bb440fb858682e3a3ec23caf4b0808bd55e06c.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "120306C0900",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/acapulco2/6652aa263a6c844f71f4efe6c74871c449fcce6aa608aa97685cf3d25837697b.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "202156B0100",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/c83584c223555395371ba64152398dac2efecb140d16c57db315e59df0f29728.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "120295C0300",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/acapulco2/964dec5073ceaf190282b25e1cbf44aae7bf0194702c6e54269b759be11334fe.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "200742B0100",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/28e6f6a8c8a9b8f25bea229a4b61ad1ca708ae66827569529970e2cc14710bed.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "304069B0100",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/93745b3658c9989a1b34bc4bee6bcc73a51bf7f9630e675e873bff88fff512dd.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "070394C0100",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/chiapas7/bochil2/e2c396277661d93ea3053fee89d5a6daadb88c6d07a4edaa7142db8c97d169fa.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "093954C0200",
+  "stratum": "C_prep_ne_certified",
+  "url": "https://prep2024-actas.ine.mx/presidencia/ciudad_de_mexico9/tlalpan5/a4752c647af2491eaabac8e4ab26f7dc1a8dc5ef70c60504f369e5a229a77ca1.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "156723B0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ecatepec_de_morelos10/3d910633c1b9ab40188f6a969b2fa3a7fb3e12bac294aec345ffc6865e10eba2.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "156044B0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ecatepec_de_morelos10/a7a6b16704c2d04506d2b46c5d24b53491ab747d89cfe73ca7dda58e6db00aa9.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "202338B0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/05bca9d1d2394c2b41accd0ac7fdaf6435b2862d961f3f6b2ff6876a90f9b513.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "010474B0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/jesus_maria1/5103bb40649baf2c9c64394d2a376f2fba1797be8236aa0a9498efcb3ac516c8.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "122837B0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/guerrero12/acapulco2/335c3bfe570d212a97d3ff58c4b064a1efd18cb5ba22ae22c98a9f603d92b3d6.jpg",
+  "dig": "M"
+ },
+ {
+  "clave": "010445C0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/aguascalientes1/jesus_maria1/677a24f0553ded6b09e11b8c898f4096cd88331bacee84b86d3877869d25ada9.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "201717C0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/oaxaca20/heroica_ciudad_de_huajuapan_de_leon3/b614f6bc89a80b1b3ba7db4d76e32648ac0c4cbae404a06a33a1d851df1bfe33.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "302296C0200",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/veracruz30/martinez_de_la_torre7/1effa43f73e20d49b58a9e7cf03a87d2c74789eaff1732de1f1bb779e522abfd.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "151806B0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/mexico15/ecatepec_de_morelos10/d2b08b662f73e664d5b0d81674368af5cdc373b16a2c1c935b7bcff46d164b3f.jpg",
+  "dig": "E"
+ },
+ {
+  "clave": "191790C0100",
+  "stratum": "D_recounted_sum_mismatch",
+  "url": "https://prep2024-actas.ine.mx/presidencia/nuevo_leon19/san_nicolas_de_los_garza4/d31f0e378cb9f1c7727fca49fd375c20b8f8f56b45c183616a46b3e3a062e5fa.jpg",
+  "dig": "E"
+ }
+]

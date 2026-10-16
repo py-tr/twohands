@@ -26,7 +26,7 @@ PREP_ZIP_URL = "https://prep2024.ine.mx/publicacion/nacional/assets/20240603_200
 PREP_CSV = REPO / "data" / "raw" / "prep" / "PRES_2024.csv"
 DIST_URL = "https://prep2024.ine.mx/publicacion/nacional/assets/presidencia/entidad/{ent}_{dist}.json"
 DIST_DIR = REPO / "data" / "raw" / "districts"
-SPIKE_SAMPLE = REPO.parent / "spikes" / "tally-witness" / "data" / "sample.json"
+SPIKE_SAMPLE = REPO / "data" / "pilot" / "tally-witness" / "sample.json"  # copy of the pilot sample, data/pilot/SOURCES.md
 MANIFEST = REPO / "results" / "manifest.json"
 UA = {"User-Agent": "Mozilla/5.0 (two-hands research; clerical capture QA)"}
 

@@ -29,7 +29,7 @@ large vision model: reading handwritten digits, handwritten words and printed ro
 ## Pilot benchmark: 43 hand-picked tally forms on AMD Token Factory (measured)
 
 Source: per-call `usage`, `cost` and wall-clock `secs` in the pilot result files
-(`spikes/tally-witness/results_v2/gemma__*.json`, `spikes/tally-witness/results/qwen__*.json`; snapshot in
+(`results/pilot/tally-witness/results_v2/gemma__*.json`, `results/pilot/tally-witness/results/qwen__*.json`; snapshot in
 `app/data/spike_runs.json`). Means over 43 reads per model.
 
 | Model | Mean latency per form | Tokens in / out | Cost per form | Per 1,000 forms | Forms accepted | Accepted fields wrong |

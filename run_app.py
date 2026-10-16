@@ -2,8 +2,8 @@
 
     python run_app.py [--port 8000] [--host 127.0.0.1] [--build]
 
---build refreshes the snapshots first (app/data from spikes/tally-witness, ledger/ledger.json from
-spikes/ledger-rescue, and official values for any new form in results/*.jsonl). New results/*.jsonl files are
+--build refreshes the snapshots first (app/data from data/pilot + results/pilot/tally-witness, ledger/ledger.json from
+results/pilot/ledger-rescue, and official values for any new form in results/*.jsonl). New results/*.jsonl files are
 picked up by the running app without a restart.
 """
 import argparse
