@@ -282,7 +282,8 @@ def _bakeoff():
     models = sorted(({"model": m, **b} for m, b in d["models"].items() if b["n"] and not b.get("halted")), key=lambda b: -(b["field_agreement_pct"] or 0))
     return {"models": models, "pairs": [p for p in d.get("pairs", []) if p["n"] and not p.get("halted")][:5],
             "halted": {m: b for m, b in d["models"].items() if b.get("halted")}, "not_compatible": d.get("not_compatible", {}),
-            "spend": d.get("total_bakeoff_spend_usd"), "prompt": d["prompt_sha256"][:12]}
+            "spend": d.get("total_bakeoff_spend_usd"), "prompt": d["prompt_sha256"][:12],
+            "verdict": d.get("model_verdict")}
 
 
 def _gemma_vs_qwen():

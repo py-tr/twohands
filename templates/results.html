@@ -140,6 +140,7 @@
 {% if bk %}
 <section id="bakeoff">
   <div class="sec-head"><div><h2>Which open model on AMD reads handwriting best, and which pair is the safest second keyer</h2><p>Every vision model on AMD Token Factory that accepts the 7-image request, on the same pre-registered forms, the same frozen prompt <code>{{ bk.prompt }}…</code>, temperature 0, the same gate (Amendment 6, a secondary analysis). Refereed by the paper: accepted-field errors are judged on the crops.</p></div></div>
+  {% if bk.verdict %}<p class="gtake" id="bakeoff-verdict">{{ bk.verdict }}</p>{% endif %}
   <div class="tablewrap"><table class="small">
     <thead><tr><th>model</th><th>n</th><th>field agreement with the capture</th><th>accepted forms</th><th>accepted-field errors</th><th>cost per 1,000 forms</th><th>mean latency</th></tr></thead>
     <tbody>

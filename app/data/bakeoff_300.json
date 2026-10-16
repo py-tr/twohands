@@ -222,7 +222,7 @@
   "DeepSeek-V4-Flash-Vision-Exp": "reasoning used all 6,000 output tokens; no JSON answer",
   "MiMo-V2.6-Flash": "reasoning used all 6,000 output tokens; no JSON answer",
   "MiniCPM-V-4.7-1B": "accepts at most 4 images per request; ours has 7 (page + 6 tiles)",
-  "MiniCPM-V-4.7-35B-A3B": "unavailable: the provider answered HTTP 503 at every probe"
+  "MiniCPM-V-4.7-35B-A3B": "the provider answered HTTP 503 at the first 4 probes; probe 5 (2026-10-16 08:18 UTC) answered that it accepts at most 4 images per request; ours has 7 (page + 6 tiles)"
  },
  "not_vision": [
   "DeepSeek-V4-Flash",
@@ -252,5 +252,6 @@
   "Qwen3.8-Flash-Next": 0.2678
  },
  "billed_as_of": "2026-10-16T02:15:48Z",
- "total_bakeoff_spend_usd": 0.405
+ "total_bakeoff_spend_usd": 0.405,
+ "model_verdict": "Qwen3.8-Flash-Next is the accuracy leader at about fifteen times Gemma's price; Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Gemma + Qwen is the safest pair (0 wrong in 1,958)."
 }

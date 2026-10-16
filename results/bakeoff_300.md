@@ -4,7 +4,7 @@ Open-model bake-off on AMD Token Factory (PROTOCOL.md Amendment 6; secondary ana
 
 Every reader got the same masked page + 6 tiles and the same frozen prompt (sha256 `3664253035b9...`), temperature 0, the same parser and the same frozen gate. Forms are taken in a fixed capture-stratified shuffled order (sha256 `8de453814d3d...`); a model with n < 300 read the first n forms of that order (budget rule, Amendment 6). Accepted-field errors are judged against the paper where a verdict exists (the Amendment 2 adjudication, the certified count where it applies, or the AI adjudicator on the crops), otherwise against the official capture.
 
-**Best reader by field agreement: Qwen3.8-Flash-Next (97.55% of graded fields equal to the capture, n = 128).** **Safest pair: Gemma-4-31B-IT + Qwen3.8-27B: 89 of 300 forms accepted, 0 wrong accepted fields.**
+**Qwen3.8-Flash-Next is the accuracy leader at about fifteen times Gemma's price; Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Gemma + Qwen is the safest pair (0 wrong in 1,958).**
 
 | model | n | reads parsed | field agreement with the capture | accepted forms (frozen gate) | accepted-field errors | cost per 1,000 forms | mean latency |
 |---|---|---|---|---|---|---|---|
@@ -15,7 +15,9 @@ Every reader got the same masked page + 6 tiles and the same frozen prompt (sha2
 | DeepSeek-V4-Flash-Vision-Exp | - | - | not compatible: reasoning used all 6,000 output tokens; no JSON answer | - | - | - | - |
 | MiMo-V2.6-Flash | - | - | not compatible: reasoning used all 6,000 output tokens; no JSON answer | - | - | - | - |
 | MiniCPM-V-4.7-1B | - | - | not compatible: accepts at most 4 images per request; ours has 7 (page + 6 tiles) | - | - | - | - |
-| MiniCPM-V-4.7-35B-A3B | - | - | not compatible: unavailable: the provider answered HTTP 503 at every probe | - | - | - | - |
+| MiniCPM-V-4.7-35B-A3B | - | - | not compatible: the provider answered HTTP 503 at the first 4 probes; probe 5 (2026-10-16 08:18 UTC) answered that it accepts at most 4 images per request; ours has 7 (page + 6 tiles) | - | - | - | - |
+
+Like for like, on the same first 128 forms of the order: Qwen3.8-Flash-Next: 97.55% agreement, 17 accepted, 0 wrong; Gemma-4-31B-IT: 97.39% agreement, 19 accepted, 0 wrong; Qwen3.8-27B: 96.83% agreement, 6 accepted, 0 wrong.
 
 DeepSeek-V4.1-Flash halted at n = 2: deviation 2: the endpoint billed 21 requests ($0.105, about 4,200 output tokens each) and returned 2 answers; every other call ran past 300 s and then 900 s with no reply (the model was at its concurrency limit of 16). Its numbers rest on 2 forms and are not compared.
 
