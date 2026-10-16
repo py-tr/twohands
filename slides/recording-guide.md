@@ -90,7 +90,7 @@ The same for the practice sheet at 2:10: drop the photo, pause, resume when the 
 
 ## 6. Captions
 
-- `slides/two-hands.srt` has 58 captions timed to the script (4:05).
+- `slides/two-hands.srt` has 61 captions timed to the script (4:05).
 - After recording: if you said a different counter or time, edit those numbers in `scripts/make_srt.py`
   (the lines "310 forms" and "90 seconds"), run `python scripts/make_srt.py`, then shift the whole file if your
   video starts later (most editors: import SRT, then drag).

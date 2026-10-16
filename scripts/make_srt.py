@@ -8,11 +8,12 @@ segs = [
  (60,85,["Measured, not promised.","300 random forms, chosen before any model read.","52 fields where the capture does not match the paper.","Then we tested the fix on 100 new forms.","Zero wrong, in 484 accepted fields.","That is not proof of zero. It means: fewer than 1 in 100."]),
  (85,110,["This is the product.","An auditor brings the typed data and the scans.","Here, the sample: 6,000 fields, checked in seconds.","267 disputes, strongest first.","Each has its photo and a receipt.","One fingerprint seals the whole report.","Change one number, and the check fails."]),
  (110,130,["Now a live read.","One request to Gemma, on the AMD Token Factory.","We cut the wait. The timer stays on screen.","It took 90 seconds.","Every check holds: accepted."]),
- (130,150,["Arithmetic has no language.","I filled this practice sheet by hand, in Czech and in English.","The model reads my words and my digits. The sums decide.","This is a demonstration, not a measurement."]),
- (150,170,["Each strong finding becomes a case in Evolus.","This is our workspace, py_tr.","The agent runs on Gemma, on AMD, and drafts the finding.","A script, not the model, scores the evidence.","The auditor decides."]),
- (170,210,["Who pays?","The problem, in three lines from INE's own files.","One: on 6.5% of stations, two official records of one paper disagree.","Two: almost one form in five fails its own row sum.","Three: the audit checks the software, not the typed numbers.","INE tried to buy a machine first capture: MXN 9.5 million, an 80% bar.","On that metric, as we read it, computed after the fact, we reach 83.5%.","Auditors and PREP operators buy the check, at $1 per form."]),
- (210,235,["Where does it fail?","Unused ballots sit in no sum, so arithmetic cannot check them.","Once, the model read 3,114.","The paper says 314. One digit added.","The first gate would accept it.","Gate version two sent it to a person."]),
- (235,245,["Two Hands.","Receipts for every number keyed from paper.","Running on AMD."]),
+ (130,145,["Arithmetic has no language.","I filled this practice sheet by hand, in Czech and in English.","This is a demonstration, not a measurement."]),
+ (145,162,["Each strong finding becomes a case in Evolus.","The agent runs on Gemma, on AMD, and drafts the finding.","A script, not the model, scores the evidence.","The auditor decides."]),
+ (162,193,["Who pays?","Three lines from INE's own files.","One: on 6.5% of stations, two official records of one paper disagree.","Two: almost one form in five fails its own row sum.","Three: the audit checks the software, not the typed numbers.","INE tried to buy a machine first capture: MXN 9.5 million, an 80% bar.","Auditors and PREP operators buy the check, at $1 per form."]),
+ (193,219,["Most paper records are private, by law or by contract:","patient charts, loan files, drug registers,","so nobody can publish an error rate on them.","Mexico's tally sheets are the clearest exception:","the photo, the keyed value and the certified count are all public.","That's why we measured there.","Elections are our proof set, not our only market."]),
+ (219,239,["Where does it fail?","Once, the model read 3,114.","The paper says 314. One digit added.","The first gate would accept it.","Gate version two sent it to a person."]),
+ (239,245,["Two Hands.","Receipts for every number keyed from paper.","Running on AMD."]),
 ]
 def ts(t):
     ms=int(round(t*1000)); return f"{ms//3600000:02d}:{ms//60000%60:02d}:{ms//1000%60:02d},{ms%1000:03d}"

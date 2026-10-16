@@ -21,6 +21,8 @@ style: |
   .lead { font-size: 30px; color: #3b4550; }
   .big { font-size: 60px; font-weight: 800; color: #12324a; line-height: 1.0; }
   .mid { font-size: 21px; }
+  .tight { font-size: 19.5px; }
+  .big.s44 { font-size: 44px; }
   .small { font-size: 17px; color: #5a6470; }
   .tag { display: inline-block; font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9a3412; background: #fdebd8; border-radius: 4px; padding: 2px 8px; margin-bottom: 10px; }
   .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 26px; }
@@ -129,7 +131,7 @@ As computed (app/numbers.py lines(), word for word): 17 wrong numbers typed; 27 
 ## Institutes already tried to buy machine reading
 
 <div class="cols2">
-<div>
+<div class="mid">
 
 - INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from our check, and bought none (last line). <span class="small">(p. 4)</span>
 - IPN quoted MXN 19.9M for the service. <span class="small">(p. 4)</span>
@@ -139,7 +141,7 @@ As computed (app/numbers.py lines(), word for word): 17 wrong numbers typed; 27 
 **Our engine is an automated capture with a referee. For 2027 we offer an independent check of a finished capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a pilot on 2024's own forms.**
 
 </div>
-<div class="card mid">
+<div class="card tight">
 
 <div class="big">83.5%</div>
 
@@ -193,15 +195,19 @@ How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169
 
 ## Gemma on AMD
 
+<div class="mid">
+
 **Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted fields with Qwen3.8-27B; 0 wrong of 924 accepted fields with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814).** Every form of the 300, on AMD GPUs via AMD Token Factory: one request per form (page + 6 zoomed tiles).
 
-<div class="cols3">
-<div class="card hi"><div class="k">All 169,005 national forms</div><div class="big" style="font-size:48px">~$24</div><p class="small" style="margin:4px 0 0">of AMD compute ($0.000144 per form, measured)</p></div>
-<div class="card"><div class="k">Server time per form</div><div class="big" style="font-size:48px">83 s</div><p class="small" style="margin:4px 0 0">HTTP round trip on the shared endpoint; 87 s wall clock includes our own pacing</p></div>
-<div class="card"><div class="k">Tokens per form</div><div class="big" style="font-size:48px">2,609 / 804</div><p class="small" style="margin:4px 0 0">in / out; 289 of 289 replies end in stop</p></div>
 </div>
 
-<p style="margin-top:16px"><strong>Open-model bake-off, same forms, prompt and gate:</strong> Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Qwen3.8-Flash-Next agrees most with the capture, at about fifteen times the price.</p>
+<div class="cols3">
+<div class="card hi"><div class="k">All 169,005 national forms</div><div class="big s44">~$24</div><p class="small" style="margin:4px 0 0">of AMD compute ($0.000144 per form, measured)</p></div>
+<div class="card"><div class="k">Server time per form</div><div class="big s44">83 s</div><p class="small" style="margin:4px 0 0">HTTP round trip on the shared endpoint; 87 s wall clock includes our own pacing</p></div>
+<div class="card"><div class="k">Tokens per form</div><div class="big s44">2,609 / 804</div><p class="small" style="margin:4px 0 0">in / out; 289 of 289 replies end in stop</p></div>
+</div>
+
+<p class="mid" style="margin-top:16px"><strong>Open-model bake-off, same forms, prompt and gate:</strong> Gemma-4-31B-IT is the per-dollar leader and accepts the most forms; Qwen3.8-Flash-Next agrees most with the capture, at about fifteen times the price.</p>
 
 | Open model on AMD Token Factory | Gemma-4-31B-IT | Qwen3.8-27B | Qwen3.8-Flash-Next |
 |---|---|---|---|
@@ -250,10 +256,16 @@ Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted
 
 <!-- Slide 10b: volume -->
 
+<p class="mid"><strong>Why elections.</strong> Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public. That's why we measured there. <strong>Elections are our proof set, not our only market.</strong></p>
+
+<div class="mid">
+
 1. **Health facility reports (DHIS2):** WHO's Data Quality Review recounts paper source documents against what was keyed; DHIS2 runs in 80+ countries; monthly forms carry their own totals.
 2. **US mortgage post-closing QC:** lenders re-check at least 10% of closed loans against source documents every month; 4.4 million closed-end originations in 2023.
 3. **Clinical-trial source data verification:** it corrects 1.1% of site data while monitoring takes 15-30% of trial costs.
 4. **Peru:** ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant; not measured by us.
+
+</div>
 
 <p class="rule"><strong>The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.</strong></p>
 <p class="small">No second-language corpus with an official keyed record and usable terms was reachable; the language claim stays at what was measured.</p>

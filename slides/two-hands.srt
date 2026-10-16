@@ -127,105 +127,117 @@ It took 90 seconds.
 Every check holds: accepted.
 
 33
-00:02:10,000 --> 00:02:12,582
+00:02:10,000 --> 00:02:12,835
 Arithmetic has no language.
 
 34
-00:02:12,632 --> 00:02:19,424
+00:02:12,885 --> 00:02:20,335
 I filled this practice sheet by hand, in Czech and in English.
 
 35
-00:02:19,474 --> 00:02:25,739
-The model reads my words and my digits. The sums decide.
-
-36
-00:02:25,789 --> 00:02:29,950
+00:02:20,385 --> 00:02:24,950
 This is a demonstration, not a measurement.
 
-37
-00:02:30,000 --> 00:02:34,450
+36
+00:02:25,000 --> 00:02:29,450
 Each strong finding becomes a case in Evolus.
 
-38
-00:02:34,500 --> 00:02:37,450
-This is our workspace, py_tr.
-
-39
-00:02:37,500 --> 00:02:43,450
+37
+00:02:29,500 --> 00:02:35,450
 The agent runs on Gemma, on AMD, and drafts the finding.
 
-40
-00:02:43,500 --> 00:02:47,950
+38
+00:02:35,500 --> 00:02:39,950
 A script, not the model, scores the evidence.
 
-41
-00:02:48,000 --> 00:02:49,950
+39
+00:02:40,000 --> 00:02:41,950
 The auditor decides.
 
-42
-00:02:50,000 --> 00:02:51,362
+40
+00:02:42,000 --> 00:02:43,224
 Who pays?
 
-43
-00:02:51,412 --> 00:02:56,068
-The problem, in three lines from INE's own files.
+41
+00:02:43,274 --> 00:02:46,197
+Three lines from INE's own files.
 
-44
-00:02:56,118 --> 00:03:02,185
+42
+00:02:46,247 --> 00:02:51,717
 One: on 6.5% of stations, two official records of one paper disagree.
 
-45
-00:03:02,235 --> 00:03:07,832
+43
+00:02:51,767 --> 00:02:56,813
 Two: almost one form in five fails its own row sum.
 
-46
-00:03:07,882 --> 00:03:13,009
+44
+00:02:56,863 --> 00:03:01,484
 Three: the audit checks the software, not the typed numbers.
 
-47
-00:03:13,059 --> 00:03:18,656
+45
+00:03:01,534 --> 00:03:07,854
 INE tried to buy a machine first capture: MXN 9.5 million, an 80% bar.
 
-48
-00:03:18,706 --> 00:03:25,715
-On that metric, as we read it, computed after the fact, we reach 83.5%.
-
-49
-00:03:25,765 --> 00:03:29,950
+46
+00:03:07,904 --> 00:03:12,950
 Auditors and PREP operators buy the check, at $1 per form.
 
+47
+00:03:13,000 --> 00:03:17,350
+Most paper records are private, by law or by contract:
+
+48
+00:03:17,400 --> 00:03:20,150
+patient charts, loan files, drug registers,
+
+49
+00:03:20,200 --> 00:03:24,150
+so nobody can publish an error rate on them.
+
 50
-00:03:30,000 --> 00:03:32,610
-Where does it fail?
+00:03:24,200 --> 00:03:27,350
+Mexico's tally sheets are the clearest exception:
 
 51
-00:03:32,660 --> 00:03:38,993
-Unused ballots sit in no sum, so arithmetic cannot check them.
+00:03:27,400 --> 00:03:32,550
+the photo, the keyed value and the certified count are all public.
 
 52
-00:03:39,043 --> 00:03:42,184
-Once, the model read 3,114.
+00:03:32,600 --> 00:03:34,950
+That's why we measured there.
 
 53
-00:03:42,234 --> 00:03:46,439
-The paper says 314. One digit added.
+00:03:35,000 --> 00:03:38,950
+Elections are our proof set, not our only market.
 
 54
-00:03:46,489 --> 00:03:50,163
-The first gate would accept it.
+00:03:39,000 --> 00:03:41,807
+Where does it fail?
 
 55
-00:03:50,213 --> 00:03:54,950
-Gate version two sent it to a person.
+00:03:41,857 --> 00:03:45,236
+Once, the model read 3,114.
 
 56
-00:03:55,000 --> 00:03:56,950
-Two Hands.
+00:03:45,286 --> 00:03:49,807
+The paper says 314. One digit added.
 
 57
-00:03:57,000 --> 00:04:02,283
-Receipts for every number keyed from paper.
+00:03:49,857 --> 00:03:53,807
+The first gate would accept it.
 
 58
-00:04:02,333 --> 00:04:04,950
+00:03:53,857 --> 00:03:58,950
+Gate version two sent it to a person.
+
+59
+00:03:59,000 --> 00:04:00,150
+Two Hands.
+
+60
+00:04:00,200 --> 00:04:03,350
+Receipts for every number keyed from paper.
+
+61
+00:04:03,400 --> 00:04:04,950
 Running on AMD.

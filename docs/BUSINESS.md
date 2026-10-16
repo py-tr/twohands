@@ -292,6 +292,10 @@ for any IMPEPAC unit.
   ([INE Central Electoral, 31 July 2026](https://centralelectoral.ine.mx/2026/07/31/planeara-y-organizara-ine-mas-de-500-actividades-del-proceso-electoral-federal-2026%E2%80%912027/)).
   Under numeral 2, auditors must be named by early February 2027 at the latest. That is the sales deadline.
 
+### Q&A: why elections?
+
+Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public, so anyone can re-derive every number we report. That is why we measured there. Elections are our proof set, not our only market. Measured so far on presidential tally sheets and UK rainfall ledgers; private records not yet.
+
 ### Next markets, not measured
 
 A rule already forces a check of keyed data against paper in each; we have measured none of them.

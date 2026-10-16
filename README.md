@@ -11,7 +11,7 @@ The PREP rules require a second capture and a comparison for every acta (numeral
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
 the official double-keyed capture: the model found 52 fields where the capture does not match the paper (22
 confirmed by the certified count; the other 30 judged from the photo by the AI adjudicator, the builder's model, which could see both values; a blind person check is in progress at `/check`). Errors we did not plant, in a record we did not write, in a sample drawn
-before any model read.
+before any model read. Public ground truth is also why every number here can be re-derived by anyone: the images, the keyed values and the certified count are INE's, the scripts are ours (`make eval`).
 
 **Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.**
 The appetite is on record: INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from our check, and bought none: no entrant met its 80% bar on words and digits, and its advisers asked for a pilot ([INE report](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10).
@@ -36,7 +36,7 @@ the next markets, not measured.
 
 **Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.**
 
-The 30% tier is a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). Wrong is judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too.
+The 30% tier is a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). Wrong is judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. Recall is unmeasured, so the multiple between the two rates is too.
 
 Measured on Gemma-4-31B-IT on the AMD Token Factory. Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader.
 
