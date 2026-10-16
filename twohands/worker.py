@@ -71,12 +71,14 @@ PAGE_KB = int(os.environ.get("TWOHANDS_WORKER_PAGE_KB", "150"))
 DISK_CAP_MB = float(os.environ.get("TWOHANDS_WORKER_DISK_MB", "2000"))
 FETCH_INTERVAL_S = max(1.0, float(os.environ.get("TWOHANDS_WORKER_FETCH_INTERVAL_S", "1.0")))  # never faster than 1/s
 STALL_S = float(os.environ.get("TWOHANDS_WORKER_STALL_S", "1800"))
+CONCURRENCY = max(1, int(os.environ.get("WORKER_CONCURRENCY") or os.environ.get("TWOHANDS_WORKER_CONCURRENCY") or "3"))
 RESET_HOUR_UTC = 16
 USER_AGENT = "two-hands-audit (contact: see README)"
 PRIMARY, FALLBACK = "gemma", "qwen"
 
 LABELS = {"confirmed": "confirmed by the certified count", "model_misread": "model misread",
           "unconfirmed": "dispute (unconfirmed)"}
+WEAK = "label check failed: weaker evidence"   # disputes on forms whose row-label check failed
 PAUSES = {"source": "Paused: source unavailable",
           "budget": "Paused: daily AMD budget reached; resumes 16:00 UTC",
           "endpoint": "Paused: AMD endpoint unavailable; retrying"}
@@ -515,12 +517,25 @@ def label_for(key: str, model: int, capture: int, certified: Optional[int], mode
     return "unconfirmed"
 
 
+def tier_of(label: str, weak: bool) -> str:
+    """The leaf's tier: the label, plus the weaker-evidence tag when the form's row-label check failed."""
+    return f"{label}; {WEAK}" if weak else label
+
+
+def label_of_tier(tier: str) -> str:
+    return tier.split(";")[0]
+
+
 def disputes_of(g, cap: dict, cert: dict, mode: Optional[str], s: dict) -> list[dict]:
     """Fields where the model's read differs from the official capture. A field counts only when the model's words
-    agree with its digits (the paper's own redundancy backs the read) and the rows are aligned (no shape / row-label
-    failure); otherwise the read is not evidence and the field is not disputed."""
-    if "shape" in g.codes or "label" in g.codes:
+    agree with its digits (the paper's own redundancy backs the read) and the read has the form's number of rows
+    (no shape failure). A failed row-label check (the pre-registered gate's 'label' code; on the 300 it was a false
+    alarm in 68 of 86 cases) does not stop the comparison: those disputes carry weak = True ("label check failed:
+    weaker evidence"). Their label is 'confirmed' only when the certified count independently equals the model's
+    value, which is evidence on its own. The gate itself (twohands/gate.py) is unchanged."""
+    if "shape" in g.codes:
         return []
+    weak = "label" in g.codes
     cert_keys = set(s["vote_keys"]) | {"TOTAL"}
     out = []
     for f in s["fields"]:
@@ -530,7 +545,7 @@ def disputes_of(g, cap: dict, cert: dict, mode: Optional[str], s: dict) -> list[
             continue
         cv = cert.get(k)
         out.append({"key": k, "model": n, "words": w, "capture": c, "certified": cv,
-                    "label": label_for(k, n, c, cv, mode, cert_keys)})
+                    "label": label_for(k, n, c, cv, mode, cert_keys), "weak": weak})
     return out
 
 
@@ -544,13 +559,22 @@ class Worker:
                  list_models: Optional[Callable] = None, http_get: Callable = _http_get,
                  sleep: Callable[[float], None] = time.sleep, clock: Callable[[], float] = time.time,
                  page_kb: int = PAGE_KB, disk_cap_mb: float = DISK_CAP_MB, daily_usd: float = DAILY_USD,
-                 reserve_usd: float = RESERVE_USD, local_districts: Optional[Path] = None, log: Optional[logging.Logger] = None):
+                 reserve_usd: float = RESERVE_USD, local_districts: Optional[Path] = None, log: Optional[logging.Logger] = None,
+                 concurrency: int = CONCURRENCY):
         from twohands import amd, schema
         from app.store import code_of
         self.P = Paths(root)
         self.P.root.mkdir(parents=True, exist_ok=True)
         self.s = schema.load()
         self.code_of = code_of
+        self.concurrency = max(1, int(concurrency))
+        self._lock = threading.RLock()        # state shared by the reading threads (spend, disk use)
+        self._src_lock = threading.Lock()     # one request at a time to the source, whatever the concurrency
+        if chat is None:
+            from twohands import ratelimit
+            # the worker's process: enough in-flight slots for its threads, and it yields to queued live reads
+            ratelimit.CONCURRENCY = max(ratelimit.CONCURRENCY, self.concurrency)
+            ratelimit.shared().yield_to_live = True
         self.chat = chat or (lambda body: amd.chat(body, retries=4, log=lambda *a, **k: None, kind="worker"))
         self.sleep_fn, self.clock = sleep, clock
         self.page_kb, self.disk_cap = page_kb, disk_cap_mb * 1024 * 1024
@@ -593,7 +617,8 @@ class Worker:
         return len(self.leaves[ent]) - 1
 
     def own_today(self) -> float:
-        return self.spent.get(budget_day(datetime.fromtimestamp(self.clock(), timezone.utc)), 0.0)
+        with self._lock:
+            return self.spent.get(budget_day(datetime.fromtimestamp(self.clock(), timezone.utc)), 0.0)
 
     def items(self) -> list[dict]:
         return self.queue["items"]
@@ -640,9 +665,10 @@ class Worker:
     # ---- one form
     def url_of(self, it: dict) -> Optional[str]:
         k = (it["ent"], it["dist"])
-        if k not in self._urls:
-            self._urls[k] = district_map(it["ent"], it["dist"], self.source, self.P.urls, self.local_districts)
-        return self._urls[k].get(it["clave"])
+        with self._src_lock:
+            if k not in self._urls:
+                self._urls[k] = district_map(it["ent"], it["dist"], self.source, self.P.urls, self.local_districts)
+            return self._urls[k].get(it["clave"])
 
     def process(self, it: dict) -> dict:
         """Audit one form. Returns its (terminal) result row; raises SourcePaused / BudgetPaused / EndpointDown."""
@@ -656,7 +682,8 @@ class Worker:
         if not url:
             return base | {"status": "no_image", "why": "no image URL in the PREP district file"}
         try:
-            raw = self.source.fetch(url)
+            with self._src_lock:
+                raw = self.source.fetch(url)
         except NotFound as e:
             return base | {"status": "image_unavailable", "why": str(e)}
         try:
@@ -681,8 +708,9 @@ class Worker:
         del page
         # budget, then the read (the stored page is written only after a successful read, so a paused form leaves
         # nothing behind and is simply fetched again)
-        self.budget.check()
-        key = self.models.choose()
+        with self._lock:
+            self.budget.check()
+            key = self.models.choose()
         row = reader.read(key, io.BytesIO(full.getvalue()), self.s, chat=self.chat)
         if row.get("error") and key == PRIMARY and _NOT_SUPPORTED.search(row["error"]):
             self.models.withdrawn(key)
@@ -693,11 +721,14 @@ class Worker:
             raise EndpointDown(row["error"][:160])
         cost = float((row.get("usage") or {}).get("cost") or 0.0)
         day = budget_day(datetime.fromtimestamp(self.clock(), timezone.utc))
-        self.spent[day] = self.spent.get(day, 0.0) + cost
         page_rel = None
-        if self.pages_bytes + len(small) <= self.disk_cap:
+        with self._lock:
+            self.spent[day] = self.spent.get(day, 0.0) + cost
+            store = self.pages_bytes + len(small) <= self.disk_cap
+            if store:
+                self.pages_bytes += len(small)
+        if store:
             write_atomic(self.P.pages / f"{k}.jpg", small)
-            self.pages_bytes += len(small)
             page_rel = f"pages/{k}.jpg"
         g = gate(row.get("parsed"), self.s)
         if row.get("finish_reason") == "length":
@@ -712,11 +743,11 @@ class Worker:
             code = self.code_of(d["key"])
             crop = crop_jpeg(small, d["key"])
             write_atomic(self.P.crops / f"{k}__{code}.jpg", crop)
-            rec = merkle.leaf_record_live(k, code, d["capture"], d["model"], d["words"], d["label"],
+            rec = merkle.leaf_record_live(k, code, d["capture"], d["model"], d["words"], tier_of(d["label"], d["weak"]),
                                           hashlib.sha256(crop).hexdigest(), model_id, d["certified"])
             out_d.append({"code": code, "paper": d["model"], "words": d["words"], "capture": d["capture"],
-                          "certified": d["certified"], "label": d["label"], "crop": f"crops/{k}__{code}.jpg",
-                          "leaf": rec})
+                          "certified": d["certified"], "label": d["label"], "weak": d["weak"],
+                          "crop": f"crops/{k}__{code}.jpg", "leaf": rec})
         fields = {self.code_of(f["key"]): {"n": g.values.get(f["key"]), "w": g.words.get(f["key"]),
                                            "capture": cap.get(f["key"]), "certified": cert.get(f["key"])}
                   for f in self.s["fields"]}
@@ -748,46 +779,120 @@ class Worker:
             self.sleep_fn(min(60.0, max(0.0, until - self.clock())))
 
     def run(self, limit: Optional[int] = None, max_steps: Optional[int] = None) -> int:
-        """Audit until the queue is done, stop() is called, or ``limit`` forms have been read on AMD."""
+        """Audit until the queue is done, stop() is called, or ``limit`` forms have been read on AMD.
+        Up to ``concurrency`` forms are in flight at once; each still passes the budget guard and the shared rate
+        limiter. A pause (source, budget, endpoint) stops new forms; the ones in flight finish, then the worker waits."""
+        from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
         read = steps = 0
         endpoint_backoff = 120.0
-        while not self.stop_flag.is_set():
-            if max_steps is not None and steps >= max_steps:
-                break
-            steps += 1
-            todo = self.todo()
-            if not todo:
-                self.write_status("complete")
-                self.log.info("queue complete")
-                break
-            it = todo[0]
-            self.write_status("running", current=it["clave"])
-            try:
-                r = self.process(it)
-            except SourcePaused as e:
-                self.wait_until(e.until, "source", e.why)
-                continue
-            except BudgetPaused as e:
-                self.wait_until(e.until, "budget", e.why)
-                continue
-            except EndpointDown as e:
-                self.wait_until(self.clock() + endpoint_backoff, "endpoint", str(e))
-                endpoint_backoff = min(1800.0, endpoint_backoff * 2)
-                continue
-            endpoint_backoff = 120.0
-            self.commit(it, r)
-            nd = len(r.get("disputes", []))
-            self.log.info("%s %s %s %s disputes=%d cost=%.5f", r["clave"], r["state"], r["status"],
-                          r.get("reader", ""), nd, r.get("cost_usd") or 0.0)
-            if r["status"] == "audited":
-                read += 1
-                if limit is not None and read >= limit:
+        inflight: dict = {}
+        pause = None
+        with ThreadPoolExecutor(self.concurrency, thread_name_prefix="audit") as ex:
+            while True:
+                submitted = False
+                while (not self.stop_flag.is_set() and pause is None and len(inflight) < self.concurrency
+                       and (max_steps is None or steps < max_steps)
+                       and (limit is None or read + len(inflight) < limit)):
+                    busy = {it["clave"] for it in inflight.values()}
+                    nxt = next((it for it in self.todo() if it["clave"] not in busy), None)
+                    if nxt is None:
+                        break
+                    steps += 1
+                    inflight[ex.submit(self.process, nxt)] = nxt
+                    submitted = True
+                if not inflight:
+                    if pause is not None and not self.stop_flag.is_set():
+                        self.wait_until(*pause)
+                        pause = None
+                        continue
                     break
+                if submitted:
+                    self.write_status("running", current=",".join(sorted(i["clave"] for i in inflight.values())))
+                done, _ = wait(list(inflight), timeout=30, return_when=FIRST_COMPLETED)
+                for f in done:
+                    it = inflight.pop(f)
+                    try:
+                        r = f.result()
+                    except SourcePaused as e:
+                        pause = pause or (e.until, "source", e.why)
+                        continue
+                    except BudgetPaused as e:
+                        pause = pause or (e.until, "budget", e.why)
+                        continue
+                    except EndpointDown as e:
+                        if pause is None:
+                            pause = (self.clock() + endpoint_backoff, "endpoint", str(e))
+                            endpoint_backoff = min(1800.0, endpoint_backoff * 2)
+                        continue
+                    endpoint_backoff = 120.0
+                    self.commit(it, r)
+                    self.log.info("%s %s %s %s disputes=%d cost=%.5f", r["clave"], r["state"], r["status"],
+                                  r.get("reader", ""), len(r.get("disputes", [])), r.get("cost_usd") or 0.0)
+                    if r["status"] == "audited":
+                        read += 1
+                if done:
+                    self.write_status("running", current=",".join(sorted(i["clave"] for i in inflight.values())) or None)
         self.write_status("stopped" if self.todo() else "complete")
         return read
 
     def stop(self, *_a) -> None:
         self.stop_flag.set()
+
+    def relabel(self) -> dict:
+        """Recompute every stored row's disputes under the current audit rules from the values already stored (no
+        fetch, no model call), rebuild the leaves in file order, and rewrite results / disputes / roots atomically.
+        Refused when it would change the receipts of a completed state (a final root is never rewritten)."""
+        from twohands import merkle
+        from twohands.gate import GateResult
+        from app.store import key_of
+        rows = read_jsonl(self.P.results)
+        old = self.roots()
+        new_rows, changed = [], 0
+        for r in rows:
+            if r.get("status") != "audited" or not r.get("fields"):
+                new_rows.append(r)
+                continue
+            vals = {key_of(c): f for c, f in r["fields"].items() if key_of(c)}
+            g = GateResult(accepted=bool(r.get("accepted")), codes=list(r.get("route_codes") or []),
+                           values={k: f.get("n") for k, f in vals.items()}, words={k: f.get("w") for k, f in vals.items()})
+            cap = {k: f.get("capture") for k, f in vals.items()}
+            cert = {k: f.get("certified") for k, f in vals.items() if f.get("certified") is not None}
+            page = self.P.root / r["page"] if r.get("page") else None
+            small = page.read_bytes() if page and page.is_file() else None
+            out_d = []
+            for d in disputes_of(g, cap, cert, r.get("cert_mode"), self.s):
+                code = self.code_of(d["key"])
+                sha = None
+                if small is not None:
+                    crop = crop_jpeg(small, d["key"])
+                    write_atomic(self.P.crops / f"{r['clave']}__{code}.jpg", crop)
+                    sha = hashlib.sha256(crop).hexdigest()
+                rec = merkle.leaf_record_live(r["clave"], code, d["capture"], d["model"], d["words"],
+                                              tier_of(d["label"], d["weak"]), sha, r["reader"], d["certified"])
+                out_d.append({"code": code, "paper": d["model"], "words": d["words"], "capture": d["capture"],
+                              "certified": d["certified"], "label": d["label"], "weak": d["weak"],
+                              "crop": f"crops/{r['clave']}__{code}.jpg" if sha else None, "leaf": rec})
+            if [x["leaf"] for x in out_d] != [x.get("leaf") for x in r.get("disputes", [])]:
+                changed += 1
+                if old.get(str(r["ent"]), {}).get("complete"):
+                    raise RuntimeError(f"refusing: {r['state']} is complete; its final root is not rewritten")
+            new_rows.append(dict(r, disputes=out_d))
+        counters: dict = {}
+        for r in new_rows:
+            for d in r.get("disputes", []):
+                e = str(r["ent"])
+                d["leaf_index"] = counters.get(e, 0)
+                counters[e] = d["leaf_index"] + 1
+        lines = "".join(json.dumps(r, ensure_ascii=False, sort_keys=True) + "\n" for r in new_rows)
+        dl = "".join(json.dumps({"clave": r["clave"], "ent": r["ent"], "state": r["state"], "reader": r["reader"],
+                                 "ts": r["ts"], **{x: d[x] for x in d if x != "leaf"}}, ensure_ascii=False,
+                                sort_keys=True) + "\n" for r in new_rows for d in r.get("disputes", []))
+        write_atomic(self.P.results, lines)
+        write_atomic(self.P.disputes, dl)
+        self._load()
+        write_atomic(self.P.roots, json.dumps(self.roots(), indent=1))
+        return {"rows": len(new_rows), "changed": changed,
+                "disputes": sum(len(r.get("disputes", [])) for r in new_rows)}
 
 
 class EndpointDown(Exception):
@@ -881,7 +986,7 @@ def status_line(P: Paths) -> str:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="python -m twohands.worker")
-    ap.add_argument("cmd", choices=["build-queue", "run", "status", "check"])
+    ap.add_argument("cmd", choices=["build-queue", "run", "status", "check", "relabel"])
     ap.add_argument("--dir", default=str(WORKER_DIR))
     ap.add_argument("--limit", type=int, default=None, help="stop after N forms read on AMD")
     ap.add_argument("--stale", type=float, default=900.0, help="check: heartbeat age that counts as unhealthy (s)")
@@ -895,6 +1000,15 @@ def main(argv=None) -> int:
         return 0
     if a.cmd == "status":
         print(status_line(P))
+        return 0
+    if a.cmd == "relabel":
+        if not acquire_lock(P):
+            print("a worker is running on this directory: stop it first")
+            return 2
+        try:
+            print(Worker(P.root, chat=lambda body: None, usage=lambda: {}).relabel())
+        finally:
+            release_lock(P)
         return 0
     if a.cmd == "check":
         hb = read_json(P.heartbeat, {}) or {}

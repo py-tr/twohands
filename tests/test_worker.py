@@ -82,12 +82,31 @@ class Endpoint:
     """Mocked AMD endpoint: replies with per-form values; counts calls; /usage and /models are scripted."""
 
     def __init__(self, answers: dict, used=0.0, remaining=0.9, models=("Qwen3.8-27B",)):
+        import threading
         self.answers, self.calls, self.used, self.remaining, self.models = answers, [], used, remaining, list(models)
+        self.local = threading.local()
+        self.inflight = self.peak = 0
+        self.lock = threading.Lock()
+        self.delay = 0.0
+
+    @property
+    def current(self):
+        return self.local.current
+
+    @current.setter
+    def current(self, v):
+        self.local.current = v
 
     def chat(self, body):
-        self.calls.append(body["model"])
-        k = self.current
-        return reply(self.answers[k]), 1
+        import time as _t
+        with self.lock:
+            self.calls.append(body["model"])
+            self.inflight += 1
+            self.peak = max(self.peak, self.inflight)
+        _t.sleep(self.delay)
+        with self.lock:
+            self.inflight -= 1
+        return reply(self.answers[self.current]), 1
 
     def usage(self):
         return {"daily_cost_used_usd": self.used, "daily_cost_remaining_usd": self.remaining,
@@ -116,7 +135,8 @@ def halt(_s):
 
 
 def make_worker(root, ep, ine, **kw):
-    w = W.Worker(root, chat=None, usage=ep.usage, list_models=lambda: ep.models, http_get=ine.get,
+    kw.setdefault("concurrency", 1)
+    w = W.Worker(root, chat=ep.chat, usage=ep.usage, list_models=lambda: ep.models, http_get=ine.get,
                  sleep=halt, **kw)
     w.source.sleep = lambda s: None
     orig = w.process
@@ -223,7 +243,13 @@ def test_disputes_need_words_equal_digits_and_aligned_rows():
     g2 = GateResult(accepted=False, values={k: 50}, words={k: 51})
     assert W.disputes_of(g2, {k: 40}, {k: 50}, "comparison", S) == []
     g3 = GateResult(accepted=False, codes=["label"], values={k: 50}, words={k: 50})
-    assert W.disputes_of(g3, {k: 40}, {k: 50}, "comparison", S) == []
+    d3 = W.disputes_of(g3, {k: 40}, {k: 50}, "comparison", S)      # label check failed: still compared, tagged
+    assert [(d["label"], d["weak"]) for d in d3] == [("confirmed", True)]
+    assert W.disputes_of(g3, {k: 40}, {k: 45}, "comparison", S)[0]["label"] == "unconfirmed"
+    g4 = GateResult(accepted=False, codes=["shape"], values={k: 50}, words={k: 50})
+    assert W.disputes_of(g4, {k: 40}, {k: 50}, "comparison", S) == []
+    assert W.tier_of("confirmed", True) == "confirmed; label check failed: weaker evidence"
+    assert W.label_of_tier(W.tier_of("confirmed", True)) == "confirmed"
 
 
 # ------------------------------------------------------------------------------------------------ the run
@@ -502,3 +528,122 @@ def test_merkle_accepts_exactly_the_two_leaf_shapes():
         merkle.leaf_hash({**r, "extra": 1})
     with pytest.raises(ValueError):
         merkle.leaf_hash({k: v for k, v in r.items() if k != "certified"})
+
+
+# ------------------------------------------------------------------------------------------------ concurrency, priority
+def test_three_reads_in_flight_by_default(three):
+    P, ep = three["P"], three["ep"]
+    assert W.CONCURRENCY == 3 or __import__("os").environ.get("WORKER_CONCURRENCY")
+    ep.delay = 0.6
+    w = make_worker(P.root, ep, Ine(), concurrency=3)
+    assert w.run() == 3
+    assert ep.peak == 3                                   # three reads at once
+    rows = W.read_jsonl(P.results)
+    assert sorted(r["clave"] for r in rows) == sorted(three["claves"])
+    roots = json.loads(P.roots.read_text(encoding="utf-8"))
+    assert roots["6"]["complete"] and roots["6"]["leaves"] == sum(len(r["disputes"]) for r in rows if r["ent"] == 6)
+
+
+def test_concurrent_budget_pause_drains_then_waits(three):
+    P, ep = three["P"], three["ep"]
+    ep.used = 0.65
+    w = make_worker(P.root, ep, Ine(), concurrency=3)
+    with pytest.raises(Halt):
+        w.run()
+    assert ep.calls == [] and json.loads(P.state.read_text(encoding="utf-8"))["pause"] == "budget"
+
+
+def test_worker_yields_the_limiter_to_live_reads(tmp_path):
+    from twohands import ratelimit
+    rf = tmp_path / "ratelimit.json"
+    lim = ratelimit.FileRateLimiter(rf, rpm=6000)
+    slept = []
+
+    def sleep(s):
+        slept.append(s)
+        if len(slept) == 3:
+            ratelimit.live_priority(False, rf)           # the live read finished
+    lim._sleep = sleep
+    lim.yield_to_live = True
+    ratelimit.live_priority(True, rf)                    # a judge's live read is queued
+    assert ratelimit.live_waiting(rf)
+    lim.acquire()
+    assert len(slept) >= 3 and not ratelimit.live_waiting(rf)
+    # the live reads themselves never wait for the flag
+    other = ratelimit.FileRateLimiter(rf, rpm=6000)
+    ratelimit.live_priority(True, rf)
+    waits = []
+    other._sleep = waits.append
+    other.acquire()
+    assert all(w < 1.0 for w in waits)                   # only the pace, never the 2 s live-priority wait
+    ratelimit.live_priority(False, rf)
+
+
+def test_live_manager_raises_and_clears_the_priority_flag(tmp_path, monkeypatch):
+    from app import live as livemod
+    from twohands import ratelimit
+    monkeypatch.setenv("TWOHANDS_RATE_FILE", str(tmp_path / "ratelimit.json"))
+    seen = []
+    monkeypatch.setattr(ratelimit, "live_priority", lambda active, path=None: seen.append(active))
+    m = livemod.LiveManager(reader_fn=lambda model, page: {"error": "HTTP 503", "content": ""},
+                            usage_fn=lambda: {"daily_cost_remaining_usd": 0.9}, reveal_delay=0)
+    page = REPO / "data" / "masked" / "060079C0300.jpg"
+    job = m.start("060079C0300", page)
+    for _ in range(200):
+        if job.done:
+            break
+        __import__("time").sleep(0.05)
+    __import__("time").sleep(0.2)
+    assert seen[0] is True and seen[-1] is False
+
+
+def test_weak_disputes_counted_separately_on_live(tmp_path, monkeypatch):
+    a = "060001B0100"
+    pa = paper_values(1)
+    k1 = S["vote_keys"][0]
+    cap_a = dict(pa, **{k1: pa[k1] + 10})
+    P = make_queue(tmp_path, [item(a, 6, "comparison", cap_a, {k: pa[k] for k in CERT_KEYS})],
+                   {"6": {"name": "Colima", "size": 1, "queue": 1, "measured_skipped": 0}})
+
+    class Shifted(Endpoint):
+        def chat(self, body):
+            r, n = super().chat(body)
+            vals = json.loads(r["choices"][0]["message"]["content"])
+            vals["values"][5]["label"] = ""               # one empty row label: the label check fails
+            r["choices"][0]["message"]["content"] = json.dumps(vals)
+            return r, n
+    ep = Shifted({a: pa})
+    make_worker(P.root, ep, Ine()).run()
+    row = W.read_jsonl(P.results)[0]
+    assert "label" in row["route_codes"]
+    d = row["disputes"][0]
+    assert d["weak"] and d["label"] == "confirmed" and W.WEAK in d["leaf"]["tier"]
+    monkeypatch.setattr(W, "WORKER_DIR", P.root)
+    c = TestClient(app)
+    st = c.get("/api/live-audit/status").json()
+    assert st["weak"] == 1 and st["weak_confirmed"] == 1
+    assert "label check failed: weaker evidence" in c.get("/live").text
+    rc = c.get(f"/api/live-audit/receipt/{a}/OPT01").json()
+    assert rc["label_text"] == "confirmed by the certified count" and rc["evidence"] == W.WEAK
+    assert all(ok for _, ok, _ in verify_receipt.check(rc))
+
+
+def test_relabel_recomputes_from_stored_values(three):
+    P, ep = three["P"], three["ep"]
+    make_worker(P.root, ep, Ine()).run(limit=1)          # Colima open: one form done
+    rows = W.read_jsonl(P.results)
+    r = rows[0]
+    saved = r["disputes"]
+    r["disputes"] = []                                    # as written under the old rule
+    P.results.write_text(json.dumps(r) + "\n", encoding="utf-8")
+    out = make_worker(P.root, ep, Ine()).relabel()
+    assert out["changed"] == 1
+    again = W.read_jsonl(P.results)[0]
+    assert [d["leaf"] for d in again["disputes"]] == [d["leaf"] for d in saved]
+    # a completed state's receipts are never rewritten
+    make_worker(P.root, ep, Ine()).run()
+    rows = W.read_jsonl(P.results)
+    rows[0]["disputes"] = []
+    P.results.write_text("".join(json.dumps(x) + "\n" for x in rows), encoding="utf-8")
+    with pytest.raises(RuntimeError):
+        make_worker(P.root, ep, Ine()).relabel()

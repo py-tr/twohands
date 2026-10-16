@@ -134,8 +134,13 @@ class FileRateLimiter(RateLimiter):
             except OSError:
                 pass
 
+    yield_to_live = False   # set in the live audit worker's process: it waits while a live read is queued
+
     def acquire(self) -> float:
         waited = 0.0
+        while self.yield_to_live and live_waiting(self.path):
+            self._sleep(2.0)
+            waited += 2.0
         while True:
             def take(st):
                 now = time.time()
@@ -183,6 +188,35 @@ def reset_shared(limiter: Optional[RateLimiter] = None) -> None:
     global _shared
     with _shared_lock:
         _shared = limiter
+
+
+def live_flag(path=None):
+    """<rate file>.live: present (and fresh) while a live read from the site is queued or running."""
+    from pathlib import Path
+    p = path or os.environ.get("TWOHANDS_RATE_FILE") or str(Path(__file__).resolve().parent.parent / "cache" / "ratelimit.json")
+    return Path(p).with_suffix(".live")
+
+
+def live_priority(active: bool, path=None) -> None:
+    """The web app's live reads call this when a job is queued (True) and when its queue is empty again (False)."""
+    f = live_flag(path)
+    try:
+        if active:
+            f.parent.mkdir(parents=True, exist_ok=True)
+            f.write_text(str(time.time()), encoding="utf-8")
+        else:
+            f.unlink(missing_ok=True)
+    except OSError:
+        pass
+
+
+def live_waiting(path=None, max_age_s: float = 600.0) -> bool:
+    """True while a live read is queued or running (a flag older than max_age_s is a crashed web process: ignored)."""
+    f = live_flag(path)
+    try:
+        return time.time() - f.stat().st_mtime < max_age_s
+    except OSError:
+        return False
 
 
 def parse_retry_after(value, default: Optional[float] = None) -> Optional[float]:

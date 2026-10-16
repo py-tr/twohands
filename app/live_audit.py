@@ -100,6 +100,7 @@ def summary() -> Optional[dict]:
         latest = {"clave": d["clave"], "state": d["state"], "code": d["code"], "name": storemod.name_of(storemod.key_of(d["code"]) or d["code"]),
                   "paper": d["paper"], "words": d["words"], "capture": d["capture"], "certified": d["certified"],
                   "label": d["label"], "label_text": W.LABELS[d["label"]], "reader": d["reader"], "ts": d["ts"],
+                  "weak": bool(d.get("weak")),
                   "crop": f"/live/crop/{d['clave']}/{d['code']}.jpg",
                   "receipt": f"/api/live-audit/receipt/{d['clave']}/{d['code']}"}
     nxt = None
@@ -113,13 +114,16 @@ def summary() -> Optional[dict]:
          "confirmed": sum(1 for d in disputes if d["label"] == "confirmed"),
          "model_misread": sum(1 for d in disputes if d["label"] == "model_misread"),
          "unconfirmed": sum(1 for d in disputes if d["label"] == "unconfirmed"),
+         "weak": sum(1 for d in disputes if d.get("weak")),
+         "weak_confirmed": sum(1 for d in disputes if d.get("weak") and d["label"] == "confirmed"),
+         "weak_text": W.WEAK,
          "not_read": len(rows) - len(audited),
          "not_compared": sum(1 for r in audited if {"shape", "label"} & set(r.get("route_codes") or [])),
          "readers": sorted({r.get("reader") for r in audited if r.get("reader")}),
          "reader_now": st.get("reader"), "states": states, "next_state": nxt, "latest": latest,
          "recent": [{"clave": d["clave"], "state": d["state"], "code": d["code"],
                      "name": storemod.name_of(storemod.key_of(d["code"]) or d["code"]), "label_text": W.LABELS[d["label"]],
-                     "label": d["label"], "paper": d["paper"], "capture": d["capture"], "certified": d["certified"],
+                     "label": d["label"], "weak": bool(d.get("weak")), "paper": d["paper"], "capture": d["capture"], "certified": d["certified"],
                      "reader": d["reader"], "crop": f"/live/crop/{d['clave']}/{d['code']}.jpg",
                      "receipt": f"/api/live-audit/receipt/{d['clave']}/{d['code']}"} for d in disputes[-12:][::-1]],
          "queue_total": len(q["items"]), "queue_states": len(q["states"]),
@@ -150,7 +154,8 @@ def receipt(clave: str, code: str) -> Optional[dict]:
     return {"leaf": recs[idx], "leaf_hash": leaves[idx], "proof": merkle.proof(leaves, idx), "root": merkle.root(leaves),
             "state": q["states"][ent]["name"], "state_complete": done >= q["states"][ent]["queue"],
             "root_kind": "final" if done >= q["states"][ent]["queue"] else "running",
-            "leaves": len(leaves), "index": idx, "label_text": W.LABELS.get(recs[idx]["tier"]),
+            "leaves": len(leaves), "index": idx, "label_text": W.LABELS.get(W.label_of_tier(recs[idx]["tier"])),
+            "evidence": W.WEAK if W.WEAK in recs[idx]["tier"] else "row labels confirmed",
             "verify": "python -m twohands.verify_receipt receipt.json --crop crop.jpg"}
 
 
@@ -181,7 +186,7 @@ def about_data(request: Request):
     return _templates(request).TemplateResponse(request, "about_data.html", {"nav": "live", "NOT_OFFICIAL": NOT_OFFICIAL,
                                                                            "UA": W.USER_AGENT, "page_kb": W.PAGE_KB,
                                                                            "cap": W.DAILY_USD, "reserve": W.RESERVE_USD,
-                                                                           "LABELS": W.LABELS})
+                                                                           "LABELS": W.LABELS, "WEAK": W.WEAK})
 
 
 @router.get("/api/live-audit/status")

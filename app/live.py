@@ -70,6 +70,14 @@ def _write_atomic(path: Path, text: str) -> None:
             time.sleep(0.01)
 
 
+def _live_priority(active: bool) -> None:
+    try:
+        from twohands.ratelimit import live_priority
+        live_priority(active)
+    except Exception:  # noqa: BLE001 - priority is a courtesy; a live read never fails for it
+        pass
+
+
 class Refused(Exception):
     def __init__(self, code: str, message: str):
         super().__init__(message)
@@ -220,6 +228,7 @@ class LiveManager:
         with self._lock:
             self.jobs[job.id] = job
             self._queue.append(job)
+            _live_priority(True)   # the live audit worker yields the shared limiter while a live read waits
             if self._worker is None or not self._worker.is_alive():
                 self._worker = threading.Thread(target=self._loop, daemon=True)
                 self._worker.start()
@@ -245,6 +254,8 @@ class LiveManager:
                 with self._lock:
                     if self.current is job:
                         self.current = None
+                    if not self._queue:
+                        _live_priority(False)
 
     def _fail(self, job: Job, code: str, msg: str) -> None:
         job.state = "failed"

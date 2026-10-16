@@ -43,8 +43,9 @@
     <div class="card"><span class="big-num" id="laDisputes">{{ '{:,}'.format(v.disputes) }}</span>disputes <span class="muted small">(fields where the model's read differs from the official capture)</span></div>
     <div class="card"><span class="big-num" id="laConfirmed">{{ '{:,}'.format(v.confirmed) }}</span>confirmed by the certified count</div>
   </div>
+  <p class="small muted" style="margin:10px 0 0" id="laWeak">Of the {{ '{:,}'.format(v.disputes) }} disputes, {{ '{:,}'.format(v.weak) }} are on forms whose row-label check failed ({{ v.weak_text }}).</p>
   <div class="la-status {{ v.status.kind }}" id="laStatus"><span class="la-dot"></span><span>{{ v.status.text }}{% if v.status.resume_at and v.status.kind == 'warn' %} <span class="small">(next try {{ v.status.resume_at|replace('T', ' ')|replace('Z', ' UTC') }})</span>{% endif %}</span></div>
-  <p class="small muted" style="margin:10px 0 0">Of the disputes: {{ v.confirmed }} confirmed by the certified count; {{ v.model_misread }} where the certified count matches the capture (model misread); {{ v.unconfirmed }} not confirmable here (a field the certified count does not cover, or a recounted form).{% if v.not_compared %} {{ v.not_compared }} of the forms audited were not compared field by field: the model's row labels did not confirm the rows were aligned, so those reads go to a person, not to the dispute count.{% endif %}{% if v.not_read %} {{ v.not_read }} form{{ '' if v.not_read == 1 else 's' }} could not be read (no image, or the page could not be located).{% endif %} Reader{{ 's' if v.readers|length > 1 }}: {{ v.readers|join(', ') }}{% if v.reader_now and v.reader_now not in v.readers %}; now {{ v.reader_now }}{% endif %}. Forms already in our measured samples are skipped here; they are on <a href="/results">Results</a>.</p>
+  <p class="small muted" style="margin:10px 0 0">Of the disputes: {{ v.confirmed }} confirmed by the certified count; {{ v.model_misread }} where the certified count matches the capture (model misread); {{ v.unconfirmed }} not confirmable here (a field the certified count does not cover, or a recounted form).{% if v.not_compared %} {{ v.not_compared }} of the forms audited failed the row-label check; they are still compared field by field, and their {{ v.weak }} dispute{{ '' if v.weak == 1 else 's' }} carry the tag "{{ v.weak_text }}" ({{ v.weak_confirmed }} of them confirmed by the certified count, which is evidence on its own).{% endif %}{% if v.not_read %} {{ v.not_read }} form{{ '' if v.not_read == 1 else 's' }} could not be read (no image, or the page could not be located).{% endif %} Reader{{ 's' if v.readers|length > 1 }}: {{ v.readers|join(', ') }}{% if v.reader_now and v.reader_now not in v.readers %}; now {{ v.reader_now }}{% endif %}. Forms already in our measured samples are skipped here; they are on <a href="/results">Results</a>.</p>
 </section>
 
 <section class="la-grid">
@@ -67,7 +68,7 @@
   <div class="card la-rc">
     <h3>Latest receipt</h3>
     {% if v.latest %}{% set r = v.latest %}
-    <div><span class="chip {{ 'ok' if r.label == 'confirmed' else ('bad' if r.label == 'model_misread' else 'ghost') }}">{{ r.label_text }}</span> <span class="small muted">{{ r.clave }} · {{ r.state }} · {{ r.name }}</span></div>
+    <div><span class="chip {{ 'ok' if r.label == 'confirmed' else ('bad' if r.label == 'model_misread' else 'ghost') }}">{{ r.label_text }}</span> {% if r.weak %} <span class="chip warn">{{ v.weak_text }}</span>{% endif %} <span class="small muted">{{ r.clave }} · {{ r.state }} · {{ r.name }}</span></div>
     <img src="{{ r.crop }}" alt="Crop of {{ r.name }} on form {{ r.clave }} (privacy-masked page)">
     <dl class="kv">
       <dt>Paper, as read</dt><dd>{{ r.paper }} <span class="small muted">(in words: {{ r.words }})</span></dd>
@@ -90,7 +91,7 @@
     <tbody>
     {% for d in v.recent %}
       <tr><td><a href="{{ d.receipt }}">{{ d.clave }}</a></td><td class="hide-s">{{ d.state }}</td><td>{{ d.name }}</td><td><img src="{{ d.crop }}" alt="" loading="lazy"></td>
-      <td class="n">{{ d.paper }}</td><td class="n">{{ d.capture }}</td><td class="n">{{ d.certified if d.certified is not none else '·' }}</td><td>{{ d.label_text }}</td></tr>
+      <td class="n">{{ d.paper }}</td><td class="n">{{ d.capture }}</td><td class="n">{{ d.certified if d.certified is not none else '·' }}</td><td>{{ d.label_text }}{% if d.weak %}<br><span class="small muted">{{ v.weak_text }}</span>{% endif %}</td></tr>
     {% endfor %}
     </tbody>
   </table>

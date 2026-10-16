@@ -22,6 +22,7 @@
     <li><b>{{ LABELS.model_misread }}</b>: the certified value equals the capture and differs from the model's read.</li>
     <li><b>{{ LABELS.unconfirmed }}</b>: everything else (sections the certified count does not cover, recounted forms, or a certified value that matches neither).</li>
   </ul>
+  <p>A form whose row-label check failed (the model's printed row labels did not confirm the rows were aligned; on our measured 300 forms that check was a false alarm in 68 of 86 cases) is still compared field by field, and its disputes are tagged <b>"{{ WEAK }}"</b> and counted separately. Such a dispute is "{{ LABELS.confirmed }}" only when the certified count independently equals the model's value.</p>
   <h3>Receipts</h3>
   <p>Each dispute is a leaf of a Merkle tree (SHA-256, the scheme of the audit reports), one tree per state in audit order: a completed state has a final root, the open state a running root. A receipt is checkable offline with <code>python -m twohands.verify_receipt</code>.</p>
   <h3>Budget and pace</h3>

@@ -323,8 +323,11 @@ A standing service keeps auditing presidential tally sheets on AMD during judgin
 - **Labels:** on vote rows and TOTAL of comparison-settled forms, certified = model != capture is "confirmed by the
   certified count", certified = capture != model is "model misread"; everything else is "dispute (unconfirmed)".
   Each dispute is a Merkle leaf (`twohands/merkle.py`), one root per completed state, a running root for the open one.
-- **Budget:** at most $0.60 a day, keeping $0.20 for the live-read button; then it sleeps until 16:00 UTC. It shares
-  the rate-limiter file with the live reads. Resumable, crash-safe writes, a watchdog, rotating logs, a disk cap.
+- **Row-label check failed:** such a form is still compared field by field; its disputes are tagged "label check
+  failed: weaker evidence" and counted separately (the check was a false alarm in 68 of 86 cases on the 300).
+- **Budget and pace:** 3 reads in flight (`WORKER_CONCURRENCY`), at most $0.60 a day, keeping $0.20 for the
+  live-read button; then it sleeps until 16:00 UTC. It shares the rate-limiter file with the live reads and yields
+  to them while one is queued. Resumable, crash-safe writes, a watchdog, rotating logs, a disk cap.
 - **Separate:** it never writes `results/`; `make eval` never reads `live_audit/`.
 - **Contact** (for INE or any operator of the source, as the User-Agent says): the maintainers of this repository,
   through the submission page's team contact.
