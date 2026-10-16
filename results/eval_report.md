@@ -283,9 +283,9 @@ the app reads, then compared with it.
 | Rendered sentence 'harmonised' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'faint' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Sample audit Merkle root | e56a8ef4f011b9e5 | e56a8ef4f011b9e5 | results/sample_audit_root.txt | ok |
-| Home strip: forms read on AMD | 310 | 310 | app/live_status.py (300 + live_audit/results.jsonl) | ok |
-| Home strip: disputes | 267 | 267 | app/live_status.py (300 + live_audit/results.jsonl) | ok |
-| Home strip: confirmed by the certified count | 22 | 22 | app/live_status.py (300 + live_audit/results.jsonl) | ok |
+| Home strip: forms read on AMD | 310 | 310 | app/live_status.py (300 + the live worker's rows) | ok |
+| Home strip: disputes | 267 | 267 | app/live_status.py (300 + the live worker's rows) | ok |
+| Home strip: confirmed by the certified count | 22 | 22 | app/live_status.py (300 + the live worker's rows) | ok |
 | stored gate flag = frozen gate re-run | ok |  | integrity | ok |
 | verdicts.json covers exactly the disputed fields | ok |  | integrity | ok |
 | every undisputed recall field judged on the paper | ok |  | integrity | ok |
@@ -295,7 +295,7 @@ the app reads, then compared with it.
 | sha256 results/manifest_confirm100.json | cc238efc2a11... vs pre-registered cc238efc2a11... |  | protocol | ok |
 | sha256 results/manifest_cord100.json | 0763c48c9380... vs pre-registered 0763c48c9380... |  | protocol | ok |
 | frozen prompt = reader.prompt_sha256() | 3664253035b9... |  | protocol | ok |
-| every model call used the frozen prompt | 791 rows in calls_deepseek-v4.1-flash.jsonl, calls_gemma.jsonl, calls_qwen.jsonl, calls_qwen3.8-flash-next.jsonl |  | protocol | ok |
+| every model call used the frozen prompt | 911 rows in calls_confirm100_gemma.jsonl, calls_deepseek-v4.1-flash.jsonl, calls_gemma.jsonl, calls_qwen.jsonl, calls_qwen3.8-flash-next.jsonl |  | protocol | ok |
 | schema as pre-registered (at the protocol commit) | c9240632c3f0... at a93294c |  | protocol | ok |
 | PROTOCOL.md committed as on disk | clean |  | protocol | ok |
 | PROTOCOL_CORD.md committed as on disk | clean |  | protocol | ok |
@@ -311,8 +311,8 @@ the app reads, then compared with it.
 | Amendment 1 (locator) committed before first successful Gemma read | b0e443c 2026-10-15 01:29:19Z < 2026-10-15 05:56:11Z |  | protocol | ok |
 | Amendment 2 (secondary analyses) committed before first Qwen call on the 300 | 6bef8e0 2026-10-15 10:36:46Z < 2026-10-15 11:53:45Z |  | protocol | ok |
 | Amendment 2 (secondary analyses) committed before first adjudication commit | 6bef8e0 2026-10-15 10:36:46Z < 2026-10-15 10:37:43Z |  | protocol | ok |
-| Amendment 3 (confirm100 draw) committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z; no such call yet |  | protocol | ok |
-| results/manifest_confirm100.json committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z; no such call yet |  | protocol | ok |
+| Amendment 3 (confirm100 draw) committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z < 2026-10-16 08:51:07Z |  | protocol | ok |
+| results/manifest_confirm100.json committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z < 2026-10-16 08:51:07Z |  | protocol | ok |
 | Amendment 6 (open-model bake-off) committed before first bake-off read | 971bce2 2026-10-15 23:53:46Z < 2026-10-16 00:14:48Z |  | protocol | ok |
 | PROTOCOL_CORD.md committed before first CORD call | 365eb56 2026-10-15 14:11:09Z; no such call yet |  | protocol | ok |
 
