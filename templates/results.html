@@ -115,7 +115,10 @@
     <thead><tr><th>model</th><th>n</th><th>field agreement with the capture</th><th>accepted forms</th><th>accepted-field errors</th><th>cost per 1,000 forms</th><th>mean latency</th></tr></thead>
     <tbody>
     {% for b in bk.models %}
-      <tr{% if loop.first %} class="hl"{% endif %}><td>{{ b.model }}{% if b.reused %} <span class="muted">(300 run)</span>{% endif %}</td><td>{{ b.n }}</td><td>{{ b.field_agreement_pct }}%</td><td>{{ b.accepted }}</td><td>{{ b.accepted_wrong }} of {{ b.accepted_fields }}{% if b.accepted_pending %} <span class="muted">({{ b.accepted_pending }} not adjudicated)</span>{% endif %}</td><td>${{ '%.2f'|format(b.cost_per_1000_usd) }}</td><td>{{ b.mean_latency_s }} s</td></tr>
+      <tr{% if loop.first %} class="hl"{% endif %}><td>{{ b.model }}{% if b.reused %} <span class="muted">(300 run)</span>{% endif %}</td><td>{{ b.n }}</td><td>{{ b.field_agreement_pct }}%</td><td>{{ b.accepted }}</td><td>{{ b.accepted_wrong }} of {{ b.accepted_fields }}{% if b.accepted_unadjudicated %} <span class="muted">({{ b.accepted_unadjudicated }} not adjudicated)</span>{% endif %}</td><td>${{ '%.2f'|format(b.cost_per_1000_usd) }}</td><td>{{ b.mean_latency_s }} s</td></tr>
+    {% endfor %}
+    {% for m, b in bk.halted.items() %}
+      <tr><td>{{ m }}</td><td>{{ b.n }}</td><td colspan="5" class="muted">halted, not compared: {{ b.halted }}</td></tr>
     {% endfor %}
     {% for m, why in bk.not_compatible.items() %}
       <tr><td>{{ m }}</td><td colspan="6" class="muted">not compatible: {{ why }}</td></tr>
@@ -127,7 +130,7 @@
     <thead><tr><th>pair</th><th>n</th><th>accepted forms</th><th>accepted-field errors</th></tr></thead>
     <tbody>
     {% for p in bk.pairs %}
-      <tr{% if loop.first %} class="hl"{% endif %}><td>{{ p.a }} + {{ p.b }}</td><td>{{ p.n }}</td><td>{{ p.accepted }} ({{ p.accepted_pct }}%)</td><td>{{ p.accepted_wrong }} of {{ p.accepted_fields }}{% if p.accepted_pending %} <span class="muted">({{ p.accepted_pending }} not adjudicated)</span>{% endif %}</td></tr>
+      <tr{% if loop.first %} class="hl"{% endif %}><td>{{ p.a }} + {{ p.b }}</td><td>{{ p.n }}</td><td>{{ p.accepted }} ({{ p.accepted_pct }}%)</td><td>{{ p.accepted_wrong }} of {{ p.accepted_fields }}{% if p.accepted_unadjudicated %} <span class="muted">({{ p.accepted_unadjudicated }} not adjudicated)</span>{% endif %}</td></tr>
     {% endfor %}
     </tbody>
   </table></div>

@@ -1,0 +1,20 @@
+{
+ "094970B0100__VOTARON": {
+  "form_id": "094970B0100",
+  "field": "VOTARON",
+  "verdict": "capture_right",
+  "paper": 559,
+  "by": "AI adjudicator (an AI model, an AI agent) on the masked crop",
+  "evidence": "no words written; digit boxes 5 5 9, the third box a clear 9 (both Qwen readers keyed 557)",
+  "crop": "results/adjudication/094970B0100__VOTARON.jpg"
+ },
+ "310141B0100__VOTARON": {
+  "form_id": "310141B0100",
+  "field": "VOTARON",
+  "verdict": "capture_right",
+  "paper": 503,
+  "by": "AI adjudicator (an AI model, an AI agent) on the masked crop",
+  "evidence": "no words written; digit boxes 5 0 3, the first box a 5 with a flat top stroke (both Qwen readers keyed 303)",
+  "crop": "results/adjudication/310141B0100__VOTARON.jpg"
+ }
+}

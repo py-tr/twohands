@@ -548,7 +548,10 @@ def compute() -> dict:
                                  "accepted_undecided": tot["undecided"], "accepted_unadjudicated": tot["unadjudicated"],
                                  "wrong_fields": wrong, "unadjudicated_fields": pending})
     # Amendment 6: safest pair = fewest accepted-field errors after adjudication, ties broken by more accepted forms
-    out["pairs"].sort(key=lambda p: (p["n"] == 0, p["accepted_wrong"] + p["accepted_unadjudicated"], -p["accepted"], p["a"], p["b"]))
+    halted = {m for m, v in plan["models"].items() if v.get("halted")}
+    for p in out["pairs"]:
+        p["halted"] = p["a"] in halted or p["b"] in halted  # listed, not compared
+    out["pairs"].sort(key=lambda p: (p["n"] == 0, p["halted"], p["accepted_wrong"] + p["accepted_unadjudicated"], -p["accepted"], p["a"], p["b"]))
     recorded = (sum(model_spend(m) for m in plan["models"])
                 + sum(sum((t.get("cost") or 0.0) for t in r.get("tries", [])) for r in jsonl(PROBE)))
     out["recorded_spend_usd"] = round(recorded, 4)
@@ -570,7 +573,7 @@ def short(m: str) -> str:
 def markdown(d: dict) -> str:
     M = d["models"]
     lb = sorted(M.items(), key=lambda kv: (-(kv[1]["field_agreement_pct"] or 0)))
-    best = lb[0][0] if lb else None
+    best = next((m for m, b in lb if b["n"] and not b.get("halted")), None)
     pair = d["pairs"][0] if d["pairs"] else None
     L = ["# Which open model on AMD reads handwriting best, and which pair is the safest second keyer", "",
          "Open-model bake-off on AMD Token Factory (PROTOCOL.md Amendment 6; secondary analysis, the primary is unchanged). "
@@ -621,7 +624,7 @@ def markdown(d: dict) -> str:
             e += f" ({p['accepted_undecided']} undecided)"
         if p["accepted_unadjudicated"]:
             e += f" ({p['accepted_unadjudicated']} not adjudicated)"
-        L.append(f"| {p['a']} + {p['b']} | {p['n']} | {p['accepted']} ({p['accepted_pct']}%) | {e} |")
+        L.append(f"| {p['a']} + {p['b']}{' (halted reader, not compared)' if p['halted'] else ''} | {p['n']} | {p['accepted']} ({p['accepted_pct']}%) | {e} |")
     L += ["", "Pairs are listed as pre-registered: fewest accepted-field errors after adjudication first, ties broken by more accepted "
           "forms (a count, so a pair on a first-n subset is compared on fewer forms; its share is shown).", "",
           "## Per-model parameters", ""]

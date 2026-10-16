@@ -256,9 +256,22 @@ def home(st: storemod.Store) -> dict:
                           "tokens": _mean_tokens(st, "spike-qwen"), "basis": "pilot, 43 reads"}] if q else []),
         "live": _live_stats(st),
         "gemma": _gemma_vs_qwen(),
+        "bakeoff": _bakeoff(),
     }
     return {"headline": headline_cards, "H": H, "L": L, "T": tiers(), "business": business, "cited": CITED, "amd": amd,
             "ledger": lm, "pilot": g, "pilot_q": q}
+
+
+def _bakeoff():
+    """Amendment 6: every vision model on AMD Token Factory on the same forms (app/data/bakeoff_300.json, from
+    scripts/bakeoff.py report, recomputed by make eval). Models listed by field agreement; pairs by fewest errors."""
+    d = storemod._jload(storemod.DATA / "bakeoff_300.json", None)
+    if not d or not d.get("models"):
+        return None
+    models = sorted(({"model": m, **b} for m, b in d["models"].items() if b["n"] and not b.get("halted")), key=lambda b: -(b["field_agreement_pct"] or 0))
+    return {"models": models, "pairs": [p for p in d.get("pairs", []) if p["n"] and not p.get("halted")][:5],
+            "halted": {m: b for m, b in d["models"].items() if b.get("halted")}, "not_compatible": d.get("not_compatible", {}),
+            "spend": d.get("total_bakeoff_spend_usd"), "prompt": d["prompt_sha256"][:12]}
 
 
 def _gemma_vs_qwen():

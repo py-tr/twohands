@@ -372,6 +372,105 @@ def amendment2(ctx) -> dict | None:
             "mean_secs": round(sum(lat) / len(lat), 1) if lat else None}
 
 
+# ------------------------------------------------------------------ Amendment 6: the open-model bake-off
+BK_MODEL_KEYS = ("n", "parsed", "field_agreement", "graded_fields", "accepted", "accepted_fields", "accepted_wrong",
+                 "accepted_undecided", "accepted_unadjudicated", "cost_per_1000_usd")
+BK_PAIR_KEYS = ("n", "accepted", "accepted_fields", "accepted_wrong", "accepted_undecided", "accepted_unadjudicated")
+
+
+def bakeoff() -> dict | None:
+    """Amendment 6 leaderboard, recomputed here without scripts/bakeoff.py or twohands/tiers.py: per model the first-n
+    prefix of the fixed order, field agreement with the capture, frozen-gate accepted forms, accepted-field errors (truth
+    = verdicts.json, then verdicts_bakeoff.json, else the capture; differs with no verdict = pending), cost per 1,000
+    forms; and every two-reader pair (Amendment 2 d strict mode) on the common prefix."""
+    plan_p, order_p = R / "bakeoff_plan.json", R / "bakeoff_order.json"
+    if not (plan_p.is_file() and order_p.is_file()):
+        return None
+    s = schemamod.load()
+    keys, votes = s["keys"], s["vote_keys"]
+    graded = [f for f in s["fields"] if f.get("csv")]
+    plan, order = jload(plan_p), jload(order_p)["order"]
+    prep = csv_rows(DATA / "audit_sample_prep300.csv")
+    V = jload(ADJ / "verdicts.json")
+    VB = jload(ADJ / "verdicts_bakeoff.json") if (ADJ / "verdicts_bakeoff.json").is_file() else {}
+    files = {"Gemma-4-31B-IT": "calls_gemma.jsonl", "Qwen3.8-27B": "calls_qwen.jsonl"}
+    files.update({m: f"calls_{m.lower()}.jsonl" for m in plan["models"]})
+    rows, every = {}, {}
+    for m, fn in files.items():
+        rows[m], _, _ = jsonl_last(R / fn)
+        every[m] = [json.loads(x) for x in (R / fn).read_text(encoding="utf-8").splitlines() if x.strip()]             if (R / fn).is_file() else []
+    ok = lambda r: bool(r) and bool(r.get("parsed_ok")) and not r.get("no_call") and not r.get("error")  # noqa: E731
+    dig = lambda r, w="n": {k: num(((r.get("fields") or {}).get(k) or {}).get(w)) for k in keys}  # noqa: E731
+
+    def acc(r):
+        p = parsed_of(r, keys) if ok(r) else None
+        return p is not None and r.get("finish_reason") != "length" and gate(p, s).accepted
+
+    def n_of(m):
+        n = 0
+        while n < len(order) and order[n] in rows[m] and not rows[m][order[n]].get("error"):
+            n += 1
+        return n
+
+    def judge(k, d, o):
+        for f in graded:
+            o["accepted_fields"] += 1
+            pv = num(prep[k][f["csv"]]) if k in prep else None
+            v = V.get(f"{k}__{f['key']}") or VB.get(f"{k}__{f['key']}")
+            if v and v["verdict"] in ("model_right", "capture_right", "neither", "paper"):
+                o["accepted_wrong"] += d[f["key"]] != (None if v.get("paper") == "blank" else v.get("paper"))
+            elif v:
+                o["accepted_undecided"] += 1
+            elif d[f["key"]] != pv:
+                o["accepted_unadjudicated"] += 1
+
+    out = {"models": {}, "pairs": {}}
+    N = {m: n_of(m) for m in files}
+    for m in files:
+        forms = order[: N[m]]
+        o = dict.fromkeys(BK_MODEL_KEYS, 0)
+        o["n"] = N[m]
+        for k in forms:
+            r = rows[m].get(k)
+            if not ok(r):
+                continue
+            o["parsed"] += 1
+            d = dig(r)
+            for f in graded:
+                pv = num(prep[k][f["csv"]]) if k in prep else None
+                if pv is not None:
+                    o["graded_fields"] += 1
+                    o["field_agreement"] += d[f["key"]] == pv
+            if acc(r):
+                o["accepted"] += 1
+                judge(k, d, o)
+        fs = set(forms)
+        o["cost_per_1000_usd"] = round(1000 * sum((r.get("cost_usd") or 0.0) for r in every[m] if r.get("clave") in fs)
+                                       / len(forms), 4) if forms else None
+        out["models"][m] = o
+    ms = list(files)
+    for i, a in enumerate(ms):
+        for b in ms[i + 1:]:
+            n = min(N[a], N[b])
+            o = dict.fromkeys(BK_PAIR_KEYS, 0)
+            o["n"] = n
+            for k in order[:n]:
+                ra, rb = rows[a].get(k), rows[b].get(k)
+                if not (ok(ra) and ok(rb)):
+                    continue
+                d = dig(ra)
+                if d != dig(rb) or None in d.values():
+                    continue
+                if any(w is not None and w != d[x] for r in (ra, rb) for x, w in dig(r, "w").items()):
+                    continue
+                if sum(d[x] for x in votes) != d["TOTAL"]:
+                    continue
+                o["accepted"] += 1
+                judge(k, d, o)
+            out["pairs"][f"{a} + {b}"] = o
+    return out
+
+
 # ------------------------------------------------------------------ protocol
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -450,8 +549,9 @@ def protocol_checks() -> list[tuple[str, bool | None, str]]:
         dirty = git("status", "--porcelain", "--", path)
         out.append((f"{path} committed as on disk", dirty is not None and not dirty.strip(), dirty.strip() or "clean"))
     # append-only: every later commit to PROTOCOL.md only adds lines (an amendment), never edits the frozen text
+    # (a change of line endings alone, CRLF <-> LF from an editor, is not an edit)
     edits, h = [], None
-    for line in (git("log", "--format=@%h", "--numstat", "--", "PROTOCOL.md") or "").splitlines():
+    for line in (git("log", "--format=@%h", "--numstat", "--ignore-cr-at-eol", "--", "PROTOCOL.md") or "").splitlines():
         if line.startswith("@"):
             h = line[1:]
         elif line.count("\t") >= 2 and line.split("\t")[1] != "0":
@@ -476,6 +576,8 @@ def protocol_checks() -> list[tuple[str, bool | None, str]]:
               adj0[1] if adj0 else None),
              ("Amendment 3 (confirm100 draw)", first_commit("PROTOCOL.md", "## Amendment 3"), "first call on the confirm100", c0),
              ("results/manifest_confirm100.json", first_commit("results/manifest_confirm100.json"), "first call on the confirm100", c0),
+             ("Amendment 6 (open-model bake-off)", first_commit("PROTOCOL.md", "## Amendment 6"), "first bake-off read",
+              first(lambda r: r.get("order_pos") is not None)),
              ("PROTOCOL_CORD.md", first_commit("PROTOCOL_CORD.md"), "first CORD call",
               first(lambda r: "cord" in str(r.get("schema", "")).lower()))]
     for what, c, before, t in sched:
@@ -653,6 +755,25 @@ def main(argv=None) -> int:
         bad += [] if ok else [f"agree_all_23: recomputed {qw['agree_all_23']}, app shows {sv}"]
         for k in ("reads", "parsed", "cost_per_form", "mean_secs"):
             table.append((f"Qwen: {k}", fmt(qw[k]), "not displayed", "results/calls_qwen.jsonl", None))
+
+    bk = bakeoff()
+    if bk:
+        BK = jload(DATA / "bakeoff_300.json") if (DATA / "bakeoff_300.json").is_file() else {}
+        for m, o in bk["models"].items():
+            shown = (BK.get("models") or {}).get(m) or {}
+            for k in BK_MODEL_KEYS:
+                sv = shown.get(k, KeyError)
+                ok = sv is not KeyError and same(o[k], sv)
+                table.append((f"Bake-off {m}: {k}", fmt(o[k]), fmt(sv), "app/data/bakeoff_300.json", ok))
+                bad += [] if ok else [f"Bake-off {m} {k}: recomputed {o[k]}, app shows {sv}"]
+        shown_pairs = {f"{p['a']} + {p['b']}": p for p in BK.get("pairs") or []}
+        for name, o in bk["pairs"].items():
+            shown = shown_pairs.get(name) or {}
+            for k in BK_PAIR_KEYS:
+                sv = shown.get(k, KeyError)
+                ok = sv is not KeyError and same(o[k], sv)
+                table.append((f"Bake-off pair {name}: {k}", fmt(o[k]), fmt(sv), "app/data/bakeoff_300.json", ok))
+                bad += [] if ok else [f"Bake-off pair {name} {k}: recomputed {o[k]}, app shows {sv}"]
 
     # the sentences the pages render, rebuilt from the recomputed numbers, word for word
     from app.numbers import lines

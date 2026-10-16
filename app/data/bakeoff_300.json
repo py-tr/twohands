@@ -1,0 +1,256 @@
+{
+ "prompt_sha256": "3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f",
+ "order_sha256": "8de453814d3db5c455a5f4b72d753484f5ded1bb37710a50a288e65dd03437b4",
+ "models": {
+  "Gemma-4-31B-IT": {
+   "n": 300,
+   "sent": 289,
+   "parsed": 289,
+   "field_agreement": 5879,
+   "graded_fields": 6087,
+   "field_agreement_pct": 96.58,
+   "accepted": 55,
+   "accepted_pct": 18.3,
+   "accepted_fields": 1210,
+   "accepted_wrong": 2,
+   "accepted_undecided": 0,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [
+    "212668C0300__SOBRANTES",
+    "010469C0400__SOBRANTES"
+   ],
+   "unadjudicated_fields": [],
+   "cost_per_1000_usd": 0.1391,
+   "mean_latency_s": 87.0,
+   "finish_reason": {
+    "stop": 289
+   },
+   "prompt_frozen": true,
+   "reused": true,
+   "halted": null
+  },
+  "Qwen3.8-27B": {
+   "n": 300,
+   "sent": 289,
+   "parsed": 239,
+   "field_agreement": 4861,
+   "graded_fields": 5033,
+   "field_agreement_pct": 96.58,
+   "accepted": 31,
+   "accepted_pct": 10.3,
+   "accepted_fields": 682,
+   "accepted_wrong": 1,
+   "accepted_undecided": 2,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [
+    "090955C0200__SOBRANTES"
+   ],
+   "unadjudicated_fields": [],
+   "cost_per_1000_usd": 0.6415,
+   "mean_latency_s": 241.0,
+   "finish_reason": {
+    "length": 50,
+    "stop": 239
+   },
+   "prompt_frozen": true,
+   "reused": true,
+   "halted": null
+  },
+  "DeepSeek-V4.1-Flash": {
+   "n": 2,
+   "sent": 2,
+   "parsed": 2,
+   "field_agreement": 44,
+   "graded_fields": 44,
+   "field_agreement_pct": 100.0,
+   "accepted": 1,
+   "accepted_pct": 50.0,
+   "accepted_fields": 22,
+   "accepted_wrong": 0,
+   "accepted_undecided": 0,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [],
+   "unadjudicated_fields": [],
+   "cost_per_1000_usd": 3.6259,
+   "mean_latency_s": 247.2,
+   "finish_reason": {
+    "stop": 2
+   },
+   "prompt_frozen": true,
+   "reused": false,
+   "halted": "deviation 2: the endpoint billed 21 requests ($0.105, about 4,200 output tokens each) and returned 2 answers; every other call ran past 300 s and then 900 s with no reply (the model was at its concurrency limit of 16)",
+   "same_n_reference": {
+    "Gemma-4-31B-IT": {
+     "field_agreement_pct": 100.0,
+     "accepted": 1,
+     "accepted_wrong": 0
+    },
+    "Qwen3.8-27B": {
+     "field_agreement_pct": 100.0,
+     "accepted": 0,
+     "accepted_wrong": 0
+    }
+   }
+  },
+  "Qwen3.8-Flash-Next": {
+   "n": 128,
+   "sent": 122,
+   "parsed": 122,
+   "field_agreement": 2464,
+   "graded_fields": 2526,
+   "field_agreement_pct": 97.55,
+   "accepted": 17,
+   "accepted_pct": 13.3,
+   "accepted_fields": 374,
+   "accepted_wrong": 0,
+   "accepted_undecided": 1,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [],
+   "unadjudicated_fields": [],
+   "cost_per_1000_usd": 2.1111,
+   "mean_latency_s": 119.9,
+   "finish_reason": {
+    "stop": 122
+   },
+   "prompt_frozen": true,
+   "reused": false,
+   "halted": null,
+   "same_n_reference": {
+    "Gemma-4-31B-IT": {
+     "field_agreement_pct": 97.39,
+     "accepted": 19,
+     "accepted_wrong": 0
+    },
+    "Qwen3.8-27B": {
+     "field_agreement_pct": 96.83,
+     "accepted": 6,
+     "accepted_wrong": 0
+    }
+   }
+  }
+ },
+ "pairs": [
+  {
+   "a": "Gemma-4-31B-IT",
+   "b": "Qwen3.8-27B",
+   "n": 300,
+   "accepted": 89,
+   "accepted_pct": 29.7,
+   "accepted_fields": 1958,
+   "accepted_wrong": 0,
+   "accepted_undecided": 0,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [],
+   "unadjudicated_fields": [],
+   "halted": false
+  },
+  {
+   "a": "Gemma-4-31B-IT",
+   "b": "Qwen3.8-Flash-Next",
+   "n": 128,
+   "accepted": 42,
+   "accepted_pct": 32.8,
+   "accepted_fields": 924,
+   "accepted_wrong": 0,
+   "accepted_undecided": 0,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [],
+   "unadjudicated_fields": [],
+   "halted": false
+  },
+  {
+   "a": "Qwen3.8-27B",
+   "b": "Qwen3.8-Flash-Next",
+   "n": 128,
+   "accepted": 37,
+   "accepted_pct": 28.9,
+   "accepted_fields": 814,
+   "accepted_wrong": 2,
+   "accepted_undecided": 1,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [
+    "310141B0100__VOTARON",
+    "094970B0100__VOTARON"
+   ],
+   "unadjudicated_fields": [],
+   "halted": false
+  },
+  {
+   "a": "Gemma-4-31B-IT",
+   "b": "DeepSeek-V4.1-Flash",
+   "n": 2,
+   "accepted": 2,
+   "accepted_pct": 100.0,
+   "accepted_fields": 44,
+   "accepted_wrong": 0,
+   "accepted_undecided": 0,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [],
+   "unadjudicated_fields": [],
+   "halted": true
+  },
+  {
+   "a": "Qwen3.8-27B",
+   "b": "DeepSeek-V4.1-Flash",
+   "n": 2,
+   "accepted": 2,
+   "accepted_pct": 100.0,
+   "accepted_fields": 44,
+   "accepted_wrong": 0,
+   "accepted_undecided": 0,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [],
+   "unadjudicated_fields": [],
+   "halted": true
+  },
+  {
+   "a": "DeepSeek-V4.1-Flash",
+   "b": "Qwen3.8-Flash-Next",
+   "n": 2,
+   "accepted": 1,
+   "accepted_pct": 50.0,
+   "accepted_fields": 22,
+   "accepted_wrong": 0,
+   "accepted_undecided": 0,
+   "accepted_unadjudicated": 0,
+   "wrong_fields": [],
+   "unadjudicated_fields": [],
+   "halted": true
+  }
+ ],
+ "not_compatible": {
+  "DeepSeek-V4-Flash-Vision-Exp": "reasoning used all 6,000 output tokens; no JSON answer",
+  "MiMo-V2.6-Flash": "reasoning used all 6,000 output tokens; no JSON answer",
+  "MiniCPM-V-4.7-1B": "accepts at most 4 images per request; ours has 7 (page + 6 tiles)",
+  "MiniCPM-V-4.7-35B-A3B": "unavailable: the provider answered HTTP 503 at every probe"
+ },
+ "not_vision": [
+  "DeepSeek-V4-Flash",
+  "GLM-5.3-Flash",
+  "MinerU2.5-Pro",
+  "MiniCPM5-2B"
+ ],
+ "params": {
+  "DeepSeek-V4.1-Flash": {
+   "temperature": 0,
+   "max_tokens": 6000,
+   "reasoning_effort": "low"
+  },
+  "Qwen3.8-Flash-Next": {
+   "temperature": 0,
+   "max_tokens": 6000,
+   "reasoning_effort": "low"
+  }
+ },
+ "recorded_spend_usd": 0.2894,
+ "billed_by_model_usd": {
+  "DeepSeek-V4-Flash-Vision-Exp": 0.0037,
+  "DeepSeek-V4.1-Flash": 0.1292,
+  "MiMo-V2.6-Flash": 0.0043,
+  "MiniCPM-V-4.7-1B": 0.0,
+  "MiniCPM-V-4.7-35B-A3B": 0.0,
+  "Qwen3.8-Flash-Next": 0.2678
+ },
+ "billed_as_of": "2026-10-16T02:15:48Z",
+ "total_bakeoff_spend_usd": 0.405
+}

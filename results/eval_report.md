@@ -5,7 +5,7 @@ committed calls files, the adjudication verdicts, the manifests, the official fi
 of the 300 forms (`app/data/`), and git. Each number is recomputed independently of the scripts that wrote what
 the app reads, then compared with it.
 
-**209 checks, 0 mismatches.** Exit code 0.
+**302 checks, 0 mismatches.** Exit code 0.
 
 | number | recomputed | app shows | source | check |
 |---|---|---|---|---|
@@ -129,6 +129,15 @@ the app reads, then compared with it.
 | Amendment 2 tier gemma: errors | 2 | 2 | app/data/two_reader_300.json | ok |
 | Amendment 2 tier gemma: undecided | 0 | 0 | app/data/two_reader_300.json | ok |
 | Amendment 2 tier gemma: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: accepted | 143 | 143 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: movil | 87 | 87 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: escaner | 56 | 56 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: fields | 3146 | 3146 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: disagree | 27 | 27 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: capture_errors | 7 | 7 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: errors | 14 | 14 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: undecided | 6 | 6 | app/data/two_reader_300.json | ok |
+| Amendment 2 tier gemma_capture: unadjudicated | 0 | 0 | app/data/two_reader_300.json | ok |
 | Amendment 2 tier qwen: accepted | 31 | 31 | app/data/two_reader_300.json | ok |
 | Amendment 2 tier qwen: movil | 8 | 8 | app/data/two_reader_300.json | ok |
 | Amendment 2 tier qwen: escaner | 23 | 23 | app/data/two_reader_300.json | ok |
@@ -179,12 +188,91 @@ the app reads, then compared with it.
 | Qwen: parsed | 239 | not displayed | results/calls_qwen.jsonl | info |
 | Qwen: cost_per_form | 0.0005965 | not displayed | results/calls_qwen.jsonl | info |
 | Qwen: mean_secs | 241 | not displayed | results/calls_qwen.jsonl | info |
+| Bake-off Gemma-4-31B-IT: n | 300 | 300 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: parsed | 289 | 289 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: field_agreement | 5879 | 5879 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: graded_fields | 6087 | 6087 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: accepted | 55 | 55 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: accepted_fields | 1210 | 1210 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: accepted_wrong | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: accepted_undecided | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off Gemma-4-31B-IT: cost_per_1000_usd | 0.1391 | 0.1391 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: n | 300 | 300 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: parsed | 239 | 239 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: field_agreement | 4861 | 4861 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: graded_fields | 5033 | 5033 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: accepted | 31 | 31 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: accepted_fields | 682 | 682 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: accepted_wrong | 1 | 1 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: accepted_undecided | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-27B: cost_per_1000_usd | 0.6415 | 0.6415 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: n | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: parsed | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: field_agreement | 44 | 44 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: graded_fields | 44 | 44 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: accepted | 1 | 1 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: accepted_fields | 22 | 22 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: accepted_wrong | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: accepted_undecided | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off DeepSeek-V4.1-Flash: cost_per_1000_usd | 3.6259 | 3.6259 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: n | 128 | 128 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: parsed | 122 | 122 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: field_agreement | 2464 | 2464 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: graded_fields | 2526 | 2526 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: accepted | 17 | 17 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: accepted_fields | 374 | 374 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: accepted_wrong | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: accepted_undecided | 1 | 1 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off Qwen3.8-Flash-Next: cost_per_1000_usd | 2.1111 | 2.1111 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-27B: n | 300 | 300 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-27B: accepted | 89 | 89 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-27B: accepted_fields | 1958 | 1958 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-27B: accepted_wrong | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-27B: accepted_undecided | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-27B: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + DeepSeek-V4.1-Flash: n | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + DeepSeek-V4.1-Flash: accepted | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + DeepSeek-V4.1-Flash: accepted_fields | 44 | 44 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + DeepSeek-V4.1-Flash: accepted_wrong | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + DeepSeek-V4.1-Flash: accepted_undecided | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + DeepSeek-V4.1-Flash: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-Flash-Next: n | 128 | 128 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-Flash-Next: accepted | 42 | 42 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-Flash-Next: accepted_fields | 924 | 924 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-Flash-Next: accepted_wrong | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-Flash-Next: accepted_undecided | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Gemma-4-31B-IT + Qwen3.8-Flash-Next: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + DeepSeek-V4.1-Flash: n | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + DeepSeek-V4.1-Flash: accepted | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + DeepSeek-V4.1-Flash: accepted_fields | 44 | 44 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + DeepSeek-V4.1-Flash: accepted_wrong | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + DeepSeek-V4.1-Flash: accepted_undecided | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + DeepSeek-V4.1-Flash: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + Qwen3.8-Flash-Next: n | 128 | 128 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + Qwen3.8-Flash-Next: accepted | 37 | 37 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + Qwen3.8-Flash-Next: accepted_fields | 814 | 814 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + Qwen3.8-Flash-Next: accepted_wrong | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + Qwen3.8-Flash-Next: accepted_undecided | 1 | 1 | app/data/bakeoff_300.json | ok |
+| Bake-off pair Qwen3.8-27B + Qwen3.8-Flash-Next: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair DeepSeek-V4.1-Flash + Qwen3.8-Flash-Next: n | 2 | 2 | app/data/bakeoff_300.json | ok |
+| Bake-off pair DeepSeek-V4.1-Flash + Qwen3.8-Flash-Next: accepted | 1 | 1 | app/data/bakeoff_300.json | ok |
+| Bake-off pair DeepSeek-V4.1-Flash + Qwen3.8-Flash-Next: accepted_fields | 22 | 22 | app/data/bakeoff_300.json | ok |
+| Bake-off pair DeepSeek-V4.1-Flash + Qwen3.8-Flash-Next: accepted_wrong | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair DeepSeek-V4.1-Flash + Qwen3.8-Flash-Next: accepted_undecided | 0 | 0 | app/data/bakeoff_300.json | ok |
+| Bake-off pair DeepSeek-V4.1-Flash + Qwen3.8-Flash-Next: accepted_unadjudicated | 0 | 0 | app/data/bakeoff_300.json | ok |
 | Rendered sentence 'unit' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'breakdown' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'keying' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'rate' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'yield' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'honest' | rebuilt | as rendered | app/numbers.py lines() | ok |
+| Rendered sentence 'gate' | rebuilt | as rendered | app/numbers.py lines() | ok |
+| Rendered sentence 'gemma_role' | rebuilt | as rendered | app/numbers.py lines() | ok |
+| Rendered sentence 'gate_note' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'preliminary' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'recall' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'receipt' | rebuilt | as rendered | app/numbers.py lines() | ok |
@@ -194,6 +282,10 @@ the app reads, then compared with it.
 | Rendered sentence 'label_cost' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'harmonised' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'faint' | rebuilt | as rendered | app/numbers.py lines() | ok |
+| Sample audit Merkle root | e56a8ef4f011b9e5 | e56a8ef4f011b9e5 | results/sample_audit_root.txt | ok |
+| Home strip: forms read on AMD | 310 | 310 | app/live_status.py (300 + live_audit/results.jsonl) | ok |
+| Home strip: disputes | 267 | 267 | app/live_status.py (300 + live_audit/results.jsonl) | ok |
+| Home strip: confirmed by the certified count | 22 | 22 | app/live_status.py (300 + live_audit/results.jsonl) | ok |
 | stored gate flag = frozen gate re-run | ok |  | integrity | ok |
 | verdicts.json covers exactly the disputed fields | ok |  | integrity | ok |
 | every undisputed recall field judged on the paper | ok |  | integrity | ok |
@@ -203,7 +295,7 @@ the app reads, then compared with it.
 | sha256 results/manifest_confirm100.json | cc238efc2a11... vs pre-registered cc238efc2a11... |  | protocol | ok |
 | sha256 results/manifest_cord100.json | 0763c48c9380... vs pre-registered 0763c48c9380... |  | protocol | ok |
 | frozen prompt = reader.prompt_sha256() | 3664253035b9... |  | protocol | ok |
-| every model call used the frozen prompt | 661 rows in calls_gemma.jsonl, calls_qwen.jsonl |  | protocol | ok |
+| every model call used the frozen prompt | 791 rows in calls_deepseek-v4.1-flash.jsonl, calls_gemma.jsonl, calls_qwen.jsonl, calls_qwen3.8-flash-next.jsonl |  | protocol | ok |
 | schema as pre-registered (at the protocol commit) | c9240632c3f0... at a93294c |  | protocol | ok |
 | PROTOCOL.md committed as on disk | clean |  | protocol | ok |
 | PROTOCOL_CORD.md committed as on disk | clean |  | protocol | ok |
@@ -221,6 +313,7 @@ the app reads, then compared with it.
 | Amendment 2 (secondary analyses) committed before first adjudication commit | 6bef8e0 2026-10-15 10:36:46Z < 2026-10-15 10:37:43Z |  | protocol | ok |
 | Amendment 3 (confirm100 draw) committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z; no such call yet |  | protocol | ok |
 | results/manifest_confirm100.json committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z; no such call yet |  | protocol | ok |
+| Amendment 6 (open-model bake-off) committed before first bake-off read | 971bce2 2026-10-15 23:53:46Z < 2026-10-16 00:14:48Z |  | protocol | ok |
 | PROTOCOL_CORD.md committed before first CORD call | 365eb56 2026-10-15 14:11:09Z; no such call yet |  | protocol | ok |
 
 Second reader: 300 of 300 Qwen rows present.
