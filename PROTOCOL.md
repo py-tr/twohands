@@ -337,3 +337,10 @@ cost per model from `GET /usage` (`by_model`; these models are used by this run 
 `results/bakeoff_billing.json` every 4 calls, instead of the per-row cost; (2) bake-off calls wait up to **900 s** for the
 answer instead of 300 s. The reported cost per 1,000 forms stays the per-row cost of the answered reads, with the billed
 total (including the lost calls) reported beside it. Reads already made are kept.
+
+**Amendment 6, deviation 2 (2026-10-16 01:00 UTC; no accuracy number looked at).** DeepSeek-V4.1-Flash is halted: the
+endpoint billed 21 of its requests ($0.105, about 4,200 output tokens each) and returned 2 answers; every other call ran
+past 300 s and then past 900 s with no reply while the model sat at its concurrency limit of 16. Its reads stop at the
+first n = 2 forms of the order and it is reported as halted (its numbers are listed, not compared). Its unspent cap moves
+to Qwen3.8-Flash-Next (cap $0.325 -> $0.545). The DeepSeek and Qwen3.8-Flash-Next calls also no longer share one
+worker pool, so a stalled model cannot starve the other.

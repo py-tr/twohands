@@ -298,7 +298,7 @@ def cmd_run(a) -> int:
     order = json.loads(ORDER.read_text(encoding="utf-8"))["order"]
     items = {it["clave"]: it for it in manifest()}
     prepared = {r["clave"]: r for r in jsonl(R / "prepare.jsonl") if r.get("status") in ("ok", "not_located", "unreadable")}
-    models = [m for m in plan["models"] if (not a.only or m in a.only.split(","))]
+    models = [m for m in plan["models"] if (not a.only or m in a.only.split(",")) and not plan["models"][m].get("halted")]
     for m in models:  # reader.MODELS is patched in this process only (record() names the model from it)
         reader.MODELS[slug(m)] = m
     spent_lock = threading.Lock()
@@ -516,6 +516,7 @@ def compute() -> dict:
         forms = order[: n_of[m]]
         b = block(m, forms)
         b["reused"] = m in DONE
+        b["halted"] = (plan["models"].get(m) or {}).get("halted", {}).get("reason")
         if n_of[m] < len(order):  # on a subset: Gemma and Qwen on the same first-n forms, for a like-for-like line
             b["same_n_reference"] = {d: {kk: block(d, forms)[kk] for kk in ("field_agreement_pct", "accepted", "accepted_wrong")}
                                      for d in DONE}
@@ -594,11 +595,14 @@ def markdown(d: dict) -> str:
             err += f" ({b['accepted_undecided']} undecided)"
         if b["accepted_unadjudicated"]:
             err += f" ({b['accepted_unadjudicated']} not adjudicated)"
-        L.append(f"| {m}{' (reads from the 300 run)' if b['reused'] else ''} | {b['n']} | {b['parsed']} | {b['field_agreement_pct']}% "
+        L.append(f"| {m}{' (reads from the 300 run)' if b['reused'] else ''}{' (halted, see below)' if b.get('halted') else ''} | {b['n']} | {b['parsed']} | {b['field_agreement_pct']}% "
                  f"({b['field_agreement']:,} / {b['graded_fields']:,}) | {b['accepted']} ({b['accepted_pct']}%) | {err} | "
                  f"${b['cost_per_1000_usd']:.2f} | {b['mean_latency_s']} s |")
     for m, why in d["not_compatible"].items():
         L.append(f"| {m} | - | - | not compatible: {why} | - | - | - | - |")
+    for m, b in M.items():
+        if b.get("halted"):
+            L += ["", f"{m} halted at n = {b['n']}: {b['halted']}. Its numbers rest on {b['n']} forms and are not compared."]
     if d.get("not_vision"):
         L += ["", "Not vision-capable on `/models` (no image input), so not probed as readers: " + ", ".join(d["not_vision"]) + "."]
     L += ["", "Field agreement is over the reads that parsed: a model whose replies were cut off on hard forms is graded on "

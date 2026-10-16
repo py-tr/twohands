@@ -16,7 +16,12 @@
    "probe_cost_usd": 0.0021329168,
    "est_full_300_usd": 0.6399,
    "cap_usd": 0.325,
-   "calls_file": "results/calls_deepseek-v4.1-flash.jsonl"
+   "calls_file": "results/calls_deepseek-v4.1-flash.jsonl",
+   "halted": {
+    "ts": "2026-10-16T01:00:00Z",
+    "reason": "deviation 2: the endpoint billed 21 requests ($0.105, about 4,200 output tokens each) and returned 2 answers; every other call ran past 300 s and then 900 s with no reply (the model was at its concurrency limit of 16)",
+    "billed_usd_at_halt": 0.10508
+   }
   },
   "Qwen3.8-Flash-Next": {
    "params": {
@@ -26,8 +31,9 @@
    },
    "probe_cost_usd": 0.00184044,
    "est_full_300_usd": 0.5521,
-   "cap_usd": 0.325,
-   "calls_file": "results/calls_qwen3.8-flash-next.jsonl"
+   "cap_usd": 0.545,
+   "calls_file": "results/calls_qwen3.8-flash-next.jsonl",
+   "cap_usd_before_deviation_2": 0.325
   }
  },
  "not_compatible": {

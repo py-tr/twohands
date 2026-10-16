@@ -1,0 +1,86 @@
+{
+ "period_base": {
+  "2026-10-15T16:00:00Z": {
+   "DeepSeek-V4-Flash-Vision-Exp": 0.0,
+   "DeepSeek-V4.1-Flash": 0.0,
+   "MiMo-V2.6-Flash": 0.0,
+   "MiniCPM-V-4.7-1B": 0.0,
+   "MiniCPM-V-4.7-35B-A3B": 0.0,
+   "Qwen3.8-Flash-Next": 0.0
+  }
+ },
+ "snapshots": [
+  {
+   "ts": "2026-10-16T00:34:49Z",
+   "daily_cost_used_usd": 0.28085756301879883,
+   "by_model": {
+    "DeepSeek-V4-Flash-Vision-Exp": {
+     "cost": 0.0037134999874979258,
+     "requests": 1,
+     "errors": 0
+    },
+    "DeepSeek-V4.1-Flash": {
+     "cost": 0.07527493685483932,
+     "requests": 16,
+     "errors": 0
+    },
+    "MiMo-V2.6-Flash": {
+     "cost": 0.00427517993375659,
+     "requests": 1,
+     "errors": 0
+    },
+    "MiniCPM-V-4.7-1B": {
+     "cost": 0.0,
+     "requests": 1,
+     "errors": 1
+    },
+    "MiniCPM-V-4.7-35B-A3B": {
+     "cost": 0.0,
+     "requests": 6,
+     "errors": 6
+    },
+    "Qwen3.8-Flash-Next": {
+     "cost": 0.015428997576236725,
+     "requests": 6,
+     "errors": 0
+    }
+   }
+  },
+  {
+   "ts": "2026-10-16T00:34:50Z",
+   "daily_cost_used_usd": 0.28085756301879883,
+   "by_model": {
+    "DeepSeek-V4-Flash-Vision-Exp": {
+     "cost": 0.0037134999874979258,
+     "requests": 1,
+     "errors": 0
+    },
+    "DeepSeek-V4.1-Flash": {
+     "cost": 0.07527493685483932,
+     "requests": 16,
+     "errors": 0
+    },
+    "MiMo-V2.6-Flash": {
+     "cost": 0.00427517993375659,
+     "requests": 1,
+     "errors": 0
+    },
+    "MiniCPM-V-4.7-1B": {
+     "cost": 0.0,
+     "requests": 1,
+     "errors": 1
+    },
+    "MiniCPM-V-4.7-35B-A3B": {
+     "cost": 0.0,
+     "requests": 6,
+     "errors": 6
+    },
+    "Qwen3.8-Flash-Next": {
+     "cost": 0.015428997576236725,
+     "requests": 6,
+     "errors": 0
+    }
+   }
+  }
+ ]
+}
