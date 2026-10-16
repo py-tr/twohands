@@ -14,6 +14,9 @@ The key's daily cap (TWOHANDS_KEY_DAILY_USD, $1.00; it resets at 16:00 UTC) is s
 
 Every answered request's cost (usage.cost) is appended to the spend ledger (cache/spend.jsonl, or TWOHANDS_SPEND_FILE)
 with its role and budget day, so separate bulk processes (a run, then the next in a chain) share the bulk share.
+Rows written while pytest runs (PYTEST_CURRENT_TEST set) carry ``"test": true`` and are never counted, and rows listed
+in the quarantine file next to the ledger (<ledger>.quarantine.jsonl: a ``note`` line, then the quarantined rows
+verbatim) are skipped too; the ledger itself is append-only and never rewritten (scripts/quarantine_spend.py).
 
 Pacing (twohands/ratelimit.py, cross-process): TWOHANDS_RPM total request starts per minute (16) of which
 TWOHANDS_LIVE_RPM (4) are always reserved for live reads: worker and bulk processes start at most RPM - LIVE_RPM
@@ -77,6 +80,8 @@ def record(role: str, usd, now: Optional[datetime] = None) -> None:
     if usd <= 0:
         return
     row = {"day": budget_day(now), "role": role, "usd": round(usd, 8), "ts": time.time(), "pid": os.getpid()}
+    if os.environ.get("PYTEST_CURRENT_TEST"):
+        row["test"] = True   # a fake cost from a test: never counted, even if it reaches the real ledger
     try:
         f = spend_file()
         f.parent.mkdir(parents=True, exist_ok=True)
@@ -86,17 +91,47 @@ def record(role: str, usd, now: Optional[datetime] = None) -> None:
         pass
 
 
+def quarantine_file(ledger: Optional[Path] = None) -> Path:
+    f = ledger or spend_file()
+    return f.with_name(f.stem + ".quarantine.jsonl")
+
+
+def row_key(r: dict) -> tuple:
+    """Identity of a ledger row (pid, ts, role, usd): what the quarantine file matches on."""
+    return (r.get("pid"), r.get("ts"), r.get("role"), r.get("usd"))
+
+
+def quarantined(ledger: Optional[Path] = None) -> set:
+    try:
+        lines = quarantine_file(ledger).read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return set()
+    out = set()
+    for line in lines:
+        try:
+            r = json.loads(line)
+        except ValueError:
+            continue
+        if "note" not in r:
+            out.add(row_key(r))
+    return out
+
+
 def spent(role: str, now: Optional[datetime] = None) -> float:
-    """The role's spend in the current budget day, from the ledger (a half-written line is skipped)."""
+    """The role's spend in the current budget day, from the ledger (a half-written line is skipped; test rows and
+    quarantined rows are not counted)."""
     day, tot = budget_day(now), 0.0
     try:
         lines = spend_file().read_text(encoding="utf-8").splitlines()
     except OSError:
         return 0.0
+    skip = quarantined()
     for line in lines:
         try:
             r = json.loads(line)
         except ValueError:
+            continue
+        if r.get("test") or row_key(r) in skip:
             continue
         if r.get("day") == day and r.get("role") == role:
             tot += float(r.get("usd") or 0)

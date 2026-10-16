@@ -157,7 +157,17 @@ def gather() -> dict:
             "causes": causes, "only": only, "routed_read": len(routed_read), "git": git,
             "first": {"g0": g0, "g1": g1, "q0": q0, "c0": c0}, "prompt": readermod.prompt_sha256(),
             "man_sha": man_sha, "schema_sha": schema_sha, "integrity": rec["integrity"],
-            "n_graded": len(graded), "n_fields_schema": len(s["fields"])}
+            "n_graded": len(graded), "n_fields_schema": len(s["fields"]), "c100": confirm100()}
+
+
+def confirm100() -> dict | None:
+    """The pre-registered confirmation (Amendment 3; v3 per Amendment 7): results/confirm100.json, written by
+    scripts/confirm100_score.py and recomputed by make eval. None until it exists."""
+    p = R / "confirm100.json"
+    if not p.is_file():
+        return None
+    res = jload(p)
+    return {"line": res["lines"]["v2"], "line_v3": res["lines"]["v3"]}
 
 
 # ------------------------------------------------------------------ the text
@@ -250,6 +260,9 @@ def render(D: dict) -> str:
     hm = H["harmonised"]
     forms = H["forms"]
     first_t = lambda t: ev.utc(t) if t else "no such call yet"  # noqa: E731
+    c100 = D.get("c100")
+    c100_text = (f"**Confirmation.** In {c100['line']} (`results/confirm100.md`). Also, {c100['line_v3']}."
+                 if c100 else "The confirmation draw for gate v2 (Amendment 3) has not been scored yet.")
 
     def gate_row(name, status, o, errors, undecided=0):
         return (f"| {name} | {status} | {o['accepted']} ({pct(o['accepted'], forms)}) | {o['movil']} / {o['escaner']} | "
@@ -341,7 +354,7 @@ calibration set (seed 20261016, n = {cal['n']}, disjoint from the 300): {cal['lo
 {cal['aligned_by_eye']} correctly aligned by an eye audit of every page (Wilson 95% {ci(cal['aligned_by_eye'], cal['n'], 1)}).
 Amendment 2 was written after seeing the Gemma accept rate and before any Qwen read or adjudication. Amendment 3
 defines gate v2 **after** seeing the reads and their adjudication, so every v2 number on the 300 is post-hoc; its test
-is the fresh 100-form draw, which has not been read.
+is the fresh 100-form draw{", scored in section 4 (`results/confirm100.md`)" if c100 else ", which has not been read"}.
 
 ## 3. Method
 
@@ -402,6 +415,8 @@ test nothing**; they are shown so that no variant is hidden.
 | Gate | Status | Accepted (/{forms}) | Phone / scan | Accepted fields | Wrong | Wrong, Wilson 95% | Undecided |
 |---|---|---|---|---|---|---|---|
 {chr(10).join(gate_rows)}
+
+{c100_text}
 
 The two-reader strict mode drops the row-label check and the section identities and relies on the readers'
 agreement instead, which is why it accepts more forms than either reader alone. The two readers agree on all 23
@@ -498,7 +513,7 @@ routed. The pre-registered locator would have left {len(D['orig_nl'])}.
 
 ## 6. Limits
 
-- One sample of {forms} forms of one form type; the confirmation draw for gate v2 (Amendment 3) has not been read,
+- One sample of {forms} forms of one form type{"; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass)" if c100 else "; the confirmation draw for gate v2 (Amendment 3) has not been read"},
   and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `{short(g['cord'])}`) was not run.
 - One adjudicator, an AI agent; crops are published for re-checking.
 - Recall rests on {rc['E2']} fields.

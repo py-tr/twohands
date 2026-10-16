@@ -399,9 +399,11 @@ def test_source_is_polite_one_request_per_second_and_retries():
                    interval_s=0.2)
     assert src.interval_s == 1.0                          # never faster than one request per second
     assert src.fetch("u") == b"img"
-    assert all(b - a >= 1.0 for a, b in zip(calls, calls[1:]))
+    # float clock: start + (last + 1 - start) can land one ulp short of last + 1 (the random backoff picks the start),
+    # which made this test flaky; one second minus 1e-9 is still "never faster than one request per second"
+    assert all(b - a >= 1.0 - 1e-9 for a, b in zip(calls, calls[1:]))
     src.fetch("u2")
-    assert calls[-1] - calls[-2] >= 1.0
+    assert calls[-1] - calls[-2] >= 1.0 - 1e-9
     src2 = W.Source(pathlib.Path(tempfile.mkdtemp()) / "s.json", get=lambda u: (403, b"", {}), clock=lambda: now["t"],
                     sleep=sleep)
     with pytest.raises(W.SourcePaused):

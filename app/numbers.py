@@ -258,8 +258,18 @@ def home(st: storemod.Store) -> dict:
         "gemma": _gemma_vs_qwen(),
         "bakeoff": _bakeoff(),
     }
-    return {"headline": headline_cards, "H": H, "L": L, "T": tiers(), "business": business, "cited": CITED, "amd": amd,
+    return {"confirm100": _confirm100(), "headline": headline_cards, "H": H, "L": L, "T": tiers(), "business": business, "cited": CITED, "amd": amd,
             "ledger": lm, "pilot": g, "pilot_q": q}
+
+
+def _confirm100():
+    """The pre-registered confirmation (PROTOCOL Amendment 3; gate v3 per Amendment 7): results/confirm100.json, from
+    scripts/confirm100_score.py, recomputed by make eval. None until scored."""
+    from twohands import REPO
+    d = storemod._jload(REPO / "results" / "confirm100.json", None)
+    if not d or not d.get("lines"):
+        return None
+    return {"v2": d["lines"]["v2"], "v3": d["lines"]["v3"]}
 
 
 def _bakeoff():

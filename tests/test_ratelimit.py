@@ -39,6 +39,7 @@ def test_role_shares_and_spend_ledger(tmp_path, monkeypatch):
     from datetime import datetime, timezone
     from twohands import budgets
     monkeypatch.setenv("TWOHANDS_SPEND_FILE", str(tmp_path / "spend.jsonl"))
+    monkeypatch.delenv("PYTEST_CURRENT_TEST")   # record as a real process would (test-tagged rows are never counted)
     assert budgets.share("worker") + budgets.share("bulk") + budgets.share("live") <= budgets.KEY_DAILY_USD + 1e-9
     assert (budgets.share("worker"), budgets.share("bulk"), budgets.share("live")) == (0.60, 0.30, 0.10)
     assert budgets.RPM_TOTAL >= 16 and budgets.LIVE_RPM >= 4

@@ -50,7 +50,7 @@ id, excluding the 43 pilot forms. Stratified by state x capture type, proportion
 | results/manifest.json (the 300) | `a93294c` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
 | Amendment 1: the page locator | `b0e443c` | 2026-10-15 01:29:19Z | preparation of the 300 | first successful Gemma read 2026-10-15 05:56:11Z |
 | Amendment 2: secondary analyses (two-reader tiers, adjudication of every disagreement) | `6bef8e0` | 2026-10-15 10:36:46Z | Qwen pass, adjudication | Qwen 2026-10-15 11:53:45Z; first adjudication commit 2026-10-15 10:37:43Z |
-| Amendment 3: gate v2 and a fresh 100-form confirmation draw | `62f40cd` | 2026-10-15 13:36:57Z | the confirmation 100 | no such call yet |
+| Amendment 3: gate v2 and a fresh 100-form confirmation draw | `62f40cd` | 2026-10-15 13:36:57Z | the confirmation 100 | 2026-10-16 08:51:07Z |
 
 PROTOCOL.md is append-only (`make eval` checks that no commit deletes a line of it). Amendment 1 changed only the
 locator, before any successful read of the 300: the pre-registered locator left 52 of 300 pages
@@ -59,7 +59,7 @@ calibration set (seed 20261016, n = 150, disjoint from the 300): 144 of 150 loca
 143 correctly aligned by an eye audit of every page (Wilson 95% 90.7% to 97.7%).
 Amendment 2 was written after seeing the Gemma accept rate and before any Qwen read or adjudication. Amendment 3
 defines gate v2 **after** seeing the reads and their adjudication, so every v2 number on the 300 is post-hoc; its test
-is the fresh 100-form draw, which has not been read.
+is the fresh 100-form draw, scored in section 4 (`results/confirm100.md`).
 
 ## 3. Method
 
@@ -128,6 +128,8 @@ test nothing**; they are shown so that no variant is hidden.
 | Gate v2b (relaxed logo-row label) | POST-HOC (Amendment 3, secondary) | 62 (20.7%) | 39 / 23 | 1,364 | 1 | 0.01% to 0.41% | 0 |
 | Gate v2-2R (unused ballots confirmed by words or Qwen) | POST-HOC (Amendment 3) | 54 (18.0%) | 27 / 27 | 1,188 | 1 | 0.01% to 0.47% | 0 |
 | Gate v2-2R strict (unused ballots only if Qwen agrees) | POST-HOC (in no amendment) | 45 (15.0%) | 19 / 26 | 990 | 0 | 0.00% to 0.39% | 0 |
+
+**Confirmation.** In the pre-registered confirmation on 100 fresh forms: gate v2 accepted 22 forms, 0 of 484 accepted fields wrong; criterion met (`results/confirm100.md`). Also, gate v3 (Amendment 7, pre-registered before these reads) accepted the other 22 fields on 24 forms (0 touchless), 0 of 504 accepted fields wrong; criterion met; 24 SOBRANTES sent to a person (no second reader was run, so the two-read rule routes every SOBRANTES).
 
 The two-reader strict mode drops the row-label check and the section identities and relies on the readers'
 agreement instead, which is why it accepts more forms than either reader alone. The two readers agree on all 23
@@ -278,7 +280,7 @@ and on this sample every one that did went through the field outside every ident
 
 ## 6. Limits
 
-- One sample of 300 forms of one form type; the confirmation draw for gate v2 (Amendment 3) has not been read,
+- One sample of 300 forms of one form type; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass),
   and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `365eb56`) was not run.
 - One adjudicator, an AI agent; crops are published for re-checking.
 - Recall rests on 7 fields.

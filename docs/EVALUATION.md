@@ -90,6 +90,18 @@ both digits and words (paper 234) and Qwen read 234. The strict variant, which n
 words say, removes it. Sources: `results/two_reader_300.md`, `app/data/two_reader_300.json`
 (`scripts/two_reader_300.py`), `results/posthoc_v2_300.md`; `make eval` recomputes every number independently.
 
+**The pre-registered confirmation on 100 fresh forms: gate v2 accepted 22 forms, 0 of 484 accepted fields wrong;
+criterion met** (Amendment 3: accepted-field error <= 0.5% after adjudication; Wilson 95% 0.00% to 0.79%, so the interval
+still reaches above 0.5%, as the amendment said it would at this size). Gemma read all 100 (97 located; the 3 unlocated
+pages stay in the denominator); 14 phone photos and 8 scans accepted. The frozen gate (v1) accepted 23 with 1 wrong
+field in 506 (070212B0100 unused ballots, read 3114, paper 314: the field in no identity, with no words written), which
+is exactly the error v2 exists to stop; v2b (secondary) accepted 29 with 0 wrong in 638. Gate v3 (Amendment 7, committed
+before these reads) accepted the other 22 fields on 24 forms, 0 of 504 wrong, but no Qwen pass was run on the 100, so its
+two-read rule sends every unused-ballots field to a person (0 touchless); with words + ballot stock alone, 21 of the 24
+would be touchless and both wrong unused-ballot reads (3114 vs 314, 207 vs 217) are caught. Every accepted-field
+disagreement with PREP (3 fields) was adjudicated on its crop by an AI adjudicator (an AI model), labelled as such:
+`results/confirm100.md`, `results/adjudication_confirm100/`.
+
 ### Behind "more than ten times the yield of a random check"
 
 On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). That is a small subset; Wilson 65-100%.

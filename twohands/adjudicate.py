@@ -91,6 +91,8 @@ def main(argv=None) -> list:
     ap.add_argument("--model", default="gemma")
     ap.add_argument("--only", default=None)
     ap.add_argument("--schema", default=schema.DEFAULT)
+    ap.add_argument("--calls", default=None, help="another calls file (e.g. results/calls_confirm100_gemma.jsonl)")
+    ap.add_argument("--out", default=None, help="output dir for that calls file (e.g. results/adjudication_confirm100)")
     ap.add_argument("--box", action="append", default=[], metavar="CLAVE__FIELD=x0,y0,x1,y1",
                     help="custom crop box (page fractions) for one field, e.g. when digits were written below the boxes")
     a = ap.parse_args(argv)
@@ -101,10 +103,12 @@ def main(argv=None) -> list:
     out_dir = OUT if default_form else res_dir / "adjudication"
     prep_csv = PREP_CSV if default_form else REPO / src["prep_csv"]
     comp_csv = COMP_CSV if default_form else (REPO / src["computos_csv"] if src.get("computos_csv") else None)
+    if a.out:
+        out_dir = REPO / a.out
     custom = dict(CUSTOM_BOXES) if default_form else {}
     custom.update({kk: tuple(float(x) for x in vv.split(",")) for kk, vv in (b.split("=", 1) for b in a.box)})
     rows = {}
-    for r in jsonl(res_dir / f"calls_{a.model}.jsonl"):
+    for r in jsonl(REPO / a.calls if a.calls else res_dir / f"calls_{a.model}.jsonl"):
         rows[r["clave"]] = r
     only = set(a.only.split(",")) if a.only else None
     claves = {k for k in rows if (only is None or k in only)}

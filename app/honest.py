@@ -233,7 +233,9 @@ def model_line() -> str:
     s = f"Measured on {g} on the AMD Token Factory"
     ws = outage_windows(g)
     if ws:
-        w = ws[-1]
+        # an open window (still out) if there is one, else the longest: the withdrawal, not a minutes-long probe blip
+        opened = [w for w in ws if not w["end"]]
+        w = opened[-1] if opened else max(ws, key=lambda w: (w["hours"], w["start"]))
         s += (f"; {g} was unavailable there from {w['start_text']} to {w['end_text']} (endpoint log), when live reads "
               f"used {q}" if w["end"] else f"; {g} is unavailable there since {w['start_text']} (endpoint log); live "
                                            f"reads use {q}")

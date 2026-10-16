@@ -1,0 +1,20 @@
+{
+ "070212B0100__SOBRANTES": {
+  "verdict": "capture_right",
+  "paper": 314,
+  "evidence": "Digits box: 3 | 1 | 4 (the 1 drawn with a doubled stroke); words line empty. Model read 3114, PREP 314.",
+  "adjudicator": "AI (an AI model), from the published crop"
+ },
+ "152285C0100__SOBRANTES": {
+  "verdict": "capture_right",
+  "paper": 217,
+  "evidence": "Words 'Doscientos diecisiete', digits 2 | 1 | 7. Model digits 207 (its words 217), PREP 217.",
+  "adjudicator": "AI (an AI model), from the published crop"
+ },
+ "321493B0100__NULOS": {
+  "verdict": "model_right",
+  "paper": 5,
+  "evidence": "Words 'Cinco', digits 0 | 0 | 5. Model 5; PREP 0 is a capture slip; Computos 4 is a recount (Recuento), not this paper.",
+  "adjudicator": "AI (an AI model), from the published crop"
+ }
+}

@@ -79,6 +79,7 @@
     </div>
   </div>
   {% if G.takeaway %}<p class="gtake">{{ G.takeaway }}</p>{% endif %}
+  {% if n.confirm100 %}<p class="gtake" id="confirm100"><b>Confirmation.</b> {{ n.confirm100.v2[0]|upper }}{{ n.confirm100.v2[1:] }}. Also, {{ n.confirm100.v3 }}. {{ source("results/confirm100.md (scripts/confirm100_score.py; crops and AI-adjudicated verdicts in results/adjudication_confirm100/), recomputed by make eval") }}</p>{% endif %}
   <p class="small" style="margin-top:10px">Two readers, light gate: Gemma and Qwen read the same digits on all 23 fields, every digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total. It drops the row-label check and the section identities and relies on the two readers' agreement instead. The two readers agree on all 23 digits on {{ T.agree_all_23 }} forms.</p>
   <p class="tiny">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl (last read per form), results/adjudication/verdicts.json; app/data/two_reader_300.json by scripts/two_reader_300.py; results/posthoc_v2_300.json; both recomputed by make eval") }}</p>
 </section>

@@ -133,13 +133,38 @@ def test_no_touchless_in_any_title():
 
 
 # ------------------------------------------------------------------------------------------------ (c) model line
+def _windows_from_log(model, path):
+    """Independent recomputation: each span from a 400 on a probe / live read to the next 200 (any kind)."""
+    rows = []
+    for ln in path.read_text(encoding="utf-8").splitlines():
+        try:
+            r = json.loads(ln)
+        except ValueError:
+            continue
+        if r.get("model") == model and r.get("ts"):
+            rows.append(r)
+    out, start = [], None
+    for r in sorted(rows, key=lambda r: r["ts"]):
+        if start is None and r.get("status") == 400 and r.get("kind") in ("probe", "live"):
+            start = r["ts"]
+        elif start is not None and r.get("status") == 200:
+            out.append((start, r["ts"]))
+            start = None
+    return out + ([(start, None)] if start else [])
+
+
 def test_outage_window_is_computed_from_the_endpoint_log(tmp_path):
     from twohands import amd
     ws = honest.outage_windows("Gemma-4-31B-IT", amd.HEALTH)
-    assert ws and ws[0]["start"] == "2026-10-15T15:41:09Z" and ws[0]["end"] == "2026-10-16T02:06:46Z"
-    assert ws[0]["start_text"] == "2026-10-15 15:41 UTC" and ws[0]["end_text"] == "2026-10-16 02:06 UTC"
+    assert [(w["start"], w["end"]) for w in ws] == _windows_from_log("Gemma-4-31B-IT", amd.HEALTH)
+    # the withdrawal of 2026-10-15 is in the committed log, whatever windows the log gains after it
+    assert ("2026-10-15T15:41:09Z", "2026-10-16T02:06:46Z") in [(w["start"], w["end"]) for w in ws]
+    w0 = next(w for w in ws if w["start"] == "2026-10-15T15:41:09Z")
+    assert w0["start_text"] == "2026-10-15 15:41 UTC" and w0["end_text"] == "2026-10-16 02:06 UTC"
     assert honest.outage_text().startswith("Gemma-4-31B-IT unavailable on the AMD Token Factory from 2026-10-15 15:41 UTC "
                                            "(first HTTP 400) to 2026-10-16 02:06 UTC (first 200 again)")
+    for w in ws:
+        assert w["start_text"] in honest.outage_text()
     log = tmp_path / "h.jsonl"     # a 400 on a batch read is one bad request, not an outage; an open window says so
     rows = [{"ts": "2026-10-17T01:00:00Z", "model": "M", "status": 400, "kind": "read"},
             {"ts": "2026-10-17T02:00:00Z", "model": "M", "status": 400, "kind": "probe"},
@@ -159,8 +184,14 @@ def test_reader_now_names_the_current_model_on_amd():
 def test_model_line_names_the_outage_and_omits_the_bench_until_it_ran(tmp_path, monkeypatch):
     monkeypatch.setattr(honest, "RESULTS", tmp_path)
     s = honest.model_line()
-    assert s == ("Measured on Gemma-4-31B-IT on the AMD Token Factory; Gemma-4-31B-IT was unavailable there from "
-                 "2026-10-15 15:41 UTC to 2026-10-16 02:06 UTC (endpoint log), when live reads used Qwen3.8-27B.")
+    ws = honest.outage_windows("Gemma-4-31B-IT")
+    opened = [w for w in ws if not w["end"]]
+    w = opened[-1] if opened else max(ws, key=lambda w: (w["hours"], w["start"]))   # still out, else the longest
+    if w["end"]:
+        assert s == ("Measured on Gemma-4-31B-IT on the AMD Token Factory; Gemma-4-31B-IT was unavailable there from "
+                     f"{w['start_text']} to {w['end_text']} (endpoint log), when live reads used Qwen3.8-27B.")
+    else:
+        assert f"is unavailable there since {w['start_text']}" in s
     assert "MI300X" not in s
     (tmp_path / "bench_mi300x_20261016T000000Z.json").write_text(json.dumps({"meta": {"model": "gemma"}, "levels": [{"ok": 0}]}))
     assert "MI300X" not in honest.model_line()          # a run with no answered request is not a bench
