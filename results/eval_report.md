@@ -298,7 +298,7 @@ the app reads, then compared with it.
 | sha256 results/manifest_cord100.json | 0763c48c9380... vs pre-registered 0763c48c9380... |  | protocol | ok |
 | frozen prompt = reader.prompt_sha256() | 3664253035b9... |  | protocol | ok |
 | every model call used the frozen prompt | 1211 rows in calls_confirm100_gemma.jsonl, calls_deepseek-v4.1-flash.jsonl, calls_gemma.jsonl, calls_gemma_b4.jsonl, calls_qwen.jsonl, calls_qwen3.8-flash-next.jsonl |  | protocol | ok |
-| schema as pre-registered (at the protocol commit) | c9240632c3f0... at a93294c |  | protocol | ok |
+| schema as pre-registered (at the protocol commit) | c9240632c3f0... at f85ca1f |  | protocol | ok |
 | PROTOCOL.md committed as on disk | clean |  | protocol | ok |
 | PROTOCOL_CORD.md committed as on disk | clean |  | protocol | ok |
 | results/manifest.json committed as on disk | clean |  | protocol | ok |
@@ -307,15 +307,15 @@ the app reads, then compared with it.
 | twohands/gate.py committed as on disk | clean |  | protocol | ok |
 | twohands/reader.py committed as on disk | clean |  | protocol | ok |
 | PROTOCOL.md is append-only (amendments add, never edit) | no deletions |  | protocol | ok |
-| PROTOCOL.md (pre-registration) committed before first recorded Gemma call on the 300 | a93294c 2026-10-15 01:09:08Z < 2026-10-15 01:38:17Z |  | protocol | ok |
-| results/manifest.json committed before first recorded Gemma call on the 300 | a93294c 2026-10-15 01:09:08Z < 2026-10-15 01:38:17Z |  | protocol | ok |
-| Amendment 1 (locator) committed before first recorded Gemma call on the 300 | b0e443c 2026-10-15 01:29:19Z < 2026-10-15 01:38:17Z |  | protocol | ok |
-| Amendment 1 (locator) committed before first successful Gemma read | b0e443c 2026-10-15 01:29:19Z < 2026-10-15 05:56:11Z |  | protocol | ok |
-| Amendment 2 (secondary analyses) committed before first Qwen call on the 300 | 6bef8e0 2026-10-15 10:36:46Z < 2026-10-15 11:53:45Z |  | protocol | ok |
-| Amendment 2 (secondary analyses) committed before first adjudication commit | 6bef8e0 2026-10-15 10:36:46Z < 2026-10-15 10:37:43Z |  | protocol | ok |
-| Amendment 3 (confirm100 draw) committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z < 2026-10-16 08:51:07Z |  | protocol | ok |
-| results/manifest_confirm100.json committed before first call on the confirm100 | 62f40cd 2026-10-15 13:36:57Z < 2026-10-16 08:51:07Z |  | protocol | ok |
-| Amendment 6 (open-model bake-off) committed before first bake-off read | 971bce2 2026-10-15 23:53:46Z < 2026-10-16 00:14:48Z |  | protocol | ok |
-| PROTOCOL_CORD.md committed before first CORD call | 365eb56 2026-10-15 14:11:09Z; no such call yet |  | protocol | ok |
+| PROTOCOL.md (pre-registration) committed before first recorded Gemma call on the 300 | f85ca1f 2026-10-15 01:09:08Z < 2026-10-15 01:38:17Z |  | protocol | ok |
+| results/manifest.json committed before first recorded Gemma call on the 300 | f85ca1f 2026-10-15 01:09:08Z < 2026-10-15 01:38:17Z |  | protocol | ok |
+| Amendment 1 (locator) committed before first recorded Gemma call on the 300 | ddfabe9 2026-10-15 01:29:19Z < 2026-10-15 01:38:17Z |  | protocol | ok |
+| Amendment 1 (locator) committed before first successful Gemma read | ddfabe9 2026-10-15 01:29:19Z < 2026-10-15 05:56:11Z |  | protocol | ok |
+| Amendment 2 (secondary analyses) committed before first Qwen call on the 300 | 56fe2e1 2026-10-15 10:36:46Z < 2026-10-15 11:53:45Z |  | protocol | ok |
+| Amendment 2 (secondary analyses) committed before first adjudication commit | 56fe2e1 2026-10-15 10:36:46Z < 2026-10-15 10:37:43Z |  | protocol | ok |
+| Amendment 3 (confirm100 draw) committed before first call on the confirm100 | 693451b 2026-10-15 13:36:57Z < 2026-10-16 08:51:07Z |  | protocol | ok |
+| results/manifest_confirm100.json committed before first call on the confirm100 | 693451b 2026-10-15 13:36:57Z < 2026-10-16 08:51:07Z |  | protocol | ok |
+| Amendment 6 (open-model bake-off) committed before first bake-off read | 1dd100a 2026-10-15 23:53:46Z < 2026-10-16 00:14:48Z |  | protocol | ok |
+| PROTOCOL_CORD.md committed before first CORD call | 5fccfb7 2026-10-15 14:11:09Z; no such call yet |  | protocol | ok |
 
 Second reader: 300 of 300 Qwen rows present.

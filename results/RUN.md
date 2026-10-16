@@ -1,6 +1,6 @@
 # Run log (pre-registered run, PROTOCOL.md)
 
-- Protocol commit: `a93294cc1a4ea61043d979ca353a2a353de95fdb` (2026-10-15 ~01:08 UTC), committed before any of the 300 actas was read.
+- Protocol commit: `f85ca1f5fe763f958d90ff1150319b3a9b389fb5` (2026-10-15 ~01:08 UTC), committed before any of the 300 actas was read.
 - Manifest sha256: `605af97756662abb2a27c35cf04075b1963ab50438bc710f7eab2b9ab706e081` (300 actas: 196 Movil, 104 Escaner; 0 replaced).
 - Prompt sha256: `3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f`.
 - Started: 2026-10-15T01:09:13Z, `python -u -m twohands.run --models gemma,qwen --max-daily-usd 0.80` (detached; PID 55456).

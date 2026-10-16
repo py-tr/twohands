@@ -50,11 +50,11 @@ id, excluding the 43 pilot forms. Stratified by state x capture type, proportion
 
 | Document | Commit | Committed | Governs | First governed call |
 |---|---|---|---|---|
-| PROTOCOL.md (sample, privacy, readers, gate, metrics, headline rule) | `a93294c` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
-| results/manifest.json (the 300) | `a93294c` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
-| Amendment 1: the page locator | `b0e443c` | 2026-10-15 01:29:19Z | preparation of the 300 | first successful Gemma read 2026-10-15 05:56:11Z |
-| Amendment 2: secondary analyses (two-reader tiers, adjudication of every disagreement) | `6bef8e0` | 2026-10-15 10:36:46Z | Qwen pass, adjudication | Qwen 2026-10-15 11:53:45Z; first adjudication commit 2026-10-15 10:37:43Z |
-| Amendment 3: gate v2 and a fresh 100-form confirmation draw | `62f40cd` | 2026-10-15 13:36:57Z | the confirmation 100 | 2026-10-16 08:51:07Z |
+| PROTOCOL.md (sample, privacy, readers, gate, metrics, headline rule) | `f85ca1f` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
+| results/manifest.json (the 300) | `f85ca1f` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
+| Amendment 1: the page locator | `ddfabe9` | 2026-10-15 01:29:19Z | preparation of the 300 | first successful Gemma read 2026-10-15 05:56:11Z |
+| Amendment 2: secondary analyses (two-reader tiers, adjudication of every disagreement) | `56fe2e1` | 2026-10-15 10:36:46Z | Qwen pass, adjudication | Qwen 2026-10-15 11:53:45Z; first adjudication commit 2026-10-15 10:37:43Z |
+| Amendment 3: gate v2 and a fresh 100-form confirmation draw | `693451b` | 2026-10-15 13:36:57Z | the confirmation 100 | 2026-10-16 08:51:07Z |
 
 PROTOCOL.md is append-only (`make eval` checks that no commit deletes a line of it). Amendment 1 changed only the
 locator, before any successful read of the 300: the pre-registered locator left 52 of 300 pages
@@ -292,7 +292,7 @@ and on this sample every one that did went through the field outside every ident
 ## 6. Limits
 
 - One sample of 300 forms of one form type; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass),
-  and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `365eb56`) was not run.
+  and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `5fccfb7`) was not run.
 - One adjudicator, the AI adjudicator (the builder's model, which could see both values); crops are published for re-checking.
 - Recall rests on 7 fields.
 - The two-reader strict tier checks words = digits and row sums only, without the section identities or labels.

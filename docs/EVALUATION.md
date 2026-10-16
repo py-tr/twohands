@@ -26,9 +26,9 @@ What we measured, how, and where it breaks. Every number has a source file; the 
 
 ## Pre-registered random run: 300 forms (the headline)
 
-The protocol (`PROTOCOL.md`) was committed in `a93294c` before any of the 300 was sent to a model. It fixes the
+The protocol (`PROTOCOL.md`) was committed in `f85ca1f` before any of the 300 was sent to a model. It fixes the
 sample (stratified by state x capture type, seed 20261015, manifest sha256 `605af977...e081`), the prompt (sha256
-`3664253035b9...`), the gate, the metrics and the headline rule. **Amendment 1** (commit `b0e443c`) replaced only
+`3664253035b9...`), the gate, the metrics and the headline rule. **Amendment 1** (commit `ddfabe9`) replaced only
 the page locator, also before any model read of the 300: the original locator left 52 of 300 pages unlocated (50 of
 them phone photos). The new locator was tuned on the 43 pilot forms and a **fresh calibration set of 150** (seed
 20261016, disjoint from the 300): **143 of 150 located and correctly aligned** by an eye audit of every page (Wilson
@@ -196,7 +196,7 @@ every PREP (Reglamento de Elecciones art. 347), and in 2024 UNAM centres audited
 
 ## Known limitations
 
-- A receipt-audit run on the public CORD benchmark was pre-registered (commit 365eb56) and not run for lack of time.
+- A receipt-audit run on the public CORD benchmark was pre-registered (commit 5fccfb7) and not run for lack of time.
 - The pre-registered Qwen pass on the 100-form confirmation (Amendment 3) was not run: a protocol deviation.
 
 - **One reader, one adjudicator.** Every disagreement was settled from the photo by the AI adjudicator (the builder's
