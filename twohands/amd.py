@@ -16,6 +16,7 @@ from twohands import budgets
 from twohands.ratelimit import parse_retry_after, shared
 
 TIMEOUT_S = 300
+LIVE_TIMEOUT_S = float(os.environ.get("LIVE_TIMEOUT_S", "120"))  # an interactive read: a hung request fails and retries
 
 
 def _cfg() -> tuple[str, str]:
@@ -88,7 +89,7 @@ def chat(body: dict, retries: int = 6, log=print, kind: str = "read", timing: di
         with lim.slot(live=True) if role == "live" else lim.slot():
             t0 = time.time()
             try:
-                r = _req("/chat/completions", body)
+                r = _req("/chat/completions", body, timeout=LIVE_TIMEOUT_S if role == "live" else TIMEOUT_S)
                 health(body.get("model"), 200, time.time() - t0, kind)
                 budgets.record(role, ((r or {}).get("usage") or {}).get("cost") if isinstance(r, dict) else None)
                 if timing is not None:

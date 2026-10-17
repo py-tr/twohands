@@ -47,7 +47,7 @@ MAX_READS_PER_IP = int(os.environ.get("LIVE_MAX_READS_PER_IP", "5"))
 from twohands import budgets as _budgets  # noqa: E402
 MAX_USD_PER_DAY = _budgets.share("live")   # LIVE_MAX_USD_PER_DAY, default 0.10
 QUEUE_MAX = int(os.environ.get("LIVE_QUEUE_MAX", "4"))
-LIVE_RETRIES = int(os.environ.get("LIVE_RETRIES", "2"))
+LIVE_RETRIES = int(os.environ.get("LIVE_RETRIES", "3"))
 ENDPOINT = "AMD Token Factory"   # every live read goes to the hosted endpoint (twohands/amd.py); the receipt names it
 LIVE_DIR = storemod.STATE / "live"
 BUDGET_FILE = storemod.STATE / "live_budget.json"
