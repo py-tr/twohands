@@ -133,8 +133,10 @@ def info() -> dict:
     cases = live.live_cases()
     ids = load_ids()
     from evolus import audit as auditmod
+    from evolus import routed
     saved = [r for r in auditmod.saved_runs() if r.get("finding")]
-    return ws | {"saved_cases": saved[:3], "saved_total": len(saved),"names": ids.get("names") or {}, "extractor_ready": bool(ids.get("extractor_id")), "runs_today": q.used(), "cap": q.cap,
+    rc = sorted((c for c in routed.cases().values() if c.get("finding")), key=lambda c: c.get("returned_at") or "", reverse=True)
+    return ws | {"routed": routed.summary(), "routed_cases": rc[:3], "saved_cases": saved[:3], "saved_total": len(saved),"names": ids.get("names") or {}, "extractor_ready": bool(ids.get("extractor_id")), "runs_today": q.used(), "cap": q.cap,
                  "live_cases": cases[:5], "live_total": len(cases),
                  "live_returned": sum(1 for c in cases if c.get("finding"))}
 

@@ -1,0 +1,23 @@
+{
+ "workspace": "py_tr",
+ "workflow": "Audit finding",
+ "sent": 150,
+ "succeeded": 150,
+ "failed": 0,
+ "open": 0,
+ "success_pct": 100.0,
+ "by_source": {
+  "r300": 100,
+  "colima": 50
+ },
+ "models_reported": [
+  "own/gemma-4-31b-it (ok)"
+ ],
+ "score_agrees": 150,
+ "window": [
+  "2026-10-17T00:53",
+  "2026-10-17T01:56"
+ ],
+ "http_errors": 0,
+ "line": "Evolus workspace py_tr: 150 \"Audit finding\" executions of real routed fields (100 from the 300 run, 50 from Colima), 150 completed with a drafted finding (100%), 0 failed, 0 still open; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl."
+}

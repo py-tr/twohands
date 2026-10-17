@@ -80,6 +80,26 @@ Tests: `tests/test_evolus_live.py` (Evolus mocked).
 hand-off": the Intake clerk drafts the task, AI Tool translate, Script), within the same daily cap; the run then
 shows on the card.
 
+## Routed cases in the workspace (`python -m evolus routed`, results/evolus/executions.jsonl)
+
+**Evolus workspace py_tr: 150 "Audit finding" executions of real routed fields (100 from the 300 run, 50 from Colima), 150 completed with a drafted finding (100%), 0 failed, 0 still open; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl.** Window 2026-10-17T00:53 to 2026-10-17T01:56 UTC; in all 150 the evidence score recomputed by the Evolus Script equals ours; 0 HTTP errors.
+
+Each execution is one run of the workflow **"Audit finding"** on one real case: a field the gate refused in a
+real read of a masked form (digits that disagree with the words, the field on the right of an identity that does not
+hold, a box not read, or a row label out of place), with the link to its masked crop (`/crop/<form>/<code>.jpg`, the
+app's crop pipeline on `data/masked/**`; the sha256 of the crop bytes is in the ledger) and the task for the clerk
+("Look at <field> on the paper ... and key the value the paper shows. The form was routed because ..."). The Intake
+clerk drafts the finding, the Evolus Script recomputes the evidence score with no AI. Sources: the pre-registered
+random 300 (`results/calls_gemma.jsonl`; "keyed" is that form's official first capture, as in the sample audit) and
+the Colima complete-state read (`results/colima/calls_gemma.jsonl`, Amendment 8b; nothing keyed is attached, and
+nothing is compared with the official count here). One case per routed form, forms in the order of
+sha256(case id), fields already sent as audit cases skipped. Only Option NN and plain field names leave the app; a
+guard refuses any input with a party name, a schema row id or an image path. Pacing: one start every 25 s, at most 4
+runs open, a shared-limiter token per start (one AMD call each); Evolus allows 60 requests/min per application
+(docs/evolus-openapi.json, "Rate limits"). The ledger makes it idempotent: a case id with an execution id is never
+sent again, and an open run is polled, not re-sent. Generated and checked by `python scripts/evolus_ledger.py
+[--check]` (`make eval`); the table of every execution is in `results/evolus/summary.md`.
+
 ## The audit process in Evolus ("Audit your capture")
 
 The buyer is the state institute (OPLE) that runs the regulated second capture; the capture auditor who works for it is the user here. Two Hands compares a keyed CSV with the paper and orders every disputed field by its
@@ -208,6 +228,7 @@ python -m evolus setup --model Gemma-4-31B-IT   # move both agents to Gemma (don
 python -m evolus check                          # which blocks are configured; agents; AI Tools
 python -m evolus run --pick 2,3                 # 2 accepted + 3 routed forms -> results/evolus_runs.jsonl
 python -m evolus audit --max 18                 # the sample audit's strong fields -> results/evolus_audit_runs.jsonl
+python -m evolus routed --plan r300:100,colima:50  # routed fields as "Audit finding" cases -> results/evolus/executions.jsonl
 ```
 
 Ids go to `evolus/ids.json`. It holds no secrets and is safe to commit; the config reads it before the environment.

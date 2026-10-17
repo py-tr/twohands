@@ -7,6 +7,9 @@
     python -m evolus run --pick 2,3            pick 2 accepted + 3 routed forms (by the measured read) and run them
     python -m evolus audit [--audit ID]        open the strong-evidence fields of an audit (default: a new sample
                                                audit) as Evolus audit cases -> results/evolus_audit_runs.jsonl
+    python -m evolus routed --plan r300:100,colima:50
+                                               routed fields of real reads as "Audit finding" cases, paced and
+                                               idempotent -> results/evolus/executions.jsonl (--dry-run: list only)
     python -m evolus mcp-register --url U      print the steps to connect the Two Hands MCP server to the agent;
         [--server-id ID --apply]               with --apply, attach the server (once added in Evolus) to the agent
 
@@ -223,6 +226,15 @@ def main(argv=None) -> int:
     au.add_argument("--poll-every", type=float, default=8.0)
     au.add_argument("--out", default=str(storemod.RESULTS / "evolus_audit_runs.jsonl"))
     au.set_defaults(fn=cmd_audit)
+    ro = sub.add_parser("routed", help="routed fields of real reads as 'Audit finding' cases (ledger, paced)")
+    ro.add_argument("--plan", default="r300:100,colima:50", help="source:count,... (sources: r300, colima)")
+    ro.add_argument("--cap", type=int, default=150, help="at most this many executions in this call")
+    ro.add_argument("--interval", type=float, default=25.0, help="seconds between two starts")
+    ro.add_argument("--in-flight", type=int, default=4)
+    ro.add_argument("--after-pid", type=int, default=0, help="wait (polling every 10 min) until this process ends")
+    ro.add_argument("--wait-max", type=int, default=7200, help="give up waiting for --after-pid after this many s")
+    ro.add_argument("--dry-run", action="store_true", help="build and check the cases; send nothing")
+    ro.set_defaults(fn=lambda a: __import__("evolus.routed", fromlist=["main"]).main(a))
     mr = sub.add_parser("mcp-register", help="connect the Two Hands MCP server to the agent (steps; --apply)")
     mr.add_argument("--url", required=True, help="the public https URL of the MCP endpoint, e.g. https://h/mcp")
     mr.add_argument("--server-id", default="", help="the MCP server id Evolus gave it (step 2)")
