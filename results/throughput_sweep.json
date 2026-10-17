@@ -1,0 +1,122 @@
+{
+ "label": "shared endpoint, includes queueing; not GPU time; not a self-hosted benchmark",
+ "measured": [
+  "2026-10-17T00:48:51Z",
+  "2026-10-17T01:03:40Z"
+ ],
+ "levels": [
+  {
+   "in_flight": 1,
+   "forms": 6,
+   "answered": 6,
+   "window": [
+    "2026-10-17T00:48:51Z",
+    "2026-10-17T00:54:07Z"
+   ],
+   "span_s": 316.0,
+   "forms_per_min": 1.14,
+   "requests_per_min": 1.14,
+   "http_p50_s": 53.0,
+   "http_p95_s": 84.5,
+   "wall_p50_s": 53.1,
+   "wall_p95_s": 84.5,
+   "error_rate": 0.0,
+   "retries": 0,
+   "n_429": 0,
+   "tokens_in_mean": 2609,
+   "tokens_out_mean": 800,
+   "usd_per_form": 0.000145,
+   "usd_total": 0.000872,
+   "parsed_ok": 6
+  },
+  {
+   "in_flight": 2,
+   "forms": 8,
+   "answered": 8,
+   "window": [
+    "2026-10-17T00:54:07Z",
+    "2026-10-17T00:57:23Z"
+   ],
+   "span_s": 196.0,
+   "forms_per_min": 2.45,
+   "requests_per_min": 2.45,
+   "http_p50_s": 37.6,
+   "http_p95_s": 77.9,
+   "wall_p50_s": 42.2,
+   "wall_p95_s": 80.3,
+   "error_rate": 0.0,
+   "retries": 0,
+   "n_429": 0,
+   "tokens_in_mean": 2609,
+   "tokens_out_mean": 804,
+   "usd_per_form": 0.000146,
+   "usd_total": 0.001165,
+   "parsed_ok": 8
+  },
+  {
+   "in_flight": 4,
+   "forms": 12,
+   "answered": 12,
+   "window": [
+    "2026-10-17T00:57:23Z",
+    "2026-10-17T00:59:51Z"
+   ],
+   "span_s": 148.5,
+   "forms_per_min": 4.85,
+   "requests_per_min": 4.85,
+   "http_p50_s": 31.8,
+   "http_p95_s": 67.0,
+   "wall_p50_s": 34.0,
+   "wall_p95_s": 67.4,
+   "error_rate": 0.0,
+   "retries": 0,
+   "n_429": 0,
+   "tokens_in_mean": 2609,
+   "tokens_out_mean": 804,
+   "usd_per_form": 0.000146,
+   "usd_total": 0.001746,
+   "parsed_ok": 12
+  },
+  {
+   "in_flight": 6,
+   "forms": 18,
+   "answered": 18,
+   "window": [
+    "2026-10-17T00:59:51Z",
+    "2026-10-17T01:03:40Z"
+   ],
+   "span_s": 228.6,
+   "forms_per_min": 4.72,
+   "requests_per_min": 4.72,
+   "http_p50_s": 40.2,
+   "http_p95_s": 108.0,
+   "wall_p50_s": 62.6,
+   "wall_p95_s": 149.3,
+   "error_rate": 0.0,
+   "retries": 0,
+   "n_429": 0,
+   "tokens_in_mean": 2609,
+   "tokens_out_mean": 801,
+   "usd_per_form": 0.000145,
+   "usd_total": 0.002615,
+   "parsed_ok": 18
+  }
+ ],
+ "reads": 44,
+ "peak_starts_60s": 8,
+ "usd_total": 0.006398,
+ "images_sent": [
+  7
+ ],
+ "best_in_flight": 4,
+ "best_forms_per_min": 4.85,
+ "best_http_p50_s": 31.8,
+ "best_usd_per_form": 0.000146,
+ "national_forms": 169005,
+ "rpm_limit": 20,
+ "national_hours": 580.8,
+ "national_days": 24.2,
+ "national_usd": 25,
+ "arithmetic": "169,005 forms / 4.85 forms a minute = 34,846 min = 580.8 h (one request per form, so 4.85 requests a minute, under the 20 a minute limit)",
+ "line": "Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; 169,005 sheets in about 581 hours."
+}

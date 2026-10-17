@@ -19,17 +19,19 @@ at zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qw
 | Serving | hosted by AMD, OpenAI-compatible `/chat/completions` and `/usage`; client `twohands/amd.py` |
 | Benchmark (our data) | `results/amd_benchmark.md`, from `scripts/amd_bench.py` (checked by `make eval`): n = 289 reads of the pre-registered 300, 2026-10-15T05:56:11Z to 2026-10-15T11:49:05Z UTC |
 | Server time per form | 83.4 s mean, 70.7 s median (HTTP round trip of the answered request) |
-| Tokens per form | 2,609 in (1843 of them image tokens), 804 out; about 41 tokens/s in + out per request |
+| Tokens per form | 2,609 in (1843 of them image tokens), 804 out |
 | Cost per form | $0.000144 billed (`usage.cost`), $0.14 per 1,000; about $24 for all 169,005 national forms |
 | Reliability | 289 of 289 replies finished with `stop`; 126 failed HTTP attempts in the run window, each retried |
 | Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with tokens and billed cost (`results/calls_*.jsonl`); the model catalogue snapshot during the outage (below) |
 | What ran on AMD | every model read: Gemma (primary, the 300 and the 100-form confirmation), Qwen3.8-27B (second reader), the bake-off models (Amendment 6); the Evolus agent's model |
 
-Server time per form: 83 s mean, 71 s median: the HTTP round trip of the answered request on the shared endpoint, 289 answered reads of Gemma-4-31B-IT, 2,609 tokens in and 804 out per form (about 10 output tokens a second per request).
+Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out).
+
+Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; 169,005 sheets in about 581 hours.
 
 About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads).
 
-The 87 s per form reported for the 300 run is wall clock on a shared key under our own pacing (2 requests in flight), not GPU time; the endpoint's own round trip, which includes its queue, was 83 s of it.
+The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
 
 No self-hosted run exists: a self-hosted MI300X run was planned (`deploy/mi300x/`, the draft Amendment 4) and not
 run; `results/dryrun/` holds only dry runs of that kit against the Token Factory.

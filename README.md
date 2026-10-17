@@ -121,14 +121,14 @@ zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qwen3
 | Hardware | AMD GPUs behind the **AMD Token Factory** ([notebooks.amd.com/tokenfactory](https://notebooks.amd.com/tokenfactory)), which AMD describes as "GPU Accelerated AMD ROCm"; the endpoint does not report the GPU model, so we name no card |
 | Model | **Gemma-4-31B-IT**, temperature 0, one request per form (masked page + 6 zoomed tiles); every measured read of the 300 and of the 100-form confirmation |
 | Serving | hosted by AMD, OpenAI-compatible API; our client is `twohands/amd.py` (standard library only) |
-| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median: the HTTP round trip of the answered request on the shared endpoint, 289 answered reads of Gemma-4-31B-IT, 2,609 tokens in and 804 out per form (about 10 output tokens a second per request). About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
+| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; 169,005 sheets in about 581 hours. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
 | Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with its tokens and billed cost from the API's `usage` (`results/calls_*.jsonl`); the model catalogue snapshot during the outage ([docs/AMD.md](docs/AMD.md)) |
 | Outage | Gemma was unavailable on the shared endpoint from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (`results/endpoint_health.jsonl`); every stored Gemma number is Gemma on AMD |
 | Second reader | **Qwen3.8-27B** on the same endpoint, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
 | What ran on AMD | every model read: Gemma (primary), Qwen3.8-27B (second reader), the bake-off models; the Evolus agent's model |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
 
-The 87 s per form reported for the 300 run is wall clock on a shared key under our own pacing (2 requests in flight), not GPU time; the endpoint's own round trip, which includes its queue, was 83 s of it.
+The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
 
 Two Gemma misreads the arithmetic caught, each with its masked crop: [docs/GEMMA.md](docs/GEMMA.md#misreads-the-arithmetic-caught).
 

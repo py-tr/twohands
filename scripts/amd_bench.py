@@ -7,7 +7,8 @@ No model call, no network.
 Inputs: results/calls_gemma.jsonl (last row per form: wall time per form `latency_s`, `usage` tokens and cost,
 `finish_reason`), results/endpoint_health.jsonl (one row per HTTP attempt, written by twohands/amd.py: status and
 the HTTP round trip of that attempt, measured inside the limiter slot, so without our pacing). Only health rows of
-Gemma `read` requests inside the 300 run's time window are used.
+Gemma `read` requests inside the 300 run's time window are used. The capacity line comes from the throughput sweep
+(results/throughput_sweep.jsonl, scripts/throughput_sweep.py), whose json/md are checked here too.
 """
 from __future__ import annotations
 
@@ -26,7 +27,8 @@ OUT_J, OUT_M = R / "amd_benchmark.json", R / "amd_benchmark.md"
 MODEL = "Gemma-4-31B-IT"
 NATIONAL = 169_005   # PREP 2024 CSV, presidential tally sheets (app/numbers.py CITED national_forms)
 # docs that quote the block, and the keys whose sentence each must contain word for word
-DOCS = {"docs/AMD.md": ("server", "cost", "wall"), "README.md": ("server", "cost")}
+DOCS = {"docs/AMD.md": ("server", "sweep", "cost", "wall"), "README.md": ("server", "sweep", "cost"),
+        "submission/lablab.md": ("server", "sweep", "cost", "wall")}
 
 
 def rows(path: Path) -> list[dict]:
@@ -65,22 +67,25 @@ def compute() -> dict:
          "finish_stop": sum(1 for r in ok if r.get("finish_reason") == "stop"),
          "cost_per_form": round(cpf, 6), "cost_per_1000": round(1000 * cpf, 2),
          "national_forms": NATIONAL, "national_usd": round(cpf * NATIONAL)}
+    from scripts import throughput_sweep
+    sw = throughput_sweep.summarize()
+    d["sweep"] = {k: sw[k] for k in ("measured", "best_in_flight", "best_forms_per_min", "best_http_p50_s",
+                                     "best_usd_per_form", "national_hours", "arithmetic", "reads", "usd_total", "line")}
     d["lines"] = lines(d)
     return d
 
 
 def lines(d: dict) -> dict:
     return {
-        "server": (f"Server time per form: {d['server_mean_s']:.0f} s mean, {d['server_median_s']:.0f} s median: the HTTP "
-                   f"round trip of the answered request on the shared endpoint, {d['http_200']} answered reads of "
-                   f"{MODEL}, {d['tokens_in_mean']:,} tokens in and {d['tokens_out_mean']:,} out per form "
-                   f"(about {d['out_tok_per_s']:.0f} output tokens a second per request)."),
+        "server": (f"Server time per form: {d['server_mean_s']:.0f} s mean, {d['server_median_s']:.0f} s median (HTTP "
+                   f"round trip, shared endpoint, {d['http_200']} reads of {MODEL}, {d['tokens_in_mean']:,} "
+                   f"tokens in, {d['tokens_out_mean']:,} out)."),
+        "sweep": d["sweep"]["line"],
         "cost": (f"About ${d['national_usd']} of AMD compute to read all {d['national_forms']:,} national presidential "
                  f"tally sheets with {MODEL} (${d['cost_per_form']:.6f} per form, the mean billed cost of "
                  f"{d['reads']} reads)."),
-        "wall": (f"The {d['wall_mean_s']:.0f} s per form reported for the 300 run is wall clock on a shared key under our "
-                 f"own pacing (2 requests in flight), not GPU time; the endpoint's own round trip, which includes its "
-                 f"queue, was {d['server_mean_s']:.0f} s of it."),
+        "wall": (f"The 300 run's {d['wall_mean_s']:.0f} s per form was wall clock under our own pacing (2 in flight), not "
+                 f"GPU time; {d['server_mean_s']:.0f} s of it was the endpoint's round trip, queue included."),
     }
 
 
@@ -98,14 +103,17 @@ def markdown(d: dict) -> str:
         f"| Wall clock per form (incl. our limiter, 2 in flight) | {d['wall_mean_s']} s mean, {d['wall_median_s']} s median | {d['reads']} |",
         f"| Tokens per form | {d['tokens_in_mean']:,} in ({', '.join(str(x) for x in d['image_tokens'])} image tokens), "
         f"{d['tokens_out_mean']:,} out | {d['reads']} |",
-        f"| Throughput per request | about {d['tok_per_s']:.0f} tokens/s in + out, {d['out_tok_per_s']:.0f} output tokens/s | {d['reads']} |",
+        f"| Capacity (throughput sweep, {d['sweep']['measured'][0]} to {d['sweep']['measured'][1]} UTC) | "
+        f"{d['sweep']['best_forms_per_min']} forms/min at {d['sweep']['best_in_flight']} in flight, "
+        f"{d['sweep']['best_http_p50_s']} s median; {d['sweep']['arithmetic']} | {d['sweep']['reads']} |",
         f"| Replies finished with `stop` | {d['finish_stop']} of {d['reads']} | {d['reads']} |",
         f"| Failed HTTP attempts in the window (retried) | {d['http_failed_attempts']} | |",
         f"| Cost per form (billed, `usage.cost`) | ${d['cost_per_form']:.6f}; ${d['cost_per_1000']:.2f} per 1,000 | {d['reads']} |",
         f"| All {d['national_forms']:,} national presidential tally sheets | about ${d['national_usd']} | computed |", "",
-        L["server"], "", L["cost"], "", L["wall"], "",
-        "The endpoint does not report the GPU model, so no card is named. Tokens per second are per request on a shared "
-        "endpoint, not the GPU's capacity.", ""])
+        L["server"], "", L["sweep"], "", L["cost"], "", L["wall"], "",
+        "The endpoint does not report the GPU model, so no card is named. The capacity sweep "
+        "(`results/throughput_sweep.md`) is the shared endpoint under its rate limit, queueing included: not GPU time, "
+        "not a self-hosted benchmark.", ""])
 
 
 def main(argv=None) -> int:
@@ -126,6 +134,9 @@ def main(argv=None) -> int:
             bad.append("results/amd_benchmark.md differs from the logs")
     except OSError as e:
         bad.append(str(e))
+    from scripts import throughput_sweep
+    if throughput_sweep.build(check=True):
+        bad.append("results/throughput_sweep.json/.md differ from results/throughput_sweep.jsonl")
     for doc, keys in DOCS.items():
         s = " ".join((REPO / doc).read_text(encoding="utf-8").replace("**", "").split())
         for k in keys:

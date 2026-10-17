@@ -9,16 +9,18 @@ Run window: 2026-10-15T05:56:11Z to 2026-10-15T11:49:05Z UTC. Forms: 300; reads 
 | Server time per form (HTTP round trip of the answered request) | 83.4 s mean, 70.7 s median | 289 |
 | Wall clock per form (incl. our limiter, 2 in flight) | 87.0 s mean, 72.3 s median | 289 |
 | Tokens per form | 2,609 in (1843 image tokens), 804 out | 289 |
-| Throughput per request | about 41 tokens/s in + out, 10 output tokens/s | 289 |
+| Capacity (throughput sweep, 2026-10-17T00:48:51Z to 2026-10-17T01:03:40Z UTC) | 4.85 forms/min at 4 in flight, 31.8 s median; 169,005 forms / 4.85 forms a minute = 34,846 min = 580.8 h (one request per form, so 4.85 requests a minute, under the 20 a minute limit) | 44 |
 | Replies finished with `stop` | 289 of 289 | 289 |
 | Failed HTTP attempts in the window (retried) | 126 | |
 | Cost per form (billed, `usage.cost`) | $0.000144; $0.14 per 1,000 | 289 |
 | All 169,005 national presidential tally sheets | about $24 | computed |
 
-Server time per form: 83 s mean, 71 s median: the HTTP round trip of the answered request on the shared endpoint, 289 answered reads of Gemma-4-31B-IT, 2,609 tokens in and 804 out per form (about 10 output tokens a second per request).
+Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out).
+
+Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; 169,005 sheets in about 581 hours.
 
 About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads).
 
-The 87 s per form reported for the 300 run is wall clock on a shared key under our own pacing (2 requests in flight), not GPU time; the endpoint's own round trip, which includes its queue, was 83 s of it.
+The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
 
-The endpoint does not report the GPU model, so no card is named. Tokens per second are per request on a shared endpoint, not the GPU's capacity.
+The endpoint does not report the GPU model, so no card is named. The capacity sweep (`results/throughput_sweep.md`) is the shared endpoint under its rate limit, queueing included: not GPU time, not a self-hosted benchmark.
