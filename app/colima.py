@@ -142,6 +142,141 @@ def who_line(F: dict, person: Optional[dict] = None) -> str:
     return f"Each of the {n}: AI adjudicator's reading (it sided with the capture against Gemma); {tail}."
 
 
+# ------------------------------------------------------------------ the recall check (Amendment 9, /check?set=colimarecall)
+RECALL_SET, RECALL_SEED = "colimarecall", 20261017
+RECALL_CAND, RECALL, RECALL_MD = DIR / "recall_candidates.json", DIR / "recall.json", DIR / "recall.md"
+RECALL_CROPS = DIR / "recall_crops"
+RECALL_RULE = ("graded field the certified count covers (vote rows, TOTAL), on a form settled by cotejo not recount; "
+               "candidate: certified differs from the capture and Gemma equals the capture; caught: certified differs "
+               "from the capture and Gemma equals the certified count; neither: certified differs from both")
+MISS, CORR, AMB = "capture error Gemma also missed", "later correction by the council", "ambiguous"
+
+
+def recall_candidates() -> Optional[dict]:
+    return _j(RECALL_CAND)
+
+
+def recall_verdicts() -> dict:
+    """The candidates as blind /check items: no certified, capture or model value (nothing to compare on the page)."""
+    C = recall_candidates() or {}
+    return {c["item"]: {"form_id": c["form"], "field": c["field"], "verdict": "recall_candidate", "paper": None,
+                        "evidence": ""} for c in C.get("candidates", [])}
+
+
+def recall_queue() -> list[str]:
+    q = sorted(recall_verdicts())
+    random.Random(RECALL_SEED).shuffle(q)
+    return q
+
+
+def recall_label(a: dict, c: dict) -> str:
+    from app import spotcheck
+    pv = spotcheck.person_value(a)
+    if spotcheck.person_ambiguous(a) or not isinstance(pv, int):
+        return AMB
+    return MISS if pv == c["certified"] else CORR if pv == c["capture"] else AMB
+
+
+def recall_result(answers: Optional[dict] = None) -> Optional[dict]:
+    """Amendment 9. Nothing but the size of the set until every candidate is answered; then the labels and recall.
+    Answers: the live /check file, else the copy kept in results/colima/recall.json (a checkout without app/state/)."""
+    C = recall_candidates()
+    if not C:
+        return None
+    from app import spotcheck
+    from twohands.score import wilson
+    if answers is None:
+        answers = spotcheck.load(RECALL_SET) or (_j(RECALL, {}) or {}).get("answers") or {}
+    cand = C["candidates"]
+    got = [c for c in cand if answers.get(c["item"])]
+    base = {"amendment": C["amendment"], "set": f"/check?set={RECALL_SET}", "rule": C["rule"],
+            "forms_read": C["forms_read"], "candidates": len(cand), "caught": len(C["caught"]),
+            "neither": len(C["neither"]), "complete": bool(cand) and len(got) == len(cand), "answered": len(got)}
+    if not base["complete"]:
+        return base
+    from app.store import name_of
+    rows = []
+    for c in sorted(cand, key=lambda c: c["item"]):
+        a = answers[c["item"]]
+        rows.append({"item": c["item"], "field": name_of(c["field"]), "capture": c["capture"],
+                     "certified": c["certified"], "gemma": c["gemma"], "person_digits": a.get("digits"),
+                     "person_words": a.get("words"), "label": recall_label(a, c)})
+    n = {lab: sum(1 for r in rows if r["label"] == lab) for lab in (MISS, CORR, AMB)}
+    k, miss = base["caught"], n[MISS]
+    lo, hi = wilson(k, k + miss)
+    wlo, whi = wilson(k, k + miss + n[AMB])
+    return {**base, "missed": miss, "corrections": n[CORR], "ambiguous": n[AMB],
+            "recall": k / (k + miss), "ci": [lo, hi],
+            "recall_ambiguous_as_missed": k / (k + miss + n[AMB]), "ci_ambiguous_as_missed": [wlo, whi],
+            "rows": rows, "answers": {c["item"]: answers[c["item"]] for c in sorted(cand, key=lambda c: c["item"])}}
+
+
+def recall_line(R: Optional[dict]) -> str:
+    if not R:
+        return "Recall check (Amendment 9): not built."
+    if not R["complete"]:
+        return (f"Recall check (Amendment 9): {R['candidates']} fields where the certified count differs from the "
+                f"capture and Gemma agreed with the capture; a person's blind check is in progress at "
+                f"/check?set={RECALL_SET}.")
+    k, m = R["caught"], R["missed"]
+    return (f"Recall on capture errors the certified count sees (Amendment 9, a person's blind check): {k} caught, "
+            f"{m} missed, {_pct(k, k + m)} (Wilson 95% {100 * R['ci'][0]:.1f}% to {100 * R['ci'][1]:.1f}%); of the "
+            f"{R['candidates']} fields where Gemma agreed with a capture the certified count changes, {m} are capture "
+            f"errors Gemma also missed, {R['corrections']} later corrections by the council, {R['ambiguous']} "
+            f"ambiguous.")
+
+
+def recall_file(R: Optional[dict] = None) -> dict:
+    """results/colima/recall.json: without the running answered count while in progress (it would go stale)."""
+    R = R or recall_result()
+    return {k: v for k, v in R.items() if R["complete"] or k != "answered"}
+
+
+def recall_md(R: dict) -> str:
+    L = ["# Colima recall check (PROTOCOL.md Amendment 9)", "", recall_line(R), "",
+         f"Rule: {R['rule']}.", "",
+         f"Forms read: {R['forms_read']}. Candidates: {R['candidates']}. Caught (colima_audit.json): {R['caught']}. "
+         f"Certified differs from both (not counted): {R['neither']}."]
+    if R["complete"]:
+        L += ["", "Secondary, every ambiguous candidate counted as missed: "
+                  f"{100 * R['recall_ambiguous_as_missed']:.1f}% (Wilson 95% "
+                  f"{100 * R['ci_ambiguous_as_missed'][0]:.1f}% to {100 * R['ci_ambiguous_as_missed'][1]:.1f}%).", "",
+              "| Form | Field | Capture | Certified | Gemma | Person | Label |", "|---|---|---|---|---|---|---|"]
+        L += [f"| {r['item'].split('__')[0]} | {r['field']} | {r['capture']} | {r['certified']} | {r['gemma']} | "
+              f"{r['person_digits']} | {r['label']} |" for r in R["rows"]]
+    else:
+        L += ["", f"In progress: answers come from the blind page /check?set={RECALL_SET}; nothing is reported until "
+                  "every candidate is answered."]
+    L += ["", "Built by `scripts/colima_recall.py` (build, score); crops in `results/colima/recall_crops/`."]
+    return "\n".join(L) + "\n"
+
+
+def write_recall() -> None:
+    R = recall_result()
+    RECALL.write_text(json.dumps(recall_file(R), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    RECALL_MD.write_text(recall_md(R), encoding="utf-8")
+
+
+def recall_mismatches() -> list[str]:
+    R = recall_result()
+    if R is None:
+        return ["results/colima/recall_candidates.json (run scripts/colima_recall.py build)"]
+    bad = []
+    from twohands.adjudicate import crop_name
+    miss = [c["item"] for c in recall_candidates()["candidates"]
+            if not (RECALL_CROPS / crop_name(c["form"], c["field"])).is_file()]
+    if miss:
+        bad.append(f"results/colima/recall_crops/ ({len(miss)} crops missing)")
+    if _j(RECALL) != json.loads(json.dumps(recall_file(R))):
+        bad.append("results/colima/recall.json (run scripts/colima_recall.py score)")
+    try:
+        if RECALL_MD.read_text(encoding="utf-8") != recall_md(R):
+            bad.append("results/colima/recall.md (run scripts/colima_recall.py score)")
+    except OSError:
+        bad.append("results/colima/recall.md (missing)")
+    return bad
+
+
 # ------------------------------------------------------------------ the sentences
 def lines(F: Optional[dict] = None) -> Optional[dict]:
     F = F or facts()
@@ -189,6 +324,7 @@ def lines(F: Optional[dict] = None) -> Optional[dict]:
         "card": (f"Free sample: Colima, the whole state, {F['read']} of {F['prep_rows']:,} presidential sheets read on AMD "
                  f"for ${F['cost']:.2f}, field-level report."),
         "caption": f"Gemma on AMD read all {F['read']} sheets for {round(100 * F['cost'])} cents.",
+        "recall": recall_line(recall_result()),
     }
 
 
@@ -217,7 +353,7 @@ def write_report() -> None:
 
 # doc -> the line keys it must carry, word for word (whitespace and ** ignored)
 DOCS = {"README.md": ("lablab", "scans"), "submission/lablab.md": ("lablab",), "slides/slides.md": ("slide",),
-        "slides/two-hands.srt": ("caption",), "docs/EVALUATION.md": ("replication", "kinds", "tiers")}
+        "slides/two-hands.srt": ("caption",), "docs/EVALUATION.md": ("replication", "kinds", "tiers", "recall")}
 
 
 def _norm(s: str) -> str:
@@ -229,7 +365,7 @@ def doc_mismatches() -> list[str]:
     if not F:
         return ["results/colima/colima_audit.json (absent or incomplete)"]
     L = lines(F)
-    bad = []
+    bad = recall_mismatches()
     if _j(REPORT) != json.loads(json.dumps(report_json(F))):
         bad.append("results/colima/report.json (run score-colima)")
     for doc, keys in DOCS.items():

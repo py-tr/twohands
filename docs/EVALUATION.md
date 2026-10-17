@@ -157,6 +157,8 @@ on a field some gate accepts (21), plus a seeded random draw of 59 from the rest
 capture matches the paper in 58, Gemma in 12, neither in 3, and 7 are ambiguous or unreadable. The other 334 are listed
 as not yet adjudicated; none is on an accepted field, so no error count above depends on them. The accepted-field error rate is complete: none of the 334 touches an accepted field.
 
+Recall check (Amendment 9): 139 fields where the certified count differs from the capture and Gemma agreed with the capture; a person's blind check is in progress at /check?set=colimarecall.
+
 Sources: `results/colima/colima_audit.md` and `.json` (`scripts/gemma_tf_reads2.py score-colima`, no model call), the
 adjudication sheet `results/colima/SHEET.md` with every crop, and the report from the site's own capture-audit generator
 (`results/colima/audit_report.html` / `.csv`, with its fingerprint). `make eval` re-checks them (`score-colima --check`).

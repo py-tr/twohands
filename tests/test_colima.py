@@ -58,3 +58,36 @@ def test_colima13_check_set_is_the_13_and_blind(tmp_path, monkeypatch):
     p = colima.check13_result()
     assert p == {"queue": len(q), "answered": len(q), "agree": len(q)}
     assert f"checked by a person: {len(q)} of {len(q)} agree" in colima.who_line(colima.facts(), p)
+
+
+def test_colimarecall_set_is_the_candidates_blind_and_reports_only_when_complete(tmp_path, monkeypatch):
+    """PROTOCOL.md Amendment 9: the set is exactly the candidates, the page shows no value, nothing is scored until
+    every candidate is answered, then recall = caught / (caught + missed)."""
+    C = colima.recall_candidates()
+    q = spotcheck.queue("colimarecall")
+    assert sorted(q) == sorted(c["item"] for c in C["candidates"]) and len(q) == len(set(q))
+    assert all(spotcheck._crop_path(k, "colimarecall").is_file() for k in q)
+    assert all(v["paper"] is None and not v["evidence"] for v in spotcheck.load_verdicts("colimarecall").values())
+    for c in C["candidates"]:
+        assert c["gemma"] == c["capture"] != c["certified"]
+    assert all(c["gemma"] == c["certified"] != c["capture"] for c in C["caught"])
+    monkeypatch.setattr(spotcheck, "FILE_CR", tmp_path / "spotcheck_colimarecall.json")
+    page = client.get("/check?set=colimarecall")
+    assert page.status_code == 200 and "recall check" in page.text
+    R = colima.recall_result()
+    assert R["complete"] is False and "recall" not in R and "in progress at /check?set=colimarecall" in colima.recall_line(R)
+    by = {c["item"]: c for c in C["candidates"]}
+    ans = {}
+    for n, k in enumerate(q):   # synthetic answers: one third misses, one third corrections, one third can't tell
+        c = by[k]
+        ans[k] = ({"digits": c["certified"], "cant_tell": False} if n % 3 == 0 else
+                  {"digits": c["capture"], "cant_tell": False} if n % 3 == 1 else {"digits": None, "cant_tell": True})
+        if n < len(q) - 1:
+            assert colima.recall_result(ans)["complete"] is False
+    R = colima.recall_result(ans)
+    m, k = len(range(0, len(q), 3)), R["caught"]
+    corr = sum(1 for n in range(1, len(q), 3) if by[q[n]]["capture"] is not None)   # a blank capture is not a number
+    assert R["complete"] and R["missed"] == m and R["corrections"] == corr
+    assert R["ambiguous"] == len(q) - m - R["corrections"] and abs(R["recall"] - k / (k + m)) < 1e-12
+    assert R["ci"][0] <= R["recall"] <= R["ci"][1] and R["recall_ambiguous_as_missed"] <= R["recall"]
+    assert f"{k} caught, {m} missed" in colima.recall_line(R)

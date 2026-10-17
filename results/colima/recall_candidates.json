@@ -1,0 +1,1523 @@
+{
+ "amendment": "PROTOCOL.md Amendment 9",
+ "rule": "graded field the certified count covers (vote rows, TOTAL), on a form settled by cotejo not recount; candidate: certified differs from the capture and Gemma equals the capture; caught: certified differs from the capture and Gemma equals the certified count; neither: certified differs from both",
+ "forms_read": 982,
+ "candidates": [
+  {
+   "item": "060076B0100__PAN",
+   "form": "060076B0100",
+   "field": "PAN",
+   "capture": 47,
+   "certified": 56,
+   "gemma": 47,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PRI",
+   "form": "060076B0100",
+   "field": "PRI",
+   "capture": 38,
+   "certified": 27,
+   "gemma": 38,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PRD",
+   "form": "060076B0100",
+   "field": "PRD",
+   "capture": 4,
+   "certified": 0,
+   "gemma": 4,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PVEM",
+   "form": "060076B0100",
+   "field": "PVEM",
+   "capture": 11,
+   "certified": 13,
+   "gemma": 11,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PT",
+   "form": "060076B0100",
+   "field": "PT",
+   "capture": 9,
+   "certified": 10,
+   "gemma": 9,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__MC",
+   "form": "060076B0100",
+   "field": "MC",
+   "capture": 86,
+   "certified": 71,
+   "gemma": 86,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__MORENA",
+   "form": "060076B0100",
+   "field": "MORENA",
+   "capture": 121,
+   "certified": 136,
+   "gemma": 121,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PAN_PRI_PRD",
+   "form": "060076B0100",
+   "field": "PAN_PRI_PRD",
+   "capture": 5,
+   "certified": 4,
+   "gemma": 5,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PAN_PRI",
+   "form": "060076B0100",
+   "field": "PAN_PRI",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PVEM_PT_MORENA",
+   "form": "060076B0100",
+   "field": "PVEM_PT_MORENA",
+   "capture": 7,
+   "certified": 10,
+   "gemma": 7,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PVEM_MORENA",
+   "form": "060076B0100",
+   "field": "PVEM_MORENA",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__PT_MORENA",
+   "form": "060076B0100",
+   "field": "PT_MORENA",
+   "capture": 0,
+   "certified": 2,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__NO_REGISTRADAS",
+   "form": "060076B0100",
+   "field": "NO_REGISTRADAS",
+   "capture": 0,
+   "certified": 2,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060076B0100__NULOS",
+   "form": "060076B0100",
+   "field": "NULOS",
+   "capture": 10,
+   "certified": 5,
+   "gemma": 10,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060095C0200__NO_REGISTRADAS",
+   "form": "060095C0200",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060146E0105__PAN_PRI",
+   "form": "060146E0105",
+   "field": "PAN_PRI",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060146E0105__PAN_PRD",
+   "form": "060146E0105",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060146E0105__PRI_PRD",
+   "form": "060146E0105",
+   "field": "PRI_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060146E0105__PVEM_MORENA",
+   "form": "060146E0105",
+   "field": "PVEM_MORENA",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060146E0105__NO_REGISTRADAS",
+   "form": "060146E0105",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060146E0204__TOTAL",
+   "form": "060146E0204",
+   "field": "TOTAL",
+   "capture": null,
+   "certified": 383,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PAN",
+   "form": "060149C0200",
+   "field": "PAN",
+   "capture": 68,
+   "certified": 50,
+   "gemma": 68,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PRI",
+   "form": "060149C0200",
+   "field": "PRI",
+   "capture": 53,
+   "certified": 50,
+   "gemma": 53,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PRD",
+   "form": "060149C0200",
+   "field": "PRD",
+   "capture": 1,
+   "certified": 6,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PVEM",
+   "form": "060149C0200",
+   "field": "PVEM",
+   "capture": 9,
+   "certified": 11,
+   "gemma": 9,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PT",
+   "form": "060149C0200",
+   "field": "PT",
+   "capture": 4,
+   "certified": 8,
+   "gemma": 4,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__MC",
+   "form": "060149C0200",
+   "field": "MC",
+   "capture": 45,
+   "certified": 42,
+   "gemma": 45,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__MORENA",
+   "form": "060149C0200",
+   "field": "MORENA",
+   "capture": 108,
+   "certified": 130,
+   "gemma": 108,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PAN_PRI_PRD",
+   "form": "060149C0200",
+   "field": "PAN_PRI_PRD",
+   "capture": 14,
+   "certified": 11,
+   "gemma": 14,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PAN_PRI",
+   "form": "060149C0200",
+   "field": "PAN_PRI",
+   "capture": 8,
+   "certified": 3,
+   "gemma": 8,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PAN_PRD",
+   "form": "060149C0200",
+   "field": "PAN_PRD",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PVEM_PT_MORENA",
+   "form": "060149C0200",
+   "field": "PVEM_PT_MORENA",
+   "capture": 11,
+   "certified": 15,
+   "gemma": 11,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PVEM_PT",
+   "form": "060149C0200",
+   "field": "PVEM_PT",
+   "capture": 0,
+   "certified": 3,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__PVEM_MORENA",
+   "form": "060149C0200",
+   "field": "PVEM_MORENA",
+   "capture": 1,
+   "certified": 2,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060149C0200__TOTAL",
+   "form": "060149C0200",
+   "field": "TOTAL",
+   "capture": 330,
+   "certified": 340,
+   "gemma": 330,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__PAN",
+   "form": "060169B0100",
+   "field": "PAN",
+   "capture": 59,
+   "certified": 74,
+   "gemma": 59,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__PRI",
+   "form": "060169B0100",
+   "field": "PRI",
+   "capture": 54,
+   "certified": 60,
+   "gemma": 54,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__PRD",
+   "form": "060169B0100",
+   "field": "PRD",
+   "capture": 13,
+   "certified": 8,
+   "gemma": 13,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__PVEM",
+   "form": "060169B0100",
+   "field": "PVEM",
+   "capture": 6,
+   "certified": 8,
+   "gemma": 6,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__MC",
+   "form": "060169B0100",
+   "field": "MC",
+   "capture": 44,
+   "certified": 16,
+   "gemma": 44,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__MORENA",
+   "form": "060169B0100",
+   "field": "MORENA",
+   "capture": 87,
+   "certified": 102,
+   "gemma": 87,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__PAN_PRI_PRD",
+   "form": "060169B0100",
+   "field": "PAN_PRI_PRD",
+   "capture": 2,
+   "certified": 4,
+   "gemma": 2,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__PVEM_PT",
+   "form": "060169B0100",
+   "field": "PVEM_PT",
+   "capture": 1,
+   "certified": 0,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060169B0100__NULOS",
+   "form": "060169B0100",
+   "field": "NULOS",
+   "capture": 14,
+   "certified": 8,
+   "gemma": 14,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PAN",
+   "form": "060182C0100",
+   "field": "PAN",
+   "capture": 12,
+   "certified": 15,
+   "gemma": 12,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PRI",
+   "form": "060182C0100",
+   "field": "PRI",
+   "capture": 23,
+   "certified": 21,
+   "gemma": 23,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PRD",
+   "form": "060182C0100",
+   "field": "PRD",
+   "capture": 8,
+   "certified": 4,
+   "gemma": 8,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PVEM",
+   "form": "060182C0100",
+   "field": "PVEM",
+   "capture": 52,
+   "certified": 58,
+   "gemma": 52,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PT",
+   "form": "060182C0100",
+   "field": "PT",
+   "capture": 8,
+   "certified": 13,
+   "gemma": 8,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__MC",
+   "form": "060182C0100",
+   "field": "MC",
+   "capture": 37,
+   "certified": 38,
+   "gemma": 37,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__MORENA",
+   "form": "060182C0100",
+   "field": "MORENA",
+   "capture": 113,
+   "certified": 107,
+   "gemma": 113,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PAN_PRI_PRD",
+   "form": "060182C0100",
+   "field": "PAN_PRI_PRD",
+   "capture": 3,
+   "certified": 1,
+   "gemma": 3,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PAN_PRD",
+   "form": "060182C0100",
+   "field": "PAN_PRD",
+   "capture": 1,
+   "certified": 0,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PRI_PRD",
+   "form": "060182C0100",
+   "field": "PRI_PRD",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PVEM_PT_MORENA",
+   "form": "060182C0100",
+   "field": "PVEM_PT_MORENA",
+   "capture": 7,
+   "certified": 9,
+   "gemma": 7,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PVEM_PT",
+   "form": "060182C0100",
+   "field": "PVEM_PT",
+   "capture": 3,
+   "certified": 2,
+   "gemma": 3,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PVEM_MORENA",
+   "form": "060182C0100",
+   "field": "PVEM_MORENA",
+   "capture": 11,
+   "certified": 8,
+   "gemma": 11,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__PT_MORENA",
+   "form": "060182C0100",
+   "field": "PT_MORENA",
+   "capture": 5,
+   "certified": 1,
+   "gemma": 5,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__NULOS",
+   "form": "060182C0100",
+   "field": "NULOS",
+   "capture": 7,
+   "certified": 10,
+   "gemma": 7,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060182C0100__TOTAL",
+   "form": "060182C0100",
+   "field": "TOTAL",
+   "capture": 290,
+   "certified": 288,
+   "gemma": 290,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060195B0100__PAN_PRI",
+   "form": "060195B0100",
+   "field": "PAN_PRI",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060195B0100__PAN_PRD",
+   "form": "060195B0100",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060195B0100__PRI_PRD",
+   "form": "060195B0100",
+   "field": "PRI_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060195B0100__NO_REGISTRADAS",
+   "form": "060195B0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060205C0100__PAN_PRD",
+   "form": "060205C0100",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060205C0100__PRI_PRD",
+   "form": "060205C0100",
+   "field": "PRI_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060205C0100__NO_REGISTRADAS",
+   "form": "060205C0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PRD",
+   "form": "060215B0100",
+   "field": "PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PAN_PRI_PRD",
+   "form": "060215B0100",
+   "field": "PAN_PRI_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PAN_PRI",
+   "form": "060215B0100",
+   "field": "PAN_PRI",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PAN_PRD",
+   "form": "060215B0100",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PRI_PRD",
+   "form": "060215B0100",
+   "field": "PRI_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PVEM_PT_MORENA",
+   "form": "060215B0100",
+   "field": "PVEM_PT_MORENA",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PVEM_PT",
+   "form": "060215B0100",
+   "field": "PVEM_PT",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PVEM_MORENA",
+   "form": "060215B0100",
+   "field": "PVEM_MORENA",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__PT_MORENA",
+   "form": "060215B0100",
+   "field": "PT_MORENA",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060215B0100__NO_REGISTRADAS",
+   "form": "060215B0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PRI",
+   "form": "060248B0100",
+   "field": "PRI",
+   "capture": 57,
+   "certified": 42,
+   "gemma": 57,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PRD",
+   "form": "060248B0100",
+   "field": "PRD",
+   "capture": 2,
+   "certified": 0,
+   "gemma": 2,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PVEM",
+   "form": "060248B0100",
+   "field": "PVEM",
+   "capture": 27,
+   "certified": 29,
+   "gemma": 27,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PT",
+   "form": "060248B0100",
+   "field": "PT",
+   "capture": 9,
+   "certified": 10,
+   "gemma": 9,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__MC",
+   "form": "060248B0100",
+   "field": "MC",
+   "capture": 91,
+   "certified": 63,
+   "gemma": 91,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__MORENA",
+   "form": "060248B0100",
+   "field": "MORENA",
+   "capture": 138,
+   "certified": 157,
+   "gemma": 138,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PAN_PRI_PRD",
+   "form": "060248B0100",
+   "field": "PAN_PRI_PRD",
+   "capture": 7,
+   "certified": 11,
+   "gemma": 7,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PAN_PRI",
+   "form": "060248B0100",
+   "field": "PAN_PRI",
+   "capture": 2,
+   "certified": 4,
+   "gemma": 2,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PVEM_PT_MORENA",
+   "form": "060248B0100",
+   "field": "PVEM_PT_MORENA",
+   "capture": 9,
+   "certified": 19,
+   "gemma": 9,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PVEM_PT",
+   "form": "060248B0100",
+   "field": "PVEM_PT",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PVEM_MORENA",
+   "form": "060248B0100",
+   "field": "PVEM_MORENA",
+   "capture": 2,
+   "certified": 3,
+   "gemma": 2,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__PT_MORENA",
+   "form": "060248B0100",
+   "field": "PT_MORENA",
+   "capture": 0,
+   "certified": 5,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__NO_REGISTRADAS",
+   "form": "060248B0100",
+   "field": "NO_REGISTRADAS",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248B0100__NULOS",
+   "form": "060248B0100",
+   "field": "NULOS",
+   "capture": 10,
+   "certified": 9,
+   "gemma": 10,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PAN",
+   "form": "060248E0204",
+   "field": "PAN",
+   "capture": 37,
+   "certified": 38,
+   "gemma": 37,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PRI",
+   "form": "060248E0204",
+   "field": "PRI",
+   "capture": 30,
+   "certified": 24,
+   "gemma": 30,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PRD",
+   "form": "060248E0204",
+   "field": "PRD",
+   "capture": 3,
+   "certified": 0,
+   "gemma": 3,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PT",
+   "form": "060248E0204",
+   "field": "PT",
+   "capture": 4,
+   "certified": 10,
+   "gemma": 4,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__MC",
+   "form": "060248E0204",
+   "field": "MC",
+   "capture": 79,
+   "certified": 61,
+   "gemma": 79,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__MORENA",
+   "form": "060248E0204",
+   "field": "MORENA",
+   "capture": 161,
+   "certified": 170,
+   "gemma": 161,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PAN_PRI_PRD",
+   "form": "060248E0204",
+   "field": "PAN_PRI_PRD",
+   "capture": 2,
+   "certified": 9,
+   "gemma": 2,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PAN_PRI",
+   "form": "060248E0204",
+   "field": "PAN_PRI",
+   "capture": 3,
+   "certified": 2,
+   "gemma": 3,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PVEM_PT_MORENA",
+   "form": "060248E0204",
+   "field": "PVEM_PT_MORENA",
+   "capture": 14,
+   "certified": 17,
+   "gemma": 14,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PVEM_MORENA",
+   "form": "060248E0204",
+   "field": "PVEM_MORENA",
+   "capture": 4,
+   "certified": 5,
+   "gemma": 4,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__PT_MORENA",
+   "form": "060248E0204",
+   "field": "PT_MORENA",
+   "capture": 3,
+   "certified": 6,
+   "gemma": 3,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0204__NULOS",
+   "form": "060248E0204",
+   "field": "NULOS",
+   "capture": 10,
+   "certified": 8,
+   "gemma": 10,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PAN",
+   "form": "060248E0207",
+   "field": "PAN",
+   "capture": 37,
+   "certified": 36,
+   "gemma": 37,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PRI",
+   "form": "060248E0207",
+   "field": "PRI",
+   "capture": 35,
+   "certified": 23,
+   "gemma": 35,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PVEM",
+   "form": "060248E0207",
+   "field": "PVEM",
+   "capture": 22,
+   "certified": 23,
+   "gemma": 22,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PT",
+   "form": "060248E0207",
+   "field": "PT",
+   "capture": 5,
+   "certified": 16,
+   "gemma": 5,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__MC",
+   "form": "060248E0207",
+   "field": "MC",
+   "capture": 89,
+   "certified": 73,
+   "gemma": 89,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__MORENA",
+   "form": "060248E0207",
+   "field": "MORENA",
+   "capture": 195,
+   "certified": 202,
+   "gemma": 195,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PAN_PRI_PRD",
+   "form": "060248E0207",
+   "field": "PAN_PRI_PRD",
+   "capture": 4,
+   "certified": 5,
+   "gemma": 4,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PVEM_PT_MORENA",
+   "form": "060248E0207",
+   "field": "PVEM_PT_MORENA",
+   "capture": 2,
+   "certified": 7,
+   "gemma": 2,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PVEM_MORENA",
+   "form": "060248E0207",
+   "field": "PVEM_MORENA",
+   "capture": 1,
+   "certified": 2,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__PT_MORENA",
+   "form": "060248E0207",
+   "field": "PT_MORENA",
+   "capture": 0,
+   "certified": 6,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__NO_REGISTRADAS",
+   "form": "060248E0207",
+   "field": "NO_REGISTRADAS",
+   "capture": 1,
+   "certified": 0,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060248E0207__NULOS",
+   "form": "060248E0207",
+   "field": "NULOS",
+   "capture": 6,
+   "certified": 4,
+   "gemma": 6,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060250C0300__MORENA",
+   "form": "060250C0300",
+   "field": "MORENA",
+   "capture": 277,
+   "certified": 217,
+   "gemma": 277,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060317C0100__NO_REGISTRADAS",
+   "form": "060317C0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060338C0100__PAN_PRD",
+   "form": "060338C0100",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060338C0100__PRI_PRD",
+   "form": "060338C0100",
+   "field": "PRI_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060338C0100__TOTAL",
+   "form": "060338C0100",
+   "field": "TOTAL",
+   "capture": 331,
+   "certified": 330,
+   "gemma": 331,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060340B0100__NO_REGISTRADAS",
+   "form": "060340B0100",
+   "field": "NO_REGISTRADAS",
+   "capture": 0,
+   "certified": 2,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PAN",
+   "form": "060365B0100",
+   "field": "PAN",
+   "capture": 32,
+   "certified": 28,
+   "gemma": 32,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PRI",
+   "form": "060365B0100",
+   "field": "PRI",
+   "capture": 32,
+   "certified": 33,
+   "gemma": 32,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PVEM",
+   "form": "060365B0100",
+   "field": "PVEM",
+   "capture": 8,
+   "certified": 7,
+   "gemma": 8,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__MORENA",
+   "form": "060365B0100",
+   "field": "MORENA",
+   "capture": 166,
+   "certified": 143,
+   "gemma": 166,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PAN_PRI_PRD",
+   "form": "060365B0100",
+   "field": "PAN_PRI_PRD",
+   "capture": null,
+   "certified": 2,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PAN_PRI",
+   "form": "060365B0100",
+   "field": "PAN_PRI",
+   "capture": null,
+   "certified": 2,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PAN_PRD",
+   "form": "060365B0100",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PRI_PRD",
+   "form": "060365B0100",
+   "field": "PRI_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PVEM_PT_MORENA",
+   "form": "060365B0100",
+   "field": "PVEM_PT_MORENA",
+   "capture": null,
+   "certified": 16,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PVEM_PT",
+   "form": "060365B0100",
+   "field": "PVEM_PT",
+   "capture": null,
+   "certified": 1,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PVEM_MORENA",
+   "form": "060365B0100",
+   "field": "PVEM_MORENA",
+   "capture": null,
+   "certified": 4,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__PT_MORENA",
+   "form": "060365B0100",
+   "field": "PT_MORENA",
+   "capture": null,
+   "certified": 2,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060365B0100__NO_REGISTRADAS",
+   "form": "060365B0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060373B0100__MORENA",
+   "form": "060373B0100",
+   "field": "MORENA",
+   "capture": 94,
+   "certified": 95,
+   "gemma": 94,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060373C0100__PAN_PRD",
+   "form": "060373C0100",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060373C0100__PVEM_PT",
+   "form": "060373C0100",
+   "field": "PVEM_PT",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060373C0100__PVEM_MORENA",
+   "form": "060373C0100",
+   "field": "PVEM_MORENA",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060373C0100__NO_REGISTRADAS",
+   "form": "060373C0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "obs": "Cotejo (Levantada en Casilla)"
+  }
+ ],
+ "caught": [
+  {
+   "item": "060064B0100__MORENA",
+   "form": "060064B0100",
+   "field": "MORENA",
+   "capture": 38,
+   "certified": 138,
+   "gemma": 138,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PAN",
+   "form": "060069C0100",
+   "field": "PAN",
+   "capture": null,
+   "certified": 49,
+   "gemma": 49,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PRI",
+   "form": "060069C0100",
+   "field": "PRI",
+   "capture": null,
+   "certified": 32,
+   "gemma": 32,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PRD",
+   "form": "060069C0100",
+   "field": "PRD",
+   "capture": null,
+   "certified": 3,
+   "gemma": 3,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PVEM",
+   "form": "060069C0100",
+   "field": "PVEM",
+   "capture": null,
+   "certified": 21,
+   "gemma": 21,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PT",
+   "form": "060069C0100",
+   "field": "PT",
+   "capture": null,
+   "certified": 8,
+   "gemma": 8,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__MC",
+   "form": "060069C0100",
+   "field": "MC",
+   "capture": null,
+   "certified": 43,
+   "gemma": 43,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__MORENA",
+   "form": "060069C0100",
+   "field": "MORENA",
+   "capture": null,
+   "certified": 145,
+   "gemma": 145,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PAN_PRI_PRD",
+   "form": "060069C0100",
+   "field": "PAN_PRI_PRD",
+   "capture": null,
+   "certified": 9,
+   "gemma": 9,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PAN_PRI",
+   "form": "060069C0100",
+   "field": "PAN_PRI",
+   "capture": null,
+   "certified": 1,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PAN_PRD",
+   "form": "060069C0100",
+   "field": "PAN_PRD",
+   "capture": null,
+   "certified": 1,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PRI_PRD",
+   "form": "060069C0100",
+   "field": "PRI_PRD",
+   "capture": null,
+   "certified": 1,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PVEM_PT",
+   "form": "060069C0100",
+   "field": "PVEM_PT",
+   "capture": null,
+   "certified": 6,
+   "gemma": 6,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PVEM_MORENA",
+   "form": "060069C0100",
+   "field": "PVEM_MORENA",
+   "capture": null,
+   "certified": 1,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__PT_MORENA",
+   "form": "060069C0100",
+   "field": "PT_MORENA",
+   "capture": null,
+   "certified": 1,
+   "gemma": 1,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__NO_REGISTRADAS",
+   "form": "060069C0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 3,
+   "gemma": 3,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__NULOS",
+   "form": "060069C0100",
+   "field": "NULOS",
+   "capture": null,
+   "certified": 11,
+   "gemma": 11,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060069C0100__TOTAL",
+   "form": "060069C0100",
+   "field": "TOTAL",
+   "capture": null,
+   "certified": 357,
+   "gemma": 357,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060171B0100__MC",
+   "form": "060171B0100",
+   "field": "MC",
+   "capture": 31,
+   "certified": 61,
+   "gemma": 61,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060203C0100__MC",
+   "form": "060203C0100",
+   "field": "MC",
+   "capture": 25,
+   "certified": 24,
+   "gemma": 24,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060250C0100__PVEM",
+   "form": "060250C0100",
+   "field": "PVEM",
+   "capture": 7,
+   "certified": 27,
+   "gemma": 27,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060250C0100__PT",
+   "form": "060250C0100",
+   "field": "PT",
+   "capture": 44,
+   "certified": 11,
+   "gemma": 11,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060250C0100__MORENA",
+   "form": "060250C0100",
+   "field": "MORENA",
+   "capture": 165,
+   "certified": 163,
+   "gemma": 163,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060259C0100__NO_REGISTRADAS",
+   "form": "060259C0100",
+   "field": "NO_REGISTRADAS",
+   "capture": null,
+   "certified": 0,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060280E0104__PAN",
+   "form": "060280E0104",
+   "field": "PAN",
+   "capture": 10,
+   "certified": 19,
+   "gemma": 19,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060302C0100__PRD",
+   "form": "060302C0100",
+   "field": "PRD",
+   "capture": 60,
+   "certified": 0,
+   "gemma": 0,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060311C0100__PT",
+   "form": "060311C0100",
+   "field": "PT",
+   "capture": 19,
+   "certified": 18,
+   "gemma": 18,
+   "obs": "Cotejo (Levantada en Casilla)"
+  }
+ ],
+ "neither": [
+  {
+   "item": "060069C0100__PVEM_PT_MORENA",
+   "form": "060069C0100",
+   "field": "PVEM_PT_MORENA",
+   "capture": null,
+   "certified": 22,
+   "gemma": 27,
+   "obs": "Cotejo (Levantada en Casilla)"
+  },
+  {
+   "item": "060205C0100__PVEM_PT",
+   "form": "060205C0100",
+   "field": "PVEM_PT",
+   "capture": null,
+   "certified": 0,
+   "gemma": 2,
+   "obs": "Cotejo (Levantada en Casilla)"
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+{
+ "amendment": "PROTOCOL.md Amendment 9",
+ "set": "/check?set=colimarecall",
+ "rule": "graded field the certified count covers (vote rows, TOTAL), on a form settled by cotejo not recount; candidate: certified differs from the capture and Gemma equals the capture; caught: certified differs from the capture and Gemma equals the certified count; neither: certified differs from both",
+ "forms_read": 982,
+ "candidates": 139,
+ "caught": 27,
+ "neither": 2,
+ "complete": false
+}
