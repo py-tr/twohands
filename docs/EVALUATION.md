@@ -144,18 +144,18 @@ other sets (one in the 300, one in the calibration set); they are flagged and no
 
 **Frozen gate (v1, primary): 381 of 1017 presidential actas accepted (267 phone photos, 114 scans), 13 wrong of 8,382
 accepted fields** (Wilson 95% 0.09% to 0.27%; 11 of the 13 on scans). All 13 rest on the **AI adjudicator's reading** of
-the masked crop (an AI model, not a person, not blinded), which agrees with the first capture in each: 9 unused-ballots
-fields, 2 ballots-taken-from-the-boxes fields, 1 TOTAL and 1 vote row. 3 accepted fields where the paper is ambiguous are
-not counted. v2 (Amendment 3): 344 forms, 7 wrong of 7,568 accepted fields (0.04% to 0.19%). v3 (Amendment 7): 388
+the masked crop (an AI model, not a person, not blinded), which agrees with the first capture in each; a person's blind check
+of the 13 is queued at `/check?set=colima13`. 9 of the 13 are unused ballots, the one field outside every identity; the other 4 (2 ballots taken from the boxes, 1 TOTAL, 1 Option 05) sit inside an identity and passed because the read kept every identity true (a compensating or harmonised read, as in the 239/239 case): the gate's blind spot made visible. 3 accepted fields where the paper is ambiguous are
+not counted. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). v2 (Amendment 3): 344 forms, 7 wrong of 7,568 accepted fields (0.04% to 0.19%). v3 (Amendment 7): 388
 forms, 4 wrong of 8,148 (0.02% to 0.13%); Colima has no second reader, so v3 sends every unused-ballots field to a person
-(0 touchless).
+(0 touchless). v1 is the primary (the headline rule); v2 and v3 are pre-registered in Amendment 8b and shown beside it. The two-reader tier was not run on Colima (single reader); 0 of 1,958 remains a 300-form result.
 
 Every disagreement between Gemma and the first capture on a graded field (510) carries one label. 96 are **confirmed by
 the certified count** (cotejo forms, where the count equals one of the two values): in 69 the capture matches it, in 27
 Gemma does and the capture does not match the paper. The AI adjudicator read a sample of 80 of the other 414: every one
 on a field some gate accepts (21), plus a seeded random draw of 59 from the rest (seed 20261017). Of the 80, the
 capture matches the paper in 58, Gemma in 12, neither in 3, and 7 are ambiguous or unreadable. The other 334 are listed
-as not yet adjudicated; none is on an accepted field, so no error count above depends on them.
+as not yet adjudicated; none is on an accepted field, so no error count above depends on them. The accepted-field error rate is complete: none of the 334 touches an accepted field.
 
 Sources: `results/colima/colima_audit.md` and `.json` (`scripts/gemma_tf_reads2.py score-colima`, no model call), the
 adjudication sheet `results/colima/SHEET.md` with every crop, and the report from the site's own capture-audit generator

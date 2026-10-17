@@ -186,8 +186,9 @@ def results(request: Request):
     live = s.run_metrics("live") if "live" in s.runs else None
     q = reviewmod.queue(s)
     from app import gates as gatesmod
+    from app import colima as colimamod
     return page(request, "results.html", "results", n=n, H=n["H"], L=n["L"], pilot=pilot, appendix=appendix, live=live,
-                G=gatesmod.table(),
+                G=gatesmod.table(), colima=colimamod.block(),
                 lm=s.ledger_metrics(), meta=s.ledger.get("meta", {}), queue_n=len(q),
                 resolved=sum(1 for x in q if x["review"]))
 
@@ -305,6 +306,24 @@ def report_pdf():
     if not p.is_file():
         raise HTTPException(404, "report not built")
     return FileResponse(p, media_type="application/pdf", filename="two-hands-report.pdf")
+
+
+# Colima, the whole state (PROTOCOL.md Amendment 8b): the saved report files, served as they were committed
+COLIMA_FILES = {"report.html": ("audit_report.html", "text/html; charset=utf-8"),
+                "report.csv": ("audit_report.csv", "text/csv; charset=utf-8"),
+                "colima_audit.md": ("colima_audit.md", "text/plain; charset=utf-8"),
+                "SHEET.md": ("SHEET.md", "text/plain; charset=utf-8")}
+
+
+@app.get("/results/colima/{name}")
+def colima_file(name: str):
+    if name not in COLIMA_FILES:
+        raise HTTPException(404)
+    f, mt = COLIMA_FILES[name]
+    p = REPO / "results" / "colima" / f
+    if not p.is_file():
+        raise HTTPException(404, "not built")
+    return FileResponse(p, media_type=mt)
 
 
 @app.get("/business.md")

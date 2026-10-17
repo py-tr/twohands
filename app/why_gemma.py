@@ -19,6 +19,19 @@ CERTIFIED = REPO / "results" / "adjudication" / "certified.json"
 GEMMA, QWEN = "Gemma-4-31B-IT", "Qwen3.8-27B"
 CAUGHT = ("122655C0100__OPT02", "110922C0100__OPT04")   # form__code (codes are neutral: Option NN)
 CROP_DIR = REPO / "docs" / "caught"
+B4 = REPO / "results" / "gemma_b4_300.json"   # PROTOCOL.md Amendment 8: two Gemma reads as the two readers
+
+
+def same_model_line() -> Optional[str]:
+    """Two Gemma reads as the two readers vs Gemma + Qwen, same 300 forms, same strict two-reader tier (gemma_b4_300.json)."""
+    try:
+        T = json.loads(B4.read_text(encoding="utf-8"))["a_two_reader"]
+    except (OSError, ValueError, KeyError):
+        return None
+    gg, gq = T["gemma_gemma"], T["gemma_qwen"]
+    return (f"Two Gemma reads as the two readers: {gg['errors']} wrong of {gg['fields']:,} accepted fields, against "
+            f"{gq['errors']} of {gq['fields']:,} with Qwen as the second reader. Same-model reads share mistakes, which "
+            f"is why the second reader is a different model.")
 
 
 def load() -> Optional[dict]:

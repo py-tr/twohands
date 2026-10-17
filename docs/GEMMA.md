@@ -179,6 +179,7 @@ field that sits in no arithmetic identity, so no single-reader gate can check it
 either alone:** the two readers agree on all 23 digits on 147 forms, and the strict two-reader tier (agreement, words
 and the row sum; no label check) accepts 89 forms with 0 of 1,958 accepted fields wrong; the 3 accepted fields where
 the agreed read differs from the official capture are all capture errors (`results/two_reader_300.md`).
+<!-- same-model:start -->Two Gemma reads as the two readers: 5 wrong of 2,816 accepted fields, against 0 of 1,958 with Qwen as the second reader. Same-model reads share mistakes, which is why the second reader is a different model.<!-- same-model:end --> (`results/gemma_b4_300.json`, Amendment 8.)
 
 Caveats, stated as measured: the two passes ran at different times on a shared endpoint (Gemma 01:38-11:49 UTC,
 Qwen from 11:53 UTC on 2026-10-15), so latency reflects endpoint load as much as the model; the adjudication was done

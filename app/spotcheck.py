@@ -16,6 +16,11 @@ Third queue (?set=agree200, additive): a seeded random 200 of the accepted field
 capture AGREE, on the forms the two-reader tier accepts (results/adjudication_agree200/, scripts/build_agree200.py).
 The same blind page; answers go to app/state/spotcheck_agree200.json. agree200_result() feeds
 app/numbers.checked_line(), which states the result only once all 200 are answered.
+
+Fourth queue (?set=colima13, additive): the accepted wrong fields of the Colima whole-state audit under the frozen gate
+(PROTOCOL.md Amendment 8b), each the AI adjudicator's reading; items from app/colima.check13_verdicts (generated from
+results/colima/colima_audit.json), crops from results/colima/crops/. Answers go to app/state/spotcheck_colima13.json;
+app/colima.check13_result feeds the Results wording ("checked by a person: N of 13 agree" once all are answered).
 """
 from __future__ import annotations
 
@@ -40,7 +45,9 @@ ADJ_C100 = REPO / "results" / "adjudication_confirm100"
 FILE_C100 = REPO / "app" / "state" / "spotcheck_confirm100.json"
 ADJ_A200 = REPO / "results" / "adjudication_agree200"
 FILE_A200 = REPO / "app" / "state" / "spotcheck_agree200.json"
-SETS = ("main", "confirm100", "agree200")
+DIR_C13 = REPO / "results" / "colima" / "crops"
+FILE_C13 = REPO / "app" / "state" / "spotcheck_colima13.json"
+SETS = ("main", "confirm100", "agree200", "colima13")
 _lock = threading.Lock()
 router = APIRouter()
 
@@ -54,14 +61,17 @@ def _set(set_: Optional[str]) -> str:
 
 
 def adj_dir(set_: Optional[str] = None) -> Path:
-    return {"confirm100": ADJ_C100, "agree200": ADJ_A200}.get(_set(set_), ADJ)
+    return {"confirm100": ADJ_C100, "agree200": ADJ_A200, "colima13": DIR_C13}.get(_set(set_), ADJ)
 
 
 def answers_file(set_: Optional[str] = None) -> Path:
-    return {"confirm100": FILE_C100, "agree200": FILE_A200}.get(_set(set_), FILE)
+    return {"confirm100": FILE_C100, "agree200": FILE_A200, "colima13": FILE_C13}.get(_set(set_), FILE)
 
 
 def load_verdicts(set_: Optional[str] = None) -> dict:
+    if _set(set_) == "colima13":
+        from app import colima
+        return colima.check13_verdicts()
     return json.loads((adj_dir(set_) / "verdicts.json").read_text(encoding="utf-8"))
 
 
@@ -94,6 +104,9 @@ def build_queue_c100(verdicts: dict) -> list[str]:
 
 
 def queue(set_: Optional[str] = None) -> list[str]:
+    if _set(set_) == "colima13":
+        from app import colima
+        return colima.check13_queue()
     if _set(set_) in ("confirm100", "agree200"):
         return build_queue_c100(load_verdicts(set_))
     return build_queue(load_verdicts(), load_ledger())

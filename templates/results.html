@@ -16,7 +16,7 @@
     <div><div class="eyebrow" style="margin-bottom:4px">Technical report</div><b>Everything on this page, with method, sources and limits, as one PDF.</b></div>
     <a class="btn primary" href="/report.pdf">{{ icon('download') }}Report (PDF)</a>
   </div>
-  <p class="small res-jump">On this page: <a href="#gemma">Gemma vs the other readers</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a></p>
+  <p class="small res-jump">On this page: <a href="#colima">Colima, the whole state</a> · <a href="#gemma">Gemma vs the other readers</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a></p>
 </section>
 
 <section style="margin-top:20px">
@@ -55,6 +55,45 @@
   </div>
   <p class="tiny" style="margin-top:10px">{{ source("results/calls_gemma.jsonl (last read per form), results/adjudication/SUMMARY.md, CERTIFIED.md, RECALL.md, verdicts.json; summarised in app/data/headline.json by scripts/build_headline.py") }} Sources: results/calls_gemma.jsonl and results/adjudication/. A post-hoc gate variant designed after seeing these reads is reported separately in results/posthoc_v2_300.md and is not a test of anything.</p>
 </section>
+
+{% if colima %}
+{% set CF = colima.F %}{% set CL = colima.L %}
+<section id="colima">
+  <div class="sec-head"><div><h2>Colima, the whole state</h2><p>Pre-registered in PROTOCOL.md Amendment 8b before any Colima read: every presidential sheet of one state, Gemma-4-31B-IT on AMD Token Factory, the same frozen prompt and gates as the 300, one read per form, graded against the first capture (PREP).</p></div></div>
+  <p class="gtake"><b>{{ CL.replication }}</b></p>
+  <div class="card" style="padding:6px 8px;margin-top:12px">
+    <div class="tablewrap">
+    <table class="rtable">
+      <tbody>
+        <tr><td><b>Forms</b></td><td>{{ CL.intake }} <details style="display:inline"><summary class="tiny" style="display:inline;cursor:pointer">The {{ CF.not_located|length }}</summary><span class="tiny mono">{{ CF.not_located|join(', ') }}</span></details></td></tr>
+        <tr class="hl"><td><b>Accepted with no person</b></td><td>{{ CL.v1 }} Wrong by the AI adjudicator's reading of the masked crops.</td></tr>
+        <tr><td><b>Who decided the {{ CF.v1.wrong }}</b></td><td>{{ colima.who }} {{ CL.kinds }}</td></tr>
+        <tr><td><b>Disputes</b></td><td>{{ CL.ledger }} {{ CL.complete }}</td></tr>
+        <tr><td><b>Phone photos and scans</b></td><td>{{ CL.scans }}</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="card" style="padding:6px 8px;margin-top:12px">
+    <div class="tablewrap">
+    <table class="rtable">
+      <thead><tr><th>Gate</th><th>Accepted (of {{ '{:,}'.format(CF.prep_rows) }})</th><th>Phone / scan</th><th>Accepted fields</th><th>Wrong (Wilson 95%)</th></tr></thead>
+      <tbody>
+      {% for g in CF.gates %}<tr{% if g.primary %} class="hl"{% endif %}><td style="white-space:nowrap">{% if g.primary %}<b>v1, frozen gate (primary)</b>{% else %}{{ g.tag }} ({{ g.name.split(';')[0] }}){% endif %}</td><td>{{ g.accepted }} ({{ g.pct }}){% if g.to_person %}; unused ballots to a person on all {{ g.to_person }}{% endif %}</td><td>{{ g.movil }} / {{ g.escaner }}</td><td>{{ '{:,}'.format(g.fields) }}</td><td>{{ g.wrong }} ({{ g.lo }} to {{ g.hi }})</td></tr>
+      {% endfor %}</tbody>
+    </table>
+    </div>
+  </div>
+  <p class="small" style="margin-top:10px">{{ CL.tiers }}</p>
+  <details style="margin-top:6px"><summary class="small" style="cursor:pointer">The {{ CF.v1.wrong }} accepted fields that differ from the paper (v1)</summary>
+    <ul class="tiny" style="margin:6px 0 0;padding-left:18px">
+      {% for e in CF.errors %}<li><span class="mono">{{ e.form }}</span> · {{ e.name }}: Gemma read {{ e.read }}, capture {{ e.capture }}, paper {{ e.paper }} ({{ e.by }})</li>{% endfor %}
+    </ul>
+  </details>
+  <p class="small" style="margin-top:10px"><a class="btn" href="/results/colima/report.html">Full field-level report (HTML)</a> <a href="/results/colima/report.csv">CSV</a> · <a href="/results/colima/colima_audit.md">colima_audit.md</a> · <a href="/results/colima/SHEET.md">adjudication sheet</a> · <a href="/check?set=colima13">blind person check of the {{ CF.v1.wrong }}</a></p>
+  <p class="tiny">{{ source("results/colima/colima_audit.json and .md (scripts/gemma_tf_reads2.py score-colima, no model call), results/colima/calls_gemma.jsonl (cost), results/colima/audit_report.html (fingerprint " ~ (CF.report.fingerprint_sha256 or '')[:16] ~ "); sentences in app/colima.py, checked by score-colima --check (make eval)") }}</p>
+</section>
+{% endif %}
 
 {% set T = n.T %}
 {% if G %}
@@ -126,6 +165,7 @@
     {% endfor %}</tbody>
   </table></div></div>
   <p class="tiny muted">{{ W.note }}</p>
+  {% if W.same_model %}<p class="small" style="margin:8px 0 0">{{ W.same_model }} <span class="tiny muted">results/gemma_b4_300.json (PROTOCOL.md Amendment 8).</span></p>{% endif %}
   {% if W.caught %}
   <h3 id="caught" style="margin-top:18px">Misreads the arithmetic caught</h3>
   <p class="small" style="margin:0 0 10px">Gemma read the digits and the words the same wrong way, so only the form's sums could catch it; the failed sum was the only reason the gate refused the form.</p>

@@ -1,0 +1,14 @@
+{
+ "finished": true,
+ "forms": 982,
+ "prep_rows": 1017,
+ "not_located": 35,
+ "cost_usd": 0.1432,
+ "accepted_v1": 381,
+ "wrong_v1": 13,
+ "fields_v1": 8382,
+ "capture_errors_certified": 27,
+ "card": "Free sample: Colima, the whole state, 982 of 1,017 presidential sheets read on AMD for $0.14, field-level report.",
+ "href": "/results#colima",
+ "source": "app/colima.py from results/colima/colima_audit.json"
+}

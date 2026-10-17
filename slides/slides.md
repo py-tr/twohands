@@ -174,6 +174,7 @@ How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169
 <div>
 <div class="card hi"><div class="k">Line 1 (proposal)</div><div class="big">$1</div><p class="mid">$1 per form audited (second capture + cotejo + receipts)</p></div>
 <div class="card" style="margin-top:14px"><div class="k">Line 2</div><p class="mid" style="margin:4px 0 0"><strong>$5 per confirmed capture error, $0 if none is found</strong></p></div>
+<div class="card" style="margin-top:14px"><p class="mid" style="margin:0">Free sample deliverable: Colima, the whole state (1,017 in the PREP, 982 read, 35 not located, listed), report attached.</p></div>
 </div>
 <div class="mid" style="font-size:19.5px">
 

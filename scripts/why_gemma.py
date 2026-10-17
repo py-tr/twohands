@@ -19,11 +19,12 @@ from app import why_gemma as W  # noqa: E402
 
 # doc -> the marked blocks it carries
 DOCS = {"README.md": ("why-gemma",), "submission/lablab.md": ("why-gemma",),
-        "docs/GEMMA.md": ("why-gemma", "caught")}
+        "docs/GEMMA.md": ("why-gemma", "caught", "same-model")}
 
 
 def blocks() -> dict:
-    return {"why-gemma": "\n" + W.block_md() + "\n", "caught": "\n" + W.caught_md()}
+    return {"why-gemma": "\n" + W.block_md() + "\n", "caught": "\n" + W.caught_md(),
+            "same-model": W.same_model_line() or ""}
 
 
 def _re(name: str) -> re.Pattern:

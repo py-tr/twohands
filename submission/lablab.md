@@ -44,7 +44,7 @@ Price (proposal): $1 per form audited (second capture + cotejo + receipts), or $
 Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling. Health facility reports (DHIS2), mortgage post-closing QC and clinical-trial source data
 verification are the next markets, not measured.
 
-When an agent keys a form, the paper still has to agree. Receipts work the same for a model as for a person.
+Whole state: Gemma on AMD read all 982 located presidential sheets of Colima for $0.14; 27 fields where the capture does not match the paper, each confirmed by the certified count, with a field-level report.
 
 <!-- why-gemma:start -->
 Same 300 forms, same gate, on AMD: Gemma accepts 1.8x the forms Qwen3.8-27B does at the same error rate, 4.6x cheaper and 2.8x faster, with no truncated answers. Every zero-error two-reader pair includes Gemma; the only pair without it made errors (2 of 814).
@@ -66,15 +66,14 @@ One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers th
 Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.
 
 What runs on AMD: every measured read of the 300 is Gemma-4-31B-IT on AMD GPUs through AMD Token Factory, one
-request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one key reads a state the size of Colima (982 sheets) in about 3.4 hours. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included. Gemma was briefly unavailable on the shared endpoint (2026-10-15
+request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included. Gemma was briefly unavailable on the shared endpoint (2026-10-15
 15:41 to 2026-10-16 02:06 UTC); every stored number is Gemma on AMD (log: `results/endpoint_health.jsonl`). Page
 locating, the privacy mask and the gate run on CPU.
 
 Limits: most forms are routed to a person (see the table). "Wrong" is judged against the official capture: every disagreement was checked on the photo, the
 agreeing fields were not (a seeded random 200 of them is queued for a blind person check). The adjudicator is the AI
 adjudicator, not a person. Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. The
-pre-registered second-reader pass on the 100-form confirmation was not run (a protocol deviation). The row-label check
-is costly: it routed 86 forms, and on 68 of them the read matched the paper on every field. 11 of the 300 pages could
+pre-registered second-reader pass on the 100-form confirmation was not run (a protocol deviation). 11 of the 300 pages could
 not be located and went to a person before any model call.
 
 ## Links

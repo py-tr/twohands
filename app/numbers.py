@@ -355,7 +355,8 @@ def _why_gemma():
     if not d:
         return None
     return {"lead": why_gemma.lead(d), "head": why_gemma.HEAD, "rows": why_gemma.rows(d), "note": why_gemma.note(d),
-            "caught": [dict(c, line=why_gemma.caught_line(c)) for c in why_gemma.caught()]}
+            "caught": [dict(c, line=why_gemma.caught_line(c)) for c in why_gemma.caught()],
+            "same_model": why_gemma.same_model_line()}
 
 
 def _bakeoff():

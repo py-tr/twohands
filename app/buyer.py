@@ -80,11 +80,13 @@ METRIC_LABEL = ("INE's 2024 acceptance metric as we read it from the report, com
 
 
 def _colima() -> Optional[dict]:
-    """The Colima complete-state audit (PROTOCOL Amendment 8b), only once its finished report exists."""
+    """The Colima complete-state audit (PROTOCOL Amendment 8b), only once its finished report exists. report.json is
+    written by score-colima from app/colima.py (its card line), and checked by score-colima --check."""
     d = storemod._jload(REPO / "results" / "colima" / "report.json", None)
     if not d or not d.get("finished") or not d.get("forms"):
         return None
-    return {"text": f"Here it is: Colima, {d['forms']:,} forms, audited, with receipts.", "href": "/results#colima"}
+    return {"text": d.get("card") or f"Here it is: Colima, {d['forms']:,} forms, audited, with receipts.",
+            "href": d.get("href") or "/results#colima"}
 
 
 def ine_metric() -> Optional[dict]:

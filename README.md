@@ -104,6 +104,8 @@ The first capture is preliminary by design; the certified count is the official 
 
 One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; with the full gate, 7%, 0 wrong in 484). The one-reader figure is the pre-registered primary.
 
+Whole state: Gemma on AMD read all 982 located presidential sheets of Colima for $0.14; 27 fields where the capture does not match the paper, each confirmed by the certified count, with a field-level report. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). Every number: [`results/colima/colima_audit.md`](results/colima/colima_audit.md) (Amendment 8b).
+
 Every number above is computed by `scripts/build_headline.py` into `app/data/headline.json`, which the web app
 reads. Details: [docs/EVALUATION.md](docs/EVALUATION.md). Sources: [docs/NUMBERS.md](docs/NUMBERS.md). Every
 verdict and crop: [`results/adjudication/`](results/adjudication/SUMMARY.md).
@@ -121,7 +123,7 @@ zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qwen3
 | Hardware | AMD GPUs behind the **AMD Token Factory** ([notebooks.amd.com/tokenfactory](https://notebooks.amd.com/tokenfactory)), which AMD describes as "GPU Accelerated AMD ROCm"; the endpoint does not report the GPU model, so we name no card |
 | Model | **Gemma-4-31B-IT**, temperature 0, one request per form (masked page + 6 zoomed tiles); every measured read of the 300 and of the 100-form confirmation |
 | Serving | hosted by AMD, OpenAI-compatible API; our client is `twohands/amd.py` (standard library only) |
-| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one key reads a state the size of Colima (982 sheets) in about 3.4 hours. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
+| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
 | Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with its tokens and billed cost from the API's `usage` (`results/calls_*.jsonl`); the model catalogue snapshot during the outage ([docs/AMD.md](docs/AMD.md)) |
 | Outage | Gemma was unavailable on the shared endpoint from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (`results/endpoint_health.jsonl`); every stored Gemma number is Gemma on AMD |
 | Second reader | **Qwen3.8-27B** on the same endpoint, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
@@ -277,7 +279,7 @@ phone photos with no per-form training. It never decides: the paper's arithmetic
 
 ## Limits and failure cases
 
-- **Touchless share.** The gate accepts 18% of forms with no person; the rest are routed.
+- **Touchless share.** Most forms are routed to a person. Colima accepts 37.5% of forms, against 18% on the national random 300; phone photos pass about as often as scans (39.3% and 37.6%), and scans carry 11 of the 13 accepted errors.
 - **One reader, one adjudicator.** The adjudicator is the AI adjudicator (the builder's model, which could see both
   values), working from the photo on published crops, which anyone can re-check; person-checked counts are reported
   separately (`/check`). Fields where the model and the capture agree were not individually checked (a seeded random
