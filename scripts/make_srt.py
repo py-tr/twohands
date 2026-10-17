@@ -2,7 +2,7 @@
 split by word count). After recording, replace [N] in "It took [N] seconds." with the measured seconds you said
 (shown on screen) and run: python scripts/make_srt.py"""
 segs = [
- (0,23,["Two Hands.","Verifiable quality control for handwritten numbers.","For the institutes that run Mexico's counts,","and their auditors:","OCR reads the number.","Two Hands checks whether the whole form agrees.","Here, the official record typed 480.","The paper says 180.","Gemma read the paper."]),
+ (0,23,["Two Hands.","Verifiable quality control for handwritten numbers.","It's built for any handwritten form","whose numbers have to add up:","cheques, invoices, tally sheets, health registers.","We tested it on the hardest public case:","Mexico's vote counts.","OCR reads the number.","Two Hands checks whether the whole form agrees.","Here, the official record typed 480.","The paper says 180.","Gemma read the paper."]),
  (23,40,["Mexico counts every tally sheet twice:","a fast preliminary capture, then the certified count.","On 6.5% of the polling stations not recounted,","the two official records of the same paper disagree."]),
  (40,66,["Here is a real sheet.","Gemma misread one field as 23, in digits and in words.","The paper's own arithmetic catches it:","the rows sum to 366, not the 466 total.","So it is not accepted: it goes to a person, with the photo.","The paper says 123."]),
  (66,76,["Every field gets a receipt.","Verified: it proves the record is unchanged.","Not that the reading is right."]),

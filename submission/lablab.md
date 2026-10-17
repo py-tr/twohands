@@ -17,6 +17,8 @@ Every number typed from a paper form, checked against the photo of that paper, w
 check the model against the source. We check the record against the paper. A vision model on AMD reads the form;
 the form's own arithmetic decides what to trust; every dispute arrives with its crop.
 
+**Where it works.** Works on any handwritten form whose numbers must add up: cheques (amount in digits and words), invoices and receipts, election tally sheets in any country, clinic and health-facility reports, pharmacy and stock registers, timesheets, customs forms, historical ledgers. Tested on Mexico's 2024 tally sheets (and UK rainfall ledgers, 1850-1960).
+
 **Proof in three lines.** 1,270 real tally sheets read on AMD; 49 capture errors confirmed by the certified count. Against the incumbent: 91.6% field match on Baja California Sur's local actas vs 62.84% for the Google Document AI reading the state bought (same metric). Recall 27 of 28 on certified-detectable errors (pre-registered); a person's blind re-read of the AI-judged disputes: 0 read differently.
 
 Verifiable quality control for handwritten numbers: the model reads, the form's own arithmetic decides what passes, people review the rest, every accepted value gets a receipt.
@@ -51,9 +53,9 @@ of the fields our check disputes is a capture error, against at least 1 in 122 a
 | Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
 | Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
 | Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
-| Next | A paid shadow-mode pilot with one state for 2027. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
+| Next | A paid shadow-mode pilot with one state for 2027. The same check: cheques, invoices and receipts, health-facility reports, stock registers, timesheets, customs forms, election tally sheets in other countries. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
 | Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
-| Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). Not yet measured. |
+| Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). |
 
 Each strong finding opens a case in Evolus: the agent Intake clerk, on Gemma-4-31B-IT, drafts it in the workflow Audit finding; a script, not the model, scores the evidence. 150 of 150 runs on real routed fields completed (workspace py_tr, `results/evolus/executions.jsonl`).
 

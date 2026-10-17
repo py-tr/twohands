@@ -20,9 +20,9 @@ from twohands.priority import prioritized
 client = TestClient(app)
 PARTY = re.compile(r"(?<![A-Za-z0-9])(PAN|PRI|PRD|PVEM|PT|MC|MORENA)(?![A-Za-z0-9])")
 PARTY_CI = re.compile(r"(?<![A-Za-z0-9])(morena|pvem|verde)(?![A-Za-z0-9])", re.I)
-NAV = ["Home", "Try it", "Results"]
+NAV = ["Home", "How it works", "Try it", "Results"]
 FOOTER = ["Results", "Data and credits", "API", "Evolus", "Report (PDF)"]
-USER = "For INE, the 32 state institutes and their outside auditors."
+USER = "For any handwritten form whose numbers must add up: cheques, invoices, tally sheets, health registers, ledgers. Tested on Mexico's vote counts."
 H1 = "OCR reads the number. Two Hands checks whether the whole form agrees."
 EYEBROW = "Two Hands · verifiable quality control for handwritten numbers"
 PRIMARY = "Try it"
@@ -62,7 +62,7 @@ def queue_worker(tmp_path, monkeypatch):
 
 
 # ------------------------------------------------------------------------------------------------ nav
-def test_nav_has_three_items_and_a_short_footer(empty_worker):
+def test_nav_has_four_items_and_a_short_footer(empty_worker):
     h = client.get("/").text
     nav = _nav(h)
     assert [_text(a) for a in re.findall(r"<a [^>]*>(.*?)</a>", nav, flags=re.S)] == NAV
@@ -76,6 +76,15 @@ def test_nav_has_three_items_and_a_short_footer(empty_worker):
     for u in ("/audit", "/review", "/audit/request", "/station", "/api", "/check", "/live", "/inbox", "/keyer",
               "/builder", "/about-data"):
         assert client.get(u).status_code == 200, u
+
+
+def test_how_page_walks_the_flow_and_links_to_the_demo_pages():
+    h = client.get("/how")
+    assert h.status_code == 200
+    assert re.search(r'<a href="/how" class="on">How it works</a>', _nav(h.text))
+    for u in ("/form/122655C0100", "/trace#routed", "/audit/new", "/api", "/results#evolus"):
+        assert f'href="{u}"' in h.text, u
+    assert 'href="/how"' in re.search(r'<p class="f-two" id="how">.*?</p>', client.get("/").text, flags=re.S).group(0)
 
 
 def test_audit_new_opens_the_finished_sample_with_own_data_folded():

@@ -188,7 +188,7 @@ How big (our estimate): about 170,000 federal actas (169,005 presidential sheets
 | **Capacity** | One shared AMD key: Colima's 982 sheets in about 3.4 hours, Morelos's 7,802 in about a day. |
 | **Example** | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
 | **Competition** | Second keying by a person: at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). |
-| **Next** | The same public data in at least 7 more countries (Indonesia, Colombia, Peru; Guatemala, Kenya, Argentina vote in 2027). Health reports: DHIS2 runs national reporting in 70+ countries. Not yet measured. |
+| **Next** | The same public data in at least 7 more countries (Indonesia, Colombia, Peru; Guatemala, Kenya, Argentina vote in 2027). Health reports: DHIS2 runs national reporting in 70+ countries. The same check: cheques, invoices, health reports. |
 
 </div>
 

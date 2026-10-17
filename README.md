@@ -2,6 +2,8 @@
 
 OCR reads the number. Two Hands checks whether the whole form agrees.
 
+Works on any handwritten form whose numbers must add up: cheques (amount in digits and words), invoices and receipts, election tally sheets in any country, clinic and health-facility reports, pharmacy and stock registers, timesheets, customs forms, historical ledgers. Tested on Mexico's 2024 tally sheets (and UK rainfall ledgers, 1850-1960).
+
 A model reads; the form's own arithmetic decides what passes; people review the rest with the photo; accepted values get receipts.
 
 - **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (289 of a random 300 and Colima's 982, one sheet in both); 49 capture errors confirmed by the certified count, each with its photo.
@@ -22,9 +24,9 @@ A model reads; the form's own arithmetic decides what passes; people review the 
 | Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
 | Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
 | Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
-| Next | A paid shadow-mode pilot with one state for 2027. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
+| Next | A paid shadow-mode pilot with one state for 2027. The same check: cheques, invoices and receipts, health-facility reports, stock registers, timesheets, customs forms, election tally sheets in other countries. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
 | Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
-| Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). Not yet measured. |
+| Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). |
 
 **Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result. An independent demonstration, not an official INE product.
 
@@ -249,25 +251,43 @@ HTTP server, then `--server-id <id> --apply` attaches it to the agent and reads 
 
 ## How it works
 
+On the site: `/how`.
+
 1. **Locate and mask.** The page is straightened onto a canonical layout. The right-hand column (names and
-   signatures of officials and representatives) is blacked out **before the image is stored or sent to any
-   model**. A page that cannot be located is not stored, not sent, and goes to a person.
-2. **Read on AMD.** One request: masked page plus zoomed tiles. The model returns every field twice, from the
-   digit boxes and from the words, plus the printed label of each row.
+   signatures) is blacked out **before the image is stored or sent to any
+   model**. A page that cannot be located is not stored, not sent, and goes to a person
+   ([`twohands/mask.py`](twohands/mask.py)).
+2. **Read on AMD.** One request to Gemma-4-31B-IT on AMD: masked page plus zoomed tiles. It returns every field
+   twice, from the digit boxes and from the words, plus each row's printed label
+   ([`twohands/reader.py`](twohands/reader.py)).
 3. **Gate.** Code checks: 23 values parsed; every row label where it belongs; every digit field read;
    words = digits; 17 vote rows sum to TOTAL; voters + representatives = section 5; section 5 = section 7 =
-   TOTAL. All pass: accepted, 0 fields to key. Any fail: routed, with the failing field and its crop.
-4. **Review desk.** A person types the one value the paper could not settle. The identities re-check at once.
-   If the paper contradicts itself, the person escalates it with a note. Nothing is corrected silently.
+   TOTAL ([`twohands/gate.py`](twohands/gate.py)). The gate decides, not the model.
+4. **Second reader (optional).** In two-reader mode Qwen3.8-27B, also on AMD, must agree with Gemma field by
+   field before the gate accepts. It can only withhold acceptance, never override Gemma.
+5. **Accepted or routed.** All checks pass: accepted, 0 fields to key. Any fail: routed, with the failing field
+   and its crop.
+6. **Review desk.** A person types the value the paper could not settle, from the crop; the identities re-check
+   at once. A self-contradicting paper is escalated with a note. Nothing is corrected silently.
+7. **Receipt.** Each disputed field is a Merkle leaf (form, field, keyed value, model digits and words, tier,
+   crop SHA-256); each report has one root, anchored in Bitcoin with OpenTimestamps. `python -m
+   twohands.verify_receipt` checks one field alone ([Verify a receipt](#verify-a-receipt)).
+8. **Audit at scale.** An auditor uploads the keyed data (CSV) and scans; disputes come back ranked strongest
+   evidence first, each with its crop, plus a CSV and a printable report ([Audit your capture](#audit-your-capture)).
+9. **Evolus.** Each strong finding opens a case: the agent Intake clerk, on Gemma-4-31B-IT on AMD, drafts it in
+   the workflow Audit finding, and a script, not the model, scores the evidence. A routed form goes through Review
+   hand-off, where the AI Tool `translate` turns the task into Spanish ([docs/EVOLUS.md](docs/EVOLUS.md)).
+10. **Interfaces.** Web app, JSON API (`/api`), [CLI](#cli) and [MCP server](#mcp), one core.
+11. **Form schema.** A form type is one YAML file
+    ([`schemas/mx_presidencia_2024.yaml`](schemas/mx_presidencia_2024.yaml)): field positions, privacy mask, tiles
+    and identities. A second, very different form type is measured too: UK rainfall ledgers, 1850-1960
+    ([`ledger/`](ledger/)), where twelve months must add up to the annual total.
 
-A form type is one schema file ([`schemas/mx_presidencia_2024.yaml`](schemas/mx_presidencia_2024.yaml)): field
-positions, privacy mask, tiles and identities. A second, very different form type is measured too: UK rainfall
-ledgers from 1850-1960, where twelve months must add up to the clerk's annual total. Architecture and diagram:
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Architecture and diagram: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-**Why not plain OCR, why an LLM.** Classic OCR fails on this handwriting; that is why Rainfall Rescue used 16,000
+**Why an LLM, not plain OCR.** Classic OCR fails on this handwriting; that is why Rainfall Rescue used 16,000
 volunteers (we did not run an OCR baseline ourselves). One vision model reads digits, words and row labels from
-phone photos with no per-form training. It never decides: the paper's arithmetic does.
+phone photos with no per-form training.
 
 ## Limits and failure cases
 

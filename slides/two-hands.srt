@@ -1,303 +1,315 @@
 1
-00:00:00,000 --> 00:00:01,252
+00:00:00,000 --> 00:00:00,870
 Two Hands.
 
 2
-00:00:01,302 --> 00:00:04,290
+00:00:00,920 --> 00:00:03,017
 Verifiable quality control for handwritten numbers.
 
 3
-00:00:04,340 --> 00:00:07,761
-For the institutes that run Mexico's counts,
+00:00:03,067 --> 00:00:05,163
+It's built for any handwritten form
 
 4
-00:00:07,811 --> 00:00:09,497
-and their auditors:
+00:00:05,213 --> 00:00:07,310
+whose numbers have to add up:
 
 5
-00:00:09,547 --> 00:00:11,667
-OCR reads the number.
+00:00:07,360 --> 00:00:09,457
+cheques, invoices, tally sheets, health registers.
 
 6
-00:00:11,717 --> 00:00:15,573
-Two Hands checks whether the whole form agrees.
+00:00:09,507 --> 00:00:12,217
+We tested it on the hardest public case:
 
 7
-00:00:15,623 --> 00:00:18,610
-Here, the official record typed 480.
+00:00:12,267 --> 00:00:13,443
+Mexico's vote counts.
 
 8
-00:00:18,660 --> 00:00:20,780
-The paper says 180.
+00:00:13,493 --> 00:00:14,977
+OCR reads the number.
 
 9
-00:00:20,830 --> 00:00:22,950
-Gemma read the paper.
+00:00:15,027 --> 00:00:17,737
+Two Hands checks whether the whole form agrees.
 
 10
+00:00:17,787 --> 00:00:19,883
+Here, the official record typed 480.
+
+11
+00:00:19,933 --> 00:00:21,417
+The paper says 180.
+
+12
+00:00:21,467 --> 00:00:22,950
+Gemma read the paper.
+
+13
 00:00:23,000 --> 00:00:26,350
 Mexico counts every tally sheet twice:
 
-11
+14
 00:00:26,400 --> 00:00:30,721
 a fast preliminary capture, then the certified count.
 
-12
+15
 00:00:30,771 --> 00:00:35,093
 On 6.5% of the polling stations not recounted,
 
-13
+16
 00:00:35,143 --> 00:00:39,950
 the two official records of the same paper disagree.
 
-14
+17
 00:00:40,000 --> 00:00:42,839
 Here is a real sheet.
 
-15
+18
 00:00:42,889 --> 00:00:48,617
 Gemma misread one field as 23, in digits and in words.
 
-16
+19
 00:00:48,667 --> 00:00:51,987
 The paper's own arithmetic catches it:
 
-17
+20
 00:00:52,037 --> 00:00:56,802
 the rows sum to 366, not the 466 total.
 
-18
+21
 00:00:56,852 --> 00:01:03,543
 So it is not accepted: it goes to a person, with the photo.
 
-19
+22
 00:01:03,593 --> 00:01:05,950
 The paper says 123.
 
-20
+23
 00:01:06,000 --> 00:01:08,807
 Every field gets a receipt.
 
-21
+24
 00:01:08,857 --> 00:01:12,617
 Verified: it proves the record is unchanged.
 
-22
+25
 00:01:12,667 --> 00:01:15,950
 Not that the reading is right.
 
-23
+26
 00:01:16,000 --> 00:01:19,550
 Gemma, on AMD, reads every field twice:
 
-24
+27
 00:01:19,600 --> 00:01:23,150
 the digits and the amount in words.
 
-25
+28
 00:01:23,200 --> 00:01:26,750
 The referee is the paper's own arithmetic.
 
-26
+29
 00:01:26,800 --> 00:01:29,000
 Every check holds: accepted.
 
-27
+30
 00:01:29,050 --> 00:01:33,950
 One fails: a person sees the field, with its photo.
 
-28
+31
 00:01:34,000 --> 00:01:36,236
 Now a live read.
 
-29
+32
 00:01:36,286 --> 00:01:40,807
 One request to Gemma, on the AMD Token Factory.
 
-30
+33
 00:01:40,857 --> 00:01:45,379
 We cut the wait; the timer stays on screen.
 
-31
+34
 00:01:45,429 --> 00:01:47,664
 It took [N] seconds.
 
-32
+35
 00:01:47,714 --> 00:01:49,950
 Every check holds: accepted.
 
-33
+36
 00:01:50,000 --> 00:01:52,245
 This is the product.
 
-34
+37
 00:01:52,295 --> 00:01:56,835
 An auditor brings the typed data and the scans.
 
-35
+38
 00:01:56,885 --> 00:02:01,884
 Here, the sample: 6,000 fields, from the stored AMD reads,
 
-36
+39
 00:02:01,934 --> 00:02:03,720
 checked in seconds.
 
-37
+40
 00:02:03,770 --> 00:02:06,016
 267 disputes, strongest first.
 
-38
+41
 00:02:06,066 --> 00:02:11,065
 This one: the capture keyed 75; the paper says 175.
 
-39
+42
 00:02:11,115 --> 00:02:14,278
 One fingerprint seals the whole report.
 
-40
+43
 00:02:14,328 --> 00:02:17,950
 Change one number, and the check fails.
 
-41
+44
 00:02:18,000 --> 00:02:22,041
 Each strong finding becomes a case in Evolus.
 
-42
+45
 00:02:22,091 --> 00:02:27,041
 The agent runs on Gemma, on AMD, and drafts it.
 
-43
+46
 00:02:27,091 --> 00:02:31,132
 A script, not the model, scores the evidence.
 
-44
+47
 00:02:31,182 --> 00:02:32,950
 The auditor decides.
 
-45
+48
 00:02:33,000 --> 00:02:34,330
 The proof.
 
-46
+49
 00:02:34,380 --> 00:02:38,930
 Gemma on AMD read 1,270 real handwritten tally sheets.
 
-47
+50
 00:02:38,980 --> 00:02:43,070
 49 capture errors, confirmed by the certified count.
 
-48
+51
 00:02:43,120 --> 00:02:48,130
 Recall: 27 of 28 capture errors the certified count reveals,
 
-49
+52
 00:02:48,180 --> 00:02:50,430
 in one state, pre-registered.
 
-50
+53
 00:02:50,480 --> 00:02:54,110
 A person re-read the AI-judged disputes blind:
 
-51
+54
 00:02:54,160 --> 00:02:55,950
 0 read differently.
 
-52
+55
 00:02:56,000 --> 00:03:01,355
 On Baja California Sur's local actas: 91.6% field match.
 
-53
+56
 00:03:01,405 --> 00:03:06,220
 The Google Document AI reading the state bought
 
-54
+57
 00:03:06,270 --> 00:03:07,842
 scored 62.84%.
 
-55
+58
 00:03:07,892 --> 00:03:12,707
 Same per-field metric: theirs on all 2,020 actas,
 
-56
+59
 00:03:12,757 --> 00:03:15,950
 ours on a random 300.
 
-57
+60
 00:03:16,000 --> 00:03:19,379
 Same 300 forms, same gate.
 
-58
+61
 00:03:19,429 --> 00:03:23,950
 It accepts 1.8x the forms Qwen does,
 
-59
+62
 00:03:24,000 --> 00:03:26,807
 4.6x cheaper, 2.8x faster.
 
-60
+63
 00:03:26,857 --> 00:03:29,664
 A whole state: Colima.
 
-61
+64
 00:03:29,714 --> 00:03:35,950
 Gemma on AMD read all 982 sheets for 14 cents.
 
-62
+65
 00:03:36,000 --> 00:03:37,903
 Where it breaks.
 
-63
+66
 00:03:37,953 --> 00:03:41,810
 The first gate had a blind spot:
 
-64
+67
 00:03:41,860 --> 00:03:46,206
 on fresh forms it would have accepted 3114
 
-65
+68
 00:03:46,256 --> 00:03:49,136
 where the paper says 314.
 
-66
+69
 00:03:49,186 --> 00:03:54,020
 Gate version two, fixed before those forms were drawn,
 
-67
+70
 00:03:54,070 --> 00:03:56,950
 sent it to a person.
 
-68
+71
 00:03:57,000 --> 00:04:03,108
 The auditor looks at 4% of the fields, each with its photo.
 
-69
+72
 00:04:03,158 --> 00:04:08,792
 On 6 June 2027, 32 local elections join the federal midterm.
 
-70
+73
 00:04:08,842 --> 00:04:11,634
 $1 per sheet audited, proposed:
 
-71
+74
 00:04:11,684 --> 00:04:18,266
 for Morelos, half a percent of what it paid to run its count.
 
-72
+75
 00:04:18,316 --> 00:04:23,950
 The first step: a paid shadow-mode pilot on one state's count.
 
-73
+76
 00:04:24,000 --> 00:04:28,117
 Every number re-derives from public data, with one command.
 
-74
+77
 00:04:28,167 --> 00:04:29,367
 Two Hands.
 
-75
+78
 00:04:29,417 --> 00:04:32,283
 Verifiable quality control for handwritten numbers.
 
-76
+79
 00:04:32,333 --> 00:04:33,950
 Running on AMD.

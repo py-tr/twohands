@@ -148,12 +148,12 @@ IX, IY, IW = 500, 476, 640                           # the inset (the ledger sit
 IH = round(IW * 158 / 744)
 LEDGER = "font-size:18px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)"
 slides.append(slide(1, f"""
-  <div style="position:absolute;left:120px;top:112px;width:1000px">
+  <div style="position:absolute;left:120px;top:92px;width:1000px">
     <div class="wordmark" style="margin-bottom:26px">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
     <h1 style="font-size:96px">Two Hands</h1>
     <p class="lead" style="margin-top:18px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
     <p class="lead" style="margin-top:10px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
-    <p style="margin-top:12px;font-size:22px;color:var(--ink-2);font-weight:500">For INE, the 32 state institutes and their outside auditors.</p>
+    <p style="margin-top:12px;font-size:21px;line-height:1.4;color:var(--ink-2);font-weight:500">For any handwritten form whose numbers must add up: cheques, invoices, tally sheets, health registers, ledgers. Tested on Mexico's vote counts.</p>
   </div>
   <div style="position:absolute;left:{PX}px;top:{PY}px;width:{PW}px">
     <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_080310B0100_left.jpg" alt="Tally sheet 080310B0100, privacy-masked; the masked names-and-signatures column is left out of the frame">
@@ -314,10 +314,10 @@ slides.append(slide(8, f"""
       <div><div class="k">Buyer</div><p>INE and the 32 state institutes, each with an outside auditor.</p></div>
       <div><div class="k">Why now</div><p><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. First step: a <b>paid shadow-mode pilot</b> on one state's count.</p></div>
       <div><div class="k">One state, priced</div><p>Morelos paid MXN 26.6M to run its 2024 PREP. Our check of every sheet: about <b>MXN 143k</b>, 0.5% of that. The federal count, 169,005 sheets: about $169,000.</p></div>
-      <div><div class="k">Next</div><p>At least 7 more countries publish the same tally data; health reporting on DHIS2 in 70+ countries.</p></div>
+      <div><div class="k">Next</div><p>Same check: cheques, invoices, health reports, election tally sheets in other countries. At least 7 more countries publish the same tally data; health reporting on DHIS2 in 70+ countries.</p></div>
     </div>
   </div>
-""", "README 'Business at a glance'. All 26 auditors named in 2024 were universities. INE budgeted MXN 9.5M for automated capture in 2024 and bought none. AMD compute $0.00014 per sheet. Reviewer work: about one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. Next: the same public data in 7 more countries; DHIS2 health reporting in 70+ countries; not yet measured."))
+""", "README 'Business at a glance'. All 26 auditors named in 2024 were universities. INE budgeted MXN 9.5M for automated capture in 2024 and bought none. AMD compute $0.00014 per sheet. Reviewer work: about one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. Next, the same check: cheques, invoices, health reports, election tally sheets in other countries; the same public tally data in 7 more countries; DHIS2 health reporting in 70+ countries."))
 
 # 9. Check it yourself
 slides.append(slide(9, """

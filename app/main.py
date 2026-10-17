@@ -510,6 +510,12 @@ def export_csv(status: Optional[str] = None):
                     headers={"Content-Disposition": "attachment; filename=twohands-records.csv"})
 
 
+@app.get("/how", response_class=HTMLResponse)
+def how(request: Request):
+    """How it works: the whole system as one numbered flow, each step linked to where it runs on the site."""
+    return page(request, "how.html", "how")
+
+
 @app.get("/api", response_class=HTMLResponse)
 def api_page(request: Request):
     base = str(request.base_url).rstrip("/")
