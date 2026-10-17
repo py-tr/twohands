@@ -9,13 +9,14 @@ segs = [
  (84,94,["Every field gets a receipt.","Verified: it proves the record is unchanged.","Not that the reading is right."]),
  (94,110,["Now a live read.","One request to Gemma, on the AMD Token Factory.","We cut the wait; the timer stays on screen.","It took 90 seconds.","Every check holds: accepted."]),
  (110,138,["This is the product.","An auditor brings the typed data and the scans.","Here, the sample: 6,000 fields, checked in seconds.","267 disputes, strongest first.","This one: the capture keyed 75; the paper says 175.","One fingerprint seals the whole report.","Change one number, and the check fails."]),
- (138,163,["The proof.","Gemma on AMD read 1,270 real handwritten tally sheets.","49 capture errors, confirmed by the certified count.","Recall: 27 of 28 capture errors the certified count reveals,","in one state, pre-registered.","A person re-read the AI-judged disputes blind:","0 read differently."]),
+ (138,150,["The proof.","Gemma on AMD read 1,270 real handwritten tally sheets.","49 capture errors, confirmed by the certified count."]),
+ (150,163,["Recall: 27 of 28 capture errors the certified count reveals,","in one state, pre-registered.","A person re-read the AI-judged disputes blind:","0 read differently."]),
  (163,178,["On Baja California Sur's local actas: 91.6% field match.","The Google Document AI reading the state bought","scored 62.84%, on the same metric."]),
  (178,200,["Same 300 forms, same gate.","It accepts 1.8x the forms Qwen does, at the same error rate,","4.6x cheaper, 2.8x faster.","A whole state: Colima.","Gemma on AMD read all 982 sheets for 14 cents."]),
  (200,215,["Each strong finding becomes a case in Evolus.","The agent runs on Gemma, on AMD, and drafts it.","A script, not the model, scores the evidence.","The auditor decides."]),
- (215,248,["Who pays? Mexico's preliminary counts:","INE, 32 state institutes, and their outside auditors.","On 6 June 2027, 32 local elections join the federal midterm.","$1 per sheet audited, proposed.","The first step: a paid shadow-mode pilot on one state's count.","Next: 7 more countries publish these sheets,","and health reporting in 70+ countries runs on DHIS2.","Elections are our proof set, not our only market."]),
- (248,270,["Where it breaks.","On 100 fresh forms, the model read 3114","where the paper says 314.","No sum covers that field.","Gate version two needs the digits and the words to agree,","so it went to a person."]),
- (270,280,["Every number re-derives from public data, with one command.","Two Hands.","Verifiable quality control for handwritten numbers.","Running on AMD."]),
+ (215,248,["Mexico's preliminary counts:","INE, 32 state institutes, and their outside auditors.","On 6 June 2027, 32 local elections join the federal midterm.","$1 per sheet audited, proposed:","for Morelos, half a percent of what it paid to run its count.","The first step: a paid shadow-mode pilot on one state's count.","Next: 7 more countries publish these sheets,","and health reporting in 70+ countries runs on DHIS2."]),
+ (248,264,["Where it breaks.","On fresh forms, the model read 3114;","the paper says 314.","No sum covers that field.","Gate version two sent it to a person."]),
+ (264,274,["Every number re-derives from public data, with one command.","Two Hands.","Verifiable quality control for handwritten numbers.","Running on AMD."]),
 ]
 def ts(t):
     ms=int(round(t*1000)); return f"{ms//3600000:02d}:{ms//60000%60:02d}:{ms//1000%60:02d},{ms%1000:03d}"

@@ -147,31 +147,31 @@ One fingerprint seals the whole report.
 Change one number, and the check fails.
 
 38
-00:02:18,000 --> 00:02:19,450
+00:02:18,000 --> 00:02:19,586
 The proof.
 
 39
-00:02:19,500 --> 00:02:24,450
+00:02:19,636 --> 00:02:25,041
 Gemma on AMD read 1,270 real handwritten tally sheets.
 
 40
-00:02:24,500 --> 00:02:28,950
+00:02:25,091 --> 00:02:29,950
 49 capture errors, confirmed by the certified count.
 
 41
-00:02:29,000 --> 00:02:34,450
+00:02:30,000 --> 00:02:35,057
 Recall: 27 of 28 capture errors the certified count reveals,
 
 42
-00:02:34,500 --> 00:02:36,950
+00:02:35,107 --> 00:02:37,379
 in one state, pre-registered.
 
 43
-00:02:37,000 --> 00:02:40,950
+00:02:37,429 --> 00:02:41,093
 A person re-read the AI-judged disputes blind:
 
 44
-00:02:41,000 --> 00:02:42,950
+00:02:41,143 --> 00:02:42,950
 0 read differently.
 
 45
@@ -223,73 +223,69 @@ A script, not the model, scores the evidence.
 The auditor decides.
 
 57
-00:03:35,000 --> 00:03:37,662
-Who pays? Mexico's preliminary counts:
+00:03:35,000 --> 00:03:36,710
+Mexico's preliminary counts:
 
 58
-00:03:37,712 --> 00:03:41,731
+00:03:36,760 --> 00:03:40,670
 INE, 32 state institutes, and their outside auditors.
 
 59
-00:03:41,781 --> 00:03:47,155
+00:03:40,720 --> 00:03:45,950
 On 6 June 2027, 32 local elections join the federal midterm.
 
 60
-00:03:47,205 --> 00:03:49,868
-$1 per sheet audited, proposed.
+00:03:46,000 --> 00:03:48,590
+$1 per sheet audited, proposed:
 
 61
-00:03:49,918 --> 00:03:55,292
-The first step: a paid shadow-mode pilot on one state's count.
+00:03:48,640 --> 00:03:54,750
+for Morelos, half a percent of what it paid to run its count.
 
 62
-00:03:55,342 --> 00:03:58,909
-Next: 7 more countries publish these sheets,
+00:03:54,800 --> 00:04:00,030
+The first step: a paid shadow-mode pilot on one state's count.
 
 63
-00:03:58,959 --> 00:04:03,429
-and health reporting in 70+ countries runs on DHIS2.
+00:04:00,080 --> 00:04:03,550
+Next: 7 more countries publish these sheets,
 
 64
-00:04:03,479 --> 00:04:07,950
-Elections are our proof set, not our only market.
+00:04:03,600 --> 00:04:07,950
+and health reporting in 70+ countries runs on DHIS2.
 
 65
 00:04:08,000 --> 00:04:09,950
 Where it breaks.
 
 66
-00:04:10,000 --> 00:04:14,450
-On 100 fresh forms, the model read 3114
+00:04:10,000 --> 00:04:13,950
+On fresh forms, the model read 3114;
 
 67
-00:04:14,500 --> 00:04:17,450
-where the paper says 314.
+00:04:14,000 --> 00:04:16,450
+the paper says 314.
 
 68
-00:04:17,500 --> 00:04:20,450
+00:04:16,500 --> 00:04:19,450
 No sum covers that field.
 
 69
-00:04:20,500 --> 00:04:26,450
-Gate version two needs the digits and the words to agree,
+00:04:19,500 --> 00:04:23,950
+Gate version two sent it to a person.
 
 70
-00:04:26,500 --> 00:04:29,950
-so it went to a person.
-
-71
-00:04:30,000 --> 00:04:34,117
+00:04:24,000 --> 00:04:28,117
 Every number re-derives from public data, with one command.
 
-72
-00:04:34,167 --> 00:04:35,367
+71
+00:04:28,167 --> 00:04:29,367
 Two Hands.
 
-73
-00:04:35,417 --> 00:04:38,283
+72
+00:04:29,417 --> 00:04:32,283
 Verifiable quality control for handwritten numbers.
 
-74
-00:04:38,333 --> 00:04:39,950
+73
+00:04:32,333 --> 00:04:33,950
 Running on AMD.

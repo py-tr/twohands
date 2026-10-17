@@ -2,9 +2,12 @@
 slides/two-hands-talk.pdf.
 
 usage (repo root):  python slides/build_talk.py
+Look: the web app's own tokens (static/style.css :root: paper background, ink, one accent, ok/bad used sparingly;
+Inter + JetBrains Mono; the mark from static/mark.svg), so the slides and the demo read as one product.
 Product visuals come from slides/talk/assets/ (captured from the running app by slides/capture_talk.py) and the
-masked crops in slides/. Every number is copied from README.md, submission/lablab.md and docs/BUSINESS.md, which
-`make eval` checks. No model call.
+masked crops in slides/. Every number is copied from README.md, submission/lablab.md, docs/BUSINESS.md,
+docs/EVALUATION.md and docs/EVOLUS.md, which `make eval` checks. Speaker notes (the detail cut from the slides) sit
+in each slide's <aside class="notes">, hidden when rendered. No model call.
 """
 from pathlib import Path
 
@@ -13,349 +16,331 @@ from playwright.sync_api import sync_playwright
 S = Path(__file__).resolve().parent
 OUT = S / "talk"
 A = "talk/assets/"  # relative to talk.html
+MARK = (S.parent / "static" / "mark.svg").read_text(encoding="utf8")
 
 CSS = """
 @page { size: 1920px 1080px; margin: 0; }
+:root {
+  --bg: #f5f5f2; --surface: #ffffff; --ink: #14161b; --ink-2: #2c3039; --muted: #5f6673; --faint: #969ca7;
+  --line: #e2e2dc; --accent: #3047c0; --accent-soft: #eceffc; --ok: #157042; --bad: #b3261e;
+  --sans: "Inter", "Segoe UI", system-ui, sans-serif; --mono: "JetBrains Mono", Consolas, monospace;
+}
 * { box-sizing: border-box; }
-body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; color: #e5e7eb; background: #0b1020; }
-.slide { width: 1920px; height: 1080px; padding: 72px 110px 0; position: relative; page-break-after: always; overflow: hidden;
-         background: radial-gradient(1200px 700px at 85% 10%, #13224a 0%, #0b1020 60%); }
-h1 { font-size: 150px; margin: 0; letter-spacing: -3px; line-height: 1; color: #fff; }
-h2 { font-size: 60px; margin: 0 0 34px; line-height: 1.12; color: #fff; letter-spacing: -0.5px; }
-.kicker { color: #5eead4; font-size: 26px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-bottom: 16px; }
-.lead { font-size: 40px; line-height: 1.3; color: #cbd5e1; }
-ul { font-size: 30px; line-height: 1.38; padding-left: 34px; margin: 0; color: #cbd5e1; }
-li { margin-bottom: 14px; }
-b, strong { color: #fff; }
-.accent { color: #5eead4; } .warn { color: #f87171; } .gold { color: #fbbf24; } .dim { color: #94a3b8; }
-code { font-family: Consolas, 'Cascadia Mono', monospace; color: #5eead4; background: #132033; padding: 1px 8px; border-radius: 6px; font-size: 0.9em; }
-.foot { position: absolute; left: 110px; right: 110px; bottom: 40px; font-size: 22px; color: #94a3b8; display: flex; justify-content: space-between; }
-.foot .pg { color: #64748b; margin: 0 18px; }
-.card { background: #0f172a; border: 1px solid #1f2a44; border-radius: 20px; padding: 24px 28px; }
-.row { display: flex; gap: 30px; }
-.row > * { flex: 1; min-width: 0; }
-.stat .n { font-size: 76px; font-weight: 800; line-height: 1; color: #5eead4; letter-spacing: -1px; }
-.stat .n small { font-size: 34px; font-weight: 700; color: #cbd5e1; letter-spacing: 0; }
-.stat .t { font-size: 25px; color: #cbd5e1; margin-top: 12px; line-height: 1.3; }
-.stat.red .n { color: #f87171; } .stat.gold .n { color: #fbbf24; } .stat.white .n { color: #fff; }
-.shot { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid #334155; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
-.shot img { display: block; width: 100%; }
-.cap { font-size: 22px; color: #94a3b8; margin-top: 10px; line-height: 1.3; }
-.paper { background: #fff; border-radius: 14px; overflow: hidden; border: 3px solid #334155; }
-.paper img { display: block; width: 100%; }
-.tag { display: inline-block; font-size: 24px; font-weight: 700; padding: 6px 16px; border-radius: 999px; margin: 0 10px 10px 0; }
-.tag.t { color: #0b1020; background: #5eead4; } .tag.r { color: #fff; background: #b91c1c; } .tag.a { color: #0b1020; background: #fbbf24; } .tag.g { color: #e5e7eb; background: #1e293b; border: 1px solid #334155; }
-table { border-collapse: collapse; width: 100%; font-size: 26px; }
-th, td { border-bottom: 1px solid #1f2a44; padding: 12px 16px; text-align: left; vertical-align: top; }
-th { color: #94a3b8; font-weight: 600; font-size: 22px; text-transform: uppercase; letter-spacing: 1.5px; }
-td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
-tr.hi td { background: #10243a; color: #fff; }
-td.yes { color: #5eead4; font-weight: 700; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+.slide { width: 1920px; height: 1080px; padding: 112px 120px 0; position: relative; overflow: hidden; page-break-after: always; background: var(--bg); }
+.notes { display: none; }
+.g { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 40px; align-items: start; }
+.c3 { grid-column: span 3; } .c4 { grid-column: span 4; } .c5 { grid-column: span 5; } .c6 { grid-column: span 6; }
+.c7 { grid-column: span 7; } .c8 { grid-column: span 8; } .c12 { grid-column: span 12; }
+.kicker { font-size: 20px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
+h1 { font-size: 112px; font-weight: 650; letter-spacing: -3px; line-height: 1; margin: 0; }
+h2 { font-size: 58px; font-weight: 600; letter-spacing: -1.2px; line-height: 1.12; margin: 0 0 56px; max-width: 1600px; }
+h2 .mute { color: var(--muted); }
+p, li { font-size: 26px; line-height: 1.45; color: var(--ink-2); margin: 0; }
+.lead { font-size: 34px; line-height: 1.35; color: var(--ink-2); }
+.acc { color: var(--accent); } .bad { color: var(--bad); } .ok { color: var(--ok); } .muted { color: var(--muted); }
+b { font-weight: 600; color: var(--ink); }
+.mono { font-family: var(--mono); font-size: .92em; }
+.foot { position: absolute; left: 120px; right: 120px; bottom: 48px; display: flex; justify-content: space-between; align-items: center;
+        font-size: 18px; color: var(--faint); border-top: 1px solid var(--line); padding-top: 18px; }
+.foot .brand { display: flex; align-items: center; gap: 10px; color: var(--muted); font-weight: 600; }
+.foot .brand svg { width: 22px; height: 22px; }
+.foot .n { font-variant-numeric: tabular-nums; }
+/* facts: hairline-separated lines */
+.facts > div { border-top: 1px solid var(--line); padding: 22px 0 24px; }
+.facts > div:last-child { border-bottom: 1px solid var(--line); }
+.facts .k { font-size: 18px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.facts p { font-size: 27px; }
+.stat .l { font-variant-numeric: tabular-nums; }
+/* stat row */
+.stats { display: grid; column-gap: 40px; border-top: 1px solid var(--ink); }
+.stat { padding-top: 22px; }
+.stat .v { font-size: 68px; font-weight: 600; letter-spacing: -1.5px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .v small { font-size: 32px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.stat .l { font-size: 22px; line-height: 1.35; color: var(--muted); margin-top: 14px; }
+/* frames */
+.frame { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 1px 2px rgba(20,22,28,.04), 0 12px 32px rgba(20,22,28,.07); overflow: hidden; }
+.frame img { display: block; width: 100%; }
+.cap { font-size: 19px; color: var(--faint); margin-top: 14px; line-height: 1.4; }
+/* annotated crop */
+.ann { position: relative; }
+.ann .img { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fff; }
+.ann .img img { display: block; width: 100%; }
+.ann svg.lines { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.ann .lbl { position: absolute; font-size: 25px; line-height: 1.3; color: var(--ink); white-space: nowrap; }
+.ann .lbl .sm { display: block; font-size: 19px; color: var(--muted); }
 /* pipeline */
-.flow { display: flex; align-items: stretch; }
-.step { flex: 1; background: #0f172a; border: 2px solid #1f2a44; border-radius: 20px; padding: 22px 22px 20px; }
-.step .no { font-size: 20px; color: #94a3b8; font-weight: 700; letter-spacing: 2px; }
-.step .ti { font-size: 32px; font-weight: 800; color: #fff; margin: 6px 0 10px; line-height: 1.15; }
-.step .d { font-size: 23px; color: #cbd5e1; line-height: 1.32; }
-.step.amd { border-color: #ed1c24; } .step.amd .ti { color: #ff6b6b; }
-.step.ref { border-color: #5eead4; } .step.ref .ti { color: #5eead4; }
-.step.hum { border-color: #fbbf24; } .step.hum .ti { color: #fbbf24; }
-.arrow { width: 40px; display: flex; align-items: center; justify-content: center; font-size: 38px; color: #5eead4; }
-.loop { margin: 20px auto 0; text-align: center; }
-.loop div { display: inline-block; font-size: 24px; color: #fde68a; background: #1f1a0e; border: 1px dashed #fbbf24; border-radius: 12px; padding: 9px 20px; }
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); column-gap: 0; border-top: 1px solid var(--ink); }
+.st { padding: 26px 40px 0 0; position: relative; }
+.st .no { font-family: var(--mono); font-size: 20px; color: var(--accent); font-weight: 600; }
+.st .t { font-size: 36px; font-weight: 600; margin: 14px 0 12px; letter-spacing: -.3px; }
+.st p { font-size: 25px; color: var(--muted); line-height: 1.4; }
+.st .arr { position: absolute; right: 12px; top: -13px; color: var(--faint); font-size: 22px; background: var(--bg); padding: 0 4px; }
 /* bars */
-.bar-row { display: flex; align-items: center; gap: 26px; margin: 18px 0; }
-.bar-lbl { width: 470px; font-size: 28px; color: #e5e7eb; line-height: 1.25; }
-.bar-lbl .dim { font-size: 22px; }
-.bar-track { flex: 1; height: 110px; background: #0f172a; border: 1px solid #1f2a44; border-radius: 12px; position: relative; }
-.bar-fill { height: 100%; border-radius: 12px 0 0 12px; display: flex; align-items: center; justify-content: flex-end; padding-right: 22px; font-size: 64px; font-weight: 800; color: #0b1020; }
-.gh { font-size: 28px; font-weight: 800; color: #5eead4; margin-bottom: 12px; }
-.card p { font-size: 24px; line-height: 1.36; color: #cbd5e1; margin: 0 0 12px; }
-.card p:last-child { margin-bottom: 0; }
-.kv { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.kv .card { padding: 18px 24px; }
-.kv .k { font-size: 20px; color: #5eead4; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-.kv .v { font-size: 24px; color: #cbd5e1; line-height: 1.33; }
-.kv .v b { color: #fff; }
-.callouts { display: flex; gap: 0; align-items: stretch; margin-top: 18px; }
-.callouts > div { flex: 1; padding: 14px 18px; font-size: 25px; line-height: 1.25; color: #cbd5e1; border-left: 4px solid #334155; }
-.callouts .big { display: block; font-size: 44px; font-weight: 800; margin-bottom: 4px; }
-.runs { margin-top: 24px; font-size: 24px; color: #cbd5e1; background: #0f172a; border: 1px solid #1f2a44; border-radius: 16px; padding: 16px 26px; }
-pre.cmd { font-family: Consolas, 'Cascadia Mono', monospace; font-size: 22px; color: #e5e7eb; background: #0b1324; border: 1px solid #1f2a44; border-radius: 10px; padding: 12px 16px; margin: 6px 0 14px; white-space: pre-wrap; word-break: break-all; }
+.bars .row { display: grid; grid-template-columns: 500px 1fr; align-items: center; column-gap: 32px; margin-bottom: 48px; }
+.bars .name { font-size: 26px; font-weight: 600; } .bars .name span { display: block; font-size: 20px; font-weight: 400; color: var(--muted); margin-top: 4px; }
+.bars .trk { display: flex; align-items: center; gap: 22px; }
+.bars .bar { height: 104px; }
+.bars .val { font-size: 60px; font-weight: 600; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+/* table */
+table { border-collapse: collapse; width: 100%; font-size: 25px; }
+td.r { font-variant-numeric: tabular-nums; }
+th { font-size: 17px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0 18px 14px 0; border-bottom: 1px solid var(--ink); }
+td { padding: 18px 18px 18px 0; border-bottom: 1px solid var(--line); color: var(--ink-2); }
+td.r, th.r { text-align: right; }
+tr.hi td { color: var(--ink); font-weight: 600; }
+/* dots */
+.dots { display: grid; grid-template-columns: repeat(10, 70px); gap: 22px; }
+.dot { width: 70px; height: 70px; border-radius: 50%; background: var(--accent); }
+.dot.miss { background: transparent; border: 3px solid var(--bad); }
+pre.cmd { font-family: var(--mono); font-size: 24px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 20px; margin: 10px 0 0; white-space: pre-wrap; }
+.wordmark { display: flex; align-items: center; gap: 18px; font-size: 26px; font-weight: 600; color: var(--ink); margin-bottom: 70px; }
+.wordmark svg { width: 44px; height: 44px; }
 """
 
-N = 10
+N = 11
 
 
-def foot(i: int) -> str:
-    return (f'<div class="foot"><span>Two Hands · AMD Developer Hackathon ACT III</span>'
-            f'<span><span class="pg">{i:02d} / {N:02d}</span>github.com/py-tr/twohands</span></div>')
+def foot(i: int, last: bool = False) -> str:
+    right = f'{i:02d}'  # the repo URL is set large on the last slide itself
+    return f'<div class="foot"><span class="brand">{MARK}Two Hands</span><span class="n">{right}</span></div>'
 
 
-def slide(i: int, body: str, style: str = "") -> str:
-    return f'<section class="slide" style="{style}">{body}{foot(i)}</section>'
+def slide(i: int, body: str, notes: str = "", last: bool = False) -> str:
+    return f'<section class="slide">{body}<aside class="notes">{notes}</aside>{foot(i, last)}</section>'
 
 
+def annotated(src: str, alt: str, width: int, iw: int, ih: int, notes, band: int = 120) -> str:
+    """A masked crop with thin leader lines to labels set below it. notes: (x, y, label_x, text, sub, colour) with x, y
+    the point on the image (fractions) and label_x the label's left edge (fraction of the width)."""
+    h = round(width * ih / iw)
+    svg, lbls = [], []
+    for k, (x, y, lx, text, sub, col) in enumerate(notes):
+        px, py = x * width, y * h
+        ly = h + 28 + (k % 2) * 0  # labels share one baseline
+        tx = lx * width
+        svg.append(f'<circle cx="{px:.0f}" cy="{py:.0f}" r="7" fill="none" stroke="{col}" stroke-width="2.5"/>'
+                   f'<polyline points="{px:.0f},{py + 7:.0f} {px:.0f},{h + 14:.0f} {tx:.0f},{h + 14:.0f} {tx:.0f},{ly:.0f}" '
+                   f'fill="none" stroke="{col}" stroke-width="1.5"/>')
+        lbls.append(f'<div class="lbl" style="left:{tx:.0f}px;top:{ly + 6:.0f}px;border-left:2px solid {col};padding-left:14px">'
+                    f'{text}<span class="sm">{sub}</span></div>')
+    return (f'<div class="ann" style="width:{width}px;height:{h + band}px"><div class="img"><img src="{src}" alt="{alt}"></div>'
+            f'<svg class="lines" width="{width}" height="{h + band}">{"".join(svg)}</svg>{"".join(lbls)}</div>')
+
+
+INK, ACC, BAD, OK = "#14161b", "#3047c0", "#b3261e", "#157042"
 slides = []
 
 # 1. Title
 slides.append(slide(1, f"""
-  <div class="kicker">AMD Developer Hackathon ACT III · Gemma on AMD Token Factory</div>
-  <h1>Two Hands</h1>
-  <p class="lead" style="margin:18px 0 6px"><span class="accent" style="font-size:52px;font-weight:600">Verifiable quality control for handwritten numbers.</span></p>
-  <p class="lead" style="font-size:36px;margin:0 0 30px">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
-  <div class="row" style="gap:40px;align-items:center">
-    <div style="flex:1.25">
-      <div class="paper"><img src="crop_122655C0100_OPT02.jpg" alt="Option 02 on form 122655C0100: words 'ciento veintitres', boxes 1 2 3"></div>
-      <div class="callouts">
-        <div style="border-color:#94a3b8"><span class="big" style="color:#fff">23</span>Gemma's read, digits and words</div>
-        <div style="border-color:#f87171"><span class="big warn">366 ≠ 466</span>rows sum vs the form's TOTAL</div>
-        <div style="border-color:#fbbf24"><span class="big gold">routed</span>to a person, with this crop</div>
-        <div style="border-color:#5eead4"><span class="big accent">123</span>the paper; the sum holds</div>
-      </div>
+  <div class="g">
+    <div class="c5">
+      <div class="wordmark">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
+      <h1>Two Hands</h1>
+      <p class="lead" style="margin-top:34px;font-size:38px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
+      <p class="lead" style="margin-top:22px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
     </div>
-    <div style="flex:0.75;display:grid;grid-template-columns:1fr 1fr;gap:20px">
-      <div class="card stat"><div class="n">1,270</div><div class="t">real handwritten tally sheets read on AMD</div></div>
-      <div class="card stat"><div class="n">91.6%</div><div class="t">field match vs <b>62.84%</b> for the reading the state bought</div></div>
-      <div class="card stat"><div class="n">27<small> of 28</small></div><div class="t">certified-detectable capture errors caught</div></div>
-      <div class="card stat gold"><div class="n">$1</div><div class="t">per sheet audited (proposed)</div></div>
+    <div class="c7" style="padding-top:150px">
+      {annotated("crop_122655C0100_OPT02.jpg", "Option 02 on form 122655C0100: words 'ciento veintitres', boxes 1 2 3", 1000, 619, 127, [
+          (0.30, 0.56, 0.0, "Gemma read 23", "in digits and in words: rows sum to 366, TOTAL is 466", BAD),
+          (0.87, 0.50, 0.64, "The paper: 123", "routed to a person, with this crop", ACC)], band=110)}
+      <p class="cap" style="margin-top:0">Form 122655C0100, Option 02. INE 2024 tally sheet, privacy-masked, cropped right of the logo column.</p>
     </div>
   </div>
-  <p class="cap" style="margin-top:16px">Form 122655C0100, Option 02: a real INE 2024 tally sheet, privacy-masked, cropped right of the logo column.</p>
-"""))
+  <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:740px">
+    <div class="stat"><div class="v">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
+    <div class="stat"><div class="v">91.6%</div><div class="l">field match, vs 62.84% for the reading the state bought</div></div>
+    <div class="stat"><div class="v">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
+    <div class="stat"><div class="v">$1</div><div class="l">per sheet audited (proposed)</div></div>
+  </div>
+""", "Gemma-4-31B-IT on AMD Token Factory. Sources: README.md headline bullets."))
 
 # 2. The problem
 slides.append(slide(2, f"""
   <div class="kicker">The problem, from INE's own files</div>
-  <h2>Two official records of the same paper disagree.<br><span class="dim">Neither says which one is right.</span></h2>
-  <div class="row" style="gap:44px">
-    <div style="flex:1.1">
-      <div class="paper"><img src="receipt_050815B0100.jpg" alt="Option 07 on form 050815B0100: words 'ciento setenta y cinco', boxes 1 7 5"></div>
-      <div style="margin-top:16px"><span class="tag r">first capture keyed 75</span><span class="tag t">the paper says 175</span><span class="tag g">certified count: 175</span></div>
-      <p class="cap" style="margin-top:4px">Form 050815B0100, Option 07 (masked, cropped right of the logo column). One of the 52 on our random 300.</p>
-      <ul style="margin-top:30px;font-size:32px">
-        <li>Every sheet is already keyed twice by people. Double keying copies the paper faithfully but <b>cannot say which paper is wrong</b>.</li>
-        <li>The mandated audit checks <b>the software</b>, not the keyed values.</li>
-        <li>A difference says two captures disagree. <b class="accent">The photo says which.</b></li>
-      </ul>
-    </div>
-    <div style="flex:0.9;display:flex;flex-direction:column;gap:26px">
-      <div class="card stat red"><div class="n" style="font-size:110px">6.5%</div><div class="t">of the <b>52,167</b> polling stations not recounted: the preliminary capture and the certified count disagree on at least one vote field (<b>3,382</b>)</div></div>
-      <div class="card stat gold"><div class="n" style="font-size:110px">19.2%</div><div class="t">of nationally captured tally forms fail their own row sum, in the official capture (<b>26,336</b> of <b>137,196</b>)</div></div>
-    </div>
+  <h2>Two official records of the same paper disagree. <span class="mute">Neither says which one is right.</span></h2>
+  {annotated("receipt_050815B0100.jpg", "Option 07 on form 050815B0100: words 'ciento setenta y cinco', boxes 1 7 5", 1300, 619, 102, [
+      (0.30, 0.58, 0.0, "The paper: 175", "in words and in boxes; the certified count says 175", ACC),
+      (0.87, 0.42, 0.68, "First capture keyed 75", "the preliminary record", BAD)], band=104)}
+  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:36px">
+    <div class="stat"><div class="v">6.5%</div><div class="l">of the 52,167 polling stations not recounted: the preliminary capture and the certified count disagree on at least one vote field</div></div>
+    <div class="stat"><div class="v">19.2%</div><div class="l">of nationally captured tally forms fail their own row sum (26,336 of 137,196)</div></div>
+    <div class="stat"><p style="font-size:28px;line-height:1.4;padding-top:4px">Double keying copies the paper faithfully but <b>cannot say which paper is wrong</b>. The photo can.</p></div>
   </div>
-"""))
+""", "6.5% = 3,382 of 52,167 (results/national_counts.md). 19.2% = 26,336 of 137,196 (README 'Why double keying is not enough'). The mandated audit checks the software, not the keyed values (docs/BUSINESS.md)."))
 
 # 3. How it works
-slides.append(slide(3, f"""
+slides.append(slide(3, """
   <div class="kicker">How it works</div>
   <h2>The model reads. The paper's own arithmetic decides.</h2>
-  <div class="flow">
-    <div class="step"><div class="no">1 · PHOTO</div><div class="ti">Scan or phone photo</div>
-      <div class="d">Page located and <b>privacy-masked</b> (names and signatures blacked out) before it is stored or sent</div></div>
-    <div class="arrow">→</div>
-    <div class="step amd"><div class="no">2 · READ</div><div class="ti">Gemma on AMD</div>
-      <div class="d">Gemma-4-31B-IT on AMD Token Factory reads every field <b>twice</b>: the digits and the amount in words</div></div>
-    <div class="arrow">→</div>
-    <div class="step ref"><div class="no">3 · CHECK</div><div class="ti">The paper's identities</div>
-      <div class="d">words = digits · rows sum to TOTAL · section 5 = section 7 = TOTAL</div></div>
-    <div class="arrow">→</div>
-    <div class="step hum"><div class="no">4 · DECIDE</div><div class="ti">Accept or route</div>
-      <div class="d">All hold: <b>accepted</b>, nobody keys it. One fails: <b>a person</b> gets the field named, with its photo</div></div>
-    <div class="arrow">→</div>
-    <div class="step"><div class="no">5 · RECEIPT</div><div class="ti">Sealed</div>
-      <div class="d">Each field is a Merkle leaf; the report's root is anchored with <b>OpenTimestamps</b></div></div>
+  <div class="steps" style="margin-top:150px">
+    <div class="st"><div class="no">01</div><div class="t">Photo</div><p>Page located and privacy-masked before it is stored or sent</p><span class="arr">→</span></div>
+    <div class="st"><div class="no">02</div><div class="t">Gemma reads</div><p>Gemma-4-31B-IT on AMD Token Factory reads every field twice: digits and words</p><span class="arr">→</span></div>
+    <div class="st"><div class="no">03</div><div class="t">Arithmetic</div><p>words = digits · rows sum to TOTAL · section 5 = section 7 = TOTAL</p><span class="arr">→</span></div>
+    <div class="st"><div class="no">04</div><div class="t">Accept or route</div><p>All hold: <b class="ok">accepted</b>. One fails: <b class="bad">a person</b> gets the field, with its photo</p><span class="arr">→</span></div>
+    <div class="st"><div class="no">05</div><div class="t">Receipt</div><p>Each field a Merkle leaf; the root anchored with OpenTimestamps</p></div>
   </div>
-  <div class="loop"><div>A second reader (Qwen3.8-27B, also on AMD) never overrides Gemma: it can only <b style="color:#fde68a">withhold</b> acceptance</div></div>
-  <div class="row" style="margin-top:26px;gap:28px;align-items:flex-start">
-    <div style="flex:0 0 640px">
-      <div class="shot"><img src="{A}form_accepted_head.png" alt="Form 211298B0100: Accepted: 0 fields to key"></div>
-      <p class="cap">Form 211298B0100 on the site: every identity holds, so nobody keys this form.</p>
-    </div>
-    <div style="flex:0 0 560px">
-      <div class="shot"><img src="{A}form_accepted_idents.png" alt="Every identity holds: 417 = 417; words = digits 23 of 23"></div>
-    </div>
-    <div class="card"><div class="gh">Runs where</div>
-      <p><b>On AMD:</b> every model read, incl. the second reader and the Evolus agent</p>
-      <p><b>On CPU:</b> locating, masking, the gate</p>
-      <p><b>As:</b> web app, API, CLI, MCP server</p></div>
-  </div>
-"""))
+  <p style="margin-top:130px;font-size:28px;border-top:1px solid var(--line);padding-top:26px">A second reader, Qwen3.8-27B on AMD, never overrides Gemma: it can only <b>withhold</b> acceptance.</p>
+""", "Masking: names-and-signatures column blacked out (OpenCV, CPU). The gate is plain Python. Every model read runs on AMD. Interfaces: web app, API, CLI, MCP server, Evolus workflows."))
 
 # 4. One real case
 slides.append(slide(4, f"""
-  <div class="kicker">One real sheet, request to receipt · /trace</div>
-  <h2>Gemma read 23. The paper says 123. <span class="accent">The sum caught it.</span></h2>
-  <div class="row" style="gap:40px;align-items:flex-start">
-    <div style="flex:0 0 760px">
-      <div class="shot"><img src="{A}trace_gate.png" alt="The gate on form 122655C0100: rows sum to TOTAL 366 vs 466 FAIL; the other identities pass; routed to a person"></div>
-      <p class="cap">The gate, re-run on Gemma's stored raw output: one identity fails, so a person decides.</p>
-    </div>
-    <div>
-      <div class="paper"><img src="crop_122655C0100_OPT02.jpg" alt="Option 02: the paper says 123"></div>
-      <div style="margin:14px 0 22px"><span class="tag g">Gemma: 23</span><span class="tag r">366 ≠ 466</span><span class="tag a">routed</span><span class="tag t">paper: 123</span></div>
-      <div class="shot"><img src="{A}trace_verified.png" alt="Receipt checks: four ok lines and VERIFIED"></div>
-      <p class="cap">Leaf 146 of 267, Merkle root e56a8ef4f011b9e5. <b style="color:#e5e7eb">VERIFIED</b> proves the record is unchanged since the report was sealed, not that the reading is right.</p>
+  <div class="kicker">One real sheet, request to receipt</div>
+  <h2>Gemma read 23. The paper says 123. <span class="acc">The sum caught it.</span></h2>
+  <div class="g">
+    <div class="c7"><div class="frame" style="height:500px"><img style="margin-top:-150px" src="{A}trace_gate.png" alt="The gate on form 122655C0100: rows sum to TOTAL, 366 vs 466, FAIL; the other identities pass; routed to a person"></div>
+      <p class="cap">/trace on the site: the gate re-run on Gemma's stored raw output for form 122655C0100.</p></div>
+    <div class="c5 facts">
+      <div><div class="k">The read</div><p>23 in digits and 23 in words: they agree, so only the arithmetic can catch it.</p></div>
+      <div><div class="k">The gate</div><p>Rows sum to <b class="bad">366</b>, the form's TOTAL is <b>466</b>: routed to a person. With the paper's 123: 466 = 466.</p></div>
+      <div><div class="k">The receipt</div><p><b class="ok">VERIFIED</b>: the record is unchanged since the report was sealed. Not that the reading is right.</p></div>
     </div>
   </div>
-"""))
+""", "Leaf 146 of 267 in the sample audit's Merkle tree; root e56a8ef4f011b9e5 (results/sample_audit_root.txt). docs/TRACE.md (b)."))
 
 # 5. Results
 slides.append(slide(5, f"""
   <div class="kicker">Results · pre-registered · INE's public data</div>
-  <h2>1,270 real tally sheets. 49 capture errors confirmed by the certified count.</h2>
-  <div class="row" style="gap:26px">
-    <div class="card stat"><div class="n">1,270</div><div class="t">handwritten tally sheets read by Gemma on AMD</div></div>
-    <div class="card stat white"><div class="n">49</div><div class="t">capture errors confirmed by the certified count, each with its photo</div></div>
-    <div class="card stat"><div class="n">27<small> of 28</small></div><div class="t">recall on the errors the certified count reveals (one state)</div></div>
-    <div class="card stat gold"><div class="n">0<small> of 484</small></div><div class="t">accepted fields wrong on 100 fresh forms (gate v2)</div></div>
+  <h2>1,270 real tally sheets read on AMD. <span class="mute">49 capture errors confirmed by the certified count.</span></h2>
+  <div class="g">
+    <div class="c7"><div class="frame"><img src="{A}report_item_050815B0100.png" alt="Audit report row: 050815B0100 Option 07, keyed 75, model digits 175, words 175, strong evidence"></div>
+      <p class="cap">One dispute in the audit report: the crop, the keyed 75, Gemma's 175 in digits and words.</p></div>
+    <div class="c5 facts">
+      <div><div class="k">Random 300, pre-registered</div><p><b>52</b> fields where the official capture does not match the paper, in 6,358 checked; each with its photo.</p></div>
+      <div><div class="k">Colima, a whole state</div><p>All <b>982</b> located presidential sheets for <b>$0.14</b>; 27 fields where the capture does not match the paper, each confirmed by the certified count.</p></div>
+      <div><div class="k">100 fresh forms</div><p>Gate v2 accepted 22 forms: <b class="ok">0 of 484</b> fields wrong.</p></div>
+    </div>
   </div>
-  <table style="margin-top:30px">
-    <tr><th style="width:30%">Run</th><th>Measured</th></tr>
-    <tr><td><b>Pre-registered random 300</b></td><td>6,358 fields checked · 267 disputed · <b>52</b> where the official capture does not match the paper · 55 forms accepted with no person: 2 of 1,210 fields wrong</td></tr>
-    <tr><td><b>100 fresh forms</b> (Amendment 3)</td><td>gate v2 accepted 22 forms: <b class="accent">0 of 484</b> fields wrong</td></tr>
-    <tr><td><b>Colima, a whole state</b></td><td>all 982 located presidential sheets for <b>$0.14</b> · 27 fields where the capture does not match the paper, each confirmed by the certified count</td></tr>
-    <tr><td><b>Recall</b> (Colima, pre-registered)</td><td><b class="accent">27 of 28</b> certified-detectable capture errors caught, 96% (Wilson 95% 82-99%); not total recall</td></tr>
-    <tr><td><b>A person's blind re-read</b></td><td>of the AI-judged disputes: <b class="accent">0 read differently</b></td></tr>
-  </table>
-"""))
+""", "49 = 22 confirmed by the certified count on the 300 + 27 in Colima. On the 300: 267 disputed fields; 55 forms accepted with no person, 2 of 1,210 fields wrong. README 'Headline: the pre-registered 300'."))
 
-# 6. Incumbent
+# 6. Checked
+dots = "".join('<div class="dot"></div>' for _ in range(27)) + '<div class="dot miss"></div>'
 slides.append(slide(6, f"""
+  <div class="kicker">Checked</div>
+  <h2>27 of 28 capture errors caught. <span class="mute">A blind re-read found 0 differences.</span></h2>
+  <div class="g">
+    <div class="c7">
+      <div class="dots" style="margin-top:10px">{dots}</div>
+      <p class="cap" style="margin-top:26px">Each dot: a capture error the certified count reveals in Colima. Filled: caught. Outlined: missed.</p>
+    </div>
+    <div class="c5 facts">
+      <div><div class="k">Recall</div><p><b>27 of 28</b>, 96% (Wilson 95% 82-99%). One state, pre-registered; certified-detectable errors only, not total recall.</p></div>
+      <div><div class="k">A person's blind re-read</div><p>of the AI-judged disputes: <b>0 read differently</b>.</p></div>
+    </div>
+  </div>
+""", "results/colima/recall.md (PROTOCOL.md Amendment 9), checked by scripts/colima_recall.py --check."))
+
+# 7. Incumbent
+slides.append(slide(7, """
   <div class="kicker">Against the incumbent · Baja California Sur, 2024 local actas</div>
-  <h2>91.6% field match, where the reading the state bought scored 62.84%</h2>
-  <div style="margin-top:56px">
-    <div class="bar-row"><div class="bar-lbl"><b>Two Hands</b>: Gemma on AMD<br><span class="dim">pre-registered random 300 actas · 3,622 fields</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width:91.6%;background:#5eead4">91.6%</div></div></div>
-    <div class="bar-row"><div class="bar-lbl"><b>Google Document AI</b><br><span class="dim">the state's purchased reading · all 2,020 actas</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width:62.84%;background:#64748b;color:#fff">62.84%</div></div></div>
+  <h2>91.6% field match, where the reading the state bought scored 62.84%.</h2>
+  <div class="bars" style="margin-top:70px">
+    <div class="row"><div class="name">Two Hands<span>Gemma on AMD · random 300 actas, pre-registered</span></div>
+      <div class="trk"><div class="bar" style="width:calc(91.6% * 0.85);background:var(--accent)"></div><div class="val acc">91.6%</div></div></div>
+    <div class="row"><div class="name">Google Document AI<span>the state's purchased reading · all 2,020 actas</span></div>
+      <div class="trk"><div class="bar" style="width:calc(62.84% * 0.85);background:#b9bdc6"></div><div class="val muted">62.84%</div></div></div>
   </div>
-  <p class="lead" style="font-size:28px;margin:10px 0 56px 496px">Same per-field exact-match metric. Ours: 91.58%, Wilson 95% 90.63-92.44%, against the published PREP values. Theirs: 14,501 of 23,077 fields, against the manual capture.</p>
-  <div class="row" style="gap:30px">
-    <div class="card"><div class="gh">Reading is not the product</div><p>Ours accepts only what the paper's arithmetic proves and routes the rest to a person, with the photo.</p></div>
-    <div class="card"><div class="gh">Second keying by a person</div><p>The rule today. At least <b>0.8%</b> of fields in our random sample still do not match the paper (52 of 6,358).</p></div>
-    <div class="card"><div class="gh">Where a person looks</div><p><b>1 in 5</b> disputed fields is a confirmed capture error, against at least 1 in 122 at random.</p></div>
-  </div>
-"""))
+  <p style="margin:56px 0 0 532px;max-width:1100px;color:var(--muted);font-size:24px">Same per-field exact-match metric. Ours: 3,622 fields, Wilson 95% 90.63-92.44%, against the published PREP values. Theirs: 14,501 of 23,077 fields, against the manual capture.</p>
+""", "README 'Against the incumbent'; results/ieebcs/score.json, scripts/ieebcs_score.py --check. Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. Second keying by a person, the rule today: at least 0.8% of fields in our random sample still do not match the paper."))
 
-# 7. Gemma on AMD
-slides.append(slide(7, f"""
+# 8. Why Gemma
+slides.append(slide(8, """
   <div class="kicker">Gemma on AMD Token Factory</div>
-  <h2>Why Gemma: more forms accepted, cheaper, faster</h2>
-  <div class="row" style="gap:26px">
-    <div class="card stat"><div class="n">1.8×</div><div class="t">the forms Qwen3.8-27B accepts, at the same error rate</div></div>
-    <div class="card stat"><div class="n">4.6×</div><div class="t">cheaper</div></div>
-    <div class="card stat"><div class="n">2.8×</div><div class="t">faster</div></div>
-    <div class="card stat white"><div class="n">4.8<small> /min</small></div><div class="t">forms, 4 in flight, $0.000146 per form (shared endpoint)</div></div>
-  </div>
-  <table style="margin-top:28px">
-    <tr><th>Same 300 forms, same gate, on AMD</th><th>Forms accepted</th><th>Wrong of accepted fields</th><th>$ per 1,000 forms</th><th>Time per read</th></tr>
-    <tr class="hi"><td><b>Gemma-4-31B-IT</b></td><td class="num"><b>55 of 300</b> (18%)</td><td class="num">2 of 1,210</td><td class="num"><b>$0.14</b></td><td class="num"><b>87 s</b></td></tr>
-    <tr><td>Qwen3.8-27B</td><td class="num">31 of 300 (10%)</td><td class="num">1 of 682 (+2 undecided)</td><td class="num">$0.64</td><td class="num">241 s</td></tr>
-    <tr><td>Gemma + Qwen3.8-27B, two readers must agree</td><td class="num">89 of 300 (30%)</td><td class="num yes">0 of 1,958</td><td class="num">$0.78</td><td class="num">–</td></tr>
+  <h2>Same 300 forms, same gate: Gemma accepts 1.8× the forms Qwen does, 4.6× cheaper, 2.8× faster.</h2>
+  <table style="max-width:1680px">
+    <tr><th>Reader, on AMD</th><th class="r">Forms accepted</th><th class="r">Wrong of accepted fields</th><th class="r">$ per 1,000 forms</th><th class="r">Time per read</th></tr>
+    <tr class="hi"><td>Gemma-4-31B-IT</td><td class="r acc">55 of 300</td><td class="r">2 of 1,210</td><td class="r acc">$0.14</td><td class="r acc">87 s</td></tr>
+    <tr><td>Qwen3.8-27B</td><td class="r">31 of 300</td><td class="r">1 of 682</td><td class="r">$0.64</td><td class="r">241 s</td></tr>
+    <tr><td>Both must agree, the paper's sums as referee</td><td class="r">89 of 300</td><td class="r ok"><b class="ok">0 of 1,958</b></td><td class="r">$0.78</td><td class="r">–</td></tr>
   </table>
-  <p class="cap">Pairs: all 23 digits agree, lighter gate (secondary). Source: app/data/bakeoff_300.json. Every zero-error two-reader pair includes Gemma.</p>
-  <div class="row" style="gap:30px;margin-top:20px">
-    <div class="card"><div class="gh">Evolus · workflow "Audit finding"</div><p><b>150 of 150</b> executions completed on real routed fields. The agent "Intake clerk" runs Gemma-4-31B-IT on AMD and drafts the finding; a Script recomputes the evidence score with no AI.</p></div>
-    <div class="card"><div class="gh">A whole state, then the country</div><p>Colima: all <b>982</b> located presidential sheets read for <b>$0.14</b>. About <b>$24</b> of AMD compute to read all 169,005 national presidential tally sheets.</p></div>
+  <p class="cap">Two readers: lighter gate, a secondary analysis. Qwen: +2 undecided. Source: app/data/bakeoff_300.json.</p>
+  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:56px;border-top-color:var(--line)">
+    <div class="stat"><div class="v">4.8<small> forms / min</small></div><div class="l">$0.000146 per form, shared endpoint, 4 in flight</div></div>
+    <div class="stat"><div class="v">$0.14</div><div class="l">Colima, a whole state: all 982 located presidential sheets</div></div>
+    <div class="stat"><div class="v">150<small> of 150</small></div><div class="l">Evolus "Audit finding" runs completed; the agent runs Gemma on AMD</div></div>
   </div>
-"""))
+""", "README 'Why Gemma' and 'What ran on AMD'; docs/EVOLUS.md (150 executions of real routed fields; a Script recomputes the evidence score with no AI). Every zero-error two-reader pair includes Gemma. About $24 of AMD compute to read all 169,005 national presidential tally sheets."))
 
-# 8. Business
-slides.append(slide(8, f"""
-  <div class="kicker">Business at a glance</div>
-  <h2>An independent check of the keyed values, <span class="gold">$1 per sheet</span> (proposed)</h2>
-  <div class="row" style="gap:40px;align-items:flex-start">
-    <div style="flex:0 0 700px">
-      <div class="shot" style="height:372px"><img src="{A}report_head.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root"></div>
-      <div class="shot" style="margin-top:14px"><img src="{A}report_item_050815B0100.png" alt="Dispute 3: 050815B0100 Option 07, keyed 75, model digits 175, words 175, strong"></div>
-      <p class="cap">The product: the audit report. Every dispute with its photo, strongest first, sealed by one Merkle root.</p>
-    </div>
-    <div class="kv">
-      <div class="card"><div class="k">Buyer</div><div class="v"><b>INE</b> and the <b>32 state institutes</b>, each with an outside auditor (all 26 named in 2024 were universities)</div></div>
-      <div class="card"><div class="k">Why now</div><div class="v"><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. INE budgeted MXN 9.5M for automated capture in 2024 and bought none</div></div>
-      <div class="card"><div class="k">Price</div><div class="v"><b>$1 per sheet audited</b> (proposed); first step: a <b>paid shadow-mode pilot</b> on one state's 2027 count. AMD compute: $0.00014 per sheet</div></div>
-      <div class="card"><div class="k">Reviewer work</div><div class="v">About <b>one photo crop</b> per sheet to look at (0.92 measured), instead of re-keying about 22 fields</div></div>
-      <div class="card"><div class="k">Example</div><div class="v">Morelos paid MXN 26.6M to run its 2024 PREP. Our check of every sheet: about <b>MXN 143k</b>, <b>0.5%</b> of that</div></div>
-      <div class="card"><div class="k">Next</div><div class="v">The same public data in <b>7 more countries</b>. Health reporting on <b>DHIS2</b> in 70+ countries. Not yet measured</div></div>
-    </div>
-  </div>
-"""))
-
-# 9. Where it breaks
+# 9. Business
 slides.append(slide(9, f"""
-  <div class="kicker">Where it holds, and where it breaks</div>
-  <h2>Read 3114, paper 314: <span class="accent">gate v2 sends it to a person</span></h2>
-  <div class="row" style="gap:44px;align-items:flex-start">
-    <div style="flex:1">
-      <div class="paper"><img src="{A}crop_070212B0100_SOBRANTES.jpg" alt="Unused ballots on form 070212B0100: boxes 3 1 4, words line blank"></div>
-      <div style="margin-top:16px"><span class="tag r">model read 3114</span><span class="tag t">paper: 314</span><span class="tag g">words line blank</span></div>
-      <ul style="margin-top:22px;font-size:32px">
-        <li>Form 070212B0100, unused ballots: a field in <b>no identity</b>, with no words written. No sum can catch a digit inserted here.</li>
-        <li>On 100 fresh forms (pre-registered), the frozen gate let it through. The v2 rule, <b>digits and words both read and equal</b>, blocked it and accepted <b class="accent">0 wrong of 484</b>.</li>
-      </ul>
-    </div>
-    <div style="flex:0.85;display:flex;flex-direction:column;gap:18px">
-      <div class="card"><div class="gh">Where it holds</div>
-        <p>One reader, frozen gate: <b>2 wrong of 1,210</b> accepted fields on 300 random forms (0.17%), <b>13 of 8,382</b> on a whole state (0.16%).</p></div>
-      <div class="card"><div class="gh">Where it breaks: the measured kinds so far</div>
-        <p><b>Harmonised in one call:</b> 239/239 for 234</p>
-        <p><b>Blank words:</b> 300 for 379</p>
-        <p><b>Digit insertion:</b> 3114 for 314</p></div>
-      <div class="card"><div class="gh">Scope</div>
-        <p>Clerical capture quality only: whether a typed number matches its paper. No results, no parties (Option 01 to 15), no totals.</p>
-        <p>Most forms go to a person: one reader accepts 18%, two readers 30%.</p>
-        <p>The certified count is the official result. Not an official INE product.</p></div>
+  <div class="kicker">Business at a glance</div>
+  <h2>An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
+  <div class="g">
+    <div class="c6"><div class="frame" style="height:436px"><img src="{A}report_head.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root"></div>
+      <p class="cap">The product: the audit report, every dispute with its photo, sealed by one Merkle root.</p></div>
+    <div class="c6 facts">
+      <div><div class="k">Buyer</div><p>INE and the 32 state institutes, each with an outside auditor.</p></div>
+      <div><div class="k">Why now</div><p><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. First step: a <b>paid shadow-mode pilot</b> on one state's count.</p></div>
+      <div><div class="k">One state, priced</div><p>Morelos paid MXN 26.6M to run its 2024 PREP. Our check of every sheet: about <b>MXN 143k</b>, 0.5% of that.</p></div>
     </div>
   </div>
-"""))
+""", "README 'Business at a glance'. All 26 auditors named in 2024 were universities. INE budgeted MXN 9.5M for automated capture in 2024 and bought none. AMD compute $0.00014 per sheet. Reviewer work: about one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. Next: the same public data in 7 more countries; DHIS2 health reporting in 70+ countries; not yet measured."))
 
-# 10. Check it yourself
+# 10. Where it breaks
 slides.append(slide(10, f"""
-  <div class="kicker">Check it yourself</div>
-  <h2>Two Hands at a glance: every number re-derives from public data</h2>
-  <div class="row" style="gap:30px;align-items:stretch">
-    <div class="card"><div class="gh">Reproduce</div>
-      <pre class="cmd">make eval</pre>
-      <p>recomputes every number offline from the committed raw results and checks it against what the site shows</p>
-      <p><b>PROTOCOL.md</b>: sample, prompt, gate and metrics committed before any model read; every later change is a numbered amendment</p></div>
-    <div class="card" style="flex:1.15"><div class="gh">Verify a receipt</div>
-      <pre class="cmd">python -m twohands.verify_receipt
-  receipt.json --crop crop.jpg</pre>
-      <p>A changed value or crop fails.</p>
-      <p>Each report's Merkle root is anchored in Bitcoin with <b>OpenTimestamps</b>:</p>
-      <pre class="cmd">ots verify
-  results/sample_audit_root.txt.ots</pre></div>
-    <div class="card"><div class="gh">Proven on real paper</div>
-      <p><b class="accent">1,270</b> tally sheets read by Gemma on AMD</p>
-      <p><b class="accent">49</b> capture errors confirmed by the certified count</p>
-      <p><b class="accent">91.6%</b> vs 62.84% for the incumbent reading</p>
-      <p><b class="accent">27 of 28</b> recall, one state, pre-registered</p>
-      <p><b class="gold">$1</b> per sheet audited (proposed)</p></div>
+  <div class="kicker">Where it holds, and where it breaks</div>
+  <h2>Read 3114, paper 314. <span class="acc">Gate v2 sends it to a person.</span></h2>
+  <div class="g">
+    <div class="c7">
+      {annotated(A + "crop_070212B0100_SOBRANTES.jpg", "Unused ballots on form 070212B0100: boxes 3 1 4, words line blank", 960, 744, 158, [
+          (0.45, 0.50, 0.0, "Words line: blank", "no second reading to compare", INK),
+          (0.90, 0.50, 0.62, "The model read 3114", "the paper says 314", BAD)], band=110)}
+      <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
+    </div>
+    <div class="c5 facts">
+      <div><div class="k">The blind spot</div><p>Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
+      <div><div class="k">Held out</div><p>On 100 fresh forms the frozen gate let it through. Gate v2, digits and words both read and equal, blocked it: <b class="ok">0 wrong of 484</b>.</p></div>
+      <div><div class="k">Scope</div><p>Clerical capture quality only. Most forms still go to a person. Not an official INE product.</p></div>
+    </div>
   </div>
-  <div class="runs"><b>Data:</b> INE PREP 2024 and Cómputos Distritales 2024, free-use terms (Libre-Uso-MX) · masked pages only · an independent demonstration, not an official INE product</div>
-  <p class="lead" style="font-size:44px;margin-top:34px;color:#fff;font-weight:600">Two Hands. <span class="accent">Verifiable quality control for handwritten numbers.</span></p>
-"""))
+""", "docs/EVALUATION.md; results/confirm100.md. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). Measured kinds so far: harmonised in one call (239/239 for 234), blank words (300 for 379), digit insertion (3114 for 314). No results, no parties (Option 01 to 15), no totals; the certified count is the official result."))
+
+# 11. Check it yourself
+slides.append(slide(11, """
+  <div class="kicker">Check it yourself</div>
+  <h2>Every number re-derives from public data.</h2>
+  <div class="g">
+    <div class="c4"><div class="k" style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)">Reproduce</div>
+      <pre class="cmd">make eval</pre><p style="margin-top:18px">Recomputes every number offline and checks it against what the site shows.</p></div>
+    <div class="c4"><div class="k" style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)">Verify a receipt</div>
+      <pre class="cmd">python -m twohands.verify_receipt
+  receipt.json --crop crop.jpg</pre><p style="margin-top:18px">A changed value or crop fails.</p></div>
+    <div class="c4"><div class="k" style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)">Check the timestamp</div>
+      <pre class="cmd">ots verify
+results/sample_audit_root.txt.ots</pre><p style="margin-top:18px">The report's Merkle root, anchored in Bitcoin with OpenTimestamps.</p></div>
+  </div>
+  <div style="position:absolute;left:120px;right:120px;top:760px;border-top:1px solid var(--ink);padding-top:30px;display:flex;justify-content:space-between;align-items:baseline">
+    <p style="font-size:40px;font-weight:600;color:var(--ink)">Two Hands. <span class="acc">Verifiable quality control for handwritten numbers.</span></p>
+    <p style="font-size:28px;color:var(--muted)" class="mono">github.com/py-tr/twohands</p>
+  </div>
+""", "PROTOCOL.md: sample, prompt, gate and metrics committed before any model read. Data: INE PREP 2024 and Computos Distritales 2024, free-use terms (Libre-Uso-MX); masked pages only; an independent demonstration, not an official INE product.", last=True))
 
 assert len(slides) == N
 
 html = (f"<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Two Hands talk</title>"
+        "<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>"
+        "<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&family=JetBrains+Mono:wght@400;500;600&display=swap' rel='stylesheet'>"
         f"<style>{CSS}</style></head><body>{''.join(slides)}</body></html>")
 (S / "talk.html").write_text(html, encoding="utf8")
 
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
+    for old in OUT.glob("slide_*.png"):
+        old.unlink()
     with sync_playwright() as p:
         b = p.chromium.launch(channel="chrome", headless=True)
         pg = b.new_page(viewport={"width": 1920, "height": 1080})
-        pg.goto((S / "talk.html").as_uri()); pg.wait_for_timeout(800)
+        pg.goto((S / "talk.html").as_uri()); pg.wait_for_load_state("networkidle")
+        pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(600)
+        print("Inter loaded:", pg.evaluate("document.fonts.check('600 40px Inter')"))
         over = pg.evaluate("""() => [...document.querySelectorAll('.slide')].map((s, i) => {
             const foot = s.querySelector('.foot').getBoundingClientRect().top;
             let maxb = 0;
-            for (const el of s.querySelectorAll(':scope > *:not(.foot)')) maxb = Math.max(maxb, el.getBoundingClientRect().bottom);
+            for (const el of s.querySelectorAll('*')) { if (el.closest('.foot') || el.closest('.notes')) continue;
+              const r = el.getBoundingClientRect(); if (r.height) maxb = Math.max(maxb, r.bottom); }
             return [i + 1, Math.round(foot - maxb)]; })""")
         for i, gap in over:
-            print(f"slide {i}: {gap}px above the footer" + ("  <-- OVERLAP" if gap < 10 else ""))
+            print(f"slide {i}: {gap}px above the footer" + ("  <-- OVERLAP" if gap < 16 else ""))
         pg.pdf(path=str(S / "two-hands-talk.pdf"), width="1920px", height="1080px", print_background=True)
         for i in range(N):
             pg.locator(".slide").nth(i).screenshot(path=str(OUT / f"slide_{i+1}.png"))
