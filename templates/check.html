@@ -52,8 +52,9 @@ kbd{font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:
     </div>
     <div class="act">
       <button type="submit">Save &amp; next <kbd style="color:#fff;border-color:#fff8">Enter</kbd></button>
-      {% if i > 0 %}<a class="btn" href="/check?i={{ i - 1 }}{{ qa }}">Back <kbd>Alt+&larr;</kbd></a>{% endif %}
-      {% if i + 1 < n %}<a class="btn" href="/check?i={{ i + 1 }}{{ qa }}">Skip</a>{% endif %}
+      {% if i > 0 %}<a class="btn" href="/check?i={{ i - 1 }}{{ qa }}">&larr; Back <kbd>Alt+&larr;</kbd></a>{% endif %}
+      {% if i + 1 < n %}<a class="btn" href="/check?i={{ i + 1 }}{{ qa }}">Next &rarr; <kbd>Alt+&rarr;</kbd></a>{% endif %}
+      <label class="small">Go to item <input type="number" id="goto" min="1" max="{{ n }}" style="width:4.5em" onchange="location.href='/check?i='+(Math.max(1,Math.min({{ n }},this.value|0))-1)+'{{ qa }}'"></label>
       <span id="err"></span>
     </div>
   </form>
@@ -68,6 +69,7 @@ kbd{font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:
     var m={'1':'blank','2':'cant_tell','3':'differ'}[ev.key];
     if(m){var c=document.getElementById(m);c.checked=!c.checked;ev.preventDefault();}
     if(ev.key==='ArrowLeft'&&{{ i }}>0){location.href='/check?i={{ i - 1 }}{{ qa }}';ev.preventDefault();}
+    if(ev.key==='ArrowRight'&&{{ i + 1 }}<{{ n }}){location.href='/check?i={{ i + 1 }}{{ qa }}';ev.preventDefault();}
   });
   f.addEventListener('submit',function(ev){
     ev.preventDefault();e.textContent='';
