@@ -32,26 +32,19 @@ def clip(pg, a, b, path, pad=14):
 def main():
     # masked crops served by the app
     for name, url in {"crop_070212B0100_SOBRANTES.jpg": "/crop/070212B0100/SOBRANTES.jpg?pad=0.02&label=0",
-                      "crop_301477B0100_OPT07.jpg": "/crop/301477B0100/OPT07.jpg?pad=0.02&label=0"}.items():
+                      "crop_080310B0100_SOBRANTES.jpg": "/crop/080310B0100/SOBRANTES.jpg?pad=0.02&label=0"}.items():
         (OUT / name).write_bytes(urllib.request.urlopen(BASE + url).read())
         print("saved", name)
     # The hero's whole masked page, cut just left of the (already blacked-out) names-and-signatures column, so the
     # slide shows no black block; nothing unmasked is ever fetched.
     import io
     from PIL import Image
-    page = Image.open(io.BytesIO(urllib.request.urlopen(BASE + "/masked/301477B0100.jpg").read()))
-    page.crop((0, 0, 1560, page.height)).save(OUT / "masked_301477B0100_left.jpg", quality=90)
-    print("saved masked_301477B0100_left.jpg")
+    page = Image.open(io.BytesIO(urllib.request.urlopen(BASE + "/masked/080310B0100.jpg").read()))
+    page.crop((0, 0, 1560, page.height)).save(OUT / "masked_080310B0100_left.jpg", quality=90)
+    print("saved masked_080310B0100_left.jpg")
     with sync_playwright() as p:
         b = p.chromium.launch(channel="chrome", headless=True)
         pg = b.new_page(viewport={"width": 1180, "height": 900}, device_scale_factor=2)
-
-        # Trace, routed form 122655C0100: the gate table and decision; the receipt check
-        pg.set_viewport_size({"width": 840, "height": 900})  # narrower page: larger text once placed on a slide
-        pg.goto(BASE + "/trace#routed"); pg.wait_for_timeout(800)
-        R = "#routed + section.card"
-        clip(pg, f"{R} h3:nth-of-type(3)", f"{R} h3:nth-of-type(4) + p", "trace_gate.png")
-        clip(pg, f"{R} ul", f"{R} ul + p", "trace_verified.png")
 
         # Accepted form 211298B0100: verdict banner and the paper's identities
         pg.set_viewport_size({"width": 720, "height": 900})
@@ -73,7 +66,7 @@ def main():
         print("saved report_item_050815B0100.png from", audit_url + "/report")
         pg.set_viewport_size({"width": 700, "height": 900})  # narrower: the report text reads at slide size
         pg.goto(audit_url + "/report"); pg.wait_for_timeout(1200)
-        clip(pg, "h1", "table.sum", "report_head.png", pad=20)
+        clip(pg, "h1", "h1 + .meta", "report_header.png", pad=20)
         b.close()
 
 

@@ -90,15 +90,15 @@ td { padding: 18px 18px 18px 0; border-bottom: 1px solid var(--line); color: var
 td.r, th.r { text-align: right; }
 tr.hi td { color: var(--ink); font-weight: 600; }
 /* dots */
-.dots { display: grid; grid-template-columns: repeat(10, 70px); gap: 22px; }
-.dot { width: 70px; height: 70px; border-radius: 50%; background: var(--accent); }
+.dots { display: grid; grid-template-columns: repeat(10, 60px); gap: 18px; }
+.dot { width: 60px; height: 60px; border-radius: 50%; background: var(--accent); }
 .dot.miss { background: transparent; border: 3px solid var(--bad); }
 pre.cmd { font-family: var(--mono); font-size: 24px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 20px; margin: 10px 0 0; white-space: pre-wrap; }
 .wordmark { display: flex; align-items: center; gap: 18px; font-size: 26px; font-weight: 600; color: var(--ink); margin-bottom: 70px; }
 .wordmark svg { width: 44px; height: 44px; }
 """
 
-N = 11
+N = 9
 
 
 def foot(i: int, last: bool = False) -> str:
@@ -111,16 +111,22 @@ def slide(i: int, body: str, notes: str = "", last: bool = False) -> str:
 
 
 def annotated(src: str, alt: str, width: int, iw: int, ih: int, notes, band: int = 120) -> str:
-    """A masked crop with thin leader lines to labels set below it. notes: (x, y, label_x, text, sub, colour) with x, y
-    the point on the image (fractions) and label_x the label's left edge (fraction of the width)."""
+    """A masked crop with thin leader lines to labels set below it; nothing is drawn over the handwriting.
+    notes: (x, y, label_x, text, sub, colour, half_width, drop_x): a bracket centred at x, half_width wide, at height y
+    (fractions; y sits just BELOW the digits or words it names, ticks pointing up at them), a leader dropping from
+    drop_x (default x, chosen to run between handwritten marks) to the label whose left edge is label_x."""
     h = round(width * ih / iw)
     svg, lbls = [], []
-    for k, (x, y, lx, text, sub, col) in enumerate(notes):
-        px, py = x * width, y * h
-        ly = h + 28 + (k % 2) * 0  # labels share one baseline
+    for note in notes:
+        x, y, lx, text, sub, col = note[:6]
+        hw = note[6] if len(note) > 6 else 0.04
+        dx = note[7] if len(note) > 7 and note[7] is not None else x
+        px0, px1, py, pd = (x - hw) * width, (x + hw) * width, y * h, dx * width
+        ly = h + 28  # labels share one baseline
         tx = lx * width
-        svg.append(f'<circle cx="{px:.0f}" cy="{py:.0f}" r="7" fill="none" stroke="{col}" stroke-width="2.5"/>'
-                   f'<polyline points="{px:.0f},{py + 7:.0f} {px:.0f},{h + 14:.0f} {tx:.0f},{h + 14:.0f} {tx:.0f},{ly:.0f}" '
+        svg.append(f'<polyline points="{px0:.0f},{py - 6:.0f} {px0:.0f},{py:.0f} {px1:.0f},{py:.0f} {px1:.0f},{py - 6:.0f}" '
+                   f'fill="none" stroke="{col}" stroke-width="2.5"/>'
+                   f'<polyline points="{pd:.0f},{py:.0f} {pd:.0f},{h + 14:.0f} {tx:.0f},{h + 14:.0f} {tx:.0f},{ly:.0f}" '
                    f'fill="none" stroke="{col}" stroke-width="1.5"/>')
         lbls.append(f'<div class="lbl" style="left:{tx:.0f}px;top:{ly + 6:.0f}px;border-left:2px solid {col};padding-left:14px">'
                     f'{text}<span class="sm">{sub}</span></div>')
@@ -131,12 +137,14 @@ def annotated(src: str, alt: str, width: int, iw: int, ih: int, notes, band: int
 INK, ACC, BAD, OK = "#14161b", "#3047c0", "#b3261e", "#157042"
 slides = []
 
-# 1. Title: the whole masked page once (cut left of the masked names-and-signatures column), the row highlighted,
-# a zoomed inset of that row (pointers only to what the paper says) and, beside it, the typed records as a ledger
-PW, PH = 600, round(600 * 1552 / 1560)               # masked page 301477B0100, cropped to 1560 x 1552
+# 1. Title: the whole masked page once (cut left of the masked names-and-signatures column), the unused-ballots field
+# highlighted, a zoomed inset of it (pointers only to what the paper says) and, beside it, the two records as a ledger
+PW, PH = 600, round(600 * 1552 / 1560)               # masked page 080310B0100, cropped to 1560 x 1552
 PX, PY = 1200, 112
-HB = (936 * PW / 1560 - 4, 499 * PH / 1552 - 4, PW - 936 * PW / 1560 + 1, 49 * PH / 1552 + 8)  # the Option 07 row, to the frame edge
-IX, IY, IW = 540, 468, 640                           # the inset (the ledger sits left of it)
+K = PW / 1560                                        # page px -> slide px
+HB = (29 * K - 3, 875 * K - 3, 744 * K + 6, 96 * K + 6)  # the Unused ballots field (app/crops.py box 0.012-0.322 x 0.564-0.626)
+IX, IY, IW = 500, 452, 640                           # the inset (the ledger sits left of it)
+IH = round(IW * 158 / 744)
 LEDGER = "font-size:18px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)"
 slides.append(slide(1, f"""
   <div style="position:absolute;left:120px;top:112px;width:1000px">
@@ -146,33 +154,32 @@ slides.append(slide(1, f"""
     <p class="lead" style="margin-top:10px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
   </div>
   <div style="position:absolute;left:{PX}px;top:{PY}px;width:{PW}px">
-    <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_301477B0100_left.jpg" alt="Tally sheet 301477B0100, privacy-masked; the masked names-and-signatures column is left out of the frame">
+    <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_080310B0100_left.jpg" alt="Tally sheet 080310B0100, privacy-masked; the masked names-and-signatures column is left out of the frame">
       <div style="position:absolute;left:{HB[0]:.0f}px;top:{HB[1]:.0f}px;width:{HB[2]:.0f}px;height:{HB[3]:.0f}px;border:2px solid var(--accent);border-radius:3px"></div></div>
-    <p class="cap" style="margin-top:10px">Tally sheet 301477B0100 (INE 2024), privacy-masked; the masked names-and-signatures column is outside the frame.</p>
+    <p class="cap" style="margin-top:10px">Tally sheet 080310B0100 (INE 2024), privacy-masked.</p>
   </div>
-  <svg style="position:absolute;left:0;top:0;pointer-events:none" width="1920" height="1080">
-    <line x1="{PX + HB[0]:.0f}" y1="{PY + HB[1] + HB[3]:.0f}" x2="{IX + IW}" y2="{IY}" stroke="#3047c0" stroke-width="1.5"/>
+  <svg style="position:absolute;left:0;top:0;pointer-events:none" width="1920" height="760">
+    <line x1="{PX + HB[0]:.0f}" y1="{PY + HB[1] + HB[3] / 2:.0f}" x2="{IX + IW}" y2="{IY + IH / 2:.0f}" stroke="#3047c0" stroke-width="1.5"/>
   </svg>
   <div style="position:absolute;left:{IX}px;top:{IY}px">
-    {annotated(A + "crop_301477B0100_OPT07.jpg", "Option 07 on form 301477B0100: words 'ciento veinte y ocho', boxes 1 2 8", IW, 619, 127, [
-        (0.30, 0.47, 0.0, "In words: ciento veinte y ocho", "the paper", ACC),
-        (0.88, 0.47, 0.62, "In digits: 128", "the paper", ACC)], band=96)}
+    {annotated(A + "crop_080310B0100_SOBRANTES.jpg", "Unused ballots on form 080310B0100: words 'ciento ochenta' (180), boxes 1 8 0", IW, 744, 158, [
+        (0.365, 0.66, 0.0, "In words: ciento ochenta (180)", "the paper", ACC, 0.185),
+        (0.90, 0.64, 0.62, "In digits: 180", "the paper", ACC, 0.08)], band=96)}
   </div>
-  <div style="position:absolute;left:120px;top:{IY - 6}px;width:370px">
-    <div style="{LEDGER};margin-bottom:4px">Option 07, as recorded</div>
+  <div style="position:absolute;left:120px;top:{IY - 6}px;width:340px">
+    <div style="{LEDGER};margin-bottom:4px">Unused ballots: two records of one number</div>
     <table>
-      <tr><td style="color:var(--muted);font-size:22px">Typed into the preliminary count</td><td class="r" style="font-size:34px;font-weight:600;color:var(--bad)"><s>228</s></td></tr>
-      <tr><td style="color:var(--muted);font-size:22px">Gemma read</td><td class="r" style="font-size:34px;font-weight:600">128</td></tr>
-      <tr><td style="color:var(--muted);font-size:22px">Certified count</td><td class="r" style="font-size:34px;font-weight:600">128</td></tr>
+      <tr><td style="color:var(--muted);font-size:22px">Official typed capture (PREP)</td><td class="r" style="font-size:34px;font-weight:600;color:var(--bad)">480</td></tr>
+      <tr><td style="color:var(--muted);font-size:22px">Gemma read</td><td class="r" style="font-size:34px;font-weight:600">180</td></tr>
     </table>
   </div>
-  <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:796px">
+  <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:772px">
     <div class="stat"><div class="v" style="font-size:60px">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
     <div class="stat"><div class="v" style="font-size:60px">91.6%</div><div class="l">field match, vs 62.84% for the reading the state bought</div></div>
-    <div class="stat"><div class="v" style="font-size:60px">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
-    <div class="stat"><div class="v" style="font-size:60px">$1</div><div class="l">per sheet audited (proposed)</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">27<small> of 28</small></div><div class="l">capture errors the certified count reveals, caught (one state, pre-registered)</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">0<small> of 484</small></div><div class="l">wrong, of the accepted fields on 100 held-out forms (gate v2, pre-registered)</div></div>
   </div>
-""", "Form 301477B0100, Option 07 (results/adjudication/CERTIFIED.md and SUMMARY.md): words 'Ciento veinte y ocho', boxes 1 2 8; the first capture (PREP) keyed 228; Gemma read 128 in digits and words; the certified count says 128. One of the 22 confirmed by the certified count on the random 300. Page from the app's /masked endpoint, cut at x = 1560 so the masked column is not shown; crop from /crop/301477B0100/OPT07.jpg?pad=0.02&label=0."))
+""", "Form 080310B0100, Unused ballots (results/adjudication/SUMMARY.md; docs/TRACE.md (a)): words 'CIENTO OCHENTA' (180), boxes 1 8 0; the official typed capture (PREP) keyed 480; Gemma read 180 in digits and in words, and the gate accepted the form. The certified count does not cover this field. Page from the app's /masked endpoint, cut at x = 1560 so the masked column is not shown; crop from /crop/080310B0100/SOBRANTES.jpg?pad=0.02&label=0."))
 
 # 2. The problem
 slides.append(slide(2, f"""
@@ -180,14 +187,15 @@ slides.append(slide(2, f"""
   <h2>Two official records of the same paper disagree. <span class="mute">Neither says which one is right.</span></h2>
   <div class="g">
     <div class="c8">
-      {annotated("receipt_050815B0100.jpg", "Option 07 on form 050815B0100: words 'ciento setenta y cinco', boxes 1 7 5", 1080, 619, 102, [
-          (0.87, 0.42, 0.62, "The paper: 175", "in digits and in words", ACC)], band=112)}
+      {annotated("receipt_050815B0100.jpg", "Option 07 on form 050815B0100: words 'ciento setenta y cinco' (175), boxes 1 7 5", 1080, 619, 102, [
+          (0.29, 0.80, 0.0, "In words: ciento setenta y cinco (175)", "the paper", ACC, 0.28, 0.50),
+          (0.865, 0.70, 0.62, "In digits: 175", "the paper", ACC, 0.09, 0.833)], band=112)}
       <p class="cap" style="margin-top:0">Form 050815B0100, Option 07 (masked, cropped right of the logo column). One of the 52 on our random 300.</p>
     </div>
     <div class="c4">
       <div style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">The two typed records of this field</div>
       <table>
-        <tr><td style="color:var(--muted)">Typed into the preliminary count</td><td class="r" style="font-size:40px;font-weight:600;color:var(--bad)"><s>75</s></td></tr>
+        <tr><td style="color:var(--muted)">Official typed capture (PREP)</td><td class="r" style="font-size:40px;font-weight:600;color:var(--bad)">75</td></tr>
         <tr><td style="color:var(--muted)">Certified count</td><td class="r" style="font-size:40px;font-weight:600">175</td></tr>
       </table>
       <p style="margin-top:16px;font-size:22px;color:var(--muted)">The 75 is a typing error in the database, not on the paper.</p>
@@ -218,68 +226,44 @@ slides.append(slide(3, f"""
   </div>
 """, "Masking: names-and-signatures column blacked out (OpenCV, CPU). The gate is plain Python. Every model read runs on AMD. Interfaces: web app, API, CLI, MCP server, Evolus workflows."))
 
-# 4. One real case
+# 4. Results (dots = the Colima recall check), merged
+dots = "".join('<div class="dot"></div>' for _ in range(27)) + '<div class="dot miss"></div>'
 slides.append(slide(4, f"""
-  <div class="kicker">One real sheet, request to receipt</div>
-  <h2>Gemma read 23. The paper says 123. <span class="acc">The sum caught it.</span></h2>
-  <div class="g">
-    <div class="c7"><div class="frame" style="height:500px"><img style="margin-top:-150px" src="{A}trace_gate.png" alt="The gate on form 122655C0100: rows sum to TOTAL, 366 vs 466, FAIL; the other identities pass; routed to a person"></div>
-      <p class="cap">/trace on the site: the gate re-run on Gemma's stored raw output for form 122655C0100.</p></div>
-    <div class="c5 facts">
-      <div><div class="k">The read</div><p>23 in digits and 23 in words: they agree, so only the arithmetic can catch it.</p></div>
-      <div><div class="k">The gate</div><p>Rows sum to <b class="bad">366</b>, the form's TOTAL is <b>466</b>: routed to a person. With the paper's 123: 466 = 466.</p></div>
-      <div><div class="k">The receipt</div><p><b class="ok">VERIFIED</b>: the record is unchanged since the report was sealed. Not that the reading is right.</p></div>
-    </div>
-  </div>
-""", "Leaf 146 of 267 in the sample audit's Merkle tree; root e56a8ef4f011b9e5 (results/sample_audit_root.txt). docs/TRACE.md (b)."))
-
-# 5. Results
-slides.append(slide(5, f"""
   <div class="kicker">Results · pre-registered · INE's public data</div>
   <h2>1,270 real tally sheets read on AMD. <span class="mute">49 capture errors confirmed by the certified count.</span></h2>
   <div class="g">
-    <div class="c7"><div class="frame"><img src="{A}report_item_050815B0100.png" alt="Audit report row: 050815B0100 Option 07, keyed 75, model digits 175, words 175, strong evidence"></div>
-      <p class="cap">One dispute in the audit report: the crop, the keyed 75, Gemma's 175 in digits and words.</p></div>
-    <div class="c5 facts">
-      <div><div class="k">Random 300, pre-registered</div><p><b>52</b> fields where the official capture does not match the paper, in 6,358 checked; each with its photo.</p></div>
-      <div><div class="k">Colima, a whole state</div><p>All <b>982</b> located presidential sheets for <b>$0.14</b>; 27 fields where the capture does not match the paper, each confirmed by the certified count.</p></div>
-      <div><div class="k">100 fresh forms</div><p>Gate v2 accepted 22 forms: <b class="ok">0 of 484</b> fields wrong.</p></div>
+    <div class="c6">
+      <div class="dots">{dots}</div>
+      <p class="cap" style="margin-top:22px">Recall, Colima: each dot is a capture error the certified count reveals. Filled: caught. Outlined: missed. One state; not total recall.</p>
+    </div>
+    <div class="c6">
+      <div class="stats" style="grid-template-columns:1fr 1fr;row-gap:30px">
+        <div class="stat"><div class="v">1,270</div><div class="l">handwritten tally sheets read by Gemma on AMD</div></div>
+        <div class="stat"><div class="v">49</div><div class="l">capture errors confirmed by the certified count, each with its photo</div></div>
+        <div class="stat" style="border-top:1px solid var(--line)"><div class="v">27<small> of 28</small></div><div class="l">caught, 96% (Wilson 95% 82-99%), pre-registered</div></div>
+        <div class="stat" style="border-top:1px solid var(--line)"><div class="v">0<small> of 484</small></div><div class="l">accepted fields wrong on 100 fresh forms (gate v2)</div></div>
+      </div>
+      <p style="margin-top:34px;border-top:1px solid var(--line);padding-top:20px">A person re-read the AI-judged disputes blind: <b>0 read differently</b>.</p>
     </div>
   </div>
-""", "49 = 22 confirmed by the certified count on the 300 + 27 in Colima. On the 300: 267 disputed fields; 55 forms accepted with no person, 2 of 1,210 fields wrong. README 'Headline: the pre-registered 300'."))
+""", "49 = 22 confirmed by the certified count on the random 300 + 27 in Colima (all 982 located presidential sheets for $0.14). On the 300: 52 fields where the official capture does not match the paper, in 6,358; 267 disputed; 55 forms accepted with no person, 2 of 1,210 fields wrong. Recall: results/colima/recall.md (PROTOCOL.md Amendment 9). Fresh 100: results/confirm100.md."))
 
-# 6. Checked
-dots = "".join('<div class="dot"></div>' for _ in range(27)) + '<div class="dot miss"></div>'
-slides.append(slide(6, f"""
-  <div class="kicker">Checked</div>
-  <h2>27 of 28 capture errors caught. <span class="mute">A blind re-read found 0 differences.</span></h2>
-  <div class="g">
-    <div class="c7">
-      <div class="dots" style="margin-top:10px">{dots}</div>
-      <p class="cap" style="margin-top:26px">Each dot: a capture error the certified count reveals in Colima. Filled: caught. Outlined: missed.</p>
-    </div>
-    <div class="c5 facts">
-      <div><div class="k">Recall</div><p><b>27 of 28</b>, 96% (Wilson 95% 82-99%). One state, pre-registered; certified-detectable errors only, not total recall.</p></div>
-      <div><div class="k">A person's blind re-read</div><p>of the AI-judged disputes: <b>0 read differently</b>.</p></div>
-    </div>
-  </div>
-""", "results/colima/recall.md (PROTOCOL.md Amendment 9), checked by scripts/colima_recall.py --check."))
-
-# 7. Incumbent
-slides.append(slide(7, """
+# 5. Incumbent
+slides.append(slide(5, """
   <div class="kicker">Against the incumbent · Baja California Sur, 2024 local actas</div>
-  <h2>91.6% field match, where the reading the state bought scored 62.84%.</h2>
-  <div class="bars" style="margin-top:70px">
+  <h2 style="margin-bottom:22px">91.6% field match, where the reading the state bought scored 62.84%.</h2>
+  <p class="lead" style="font-size:28px;color:var(--muted);max-width:1500px">Same per-field exact-match metric on Baja California Sur's 2024 local actas: ours on a pre-registered random 300, against the published values; theirs on all 2,020, against the manual capture.</p>
+  <div class="bars" style="margin-top:60px">
     <div class="row"><div class="name">Two Hands<span>Gemma on AMD · random 300 actas, pre-registered</span></div>
       <div class="trk"><div class="bar" style="width:calc(91.6% * 0.85);background:var(--accent)"></div><div class="val acc">91.6%</div></div></div>
     <div class="row"><div class="name">Google Document AI<span>the state's purchased reading · all 2,020 actas</span></div>
       <div class="trk"><div class="bar" style="width:calc(62.84% * 0.85);background:#b9bdc6"></div><div class="val muted">62.84%</div></div></div>
   </div>
-  <p style="margin:56px 0 0 532px;max-width:1100px;color:var(--muted);font-size:24px">Same per-field exact-match metric. Ours: 3,622 fields, Wilson 95% 90.63-92.44%, against the published PREP values. Theirs: 14,501 of 23,077 fields, against the manual capture.</p>
+  <p style="margin:40px 0 0 532px;max-width:1100px;color:var(--muted);font-size:22px">Ours: 91.58% of 3,622 fields, Wilson 95% 90.63-92.44%. Theirs: 14,501 of 23,077 fields.</p>
 """, "README 'Against the incumbent'; results/ieebcs/score.json, scripts/ieebcs_score.py --check. Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. Second keying by a person, the rule today: at least 0.8% of fields in our random sample still do not match the paper."))
 
-# 8. Why Gemma
-slides.append(slide(8, """
+# 6. Why Gemma
+slides.append(slide(6, """
   <div class="kicker">Gemma on AMD Token Factory</div>
   <h2>Same 300 forms, same gate: Gemma accepts 1.8× the forms Qwen does, 4.6× cheaper, 2.8× faster.</h2>
   <table style="max-width:1680px">
@@ -296,13 +280,14 @@ slides.append(slide(8, """
   </div>
 """, "README 'Why Gemma' and 'What ran on AMD'; docs/EVOLUS.md (150 executions of real routed fields; a Script recomputes the evidence score with no AI). Every zero-error two-reader pair includes Gemma. About $24 of AMD compute to read all 169,005 national presidential tally sheets."))
 
-# 9. Business
-slides.append(slide(9, f"""
+# 7. Business
+slides.append(slide(7, f"""
   <div class="kicker">Business at a glance</div>
   <h2 style="margin-bottom:40px">An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
   <div class="g">
-    <div class="c7"><div class="frame" style="height:526px"><img style="margin-top:-30px" src="{A}report_head.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root"></div>
-      <p class="cap">The product: the audit report, every dispute with its photo, sealed by one Merkle root.</p></div>
+    <div class="c7"><div class="frame"><div style="overflow:hidden;height:196px"><img style="margin-top:-18px" src="{A}report_header.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root e56a8ef4f011b9e5"></div>
+        <div style="border-top:1px solid var(--line)"><img src="{A}report_item_050815B0100.png" alt="Dispute 3: 050815B0100 Option 07, keyed 75, model digits 175, words 175, strong evidence"></div></div>
+      <p class="cap">The product: the audit report. Every dispute with its photo, strongest first, sealed by one Merkle root.</p></div>
     <div class="c5 facts">
       <div><div class="k">Buyer</div><p>INE and the 32 state institutes, each with an outside auditor.</p></div>
       <div><div class="k">Why now</div><p><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. First step: a <b>paid shadow-mode pilot</b> on one state's count.</p></div>
@@ -311,15 +296,15 @@ slides.append(slide(9, f"""
   </div>
 """, "README 'Business at a glance'. All 26 auditors named in 2024 were universities. INE budgeted MXN 9.5M for automated capture in 2024 and bought none. AMD compute $0.00014 per sheet. Reviewer work: about one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. Next: the same public data in 7 more countries; DHIS2 health reporting in 70+ countries; not yet measured."))
 
-# 10. Where it breaks
-slides.append(slide(10, f"""
+# 8. Where it breaks
+slides.append(slide(8, f"""
   <div class="kicker">Where it holds, and where it breaks</div>
   <h2>Read 3114, paper 314. <span class="acc">Gate v2 sends it to a person.</span></h2>
   <div class="g">
     <div class="c7">
       {annotated(A + "crop_070212B0100_SOBRANTES.jpg", "Unused ballots on form 070212B0100: boxes 3 1 4, words line blank", 960, 744, 158, [
-          (0.45, 0.50, 0.0, "Words line: blank", "no second reading to compare", INK),
-          (0.90, 0.50, 0.62, "The paper: 314", "in digits", ACC)], band=110)}
+          (0.45, 0.64, 0.0, "Words line: blank", "no second reading to compare", INK, 0.30),
+          (0.895, 0.66, 0.62, "The paper: 314", "in digits", ACC, 0.08)], band=110)}
       <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
     </div>
     <div class="c5 facts">
@@ -330,8 +315,8 @@ slides.append(slide(10, f"""
   </div>
 """, "docs/EVALUATION.md; results/confirm100.md. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). Measured kinds so far: harmonised in one call (239/239 for 234), blank words (300 for 379), digit insertion (3114 for 314). No results, no parties (Option 01 to 15), no totals; the certified count is the official result."))
 
-# 11. Check it yourself
-slides.append(slide(11, """
+# 9. Check it yourself
+slides.append(slide(9, """
   <div class="kicker">Check it yourself</div>
   <h2>Every number re-derives from public data.</h2>
   <div class="g" style="margin-top:120px">
