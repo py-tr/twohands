@@ -15,31 +15,31 @@ OCR reads the number.
 Two Hands checks whether the whole form agrees.
 
 5
-00:00:10,000 --> 00:00:13,550
+00:00:10,000 --> 00:00:13,283
 Mexico counts every tally sheet twice:
 
 6
-00:00:13,600 --> 00:00:18,179
+00:00:13,333 --> 00:00:17,569
 a fast preliminary capture, then the certified count.
 
 7
-00:00:18,229 --> 00:00:22,807
+00:00:17,619 --> 00:00:21,855
 On 6.5% of the polling stations not recounted,
 
 8
-00:00:22,857 --> 00:00:27,950
+00:00:21,905 --> 00:00:26,617
 the two official records of the same paper disagree.
 
 9
-00:00:28,000 --> 00:00:32,664
+00:00:26,667 --> 00:00:31,855
 And 19.2% of national forms fail their own row sum,
 
 10
-00:00:32,714 --> 00:00:34,807
+00:00:31,905 --> 00:00:34,236
 in the official capture.
 
 11
-00:00:34,857 --> 00:00:39,950
+00:00:34,286 --> 00:00:39,950
 A sum says something is wrong; the photo says which field.
 
 12
@@ -147,44 +147,44 @@ One fingerprint seals the whole report.
 Change one number, and the check fails.
 
 38
-00:02:18,000 --> 00:02:19,586
+00:02:18,000 --> 00:02:19,450
 The proof.
 
 39
-00:02:19,636 --> 00:02:25,041
+00:02:19,500 --> 00:02:24,450
 Gemma on AMD read 1,270 real handwritten tally sheets.
 
 40
-00:02:25,091 --> 00:02:29,950
+00:02:24,500 --> 00:02:28,950
 49 capture errors, confirmed by the certified count.
 
 41
-00:02:30,000 --> 00:02:35,719
-On Baja California Sur's local actas: 91.6% field match.
-
-42
-00:02:35,769 --> 00:02:40,912
-The Google Document AI reading the state bought
-
-43
-00:02:40,962 --> 00:02:44,950
-scored 62.84%, on the same metric.
-
-44
-00:02:45,000 --> 00:02:50,057
+00:02:29,000 --> 00:02:34,450
 Recall: 27 of 28 capture errors the certified count reveals,
 
-45
-00:02:50,107 --> 00:02:52,379
+42
+00:02:34,500 --> 00:02:36,950
 in one state, pre-registered.
 
-46
-00:02:52,429 --> 00:02:56,093
+43
+00:02:37,000 --> 00:02:40,950
 A person re-read the AI-judged disputes blind:
 
-47
-00:02:56,143 --> 00:02:57,950
+44
+00:02:41,000 --> 00:02:42,950
 0 read differently.
+
+45
+00:02:43,000 --> 00:02:48,719
+On Baja California Sur's local actas: 91.6% field match.
+
+46
+00:02:48,769 --> 00:02:53,912
+The Google Document AI reading the state bought
+
+47
+00:02:53,962 --> 00:02:57,950
+scored 62.84%, on the same metric.
 
 48
 00:02:58,000 --> 00:03:01,250
@@ -223,45 +223,73 @@ A script, not the model, scores the evidence.
 The auditor decides.
 
 57
-00:03:35,000 --> 00:03:37,750
+00:03:35,000 --> 00:03:37,662
 Who pays? Mexico's preliminary counts:
 
 58
-00:03:37,800 --> 00:03:41,950
+00:03:37,712 --> 00:03:41,731
 INE, 32 state institutes, and their outside auditors.
 
 59
-00:03:42,000 --> 00:03:47,550
+00:03:41,781 --> 00:03:47,155
 On 6 June 2027, 32 local elections join the federal midterm.
 
 60
-00:03:47,600 --> 00:03:50,350
+00:03:47,205 --> 00:03:49,868
 $1 per sheet audited, proposed.
 
 61
-00:03:50,400 --> 00:03:55,950
+00:03:49,918 --> 00:03:55,292
 The first step: a paid shadow-mode pilot on one state's count.
 
 62
-00:03:56,000 --> 00:03:59,379
+00:03:55,342 --> 00:03:58,909
 Next: 7 more countries publish these sheets,
 
 63
-00:03:59,429 --> 00:04:03,664
+00:03:58,959 --> 00:04:03,429
 and health reporting in 70+ countries runs on DHIS2.
 
 64
-00:04:03,714 --> 00:04:07,950
+00:04:03,479 --> 00:04:07,950
 Elections are our proof set, not our only market.
 
 65
-00:04:08,000 --> 00:04:09,236
-Two Hands.
+00:04:08,000 --> 00:04:09,950
+Where it breaks.
 
 66
-00:04:09,286 --> 00:04:12,236
-Verifiable quality control for handwritten numbers.
+00:04:10,000 --> 00:04:14,450
+On 100 fresh forms, the model read 3114
 
 67
-00:04:12,286 --> 00:04:13,950
+00:04:14,500 --> 00:04:17,450
+where the paper says 314.
+
+68
+00:04:17,500 --> 00:04:20,450
+No sum covers that field.
+
+69
+00:04:20,500 --> 00:04:26,450
+Gate version two needs the digits and the words to agree,
+
+70
+00:04:26,500 --> 00:04:29,950
+so it went to a person.
+
+71
+00:04:30,000 --> 00:04:34,117
+Every number re-derives from public data, with one command.
+
+72
+00:04:34,167 --> 00:04:35,367
+Two Hands.
+
+73
+00:04:35,417 --> 00:04:38,283
+Verifiable quality control for handwritten numbers.
+
+74
+00:04:38,333 --> 00:04:39,950
 Running on AMD.
