@@ -72,7 +72,7 @@ A second keyer that shows its proof. An open vision model, **Gemma on AMD**, re-
 <p class="src">Form 050815B0100, Option 07, from the pre-registered random 300 (masked crop). Sources: app/data/headline.json ("receipt"); INE PREP 2024 and Cómputos Distritales 2024, free-use terms. Each receipt is Merkle-anchored: "verify this receipt" in the app.</p>
 
 <!--
-The video shows this card at 0:33, after the trace of form 122655C0100. The model read 175 from both the words and the boxes; the first capture keyed 75; the certified count says 175.
+In the video, this receipt (Option 07) appears in the sample audit, after the trace of form 122655C0100. The model read 175 from both the words and the boxes; the first capture keyed 75; the certified count says 175.
 -->
 
 ---
@@ -309,9 +309,11 @@ Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant
 
 <!-- _class: title -->
 
-# Receipts for every number keyed from paper.
+# Two Hands: verifiable quality control for handwritten numbers.
 
-<p class="lead">A second keyer that shows its proof: two independent readers on AMD, and the paper's own arithmetic as the referee. Every disputed field goes to a person with its photo.</p>
+<p class="lead">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
+
+<p class="mid">A second keyer that shows its proof: two independent readers on AMD, and the paper's own arithmetic as the referee. Every disputed field goes to a person with its photo.</p>
 
 **Live demo:** add at submission · **Video:** add at submission · **Repo:** add at submission
 
