@@ -170,6 +170,14 @@ It checks each against what the app displays, checks the manifest sha256s and th
 were committed before the first model read they govern, writes `results/eval_report.md` and exits non-zero on any
 mismatch.
 
+`make eval` then runs each script's `--check` (the lines under `eval:` in the [Makefile](Makefile); without `make`,
+run them one by one). The INE source CSVs are not in the repo (`data/raw/` is gitignored, about 130 MB). Without them,
+`ballot_stock`, `confirm100_score` and `national_counts` only confirm that their committed results are present.
+To recompute those three as well, unzip
+[the PREP file](https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip) to
+`data/raw/prep/PRES_2024.csv` and [the Cómputos file](https://computos2024.ine.mx/20240608_2030_COMPUTOS.zip) to
+`data/raw/computos/PRES_2024.csv`.
+
 Reproduce the pre-registered run (needs the AMD key; resumable):
 
 ```bash

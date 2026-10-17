@@ -6,6 +6,9 @@ import json
 
 import pytest
 
+# the MCP SDK is an optional extra (pip install -e ".[mcp]"), not in requirements.txt: skip without it
+pytest.importorskip("mcp")
+
 from app import capture_audit as ca
 from twohands import REPO, cli, reader
 from twohands import mcp_server as M

@@ -245,6 +245,12 @@ def report(res: dict) -> str:
 
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    from twohands.sample import PREP_CSV
+    if "--check" in argv and not PREP_CSV.is_file():   # data/raw/ is not committed (gitignored, ~130 MB)
+        ok = OUT_JSON.is_file() and OUT_MD.is_file()
+        print("confirm100 --check: raw PREP CSV absent (download it per docs/NUMBERS.md B to recompute); committed "
+              + ("results/confirm100.json and .md present, not recomputed" if ok else "files MISSING"))
+        return 0 if ok else 1
     res = compute()
     md, js = report(res), json.dumps(res, indent=1, ensure_ascii=False)
     if "--check" in argv:
