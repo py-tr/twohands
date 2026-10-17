@@ -392,3 +392,13 @@ def proof_tiles(H: dict) -> list[dict]:
                          f"certified count"),
                 "href": "/results#random300", "title": None})
     return out
+
+
+LIVE_FRESH_MIN = 60
+
+
+def strip_shown(ls: dict) -> bool:
+    """Home shows the live-audit strip only while the live worker is running: it has written a summary within the last
+    LIVE_FRESH_MIN minutes. When it is idle, Home shows no live figures (the /live page keeps the full status)."""
+    m = ls.get("updated_min_ago")
+    return bool(ls.get("live")) and m is not None and m <= LIVE_FRESH_MIN

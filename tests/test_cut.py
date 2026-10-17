@@ -153,7 +153,7 @@ def test_home_is_short_and_the_background_moved_to_results():
 
 
 def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
-    fake = {"audited": 41, "disputes": 9, "confirmed": 3, "updated": "2026-10-16T00:00:00Z", "reader_now": "Qwen3.8-27B",
+    fake = {"audited": 41, "disputes": 9, "confirmed": 3, "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 300)), "reader_now": "Qwen3.8-27B",
             "states": [{"name": "Colima", "complete": True, "pct": 100.0}, {"name": "Baja California Sur", "complete": False, "pct": 12.5}],
             "queue_states": 32, "status": {"kind": "live", "text": "Running"},
             "recent": [{"clave": "060101C0100", "code": "OPT03", "name": "Option 03", "paper": 12, "capture": 21,
@@ -179,6 +179,25 @@ def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
     assert (rs[0]["clave"], rs[0]["code"]) == ("050815B0100", "OPT07")
     assert all(r["sample"] == "pre-registered random 300" for r in rs)
     assert "060102C0100" not in t and "060101C0100" not in t
+
+
+def test_strip_hidden_when_the_live_worker_is_idle(monkeypatch):
+    """Home shows the live strip only while the worker has written within honest.LIVE_FRESH_MIN minutes; idle (or
+    never started), Home shows no live figures and keeps the background links. /live keeps the full status."""
+    from app import honest
+    base = {"audited": 41, "disputes": 9, "confirmed": 3, "reader_now": "Qwen3.8-27B", "queue_states": 32,
+            "states": [{"name": "Colima", "complete": False, "pct": 1.0}], "status": {"kind": "live", "text": "Running"},
+            "recent": []}
+    for ago, shown in ((5, True), (honest.LIVE_FRESH_MIN, True), (honest.LIVE_FRESH_MIN + 2, False), (3000, False)):
+        fake = dict(base, updated=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 60 * ago - 1)))
+        monkeypatch.setattr(LS, "_summary", lambda f=fake: f)
+        h = client.get("/").text
+        assert ('id="strip"' in h) == shown and ("of Colima so far" in h) == shown, ago
+        assert 'href="/results#who-pays"' in h and "Background:" in _text(h)
+    monkeypatch.setattr(LS, "_summary", lambda: None)
+    h = client.get("/").text
+    assert 'id="strip"' not in h and "Background:" in _text(h)
+    assert client.get("/live").status_code == 200
 
 
 def test_default_receipt_and_rotation_order(empty_worker):
@@ -335,7 +354,7 @@ def test_phone_first_screen(server):
         assert pg.locator(".f-actions .btn:visible").count() == 2
         assert pg.inner_text(".f-actions .btn.primary").strip() == PRIMARY
         assert box("#rcard")["y"] < box(".f-actions .btn.primary")["y"] < box("#proof")["y"]
-        for sel in ("#how", "#strip"):
+        for sel in ("#how", "#strip") if pg.locator("#strip").count() else ("#how",):
             b = box(sel)
             assert b and b["y"] >= fold, (sel, b)
         rc = pg.locator("#rcard .rslide.on .rvals")

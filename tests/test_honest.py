@@ -3,6 +3,7 @@ yourself, the tiers in the regulation's words, the honest model line, the live c
 import html as htmlmod
 import json
 import re
+import time
 
 import pytest
 from fastapi.testclient import TestClient
@@ -251,7 +252,7 @@ def test_model_line_in_the_amd_box():
 
 
 # ------------------------------------------------------------------------------------------------ (d) the counter
-FAKE = {"audited": 41, "disputes": 9, "confirmed": 3, "updated": "2026-10-16T00:00:00Z", "reader_now": "Qwen3.8-27B",
+FAKE = {"audited": 41, "disputes": 9, "confirmed": 3, "updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 300)), "reader_now": "Qwen3.8-27B",
         "states": [{"name": "Colima", "complete": True, "pct": 100.0, "done": 982, "queue": 982},
                    {"name": "Baja California Sur", "complete": False, "pct": 12.5, "done": 100, "queue": 800}],
         "queue_states": 32, "queue_total": 153358, "status": {"kind": "live", "text": "Running"}, "recent": []}
@@ -296,7 +297,7 @@ def test_buyer_slot_hidden_until_result_clears_the_threshold(tmp_path, monkeypat
     b = honest.buyer_card()
     assert b and b["ours_pct"] == 93.0
     h = client.get("/").text   # the head-to-head is the first proof tile, beside the receipt, before the actions
-    assert h.index('id="rcard"') < h.index('id="buyer"') < h.index('class="f-actions"') < h.index('id="strip"')
+    assert h.index('id="rcard"') < h.index('id="buyer"') < h.index('class="f-actions"') < h.index('id="how"')
 
 
 def test_judge_from_an_audit_report(votes, tmp_path, monkeypatch):

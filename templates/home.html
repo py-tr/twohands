@@ -57,6 +57,7 @@
 </section>
 
 <section id="live-strip" aria-label="Live audit on AMD">
+  {% if honest.strip_shown(ls) %}
   <div class="eyebrow">Live audit on AMD</div>
   {% set C = honest.strip_figures(ls) %}
   <div class="strip card" id="strip" data-kind="{{ ls.kind }}">
@@ -74,6 +75,7 @@
     {% endif %}
     <p class="meta" id="stripMeta">{% for x in ls.samples %}{{ x.forms|int }} in the {{ x.name }}{{ ' · ' }}{% endfor %}{% if ls.live %}<span class="ldot{{ ' on' if ls.running }}"></span>{{ ls.live.forms|int }} live since {{ ls.live.since_text }}{% if ls.updated_min_ago is not none %} (updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}){% endif %} · {% else %}<span class="tag">measured sample</span> · {% endif %}reader: {{ ls.reader_model }} on AMD Token Factory · <a href="/live">live audit</a></p>
   </div>
+  {% endif %}
   <p class="tiny muted h-more">Background: <a href="/results#cost-of-problem">the cost of the problem</a> · <a href="/results#who-pays">who pays, and the proposed price</a> · <a href="/results#amd-models">open models on AMD</a> · <a href="/results#any-form">any form that checks itself</a> · <a href="/report.pdf">Report</a> (PDF)</p>
 </section>
 {% endblock %}

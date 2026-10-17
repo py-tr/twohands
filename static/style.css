@@ -918,3 +918,11 @@ section.st-ans { margin-top: var(--s-6); }
   .steps5 { grid-template-columns: minmax(0, 1fr); }
   #live-strip .strip .nums.four { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
+/* Home, desktop: the receipt card fills the height of the three proof tiles; the crop sits centred in its frame */
+@media (min-width: 561px) {
+  .f-hero .rcard { display: flex; flex-direction: column; }
+  .f-hero .rslide.on { flex: 1; display: flex; flex-direction: column; }
+  .f-hero .rslide .rimg { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 110px; }
+  .f-hero .rslide img { max-height: 240px; }
+  .f-hero .rfoot { margin-top: auto; }
+}
