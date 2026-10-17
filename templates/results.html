@@ -28,8 +28,8 @@
     </div>
     <div class="card callout warn" style="border-left-width:4px">
       <div class="eyebrow" style="color:var(--warn)">Known limitation</div>
-      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One reader, one adjudicator, and recall only bounded.</p>
-      <p class="small muted">Every disagreement was settled from the photo by the AI adjudicator (the builder's model, which could see both values) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; fields where the model and the capture agree were not individually checked (a blind check of a random 200 is at /check?set=agree200); recall is unmeasured (of the 7 recall fields, 1 is a confirmed capture error). The multiple between 1 in 5 and 1 in 122 depends on recall, which we could not measure; up to 24 times if the model finds nearly every error. Our pacing on a shared key reads about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
+      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One reader, one adjudicator, and recall measured on one state.</p>
+      <p class="small muted">Every disagreement was settled from the photo by the AI adjudicator (the builder's model, which could see both values) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; fields where the model and the capture agree were not individually checked (a blind check of a random 200 is at /check?set=agree200). {{ L.recall }} The multiple between 1 in 5 and 1 in 122 depends on recall on the random 300, which was not measured there; up to 24 times if the model finds nearly every error. Our pacing on a shared key reads about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
     </div>
   </div>
 </section>
@@ -47,7 +47,7 @@
         <tr><td><b>Accepted at second capture</b></td><td>{{ H.accepted }} of {{ H.forms }} forms ({{ H.accepted_pct }}%; {{ H.accepted_movil }} phone photos, {{ H.accepted_escaner }} scans); {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} fields wrong, about 1 in {{ H.acc_one_in }} (Wilson 95% {{ '%.2f'|format(100 * H.acc_wrong_ci[0]) }}% to {{ '%.2f'|format(100 * H.acc_wrong_ci[1]) }}%)</td></tr>
         <tr><td><b>Capture errors found</b></td><td>{{ H.keying_errors }} on {{ H.keying_forms }} forms; the certified count covers {{ H.cert_covered }} and confirms the image on {{ H.cert_agree }}; all {{ H.cert_differ }} differences were recounts</td></tr>
         <tr><td><b>Yield</b></td><td>1 in {{ H.yield_one_in }} disputed fields is a confirmed capture error; the capture's overall error rate is at least 1 in {{ H.random_one_in }}</td></tr>
-        <tr><td><b>Recall</b></td><td>{{ L.recall }} Before judging the paper: {{ H.recall.C }} of {{ H.recall.E }} (Wilson 95% {{ '%.0f'|format(100 * H.recall.ci[0]) }}% to {{ '%.0f'|format(100 * H.recall.ci[1]) }}%), a loose lower bound.</td></tr>
+        <tr><td><b>Recall</b></td><td>{{ L.recall_300 }} Before judging the paper: {{ H.recall.C }} of {{ H.recall.E }} (Wilson 95% {{ '%.0f'|format(100 * H.recall.ci[0]) }}% to {{ '%.0f'|format(100 * H.recall.ci[1]) }}%), a loose lower bound.</td></tr>
         <tr><td><b>Second reader (Qwen3.8-27B)</b></td><td>{{ L.qwen }}</td></tr>
       </tbody>
     </table>

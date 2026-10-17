@@ -229,6 +229,7 @@ def lines(H: dict, T: dict | None = None) -> dict:
     if not H:
         return {}
     T = T if T is not None else tiers()
+    from app import colima
     TL = tier_lines(T)
     GL = gate_lines(H, T)
     r, v, rc, fa = H["recall"], H["verdicts"], H["receipt"], H["faint"]
@@ -259,8 +260,8 @@ def lines(H: dict, T: dict | None = None) -> dict:
                             f"capture's overall error rate is at least 1 in {H['random_one_in']} ({H['keying_errors']} of "
                             f"{H['fields']:,} found so far)."),
                   "small": (f"Of the {H['keying_errors']}: {n_cert} confirmed by the certified count, "
-                            f"{H['keying_errors'] - n_cert} judged from the photo by {ADJUDICATOR}. Recall is unmeasured, "
-                            f"so the multiple between the two rates is too.")},
+                            f"{H['keying_errors'] - n_cert} judged from the photo by {ADJUDICATOR}. The multiple between "
+                            f"the two rates is not a recall estimate.")},
         "honest": GL["honest"],
         "gate": GL["gate"],
         "gemma_role": GL["gemma_role"],
@@ -268,11 +269,15 @@ def lines(H: dict, T: dict | None = None) -> dict:
         "gate_note": GL.get("gate_note"),
         "checked": GL.get("checked"),
         "preliminary": "The first capture is preliminary by design; the certified count is the official result.",
-        "recall": (f"On the forms the certified count settled by comparison, it differs from the first capture on {r['E']} "
-                   f"fields; judged on the paper, {r['corrections']} of them are council corrections or blank rows (the "
-                   f"paper shows the capture's value), and the model disputed {r['C']} of the other {r['E2']}: {r_conf} "
-                   f"a confirmed capture error, {r_amb} where the paper is ambiguous. Recall on confirmed capture errors "
-                   f"rests on {r_conf} field{'s' if r_conf != 1 else ''}: it is unmeasured."),
+        # the measured recall (PROTOCOL.md Amendment 9, Colima), word for word as the pitch texts state it
+        "recall": colima.recall_pitch(),
+        # the random 300's earlier bound, kept as history (Results table, EVALUATION, REPORT)
+        "recall_300": (f"On the forms the certified count settled by comparison, it differs from the first capture on "
+                       f"{r['E']} fields; judged on the paper, {r['corrections']} of them are council corrections or "
+                       f"blank rows (the paper shows the capture's value), and the model disputed {r['C']} of the other "
+                       f"{r['E2']}: {r_conf} a confirmed capture error, {r_amb} where the paper is ambiguous. On these "
+                       f"forms recall on confirmed capture errors rests on {r_conf} field{'s' if r_conf != 1 else ''}, "
+                       f"too few to measure; the measured recall is the Colima check."),
         "receipt": (f"The paper says {rc['paper']}, the first capture keyed {rc['prep']}, the certified count says "
                     f"{rc['certified']}."),
         "product": (f"Give us your keyed data and the scans. You get the {H['flag_pct']:.0f}% of fields to look at, "

@@ -3,8 +3,9 @@
     python scripts/colima_recall.py build    # candidates -> results/colima/recall_candidates.json + masked crops in
                                              # results/colima/recall_crops/ (needs data/raw/; no model call)
     python scripts/colima_recall.py score    # -> results/colima/recall.json + .md (in progress until all answered)
-    python scripts/colima_recall.py --check  # recompute; exit 1 if the committed files differ (make eval, via
-                                             # score-colima --check)
+    python scripts/colima_recall.py --check  # recompute; exit 1 if the committed files differ, or if the README,
+                                             # lablab.md, slides, EVALUATION or the rendered Results page do not
+                                             # carry the recall line (app/colima.recall_pitch); make eval
 
 Candidate: a graded field the certified count covers (vote rows and TOTAL, the column mapping of
 scripts/gemma_tf_reads2.py settle) on a form settled by cotejo, not recount (Computos row present, OBSERVACIONES without
@@ -119,7 +120,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     from twohands.sample import PREP_CSV
     if a.check:
-        bad = colima.recall_mismatches()
+        bad = colima.recall_mismatches() + colima.recall_doc_mismatches() + colima.recall_page_mismatches()
         if PREP_CSV.is_file() and colima.RECALL_CAND.is_file():
             if json.loads(dump(compute())) != json.loads(colima.RECALL_CAND.read_text(encoding="utf-8")):
                 bad.append("results/colima/recall_candidates.json (recomputed candidates differ)")

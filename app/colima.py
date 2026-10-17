@@ -226,6 +226,42 @@ def recall_line(R: Optional[dict]) -> str:
             f"ambiguous.")
 
 
+def recall_pitch(R: Optional[dict] = None) -> str:
+    """The measured recall as the pitch texts state it (README, lablab.md, slides, Results page, EVALUATION), with its
+    scope: errors the certified count reveals, one state; never total recall. Until scored: the in-progress line."""
+    R = recall_result() if R is None else R
+    if not R or not R.get("complete"):
+        return recall_line(R)
+    k, m = R["caught"], R["missed"]
+    return (f"Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind "
+            f"check): {k} of {k + m} caught, {round(100 * k / (k + m))}% (Wilson 95% {100 * R['ci'][0]:.0f}-"
+            f"{100 * R['ci'][1]:.0f}%). One state, certified-detectable errors only; not total recall.")
+
+
+def recall_clause(R: Optional[dict] = None) -> str:
+    """The short clause of the README's "Real data" bullet and lablab.md's opening ("" until scored)."""
+    R = recall_result() if R is None else R
+    if not R or not R.get("complete"):
+        return ""
+    k, m = R["caught"], R["missed"]
+    return f"recall on certified-detectable errors {k} of {k + m} (Colima, pre-registered; not total recall)"
+
+
+def recall_page_mismatches() -> list[str]:
+    """The Results page, rendered, must state the recall pitch line (and the site's recall line must be it)."""
+    import html
+    from fastapi.testclient import TestClient
+    from app import numbers
+    from app.main import app
+    p = _norm(recall_pitch())
+    bad = []
+    if _norm((numbers.lines(numbers.headline()) or {}).get("recall", "")) != p:
+        bad.append("app/numbers.py lines()['recall'] (not the recall pitch line)")
+    if p not in _norm(html.unescape(TestClient(app).get("/results").text)):
+        bad.append("/results (the recall pitch line)")
+    return bad
+
+
 def recall_file(R: Optional[dict] = None) -> dict:
     """results/colima/recall.json: without the running answered count while in progress (it would go stale)."""
     R = R or recall_result()
@@ -327,6 +363,8 @@ def lines(F: Optional[dict] = None) -> Optional[dict]:
                  f"for ${F['cost']:.2f}, field-level report."),
         "caption": f"Gemma on AMD read all {F['read']} sheets for {round(100 * F['cost'])} cents.",
         "recall": recall_line(recall_result()),
+        "recall_pitch": recall_pitch(),
+        "recall_clause": recall_clause(),
     }
 
 
@@ -354,8 +392,23 @@ def write_report() -> None:
 
 
 # doc -> the line keys it must carry, word for word (whitespace and ** ignored)
-DOCS = {"README.md": ("lablab", "scans"), "submission/lablab.md": ("lablab",), "slides/slides.md": ("slide",),
-        "slides/two-hands.srt": ("caption",), "docs/EVALUATION.md": ("replication", "kinds", "tiers", "recall")}
+DOCS = {"README.md": ("lablab", "scans", "recall_pitch", "recall_clause"),
+        "submission/lablab.md": ("lablab", "recall_pitch", "recall_clause"), "slides/slides.md": ("slide", "recall_pitch"),
+        "slides/two-hands.srt": ("caption",),
+        "docs/EVALUATION.md": ("replication", "kinds", "tiers", "recall", "recall_pitch")}
+RECALL_KEYS = ("recall_pitch", "recall_clause")
+
+
+def recall_doc_mismatches() -> list[str]:
+    """The Amendment 9 recall lines (recall_pitch, recall_clause) in every doc that must carry them, word for word."""
+    L = {"recall_pitch": recall_pitch(), "recall_clause": recall_clause()}
+    bad = []
+    for doc, keys in DOCS.items():
+        keys = [k for k in keys if k in RECALL_KEYS]
+        if keys:
+            s = _norm((REPO / doc).read_text(encoding="utf-8"))
+            bad += [f"{doc} (the Colima '{k}' line)" for k in keys if _norm(L[k]) not in s]
+    return bad
 
 
 def _norm(s: str) -> str:

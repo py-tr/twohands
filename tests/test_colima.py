@@ -72,6 +72,7 @@ def test_colimarecall_set_is_the_candidates_blind_and_reports_only_when_complete
         assert c["gemma"] == c["capture"] != c["certified"]
     assert all(c["gemma"] == c["certified"] != c["capture"] for c in C["caught"])
     monkeypatch.setattr(spotcheck, "FILE_CR", tmp_path / "spotcheck_colimarecall.json")
+    monkeypatch.setattr(colima, "RECALL", tmp_path / "recall.json")   # no scored copy to fall back on: start blank
     page = client.get("/check?set=colimarecall")
     assert page.status_code == 200 and "recall check" in page.text
     R = colima.recall_result()
@@ -91,3 +92,14 @@ def test_colimarecall_set_is_the_candidates_blind_and_reports_only_when_complete
     assert R["ambiguous"] == len(q) - m - R["corrections"] and abs(R["recall"] - k / (k + m)) < 1e-12
     assert R["ci"][0] <= R["recall"] <= R["ci"][1] and R["recall_ambiguous_as_missed"] <= R["recall"]
     assert f"{k} caught, {m} missed" in colima.recall_line(R)
+
+
+def test_recall_pitch_is_scoped_and_in_every_pitch_text():
+    """Amendment 9 as the pitch texts state it: from results/colima/recall.json, scoped (one state, certified-detectable
+    errors), never total recall; in the README, lablab.md, slides, EVALUATION and the rendered Results page."""
+    R = colima.recall_result()
+    p, c = colima.recall_pitch(R), colima.recall_clause(R)
+    k, m = R["caught"], R["missed"]
+    assert f"{k} of {k + m} caught" in p and "not total recall" in p and "Colima" in p
+    assert f"{k} of {k + m}" in c and "not total recall" in c
+    assert colima.recall_doc_mismatches() == [] and colima.recall_page_mismatches() == []

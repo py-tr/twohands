@@ -133,6 +133,8 @@ def check() -> list[str]:
         for m in measured_lines(H):
             if " ".join(m.split()) not in s:
                 bad.append(f"{doc}: missing the measured line '{m[:70]}...'")
+    from app import colima   # the Amendment 9 recall line (app/colima.recall_pitch) and the first-screen clause
+    bad += [f"{m} (app/colima.recall_pitch / recall_clause)" for m in colima.recall_doc_mismatches()]
     if " ".join(buyer.MARKET_SIZE.split()) not in " ".join((REPO / "docs/BUSINESS.md").read_text(encoding="utf-8").split()):
         bad.append("docs/BUSINESS.md: missing the market-size line")
     m = buyer.ine_metric()

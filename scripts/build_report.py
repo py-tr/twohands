@@ -261,6 +261,12 @@ def render(D: dict) -> str:
     v22, v22s = ph["v2-2R (Qwen confirms SOBRANTES)"], ph["v2-2R strict (only Qwen confirms SOBRANTES)"]
     v2b = ph["v2b (relaxed label, secondary)"]
     rc = H["recall"]
+    from app import colima as colimamod   # the measured recall (PROTOCOL.md Amendment 9, Colima)
+    RC = colimamod.recall_result() or {}
+    rc_pitch = colimamod.recall_pitch(RC or None)
+    rc_lim = (f"Recall is measured on one state's certified-detectable capture errors ({RC['caught']} of "
+              f"{RC['caught'] + RC['missed']}, Amendment 9); errors the certified count cannot reveal are not measured, "
+              f"so this is not total recall." if RC.get("complete") else rc_pitch)
     vd = H["verdicts"]
     bt = H["by_type"]
     lg = H["label_gate"]
@@ -464,15 +470,18 @@ counts ballots, not the sheet, so it need not match the sheet). Example: on form
 says {H['receipt']['paper']} in digits and words, the first capture keyed {H['receipt']['prep']}, the model read
 {H['receipt']['model']} and the certified count (by {H['receipt']['cert_mode']}) is {H['receipt']['certified']}.
 
-### 4.4 Recall: a small subset, stated plainly
+### 4.4 Recall: one state, stated plainly
 
 We only look where the model disagrees with the capture, so an error the model shares with the capture is not
-found. To estimate recall we use the {rc['forms']} read forms the certified count settled by comparison (no recount):
+found. **{rc_pitch}** (PROTOCOL.md Amendment 9, `results/colima/recall.md`: every field where the certified count differs
+from the capture and the model agreed with the capture was read blind by a person.)
+
+Earlier, on the random {forms}: to estimate recall we used the {rc['forms']} read forms the certified count settled by comparison (no recount):
 there the certified count differs from the first capture on {rc['E']} fields. Judged on the paper, {rc['corrections']}
 of them are council corrections or blank rows (the paper shows the capture's value; a faithful read cannot dispute
 them). **The model disputed {rc['C']} of the remaining {rc['E2']}**: measured recall {rc['recall2_pct']}%, Wilson 95%
 {ci(rc['C'], rc['E2'], 0)}. **n = {rc['E2']}**, and only {rc['disputed_verdicts'].get('model_right', 0)} of them is a
-confirmed capture error (the rest are ambiguous on the paper): recall on confirmed capture errors is unmeasured. Counting the
+confirmed capture error (the rest are ambiguous on the paper): too few to measure recall on confirmed capture errors. Counting the
 corrections in the denominator gives the loose bound {rc['C']} of {rc['E']} ({ci(rc['C'], rc['E'], 0)}).
 
 ### 4.5 Gemma vs Qwen
@@ -527,7 +536,7 @@ routed. The pre-registered locator would have left {len(D['orig_nl'])}.
 
 - One sample of {forms} forms of one form type{"; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass)" if c100 else "; the confirmation draw for gate v2 (Amendment 3) has not been read"}.
 - One adjudicator, the AI adjudicator (the builder's model, which could see both values); crops are published for re-checking.
-- Recall rests on {rc['E2']} fields.
+- {rc_lim}
 - The two-reader strict tier checks words = digits and row sums only, without the section identities or labels.
 - Latency and throughput were measured on a shared, rate-limited endpoint.
 - The capture compared against is the preliminary first capture; the certified count is the official record.

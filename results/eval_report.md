@@ -5,7 +5,7 @@ committed calls files, the adjudication verdicts, the manifests, the official fi
 of the 300 forms (`app/data/`), and git. Each number is recomputed independently of the scripts that wrote what
 the app reads, then compared with it.
 
-**305 checks, 0 mismatches.** Exit code 0.
+**306 checks, 0 mismatches.** Exit code 0.
 
 | number | recomputed | app shows | source | check |
 |---|---|---|---|---|
@@ -277,6 +277,7 @@ the app reads, then compared with it.
 | Rendered sentence 'checked' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'preliminary' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'recall' | rebuilt | as rendered | app/numbers.py lines() | ok |
+| Rendered sentence 'recall_300' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'receipt' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'product' | rebuilt | as rendered | app/numbers.py lines() | ok |
 | Rendered sentence 'qwen' | rebuilt | as rendered | app/numbers.py lines() | ok |

@@ -133,7 +133,7 @@ test nothing**; they are shown so that no variant is hidden.
 | Gate v2-2R (unused ballots confirmed by words or Qwen) | POST-HOC (Amendment 3) | 54 (18.0%) | 27 / 27 | 1,188 | 1 | 0.01% to 0.47% | 0 |
 | Gate v2-2R strict (unused ballots only if Qwen agrees) | POST-HOC (in no amendment) | 45 (15.0%) | 19 / 26 | 990 | 0 | 0.00% to 0.39% | 0 |
 
-Confirmation on fresh data (Amendment 3, pre-registered before any read): 100 forms drawn after the fix was designed, Gemma on the AMD Token Factory. The fixed gate (v2) accepted 22 forms; 0 of their 484 fields were wrong against the official capture, with 3 disagreements adjudicated from crops by the AI adjudicator (person check pending). The pre-registered criterion was an error rate under 0.5%; the point estimate meets it, and the sample is too small to exclude 0.5% at 95% confidence (Wilson upper bound 0.79%). Evidence for v2 across both sets: 1 wrong field in 1,518 accepted, of which 1,034 are a post-hoc re-score of the 300 and 484 are this pre-registered run. (`results/confirm100.md`)
+Confirmation on fresh data (Amendment 3, pre-registered before any read): 100 forms drawn after the fix was designed, Gemma on the AMD Token Factory. The fixed gate (v2) accepted 22 forms; 0 of their 484 fields were wrong against the official capture, with 3 disagreements adjudicated from crops and checked by a person. The pre-registered criterion was an error rate under 0.5%; the point estimate meets it, and the sample is too small to exclude 0.5% at 95% confidence (Wilson upper bound 0.79%). Evidence for v2 across both sets: 1 wrong field in 1,518 accepted, of which 1,034 are a post-hoc re-score of the 300 and 484 are this pre-registered run. (`results/confirm100.md`)
 
 On the same 100 forms the original gate would have accepted one wrong field: the model read 3114 where the paper says 314, a digit inserted. The v2 rule "a field in no identity needs its digits and words both read and equal" (Amendment 3, condition 2(a); here the words line was blank) blocked it. That is the held-out test of a rule designed after the first run, and it passed.
 
@@ -177,15 +177,18 @@ counts ballots, not the sheet, so it need not match the sheet). Example: on form
 says 175 in digits and words, the first capture keyed 75, the model read
 175 and the certified count (by Cotejo) is 175.
 
-### 4.4 Recall: a small subset, stated plainly
+### 4.4 Recall: one state, stated plainly
 
 We only look where the model disagrees with the capture, so an error the model shares with the capture is not
-found. To estimate recall we use the 100 read forms the certified count settled by comparison (no recount):
+found. **Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall.** (PROTOCOL.md Amendment 9, `results/colima/recall.md`: every field where the certified count differs
+from the capture and the model agreed with the capture was read blind by a person.)
+
+Earlier, on the random 300: to estimate recall we used the 100 read forms the certified count settled by comparison (no recount):
 there the certified count differs from the first capture on 23 fields. Judged on the paper, 16
 of them are council corrections or blank rows (the paper shows the capture's value; a faithful read cannot dispute
 them). **The model disputed 7 of the remaining 7**: measured recall 100%, Wilson 95%
 65% to 100%. **n = 7**, and only 1 of them is a
-confirmed capture error (the rest are ambiguous on the paper): recall on confirmed capture errors is unmeasured. Counting the
+confirmed capture error (the rest are ambiguous on the paper): too few to measure recall on confirmed capture errors. Counting the
 corrections in the denominator gives the loose bound 7 of 23 (16% to 51%).
 
 ### 4.5 Gemma vs Qwen
@@ -292,7 +295,7 @@ and on this sample every one that did went through the field outside every ident
 
 - One sample of 300 forms of one form type; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass).
 - One adjudicator, the AI adjudicator (the builder's model, which could see both values); crops are published for re-checking.
-- Recall rests on 7 fields.
+- Recall is measured on one state's certified-detectable capture errors (27 of 28, Amendment 9); errors the certified count cannot reveal are not measured, so this is not total recall.
 - The two-reader strict tier checks words = digits and row sums only, without the section identities or labels.
 - Latency and throughput were measured on a shared, rate-limited endpoint.
 - The capture compared against is the preliminary first capture; the certified count is the official record.

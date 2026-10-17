@@ -9,7 +9,7 @@ Two Hands: receipts for every keyed number
 
 ## Short description (227 characters)
 
-Gemma on AMD read 1,270 real handwritten tally sheets, a random 300 and a whole state: 49 capture errors confirmed by the certified count, each with its photo; recall on certified-detectable errors 27 of 28 (Colima, pre-registered; not total recall). The paper's own arithmetic decides what is accepted with no person.
+Gemma on AMD read 1,270 real handwritten tally sheets, a random 300 and a whole state: 49 capture errors confirmed by the certified count, each with its photo. The paper's own arithmetic decides what is accepted with no person.
 
 ## Long description
 
@@ -26,7 +26,7 @@ The certified count is the official result. An independent demonstration, not an
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
 the official double-keyed capture: the model found 52 fields where the capture does not match the paper, 22 of them
 confirmed by the certified count and 30 judged from the photo by the AI adjudicator (the builder's model, which could
-see both values; checked by a person: 30 of 30, 27 agree, 3 unreadable to the person). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
+see both values; checked by a person: 30 of 30, 27 agree, 3 unreadable to the person); recall on certified-detectable errors 27 of 28 (Colima, pre-registered; not total recall). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
 Public ground truth is also why every number here can be re-derived by anyone: the images, the keyed values and the certified count are INE's, the scripts are ours (make eval).
 
 Mexico's rule already asks for this job. In INE's PREP process every tally sheet gets a second capture by a
@@ -80,7 +80,7 @@ request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip,
 locating, the privacy mask and the gate run on CPU.
 
 Limits: most forms are routed to a person (see the table). "Wrong" is judged against the official capture: every disagreement was checked on the photo, the
-agreeing fields were not (a seeded random 200 of them is queued for a blind person check). Recall is measured only on the errors the certified count reveals, in one state (27 of 28); not total recall. The
+agreeing fields were not (a seeded random 200 of them is queued for a blind person check). Recall: 27 of 28 certified-detectable errors, one state; not total recall. The
 pre-registered second-reader pass on the 100-form confirmation was not run (a protocol deviation). 11 of the 300 pages could
 not be located and went to a person before any model call.
 

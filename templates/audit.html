@@ -13,7 +13,7 @@
   <div class="grid3">
     <div class="card stat"><div class="v">{{ H.keying_errors }}</div><div class="l">{{ L.unit }}, in {{ H.fields|int }} fields</div>{% if CF %}<div class="conf">{{ CF.text }}</div>{% endif %}<div class="s">{{ L.preliminary }}</div></div>
     <div class="card stat"><div class="v">{{ H.cert_agree }} of {{ H.cert_covered }}</div><div class="l">confirmed by the certified count where it covers the field</div><div class="s">All {{ H.cert_differ }} differences were recounts of the ballots, not readings of this paper. The certified count does not cover sections 2, 3, 4 and 7.</div></div>
-    <div class="card stat"><div class="v">1 in {{ H.yield_one_in }}</div><div class="l">disputed fields is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }})</div><div class="s">The capture's overall error rate is at least 1 in {{ H.random_one_in }}. Recall: {{ L.recall }}</div></div>
+    <div class="card stat"><div class="v">1 in {{ H.yield_one_in }}</div><div class="l">disputed fields is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }})</div><div class="s">The capture's overall error rate is at least 1 in {{ H.random_one_in }}. {{ L.recall }}</div></div>
   </div>
 </section>
 

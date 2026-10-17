@@ -50,8 +50,8 @@ reads the same file) from `results/calls_gemma.jsonl` (last read per form) and `
 | The model alone | wrong on 173 of 6,358 fields (156 + 17): about 1 in 37 |
 | Accepted with no person (frozen gate, primary) | 55 of 300 (18%): 27 phone photos, 28 scans |
 | Accepted fields wrong after adjudication | **2 of 1,210** (about 1 in 605; Wilson 95% 0.04% to 0.60%), so the headline rule (error rate <= 0.5%) keeps the single-reader tier |
-| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too. |
-| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. (`results/adjudication/RECALL.md`) |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). The multiple between the two rates is not a recall estimate. |
+| Recall | Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall. (`results/colima/recall.md`, PROTOCOL.md Amendment 9.) Earlier, on the random 300: On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. On these forms recall on confirmed capture errors rests on 1 field, too few to measure; the measured recall is the Colima check. (`results/adjudication/RECALL.md`) |
 
 **Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.** Wrong is judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. On accepted fields the
 pair made 1 error and the model 2; we never claim the model beats the pair. The first capture is preliminary by
@@ -162,7 +162,7 @@ recall-check candidates of Amendment 9 are not among them (Gemma agreed with the
 disputes) and stay blind. All 510: 96 confirmed by the certified count, 333 AI adjudicator's reading, 81 paper ambiguous
 or unreadable, 0 awaiting review. The accepted-field error rate is complete, and every dispute carries a label.
 
-Recall check (Amendment 9): 139 fields where the certified count differs from the capture and Gemma agreed with the capture; a person's blind check is in progress at /check?set=colimarecall.
+Recall on capture errors the certified count sees (Amendment 9, a person's blind check): 27 caught, 1 missed, 96.4% (Wilson 95% 82.3% to 99.4%); of the 139 fields where Gemma agreed with a capture the certified count changes, 1 are capture errors Gemma also missed, 95 later corrections by the council, 43 ambiguous. Secondary, every ambiguous candidate counted as missed: 38.0% (Wilson 95% 27.6% to 49.7%). (`results/colima/recall.md`)
 
 Sources: `results/colima/colima_audit.md` and `.json` (`scripts/gemma_tf_reads2.py score-colima`, no model call), the
 adjudication sheet `results/colima/SHEET.md` with every crop, and the report from the site's own capture-audit generator
@@ -170,9 +170,9 @@ adjudication sheet `results/colima/SHEET.md` with every crop, and the report fro
 
 ### Behind "1 in 5 vs at least 1 in 122"
 
-On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). Recall on confirmed capture errors therefore rests on 1 field: it is unmeasured.
+On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). On these forms recall on confirmed capture errors therefore rests on 1 field, too few to measure; the Colima check (Amendment 9, above) measures it on the errors the certified count reveals: 27 of 28 caught, one state, not total recall.
 
-The multiple: a random check finds a capture error in at least 1 field in 122 (52 of 6,358 found so far; a lower bound on the capture's error rate); in a disputed field, 1 in 5 (52 of 267). The multiple depends on recall, which we could not measure; up to 24 times if the model finds nearly every error. The 1 in 122 is itself a lower bound built from the model's own finds. Counting the 16 corrections in the denominator gives the loose bound, 7 of 23 disputed (Wilson 16-51%). (`results/adjudication/RECALL.md`)
+The multiple: a random check finds a capture error in at least 1 field in 122 (52 of 6,358 found so far; a lower bound on the capture's error rate); in a disputed field, 1 in 5 (52 of 267). The multiple depends on recall on the random 300, which was not measured there; up to 24 times if the model finds nearly every error. The 1 in 122 is itself a lower bound built from the model's own finds. Counting the 16 corrections in the denominator gives the loose bound, 7 of 23 disputed (Wilson 16-51%). (`results/adjudication/RECALL.md`)
 
 ### The 52 capture errors by type
 
@@ -266,8 +266,9 @@ every PREP (Reglamento de Elecciones art. 347), and in 2024 UNAM centres audited
   model, which could see both values), on published crops; counts checked by a person are
   reported separately; anyone can re-check them, and the app's blind spot-check page lets a
   person do so without seeing any AI or capture value.
-- **Recall rests on few fields.** We checked only where the model disagreed with the capture, so errors both made
-  are not counted directly. On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured.
+- **Recall is measured on one kind of error, in one state.** We checked only where the model disagreed with the
+  capture, so errors both made are not counted directly. Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall. Errors the certified count cannot reveal are not
+  measured. On the random 300 the recall fields were too few (1 confirmed capture error of 7; `results/adjudication/RECALL.md`).
 - **The label gate's cost.** The row-label check routed 86 forms; on 68 of them the read matched the paper on every
   graded field, including all 15 forms routed for a label alone. Each false alarm costs a person one look.
 - **One read is not two independent reads.** In one call the model can harmonise words and digits: on 010469C0400
