@@ -3,6 +3,8 @@ of the 100 fresh forms. No model call.
 
     python scripts/confirm100_score.py           # -> results/confirm100.md + results/confirm100.json
     python scripts/confirm100_score.py --check   # recompute; exit 1 if the committed files differ (make eval)
+    python scripts/confirm100_score.py --sync-person   # copy the blind person check (app/state) to
+                                                       # results/adjudication_confirm100/person_check.json
 
 Reads: results/calls_confirm100_gemma.jsonl (last row per form). Second reader: results/calls_confirm100_qwen.jsonl if it
 exists; with no Qwen read, v2-2R reduces to v2 and gate v3's two-read rule (b) fails on every form (Amendment 7: "No
@@ -246,15 +248,21 @@ def report(res: dict) -> str:
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     from twohands.sample import PREP_CSV
+    from app import confirm100 as c100
+    if "--sync-person" in argv:
+        print(f"confirm100 --sync-person: {c100.sync_person()} answers -> {c100.PERSON.relative_to(REPO)}")
+        return 0
+    person = c100.person_copy_mismatch()   # the committed copy of the person check, when the live answers are here
     if "--check" in argv and not PREP_CSV.is_file():   # data/raw/ is not committed (gitignored, ~130 MB)
-        ok = OUT_JSON.is_file() and OUT_MD.is_file()
+        ok = OUT_JSON.is_file() and OUT_MD.is_file() and not person
         print("confirm100 --check: raw PREP CSV absent (download it per docs/NUMBERS.md B to recompute); committed "
-              + ("results/confirm100.json and .md present, not recomputed" if ok else "files MISSING"))
+              + ("results/confirm100.json and .md present, not recomputed" if OUT_JSON.is_file() and OUT_MD.is_file()
+                 else "files MISSING") + (f"; {person[0]}" if person else ""))
         return 0 if ok else 1
     res = compute()
     md, js = report(res), json.dumps(res, indent=1, ensure_ascii=False)
     if "--check" in argv:
-        mism = []
+        mism = list(person)
         if not OUT_JSON.is_file() or json.loads(OUT_JSON.read_text(encoding="utf-8")) != json.loads(js):
             mism.append("results/confirm100.json")
         if not OUT_MD.is_file() or OUT_MD.read_text(encoding="utf-8") != md:

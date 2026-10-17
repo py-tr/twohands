@@ -35,7 +35,7 @@ and published data are later checked against the sheet in the cotejo (Proceso T√
 numerals 30 to 35; the same phases bind all 32 state PREPs through Anexo 13 of INE's Reglamento de Elecciones).
 Our engine is an automated capture with a referee. In the preliminary capture (PREP, before the c√≥mputos and before
 any later cotejo correction), at least 0.8% of fields in our random sample do not match the paper (52 of 6,358); 1 in 5
-of the fields our check disputes is a capture error, against at least 1 in 122 at random. Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall.
+of the fields our check disputes is a capture error, against at least 1 in 122 at random.
 
 **Business at a glance.**
 

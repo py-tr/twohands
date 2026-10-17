@@ -1,7 +1,9 @@
 """The pre-registered 100-form confirmation (PROTOCOL Amendment 3; gate v3 per Amendment 7), in words, every number
 computed from results/confirm100.json (scripts/confirm100_score.py, recomputed by make eval) and
 results/posthoc_v2_300.json, and the person check of its disagreements from the blind /check?set=confirm100 queue
-(answers in app/state/spotcheck_confirm100.json, apart from the main spot-check).
+(answers in app/state/spotcheck_confirm100.json, apart from the main spot-check; a committed copy in
+results/adjudication_confirm100/person_check.json, written by scripts/confirm100_score.py --sync-person and checked by its
+--check, gives a checkout without app/state/ the same wording).
 
 Until a person has answered every disagreement crop and agreed with the AI verdict on each, the wording says
 "adjudicated from crops by the AI adjudicator (person check pending)"; once all agree it says "checked by a person".
@@ -18,6 +20,7 @@ from twohands import REPO
 
 R = REPO / "results"
 ADJ = R / "adjudication_confirm100"
+PERSON = ADJ / "person_check.json"
 V2, V1, V3 = "v2 (primary, Amendment 3)", "v1 (frozen gate, section 5)", "v3 (Amendment 7: words + two reads + stock band)"
 AI_PHRASE = "adjudicated from crops by the AI adjudicator (person check pending)"
 # The v2 rule that blocked the digit insertion, checked against twohands.gate_v2 on the stored read of 070212B0100:
@@ -38,8 +41,28 @@ def load_verdicts() -> dict:
 
 
 def load_answers() -> dict:
+    """The live /check?set=confirm100 answers, else the committed copy (a checkout without app/state/)."""
     from app import spotcheck
-    return spotcheck.load("confirm100")
+    return spotcheck.load("confirm100") or (_jload(PERSON, {}) or {}).get("answers") or {}
+
+
+def person_copy_mismatch() -> list[str]:
+    """With live answers on this machine, the committed copy must hold exactly them (else the wording would differ
+    between this machine and a fresh clone)."""
+    from app import spotcheck
+    live = spotcheck.load("confirm100")
+    if live and (_jload(PERSON, {}) or {}).get("answers") != live:
+        return ["results/adjudication_confirm100/person_check.json (run scripts/confirm100_score.py --sync-person)"]
+    return []
+
+
+def sync_person() -> int:
+    """Write the committed copy from the live answers; returns how many answers it holds."""
+    from app import spotcheck
+    live = spotcheck.load("confirm100")
+    PERSON.write_text(json.dumps({"set": "/check?set=confirm100", "answers": live}, indent=1, ensure_ascii=False) + "\n",
+                      encoding="utf-8")
+    return len(live)
 
 
 def person_check(answers: Optional[dict] = None, verdicts: Optional[dict] = None) -> dict:

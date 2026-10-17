@@ -47,6 +47,12 @@ def test_page_is_blind_and_keeps_the_set(client):
     assert client.get("/check?set=nope").status_code == 404
 
 
+def test_fresh_clone_reads_the_committed_copy():
+    """No live answers (a checkout without app/state/): the wording comes from the committed copy of the person check."""
+    assert spotcheck.load("confirm100") == {} and not spotcheck.FILE_C100.is_file()
+    assert c100.load_answers() == json.loads(c100.PERSON.read_text(encoding="utf-8"))["answers"]
+    assert c100.person_copy_mismatch() == []
+
 def test_wording_switches_on_stored_answers():
     pending = c100.texts(answers={})
     assert "adjudicated from crops by the AI adjudicator (person check pending)" in pending["para"]

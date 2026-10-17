@@ -1,0 +1,29 @@
+{
+ "set": "/check?set=confirm100",
+ "answers": {
+  "152285C0100__SOBRANTES": {
+   "digits": 217,
+   "words": 217,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:00:01Z"
+  },
+  "321493B0100__NULOS": {
+   "digits": 5,
+   "words": 5,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:00:06Z"
+  },
+  "070212B0100__SOBRANTES": {
+   "digits": 314,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:00:21Z"
+  }
+ }
+}

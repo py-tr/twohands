@@ -27,7 +27,6 @@
       {% endfor %}
     </div>
     {% endif %}
-    {{ ieebcs_home(honest.buyer_card()) }}
     {% set C = honest.strip_figures(ls) %}
     <div class="strip card" id="strip" data-kind="{{ ls.kind }}">
       {% if C.live %}
@@ -52,6 +51,7 @@
     <a class="btn dark lg f-second" href="/audit/new">{{ icon('upload') }}Audit your capture</a>
   </div>
   <p class="f-diff d-only">Others check the model against the source. We check the record against the paper.</p>
+  {{ ieebcs_home(honest.buyer_card()) }}
   </div>
   <div class="m-only below-fold">
     {{ ieebcs_home(honest.buyer_card(), phone=True) }}

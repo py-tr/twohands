@@ -311,6 +311,34 @@ def test_phone_first_screen(server):
         p.stop()
 
 
+
+@pytest.mark.parametrize("w,h", [(1366, 768), (1366, 900), (1280, 800), (1440, 900)])
+def test_desktop_first_screen(server, w, h):
+    """Desktop fold: the receipt, the counter and both first-screen buttons; the buyer's benchmark card (when shown) under them."""
+    sync = pytest.importorskip("playwright.sync_api")
+    try:
+        p = sync.sync_playwright().start()
+        br = p.chromium.launch()
+    except Exception as e:  # noqa: BLE001
+        pytest.skip(f"no browser: {e}")
+    try:
+        pg = br.new_page(viewport={"width": w, "height": h})
+        pg.goto(server + "/", wait_until="load")
+        pg.evaluate("document.fonts.ready.then(() => true)")
+        assert pg.evaluate("document.documentElement.scrollWidth") <= w
+        boxes = {}
+        for sel in (".f-h1", "#rcard", "#strip", ".f-actions .btn.primary", ".f-actions .f-second"):
+            el = pg.locator(sel).first
+            b = el.bounding_box() if el.is_visible() else None
+            assert b and b["y"] + b["height"] <= h, (sel, b)
+            boxes[sel] = b
+        assert pg.inner_text(".f-actions .btn.primary").strip() == "Pick any polling station"
+        if pg.locator("#buyer").count():
+            assert pg.locator("#buyer").bounding_box()["y"] > boxes[".f-actions .btn.primary"]["y"]
+    finally:
+        br.close()
+        p.stop()
+
 def test_prep_procedure_note_under_the_counter():
     h = client.get("/").text
     first = re.search(r'<section class="first".*?</section>', h, flags=re.S).group(0)

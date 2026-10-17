@@ -63,7 +63,7 @@ def test_three_variants_by_the_strict_figure(scorefile, pct, home, buyer):
     if home:
         t = _text(h).replace("&#39;", "'")
         assert f"{pct}% of all fields" in t and "62.84%" in t and C.FOOTNOTE in t
-        assert h.index('id="rcard"') < h.index('id="buyer"') < h.index('id="strip"')
+        assert h.index('id="rcard"') < h.index('id="strip"') < h.index('class="f-actions"') < h.index('id="buyer"')
 
 
 def test_reading_of_why_adds_up(scorefile):

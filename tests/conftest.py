@@ -79,14 +79,18 @@ def _isolate_state(monkeypatch, tmp_path_factory):
     monkeypatch.setenv("TWOHANDS_WORKER_DIR", str(st / "live_audit"))
     state = st / "app_state"
     _copy(REPO / "app" / "state" / "live", state / "live")
-    for f in ("spotcheck.json", "spotcheck_confirm100.json", "review.json", "public_verdicts.jsonl", "live_budget.json"):
+    # the person-check answers (spotcheck*.json, every set) are never copied: each test starts from none, as on a fresh clone
+    for f in ("review.json", "public_verdicts.jsonl", "live_budget.json"):
         _copy(REPO / "app" / "state" / f, state / f)
     targets = {"app.store": {"STATE": state}, "app.capture_audit": {"AUDITS": state / "audits", "TIMESTAMPS": state / "timestamps"},
                "app.live": {"LIVE_DIR": state / "live", "BUDGET_FILE": state / "live_budget.json"},
                "app.request": {"REQUESTS": state / "requests.jsonl"}, "app.review": {"FILE": state / "review.json"},
                "app.upload": {"UPLOADS": state / "uploads"}, "app.builder": {"TESTS_DIR": state / "uploads" / "builder"},
                "app.judge": {"FILE": state / "public_verdicts.jsonl"}, "app.spotcheck": {"FILE": state / "spotcheck.json",
-                                                                                               "FILE_C100": state / "spotcheck_confirm100.json"},
+                                                                                               "FILE_C100": state / "spotcheck_confirm100.json",
+                                                                                               "FILE_A200": state / "spotcheck_agree200.json",
+                                                                                               "FILE_C13": state / "spotcheck_colima13.json",
+                                                                                               "FILE_CR": state / "spotcheck_colimarecall.json"},
                "evolus.case": {"STATE_RUNS": state / "evolus_runs.jsonl", "CALLBACKS": state / "evolus_callbacks.jsonl"}}
     import importlib
     for mod in ("app.store", "app.capture_audit", "app.live", "app.request", "app.review", "app.upload", "app.judge",

@@ -720,7 +720,7 @@ footer .brand { margin-bottom: var(--s-3); }
 .rfoot { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: space-between; font-size: .8rem; color: var(--muted); }
 .rslide.on { animation: rfade .45s ease; }
 @keyframes rfade { from { opacity: .2; } to { opacity: 1; } }
-.f-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: var(--s-5); }
+.f-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: var(--s-4); }
 .f-diff { margin: 12px 0 0; font-size: .9rem; color: var(--muted); }
 
 .measured .stat .v { font-size: 1.85rem; white-space: nowrap; }
@@ -841,7 +841,7 @@ section.st-ans { margin-top: var(--s-6); }
 .f-two { margin: 6px 0 0; font-size: .98rem; font-weight: 600; color: var(--ink-2); }
 .f-reg { margin: 12px 0 0; font-size: 1.04rem; color: var(--ink-2); max-width: 52em; line-height: 1.55; }
 .f-reg a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--line); }
-.f-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-5); margin-top: var(--s-6); align-items: stretch; }
+.f-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-5); margin-top: var(--s-5); align-items: stretch; }
 .f-hero .rcard, .f-hero .strip { height: 100%; }
 .f-hero + .fold-note { margin-top: 12px; }
 .strip .nums.four { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
@@ -849,9 +849,9 @@ section.st-ans { margin-top: var(--s-6); }
 .strip .v .unit { font-size: .55em; font-weight: 650; letter-spacing: -0.01em; margin-left: 1px; color: var(--ink-2); }
 .strip .n-day .v { color: var(--ok); }
 .buyer { border: 1px solid var(--accent-soft); }
-.f-hero .buyer-hero { order: 2; grid-column: 1 / -1; }
+.buyer-hero { margin-top: var(--s-5); }   /* under the first-screen actions: the main button stays above the fold */
 .below-fold .buyer-phone { margin: 0 0 14px; text-align: left; }
-@media (max-width: 560px) { .f-hero .buyer-hero { display: none; } }   /* the .m-only breakpoint */
+@media (max-width: 560px) { .buyer-hero { display: none; } }   /* the .m-only breakpoint */
 @media (max-width: 860px) {
   .f-hero { grid-template-columns: minmax(0, 1fr); }
 }

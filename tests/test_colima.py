@@ -96,10 +96,13 @@ def test_colimarecall_set_is_the_candidates_blind_and_reports_only_when_complete
 
 def test_recall_pitch_is_scoped_and_in_every_pitch_text():
     """Amendment 9 as the pitch texts state it: from results/colima/recall.json, scoped (one state, certified-detectable
-    errors), never total recall; in the README, lablab.md, slides, EVALUATION and the rendered Results page."""
+    errors), never total recall; in the README, slides, EVALUATION and the rendered Results page (lablab.md: the clause and
+    the one-sentence Limits line, not the full pitch twice)."""
     R = colima.recall_result()
     p, c = colima.recall_pitch(R), colima.recall_clause(R)
     k, m = R["caught"], R["missed"]
     assert f"{k} of {k + m} caught" in p and "not total recall" in p and "Colima" in p
     assert f"{k} of {k + m}" in c and "not total recall" in c
+    lim = colima.recall_limit(R)
+    assert f"{k} of {k + m} certified-detectable" in lim and "one state" in lim and "not total recall" in lim
     assert colima.recall_doc_mismatches() == [] and colima.recall_page_mismatches() == []

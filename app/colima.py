@@ -227,7 +227,7 @@ def recall_line(R: Optional[dict]) -> str:
 
 
 def recall_pitch(R: Optional[dict] = None) -> str:
-    """The measured recall as the pitch texts state it (README, lablab.md, slides, Results page, EVALUATION), with its
+    """The measured recall as the pitch texts state it (README, slides, Results page, EVALUATION), with its
     scope: errors the certified count reveals, one state; never total recall. Until scored: the in-progress line."""
     R = recall_result() if R is None else R
     if not R or not R.get("complete"):
@@ -245,6 +245,16 @@ def recall_clause(R: Optional[dict] = None) -> str:
         return ""
     k, m = R["caught"], R["missed"]
     return f"recall on certified-detectable errors {k} of {k + m} (Colima, pre-registered; not total recall)"
+
+
+def recall_limit(R: Optional[dict] = None) -> str:
+    """The scoped one-sentence recall of lablab.md's Limits paragraph ("" until scored); lablab states the full
+    recall_pitch nowhere else, only this and recall_clause."""
+    R = recall_result() if R is None else R
+    if not R or not R.get("complete"):
+        return ""
+    k, m = R["caught"], R["missed"]
+    return f"Recall: {k} of {k + m} certified-detectable errors, one state; not total recall."
 
 
 def recall_page_mismatches() -> list[str]:
@@ -365,6 +375,7 @@ def lines(F: Optional[dict] = None) -> Optional[dict]:
         "recall": recall_line(recall_result()),
         "recall_pitch": recall_pitch(),
         "recall_clause": recall_clause(),
+        "recall_limit": recall_limit(),
     }
 
 
@@ -393,15 +404,15 @@ def write_report() -> None:
 
 # doc -> the line keys it must carry, word for word (whitespace and ** ignored)
 DOCS = {"README.md": ("lablab", "scans", "recall_pitch", "recall_clause"),
-        "submission/lablab.md": ("lablab", "recall_pitch", "recall_clause"), "slides/slides.md": ("slide", "recall_pitch"),
+        "submission/lablab.md": ("lablab", "recall_limit", "recall_clause"), "slides/slides.md": ("slide", "recall_pitch"),
         "slides/two-hands.srt": ("caption",),
         "docs/EVALUATION.md": ("replication", "kinds", "tiers", "recall", "recall_pitch")}
-RECALL_KEYS = ("recall_pitch", "recall_clause")
+RECALL_KEYS = ("recall_pitch", "recall_clause", "recall_limit")
 
 
 def recall_doc_mismatches() -> list[str]:
-    """The Amendment 9 recall lines (recall_pitch, recall_clause) in every doc that must carry them, word for word."""
-    L = {"recall_pitch": recall_pitch(), "recall_clause": recall_clause()}
+    """The Amendment 9 recall lines (recall_pitch, recall_clause, recall_limit) in every doc that must carry them, word for word."""
+    L = {"recall_pitch": recall_pitch(), "recall_clause": recall_clause(), "recall_limit": recall_limit()}
     bad = []
     for doc, keys in DOCS.items():
         keys = [k for k in keys if k in RECALL_KEYS]
