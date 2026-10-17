@@ -32,10 +32,16 @@ def clip(pg, a, b, path, pad=14):
 def main():
     # masked crops served by the app
     for name, url in {"crop_070212B0100_SOBRANTES.jpg": "/crop/070212B0100/SOBRANTES.jpg?pad=0.02&label=0",
-                      "crop_110922C0100_OPT04.jpg": "/crop/110922C0100/OPT04.jpg?pad=0.02&label=0",
-                      "masked_110922C0100.jpg": "/masked/110922C0100.jpg"}.items():
+                      "crop_301477B0100_OPT07.jpg": "/crop/301477B0100/OPT07.jpg?pad=0.02&label=0"}.items():
         (OUT / name).write_bytes(urllib.request.urlopen(BASE + url).read())
         print("saved", name)
+    # The hero's whole masked page, cut just left of the (already blacked-out) names-and-signatures column, so the
+    # slide shows no black block; nothing unmasked is ever fetched.
+    import io
+    from PIL import Image
+    page = Image.open(io.BytesIO(urllib.request.urlopen(BASE + "/masked/301477B0100.jpg").read()))
+    page.crop((0, 0, 1560, page.height)).save(OUT / "masked_301477B0100_left.jpg", quality=90)
+    print("saved masked_301477B0100_left.jpg")
     with sync_playwright() as p:
         b = p.chromium.launch(channel="chrome", headless=True)
         pg = b.new_page(viewport={"width": 1180, "height": 900}, device_scale_factor=2)

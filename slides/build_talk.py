@@ -131,30 +131,40 @@ def annotated(src: str, alt: str, width: int, iw: int, ih: int, notes, band: int
 INK, ACC, BAD, OK = "#14161b", "#3047c0", "#b3261e", "#157042"
 slides = []
 
-# 1. Title: the whole masked page once, the row highlighted, and a zoomed inset of that row
-PW, PH = 720, round(720 * 1552 / 2400)               # masked page 110922C0100, 2400 x 1552
-PX, PY = 1080, 112
-HB = (936 * PW / 2400 - 4, 347 * PH / 1552 - 4, 619 * PW / 2400 + 8, 49 * PH / 1552 + 8)  # the Option 04 row
-IX, IY, IW = 120, 520, 820                           # the inset
+# 1. Title: the whole masked page once (cut left of the masked names-and-signatures column), the row highlighted,
+# a zoomed inset of that row (pointers only to what the paper says) and, beside it, the typed records as a ledger
+PW, PH = 600, round(600 * 1552 / 1560)               # masked page 301477B0100, cropped to 1560 x 1552
+PX, PY = 1200, 112
+HB = (936 * PW / 1560 - 4, 499 * PH / 1552 - 4, PW - 936 * PW / 1560 + 1, 49 * PH / 1552 + 8)  # the Option 07 row, to the frame edge
+IX, IY, IW = 540, 468, 640                           # the inset (the ledger sits left of it)
+LEDGER = "font-size:18px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)"
 slides.append(slide(1, f"""
-  <div style="position:absolute;left:120px;top:112px;width:900px">
-    <div class="wordmark" style="margin-bottom:40px">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
+  <div style="position:absolute;left:120px;top:112px;width:1000px">
+    <div class="wordmark" style="margin-bottom:36px">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
     <h1 style="font-size:100px">Two Hands</h1>
-    <p class="lead" style="margin-top:26px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
-    <p class="lead" style="margin-top:12px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
+    <p class="lead" style="margin-top:24px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
+    <p class="lead" style="margin-top:10px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
   </div>
   <div style="position:absolute;left:{PX}px;top:{PY}px;width:{PW}px">
-    <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_110922C0100.jpg" alt="The whole tally sheet 110922C0100, privacy-masked: the names-and-signatures column is blacked out">
+    <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_301477B0100_left.jpg" alt="Tally sheet 301477B0100, privacy-masked; the masked names-and-signatures column is left out of the frame">
       <div style="position:absolute;left:{HB[0]:.0f}px;top:{HB[1]:.0f}px;width:{HB[2]:.0f}px;height:{HB[3]:.0f}px;border:2px solid var(--accent);border-radius:3px"></div></div>
-    <p class="cap" style="margin-top:10px">Tally sheet 110922C0100 (INE 2024), privacy-masked: the names-and-signatures column is blacked out.</p>
+    <p class="cap" style="margin-top:10px">Tally sheet 301477B0100 (INE 2024), privacy-masked; the masked names-and-signatures column is outside the frame.</p>
   </div>
   <svg style="position:absolute;left:0;top:0;pointer-events:none" width="1920" height="1080">
     <line x1="{PX + HB[0]:.0f}" y1="{PY + HB[1] + HB[3]:.0f}" x2="{IX + IW}" y2="{IY}" stroke="#3047c0" stroke-width="1.5"/>
   </svg>
   <div style="position:absolute;left:{IX}px;top:{IY}px">
-    {annotated(A + "crop_110922C0100_OPT04.jpg", "Option 04 on form 110922C0100: words 'cincuenta y uno', digit boxes", IW, 619, 127, [
-        (0.30, 0.52, 0.0, "The paper: 51", "the words: cincuenta y uno; certified count: 51", ACC),
-        (0.955, 0.52, 0.66, "Gemma read 54", "digits and words; rows sum to 329, TOTAL 326: routed", BAD)], band=96)}
+    {annotated(A + "crop_301477B0100_OPT07.jpg", "Option 07 on form 301477B0100: words 'ciento veinte y ocho', boxes 1 2 8", IW, 619, 127, [
+        (0.30, 0.47, 0.0, "In words: ciento veinte y ocho", "the paper", ACC),
+        (0.88, 0.47, 0.62, "In digits: 128", "the paper", ACC)], band=96)}
+  </div>
+  <div style="position:absolute;left:120px;top:{IY - 6}px;width:370px">
+    <div style="{LEDGER};margin-bottom:4px">Option 07, as recorded</div>
+    <table>
+      <tr><td style="color:var(--muted);font-size:22px">Typed into the preliminary count</td><td class="r" style="font-size:34px;font-weight:600;color:var(--bad)"><s>228</s></td></tr>
+      <tr><td style="color:var(--muted);font-size:22px">Gemma read</td><td class="r" style="font-size:34px;font-weight:600">128</td></tr>
+      <tr><td style="color:var(--muted);font-size:22px">Certified count</td><td class="r" style="font-size:34px;font-weight:600">128</td></tr>
+    </table>
   </div>
   <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:796px">
     <div class="stat"><div class="v" style="font-size:60px">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
@@ -162,7 +172,7 @@ slides.append(slide(1, f"""
     <div class="stat"><div class="v" style="font-size:60px">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
     <div class="stat"><div class="v" style="font-size:60px">$1</div><div class="l">per sheet audited (proposed)</div></div>
   </div>
-""", "Form 110922C0100, Option 04 (docs/GEMMA.md 'Misreads the arithmetic caught'): Gemma read 54 in the digits and 54 in the words; the paper says 51 (the official capture keyed 51, the certified count says 51). The gate refused the form: rows sum to TOTAL, 329 != 326; with the paper's 51 it is 326 = 326. Page and crop from the app's /masked and /crop endpoints."))
+""", "Form 301477B0100, Option 07 (results/adjudication/CERTIFIED.md and SUMMARY.md): words 'Ciento veinte y ocho', boxes 1 2 8; the first capture (PREP) keyed 228; Gemma read 128 in digits and words; the certified count says 128. One of the 22 confirmed by the certified count on the random 300. Page from the app's /masked endpoint, cut at x = 1560 so the masked column is not shown; crop from /crop/301477B0100/OPT07.jpg?pad=0.02&label=0."))
 
 # 2. The problem
 slides.append(slide(2, f"""
@@ -309,11 +319,11 @@ slides.append(slide(10, f"""
     <div class="c7">
       {annotated(A + "crop_070212B0100_SOBRANTES.jpg", "Unused ballots on form 070212B0100: boxes 3 1 4, words line blank", 960, 744, 158, [
           (0.45, 0.50, 0.0, "Words line: blank", "no second reading to compare", INK),
-          (0.90, 0.50, 0.62, "The model read 3114", "the paper says 314", BAD)], band=110)}
+          (0.90, 0.50, 0.62, "The paper: 314", "in digits", ACC)], band=110)}
       <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
     </div>
     <div class="c5 facts">
-      <div><div class="k">The blind spot</div><p>Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
+      <div><div class="k">The blind spot</div><p>The model read <b class="bad">3114</b>. Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
       <div><div class="k">Held out</div><p>On 100 fresh forms the frozen gate let it through. Gate v2, digits and words both read and equal, blocked it: <b class="ok">0 wrong of 484</b>.</p></div>
       <div><div class="k">Scope</div><p>Clerical capture quality only. Most forms still go to a person. Not an official INE product.</p></div>
     </div>

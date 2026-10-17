@@ -77,23 +77,31 @@ pre.cmd { font-family: var(--mono); font-size: 24px; color: var(--ink); backgrou
 .wordmark { display: flex; align-items: center; gap: 18px; font-size: 26px; font-weight: 600; color: var(--ink); margin-bottom: 70px; }
 .wordmark svg { width: 44px; height: 44px; }
 </style></head><body><section class="slide">
-  <div style="position:absolute;left:120px;top:112px;width:900px">
-    <div class="wordmark" style="margin-bottom:40px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
+  <div style="position:absolute;left:120px;top:112px;width:1000px">
+    <div class="wordmark" style="margin-bottom:36px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
 <span>AMD Developer Hackathon ACT III</span></div>
     <h1 style="font-size:100px">Two Hands</h1>
-    <p class="lead" style="margin-top:26px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
-    <p class="lead" style="margin-top:12px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
+    <p class="lead" style="margin-top:24px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
+    <p class="lead" style="margin-top:10px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
   </div>
-  <div style="position:absolute;left:1080px;top:112px;width:720px">
-    <div class="frame" style="position:relative;border-radius:6px"><img src="talk/assets/masked_110922C0100.jpg" alt="The whole tally sheet 110922C0100, privacy-masked: the names-and-signatures column is blacked out">
-      <div style="position:absolute;left:277px;top:100px;width:194px;height:23px;border:2px solid var(--accent);border-radius:3px"></div></div>
-    <p class="cap" style="margin-top:10px">Tally sheet 110922C0100 (INE 2024), privacy-masked: the names-and-signatures column is blacked out.</p>
+  <div style="position:absolute;left:1200px;top:112px;width:600px">
+    <div class="frame" style="position:relative;border-radius:6px"><img src="talk/assets/masked_301477B0100_left.jpg" alt="Tally sheet 301477B0100, privacy-masked; the masked names-and-signatures column is left out of the frame">
+      <div style="position:absolute;left:356px;top:188px;width:241px;height:27px;border:2px solid var(--accent);border-radius:3px"></div></div>
+    <p class="cap" style="margin-top:10px">Tally sheet 301477B0100 (INE 2024), privacy-masked; the masked names-and-signatures column is outside the frame.</p>
   </div>
   <svg style="position:absolute;left:0;top:0;pointer-events:none" width="1920" height="1080">
-    <line x1="1357" y1="235" x2="940" y2="520" stroke="#3047c0" stroke-width="1.5"/>
+    <line x1="1556" y1="327" x2="1180" y2="468" stroke="#3047c0" stroke-width="1.5"/>
   </svg>
-  <div style="position:absolute;left:120px;top:520px">
-    <div class="ann" style="width:820px;height:264px"><div class="img"><img src="talk/assets/crop_110922C0100_OPT04.jpg" alt="Option 04 on form 110922C0100: words 'cincuenta y uno', digit boxes"></div><svg class="lines" width="820" height="264"><circle cx="246" cy="87" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="246,94 246,182 0,182 0,196" fill="none" stroke="#3047c0" stroke-width="1.5"/><circle cx="783" cy="87" r="7" fill="none" stroke="#b3261e" stroke-width="2.5"/><polyline points="783,94 783,182 541,182 541,196" fill="none" stroke="#b3261e" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:202px;border-left:2px solid #3047c0;padding-left:14px">The paper: 51<span class="sm">the words: cincuenta y uno; certified count: 51</span></div><div class="lbl" style="left:541px;top:202px;border-left:2px solid #b3261e;padding-left:14px">Gemma read 54<span class="sm">digits and words; rows sum to 329, TOTAL 326: routed</span></div></div>
+  <div style="position:absolute;left:540px;top:468px">
+    <div class="ann" style="width:640px;height:227px"><div class="img"><img src="talk/assets/crop_301477B0100_OPT07.jpg" alt="Option 07 on form 301477B0100: words 'ciento veinte y ocho', boxes 1 2 8"></div><svg class="lines" width="640" height="227"><circle cx="192" cy="62" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="192,69 192,145 0,145 0,159" fill="none" stroke="#3047c0" stroke-width="1.5"/><circle cx="563" cy="62" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="563,69 563,145 397,145 397,159" fill="none" stroke="#3047c0" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:165px;border-left:2px solid #3047c0;padding-left:14px">In words: ciento veinte y ocho<span class="sm">the paper</span></div><div class="lbl" style="left:397px;top:165px;border-left:2px solid #3047c0;padding-left:14px">In digits: 128<span class="sm">the paper</span></div></div>
+  </div>
+  <div style="position:absolute;left:120px;top:462px;width:370px">
+    <div style="font-size:18px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Option 07, as recorded</div>
+    <table>
+      <tr><td style="color:var(--muted);font-size:22px">Typed into the preliminary count</td><td class="r" style="font-size:34px;font-weight:600;color:var(--bad)"><s>228</s></td></tr>
+      <tr><td style="color:var(--muted);font-size:22px">Gemma read</td><td class="r" style="font-size:34px;font-weight:600">128</td></tr>
+      <tr><td style="color:var(--muted);font-size:22px">Certified count</td><td class="r" style="font-size:34px;font-weight:600">128</td></tr>
+    </table>
   </div>
   <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:796px">
     <div class="stat"><div class="v" style="font-size:60px">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
@@ -101,7 +109,7 @@ pre.cmd { font-family: var(--mono); font-size: 24px; color: var(--ink); backgrou
     <div class="stat"><div class="v" style="font-size:60px">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
     <div class="stat"><div class="v" style="font-size:60px">$1</div><div class="l">per sheet audited (proposed)</div></div>
   </div>
-<aside class="notes">Form 110922C0100, Option 04 (docs/GEMMA.md 'Misreads the arithmetic caught'): Gemma read 54 in the digits and 54 in the words; the paper says 51 (the official capture keyed 51, the certified count says 51). The gate refused the form: rows sum to TOTAL, 329 != 326; with the paper's 51 it is 326 = 326. Page and crop from the app's /masked and /crop endpoints.</aside><div class="foot"><span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
+<aside class="notes">Form 301477B0100, Option 07 (results/adjudication/CERTIFIED.md and SUMMARY.md): words 'Ciento veinte y ocho', boxes 1 2 8; the first capture (PREP) keyed 228; Gemma read 128 in digits and words; the certified count says 128. One of the 22 confirmed by the certified count on the random 300. Page from the app's /masked endpoint, cut at x = 1560 so the masked column is not shown; crop from /crop/301477B0100/OPT07.jpg?pad=0.02&label=0.</aside><div class="foot"><span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
 Two Hands</span><span class="n">01</span></div></section><section class="slide">
   <div class="kicker">The problem, from INE's own files</div>
   <h2>Two official records of the same paper disagree. <span class="mute">Neither says which one is right.</span></h2>
@@ -226,11 +234,11 @@ Two Hands</span><span class="n">09</span></div></section><section class="slide">
   <h2>Read 3114, paper 314. <span class="acc">Gate v2 sends it to a person.</span></h2>
   <div class="g">
     <div class="c7">
-      <div class="ann" style="width:960px;height:314px"><div class="img"><img src="talk/assets/crop_070212B0100_SOBRANTES.jpg" alt="Unused ballots on form 070212B0100: boxes 3 1 4, words line blank"></div><svg class="lines" width="960" height="314"><circle cx="432" cy="102" r="7" fill="none" stroke="#14161b" stroke-width="2.5"/><polyline points="432,109 432,218 0,218 0,232" fill="none" stroke="#14161b" stroke-width="1.5"/><circle cx="864" cy="102" r="7" fill="none" stroke="#b3261e" stroke-width="2.5"/><polyline points="864,109 864,218 595,218 595,232" fill="none" stroke="#b3261e" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:238px;border-left:2px solid #14161b;padding-left:14px">Words line: blank<span class="sm">no second reading to compare</span></div><div class="lbl" style="left:595px;top:238px;border-left:2px solid #b3261e;padding-left:14px">The model read 3114<span class="sm">the paper says 314</span></div></div>
+      <div class="ann" style="width:960px;height:314px"><div class="img"><img src="talk/assets/crop_070212B0100_SOBRANTES.jpg" alt="Unused ballots on form 070212B0100: boxes 3 1 4, words line blank"></div><svg class="lines" width="960" height="314"><circle cx="432" cy="102" r="7" fill="none" stroke="#14161b" stroke-width="2.5"/><polyline points="432,109 432,218 0,218 0,232" fill="none" stroke="#14161b" stroke-width="1.5"/><circle cx="864" cy="102" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="864,109 864,218 595,218 595,232" fill="none" stroke="#3047c0" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:238px;border-left:2px solid #14161b;padding-left:14px">Words line: blank<span class="sm">no second reading to compare</span></div><div class="lbl" style="left:595px;top:238px;border-left:2px solid #3047c0;padding-left:14px">The paper: 314<span class="sm">in digits</span></div></div>
       <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
     </div>
     <div class="c5 facts">
-      <div><div class="k">The blind spot</div><p>Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
+      <div><div class="k">The blind spot</div><p>The model read <b class="bad">3114</b>. Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
       <div><div class="k">Held out</div><p>On 100 fresh forms the frozen gate let it through. Gate v2, digits and words both read and equal, blocked it: <b class="ok">0 wrong of 484</b>.</p></div>
       <div><div class="k">Scope</div><p>Clerical capture quality only. Most forms still go to a person. Not an official INE product.</p></div>
     </div>
