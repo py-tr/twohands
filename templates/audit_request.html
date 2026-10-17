@@ -6,10 +6,10 @@
   <div class="eyebrow">Request an audit</div>
   {% if done %}
   <h1>Request received</h1>
-  <p class="lede">We have your request. We reply by email to confirm the files and the deadline before any work starts.</p>
+  <p class="lede">I have your request. I reply by email to confirm the files and the deadline before any work starts.</p>
   {% else %}
-  <h1>We audit your keyed capture against its paper</h1>
-  <p class="lede">Tell us what you have. Every keyed field is compared with the paper; you get the disputed fields ordered by evidence, each with its photo and a Merkle receipt, and a person decides each one.</p>
+  <h1>I audit your keyed capture against its paper</h1>
+  <p class="lede">Tell me what you have. Every keyed field is compared with the paper; you get the disputed fields ordered by evidence, each with its photo and a Merkle receipt, and a person decides each one.</p>
   {% endif %}
 </section>
 
@@ -51,9 +51,9 @@
       <label class="rq-f"><span>Deadline</span><input name="deadline" type="date" min="{{ today }}" required value="{{ f.deadline or '' }}">{% if err.deadline %}<em class="rq-err">{{ err.deadline }}</em>{% endif %}</label>
       <div class="rq-f rq-quote"><span>Price</span><b id="quote">{% if f.forms %}&nbsp;{% else %}{{ PT.price }}{% endif %}</b></div>
     </div>
-    <label class="rq-f"><span>Anything we should know <i class="muted">(optional)</i></span><textarea name="notes" rows="3" maxlength="1000">{{ f.notes or '' }}</textarea></label>
+    <label class="rq-f"><span>Anything I should know <i class="muted">(optional)</i></span><textarea name="notes" rows="3" maxlength="1000">{{ f.notes or '' }}</textarea></label>
     <label class="rq-hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
-    <div class="actions" style="margin-top:6px;align-items:center"><button class="btn dark" type="submit">{{ icon('arrow') }}Send the request</button><span class="small muted">No payment now. We reply by email.</span></div>
+    <div class="actions" style="margin-top:6px;align-items:center"><button class="btn dark" type="submit">{{ icon('arrow') }}Send the request</button><span class="small muted">No payment now. I reply by email.</span></div>
   </form>
 
   <aside class="card au-what">

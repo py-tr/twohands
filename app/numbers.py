@@ -281,7 +281,7 @@ def lines(H: dict, T: dict | None = None) -> dict:
                        f"too few to measure; the measured recall is the Colima check."),
         "receipt": (f"The paper says {rc['paper']}, the first capture keyed {rc['prep']}, the certified count says "
                     f"{rc['certified']}."),
-        "product": (f"Give us your keyed data and the scans. You get the {H['flag_pct']:.0f}% of fields to look at, "
+        "product": (f"Give me your keyed data and the scans. You get the {H['flag_pct']:.0f}% of fields to look at, "
                     f"each with its photo."),
         "qwen": TL["qwen"],
         "two_readers": TL["two_readers"],

@@ -153,7 +153,7 @@ slides.append(slide(1, f"""
     <h1 style="font-size:96px">Two Hands</h1>
     <p class="lead" style="margin-top:18px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
     <p class="lead" style="margin-top:10px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
-    <p style="margin-top:12px;font-size:21px;line-height:1.4;color:var(--ink-2);font-weight:500">For any handwritten form whose numbers must add up: cheques, invoices, tally sheets, health registers, ledgers. Tested on Mexico's vote counts.</p>
+    <p style="margin-top:12px;font-size:21px;line-height:1.4;color:var(--ink-2);font-weight:500">For the institutes that run Mexico's vote counts and their auditors, and any handwritten form whose numbers must add up.</p>
   </div>
   <div style="position:absolute;left:{PX}px;top:{PY}px;width:{PW}px">
     <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_080310B0100_left.jpg" alt="Tally sheet 080310B0100, privacy-masked; the masked names-and-signatures column is left out of the frame">
@@ -192,7 +192,7 @@ slides.append(slide(2, f"""
       {annotated("receipt_050815B0100.jpg", "Option 07 on form 050815B0100: words 'ciento setenta y cinco' (175), boxes 1 7 5", 1080, 619, 102, [
           (0.29, 0.80, 0.0, "In words: ciento setenta y cinco (175)", "the paper", ACC, 0.28, 0.50),
           (0.865, 0.70, 0.62, "In digits: 175", "the paper", ACC, 0.09, 0.833)], band=112)}
-      <p class="cap" style="margin-top:0">Form 050815B0100, Option 07 (masked, cropped right of the logo column). One of the 52 on our random 300.</p>
+      <p class="cap" style="margin-top:0">Form 050815B0100, Option 07 (masked, cropped right of the logo column). One of the 52 on my random 300.</p>
     </div>
     <div class="c4">
       <div style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">The two typed records of this field</div>
@@ -245,7 +245,7 @@ slides.append(slide(4, f"""
         <div class="stat" style="border-top:1px solid var(--line)"><div class="v">27<small> of 28</small></div><div class="l">caught, 96% (Wilson 95% 82-99%), pre-registered</div></div>
         <div class="stat" style="border-top:1px solid var(--line)"><div class="v">0<small> of 484</small></div><div class="l">accepted fields wrong on 100 fresh forms (gate v2, fixed before the draw; Wilson 95% upper bound 0.79%)</div></div>
       </div>
-      <p style="margin-top:34px;border-top:1px solid var(--line);padding-top:20px">A person re-read the AI-judged disputes blind: <b>0 read differently</b>.</p>
+      <p style="margin-top:34px;border-top:1px solid var(--line);padding-top:20px">I re-read the AI-judged disputes myself, blind to its answers: <b>0 read differently</b>. Every crop is public.</p>
     </div>
   </div>
 """, "1,270 = 289 of a random 300 (11 pages not located) + Colima's 982 located sheets - 1 sheet in both (060079C0300). 49 = 22 confirmed by the certified count on the random 300 + 27 in Colima (all 982 located presidential sheets for $0.14). On the 300: 52 fields where the official capture does not match the paper, in 6,358; 267 disputed; 55 forms accepted with no person, 2 of 1,210 fields wrong. Recall: results/colima/recall.md (PROTOCOL.md Amendment 9). Fresh 100: results/confirm100.md."))
@@ -254,7 +254,7 @@ slides.append(slide(4, f"""
 slides.append(slide(5, """
   <div class="kicker">Against the incumbent · Baja California Sur, 2024 local actas</div>
   <h2 style="margin-bottom:22px">91.6% field match, where the reading the state bought scored 62.84%.</h2>
-  <p class="lead" style="font-size:28px;color:var(--muted);max-width:1500px">Same per-field exact-match metric on Baja California Sur's 2024 local actas: ours on a pre-registered random 300, against the published values; theirs on all 2,020, against the manual capture.</p>
+  <p class="lead" style="font-size:28px;color:var(--muted);max-width:1500px">Same per-field exact-match metric on Baja California Sur's 2024 local actas: mine on a pre-registered random 300, against the published values; theirs on all 2,020, against the manual capture.</p>
   <div class="bars" style="margin-top:60px">
     <div class="row"><div class="name">Two Hands<span>Gemma on AMD · random 300 actas, pre-registered</span></div>
       <div class="trk"><div class="bar" style="width:calc(91.6% * 0.85);background:var(--accent)"></div><div class="val acc">91.6%</div></div></div>
@@ -262,19 +262,19 @@ slides.append(slide(5, """
       <div class="trk"><div class="bar" style="width:calc(62.84% * 0.85);background:#b9bdc6"></div><div class="val muted">62.84%</div></div></div>
   </div>
   <p style="margin:40px 0 0 532px;max-width:1100px;color:var(--muted);font-size:22px">Ours: 91.58% of 3,622 fields, Wilson 95% 90.63-92.44%. Theirs: 14,501 of 23,077 fields.</p>
-""", "README 'Against the incumbent'; results/ieebcs/score.json, scripts/ieebcs_score.py --check. Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. Second keying by a person, the rule today: at least 0.8% of fields in our random sample still do not match the paper."))
+""", "README 'Against the incumbent'; results/ieebcs/score.json, scripts/ieebcs_score.py --check. Two Hands accepts only what the paper's arithmetic proves and routes the rest with the photo. Second keying by a person, the rule today: at least 0.8% of fields in my random sample still do not match the paper."))
 
 # 6. Why Gemma
 slides.append(slide(6, """
   <div class="kicker">Gemma on AMD Token Factory</div>
-  <h2>Same 300 forms, gate v1: Gemma accepts 1.8× the forms Qwen does, 4.6× cheaper, 2.8× faster.</h2>
+  <h2>Same 300 forms, same checks: Gemma accepts 1.8× the forms Qwen does, 4.6× cheaper, 2.8× faster.</h2>
   <table style="max-width:1680px">
     <tr><th>Reader, on AMD</th><th class="r">Forms accepted</th><th class="r">Wrong of accepted fields</th><th class="r">$ per 1,000 forms</th><th class="r">Time per read</th></tr>
     <tr class="hi"><td>Gemma-4-31B-IT</td><td class="r acc">55 of 300</td><td class="r">2 of 1,210</td><td class="r acc">$0.14</td><td class="r acc">87 s</td></tr>
     <tr><td>Qwen3.8-27B</td><td class="r">31 of 300</td><td class="r">1 of 682</td><td class="r">$0.64</td><td class="r">241 s</td></tr>
     <tr><td>Both must agree, the paper's sums as referee</td><td class="r">89 of 300</td><td class="r ok"><b class="ok">0 of 1,958</b></td><td class="r">$0.78</td><td class="r">–</td></tr>
   </table>
-  <p class="cap" style="font-size:21px">Rows 1-2: the first gate (v1) on the pre-registered 300. Row 3: two readers, a lighter gate, a secondary analysis. Gate v2 on 100 fresh forms: slide 7. Source: app/data/bakeoff_300.json.<br>Time per read: wall clock in the 300 run (2 in flight, our own pacing). Measured separately on the shared endpoint, 4 in flight (12 requests): 4.8 forms/min, 32 s p50 and 67 s p95 per read; 9.6 output tokens/s per request (300 run). For an audit after the count: Colima's 982 sheets in about 3.4 hours (results/throughput_sweep.json).</p>
+  <p class="cap" style="font-size:21px">Rows 1-2: the first gate (v1) on the pre-registered 300. Row 3: two readers, a lighter gate, a secondary analysis. Gate v2 on 100 fresh forms: slide 7. Source: app/data/bakeoff_300.json.<br>Time per read: wall clock in the 300 run (2 in flight, my own pacing). Measured separately on the shared endpoint, 4 in flight (12 requests): 4.8 forms/min, 32 s p50 and 67 s p95 per read; 9.6 output tokens/s per request (300 run). For an audit after the count: Colima's 982 sheets in about 3.4 hours (results/throughput_sweep.json).</p>
   <div style="display:grid;grid-template-columns:auto 1fr;column-gap:48px;align-items:center;margin-top:64px;border-top:1px solid var(--line);padding-top:36px">
     <div class="v acc" style="font-size:112px;font-weight:600;letter-spacing:-2.5px;line-height:1;font-variant-numeric:tabular-nums">$0.14</div>
     <p style="font-size:34px;line-height:1.35;color:var(--ink-2)"><b>Colima, a whole state:</b> all 982 located presidential sheets, read by Gemma on AMD.</p>
@@ -303,7 +303,7 @@ slides.append(slide(7, f"""
 # 8. Business
 slides.append(slide(8, f"""
   <div class="kicker">Business at a glance</div>
-  <h2 style="margin-bottom:40px">An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
+  <h2 style="margin-bottom:24px">An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
   <div class="g">
     <div class="c7"><div class="frame"><div style="overflow:hidden;height:196px"><img style="margin-top:-18px" src="{A}report_header.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root e56a8ef4f011b9e5"></div>
         <div style="border-top:1px solid var(--line)"><img src="{A}report_item_050815B0100.png" alt="Dispute 3: 050815B0100 Option 07, keyed 75, model digits 175, words 175, strong evidence"></div></div>
@@ -313,11 +313,11 @@ slides.append(slide(8, f"""
     <div class="c5 facts tight">
       <div><div class="k">Buyer</div><p>INE and the 32 state institutes, each with an outside auditor.</p></div>
       <div><div class="k">Why now</div><p><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. First step: a <b>paid shadow-mode pilot</b> on one state's count.</p></div>
-      <div><div class="k">One state, priced</div><p>Morelos paid MXN 26.6M to run its 2024 PREP. Our check of every sheet: about <b>MXN 143k</b>, 0.5% of that. The federal count, 169,005 sheets: about $169,000.</p></div>
-      <div><div class="k">Next</div><p>Same check: cheques, invoices, health reports, election tally sheets in other countries. At least 7 more countries publish the same tally data; health reporting on DHIS2 in 70+ countries.</p></div>
+      <div><div class="k">One state, priced</div><p>Morelos paid MXN 26.6M to run its 2024 PREP. My check of every sheet: about <b>MXN 143k</b>, 0.5% of that. The federal count, 169,005 sheets: about $169,000.</p></div>
+      <div><div class="k">Next</div><p style="font-size:22px;line-height:1.38">The check is the form's own arithmetic, so it isn't tied to elections. Proven on two form types: Mexico's tally sheets and UK rainfall ledgers (1850-1960), once typed by ~16,000 volunteers, no retraining. Next: tally sheets in at least 7 more countries that publish their images, and the monthly health-facility reports behind DHIS2, used in 70+ countries.</p></div>
     </div>
   </div>
-""", "README 'Business at a glance'. All 26 auditors named in 2024 were universities. INE budgeted MXN 9.5M for automated capture in 2024 and bought none. AMD compute $0.00014 per sheet. Reviewer work: about one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. Next, the same check: cheques, invoices, health reports, election tally sheets in other countries; the same public tally data in 7 more countries; DHIS2 health reporting in 70+ countries."))
+""", "README 'Business at a glance'. All 26 auditors named in 2024 were universities. INE budgeted MXN 9.5M for automated capture in 2024 and bought none. AMD compute $0.00014 per sheet. Reviewer work: about one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. Next: The check is the form's own arithmetic, so it isn't tied to elections. Proven on two form types: Mexico's tally sheets and UK rainfall ledgers (1850-1960), no retraining. Next: tally sheets in at least 7 more countries that publish their images, and the monthly health-facility reports behind DHIS2, used in 70+ countries."))
 
 # 9. Check it yourself
 slides.append(slide(9, """

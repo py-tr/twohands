@@ -19,6 +19,6 @@
   "2026-10-17T01:56"
  ],
  "http_errors": 0,
- "completed_line": "150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score matches ours",
- "line": "Evolus workspace py_tr: 150 \"Audit finding\" executions of real routed fields (100 from the 300 run, 50 from Colima): 150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score matches ours; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl."
+ "completed_line": "150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score matches mine",
+ "line": "Evolus workspace py_tr: 150 \"Audit finding\" executions of real routed fields (100 from the 300 run, 50 from Colima): 150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score matches mine; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl."
 }

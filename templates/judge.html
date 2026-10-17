@@ -4,7 +4,7 @@
 <section class="page-head judge">
   <div class="eyebrow">Judge this verdict yourself</div>
   <h1>What does the paper say?</h1>
-  <p class="lede">Form <span class="mono">{{ clave }}</span> · <b>{{ name }}</b>. You see only the photo: no capture, no model read, no verdict. Type the digits in the boxes; the words are optional, and you need no Spanish (the helper below gives every number word). Then we show you ours.</p>
+  <p class="lede">Form <span class="mono">{{ clave }}</span> · <b>{{ name }}</b>. You see only the photo: no capture, no model read, no verdict. Type the digits in the boxes; the words are optional, and you need no Spanish (the helper below gives every number word). Then I show you mine.</p>
 </section>
 <section class="judge-body">
   <div class="card">
@@ -17,7 +17,7 @@
         <label><input type="checkbox" id="blank"> blank</label>
         <label><input type="checkbox" id="cant_tell"> can't tell</label>
       </div>
-      <div class="j-act"><button class="btn primary" type="submit">Show our verdict</button><span id="jerr" class="j-err"></span></div>
+      <div class="j-act"><button class="btn primary" type="submit">Show my verdict</button><span id="jerr" class="j-err"></span></div>
     </form>
     <div id="reveal" class="j-reveal" hidden>
       <p class="j-you">You read <b class="mono" id="r-you"></b>. <span id="r-agree"></span></p>
@@ -27,7 +27,7 @@
         <div class="box"><div class="l">The certified count</div><div class="v" id="r-cert"></div></div>
       </div>
       <p class="small en-cap" id="r-caption" style="margin:12px 0 0" hidden></p>
-      <p class="small" style="margin:12px 0 0"><b>Our verdict.</b> <span id="r-verdict"></span></p>
+      <p class="small" style="margin:12px 0 0"><b>My verdict.</b> <span id="r-verdict"></span></p>
       <p class="small muted" id="r-count" style="margin:8px 0 0"></p>
     </div>
   </div>
@@ -36,7 +36,7 @@
     <table class="j-helper small">{% for w, n in helper %}<tr><td><i>{{ w }}</i></td><td class="mono">{{ n }}</td></tr>{% endfor %}</table>
     <p class="tiny muted" style="margin:6px 0 0">Example: <i>ciento setenta y cinco</i> = 100 + 70 + 5 = 175; <i>cuatrocientos dieciséis</i> = 400 + 16 = 416.</p>
   </details>
-  <p class="small muted" style="margin-top:12px">Your answer is stored anonymously as agree or disagree with our verdict, once per verdict: no address, no account, not what you typed. <a href="{{ back }}">Back</a></p>
+  <p class="small muted" style="margin-top:12px">Your answer is stored anonymously as agree or disagree with my verdict, once per verdict: no address, no account, not what you typed. <a href="{{ back }}">Back</a></p>
 </section>
 {% endblock %}
 {% block scripts %}
@@ -54,8 +54,8 @@
         if (!x[0]) { e.textContent = x[1].error || 'not saved'; return; }
         var j = x[1];
         document.getElementById('r-you').textContent = show(j.reading);
-        document.getElementById('r-agree').textContent = j.agree ? 'That agrees with our verdict.' : 'That differs from our verdict.';
-        document.getElementById('r-paper-l').textContent = j.adjudicated ? 'The paper, as adjudicated' : 'The paper, as our model read it';
+        document.getElementById('r-agree').textContent = j.agree ? 'That agrees with my verdict.' : 'That differs from my verdict.';
+        document.getElementById('r-paper-l').textContent = j.adjudicated ? 'The paper, as adjudicated' : 'The paper, as the model read it';
         document.getElementById('r-paper').textContent = show(j.paper);
         document.getElementById('r-capture').textContent = show(j.capture);
         document.getElementById('r-cert').textContent = j.certified === null ? 'not covered' : show(j.certified);

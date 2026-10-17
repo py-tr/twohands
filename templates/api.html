@@ -37,7 +37,7 @@
   <div class="card">
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="method">GET</span><span class="mono">/api/station/{station}</span><span class="method post">POST</span><span class="mono">/api/station/{station}/queue</span></div>
     <h3 style="margin:12px 0 6px">Any polling station</h3>
-    <p class="small muted">What we have for one station: a measured read with its receipts, the live audit's read, or "not audited yet"; queue a live read and get its place. Search ids with <span class="mono">/api/station/search?q=2024</span>; the live strip's numbers at <span class="mono">/api/live-strip</span>.</p>
+    <p class="small muted">What I have for one station: a measured read with its receipts, the live audit's read, or "not audited yet"; queue a live read and get its place. Search ids with <span class="mono">/api/station/search?q=2024</span>; the live strip's numbers at <span class="mono">/api/live-strip</span>.</p>
     {{ snippet('c4', "curl -s " ~ base ~ "/api/station/202451B0100") }}
   </div>
 </div>

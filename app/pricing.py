@@ -92,7 +92,7 @@ def texts() -> dict:
                        f"{ceiling_note(nat)}; INE's own line was MXN {INE_LINE_MXN / 1e6:.1f}M"),
         "ex_morelos_short": (f"Morelos paid MXN {MORELOS['prep_mxn'] / 1e6:.1f}M to run its 2024 PREP "
                              f"({MORELOS['actas']:,} sheets), including an MXN {MORELOS['audit_mxn'] / 1e6:.1f}M audit of "
-                             f"the software, not of the keyed values. Our check of every sheet: about MXN "
+                             f"the software, not of the keyed values. My check of every sheet: about MXN "
                              f"{mxn(mor) / 1e3:,.0f}k (${round(mor, -2):,.0f}), "
                              f"{100 * mxn(mor) / MORELOS['prep_mxn']:.1f}% of that."),
         "crops_per_sheet": f"{DISPUTED / READ_FORMS:.2f}",

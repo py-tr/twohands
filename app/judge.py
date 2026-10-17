@@ -95,7 +95,7 @@ def resolve(request: Request, clave: str, code: str, aid: Optional[str] = None) 
     return {"item": f"a:{aid}:{clave}__{code}", "clave": clave, "code": code, "name": d["name"], "img": d.get("img"),
             "paper": d["model"] if d["model"] is not None else "blank", "capture": d["keyed"], "certified": None,
             "verdict": "unadjudicated",
-            "verdict_text": (f"Not adjudicated: our read of the paper, {d['tier']} evidence that the keyed value is wrong. "
+            "verdict_text": (f"Not adjudicated: my read of the paper, {d['tier']} evidence that the keyed value is wrong. "
                              "The value above is the model's read, not a person's."),
             "adjudicated": False, "audit": aid}
 

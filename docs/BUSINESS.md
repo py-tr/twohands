@@ -2,13 +2,13 @@
 
 Every PREP tally sheet in Mexico is already captured twice and compared, by rule. Two Hands is an automated capture
 with a referee: a vision model on AMD, refereed by the paper's own arithmetic, with a receipt (the crop) for every field
-it disputes. What we sell for 2027 is that engine as an independent check of a finished capture.
+it disputes. What I sell for 2027 is that engine as an independent check of a finished capture.
 
-**One product, one buyer, for 2027.** Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.
+**One product, one buyer, for 2027.** Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what I measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.
 
-Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored (the head-to-head card).
+Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms I measured (and the Senate forms I read) are federal, processed by INE. My local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored (the head-to-head card).
 
-Every number here is either **measured** (we cite the file in this repo) or **cited** (we fetched the source and
+Every number here is either **measured** (I cite the file in this repo) or **cited** (I fetched the source and
 quote it). Anything beyond elections is labelled **next market, not measured**. One exchange rate throughout:
 MXN 18.3835 per USD (ECB, 2026-10-16) (https://api.frankfurter.app/latest?from=USD&to=MXN (ECB reference rate, fetched 2026-10-16)).
 
@@ -37,7 +37,7 @@ here; every measured number in it is recomputed from the raw results by `make ev
   section 0b, "Institutes already tried to buy machine reading"
   ([INE CCOE report, 26-08-2024](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10).
 
-**Price, reviewer work, capacity (ours).** The price is a proposal (`app/pricing.py`, section 2). AMD compute per sheet,
+**Price, reviewer work, capacity (mine).** The price is a proposal (`app/pricing.py`, section 2). AMD compute per sheet,
 crops per sheet (267 disputed fields on 289 read sheets) and fields per sheet (6,358 on 289) are measured
 (`results/calls_gemma.jsonl`, `app/data/headline.json`); the hours are Colima's 982 and Morelos's 7,802 sheets at the best
 measured rate of the shared endpoint (`results/throughput_sweep.json`, queueing included, not GPU time).
@@ -199,12 +199,12 @@ Elecciones** (RE) and its **Anexo 13, Lineamientos del PREP**:
   <https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/146752/CGor202211-29-ap-25-a.pdf>.
   INE's Dirección Jurídica lists INE/CG825/2022 (29 Nov 2022) as the latest modification of Anexo 13
   (<https://ine.mx/wp-content/uploads/2025/02/DJ-Anexos-ReglamentoElecciones-05-02-25.pdf>, list as of 5 Feb 2025).
-  The September 2026 consolidated Reglamento does not reprint its annexes, so we could not confirm that no 2025-2026
+  The September 2026 consolidated Reglamento does not reprint its annexes, so I could not confirm that no 2025-2026
   agreement changed Anexo 13 since.
 
 **Not verified, left out.** Anexo 13 fixes the minimum phases and roles. The exact mechanics (a second capture, a
-third on mismatch, a verification centre) are written in each institute's own PTO. We quote INE's federal PTO; we
-did not read the 32 state PTOs, and we do not claim each one copies numerals 33 to 35.
+third on mismatch, a verification centre) are written in each institute's own PTO. I quote INE's federal PTO; I
+did not read the 32 state PTOs, and I do not claim each one copies numerals 33 to 35.
 
 ### The official process, step by step
 
@@ -238,7 +238,7 @@ replace the person numeral 33 names.
 The measured case, on INE's own published 2024 capture:
 
 > In the preliminary capture (PREP, before the certified count's cómputos and before any later cotejo correction), at
-> least 0.8% of fields in our random sample do not match the paper (52 of 6,358); 1 in 5 of the fields our check
+> least 0.8% of fields in my random sample do not match the paper (52 of 6,358); 1 in 5 of the fields my check
 > disputes is a capture error (22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator, the
 > builder's model, which could see both values). The certified count later agrees with the paper on 22 of the 31 it
 > covers.
@@ -252,40 +252,40 @@ not dispute was not examined.
 
 **Scope.** Numeral 33 assigns the second capture to "una persona capturista/verificadora". A model as the
 second capture would be a change to the proceso técnico operativo that the institute's governing body must approve
-(RE art. 339.1 d), after INE's opinion (art. 339.2). We show evidence, not compliance. Two uses need no change to
+(RE art. 339.1 d), after INE's opinion (art. 339.2). I show evidence, not compliance. Two uses need no change to
 the text: a model as the automatic first capture, which numeral 30 already allows, and an outside check of a
-finished capture, which is what we measured.
+finished capture, which is what I measured.
 
 ### Institutes already tried to buy machine reading
 
-Evidence of demand and of a public bar, not a budget for our product. Source for the four lines: INE, PREP PEF 2023-2024, 'Captura Automática' report, CCOE 10th session 26-08-2024, https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf (page numbers are the report's own "N de 10").
+Evidence of demand and of a public bar, not a budget for my product. Source for the four lines: INE, PREP PEF 2023-2024, 'Captura Automática' report, CCOE 10th session 26-08-2024, https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf (page numbers are the report's own "N de 10").
 
-- INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from our check, and bought none (last line). (p. 4)
+- INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from my check, and bought none (last line). (p. 4)
 - IPN quoted MXN 19.9M for the service. (p. 4)
 - The acceptance bar was 80% agreement on words and digits. (p. 5)
 - The best entrant reached 75%; INE declined it as untested in a real election, and its advisers (COTAPREP) recommended a pilot. (pp. 5, 10)
 
-**Our engine is an automated capture with a referee. For 2027 we offer an independent check of a finished capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a pilot on 2024's own forms.**
+**Two Hands is an automated capture with a referee. For 2027 I offer an independent check of a finished capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a pilot on 2024's own forms.**
 
-On that metric as we read it, Gemma's existing reads of our pre-registered 300 agree with the official capture in words and digits on 83.5% of fields (5,508 of 6,600; failed reads and blank or illegible captures count against us).
-*INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.*
+On that metric as I read it, Gemma's existing reads of my pre-registered 300 agree with the official capture in words and digits on 83.5% of fields (5,508 of 6,600; failed reads and blank or illegible captures count against me).
+*INE's 2024 acceptance metric as I read it from the report, computed on my existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.*
 
 Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields (two readers, the paper's sums as referee), judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. (`results/two_reader_300.md`). Definition: `results/ine_metric_DEFINITION.md`, committed before the computation; result and secondary rows: `results/ine_metric.md`. This is not a result on INE's test set: different images, whole pages, and a reference (the official capture) with its own errors.
 
 Then, in order:
 
-1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. We check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185). Source: IMPEPAC, Informe Final PREP 23-24 v2.0, p. 56, https://impepac.mx/wp-content/uploads/2024/07/Informe%20Final%20PREP_23-24_V_2.0.pdf; audit scope: RE art. 347 numeral 1; INE's 2024 audit (UAM-I), PDF p. 7, https://ine.mx/wp-content/uploads/2024/06/2024-PREP-InformeFinalAuditoriav1.pdf.
+1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. I check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185). Source: IMPEPAC, Informe Final PREP 23-24 v2.0, p. 56, https://impepac.mx/wp-content/uploads/2024/07/Informe%20Final%20PREP_23-24_V_2.0.pdf; audit scope: RE art. 347 numeral 1; INE's 2024 audit (UAM-I), PDF p. 7, https://ine.mx/wp-content/uploads/2024/06/2024-PREP-InformeFinalAuditoriav1.pdf.
 2. Baja California Sur bought an AI first capture by direct award (Google Document AI, MXN 93,834.49); it matched the human capture on 2.88% of actas and 62.84% of fields. A machine already keys; the question is who referees it. Source: IEEBCS, Informe final del PREP 2023-2024, pp. 19 and 31, https://www.ieebcs.org.mx/documentos/acuerdos/INFORME_FINAL_PREP_PLE_2023-2024.pdf.
 3. Every state institute decides whether to run its PREP alone or with a third party at least six months before election day: for 6 June 2027, by about 6 December 2026. Guerrero has already decided: in-house, "con acompañamiento de un ente especializado". Source: Anexo 13 numeral 33 punto 7, as cited in IEPC Guerrero Acuerdo 057/SO/16-07-2026, considerando XI and XXVI-XXVII, https://www.iepcgro.mx/principal/uploads/gaceta/2026/7ord/acuerdo057.pdf.
 4. The 2027 buyer is the outside auditor or the contracted PREP operator, paid by the state institute (OPLE). At least 13 of the 17 outsourced 2024 state PREPs went to three firms: Informática Electoral S.C. (at least 8 states), Grupo Proisi (4) and PoderNet (1). Source: INE UTSI, Anexo 3 'Terceros que auxiliarán a los OPL', Feb 2024, https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a3.pdf; Morelos: IMPEPAC monthly PREP report, March 2024, p. 19; Campeche: Por Esto, 12 Mar 2024 (press).
 
 ### The cost of the problem
 
-On the 52,167 polling stations that were not recounted, INE's two official records of the same paper, the preliminary capture and the certified count, disagree on at least one vote field in 3,382 (6.5%). A difference says two captures disagree, not which one is right; the photo does. On our 300, the photo sided with the certified count on 22 of the 31 it covered. The preliminary count is preliminary by design; the certified count is the official result.
+On the 52,167 polling stations that were not recounted, INE's two official records of the same paper, the preliminary capture and the certified count, disagree on at least one vote field in 3,382 (6.5%). A difference says two captures disagree, not which one is right; the photo does. On my 300, the photo sided with the certified count on 22 of the 31 it covered. The preliminary count is preliminary by design; the certified count is the official result.
 
 19.2% (26,336 of 137,196) of fully captured national forms fail their own row sum in the official capture. The official capture recorded 28,607 fields as "Ilegible" on 6,009 actas.
 
-Sources: results/national_counts.md (scripts/national_counts.py, PREP 2024 CSV and Cómputos Distritales 2024 CSV); the 300: results/adjudication/CERTIFIED.md; row sums: PREP 2024 CSV, computed in docs/sources/tally-witness-pilot.md §1. Clerical only: no party, no totals, no outcome. Recounts are triggered by legal causes on the paper, not by the PREP, so we claim no recount savings.
+Sources: results/national_counts.md (scripts/national_counts.py, PREP 2024 CSV and Cómputos Distritales 2024 CSV); the 300: results/adjudication/CERTIFIED.md; row sums: PREP 2024 CSV, computed in docs/sources/tally-witness-pilot.md §1. Clerical only: no party, no totals, no outcome. Recounts are triggered by legal causes on the paper, not by the PREP, so I claim no recount savings.
 
 ### Two 2024 state PREPs, from their own final reports
 
@@ -307,8 +307,8 @@ Cómputo y Servicios Informáticos. Final report, *Informe final del PREP, Proce
   2,254 actas (2.88%)** in full.
 
 So one institute has already written a machine capture into its PTO, under numeral-30-style wording, with people
-for the second and third captures. We do not compare our numbers with theirs: different actas, a different
-measure (they count agreement with the human capture; we adjudicate disagreements on the paper).
+for the second and third captures. I do not compare my numbers with theirs: different actas, a different
+measure (they count agreement with the human capture; I adjudicate disagreements on the paper).
 
 **Morelos (IMPEPAC): a contracted operator.**
 
@@ -317,7 +317,7 @@ measure (they count agreement with the human capture; we adjudicate disagreement
   S.A. de C.V. also took part). IMPEPAC monthly PREP report, March 2024, p. 19,
   <https://impepac.mx/wp-content/uploads/2024/04/Informe_Marzo-2024_PREP.pdf>. The same report's p. 20 says the
   company ran recruitment, selection and training of operating staff. (p. 22 of that report says the company
-  "incumplió" the requirements yet was awarded; we read it as a typo and rely on p. 19.) Auditor: Universidad
+  "incumplió" the requirements yet was awarded; I read it as a typo and rely on p. 19.) Auditor: Universidad
   Autónoma del Estado de Morelos (p. 19).
 - Final report, *Informe Final PREP 23-24*, v2.0, 2 July 2024,
   <https://impepac.mx/wp-content/uploads/2024/07/Informe%20Final%20PREP_23-24_V_2.0.pdf>, pp. 3-4: gubernatura
@@ -352,9 +352,9 @@ for any IMPEPAC unit.
   Querétaro and Veracruz; Tec de Monterrey campuses for nine states; CINVESTAV, CIMAT, state universities and
   technological institutes for the rest). The other 6 were still choosing.
   [INE annex 5, CCOE session 23-02-2024](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf).
-- **The gap we fill for the auditor.** Art. 347 audits the computer system (black-box functional tests and a
+- **The gap I fill for the auditor.** Art. 347 audits the computer system (black-box functional tests and a
   vulnerability analysis, numeral 1). It does not check the keyed numbers against the paper, field by field. Two
-  Hands can do that for the auditor who is already contracted. That field check is our addition to the auditor's
+  Hands can do that for the auditor who is already contracted. That field check is my addition to the auditor's
   scope, not a legal requirement; the requirement to capture twice and compare is the institute's own (section 0).
 - **The next window.** INE is organising the federal election and **32 concurrent local processes** for 2026-2027
   ([INE Central Electoral, 30 July 2026](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
@@ -364,21 +364,21 @@ for any IMPEPAC unit.
 
 ### Q&A: why elections?
 
-Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public, so anyone can re-derive every number we report. That is why we measured there. Elections are our proof set, not our only market. Measured on presidential tally sheets and UK rainfall ledgers.
+Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public, so anyone can re-derive every number I report. That is why I measured there. Elections are my proof set, not my only market. Measured on presidential tally sheets and UK rainfall ledgers.
 
 ### Next markets, not measured
 
-A rule already forces a check of keyed data against paper in each; we have measured none of them.
+A rule already forces a check of keyed data against paper in each; I have measured none of them.
 
 1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total). Source: WHO, Data Quality Review Module 3 (2020), https://cdn.who.int/media/docs/default-source/data-quality-pages/2021_dqa_module-3_site-assessment-framework.pdf; https://dhis2.org/about/; MOH 711A, https://tciurbanhealth.org/wp-content/uploads/2017/06/M2_-_MOH_711A_Facility_integrated_Form-3.pdf.
 2. US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023. Source: Fannie Mae Selling Guide D1-3-01 and D1-3-02 (04/01/2026), https://selling-guide.fanniemae.com/sel/d1-3-01/lender-post-closing-quality-control-review-process; CFPB, https://www.consumerfinance.gov/data-research/hmda/summary-of-2023-data-on-mortgage-lending/.
-3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism we measured on election forms. Source: Medidata/TransCelerate, Clinical Leader Nov 2014, https://www.clinicalleader.com/doc/medidata-transcelerate-biopharma-inc-clinical-trial-0001; Lindblad et al., Clinical Trials 2014; 11: 205-217.
+3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism I measured on election forms. Source: Medidata/TransCelerate, Clinical Leader Nov 2014, https://www.clinicalleader.com/doc/medidata-transcelerate-biopharma-inc-clinical-trial-0001; Lindblad et al., Clinical Trials 2014; 11: 205-217.
 
 Also: loan files, insurance claims, customs declarations, registries, survey returns; not measured.
 
 ### A second line, not the hero: agents that key forms
 
-When an agent keys a form, the paper still has to agree. Receipts work the same for a model as for a person; in our
+When an agent keys a form, the paper still has to agree. Receipts work the same for a model as for a person; in my
 measurement, Gemma is the agent. Gemma-4-31B-IT keyed every field of the 289 read forms of the pre-registered 300;
 alone it mis-keys 173 of 6,358 fields, 1 in 37 (`results/adjudication/SUMMARY.md`), and the same identities that
 route a person's slip route the model's: words = digits, rows sum to the total, sections agree. The buyer is anyone
@@ -419,7 +419,7 @@ find **about 2** (267 x 52 / 6,358 = 2.2, at the measured floor of 52 errors in 
 | The strong-evidence tier first | **1.5** (18 / 12) | sample audit, `app/capture_audit.py` |
 | Fields picked at random | **about 122** (6,358 / 52; a floor, so at most 122) | the same |
 
-We found no published, citable time for a person to verify one field against its photo, so we state it in fields,
+I found no published, citable time for a person to verify one field against its photo, so I state it in fields,
 not minutes.
 
 ### The price (proposal, not measured)
@@ -428,7 +428,7 @@ All of it from one config value, `app/pricing.py`; `make eval` (`scripts/price_c
 
 - **One price: $1 per sheet audited (proposed); first step: a paid shadow-mode pilot.** Anchored, for scale, on a line for a different step: INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone (INE CCOE report p. 4; 170,648
   actas expected, PREP 2024 CSV header).
-- The pilot: our check runs beside one state's 2027 count on its finished capture, in shadow mode: the institute's own process stays as it is, and the pilot shows what the check finds before anyone relies on it. An offer.
+- The pilot: my check runs beside one state's 2027 count on its finished capture, in shadow mode: the institute's own process stays as it is, and the pilot shows what the check finds before anyone relies on it. An offer.
 - Footnote: Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 
 ### Cost side
@@ -458,17 +458,17 @@ buying AI reading by direct award (MXN 93,834.49, IEEBCS report p. 31). Presiden
 
 For a sense of machine-reading list prices: cloud form extraction lists at $30 per 1,000 pages (Google Document AI
 Form Parser, first tier, [pricing](https://cloud.google.com/document-ai/pricing)) and $70 per 1,000 pages (AWS
-Textract, tables + forms + queries, [pricing](https://aws.amazon.com/textract/pricing/)). Those products extract; we
+Textract, tables + forms + queries, [pricing](https://aws.amazon.com/textract/pricing/)). Those products extract; I
 sell an audit per form, priced against what the institute already spends per acta.
 
 **Revenue.** Elections are seasonal, recurring per institute per cycle (32 OPLEs
 plus INE). They are the proof market: public, audited, with a named buyer and a deadline. Monthly keyed files (the
 next markets above) are next.
 
-How big (our estimate): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper. (Sources: PREP 2024 CSV (169,005 presidential sheets); IMPEPAC Informe Final PREP 23-24, pp. 3-4 (Morelos local actas); INE Central Electoral 2026-07-30 (32 concurrent local processes). The 2-3 local actas per polling station is our estimate.)
+How big (my estimate): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper. (Sources: PREP 2024 CSV (169,005 presidential sheets); IMPEPAC Informe Final PREP 23-24, pp. 3-4 (Morelos local actas); INE Central Electoral 2026-07-30 (32 concurrent local processes). The 2-3 local actas per polling station is my estimate.)
 
 **What it saves, in the buyer's units.** Morelos staffed 110 capture-and-verification posts for 7,802 actas (IMPEPAC
-Informe Final PREP 23-24). We found no cited time to key one acta, so we give no hours. The measured share only: the
+Informe Final PREP 23-24). I found no cited time to key one acta, so I give no hours. The measured share only: the
 one-reader gate accepted 18% of forms with no person (measured on presidential forms, not on Morelos's local actas), so
 at Morelos's volume about 1,400 actas (0.18 x 7,802) would need no second keying by hand; every other acta still gets
 a person, pointed at the disputed fields instead of all 22.
@@ -481,7 +481,7 @@ No second-language corpus with an official keyed record and usable terms was rea
 
 Forms of this kind, with rows that sum to a total and often words beside digits, are produced at these volumes every cycle.
 
-**Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by us.** (ONPE directive, Resolución Jefatural 000093-2026, as reported by El Peruano, 6 Jun 2026, https://elperuano.pe/noticia/297403-onpe-conozca-el-procedimiento-que-se-sigue-durante-el-computo-de-los-votos.)
+**Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by me.** (ONPE directive, Resolución Jefatural 000093-2026, as reported by El Peruano, 6 Jun 2026, https://elperuano.pe/noticia/297403-onpe-conozca-el-procedimiento-que-se-sigue-durante-el-computo-de-los-votos.)
 
 Every general election produces one handwritten result sheet per polling station, and most are keyed or read by
 machine. The count of sheets is the size of the audit:
@@ -501,11 +501,11 @@ on the C forms ("angka 3 itu terbaca 8", a 3 read as an 8)
 ([Antara, 19 Feb 2024](https://gorontalo.antaranews.com/berita/236205/kpu-klaim-salah-input-sirekap-karena-kesalahan-manusia-dan-sistem));
 the KPU chair said conversions the system read inaccurately would be corrected
 ([Antara, 15 Feb 2024](https://www.antaranews.com/berita/3966738/kpu-tegaskan-tak-ada-niat-manipulasi-hasil-suara-di-pemilu-2024)).
-That is a result-sheet capture error, the thing we check. We make no claim about any outcome.
+That is a result-sheet capture error, the thing I check. I make no claim about any outcome.
 
 ## 3. Competitive analysis
 
-"Unknown" means we did not find a vendor statement either way. Cost is list price where the vendor publishes one.
+"Unknown" means I did not find a vendor statement either way. Cost is list price where the vendor publishes one.
 
 | | Handles handwriting? | Proves each accepted value? | Finds errors in an existing capture? | Photo evidence per finding? | Cost per form | Open model on AMD? |
 |---|---|---|---|---|---|---|
@@ -520,24 +520,24 @@ That is a result-sheet capture error, the thing we check. We make no claim about
 | Sampling-based manual audit (status quo) | yes, a person | only for the sampled fields | yes, at the random rate: at least 1 error in 122 fields here | if the auditor files it | not cited | n/a |
 | Double keying | yes, people | no: two keyers can agree on a paper that contradicts itself | no, it is a capture | no | not cited | n/a |
 
-**Where we sit next to an IDP platform.** IDP platforms route a share of documents to people; we add the paper's own
+**Where I sit next to an IDP platform.** IDP platforms route a share of documents to people; I add the paper's own
 arithmetic as a free verifier and a photo for every dispute. Rossum, for example, lists its Starter plan from
 **$18,000 per year**, including a "validation screen for exception handling and human in the loop"
-([pricing](https://rossum.ai/pricing/)). We found no public per-page price for Rossum, ABBYY Vantage or
+([pricing](https://rossum.ai/pricing/)). I found no public per-page price for Rossum, ABBYY Vantage or
 Hyperscience, and no public figure from them for the share of documents sent to human review.
 
 Why double keying is not enough: 19.2% of nationally captured tally forms (26,336 of 137,196) fail their own row
 sum in the official capture (PREP 2024 CSV, `docs/NUMBERS.md` B). Keying twice copies the paper; it cannot say
 which paper is wrong. Any IDP platform above could be configured to compare with a capture. None says it does it,
-and none we found shows a crop per finding ordered by the paper's own arithmetic.
+and none I found shows a crop per finding ordered by the paper's own arithmetic.
 
 ## 4. Risks and moats
 
 ### Risks
 
 - **Procurement cycles.** Public institutes buy through calls and committees. Auditors are named by early 2027;
-  if we miss that, the next window is years away.
-- **Political sensitivity.** Election data draws attention. We use clerical language only ("capture error",
+  if I miss that, the next window is years away.
+- **Political sensitivity.** Election data draws attention. I use clerical language only ("capture error",
   "Option NN"), name no party, and say plainly that the first capture is preliminary and the certified count is
   the official result.
 - **Recall is measured on one kind of error, in one state.** Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall.
@@ -548,7 +548,7 @@ and none we found shows a crop per finding ordered by the paper's own arithmetic
 - **A model second capture needs the institute's approval.** PTO numeral 33 names a person for the second
   capture; changing that is the governing body's decision (RE art. 339.1 d). Art. 347 audits the system, not the
   field values, so an auditor may also decide the field check is out of scope.
-- **Next markets are untested.** We have no health form, loan file or case-report form measured.
+- **Next markets are untested.** I have no health form, loan file or case-report form measured.
 
 ### Why it holds
 
@@ -556,16 +556,16 @@ and none we found shows a crop per finding ordered by the paper's own arithmetic
   agree. The model only proposes; a value is accepted when the paper proves it. A competitor needs the same
   per-form-type identities, not a better model.
 - **The photo trail.** Every finding has its crop and its mark. An auditor can hand the report to anyone and they can
-  check it without trusting us.
+  check it without trusting me.
 - **An open model on AMD.** Gemma-4-31B-IT runs on AMD GPUs. An open model can run on the client's own AMD server, so the
-  scans need not leave the building (our measurements are on the hosted AMD Token Factory). The names-and-signatures column is masked before anything is stored or sent.
+  scans need not leave the building (my measurements are on the hosted AMD Token Factory). The names-and-signatures column is masked before anything is stored or sent.
 - **A form type is a schema file.** The second form type (1850-1960 rainfall ledgers) was configuration, not code.
 
 ## 5. Next 90 days
 
-1. **A paid shadow-mode pilot with one state.** Offer one state institute, or its outside auditor, our check beside its 2027 count, at the price above; start from a free sample on that state's 2024 PREP data and scans, as for Colima. Target: an agreed pilot before the operators are chosen (about 6 December 2026).
+1. **A paid shadow-mode pilot with one state.** Offer one state institute, or its outside auditor, my check beside its 2027 count, at the price above; start from a free sample on that state's 2024 PREP data and scans, as for Colima. Target: an agreed pilot before the operators are chosen (about 6 December 2026).
 2. **The second form type for elections.** Add a local-election tally sheet schema (local deputies are elected in 31
    states in 2027) and re-run the pre-registered protocol on a fresh random sample.
-3. **A self-hosted AMD deployment.** Run Gemma-4-31B-IT on an AMD GPU server we control, measure cost per form
+3. **A self-hosted AMD deployment.** Run Gemma-4-31B-IT on an AMD GPU server I control, measure cost per form
    and throughput without the shared-endpoint pacing, and package it so an auditor can run it inside their own
    network.

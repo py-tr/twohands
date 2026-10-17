@@ -98,7 +98,7 @@ def lines(d: dict) -> dict:
                     f"{d['server_mean_s']:.0f} s mean round trip). Fine for an audit after the count, where nobody waits "
                     f"on one sheet: a state the size of Colima ({d['colima_sheets']:,} sheets) in about "
                     f"{d['colima_hours']} hours."),
-        "wall": (f"The 300 run's {d['wall_mean_s']:.0f} s per form was wall clock under our own pacing (2 in flight), not "
+        "wall": (f"The 300 run's {d['wall_mean_s']:.0f} s per form was wall clock under my own pacing (2 in flight), not "
                  f"GPU time; {d['server_mean_s']:.0f} s of it was the endpoint's round trip, queue included."),
     }
 

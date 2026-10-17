@@ -68,7 +68,7 @@ def markdown(d: dict) -> str:
          f"| Executions started (each one AMD call, the AgentCall) | {d['sent']} |",
          f"| Completed with a drafted finding | {d['succeeded']} ({d['success_pct']:g}%) |",
          f"| Failed / still open | {d['failed']} / {d['open']} |",
-         f"| Evidence score recomputed in Evolus equals ours | {d['score_agrees']} of {d['succeeded']} |",
+         f"| Evidence score recomputed in Evolus equals mine | {d['score_agrees']} of {d['succeeded']} |",
          f"| Start errors (HTTP) | {d['http_errors']} |",
          f"| Window (UTC) | {d['window'][0]} to {d['window'][1]} |", "",
          "| case | why the gate routed it | execution | status | finding (excerpt) |", "|---|---|---|---|---|"]

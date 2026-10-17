@@ -2,7 +2,7 @@
 
 OCR reads the number. Two Hands checks whether the whole form agrees.
 
-Works on any handwritten form whose numbers must add up: cheques (amount in digits and words), invoices and receipts, election tally sheets in any country, clinic and health-facility reports, pharmacy and stock registers, timesheets, customs forms, historical ledgers. Tested on Mexico's 2024 tally sheets (and UK rainfall ledgers, 1850-1960).
+The check is the form's own arithmetic, so it isn't tied to elections: proven on Mexico's tally sheets and UK rainfall ledgers (1850-1960), no retraining. Next: tally sheets in [at least 7 more countries](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table), and the health-facility reports behind DHIS2 ([70+ countries](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table)).
 
 A model reads; the form's own arithmetic decides what passes; people review the rest with the photo; accepted values get receipts.
 
@@ -22,13 +22,13 @@ A model reads; the form's own arithmetic decides what passes; people review the 
 | Price | $1 per sheet audited (proposed); first step: a paid shadow-mode pilot on one state's 2027 count. AMD compute: $0.00014 per sheet. |
 | Reviewer work | About one photo crop per sheet to look at (0.92 measured: fields where the read and the capture disagree), instead of re-keying about 22 fields. |
 | Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
-| Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
-| Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
-| Next | A paid shadow-mode pilot with one state for 2027. The same check: cheques, invoices and receipts, health-facility reports, stock registers, timesheets, customs forms, election tally sheets in other countries. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
+| Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. My check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
+| Competition | Second keying by a person (the rule today): at least 0.8% of fields in my random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). Two Hands accepts only what the paper's arithmetic proves and routes the rest with the photo. |
+| Next | A paid shadow-mode pilot with one state for 2027. The check is the form's own arithmetic, so it isn't tied to elections. Proven on two form types: Mexico's tally sheets and UK rainfall ledgers (1850-1960), no retraining. Next: tally sheets in [at least 7 more countries](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table) that publish their images, and the monthly health-facility reports behind DHIS2, used in [70+ countries](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table). |
 | Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
 | Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). |
 
-**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result. An independent demonstration, not an official INE product.
+**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; I did not assess vote impact. The certified count is the official result. An independent demonstration, not an official INE product.
 
 <!-- links:start -->
 **Live demo:** add at submission · **Video:** add at submission · **Repository:** add at submission ·
@@ -116,16 +116,16 @@ a public counter of reads on Home and at `/live` (computed from the worker's sta
 
 | | |
 |---|---|
-| Hardware | AMD GPUs behind the **AMD Token Factory** ([notebooks.amd.com/tokenfactory](https://notebooks.amd.com/tokenfactory)), which AMD describes as "GPU Accelerated AMD ROCm"; the endpoint does not report the GPU model, so we name no card |
+| Hardware | AMD GPUs behind the **AMD Token Factory** ([notebooks.amd.com/tokenfactory](https://notebooks.amd.com/tokenfactory)), which AMD describes as "GPU Accelerated AMD ROCm"; the endpoint does not report the GPU model, so I name no card |
 | Model | **Gemma-4-31B-IT**, temperature 0, one request per form (masked page + 6 zoomed tiles); every measured read of the 300 and of the 100-form confirmation |
-| Serving | hosted by AMD, OpenAI-compatible API; our client is `twohands/amd.py` (standard library only) |
-| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. Latency per read (shared AMD endpoint, queue included): 32 s p50, 67 s p95 at 4 in flight (12 of the sweep's 44 requests); 71 s median over the 289 requests of the 300 run; 9.6 output tokens/s per request (804 out, 83 s mean round trip). Fine for an audit after the count, where nobody waits on one sheet: a state the size of Colima (982 sheets) in about 3.4 hours. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
+| Serving | hosted by AMD, OpenAI-compatible API; my client is `twohands/amd.py` (standard library only) |
+| Benchmark (my data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. Latency per read (shared AMD endpoint, queue included): 32 s p50, 67 s p95 at 4 in flight (12 of the sweep's 44 requests); 71 s median over the 289 requests of the 300 run; 9.6 output tokens/s per request (804 out, 83 s mean round trip). Fine for an audit after the count, where nobody waits on one sheet: a state the size of Colima (982 sheets) in about 3.4 hours. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
 | Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with its tokens and billed cost from the API's `usage` (`results/calls_*.jsonl`); the model catalogue snapshots ([docs/AMD.md](docs/AMD.md)) |
 | Second reader | **Qwen3.8-27B** on the same endpoint, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
 | What ran on AMD | every model read: Gemma (primary), Qwen3.8-27B (second reader), the bake-off models; the Evolus agent's model |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
 
-The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
+The 300 run's 87 s per form was wall clock under my own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
 
 Two Gemma misreads the arithmetic caught, each with its masked crop: [docs/GEMMA.md](docs/GEMMA.md#misreads-the-arithmetic-caught).
 
@@ -197,7 +197,7 @@ budget guard.
 (`app/data/audit_sample_prep300.csv`, built by `scripts/build_audit_sample.py`) against the stored Gemma reads. No
 model call; 6,358 fields checked; the same 267 disputes as `results/adjudication/`. 12 of the 18 ranked strong are
 confirmed capture errors, 13 of the 169 ranked weak (the rule was written before that check, on the same forms).
-To have us run one on your forms: `/audit/request` ($1 per sheet audited, proposed; report within 24 hours).
+To have me run one on your forms: `/audit/request` ($1 per sheet audited, proposed; report within 24 hours).
 
 ## Verify a receipt
 
@@ -286,7 +286,7 @@ On the site: `/how`.
 Architecture and diagram: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 **Why an LLM, not plain OCR.** Classic OCR fails on this handwriting; that is why Rainfall Rescue used 16,000
-volunteers (we did not run an OCR baseline ourselves). One vision model reads digits, words and row labels from
+volunteers (I did not run an OCR baseline myself). One vision model reads digits, words and row labels from
 phone photos with no per-form training.
 
 ## Limits and failure cases
@@ -302,7 +302,7 @@ phone photos with no per-form training.
   accepts it only when two independent reads agree.
 - **Failure case.** On a rainfall ledger read as one image, Gemma shifted a whole row of values one year to the
   left. Every shifted column still summed to its total, so the checksum accepted 26 wrong cells (of 870
-  accepted). Zoomed tiles removed it (0 of 3,976 accepted cells wrong; spike, 40 sheets). On the tally sheet we
+  accepted). Zoomed tiles removed it (0 of 3,976 accepted cells wrong; spike, 40 sheets). On the tally sheet I
   added the row-label check so a shifted row cannot pass.
 - **Safeguard.** Accept only when every identity holds; everything else goes to a person with the field named.
   Privacy mask before storage or model call. Fail closed when the page cannot be located.
@@ -318,7 +318,7 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 - **Then the auditors.** Reglamento de Elecciones art. 347: every state institute has its PREP audited by an outside body,
   preferably academic. In February 2024, 26 of 32 institutes had named one, all universities or research centres
   ([INE annex](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf)).
-  The audit covers the computer system; we add the field-by-field check against the paper.
+  The audit covers the computer system; I add the field-by-field check against the paper.
 - **Next window.** The federal election and 32 concurrent local processes, election day 6 June 2027
   ([INE](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
 - **Size of one job (at $1 per sheet audited).** Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling; the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest; the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M. Federal
@@ -329,15 +329,15 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
   12 of 18 times.
 - **Unit economics.** $1 per sheet audited (proposed); first step: a paid shadow-mode pilot. Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (estimate: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales, not measured. Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 - **A second line, not the hero.** When an agent keys a form, the paper still has to agree. Receipts work the same
-  for a model as for a person; in our measurement, Gemma is the agent (alone it mis-keys 1 field in 37; the paper's
+  for a model as for a person; in my measurement, Gemma is the agent (alone it mis-keys 1 field in 37; the paper's
   arithmetic catches it the same way).
 - **Next markets, not measured** (sources in [docs/BUSINESS.md](docs/BUSINESS.md#next-markets-not-measured)):
   1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
   2. US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
-  3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism we measured on election forms.
+  3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism I measured on election forms.
 - **Competition.** OCR and IDP platforms (Tesseract, ABBYY, Rossum, Hypatos, UiPath, Textract, Document AI)
   extract; none says it audits an existing capture with a crop per finding.
-- **Same job elsewhere (volume, not measured).** Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by us. One result sheet per polling station: Nigeria
+- **Same job elsewhere (volume, not measured).** Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by me. One result sheet per polling station: Nigeria
   176,846, Kenya 46,229, India 1,052,664, Indonesia 820,161, Peru 92,766; sources in
   [docs/BUSINESS.md](docs/BUSINESS.md#the-same-job-in-other-countries-volume-only-not-measured).
 - **Why double keying is not enough.** It copies the paper faithfully but cannot say which paper is wrong: 19.2% of
@@ -371,7 +371,7 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
   Only masked pages are in this repo.
 - **Rainfall ledgers:** Rainfall Rescue (Hawkins et al., Geoscience Data Journal 2022;
   github.com/ed-hawkins/rainfall-rescue; Met Office scans). Sheet images are **linked, not redistributed**; only
-  our extracted values are stored.
+  my extracted values are stored.
 
 ## Evolus
 
@@ -391,7 +391,7 @@ connected under "Your models" as an OpenAI-compatible server (requirement 2: [do
   identities inside Evolus and files the record.
 - **Routed form:** starts the workflow **"Review hand-off"**. The agent **"Intake clerk"** (an open model on the
   AMD Token Factory, connected under "Your models") writes the review task, the AI Tool `translate` turns it into
-  Spanish, and the task reaches a person on our review desk ("Send to Evolus" on any routed form).
+  Spanish, and the task reaches a person on my review desk ("Send to Evolus" on any routed form).
 - **Third reader:** an Evolus extractor ("Tally sheet reader"), gated and compared, never trusted blindly.
 
 The form page and the review desk show each form's Evolus run: id, steps and status. Details, endpoints and the
@@ -471,7 +471,7 @@ parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push t
 | `scripts/build_headline.py` | computes every headline number into `app/data/headline.json` (+ adjudication SUMMARY, RECALL) |
 | `submission/lablab.md` | the submission page text |
 | `submission/links.json` | the one place the submission links (repo, demo, video, sample report, slides) are kept |
-| `docs/sources/` | the event rules we cite (public URLs, dated Discord quotes) and the pilot write-ups, copied with their origin |
+| `docs/sources/` | the event rules I cite (public URLs, dated Discord quotes) and the pilot write-ups, copied with their origin |
 | `.env.example` | every environment variable, one comment each, no values |
 | `tests/` | gate, mask, rate limiter, app routes, privacy and neutrality tests |
 | `evolus/` | Evolus integration: REST client, the intake case, gate endpoint, CLI (`python -m evolus`) |

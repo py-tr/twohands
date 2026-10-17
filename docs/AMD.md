@@ -30,7 +30,7 @@ Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing include
 
 About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads).
 
-The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
+The 300 run's 87 s per form was wall clock under my own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
 
 How Gemma is made to work here (the fixed image budget and tiling, the frozen prompt, the row-label check, the
 `finish_reason` handling) and Gemma vs Qwen on the same forms: [GEMMA.md](GEMMA.md).

@@ -79,7 +79,7 @@
         <summary>The regulated step, the buyer's own figures, the price lines and the market, with sources</summary>
   {% set rl = honest.REG_LINE.split('(numeral 33)') %}
   <p class="small" id="reg">{{ rl[0] }}<a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">(numeral 33)</a>{{ rl[1] }}</p>
-  <p class="tiny muted" id="reg-sources" style="margin:4px 0 14px">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms. <b>{{ pricing.texts().price }}</b> · <a href="/audit/request">request an audit</a></p>
+  <p class="tiny muted" id="reg-sources" style="margin:4px 0 14px">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">my reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms. <b>{{ pricing.texts().price }}</b> · <a href="/audit/request">request an audit</a></p>
       <ul class="buyers" style="margin:8px 0 8px">
         {% for t, pg in IC.lines %}<li>{{ t }} <span class="muted small">(<a href="{{ IC.url }}" target="_blank" rel="noopener">INE report</a>, {{ pg }})</span></li>{% endfor %}
       </ul>

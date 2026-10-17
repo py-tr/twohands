@@ -92,7 +92,7 @@ The preliminary count is preliminary by design; the certified count is the offic
 <p class="src">Sources: results/national_counts.md (PREP 2024 CSV; Cómputos Distritales 2024 CSV); audit scope: Reglamento de Elecciones art. 347.1 and INE's 2024 PREP audit report (UAM-I), PDF p. 7. Clerical only: no party, no totals, no outcome.</p>
 
 <!--
-Full line, as computed (app/buyer.py): On the 52,167 polling stations that were not recounted, INE's two official records of the same paper, the preliminary capture and the certified count, disagree on at least one vote field in 3,382 (6.5%). A difference says two captures disagree, not which one is right; the photo does. On our 300, the photo sided with the certified count on 22 of the 31 it covered.
+Full line, as computed (app/buyer.py): On the 52,167 polling stations that were not recounted, INE's two official records of the same paper, the preliminary capture and the certified count, disagree on at least one vote field in 3,382 (6.5%). A difference says two captures disagree, not which one is right; the photo does. On my 300, the photo sided with the certified count on 22 of the 31 it covered.
 -->
 
 ---
@@ -139,21 +139,21 @@ As computed (app/numbers.py lines(), word for word): 17 wrong numbers typed; 27 
 <div class="cols2">
 <div class="mid">
 
-- INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from our check, and bought none (last line). <span class="small">(p. 4)</span>
+- INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from my check, and bought none (last line). <span class="small">(p. 4)</span>
 - IPN quoted MXN 19.9M for the service. <span class="small">(p. 4)</span>
 - The acceptance bar was 80% agreement on words and digits. <span class="small">(p. 5)</span>
 - The best entrant reached 75%; INE declined it as untested in a real election, and its advisers (COTAPREP) recommended a pilot. <span class="small">(pp. 5, 10)</span>
 
-**Our engine is an automated capture with a referee. For 2027 we offer an independent check of a finished capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a pilot on 2024's own forms.**
+**Two Hands is an automated capture with a referee. For 2027 I offer an independent check of a finished capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a pilot on 2024's own forms.**
 
 </div>
 <div class="card tight">
 
 <div class="big">83.5%</div>
 
-On that metric as we read it, Gemma's existing reads of our pre-registered 300 agree with the official capture in words and digits on 83.5% of fields (5,508 of 6,600; failed reads and blank or illegible captures count against us).
+On that metric as I read it, Gemma's existing reads of my pre-registered 300 agree with the official capture in words and digits on 83.5% of fields (5,508 of 6,600; failed reads and blank or illegible captures count against me).
 
-<p class="small"><i>INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.</i></p>
+<p class="small"><i>INE's 2024 acceptance metric as I read it from the report, computed on my existing reads after they were made; the definition was committed before computation; not the same test set or conditions as INE's trial.</i></p>
 
 Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields (two readers, the paper's sums as referee), judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked.
 
@@ -163,10 +163,10 @@ Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields 
 <p class="src">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf). Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Buyer, 2027: the outside auditor or the contracted PREP operator, for an independent check of a finished capture; no rule change needed (docs/BUSINESS.md).</p>
 
 <!--
-Who pays, in order (app/buyer.py, word for word): Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored (the head-to-head card).
-How big (our estimate): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper.
+Who pays, in order (app/buyer.py, word for word): Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what I measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms I measured (and the Senate forms I read) are federal, processed by INE. My local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored (the head-to-head card).
+How big (my estimate): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper.
 
-1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. We check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185).
+1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. I check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185).
 2. Baja California Sur bought an AI first capture by direct award (Google Document AI, MXN 93,834.49); it matched the human capture on 2.88% of actas and 62.84% of fields. A machine already keys; the question is who referees it.
 3. Every state institute decides whether to run its PREP alone or with a third party at least six months before election day: for 6 June 2027, by about 6 December 2026. Guerrero has already decided: in-house, "con acompañamiento de un ente especializado".
 4. The 2027 buyer is the outside auditor or the contracted PREP operator, paid by the state institute (OPLE). At least 13 of the 17 outsourced 2024 state PREPs went to three firms: Informática Electoral S.C. (at least 8 states), Grupo Proisi (4) and PoderNet (1).
@@ -186,9 +186,9 @@ How big (our estimate): about 170,000 federal actas (169,005 presidential sheets
 | **Price** | **$1 per sheet audited (proposed); first step: a paid shadow-mode pilot** on one state's 2027 count. AMD compute: $0.00014 per sheet. |
 | **Reviewer work** | About one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. |
 | **Capacity** | One shared AMD key: Colima's 982 sheets in about 3.4 hours, Morelos's 7,802 in about a day. |
-| **Example** | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
-| **Competition** | Second keying by a person: at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). |
-| **Next** | The same public data in at least 7 more countries (Indonesia, Colombia, Peru; Guatemala, Kenya, Argentina vote in 2027). Health reports: DHIS2 runs national reporting in 70+ countries. The same check: cheques, invoices, health reports. |
+| **Example** | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. My check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
+| **Competition** | Second keying by a person: at least 0.8% of fields in my random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). |
+| **Next** | The same public data in at least 7 more countries (Indonesia, Colombia, Peru; Guatemala, Kenya, Argentina vote in 2027). Health reports: DHIS2 runs national reporting in 70+ countries. The check is the form's own arithmetic, so it isn't tied to elections. |
 
 </div>
 
@@ -213,7 +213,7 @@ FX: MXN 18.3835 per USD (ECB, 2026-10-16).
 
 <div class="cols3">
 <div class="card hi"><div class="k">All 169,005 national forms</div><div class="big s44">~$24</div><p class="small" style="margin:4px 0 0">of AMD compute ($0.000144 per form, measured)</p></div>
-<div class="card"><div class="k">Server time per form</div><div class="big s44">83 s</div><p class="small" style="margin:4px 0 0">HTTP round trip on the shared endpoint; 87 s wall clock includes our own pacing</p></div>
+<div class="card"><div class="k">Server time per form</div><div class="big s44">83 s</div><p class="small" style="margin:4px 0 0">HTTP round trip on the shared endpoint; 87 s wall clock includes my own pacing</p></div>
 <div class="card"><div class="k">Tokens per form</div><div class="big s44">2,609 / 804</div><p class="small" style="margin:4px 0 0">in / out; 289 of 289 replies end in stop</p></div>
 </div>
 
@@ -266,14 +266,14 @@ Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted
 
 <!-- Slide 10b: volume -->
 
-<p class="mid"><strong>Why elections.</strong> Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public. That's why we measured there. <strong>Elections are our proof set, not our only market.</strong></p>
+<p class="mid"><strong>Why elections.</strong> Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public. That's why I measured there. <strong>Elections are my proof set, not my only market.</strong></p>
 
 <div class="mid">
 
 1. **Health facility reports (DHIS2):** WHO's Data Quality Review recounts paper source documents against what was keyed; DHIS2 runs in 80+ countries; monthly forms carry their own totals.
 2. **US mortgage post-closing QC:** lenders re-check at least 10% of closed loans against source documents every month; 4.4 million closed-end originations in 2023.
 3. **Clinical-trial source data verification:** it corrects 1.1% of site data while monitoring takes 15-30% of trial costs.
-4. **Peru:** ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant; not measured by us.
+4. **Peru:** ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant; not measured by me.
 
 </div>
 
@@ -285,8 +285,8 @@ Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted
 Word for word (app/buyer.py):
 Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
 US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
-Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism we measured on election forms.
-Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by us.
+Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism I measured on election forms.
+Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by me.
 -->
 
 ---

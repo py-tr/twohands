@@ -12,7 +12,7 @@ reach the clerk with the field, its crop and a task written in English and Spani
 `evolus/ids.json` by `python -m evolus setup` and shown in the Evolus section of the site (`/results#evolus`), in the
 README and on the "What ran on AMD" slide. Evolus asked that the name be shown clearly and that the workspace and
 the model endpoint stay online until **Nov 15, 2026** for their review (Evolus on the lablab Discord, 2026-10-16, and
-the Evolus CTO at the kickoff; quoted in [sources/event-rules.md](sources/event-rules.md)); we keep both up until then.
+the Evolus CTO at the kickoff; quoted in [sources/event-rules.md](sources/event-rules.md)); I keep both up until then.
 
 ## Requirement 2: the main agent's model
 
@@ -39,12 +39,12 @@ and `results/evolus_audit_runs.jsonl` were made on Qwen3.8-27B while Gemma was u
 Gemma-4-31B-IT. If a self-hosted vLLM is ever connected, it is listed
 here as a second model under "Your models"; none is connected today.
 
-Evolus is where the case lives. Our code (`evolus/`) builds the workspace and drives it over the Evolus REST API
+Evolus is where the case lives. My code (`evolus/`) builds the workspace and drives it over the Evolus REST API
 (spec: [`docs/evolus-openapi.json`](evolus-openapi.json), OpenAPI 3.0.4). The decision stays with the paper's
 arithmetic, never with a model.
 
 ```
-masked page ──► primary read (Gemma-4-31B-IT on AMD, measured) ──► our gate ─┐
+masked page ──► primary read (Gemma-4-31B-IT on AMD, measured) ──► my gate ─┐
            └──► Evolus extractor "Tally sheet reader" (independent) ──► gate ─┤ compare
                                                                                ▼
   accepted ──► workflow "Record filing": Script re-checks the paper's identities in Evolus (no AI)
@@ -68,7 +68,7 @@ routed form goes to Evolus: each run is one call on the shared AMD key, so
 - each start takes a token from the shared rate limiter (`cache/ratelimit.json`), like every other AMD call;
 - sending and polling run on the hook's own thread; an Evolus error is recorded on the case and never stops the audit.
 
-The case comes back as designed for audit cases: our side polls the execution (or a Webhook callback delivers it,
+The case comes back as designed for audit cases: my side polls the execution (or a Webhook callback delivers it,
 merged by execution id), and the finding, the recomputed score and the run status are stored in
 `live_audit/evolus_cases.json`. The site shows today's count and the latest cases in its Evolus section
 (`/results#evolus`; JSON at `GET /api/evolus/live`). `EVOLUS_LIVE=0` turns the hook off; without `EVOLUS_KEY`,
@@ -82,7 +82,7 @@ shows on the card.
 
 ## Routed cases in the workspace (`python -m evolus routed`, results/evolus/executions.jsonl)
 
-**Evolus workspace py_tr: 150 "Audit finding" executions of real routed fields (100 from the 300 run, 50 from Colima): 150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score matches ours; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl.** Window 2026-10-17T00:53 to 2026-10-17T01:56 UTC; each completed run returned a drafted finding; 0 failed, 0 still open; 0 HTTP errors.
+**Evolus workspace py_tr: 150 "Audit finding" executions of real routed fields (100 from the 300 run, 50 from Colima): 150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score matches mine; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl.** Window 2026-10-17T00:53 to 2026-10-17T01:56 UTC; each completed run returned a drafted finding; 0 failed, 0 still open; 0 HTTP errors.
 
 Each execution is one run of the workflow **"Audit finding"** on one real case: a field the gate refused in a
 real read of a masked form (digits that disagree with the words, the field on the right of an identity that does not
@@ -113,10 +113,10 @@ audit report ──► "Open as Evolus cases" (strong tier, at most 18, shared l
                the identities it breaks / the model's value satisfies (with their sums), crop URL, tier
    ──► workflow "Audit finding":
          AgentCall "Intake clerk" ── three-sentence finding, ends "for the auditor to confirm"   (1 AMD call)
-         Script (no AI) ─────────── recomputes the evidence score from the inputs (= our rule, 0 AI calls)
+         Script (no AI) ─────────── recomputes the evidence score from the inputs (= my rule, 0 AI calls)
          Script (no AI) ─────────── the audit case: finding + score + crop link, status "open"
          [Webhook back to /api/evolus/callback, only when the app has a public URL]
-         Output ─────────────────── our app polls the execution and files the case
+         Output ─────────────────── my app polls the execution and files the case
    ──► report: run id, run status, the drafted finding beside the crop
    ──► Confirm / Not an error ──► case status (open / confirmed / not an error)
                                   ──► Evolus workflow audit of that run (PUT clientData)
@@ -127,7 +127,7 @@ audit report ──► "Open as Evolus cases" (strong tier, at most 18, shared l
 |---|---|---|
 | **Intake clerk** | agent, `own/Gemma-4-31B-IT` on the AMD Token Factory (Qwen3.8-27B until 2026-10-16) | Drafts the auditor's finding: what the paper shows, what was keyed, which identity supports the paper. It never decides; every finding ends "for the auditor to confirm". |
 | **Audit finding** | workflow: AgentCall, Script, Script, [Webhook], Output | One run per disputed field; the case lands back in Two Hands with status `open`. |
-| Script "Recompute the evidence score" | workflow step, no AI | Our evidence rule in JavaScript, run on the raw sums we send: the model cannot change the score. Checked against our Python rule on all 267 disputes (`tests/test_evolus_audit.py`). |
+| Script "Recompute the evidence score" | workflow step, no AI | My evidence rule in JavaScript, run on the raw sums I send: the model cannot change the score. Checked against my Python rule on all 267 disputes (`tests/test_evolus_audit.py`). |
 | Workflow audits | `GET/PUT /api/v1/workflow-audits` | Evolus records each run; the auditor's status is written to it as `clientData`. |
 | **Review hand-off** | workflow: AgentCall, AI Tool `translate`, Script, Output | The intake side: a routed form goes to the review desk with its task in English and Spanish. |
 | AI Tool `translate` | platform AI Tool | The Spanish version of the review task. |
@@ -147,7 +147,7 @@ they are listed as not created.
 
 `python -m evolus audit` on the sample audit (the official first capture of the 300 pre-registered forms): 267
 disputed fields, 18 with strong evidence. All **18 were sent and all 18 came back** as audit cases with a drafted
-finding, status `open`. In all 18 the evidence score recomputed by the Evolus Script equals ours (`agrees_with_app`).
+finding, status `open`. In all 18 the evidence score recomputed by the Evolus Script equals mine (`agrees_with_app`).
 Example (form 050815B0100, Option 07):
 
 > *The paper shows 175 in digits and one hundred seventy-five in words. The keyed value for Option 07 is 75. The
@@ -168,7 +168,7 @@ status goes.
 | **Intake clerk** | agent, model `own/Gemma-4-31B-IT` (AMD Token Factory, under "Your models"; Qwen3.8-27B until 2026-10-16) | Writes the review task for a routed form: which field to check and why. Never guesses a value. |
 | **Tally sheet reader** | agent marked as data extractor | Independent third reader of the masked page (schema "Tally sheet type 2", 23 fields). |
 | **Review hand-off** | workflow, 4 steps, on | AgentCall (Intake clerk) → AI Tool `translate` → Script (assemble) → Output. Optional Email step to a reviewer. |
-| **Record filing** | workflow, 3 steps, on | Script: the form's 4 identities, generated from our schema, re-checked in Evolus with zero AI → CreateFile → Output. |
+| **Record filing** | workflow, 3 steps, on | Script: the form's 4 identities, generated from my schema, re-checked in Evolus with zero AI → CreateFile → Output. |
 | **Records register** | knowledge library | Accepted records, one document per form (needs a User API key to create, see below). |
 | **Audit finding** | workflow, 4 steps, on | AgentCall (Intake clerk drafts the finding) → Script (evidence score, no AI) → Script (the audit case) → Output; a Webhook step back to Two Hands is added when the app has a public URL. |
 
@@ -212,7 +212,7 @@ spec in this folder, and https://evolus.ai/developers (public summary).
 | `GET /api/v1/ai-tools`, `POST /api/v1/ai-tools/translate/run` | check, fallback | `translate` takes `target` (free text: `"Spanish"`; `"es"` gave Italian) |
 | `GET /v1/models`, `POST /v1/chat/completions` | check, fallback | OpenAI-compatible agent chat, model `{applicationId}:{agentId}` |
 
-Our side: `POST /api/gate` (Bearer `TWOHANDS_GATE_TOKEN`), `GET /api/evolus/case/{form}`, `POST /api/evolus/callback`
+My side: `POST /api/gate` (Bearer `TWOHANDS_GATE_TOKEN`), `GET /api/evolus/case/{form}`, `POST /api/evolus/callback`
 (header `X-Callback-Key`).
 
 ## Setup
@@ -261,12 +261,12 @@ Steps, once the app has a host:
 ## AMD calls
 
 The live worker's Evolus runs: at most 60 a day (`EVOLUS_DAILY_RUNS`), one AMD call each, each paced by the shared
-limiter. Our limiter (6 req/min) cannot see calls that Evolus makes from its servers, so the audit runner takes one token
+limiter. My limiter (6 req/min) cannot see calls that Evolus makes from its servers, so the audit runner takes one token
 from the shared limiter (`cache/ratelimit.json`, also used by the batch) before each run it starts, keeps at most 2
 runs in flight and sends at most 18 per click. Each audit case is exactly 1 AMD call (Evolus retries a failing AgentCall up to 3 times). Per routed form there is 1 AgentCall
 (Evolus retries a failing call up to 3 times); an accepted form makes none (the filing Script is not AI). The
 extractor adds 1 per form once configured. The run above made 3 Token Factory calls through Evolus. During
-development we made 2 more: 1 direct function-calling probe of Gemma and 1 trial hand-off.
+development I made 2 more: 1 direct function-calling probe of Gemma and 1 trial hand-off.
 
 ## Privacy and framing
 

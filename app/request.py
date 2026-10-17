@@ -97,7 +97,7 @@ def validate(f: dict) -> tuple[dict, dict]:
         err["org"] = "Name the organisation."
     email = _one_line(f.get("email", ""), 254)
     if not _EMAIL.match(email):
-        err["email"] = "Enter an email address we can reply to."
+        err["email"] = "Enter an email address I can reply to."
     raw = re.sub(r"[\s,._]", "", f.get("forms", ""))
     forms = int(raw) if raw.isdigit() else 0
     if not 1 <= forms <= MAX_FORMS:
@@ -218,7 +218,7 @@ async def request_submit(request: Request):
     if not allow(ip):
         return _t().TemplateResponse(request, "audit_request.html",
                                      _ctx(f=f, err={"_": "Too many requests from this address; try again in an hour, "
-                                                         "or write to us."}), status_code=429)
+                                                         "or write to me."}), status_code=429)
     now = datetime.now(timezone.utc)
     rec = {"id": f"R-{now:%Y%m%d}-{secrets.token_hex(3)}", "at": now.isoformat(timespec="seconds"), **rec,
            "price_usd": price(rec["forms"]), "price_basis": pricingmod.texts()["price"],

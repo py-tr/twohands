@@ -698,7 +698,7 @@ SAMPLES = {
                              {"name": "timesheet_wrong", "label": "Filled timesheet (total is wrong)"}]},
     "ine": {"label": "INE tally sheet, type 2", "tag": "real schema", "state": ine_state,
             "blank": f"/builder/sample/ine_blank.jpg",
-            "note": "A masked page from our measured set stands in for the blank; the boxes are the ones our engine runs.",
+            "note": "A masked page from my measured set stands in for the blank; the boxes are the ones Two Hands runs.",
             "filled": [{"name": "ine_filled", "label": "A masked tally sheet"}]},
 }
 

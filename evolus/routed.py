@@ -255,14 +255,14 @@ def summary(path: Optional[Path] = None) -> dict:
 
 
 def completed_line(d: dict) -> str:
-    """"N of M completed; in all N the Evolus Script's own recomputation of the evidence score matches ours": the
+    """"N of M completed; in all N the Evolus Script's own recomputation of the evidence score matches mine": the
     second clause only as far as the ledger's returned evidence (agrees_with_app) supports it."""
     s = f"{d['succeeded']} of {d['sent']} completed"
     if not d["succeeded"]:
         return s
     who = (f"in all {d['succeeded']}" if d["score_agrees"] == d["succeeded"]
            else f"in {d['score_agrees']} of {d['succeeded']}")
-    return s + f"; {who} the Evolus Script's own recomputation of the evidence score matches ours"
+    return s + f"; {who} the Evolus Script's own recomputation of the evidence score matches mine"
 
 
 # ------------------------------------------------------------------------------------------- the runner

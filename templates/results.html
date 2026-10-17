@@ -8,7 +8,7 @@
 {% set b = n.business %}
 <section class="page-head res-head">
   <div class="eyebrow">Evaluation</div>
-  <h1>What we measured, and where it breaks</h1>
+  <h1>What I measured, and where it breaks</h1>
   <p class="lede">Every number on this site, with its method and source. The headline run is a pre-registered random sample of {{ H.forms }} forms: sample, prompt, gate and metrics were committed before any model read. <a href="/report.pdf">{{ icon('download') }}Report (PDF)</a></p>
 </section>
 
@@ -46,7 +46,7 @@
   <details class="more-d">
     <summary>Business reading, known limitation, and sources</summary>
     <p class="small"><b>Business result.</b> On {{ H.read }} random forms already keyed twice, the model sent {{ H.disagree }} of {{ H.fields|int }} fields ({{ H.flag_pct }}%) to a person, and {{ H.keying_errors }} of those were fields where the official capture does not match the paper, each with its photo: {{ L.breakdown }} {{ L.honest }} Cost {{ n.business.cpf_g|usd(6) }} per form on AMD, so {{ n.business.per_1000_g }} per 1,000 forms.</p>
-    <p class="small"><b>Known limitation: one reader, one adjudicator, and recall measured on one state.</b> Every disagreement was settled from the photo by the AI adjudicator (the builder's model, which could see both values) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; fields where the model and the capture agree were not individually checked (a blind check of a random 200 is at /check?set=agree200). {{ L.recall }} The multiple between 1 in 5 and 1 in 122 depends on recall on the random 300, which was not measured there; up to 24 times if the model finds nearly every error. Our pacing on a shared key reads about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
+    <p class="small"><b>Known limitation: one reader, one adjudicator, and recall measured on one state.</b> Every disagreement was settled from the photo by the AI adjudicator (the builder's model, which could see both values) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; fields where the model and the capture agree were not individually checked (a blind check of a random 200 is at /check?set=agree200). {{ L.recall }} The multiple between 1 in 5 and 1 in 122 depends on recall on the random 300, which was not measured there; up to 24 times if the model finds nearly every error. My pacing on a shared key reads about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
   <p class="tiny">{{ source("results/calls_gemma.jsonl (last read per form), results/adjudication/SUMMARY.md, CERTIFIED.md, RECALL.md, verdicts.json; summarised in app/data/headline.json by scripts/build_headline.py") }} Sources: results/calls_gemma.jsonl and results/adjudication/. A post-hoc gate variant designed after seeing these reads is reported separately in results/posthoc_v2_300.md and is not a test of anything.</p>
   </details>
 </section>
@@ -97,7 +97,7 @@
 {% set T = n.T %}
 {% if G %}
 <section id="tiers">
-  <div class="sec-head"><div><h2>Every gate tier, one table</h2><p>The same {{ G.forms }} forms under every gate we ran. Gemma full gate is the pre-registered primary; the light gate (c) and two readers (d) were pre-registered in Amendment 2, before any Qwen read and before any adjudication. Rows marked post-hoc were designed after seeing these reads and test nothing.</p></div></div>
+  <div class="sec-head"><div><h2>Every gate tier, one table</h2><p>The same {{ G.forms }} forms under every gate I ran. Gemma full gate is the pre-registered primary; the light gate (c) and two readers (d) were pre-registered in Amendment 2, before any Qwen read and before any adjudication. Rows marked post-hoc were designed after seeing these reads and test nothing.</p></div></div>
   <div class="card" style="padding:6px 8px">
     <div class="tablewrap">
     <table class="rtable gtable">
@@ -226,7 +226,7 @@
 {% endif %}
 
 <section id="limits">
-  <div class="sec-head"><div><h2>Limitations we measured</h2><p>The arithmetic catches any single misread; only an error that keeps every identity true passes. Each limit below is measured.</p></div></div>
+  <div class="sec-head"><div><h2>Limitations I measured</h2><p>The arithmetic catches any single misread; only an error that keeps every identity true passes. Each limit below is measured.</p></div></div>
   <details class="more-d">
     <summary>The two measured costs of the gate, and what the arithmetic cannot catch</summary>
   <div class="grid2">
@@ -249,7 +249,7 @@
   <div class="card callout bad" style="border-left-width:4px">
     <h3>Silent column shift on a rainfall ledger</h3>
     <p class="small" style="margin-top:8px">Read as one image, {{ meta.model }} put Balcombe Gables' 1887 values under 1886, and so on along the row. Every shifted column still sums to its total, so the checksum accepted wrong cells: on that reader, {{ si.acc_col_cells - si.acc_col_exact }} of {{ si.acc_col_cells }} accepted cells were wrong ({{ si.cells|int }} cells read, {{ si.cell_acc }}% right overall). Zoomed tiles removed it ({{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} accepted cells wrong; spike, 40 sheets), but tiling is a mitigation, not a proof.</p>
-    <p class="small"><b>What we built because of it:</b> on the tally sheet the reader must report the printed label it sees on every row, and the gate rejects a row whose label is not the one expected at that position, so a shifted or doubled row cannot pass. Its cost is measured above.</p>
+    <p class="small"><b>What I built because of it:</b> on the tally sheet the reader must report the printed label it sees on every row, and the gate rejects a row whose label is not the one expected at that position, so a shifted or doubled row cannot pass. Its cost is measured above.</p>
     <p class="tiny" style="margin:0">Sources: {{ si.source }}; docs/sources/ledger-rescue-pilot.md §4.</p>
   </div>
 </section>
@@ -356,7 +356,7 @@
     {% endif %}
   <div class="grid3" style="margin-top:12px">
     <div class="card"><h3>Accepted form</h3><p class="small" style="margin:0">Starts the workflow "Record filing": a deterministic script re-checks the paper's identities inside Evolus and files the record.</p></div>
-    <div class="card"><h3>Routed form</h3><p class="small" style="margin:0">Starts "Review hand-off": the agent "Intake clerk" (an open model on the AMD Token Factory) writes the review task, the AI Tool translate turns it into Spanish, and the task reaches a person on our <a href="/review">review desk</a>, where "Send to Evolus" starts it for any routed form.</p></div>
+    <div class="card"><h3>Routed form</h3><p class="small" style="margin:0">Starts "Review hand-off": the agent "Intake clerk" (an open model on the AMD Token Factory) writes the review task, the AI Tool translate turns it into Spanish, and the task reaches a person on my <a href="/review">review desk</a>, where "Send to Evolus" starts it for any routed form.</p></div>
     <div class="card"><h3>Audit findings and a third reader</h3><p class="small" style="margin:0">From an audit report, each strong-evidence field opens an "Audit finding" case with a drafted finding and a score a script recomputes. An Evolus extractor reads as a third reader, gated and compared, never trusted blindly.</p></div>
   </div>
   <p class="tiny" style="margin-top:10px">Each form page and the review desk show the form's Evolus run: id, steps and status. {{ source("docs/EVOLUS.md; evolus/ (python -m evolus setup, python -m evolus run); results/evolus_runs.jsonl, results/evolus_audit_runs.jsonl, results/evolus/executions.jsonl") }}</p>

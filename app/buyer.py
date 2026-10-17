@@ -27,23 +27,23 @@ ONPE_URL = "https://elperuano.pe/noticia/297403-onpe-conozca-el-procedimiento-qu
 INE_TITLE = "Institutes already tried to buy machine reading"
 INE_LINES = [
     ("INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different "
-     "step from our check, and bought none (last line).", "p. 4"),
+     "step from my check, and bought none (last line).", "p. 4"),
     ("IPN quoted MXN 19.9M for the service.", "p. 4"),
     ("The acceptance bar was 80% agreement on words and digits.", "p. 5"),
     ("The best entrant reached 75%; INE declined it as untested in a real election, and its advisers (COTAPREP) "
      "recommended a pilot.", "pp. 5, 10"),
 ]
-PILOT = ("Our engine is an automated capture with a referee. For 2027 we offer an independent check of a finished "
+PILOT = ("Two Hands is an automated capture with a referee. For 2027 I offer an independent check of a finished "
          "capture, which needs no rule change; the capture inside the loop is the pilot COTAPREP requested, offered as a "
          "pilot on 2024's own forms.")
 
 # ------------------------------------------------------------------ one product, one buyer, for 2027
 OFFER_2027 = ("Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a "
               "finished capture, field by field against the photo. It needs no rule change: it is an outside check, "
-              "which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the "
+              "which is what I measured. A model as the regulated second capture (PTO numeral 33) needs the "
               "institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term "
               "path, not the 2027 product.")
-MARKET_SIZE = ("How big (our estimate): about 170,000 federal actas (169,005 presidential "
+MARKET_SIZE = ("How big (my estimate): about 170,000 federal actas (169,005 presidential "
                "sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three "
                "per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas "
                "for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the "
@@ -51,7 +51,7 @@ MARKET_SIZE = ("How big (our estimate): about 170,000 federal actas (169,005 pre
                "applies wherever keyed values must match paper.")
 MARKET_SIZE_SRC = ("PREP 2024 CSV (169,005 presidential sheets); IMPEPAC Informe Final PREP 23-24, pp. 3-4 (Morelos "
                    "local actas); INE Central Electoral 2026-07-30 (32 concurrent local processes). The 2-3 local actas "
-                   "per polling station is our estimate.")
+                   "per polling station is my estimate.")
 
 # ------------------------------------------------------------------ contact status: ONE flag, flipped by the user
 CONTACT = {"contacted": False, "date": None, "who": None}   # set contacted=True, date="YYYY-MM-DD", who="..." once sent
@@ -71,13 +71,13 @@ def forms_line() -> str:
         d = ieebcs_card.load()
     except Exception:  # noqa: BLE001
         d = None
-    local = ("Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored "
+    local = ("My local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored "
              "(the head-to-head card)." if d else
              "Local actas are next: a pre-registered head-to-head on Baja California Sur's 2024 local actas, read on "
              "AMD (PROTOCOL_IEEBCS.md).")
     return ("Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The "
-            "presidential forms we measured (and the Senate forms we read) are federal, processed by INE. " + local)
-METRIC_LABEL = ("INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they "
+            "presidential forms I measured (and the Senate forms I read) are federal, processed by INE. " + local)
+METRIC_LABEL = ("INE's 2024 acceptance metric as I read it from the report, computed on my existing reads after they "
                 "were made; the definition was committed before computation; not the same test set or conditions as "
                 "INE's trial.")
 
@@ -103,9 +103,9 @@ def ine_card() -> dict:
     score = None
     if m:
         p = m["primary_per_field_words_and_digits"]
-        score = (f"On that metric as we read it, Gemma's existing reads of our pre-registered 300 agree with the "
+        score = (f"On that metric as I read it, Gemma's existing reads of my pre-registered 300 agree with the "
                  f"official capture in words and digits on {p['pct']:.1f}% of fields ({p['k']:,} of {p['n']:,}; failed "
-                 f"reads and blank or illegible captures count against us).")
+                 f"reads and blank or illegible captures count against me).")
     from app.numbers import checked_line
     beside = (f"Beside it, the result that decides acceptance: {t2['errors']} wrong of {t2['fields']:,} accepted fields "
               f"(two readers, the paper's sums as referee), judged {checked_line()}." if t2 else None)
@@ -122,7 +122,7 @@ def market_lines() -> list[dict]:
         {"k": "morelos",
          "text": (f"Morelos paid MXN {M['prep_mxn'] / 1e6:.1f}M for its 2024 PREP: {M['actas']:,} actas expected, 110 "
                   f"capture-and-verification posts, and an MXN {M['audit_mxn'] / 1e6:.1f}M outside audit of the system, "
-                  f"which by rule checks the software, not the keyed values against the paper. We check every value for "
+                  f"which by rule checks the software, not the keyed values against the paper. I check every value for "
                   f"${pricing.PRICE_PER_FORM_USD} per acta, {t['morelos_audit']}."),
          "source": f"IMPEPAC, Informe Final PREP 23-24 v2.0, p. 56, {MORELOS_URL}; audit scope: RE art. 347 numeral 1; "
                    f"INE's 2024 audit (UAM-I), PDF p. 7, {UAM_URL}"},
@@ -158,7 +158,7 @@ def cost_lines(H: dict) -> Optional[dict]:
         "main": (f"On the {d['not_recounted']:,} polling stations that were not recounted, INE's two official records of "
                  f"the same paper, the preliminary capture and the certified count, disagree on at least one vote field "
                  f"in {d['not_recounted_differ']:,} ({d['not_recounted_differ_pct']}%). A difference says two captures "
-                 f"disagree, not which one is right; the photo does. On our 300, the photo sided with the certified "
+                 f"disagree, not which one is right; the photo does. On my 300, the photo sided with the certified "
                  f"count on {H['cert_agree']} of the {H['cert_covered']} it covered."),
         "preliminary": "The preliminary count is preliminary by design; the certified count is the official result.",
         "rowsum": (f"{b['text']} ({b['num']} of {b['den']}) of fully captured national forms fail their own row sum in "
@@ -201,11 +201,11 @@ NEXT_MARKETS = [
     {"k": "sdv",
      "text": ("Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered "
               "data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields "
-              "the paper disputes is the mechanism we measured on election forms."),
+              "the paper disputes is the mechanism I measured on election forms."),
      "source": ("Medidata/TransCelerate, Clinical Leader Nov 2014, https://www.clinicalleader.com/doc/medidata-"
                 "transcelerate-biopharma-inc-clinical-trial-0001; Lindblad et al., Clinical Trials 2014; 11: 205-217")},
 ]
 
 PERU = ("Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant (\"una de ellas, por un "
-        "asistente virtual\"); same process, second country, by regulation; not measured by us.")
+        "asistente virtual\"); same process, second country, by regulation; not measured by me.")
 PERU_SRC = f"ONPE directive, Resolución Jefatural 000093-2026, as reported by El Peruano, 6 Jun 2026, {ONPE_URL}"
