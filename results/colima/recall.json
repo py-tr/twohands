@@ -6,5 +6,2525 @@
  "candidates": 139,
  "caught": 27,
  "neither": 2,
- "complete": false
+ "complete": true,
+ "answered": 139,
+ "missed": 1,
+ "corrections": 95,
+ "ambiguous": 43,
+ "recall": 0.9642857142857143,
+ "ci": [
+  0.82287,
+  0.99367
+ ],
+ "recall_ambiguous_as_missed": 0.38028169014084506,
+ "ci_ambiguous_as_missed": [
+  0.27627,
+  0.49658
+ ],
+ "rows": [
+  {
+   "item": "060076B0100__MC",
+   "field": "Option 06",
+   "capture": 86,
+   "certified": 71,
+   "gemma": 86,
+   "person_digits": 86,
+   "person_words": 86,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__MORENA",
+   "field": "Option 07",
+   "capture": 121,
+   "certified": 136,
+   "gemma": 121,
+   "person_digits": 121,
+   "person_words": 121,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": 0,
+   "certified": 2,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__NULOS",
+   "field": "Null votes",
+   "capture": 10,
+   "certified": 5,
+   "gemma": 10,
+   "person_digits": 10,
+   "person_words": 10,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PAN",
+   "field": "Option 01",
+   "capture": 47,
+   "certified": 56,
+   "gemma": 47,
+   "person_digits": 47,
+   "person_words": 47,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PAN_PRI",
+   "field": "Option 09",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": 5,
+   "certified": 4,
+   "gemma": 5,
+   "person_digits": 5,
+   "person_words": 5,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PRD",
+   "field": "Option 03",
+   "capture": 4,
+   "certified": 0,
+   "gemma": 4,
+   "person_digits": 4,
+   "person_words": 4,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PRI",
+   "field": "Option 02",
+   "capture": 38,
+   "certified": 27,
+   "gemma": 38,
+   "person_digits": 38,
+   "person_words": 38,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PT",
+   "field": "Option 05",
+   "capture": 9,
+   "certified": 10,
+   "gemma": 9,
+   "person_digits": 9,
+   "person_words": 9,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PT_MORENA",
+   "field": "Option 15",
+   "capture": 0,
+   "certified": 2,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PVEM",
+   "field": "Option 04",
+   "capture": 11,
+   "certified": 13,
+   "gemma": 11,
+   "person_digits": 11,
+   "person_words": 11,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060076B0100__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": 7,
+   "certified": 10,
+   "gemma": 7,
+   "person_digits": 7,
+   "person_words": 7,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060095C0200__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060146E0105__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060146E0105__PAN_PRD",
+   "field": "Option 10",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060146E0105__PAN_PRI",
+   "field": "Option 09",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060146E0105__PRI_PRD",
+   "field": "Option 11",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060146E0105__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060146E0204__TOTAL",
+   "field": "TOTAL",
+   "capture": null,
+   "certified": 383,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060149C0200__MC",
+   "field": "Option 06",
+   "capture": 45,
+   "certified": 42,
+   "gemma": 45,
+   "person_digits": 45,
+   "person_words": 45,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__MORENA",
+   "field": "Option 07",
+   "capture": 108,
+   "certified": 130,
+   "gemma": 108,
+   "person_digits": 108,
+   "person_words": 108,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PAN",
+   "field": "Option 01",
+   "capture": 68,
+   "certified": 50,
+   "gemma": 68,
+   "person_digits": 68,
+   "person_words": 68,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PAN_PRD",
+   "field": "Option 10",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PAN_PRI",
+   "field": "Option 09",
+   "capture": 8,
+   "certified": 3,
+   "gemma": 8,
+   "person_digits": 8,
+   "person_words": 8,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": 14,
+   "certified": 11,
+   "gemma": 14,
+   "person_digits": 14,
+   "person_words": 14,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PRD",
+   "field": "Option 03",
+   "capture": 1,
+   "certified": 6,
+   "gemma": 1,
+   "person_digits": 1,
+   "person_words": 1,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PRI",
+   "field": "Option 02",
+   "capture": 53,
+   "certified": 50,
+   "gemma": 53,
+   "person_digits": 53,
+   "person_words": 53,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PT",
+   "field": "Option 05",
+   "capture": 4,
+   "certified": 8,
+   "gemma": 4,
+   "person_digits": 4,
+   "person_words": 4,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PVEM",
+   "field": "Option 04",
+   "capture": 9,
+   "certified": 11,
+   "gemma": 9,
+   "person_digits": 9,
+   "person_words": 9,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": 1,
+   "certified": 2,
+   "gemma": 1,
+   "person_digits": 1,
+   "person_words": 1,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PVEM_PT",
+   "field": "Option 13",
+   "capture": 0,
+   "certified": 3,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": 11,
+   "certified": 15,
+   "gemma": 11,
+   "person_digits": 11,
+   "person_words": 11,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060149C0200__TOTAL",
+   "field": "TOTAL",
+   "capture": 330,
+   "certified": 340,
+   "gemma": 330,
+   "person_digits": 330,
+   "person_words": 330,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__MC",
+   "field": "Option 06",
+   "capture": 44,
+   "certified": 16,
+   "gemma": 44,
+   "person_digits": 44,
+   "person_words": 44,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__MORENA",
+   "field": "Option 07",
+   "capture": 87,
+   "certified": 102,
+   "gemma": 87,
+   "person_digits": 87,
+   "person_words": 87,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__NULOS",
+   "field": "Null votes",
+   "capture": 14,
+   "certified": 8,
+   "gemma": 14,
+   "person_digits": 14,
+   "person_words": 14,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__PAN",
+   "field": "Option 01",
+   "capture": 59,
+   "certified": 74,
+   "gemma": 59,
+   "person_digits": 59,
+   "person_words": 59,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": 2,
+   "certified": 4,
+   "gemma": 2,
+   "person_digits": 2,
+   "person_words": 2,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__PRD",
+   "field": "Option 03",
+   "capture": 13,
+   "certified": 8,
+   "gemma": 13,
+   "person_digits": 13,
+   "person_words": 13,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__PRI",
+   "field": "Option 02",
+   "capture": 54,
+   "certified": 60,
+   "gemma": 54,
+   "person_digits": 54,
+   "person_words": 54,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__PVEM",
+   "field": "Option 04",
+   "capture": 6,
+   "certified": 8,
+   "gemma": 6,
+   "person_digits": 6,
+   "person_words": 6,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060169B0100__PVEM_PT",
+   "field": "Option 13",
+   "capture": 1,
+   "certified": 0,
+   "gemma": 1,
+   "person_digits": 1,
+   "person_words": 1,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__MC",
+   "field": "Option 06",
+   "capture": 37,
+   "certified": 38,
+   "gemma": 37,
+   "person_digits": 37,
+   "person_words": 32,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060182C0100__MORENA",
+   "field": "Option 07",
+   "capture": 113,
+   "certified": 107,
+   "gemma": 113,
+   "person_digits": 113,
+   "person_words": 113,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__NULOS",
+   "field": "Null votes",
+   "capture": 7,
+   "certified": 10,
+   "gemma": 7,
+   "person_digits": 7,
+   "person_words": 7,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PAN",
+   "field": "Option 01",
+   "capture": 12,
+   "certified": 15,
+   "gemma": 12,
+   "person_digits": 12,
+   "person_words": 12,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PAN_PRD",
+   "field": "Option 10",
+   "capture": 1,
+   "certified": 0,
+   "gemma": 1,
+   "person_digits": 1,
+   "person_words": 1,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": 3,
+   "certified": 1,
+   "gemma": 3,
+   "person_digits": 3,
+   "person_words": 3,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PRD",
+   "field": "Option 03",
+   "capture": 8,
+   "certified": 4,
+   "gemma": 8,
+   "person_digits": 8,
+   "person_words": 8,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PRI",
+   "field": "Option 02",
+   "capture": 23,
+   "certified": 21,
+   "gemma": 23,
+   "person_digits": 23,
+   "person_words": 23,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PRI_PRD",
+   "field": "Option 11",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PT",
+   "field": "Option 05",
+   "capture": 8,
+   "certified": 13,
+   "gemma": 8,
+   "person_digits": 8,
+   "person_words": 8,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PT_MORENA",
+   "field": "Option 15",
+   "capture": 5,
+   "certified": 1,
+   "gemma": 5,
+   "person_digits": 5,
+   "person_words": 5,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PVEM",
+   "field": "Option 04",
+   "capture": 52,
+   "certified": 58,
+   "gemma": 52,
+   "person_digits": 52,
+   "person_words": 52,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": 11,
+   "certified": 8,
+   "gemma": 11,
+   "person_digits": 11,
+   "person_words": 11,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PVEM_PT",
+   "field": "Option 13",
+   "capture": 3,
+   "certified": 2,
+   "gemma": 3,
+   "person_digits": 3,
+   "person_words": 3,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": 7,
+   "certified": 9,
+   "gemma": 7,
+   "person_digits": 7,
+   "person_words": 7,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060182C0100__TOTAL",
+   "field": "TOTAL",
+   "capture": 290,
+   "certified": 288,
+   "gemma": 290,
+   "person_digits": 290,
+   "person_words": 290,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060195B0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060195B0100__PAN_PRD",
+   "field": "Option 10",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060195B0100__PAN_PRI",
+   "field": "Option 09",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060195B0100__PRI_PRD",
+   "field": "Option 11",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060205C0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060205C0100__PAN_PRD",
+   "field": "Option 10",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060205C0100__PRI_PRD",
+   "field": "Option 11",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PAN_PRD",
+   "field": "Option 10",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PAN_PRI",
+   "field": "Option 09",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PRD",
+   "field": "Option 03",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PRI_PRD",
+   "field": "Option 11",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PT_MORENA",
+   "field": "Option 15",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PVEM_PT",
+   "field": "Option 13",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060215B0100__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060248B0100__MC",
+   "field": "Option 06",
+   "capture": 91,
+   "certified": 63,
+   "gemma": 91,
+   "person_digits": 91,
+   "person_words": 91,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__MORENA",
+   "field": "Option 07",
+   "capture": 138,
+   "certified": 157,
+   "gemma": 138,
+   "person_digits": 138,
+   "person_words": 138,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__NULOS",
+   "field": "Null votes",
+   "capture": 10,
+   "certified": 9,
+   "gemma": 10,
+   "person_digits": 10,
+   "person_words": 10,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PAN_PRI",
+   "field": "Option 09",
+   "capture": 2,
+   "certified": 4,
+   "gemma": 2,
+   "person_digits": 2,
+   "person_words": 2,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": 7,
+   "certified": 11,
+   "gemma": 7,
+   "person_digits": 7,
+   "person_words": 7,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PRD",
+   "field": "Option 03",
+   "capture": 2,
+   "certified": 0,
+   "gemma": 2,
+   "person_digits": 2,
+   "person_words": 2,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PRI",
+   "field": "Option 02",
+   "capture": 57,
+   "certified": 42,
+   "gemma": 57,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060248B0100__PT",
+   "field": "Option 05",
+   "capture": 9,
+   "certified": 10,
+   "gemma": 9,
+   "person_digits": 9,
+   "person_words": 9,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PT_MORENA",
+   "field": "Option 15",
+   "capture": 0,
+   "certified": 5,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PVEM",
+   "field": "Option 04",
+   "capture": 27,
+   "certified": 29,
+   "gemma": 27,
+   "person_digits": 27,
+   "person_words": 27,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": 2,
+   "certified": 3,
+   "gemma": 2,
+   "person_digits": 2,
+   "person_words": 2,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PVEM_PT",
+   "field": "Option 13",
+   "capture": 0,
+   "certified": 1,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248B0100__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": 9,
+   "certified": 19,
+   "gemma": 9,
+   "person_digits": 9,
+   "person_words": 9,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__MC",
+   "field": "Option 06",
+   "capture": 79,
+   "certified": 61,
+   "gemma": 79,
+   "person_digits": 79,
+   "person_words": 79,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__MORENA",
+   "field": "Option 07",
+   "capture": 161,
+   "certified": 170,
+   "gemma": 161,
+   "person_digits": 161,
+   "person_words": 161,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__NULOS",
+   "field": "Null votes",
+   "capture": 10,
+   "certified": 8,
+   "gemma": 10,
+   "person_digits": 10,
+   "person_words": 10,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PAN",
+   "field": "Option 01",
+   "capture": 37,
+   "certified": 38,
+   "gemma": 37,
+   "person_digits": 37,
+   "person_words": 37,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PAN_PRI",
+   "field": "Option 09",
+   "capture": 3,
+   "certified": 2,
+   "gemma": 3,
+   "person_digits": 3,
+   "person_words": 3,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": 2,
+   "certified": 9,
+   "gemma": 2,
+   "person_digits": 2,
+   "person_words": 2,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PRD",
+   "field": "Option 03",
+   "capture": 3,
+   "certified": 0,
+   "gemma": 3,
+   "person_digits": 3,
+   "person_words": 3,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PRI",
+   "field": "Option 02",
+   "capture": 30,
+   "certified": 24,
+   "gemma": 30,
+   "person_digits": 30,
+   "person_words": 30,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PT",
+   "field": "Option 05",
+   "capture": 4,
+   "certified": 10,
+   "gemma": 4,
+   "person_digits": 4,
+   "person_words": 4,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PT_MORENA",
+   "field": "Option 15",
+   "capture": 3,
+   "certified": 6,
+   "gemma": 3,
+   "person_digits": 3,
+   "person_words": 3,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": 4,
+   "certified": 5,
+   "gemma": 4,
+   "person_digits": 4,
+   "person_words": 4,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0204__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": 14,
+   "certified": 17,
+   "gemma": 14,
+   "person_digits": 14,
+   "person_words": 14,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__MC",
+   "field": "Option 06",
+   "capture": 89,
+   "certified": 73,
+   "gemma": 89,
+   "person_digits": 89,
+   "person_words": 89,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__MORENA",
+   "field": "Option 07",
+   "capture": 195,
+   "certified": 202,
+   "gemma": 195,
+   "person_digits": 195,
+   "person_words": 195,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": 1,
+   "certified": 0,
+   "gemma": 1,
+   "person_digits": 1,
+   "person_words": 1,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__NULOS",
+   "field": "Null votes",
+   "capture": 6,
+   "certified": 4,
+   "gemma": 6,
+   "person_digits": 6,
+   "person_words": 6,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PAN",
+   "field": "Option 01",
+   "capture": 37,
+   "certified": 36,
+   "gemma": 37,
+   "person_digits": 37,
+   "person_words": 37,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": 4,
+   "certified": 5,
+   "gemma": 4,
+   "person_digits": 4,
+   "person_words": 4,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PRI",
+   "field": "Option 02",
+   "capture": 35,
+   "certified": 23,
+   "gemma": 35,
+   "person_digits": 35,
+   "person_words": 35,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PT",
+   "field": "Option 05",
+   "capture": 5,
+   "certified": 16,
+   "gemma": 5,
+   "person_digits": 5,
+   "person_words": 5,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PT_MORENA",
+   "field": "Option 15",
+   "capture": 0,
+   "certified": 6,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 0,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PVEM",
+   "field": "Option 04",
+   "capture": 22,
+   "certified": 23,
+   "gemma": 22,
+   "person_digits": 22,
+   "person_words": 22,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": 1,
+   "certified": 2,
+   "gemma": 1,
+   "person_digits": 1,
+   "person_words": 1,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060248E0207__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": 2,
+   "certified": 7,
+   "gemma": 2,
+   "person_digits": 2,
+   "person_words": 2,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060250C0300__MORENA",
+   "field": "Option 07",
+   "capture": 277,
+   "certified": 217,
+   "gemma": 277,
+   "person_digits": 217,
+   "person_words": 217,
+   "label": "capture error Gemma also missed"
+  },
+  {
+   "item": "060317C0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060338C0100__PAN_PRD",
+   "field": "Option 10",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060338C0100__PRI_PRD",
+   "field": "Option 11",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060338C0100__TOTAL",
+   "field": "TOTAL",
+   "capture": 331,
+   "certified": 330,
+   "gemma": 331,
+   "person_digits": 331,
+   "person_words": 331,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060340B0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": 0,
+   "certified": 2,
+   "gemma": 0,
+   "person_digits": 0,
+   "person_words": 2,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__MORENA",
+   "field": "Option 07",
+   "capture": 166,
+   "certified": 143,
+   "gemma": 166,
+   "person_digits": 166,
+   "person_words": 166,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060365B0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PAN",
+   "field": "Option 01",
+   "capture": 32,
+   "certified": 28,
+   "gemma": 32,
+   "person_digits": 32,
+   "person_words": 32,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060365B0100__PAN_PRD",
+   "field": "Option 10",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PAN_PRI",
+   "field": "Option 09",
+   "capture": null,
+   "certified": 2,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PAN_PRI_PRD",
+   "field": "Option 08",
+   "capture": null,
+   "certified": 2,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PRI",
+   "field": "Option 02",
+   "capture": 32,
+   "certified": 33,
+   "gemma": 32,
+   "person_digits": 32,
+   "person_words": 32,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060365B0100__PRI_PRD",
+   "field": "Option 11",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PT_MORENA",
+   "field": "Option 15",
+   "capture": null,
+   "certified": 2,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PVEM",
+   "field": "Option 04",
+   "capture": 8,
+   "certified": 7,
+   "gemma": 8,
+   "person_digits": 8,
+   "person_words": 8,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060365B0100__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": null,
+   "certified": 4,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PVEM_PT",
+   "field": "Option 13",
+   "capture": null,
+   "certified": 1,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060365B0100__PVEM_PT_MORENA",
+   "field": "Option 12",
+   "capture": null,
+   "certified": 16,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060373B0100__MORENA",
+   "field": "Option 07",
+   "capture": 94,
+   "certified": 95,
+   "gemma": 94,
+   "person_digits": 94,
+   "person_words": 94,
+   "label": "later correction by the council"
+  },
+  {
+   "item": "060373C0100__NO_REGISTRADAS",
+   "field": "Unregistered candidates",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060373C0100__PAN_PRD",
+   "field": "Option 10",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060373C0100__PVEM_MORENA",
+   "field": "Option 14",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  },
+  {
+   "item": "060373C0100__PVEM_PT",
+   "field": "Option 13",
+   "capture": null,
+   "certified": 0,
+   "gemma": null,
+   "person_digits": null,
+   "person_words": null,
+   "label": "ambiguous"
+  }
+ ],
+ "answers": {
+  "060076B0100__MC": {
+   "digits": 86,
+   "words": 86,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:36Z"
+  },
+  "060076B0100__MORENA": {
+   "digits": 121,
+   "words": 121,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:22Z"
+  },
+  "060076B0100__NO_REGISTRADAS": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:01:18Z"
+  },
+  "060076B0100__NULOS": {
+   "digits": 10,
+   "words": 10,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:38Z"
+  },
+  "060076B0100__PAN": {
+   "digits": 47,
+   "words": 47,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:41Z"
+  },
+  "060076B0100__PAN_PRI": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:00Z"
+  },
+  "060076B0100__PAN_PRI_PRD": {
+   "digits": 5,
+   "words": 5,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:39Z"
+  },
+  "060076B0100__PRD": {
+   "digits": 4,
+   "words": 4,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:12:21Z"
+  },
+  "060076B0100__PRI": {
+   "digits": 38,
+   "words": 38,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:01:34Z"
+  },
+  "060076B0100__PT": {
+   "digits": 9,
+   "words": 9,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:07Z"
+  },
+  "060076B0100__PT_MORENA": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:18Z"
+  },
+  "060076B0100__PVEM": {
+   "digits": 11,
+   "words": 11,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:16Z"
+  },
+  "060076B0100__PVEM_MORENA": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:34Z"
+  },
+  "060076B0100__PVEM_PT_MORENA": {
+   "digits": 7,
+   "words": 7,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:01:15Z"
+  },
+  "060095C0200__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:47Z"
+  },
+  "060146E0105__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:34Z"
+  },
+  "060146E0105__PAN_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:18Z"
+  },
+  "060146E0105__PAN_PRI": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:41Z"
+  },
+  "060146E0105__PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:46Z"
+  },
+  "060146E0105__PVEM_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:40Z"
+  },
+  "060146E0204__TOTAL": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:10:49Z"
+  },
+  "060149C0200__MC": {
+   "digits": 45,
+   "words": 45,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:51Z"
+  },
+  "060149C0200__MORENA": {
+   "digits": 108,
+   "words": 108,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:11:01Z"
+  },
+  "060149C0200__PAN": {
+   "digits": 68,
+   "words": 68,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:10:53Z"
+  },
+  "060149C0200__PAN_PRD": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:07Z"
+  },
+  "060149C0200__PAN_PRI": {
+   "digits": 8,
+   "words": 8,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:58Z"
+  },
+  "060149C0200__PAN_PRI_PRD": {
+   "digits": 14,
+   "words": 14,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:01:27Z"
+  },
+  "060149C0200__PRD": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:01:37Z"
+  },
+  "060149C0200__PRI": {
+   "digits": 53,
+   "words": 53,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:02Z"
+  },
+  "060149C0200__PT": {
+   "digits": 4,
+   "words": 4,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:03Z"
+  },
+  "060149C0200__PVEM": {
+   "digits": 9,
+   "words": 9,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:44Z"
+  },
+  "060149C0200__PVEM_MORENA": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:12:05Z"
+  },
+  "060149C0200__PVEM_PT": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:10:48Z"
+  },
+  "060149C0200__PVEM_PT_MORENA": {
+   "digits": 11,
+   "words": 11,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:02:18Z"
+  },
+  "060149C0200__TOTAL": {
+   "digits": 330,
+   "words": 330,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:25Z"
+  },
+  "060169B0100__MC": {
+   "digits": 44,
+   "words": 44,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:16Z"
+  },
+  "060169B0100__MORENA": {
+   "digits": 87,
+   "words": 87,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:39Z"
+  },
+  "060169B0100__NULOS": {
+   "digits": 14,
+   "words": 14,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:35Z"
+  },
+  "060169B0100__PAN": {
+   "digits": 59,
+   "words": 59,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:17Z"
+  },
+  "060169B0100__PAN_PRI_PRD": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:40Z"
+  },
+  "060169B0100__PRD": {
+   "digits": 13,
+   "words": 13,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:10:46Z"
+  },
+  "060169B0100__PRI": {
+   "digits": 54,
+   "words": 54,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:33Z"
+  },
+  "060169B0100__PVEM": {
+   "digits": 6,
+   "words": 6,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:39Z"
+  },
+  "060169B0100__PVEM_PT": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:06Z"
+  },
+  "060182C0100__MC": {
+   "digits": 37,
+   "words": 32,
+   "blank": false,
+   "cant_tell": false,
+   "differ": true,
+   "ts": "2026-10-17T14:04:16Z"
+  },
+  "060182C0100__MORENA": {
+   "digits": 113,
+   "words": 113,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:11:45Z"
+  },
+  "060182C0100__NULOS": {
+   "digits": 7,
+   "words": 7,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:12:08Z"
+  },
+  "060182C0100__PAN": {
+   "digits": 12,
+   "words": 12,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:30Z"
+  },
+  "060182C0100__PAN_PRD": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:09Z"
+  },
+  "060182C0100__PAN_PRI_PRD": {
+   "digits": 3,
+   "words": 3,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:13Z"
+  },
+  "060182C0100__PRD": {
+   "digits": 8,
+   "words": 8,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:44Z"
+  },
+  "060182C0100__PRI": {
+   "digits": 23,
+   "words": 23,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:33Z"
+  },
+  "060182C0100__PRI_PRD": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:22Z"
+  },
+  "060182C0100__PT": {
+   "digits": 8,
+   "words": 8,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:54Z"
+  },
+  "060182C0100__PT_MORENA": {
+   "digits": 5,
+   "words": 5,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:20Z"
+  },
+  "060182C0100__PVEM": {
+   "digits": 52,
+   "words": 52,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:30Z"
+  },
+  "060182C0100__PVEM_MORENA": {
+   "digits": 11,
+   "words": 11,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:16Z"
+  },
+  "060182C0100__PVEM_PT": {
+   "digits": 3,
+   "words": 3,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:48Z"
+  },
+  "060182C0100__PVEM_PT_MORENA": {
+   "digits": 7,
+   "words": 7,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:06Z"
+  },
+  "060182C0100__TOTAL": {
+   "digits": 290,
+   "words": 290,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:09Z"
+  },
+  "060195B0100__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:20Z"
+  },
+  "060195B0100__PAN_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:49Z"
+  },
+  "060195B0100__PAN_PRI": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:25Z"
+  },
+  "060195B0100__PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:04Z"
+  },
+  "060205C0100__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:01Z"
+  },
+  "060205C0100__PAN_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:07Z"
+  },
+  "060205C0100__PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:32Z"
+  },
+  "060215B0100__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:23Z"
+  },
+  "060215B0100__PAN_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:44Z"
+  },
+  "060215B0100__PAN_PRI": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:40Z"
+  },
+  "060215B0100__PAN_PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:23Z"
+  },
+  "060215B0100__PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:12:22Z"
+  },
+  "060215B0100__PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:42Z"
+  },
+  "060215B0100__PT_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:03Z"
+  },
+  "060215B0100__PVEM_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:41Z"
+  },
+  "060215B0100__PVEM_PT": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:32Z"
+  },
+  "060215B0100__PVEM_PT_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:01:23Z"
+  },
+  "060248B0100__MC": {
+   "digits": 91,
+   "words": 91,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:27Z"
+  },
+  "060248B0100__MORENA": {
+   "digits": 138,
+   "words": 138,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:35Z"
+  },
+  "060248B0100__NO_REGISTRADAS": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:57Z"
+  },
+  "060248B0100__NULOS": {
+   "digits": 10,
+   "words": 10,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:18Z"
+  },
+  "060248B0100__PAN_PRI": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:48Z"
+  },
+  "060248B0100__PAN_PRI_PRD": {
+   "digits": 7,
+   "words": 7,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:39Z"
+  },
+  "060248B0100__PRD": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:21Z"
+  },
+  "060248B0100__PRI": {
+   "digits": null,
+   "words": null,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T14:12:01Z"
+  },
+  "060248B0100__PT": {
+   "digits": 9,
+   "words": 9,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:02:28Z"
+  },
+  "060248B0100__PT_MORENA": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:05Z"
+  },
+  "060248B0100__PVEM": {
+   "digits": 27,
+   "words": 27,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:00Z"
+  },
+  "060248B0100__PVEM_MORENA": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:39Z"
+  },
+  "060248B0100__PVEM_PT": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:54Z"
+  },
+  "060248B0100__PVEM_PT_MORENA": {
+   "digits": 9,
+   "words": 9,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:10:56Z"
+  },
+  "060248E0204__MC": {
+   "digits": 79,
+   "words": 79,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:19Z"
+  },
+  "060248E0204__MORENA": {
+   "digits": 161,
+   "words": 161,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:59Z"
+  },
+  "060248E0204__NULOS": {
+   "digits": 10,
+   "words": 10,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:22Z"
+  },
+  "060248E0204__PAN": {
+   "digits": 37,
+   "words": 37,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:58Z"
+  },
+  "060248E0204__PAN_PRI": {
+   "digits": 3,
+   "words": 3,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:22Z"
+  },
+  "060248E0204__PAN_PRI_PRD": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:31Z"
+  },
+  "060248E0204__PRD": {
+   "digits": 3,
+   "words": 3,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:47Z"
+  },
+  "060248E0204__PRI": {
+   "digits": 30,
+   "words": 30,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:54Z"
+  },
+  "060248E0204__PT": {
+   "digits": 4,
+   "words": 4,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:03Z"
+  },
+  "060248E0204__PT_MORENA": {
+   "digits": 3,
+   "words": 3,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:15Z"
+  },
+  "060248E0204__PVEM_MORENA": {
+   "digits": 4,
+   "words": 4,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:11:06Z"
+  },
+  "060248E0204__PVEM_PT_MORENA": {
+   "digits": 14,
+   "words": 14,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:26Z"
+  },
+  "060248E0207__MC": {
+   "digits": 89,
+   "words": 89,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:10Z"
+  },
+  "060248E0207__MORENA": {
+   "digits": 195,
+   "words": 195,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:03Z"
+  },
+  "060248E0207__NO_REGISTRADAS": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:39Z"
+  },
+  "060248E0207__NULOS": {
+   "digits": 6,
+   "words": 6,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:11Z"
+  },
+  "060248E0207__PAN": {
+   "digits": 37,
+   "words": 37,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:45Z"
+  },
+  "060248E0207__PAN_PRI_PRD": {
+   "digits": 4,
+   "words": 4,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:38Z"
+  },
+  "060248E0207__PRI": {
+   "digits": 35,
+   "words": 35,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:26Z"
+  },
+  "060248E0207__PT": {
+   "digits": 5,
+   "words": 5,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:42Z"
+  },
+  "060248E0207__PT_MORENA": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:52Z"
+  },
+  "060248E0207__PVEM": {
+   "digits": 22,
+   "words": 22,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:12:18Z"
+  },
+  "060248E0207__PVEM_MORENA": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:12Z"
+  },
+  "060248E0207__PVEM_PT_MORENA": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:37Z"
+  },
+  "060250C0300__MORENA": {
+   "digits": 217,
+   "words": 217,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:10:42Z"
+  },
+  "060317C0100__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:02:24Z"
+  },
+  "060338C0100__PAN_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:04Z"
+  },
+  "060338C0100__PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:00Z"
+  },
+  "060338C0100__TOTAL": {
+   "digits": 331,
+   "words": 331,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:02:38Z"
+  },
+  "060340B0100__NO_REGISTRADAS": {
+   "digits": 0,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": true,
+   "ts": "2026-10-17T14:02:48Z"
+  },
+  "060365B0100__MORENA": {
+   "digits": 166,
+   "words": 166,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:56Z"
+  },
+  "060365B0100__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:11:07Z"
+  },
+  "060365B0100__PAN": {
+   "digits": 32,
+   "words": 32,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:04:56Z"
+  },
+  "060365B0100__PAN_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:12:03Z"
+  },
+  "060365B0100__PAN_PRI": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:02:50Z"
+  },
+  "060365B0100__PAN_PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:39Z"
+  },
+  "060365B0100__PRI": {
+   "digits": 32,
+   "words": 32,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:37Z"
+  },
+  "060365B0100__PRI_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:28Z"
+  },
+  "060365B0100__PT_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:05Z"
+  },
+  "060365B0100__PVEM": {
+   "digits": 8,
+   "words": 8,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:03:43Z"
+  },
+  "060365B0100__PVEM_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:10:57Z"
+  },
+  "060365B0100__PVEM_PT": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:01:21Z"
+  },
+  "060365B0100__PVEM_PT_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:07:29Z"
+  },
+  "060373B0100__MORENA": {
+   "digits": 94,
+   "words": 94,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:05:52Z"
+  },
+  "060373C0100__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:13Z"
+  },
+  "060373C0100__PAN_PRD": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:08:01Z"
+  },
+  "060373C0100__PVEM_MORENA": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:06:09Z"
+  },
+  "060373C0100__PVEM_PT": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T14:09:19Z"
+  }
+ }
 }
