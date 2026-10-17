@@ -143,15 +143,16 @@ PW, PH = 600, round(600 * 1552 / 1560)               # masked page 080310B0100, 
 PX, PY = 1200, 112
 K = PW / 1560                                        # page px -> slide px
 HB = (29 * K - 3, 875 * K - 3, 744 * K + 6, 96 * K + 6)  # the Unused ballots field (app/crops.py box 0.012-0.322 x 0.564-0.626)
-IX, IY, IW = 500, 452, 640                           # the inset (the ledger sits left of it)
+IX, IY, IW = 500, 476, 640                           # the inset (the ledger sits left of it)
 IH = round(IW * 158 / 744)
 LEDGER = "font-size:18px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)"
 slides.append(slide(1, f"""
   <div style="position:absolute;left:120px;top:112px;width:1000px">
-    <div class="wordmark" style="margin-bottom:36px">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
-    <h1 style="font-size:100px">Two Hands</h1>
-    <p class="lead" style="margin-top:24px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
+    <div class="wordmark" style="margin-bottom:26px">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
+    <h1 style="font-size:96px">Two Hands</h1>
+    <p class="lead" style="margin-top:18px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
     <p class="lead" style="margin-top:10px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
+    <p style="margin-top:12px;font-size:22px;color:var(--ink-2);font-weight:500">For INE, the 32 state institutes and their outside auditors.</p>
   </div>
   <div style="position:absolute;left:{PX}px;top:{PY}px;width:{PW}px">
     <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_080310B0100_left.jpg" alt="Tally sheet 080310B0100, privacy-masked; the masked names-and-signatures column is left out of the frame">
@@ -175,9 +176,9 @@ slides.append(slide(1, f"""
   </div>
   <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:772px">
     <div class="stat"><div class="v" style="font-size:60px">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
-    <div class="stat"><div class="v" style="font-size:60px">91.6%</div><div class="l">field match, vs 62.84% for the reading the state bought</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">91.6%</div><div class="l">field match, vs 62.84% for the system the state bought</div></div>
     <div class="stat"><div class="v" style="font-size:60px">27<small> of 28</small></div><div class="l">capture errors the certified count reveals, caught (one state, pre-registered)</div></div>
-    <div class="stat"><div class="v" style="font-size:60px">0<small> of 484</small></div><div class="l">wrong, of the accepted fields on 100 held-out forms (gate v2, pre-registered)</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">0<small> of 484</small></div><div class="l">accepted fields wrong on 100 fresh forms, gate fixed in advance</div></div>
   </div>
 """, "Form 080310B0100, Unused ballots (results/adjudication/SUMMARY.md; docs/TRACE.md (a)): words 'CIENTO OCHENTA' (180), boxes 1 8 0; the official typed capture (PREP) keyed 480; Gemma read 180 in digits and in words, and the gate accepted the form. The certified count does not cover this field. Page from the app's /masked endpoint, cut at x = 1560 so the masked column is not shown; crop from /crop/080310B0100/SOBRANTES.jpg?pad=0.02&label=0."))
 
@@ -241,7 +242,7 @@ slides.append(slide(4, f"""
         <div class="stat"><div class="v">1,270</div><div class="l">handwritten tally sheets read by Gemma on AMD</div></div>
         <div class="stat"><div class="v">49</div><div class="l">capture errors confirmed by the certified count, each with its photo</div></div>
         <div class="stat" style="border-top:1px solid var(--line)"><div class="v">27<small> of 28</small></div><div class="l">caught, 96% (Wilson 95% 82-99%), pre-registered</div></div>
-        <div class="stat" style="border-top:1px solid var(--line)"><div class="v">0<small> of 484</small></div><div class="l">accepted fields wrong on 100 fresh forms (gate v2)</div></div>
+        <div class="stat" style="border-top:1px solid var(--line)"><div class="v">0<small> of 484</small></div><div class="l">accepted fields wrong on 100 fresh forms (gate v2, fixed before the draw)</div></div>
       </div>
       <p style="margin-top:34px;border-top:1px solid var(--line);padding-top:20px">A person re-read the AI-judged disputes blind: <b>0 read differently</b>.</p>
     </div>
@@ -251,12 +252,12 @@ slides.append(slide(4, f"""
 # 5. Incumbent
 slides.append(slide(5, """
   <div class="kicker">Against the incumbent · Baja California Sur, 2024 local actas</div>
-  <h2 style="margin-bottom:22px">91.6% field match, where the reading the state bought scored 62.84%.</h2>
+  <h2 style="margin-bottom:22px">91.6% field match, where the system the state bought scored 62.84%.</h2>
   <p class="lead" style="font-size:28px;color:var(--muted);max-width:1500px">Same per-field exact-match metric on Baja California Sur's 2024 local actas: ours on a pre-registered random 300, against the published values; theirs on all 2,020, against the manual capture.</p>
   <div class="bars" style="margin-top:60px">
     <div class="row"><div class="name">Two Hands<span>Gemma on AMD · random 300 actas, pre-registered</span></div>
       <div class="trk"><div class="bar" style="width:calc(91.6% * 0.85);background:var(--accent)"></div><div class="val acc">91.6%</div></div></div>
-    <div class="row"><div class="name">Google Document AI<span>the state's purchased reading · all 2,020 actas</span></div>
+    <div class="row"><div class="name">Google Document AI<span>the state's purchased system · all 2,020 actas</span></div>
       <div class="trk"><div class="bar" style="width:calc(62.84% * 0.85);background:#b9bdc6"></div><div class="val muted">62.84%</div></div></div>
   </div>
   <p style="margin:40px 0 0 532px;max-width:1100px;color:var(--muted);font-size:22px">Ours: 91.58% of 3,622 fields, Wilson 95% 90.63-92.44%. Theirs: 14,501 of 23,077 fields.</p>
@@ -272,21 +273,41 @@ slides.append(slide(6, """
     <tr><td>Qwen3.8-27B</td><td class="r">31 of 300</td><td class="r">1 of 682</td><td class="r">$0.64</td><td class="r">241 s</td></tr>
     <tr><td>Both must agree, the paper's sums as referee</td><td class="r">89 of 300</td><td class="r ok"><b class="ok">0 of 1,958</b></td><td class="r">$0.78</td><td class="r">–</td></tr>
   </table>
-  <p class="cap">Two readers: lighter gate, a secondary analysis. Qwen: +2 undecided. Source: app/data/bakeoff_300.json.</p>
+  <p class="cap" style="font-size:21px">Rows 1-2: the first gate (v1) on the pre-registered 300. Row 3: two readers, a lighter gate, a secondary analysis. Gate v2 on 100 fresh forms: slide 7.</p>
   <div style="display:grid;grid-template-columns:auto 1fr;column-gap:48px;align-items:center;margin-top:64px;border-top:1px solid var(--line);padding-top:36px">
     <div class="v acc" style="font-size:112px;font-weight:600;letter-spacing:-2.5px;line-height:1;font-variant-numeric:tabular-nums">$0.14</div>
     <p style="font-size:34px;line-height:1.35;color:var(--ink-2)"><b>Colima, a whole state:</b> all 982 located presidential sheets, read by Gemma on AMD.</p>
   </div>
 """, "README 'Why Gemma' and 'What ran on AMD'; docs/EVOLUS.md (150 executions of real routed fields; a Script recomputes the evidence score with no AI). Every zero-error two-reader pair includes Gemma. About $24 of AMD compute to read all 169,005 national presidential tally sheets."))
 
-# 7. Business
+# 7. Where it breaks
 slides.append(slide(7, f"""
+  <div class="kicker">Where it holds, and where it breaks</div>
+  <h2>Read 3114, paper 314. <span class="acc">Gate v2, fixed in advance, sends it to a person.</span></h2>
+  <div class="g" style="align-items:center">
+    <div class="c7">
+      {annotated(A + "crop_070212B0100_SOBRANTES.jpg", "Unused ballots on form 070212B0100: boxes 3 1 4, words line blank", 960, 744, 158, [
+          (0.45, 0.64, 0.0, "Words line: blank", "no second reading to compare", INK, 0.30),
+          (0.895, 0.66, 0.62, "The paper: 314", "in digits", ACC, 0.08)], band=124)}
+      <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
+    </div>
+    <div class="c5 facts">
+      <div><div class="k">The blind spot</div><p>The model read <b class="bad">3114</b>. Unused ballots sit in no identity: no sum can catch a digit inserted here. The first gate would have accepted it.</p></div>
+      <div><div class="k">Held out</div><p>Gate v2 (digits and words both read and equal) was fixed before 100 fresh forms were drawn. On them: <b class="ok">0 wrong of 484</b> accepted fields.</p></div>
+      <div><div class="k">Scope</div><p>Clerical capture quality only. Most forms still go to a person. Not an official INE product.</p></div>
+    </div>
+  </div>
+""", "docs/EVALUATION.md; results/confirm100.md. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). Measured kinds so far: harmonised in one call (239/239 for 234), blank words (300 for 379), digit insertion (3114 for 314). No results, no parties (Option 01 to 15), no totals; the certified count is the official result."))
+
+# 8. Business
+slides.append(slide(8, f"""
   <div class="kicker">Business at a glance</div>
   <h2 style="margin-bottom:40px">An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
   <div class="g">
     <div class="c7"><div class="frame"><div style="overflow:hidden;height:196px"><img style="margin-top:-18px" src="{A}report_header.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root e56a8ef4f011b9e5"></div>
         <div style="border-top:1px solid var(--line)"><img src="{A}report_item_050815B0100.png" alt="Dispute 3: 050815B0100 Option 07, keyed 75, model digits 175, words 175, strong evidence"></div></div>
-      <p class="cap">The product: the audit report. Every dispute with its photo, strongest first, sealed by one Merkle root.</p></div>
+      <p style="margin-top:22px;font-size:27px;color:var(--ink)">The auditor looks at <b>267 of 6,358 fields (4%)</b>, each with its photo.</p>
+      <p class="cap">The product: the audit report, strongest first, sealed by one Merkle root.</p></div>
     <div class="c5 facts">
       <div><div class="k">Buyer</div><p>INE and the 32 state institutes, each with an outside auditor.</p></div>
       <div><div class="k">Why now</div><p><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. First step: a <b>paid shadow-mode pilot</b> on one state's count.</p></div>
@@ -294,25 +315,6 @@ slides.append(slide(7, f"""
     </div>
   </div>
 """, "README 'Business at a glance'. All 26 auditors named in 2024 were universities. INE budgeted MXN 9.5M for automated capture in 2024 and bought none. AMD compute $0.00014 per sheet. Reviewer work: about one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. Next: the same public data in 7 more countries; DHIS2 health reporting in 70+ countries; not yet measured."))
-
-# 8. Where it breaks
-slides.append(slide(8, f"""
-  <div class="kicker">Where it holds, and where it breaks</div>
-  <h2>Read 3114, paper 314. <span class="acc">Gate v2 sends it to a person.</span></h2>
-  <div class="g" style="align-items:center;min-height:620px">
-    <div class="c8">
-      {annotated(A + "crop_070212B0100_SOBRANTES.jpg", "Unused ballots on form 070212B0100: boxes 3 1 4, words line blank", 1107, 744, 158, [
-          (0.45, 0.64, 0.0, "Words line: blank", "no second reading to compare", INK, 0.30),
-          (0.895, 0.66, 0.62, "The paper: 314", "in digits", ACC, 0.08)], band=124)}
-      <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
-    </div>
-    <div class="c4 facts">
-      <div><div class="k">The blind spot</div><p>The model read <b class="bad">3114</b>. Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
-      <div><div class="k">Held out</div><p>On 100 fresh forms the frozen gate let it through. Gate v2, digits and words both read and equal, blocked it: <b class="ok">0 wrong of 484</b>.</p></div>
-      <div><div class="k">Scope</div><p>Clerical capture quality only. Most forms still go to a person. Not an official INE product.</p></div>
-    </div>
-  </div>
-""", "docs/EVALUATION.md; results/confirm100.md. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). Measured kinds so far: harmonised in one call (239/239 for 234), blank words (300 for 379), digit insertion (3114 for 314). No results, no parties (Option 01 to 15), no totals; the certified count is the official result."))
 
 # 9. Check it yourself
 slides.append(slide(9, """
