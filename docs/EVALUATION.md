@@ -256,7 +256,7 @@ every PREP (Reglamento de Elecciones art. 347), and in 2024 UNAM centres audited
 - The pre-registered Qwen pass on the 100-form confirmation (Amendment 3) was not run: a protocol deviation.
 
 - **One reader, one adjudicator.** Every disagreement was settled from the photo by the AI adjudicator (the builder's
-  model, which could see both values; not a native Spanish speaker), on published crops; counts checked by a person are
+  model, which could see both values), on published crops; counts checked by a person are
   reported separately; anyone can re-check them, and the app's blind spot-check page lets a
   person do so without seeing any AI or capture value.
 - **Recall rests on few fields.** We checked only where the model disagreed with the capture, so errors both made
