@@ -118,5 +118,5 @@
  "national_days": 24.2,
  "national_usd": 25,
  "arithmetic": "169,005 forms / 4.85 forms a minute = 34,846 min = 580.8 h (one request per form, so 4.85 requests a minute, under the 20 a minute limit)",
- "line": "Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; 169,005 sheets in about 581 hours."
+ "line": "Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one key reads a state the size of Colima (982 sheets) in about 3.4 hours."
 }

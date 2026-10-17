@@ -179,12 +179,15 @@ def summarize(rows: list[dict] | None = None) -> dict:
     return d
 
 
+COLIMA = 982   # Colima's located presidential sheets (PROTOCOL.md Amendment 8b)
+
+
 def line(d: dict) -> str:
     m0, m1 = d["measured"]
     return (f"Measured capacity (shared endpoint, {m0[:10]} {m0[11:16]}-{m1[11:16]} UTC, queueing included, not GPU "
             f"time, not self-hosted): {d['best_in_flight']} in flight, {d['best_forms_per_min']:.1f} forms/minute, "
-            f"{d['best_http_p50_s']:.0f} s median, ${d['best_usd_per_form']:.6f}/form; {d['national_forms']:,} sheets "
-            f"in about {d['national_hours']:.0f} hours.")
+            f"{d['best_http_p50_s']:.0f} s median, ${d['best_usd_per_form']:.6f}/form; one key reads a state the size of "
+            f"Colima ({COLIMA:,} sheets) in about {COLIMA / min(d['best_forms_per_min'], d['rpm_limit']) / 60:.1f} hours.")
 
 
 def markdown(d: dict) -> str:

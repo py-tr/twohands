@@ -17,4 +17,4 @@ Best level: 4 in flight. Hours for the 169,005 national presidential tally sheet
 
 Sweep total: 44 reads, $0.0064 billed. Most answered requests of ours started in any 60 s: 8 (client limit 12 a minute for every non-live job on the key, the endpoint's 20).
 
-Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; 169,005 sheets in about 581 hours.
+Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one key reads a state the size of Colima (982 sheets) in about 3.4 hours.
