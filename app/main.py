@@ -505,6 +505,17 @@ app.include_router(judgemod.router)
 templates.env.globals["judge_count"] = judgemod.count_text
 templates.env.globals["honest"] = honestmod
 
+
+def _live_running() -> bool:
+    """The header shows the live-audit pill only while the live worker is running (the same rule as Home's strip)."""
+    try:
+        return honestmod.strip_shown(livestatusmod.status(st()))
+    except Exception:  # noqa: BLE001 - the header must never break a page
+        return False
+
+
+templates.env.globals["live_running"] = _live_running
+
 # The buyer section, the price and the cost of the problem: app/buyer.py and app/pricing.py (the one price config)
 from app import buyer as buyermod  # noqa: E402
 from app import pricing as pricingmod  # noqa: E402

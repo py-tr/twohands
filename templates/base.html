@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/style.css?v=18">
+<link rel="stylesheet" href="/static/style.css?v=19">
 </head>
 <body>
 {% set amd = amd_status() %}
@@ -33,25 +33,11 @@
     <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="/" class="{{ 'on' if nav == 'home' }}">Home</a>
-      <a href="/audit" class="{{ 'on' if nav == 'audit' }}">Findings</a>
       <a href="/audit/new" class="{{ 'on' if nav in ('auditnew', 'review', 'request') }}">Audit your capture</a>
       <a href="/try" class="{{ 'on' if nav == 'try' }}">Try it</a>
       <a href="/results" class="{{ 'on' if nav == 'results' }}">Results</a>
-      <a href="/api" class="{{ 'on' if nav == 'api' }}">API</a>
-      <details class="more" id="more">
-        <summary>More</summary>
-        <div class="more-menu">
-          <a href="/inbox">Inbox</a>
-          <a href="/keyer">Keyer</a>
-          <a href="/builder">Builder</a>
-          <a href="/results#amd"><span class="pdot {{ amd.state }}"></span>AMD status: {{ amd.label }}</a>
-          <a href="/results#evolus">Evolus</a>
-          <a href="/about-data">Data and credits</a>
-        </div>
-      </details>
     </nav>
-    {% set lk = la.status.kind if la else 'idle' %}
-    <a class="livedot {{ lk }}" href="/live" title="{{ la.status.text if la else 'Live audit on AMD: not started' }}"><span class="ldot"></span><span class="ltxt">{{ 'Live' if lk == 'live' else 'Live audit' }}</span></a>
+    {% if live_running is defined and live_running() %}<a class="livedot live" href="/live" title="{{ la.status.text if la else 'Live audit on AMD' }}"><span class="ldot"></span><span class="ltxt">Live</span></a>{% endif %}
     <button class="menubtn" id="menubtn" aria-label="Menu" aria-expanded="false" aria-controls="nav">{{ icon('menu') }}</button>
   </div>
 </header>
@@ -59,46 +45,29 @@
 {% block content %}{% endblock %}
 </div></main>
 <footer><div class="wrap">
-  <div class="cols">
-    <div>
-      <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
-      <p>A second keyer that shows its proof. An open vision model on AMD GPUs re-reads every field; the form's own arithmetic decides. Anything the paper cannot settle goes to a person, with the field named.</p>
-    </div>
-    <div>
-      <h4>Product</h4>
-      <ul>
-        <li><a href="/station">Pick any polling station</a></li>
-        <li><a href="/audit">Findings</a></li>
-        <li><a href="/audit/new">Audit your capture</a> · <a href="/review">Review desk</a></li>
-        <li><a href="/audit/request">Request an audit</a></li>
-        <li><a href="/try">Try it with a photo</a></li>
-        <li><a href="/results">Results</a> · <a href="/report.pdf">Report</a> (PDF)</li>
-        <li><a href="/api">API, CLI and MCP</a></li>
-        <li><a href="/live">Live audit on AMD</a></li>
-      </ul>
-      <h4 style="margin-top:18px">More</h4>
-      <ul>
-        <li><a href="/inbox">Inbox</a> · <a href="/keyer">Keyer</a> · <a href="/builder">Builder</a></li>
-        <li><a href="/results#amd">AMD status</a> · <a href="/results#evolus">Evolus</a> · <a href="/about-data">Data and credits</a></li>
-        {% for label, url in submission_links() %}<li><a href="{{ url }}" rel="noopener">{{ label }}</a></li>{% endfor %}
-      </ul>
-    </div>
-    <div>
-      <h4>Data and credits</h4>
-      <p>Tally sheets and their official capture: INE PREP 2024 and certified Cómputos Distritales 2024, reused under INE's free-use terms (Libre-Uso-MX). Rainfall ledgers: Rainfall Rescue (Hawkins et al., Geoscience Data Journal 2022; Met Office scans), linked, not redistributed.</p>
-      <p>Every image is privacy-masked before it is stored or sent: the officials' names-and-signatures column is blacked out. Vote rows are shown as Option 01 to 15, never by party. An independent demonstration of clerical capture quality, not an official INE product.</p>
-    </div>
+  <div class="fbar">
+    <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
+    <nav class="flinks" aria-label="More pages">
+      <a href="/audit">Findings</a><a href="/review">Review desk</a><a href="/audit/request">Request an audit</a><a href="/station">Any polling station</a><a href="/api">API, CLI and MCP</a><a href="/live">Live audit</a><a href="/inbox">Inbox</a><a href="/keyer">Keyer</a><a href="/builder">Builder</a><a href="/results#amd"><span class="pdot {{ amd.state }}"></span>AMD status: {{ amd.label }}</a><a href="/results#evolus">Evolus</a><a href="/about-data">Data and credits</a><a href="/report.pdf">Report (PDF)</a>{% for label, url in submission_links() %}<a href="{{ url }}" rel="noopener">{{ label }}</a>{% endfor %}
+    </nav>
   </div>
   <div class="base">
-    <span>Open models on AMD Token Factory · masked images only · every number has a source on <a href="/results">Results</a></span>
+    <span>An independent demonstration of clerical capture quality, not an official INE product. Images are privacy-masked (names and signatures blacked out); vote rows are shown as Option 01 to 15, never by party. Data: INE PREP and Cómputos Distritales 2024 (Libre-Uso-MX); Rainfall Rescue ledgers, linked. Every number has a source on <a href="/results">Results</a>.</span>
     <span>Two Hands, 2026</span>
   </div>
 </div></footer>
 <script>
 (function () {
-  var b = document.getElementById('menubtn'), n = document.getElementById('nav'), m = document.getElementById('more');
+  var b = document.getElementById('menubtn'), n = document.getElementById('nav');
   if (b) b.addEventListener('click', function () { var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o ? 'true' : 'false'); });
-  if (m) document.addEventListener('click', function (e) { if (m.open && !m.contains(e.target)) m.open = false; });
+  // a link to an anchor inside a collapsed block opens the block first
+  function reveal() {
+    var id = decodeURIComponent(location.hash.slice(1)), t = id && document.getElementById(id);
+    for (var d = t && t.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
+    if (t) t.scrollIntoView();
+  }
+  if (location.hash) reveal();
+  window.addEventListener('hashchange', reveal);
 })();
 </script>
 {% block scripts %}{% endblock %}

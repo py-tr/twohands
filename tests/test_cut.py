@@ -1,4 +1,4 @@
-"""The mentor's cut: six nav items, the first screen in order, the phone fold, /station (instant vs queued), no party
+"""The cut: four nav items, the first screen in order, the phone fold, /station (instant vs queued), no party
 names, no "touchless" in titles or nav."""
 import html as htmlmod
 import json
@@ -20,8 +20,9 @@ from twohands.priority import prioritized
 client = TestClient(app)
 PARTY = re.compile(r"(?<![A-Za-z0-9])(PAN|PRI|PRD|PVEM|PT|MC|MORENA)(?![A-Za-z0-9])")
 PARTY_CI = re.compile(r"(?<![A-Za-z0-9])(morena|pvem|verde)(?![A-Za-z0-9])", re.I)
-SIX = ["Home", "Findings", "Audit your capture", "Try it", "Results", "API"]
-MORE = ["Inbox", "Keyer", "Builder", "AMD status", "Evolus", "Data and credits"]
+NAV = ["Home", "Audit your capture", "Try it", "Results"]
+FOOTER = ["Findings", "Review desk", "Request an audit", "Any polling station", "API, CLI and MCP", "Live audit", "Inbox",
+          "Keyer", "Builder", "AMD status", "Evolus", "Data and credits", "Report (PDF)"]
 H1 = "OCR reads the number. Two Hands checks whether the whole form agrees."
 EYEBROW = "Two Hands · verifiable quality control for handwritten numbers"
 PRIMARY = "Read a real tally sheet live on AMD"
@@ -61,18 +62,18 @@ def queue_worker(tmp_path, monkeypatch):
 
 
 # ------------------------------------------------------------------------------------------------ nav
-def test_nav_has_six_items_and_a_more_menu():
+def test_nav_has_four_items_and_the_rest_in_the_footer(empty_worker):
     h = client.get("/").text
     nav = _nav(h)
-    top = re.sub(r'<details class="more".*?</details>', "", nav, flags=re.S)
-    assert [_text(a) for a in re.findall(r"<a [^>]*>(.*?)</a>", top, flags=re.S)] == SIX
-    more = re.search(r'<details class="more".*?</details>', nav, flags=re.S).group(0)
-    labels = [_text(a) for a in re.findall(r"<a [^>]*>(.*?)</a>", more, flags=re.S)]
-    assert [x.split(":")[0] for x in labels] == MORE
-    assert 'href="/check"' not in nav and "/receipt" not in nav
-    assert re.search(r'class="livedot[^"]*" href="/live"', h)
-    for u in ("/check", "/live", "/about-data"):
-        assert client.get(u).status_code == 200
+    assert [_text(a) for a in re.findall(r"<a [^>]*>(.*?)</a>", nav, flags=re.S)] == NAV
+    assert "<details" not in nav and 'href="/check"' not in nav and "/receipt" not in nav
+    links = re.search(r'<nav class="flinks".*?</nav>', h, flags=re.S).group(0)
+    labels = [_text(a).split(":")[0] for a in re.findall(r"<a [^>]*>(.*?)</a>", links, flags=re.S)]
+    assert labels[:len(FOOTER)] == FOOTER
+    assert 'class="livedot' not in h          # the live pill only while the live worker runs
+    for u in ("/audit", "/review", "/audit/request", "/station", "/api", "/check", "/live", "/inbox", "/keyer",
+              "/builder", "/about-data"):
+        assert client.get(u).status_code == 200, u
 
 
 def test_review_desk_is_a_tab_of_audit_your_capture():
@@ -130,7 +131,7 @@ def test_first_screen_content_in_order(empty_worker):
 
 def test_home_is_short_and_the_background_moved_to_results():
     """Home stays under 350 words of copy (the first receipt slide only: the others are hidden until they rotate);
-    every section that left Home is on /results under its old id, and Home links to it."""
+    every section that left Home is on /results under its old id, reached from the summary at the top of /results."""
     h = client.get("/").text
     main = re.search(r"<main>(.*)</main>", h, flags=re.S).group(1)
     first, rest = main.split('<div class="rslide" data-i="1"', 1)
@@ -141,8 +142,9 @@ def test_home_is_short_and_the_background_moved_to_results():
     for i in ("measured", "cost-of-problem", "who-pays", "ine-buyer", "offer-2027", "market-lines", "price-lines",
               "market-size", "next-markets", "amd-models", "any-form", "reg"):
         assert f'id="{i}"' in res and f'id="{i}"' not in h, i
-    for i in ("cost-of-problem", "who-pays", "amd-models", "any-form"):
-        assert f'href="/results#{i}"' in h, i
+    summary = re.search(r'<section class="res-sum-wrap".*?</section>', res, flags=re.S).group(0)
+    for i in ("random300", "colima", "ieebcs", "tiers", "amd-models", "cost-of-problem", "any-form"):
+        assert f'href="#{i}"' in summary and f'id="{i}"' in res, i   # Results' summary reaches every section
     heads = [_text(x) for x in re.findall(r"<h[23][^>]*>(.*?)</h[23]>", res, flags=re.S)]
     for s in ("Measured, not promised", "The cost of the problem", "Who pays, and what runs on AMD",
               "Open models on the AMD endpoint", "Any form that checks itself"):
@@ -183,7 +185,7 @@ def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
 
 def test_strip_hidden_when_the_live_worker_is_idle(monkeypatch):
     """Home shows the live strip only while the worker has written within honest.LIVE_FRESH_MIN minutes; idle (or
-    never started), Home shows no live figures and keeps the background links. /live keeps the full status."""
+    never started), Home shows no live figures and the header shows no live pill. /live keeps the full status."""
     from app import honest
     base = {"audited": 41, "disputes": 9, "confirmed": 3, "reader_now": "Qwen3.8-27B", "queue_states": 32,
             "states": [{"name": "Colima", "complete": False, "pct": 1.0}], "status": {"kind": "live", "text": "Running"},
@@ -193,10 +195,10 @@ def test_strip_hidden_when_the_live_worker_is_idle(monkeypatch):
         monkeypatch.setattr(LS, "_summary", lambda f=fake: f)
         h = client.get("/").text
         assert ('id="strip"' in h) == shown and ("of Colima so far" in h) == shown, ago
-        assert 'href="/results#who-pays"' in h and "Background:" in _text(h)
+        assert ('class="livedot' in h) == shown and ('class="livedot' in client.get("/results").text) == shown, ago
     monkeypatch.setattr(LS, "_summary", lambda: None)
     h = client.get("/").text
-    assert 'id="strip"' not in h and "Background:" in _text(h)
+    assert 'id="strip"' not in h and 'class="livedot' not in h
     assert client.get("/live").status_code == 200
 
 
