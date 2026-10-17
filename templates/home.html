@@ -2,8 +2,8 @@
 {% from "_icons.html" import icon %}
 {% block title %}Two Hands · verifiable quality control for handwritten numbers{% endblock %}
 {% macro cap(v) -%}{{ {'Ilegible': '"illegible"', 'Sin dato': '"no data"'}.get(v, v) }}{%- endmacro %}
-{#- Home is the product page: the hook, a real receipt, three proof tiles (each linking to its evidence on /results),
-    the actions, how it works, the live counter (only while the worker runs). The background (measured, the cost of the
+{#- Home is the explainer: the hook, who it is for, how it works in one line, a real receipt, three proof tiles (each
+    linking to its evidence on /results), one button to Try it, the live counter (only while the worker runs). The background (measured, the cost of the
     problem, who pays, the open models on AMD, any form) is on /results (templates/_background.html), reached from its
     summary; static/home.js forwards the old Home anchors there. -#}
 {% block content %}
@@ -13,7 +13,8 @@
   <div class="fold">
   <div class="eyebrow f-eyebrow">Two Hands · verifiable quality control for handwritten numbers</div>
   <h1 class="f-h1">OCR reads the number. Two Hands checks whether the whole form agrees.</h1>
-  <p class="f-two" id="twohands">Gemma on AMD reads every field; the form's own arithmetic decides what passes; a person settles the rest on the photo, and every value gets a receipt.</p>
+  <p class="f-user" id="who">For INE, the 32 state institutes and their outside auditors.</p>
+  <p class="f-two" id="how">Gemma on AMD reads every field; the form's own arithmetic decides what passes; a person settles disputes on the photo; every value gets a receipt.</p>
   <div class="f-hero">
     {% if rs %}
     <div class="rcard card" id="rcard" role="group" aria-label="Receipts from the pre-registered random 300">
@@ -38,22 +39,9 @@
     </div>
   </div>
   <div class="f-actions">
-    <a class="btn primary lg" href="{{ '/form/' ~ rs[0].clave ~ '#live' if rs else '/station' }}">{{ icon('play') }}Read a real tally sheet live on AMD</a>
-    <a class="btn dark lg f-second" href="/audit/new">{{ icon('upload') }}Audit your capture</a>
-    <a class="f-try" href="/try">or try your own sheet {{ icon('arrow') }}</a>
+    <a class="btn primary lg" href="/try">{{ icon('play') }}Try it</a>
   </div>
   </div>
-</section>
-
-<section id="how">
-  <div class="sec-head"><div><h2>How it works</h2><p>One schema file per form type: where the fields are, and which sums the paper must satisfy.</p></div><a class="btn sm" href="/results">Results and method {{ icon('arrow') }}</a></div>
-  <ol class="steps5">
-    <li class="s5">{{ icon('camera') }}<h3>Photo or scan</h3><p>Located, straightened, signatures blacked out.</p></li>
-    <li class="s5 model">{{ icon('image') }}<h3>{{ n.amd.models[0].name }} on AMD</h3><p>Reads each field from the digits and from the words.</p></li>
-    <li class="s5">{{ icon('shield') }}<h3>The paper's own sums</h3><p>Rows add to TOTAL; words match digits.</p></li>
-    <li class="s5 ok">{{ icon('check') }}<h3>Accepted</h3><p>Nothing to key; each value gets a receipt.</p></li>
-    <li class="s5 rv">{{ icon('review') }}<h3>Dispute, with its photo</h3><p>The field is named; a person decides on the crop.</p></li>
-  </ol>
 </section>
 
 <section id="live-strip" aria-label="Live audit on AMD">

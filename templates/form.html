@@ -2,8 +2,11 @@
 {% from "_icons.html" import icon, source %}
 {% block title %}Form {{ clave }} · Two Hands{% endblock %}
 {% set strata = {'A_clean': 'clean control', 'B_paper_sum_mismatch': 'paper rows do not sum', 'C_prep_ne_certified': 'capture differs from certified', 'D_recounted_sum_mismatch': 'recounted, rows do not sum'} %}
+{#- The sheet page tells one story: watch it run (the stored AMD read at once, a live re-read on request), what it
+    found (one verdict sentence; the official-capture line kept apart), how it's checked (the paper's checks, the
+    routed field with its crop and decision, the receipt), then the same on 300 sheets. Data: app/sheet.py. -#}
 {% block content %}
-<div class="small muted"><a href="/inbox">Inbox</a> / tally sheet</div>
+<div class="small muted"><a href="/try">Try it</a> / tally sheet</div>
 <div class="sec-head" style="margin-top:8px;margin-bottom:14px">
   <div>
     <h1 class="mono" style="font-size:1.9rem;letter-spacing:-0.02em">{{ clave }}</h1>
@@ -17,14 +20,23 @@
   </div>
 </div>
 
-<div class="verdict {{ 'ok' if ev.accepted else 'bad' }}">
-  <div class="icon">{% if ev.accepted %}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>{% else %}<b style="font-size:1.25rem;line-height:1">!</b>{% endif %}</div>
-  <div>
-    <div class="t">{{ ev.line }}</div>
-    <div class="sub">{% if ev.accepted %}Every identity on the page holds, so nobody keys this form.{% else %}Sent to the <a href="/review">review desk</a>{% if ev.failing %} with {{ ev.failing|unique|list|length }} field{{ 's' if ev.failing|unique|list|length > 1 }} named{% else %}: the paper's own arithmetic disagrees{% endif %}.{% endif %}
-      {% if review %} · Review: <b>{{ review.status }}</b>{% endif %}</div>
+<section class="sh-found" id="found" aria-label="What it found">
+  <p class="sh-meta" id="runmeta">{{ icon('check') }}<span>Measured on AMD: <b>{{ meta.model }}</b>{% if meta.date %}, {{ meta.date }}{% endif %}{% if meta.secs %}, {{ meta.secs }} s{% endif %}{% if meta.cost %}, {{ meta.cost|usd(6) }}{% endif %}</span><span class="sh-tag">stored read</span></p>
+  <div class="verdict {{ 'ok' if verdict.ok else 'bad' }}">
+    <div class="icon">{% if verdict.ok %}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg>{% else %}<b style="font-size:1.25rem;line-height:1">!</b>{% endif %}</div>
+    <div>
+      <div class="t" id="verdict-line">{{ verdict.line }}</div>
+      <div class="sub">{% if verdict.ok %}Gemma's read of this sheet passes every check of the paper's own arithmetic.{% else %}Gemma's read breaks one of the paper's own checks, so the gate does not accept it.{% endif %}{% if review %} Review: <b>{{ review.status }}</b>.{% endif %}</div>
+    </div>
   </div>
-</div>
+  {% if caplines %}
+  <div class="sh-cap" id="capture-line">
+    <div class="sh-cap-h">The official typed record{{ ' (separate from the verdict above)' if verdict.ok }}</div>
+    {% for c in caplines %}<p>{{ c.name }}: the official capture keyed <b class="mono badv">{{ c.keyed }}</b>; the paper says <b class="mono okv">{{ c.paper }}</b>{% if c.certified is not none %} (certified count {{ c.certified }}){% endif %}.</p>{% endfor %}
+    <p class="tiny">{% if verdict.ok %}Gemma's read passes the gate; the official typed record disagrees with the paper. Two different records, two different findings.{% else %}This compares the official typed record with the paper, not Gemma's read.{% endif %}</p>
+  </div>
+  {% endif %}
+</section>
 
 <div class="viewer">
   <div>
@@ -34,98 +46,157 @@
     {% else %}
       <div class="placeholder"><strong>Masked page not prepared yet</strong>Images are shown only after the core's privacy masking has run on them. The values below are the measured read of this form.</div>
     {% endif %}
-    <div class="card live" style="margin-top:16px" id="live" data-live data-clave="{{ clave }}" data-image="{{ 1 if has_image else 0 }}"
-         data-start="/api/live/{{ clave }}" data-fallback="{{ clave }}" data-fields='{{ ev.fields|field_list|tojson }}'>
+  </div>
+  <div>
+    <div class="card live" id="live" data-live data-clave="{{ clave }}" data-image="{{ 1 if has_image else 0 }}"
+         data-start="/api/live/{{ clave }}" data-fallback="{{ clave }}" data-stored="{{ meta.date or 'an earlier run' }}" data-fields='{{ ev.fields|field_list|tojson }}'>
       <div class="live-head">
         <div>
-          <div class="eyebrow" style="margin-bottom:6px">Live on AMD</div>
-          <h3 style="margin:0">Read this form again, now</h3>
-          <p class="small muted" style="margin:6px 0 0">{{ live.model if live and live.model else (run.model if run.model else 'Gemma-4-31B-IT') }} reads the masked page; the gate checks it as the answer arrives.</p>
+          <div class="eyebrow" style="margin-bottom:6px">Watch it run</div>
+          <h3 style="margin:0">Read this sheet again, live</h3>
+          <p class="small muted" style="margin:6px 0 0">{{ live.model if live and live.model else (run.model if run.model else 'Gemma-4-31B-IT') }} reads the masked page on AMD; the gate checks each field as the answer arrives.</p>
         </div>
         <div class="live-act">
           <div class="timer" data-live-timer hidden>0.0 s</div>
-          <button class="btn primary" data-live-btn {{ 'disabled' if not has_image }}>{{ icon('play') }}Read live on AMD</button>
+          <button class="btn primary" data-live-btn {{ 'disabled' if not has_image }}>{{ icon('play') }}Read again live on AMD (about 60 s)</button>
         </div>
       </div>
       <div data-live-model>{% if live and live.banner %}<div class="banner" role="note">{{ icon('alert') }}<div class="grow">{{ live.banner }}</div></div>{% endif %}</div>
-      <div class="note">{{ 'About two to four minutes (Qwen reasons before it answers).' if live and live.fallback else 'About a minute.' }} One live read runs at a time for the whole site; yours waits in a short queue and shows its place. The shared endpoint also runs our measured batch, so if it is busy you see the last measured read instead.{% if not has_image %} <b>This form has no masked page yet, so it cannot be sent.</b>{% endif %}</div>
+      <div class="note">{{ 'About two to four minutes (Qwen reasons before it answers).' if live and live.fallback else 'About a minute.' }} One live read runs at a time for the whole site; yours waits in a short queue and shows its place.{% if not has_image %} <b>This form has no masked page yet, so it cannot be sent.</b>{% endif %}</div>
       <ul class="jobsteps" data-live-steps hidden></ul>
       <div data-live-msg></div>
       <div class="tiles" data-live-tiles hidden></div>
       <div class="idents" data-live-ids style="margin-top:12px"></div>
     </div>
-    {% with ec = evolus_case(clave), compact = false %}{% include "_evolus.html" %}{% endwith %}
-    {% set kerr = errors|selectattr('kind', 'equalto', 'keying')|list %}
-    {% set perr = errors|selectattr('kind', 'equalto', 'paper')|list %}
-    {% if kerr %}
-    <div class="card" style="margin-top:16px;padding:18px">
-      <h3>Capture error{{ 's' if kerr|length > 1 }}: the official capture does not match the paper</h3>
-      {% for e in kerr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: the image shows <b class="mono">{{ e.image_value }}</b>; the official capture keyed <b class="mono" style="color:var(--bad)">{{ e.official }}</b>{% if e.certified is not none %}; certified count <b class="mono">{{ e.certified }}</b>{% endif %}.</p>{% endfor %}
-      <a class="small" href="/audit">All capture errors →</a>
-    </div>
-    {% endif %}
-    {% if perr %}
-    <div class="card" style="margin-top:16px;padding:18px">
-      <h3>Paper inconsistency</h3>
-      {% for e in perr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: on the paper the words say <b class="mono">{{ e.words }}</b> and the digits <b class="mono">{{ e.image_value }}</b>. The official capture applied its words-prevail rule and keyed {{ e.official }}; the rows and section 7{% if e.certified is not none %}, and the certified count ({{ e.certified }}),{% endif %} support {{ e.image_value }}. Not a capture error: a person should settle it, which is why the gate routed this form.</p>{% endfor %}
-    </div>
-    {% endif %}
-  </div>
-
-  <div>
-    <div class="tabs">
-      {% for rid, rr in reads if rid in main_runs or rid == r.run_id %}<a href="/form/{{ clave }}?run={{ rid }}" class="{{ 'on' if rid == r.run_id }}">{{ short[rid] }}</a>{% endfor %}
-    </div>
-    {% set others = reads|rejectattr('0', 'in', main_runs)|rejectattr('0', 'equalto', r.run_id)|list %}
-    {% if others %}<details class="others"><summary class="tiny">Other runs ({{ others|length }})</summary><div class="tabs" style="margin-top:8px">{% for rid, rr in others %}<a href="/form/{{ clave }}?run={{ rid }}">{{ short[rid] }}</a>{% endfor %}</div></details>{% endif %}
-    <p class="tiny" style="margin:-4px 0 12px">{{ run.label|plain }}. {{ source(run.source) }}{% if not r.has_labels %} This read predates the row-label check; labels are checked on newer reads.{% endif %}{% if r.secs %} Read in {{ r.secs }} s{% endif %}{% if r.cost %}, {{ r.cost|usd(6) }}{% endif %}.</p>
-
-    <div class="card" style="padding:8px 10px 6px">
-      <div class="tablewrap">
-      <table class="ftable" id="ftable">
-        <thead><tr><th>Field</th><th class="n">Digits</th><th class="n">Words</th><th class="n">Official<br>capture</th><th class="n">Certified</th><th></th>{% if has_image %}<th></th>{% endif %}</tr></thead>
-        <tbody>
-        {% for f in ev.fields %}
-          {% set p = off.prep[f.key] if off.prep and f.key in off.prep else none %}
-          {% set c = off.cert[f.key] if off.cert and f.key in off.cert else none %}
-          {% set a = off.adjudicated[f.key] if off.adjudicated and f.key in off.adjudicated else none %}
-          <tr class="{{ 'bad' if f.status != 'ok' }} {{ 'sep' if f.code in ['OPT01', 'TOTAL'] }}" data-key="{{ f.code }}" data-name="{{ f.name }}">
-            <td><span class="fname">{{ f.name }}</span>{% if f.section %}<div class="nm">{{ f.section }}</div>{% endif %}{% if f.fix %} <span class="chip warn" title="crossed out and rewritten">rewritten</span>{% endif %}
-              {% if f.status == 'label' %}<div class="tiny" style="color:var(--bad)">{{ f.msg }}</div>{% endif %}</td>
-            <td class="n {{ 'hl' if f.status in ['words', 'empty'] }}">{{ '—' if f.n is none else f.n }}</td>
-            <td class="n {{ 'hl' if f.status == 'words' }}">{{ '—' if f.w is none else f.w }}</td>
-            <td class="n {{ 'diff' if p is not none and f.n is not none and p != f.n }}" title="{{ 'eye-checked: the capture mis-keyed this field; the image shows ' ~ a if a is not none }}">{{ '' if p is none else p }}{% if a is not none %}<sup>†</sup>{% endif %}</td>
-            <td class="n">{{ '' if c is none else c }}</td>
-            <td>{% if f.status == 'ok' %}<span class="st ok" title="consistent">✓</span>{% else %}<span class="st bad" title="{{ f.msg }}">!</span>{% endif %}</td>
-            {% if has_image %}<td><button class="linkbtn" data-crop="{{ f.code }}">crop</button></td>{% endif %}
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-      </div>
-      <p class="tiny" style="padding:8px 8px 4px;margin:0">Options 01–15 are the form's vote rows in printed order, shown without party names. Digits and words are the model's two independent readings. Official capture: the double-keyed official capture of this image (PREP). Certified: the certified district count (Cómputos), which has no section 2-5 or 7 values. Amber: the capture differs from the model. † eye-checked: the capture mis-keyed the field.{% if g.graded %} Against the official capture this read differs on {{ g.wrong_raw|length }} of {{ g.n }} fields; after eye-checking, {{ g.wrong_adj|length }}.{% endif %}</p>
-    </div>
-
-    <h3 style="margin:26px 0 12px">The paper's identities</h3>
-    <div class="idents">
-      {% for i in ev.identities %}
-      <div class="ident {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}">
-        <span class="st {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}">{{ '✓' if i.ok else ('–' if i.ok is none else '✕') }}</span>
-        <span class="nm">{{ i.name }}</span>
-        <span class="eq">{% if i.ok is none %}not checkable{% else %}{{ i.lhs }} {{ '=' if i.ok else '≠' }} {{ i.rhs }}{% endif %}</span>
-      </div>
-      {% endfor %}
-      {% set wd = ev.fields|selectattr('status', 'equalto', 'words')|list %}
-      <div class="ident {{ 'bad' if wd else 'ok' }}">
-        <span class="st {{ 'bad' if wd else 'ok' }}">{{ '✕' if wd else '✓' }}</span>
-        <span class="nm">words = digits on every field</span>
-        <span class="eq">{{ (ev.fields|length - wd|length) }} of {{ ev.fields|length }}</span>
-      </div>
-    </div>
   </div>
 </div>
+
+<section id="checked" class="sh-checked">
+  <div class="sec-head"><div><h2>How it's checked</h2><p>Gate: {{ ev.line }}</p></div></div>
+  <div class="grid2 sh-grid">
+    <div>
+      <h3 style="margin:0 0 12px">The paper's own checks</h3>
+      <div class="idents">
+        {% for i in ev.identities %}
+        <div class="ident {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}">
+          <span class="st {{ 'ok' if i.ok else ('na' if i.ok is none else 'bad') }}">{{ '✓' if i.ok else ('–' if i.ok is none else '✕') }}</span>
+          <span class="nm">{{ i.name }}</span>
+          <span class="eq">{% if i.ok is none %}not checkable{% else %}{{ i.lhs }} {{ '=' if i.ok else '≠' }} {{ i.rhs }}{% endif %}</span>
+        </div>
+        {% endfor %}
+        {% set wd = ev.fields|selectattr('status', 'equalto', 'words')|list %}
+        <div class="ident {{ 'bad' if wd else 'ok' }}">
+          <span class="st {{ 'bad' if wd else 'ok' }}">{{ '✕' if wd else '✓' }}</span>
+          <span class="nm">words = digits on every field</span>
+          <span class="eq">{{ (ev.fields|length - wd|length) }} of {{ ev.fields|length }}</span>
+        </div>
+      </div>
+      {% set perr = errors|selectattr('kind', 'equalto', 'paper')|list %}
+      {% if perr %}
+      <div class="card" style="margin-top:16px;padding:18px">
+        <h3>Paper inconsistency</h3>
+        {% for e in perr %}<p class="small" style="margin:6px 0"><b>{{ e.name }}</b>: on the paper the words say <b class="mono">{{ e.words }}</b> and the digits <b class="mono">{{ e.image_value }}</b>. The official capture applied its words-prevail rule and keyed {{ e.official }}; the rows and section 7{% if e.certified is not none %}, and the certified count ({{ e.certified }}),{% endif %} support {{ e.image_value }}. Not a capture error: a person should settle it, which is why the gate routed this form.</p>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div>
+      {% for d in disputes %}
+      <div class="card sh-field" id="field-{{ d.code }}">
+        <div class="eyebrow" style="margin-bottom:6px">{{ 'Routed to a person' if d.model_wrong and not ev.accepted else 'Checked against the official capture' }}</div>
+        <h3 style="margin:0 0 10px">{{ d.name }}</h3>
+        {% if d.crop %}<a href="{{ d.crop }}" target="_blank" rel="noopener"><img class="sh-crop" src="{{ d.crop }}" alt="Masked crop of {{ d.name }} on form {{ clave }}" loading="lazy"></a>{% endif %}
+        <p class="sh-vals">Gemma read <b class="mono {{ 'badv' if d.model_wrong else 'okv' }}">{{ d.model if d.model is not none else 'blank' }}</b>{% if d.words is not none %} (words {{ d.words }}){% endif %} · official capture <b class="mono {{ 'okv' if d.model_wrong else 'badv' }}">{{ d.keyed }}</b> · the paper <b class="mono">{{ d.paper }}</b></p>
+        <p class="small" style="margin:4px 0">Decision on the photo: <b>{{ d.paper }}</b>, {{ d.verdict }}. <span class="muted">{{ d.decision|capitalize }}.</span></p>
+        {% if d.whatif %}<p class="small" style="margin:4px 0">{{ d.whatif }}</p>{% endif %}
+        <div class="sh-receipt" data-receipt-box data-check="{{ d.check }}">
+          <div class="sh-receipt-h"><b>Receipt</b> <span class="small muted">a Merkle receipt for this field in the sample audit of 300 sheets</span></div>
+          <div class="actions" style="margin-top:8px"><button class="btn sm" data-verify>{{ icon('shield') }}Verify this receipt</button><a class="small" href="{{ d.verify }}" target="_blank" rel="noopener">receipt (JSON)</a></div>
+          <ul class="sh-checks" data-checks hidden></ul>
+        </div>
+      </div>
+      {% else %}
+      <div class="card sh-field">
+        <div class="eyebrow" style="margin-bottom:6px">Receipts</div>
+        <p class="small" style="margin:0">Every disputed field of the sample audit of 300 sheets gets a Merkle receipt: its record, the SHA-256 of its crop, and a proof path to one published root. This sheet is not in that sample; <a href="/form/122655C0100#checked">see a receipt verified on sheet 122655C0100</a>.</p>
+      </div>
+      {% endfor %}
+      {% with ec = evolus_case(clave), compact = false %}{% if ec %}<details class="more-d"><summary>Evolus case for this sheet</summary>{% include "_evolus.html" %}</details>{% endif %}{% endwith %}
+    </div>
+  </div>
+  <p class="small sh-links"><a href="/trace">{{ icon('arrow') }}Full trace: two real sheets, request to receipt</a> · <a href="{{ repo_url }}" rel="noopener">Source code</a></p>
+</section>
+
+<details class="sh-all" id="all-fields">
+  <summary>All fields ({{ ev.fields|length }}), and other runs of this sheet</summary>
+  <div class="tabs" style="margin-top:12px">
+    {% for rid, rr in reads if rid in main_runs or rid == r.run_id %}<a href="/form/{{ clave }}?run={{ rid }}" class="{{ 'on' if rid == r.run_id }}">{{ short[rid] }}</a>{% endfor %}
+  </div>
+  {% set others = reads|rejectattr('0', 'in', main_runs)|rejectattr('0', 'equalto', r.run_id)|list %}
+  {% if others %}<details class="others"><summary class="tiny">Other runs ({{ others|length }})</summary><div class="tabs" style="margin-top:8px">{% for rid, rr in others %}<a href="/form/{{ clave }}?run={{ rid }}">{{ short[rid] }}</a>{% endfor %}</div></details>{% endif %}
+  <p class="tiny" style="margin:-4px 0 12px">{{ run.label|plain }}. {{ source(run.source) }}{% if not r.has_labels %} This read predates the row-label check; labels are checked on newer reads.{% endif %}{% if r.secs %} Read in {{ r.secs }} s{% endif %}{% if r.cost %}, {{ r.cost|usd(6) }}{% endif %}.</p>
+
+  <div class="card" style="padding:8px 10px 6px">
+    <div class="tablewrap">
+    <table class="ftable" id="ftable">
+      <thead><tr><th>Field</th><th class="n">Digits</th><th class="n">Words</th><th class="n">Official<br>capture</th><th class="n">Certified</th><th></th>{% if has_image %}<th></th>{% endif %}</tr></thead>
+      <tbody>
+      {% for f in ev.fields %}
+        {% set p = off.prep[f.key] if off.prep and f.key in off.prep else none %}
+        {% set c = off.cert[f.key] if off.cert and f.key in off.cert else none %}
+        {% set a = off.adjudicated[f.key] if off.adjudicated and f.key in off.adjudicated else none %}
+        <tr class="{{ 'bad' if f.status != 'ok' }} {{ 'sep' if f.code in ['OPT01', 'TOTAL'] }}" data-key="{{ f.code }}" data-name="{{ f.name }}">
+          <td><span class="fname">{{ f.name }}</span>{% if f.section %}<div class="nm">{{ f.section }}</div>{% endif %}{% if f.fix %} <span class="chip warn" title="crossed out and rewritten">rewritten</span>{% endif %}
+            {% if f.status == 'label' %}<div class="tiny" style="color:var(--bad)">{{ f.msg }}</div>{% endif %}</td>
+          <td class="n {{ 'hl' if f.status in ['words', 'empty'] }}">{{ '—' if f.n is none else f.n }}</td>
+          <td class="n {{ 'hl' if f.status == 'words' }}">{{ '—' if f.w is none else f.w }}</td>
+          <td class="n {{ 'diff' if p is not none and f.n is not none and p != f.n }}" title="{{ 'eye-checked: the capture mis-keyed this field; the image shows ' ~ a if a is not none }}">{{ '' if p is none else p }}{% if a is not none %}<sup>†</sup>{% endif %}</td>
+          <td class="n">{{ '' if c is none else c }}</td>
+          <td>{% if f.status == 'ok' %}<span class="st ok" title="consistent">✓</span>{% else %}<span class="st bad" title="{{ f.msg }}">!</span>{% endif %}</td>
+          {% if has_image %}<td><button class="linkbtn" data-crop="{{ f.code }}">crop</button></td>{% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="tiny" style="padding:8px 8px 4px;margin:0">Options 01–15 are the form's vote rows in printed order, shown without party names. Digits and words are the model's two independent readings. Official capture: the double-keyed official capture of this image (PREP). Certified: the certified district count (Cómputos), which has no section 2-5 or 7 values. Amber: the capture differs from the model. † eye-checked: the capture mis-keyed the field.{% if g.graded %} Against the official capture this read differs on {{ g.wrong_raw|length }} of {{ g.n }} fields; after eye-checking, {{ g.wrong_adj|length }}.{% endif %}</p>
+  </div>
+</details>
+
+<section class="sh-next" id="next">
+  <a class="btn primary lg" href="/audit/new">{{ icon('audit') }}Now on 300 sheets: the sample audit</a>
+</section>
+<style>
+.sh-meta { margin: 0 0 10px; font-size: .92rem; color: var(--ink-2); line-height: 1.6; }
+.sh-meta svg { width: 16px; height: 16px; color: var(--ok); vertical-align: -3px; margin-right: 6px; }
+.sh-meta .sh-tag { margin-left: 8px; white-space: nowrap; }
+.sh-tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 999px; background: var(--sunken); color: var(--muted); border: 1px solid var(--line); }
+.sh-cap { margin-top: 12px; padding: 12px 16px; border-radius: 10px; border: 1px dashed var(--line); background: var(--surface); }
+.sh-cap-h { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+.sh-cap p { margin: 2px 0; }
+.badv { color: var(--bad); }
+.sh-checked { margin-top: var(--s-7); }
+.sh-field + .sh-field { margin-top: 16px; }
+.sh-field { padding: 18px; }
+.sh-crop { display: block; max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; margin: 0 0 10px; }
+.sh-vals { margin: 6px 0; font-size: .95rem; }
+.sh-receipt { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.sh-receipt .actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.sh-checks { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 4px; font-size: .85rem; }
+.sh-checks li { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.sh-checks .h { font-family: var(--mono); font-size: .78rem; color: var(--muted); }
+.sh-checks .ok { color: var(--ok); font-weight: 700; }
+.sh-checks .no { color: var(--bad); font-weight: 700; }
+.sh-checks .verified { margin-top: 6px; font-weight: 750; letter-spacing: .04em; color: var(--ok); font-size: 1rem; }
+.sh-links { margin-top: 18px; }
+.sh-links svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; }
+.sh-all { margin-top: var(--s-6); }
+.sh-all > summary { cursor: pointer; font-weight: 600; padding: 10px 0; }
+.sh-next { margin: var(--s-7) 0 var(--s-4); display: flex; justify-content: center; }
+.banner.loud { border-color: var(--bad-line); background: var(--bad-soft); color: var(--bad); font-size: .95rem; }
+@media (max-width: 860px) { .sh-grid { grid-template-columns: minmax(0, 1fr); } .sh-next .btn { width: 100%; justify-content: center; } }
+</style>
 {% endblock %}
 {% block scripts %}
-<script src="/static/live.js?v=6"></script>
-<script src="/static/form.js?v=5"></script>
+<script src="/static/live.js?v=7"></script>
+<script src="/static/form.js?v=6"></script>
 {% endblock %}

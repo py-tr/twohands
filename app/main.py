@@ -131,11 +131,27 @@ def form(request: Request, clave: str, run: Optional[str] = None):
     off = s.official.get(clave, {})
     g = storemod.grade(r, off)
     rv = reviewmod.load().get(clave)
-    return page(request, "form.html", "forms", clave=clave, r=r, ev=ev, off=off, g=g, reads=reads,
+    from app import sheet as sheetmod
+    return page(request, "form.html", "try", clave=clave, r=r, ev=ev, off=off, g=g, reads=reads,
+                meta=sheetmod.run_meta(s, r), verdict=sheetmod.verdict(ev), caplines=sheetmod.capture_lines(s, clave),
+                disputes=sheetmod.disputes(s, clave, r, ev, rv), repo_url=sheetmod.repo_url(),
                 run=s.runs[r.run_id], short={rid: s.short_name(rid) for rid, _ in reads},
                 main_runs=[rid for rid, _ in reads if rid in (s.headline_run(), "spike-qwen", "live")],
                 has_image=s.masked_image(clave) is not None, review=rv,
                 live=request.app.state.live.status(), errors=[e for e in s.keying_errors() if e["clave"] == clave])
+
+
+@app.get("/api/receipt/{clave}/{code}")
+def api_receipt_check(clave: str, code: str):
+    """The sheet page's "Verify this receipt": the field's Merkle receipt in the sample audit, checked as
+    python -m twohands.verify_receipt does (leaf, crop hash, proof path, published root)."""
+    from app import sheet as sheetmod
+    if not re.match(r"^[0-9A-Z]{6,16}$", clave) or not re.match(r"^[A-Z0-9_]{2,24}$", code):
+        raise HTTPException(404, "unknown receipt")
+    out = sheetmod.receipt_check(clave, code)
+    if out is None:
+        raise HTTPException(404, "no receipt for this field in the sample audit")
+    return out
 
 
 @app.get("/ledger/{sid}", response_class=HTMLResponse)
@@ -355,10 +371,30 @@ def _flist():
     return [{"code": storemod.code_of(f["key"]), "name": storemod.name_of(f["key"])} for f in storemod.schema()["fields"]]
 
 
+# "Pick a real sheet" on /try: real, already-masked sheets with a stored AMD read, each opening its sheet page
+TRY_SHEETS = [("211298B0100", "TOTAL", "Every check holds: accepted"),
+              ("122655C0100", "OPT02", "The sum catches a misread: 366 vs 466"),
+              ("080310B0100", "SOBRANTES", "Typed 480; the paper says 180"),
+              ("050815B0100", "OPT07", "Typed 75; the paper says 175"),
+              ("070207C0100", "TOTAL", "Recorded \"illegible\"; the paper says 416")]
+
+
+def _try_sheets() -> list[dict]:
+    s = st()
+    out = []
+    for clave, code, title in TRY_SHEETS:
+        if s.masked_image(clave) is None or s.default_read(clave) is None:
+            continue
+        img = (f"/crop/enhanced/{clave}/{code}.jpg?pad=0.012" if clave == "070207C0100"
+               else f"/crop/{clave}/{code}.jpg?pad=0.012&label=0")
+        out.append({"clave": clave, "title": title, "img": img, "field": storemod.name_of(storemod.key_of(code))})
+    return out
+
+
 @app.get("/try", response_class=HTMLResponse)
 def try_page(request: Request):
     return page(request, "try.html", "try", samples=uploadmod.SAMPLES, good=uploadmod.GOOD_PHOTO, up=None, ev=None,
-                flist=_flist(), live=request.app.state.live.status())
+                flist=_flist(), live=request.app.state.live.status(), sheets=_try_sheets())
 
 
 @app.get("/try/{uid}", response_class=HTMLResponse)

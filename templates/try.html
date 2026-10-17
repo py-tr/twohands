@@ -16,8 +16,8 @@
 {% block content %}
 <div class="page-head">
   <div class="eyebrow">Try it</div>
-  <h1>Read a tally sheet from a photo</h1>
-  <p class="lede">Photograph an INE type-2 tally sheet (or use one of ours). The page is located, straightened and privacy-masked in memory; only the masked page is kept. Then it joins the queue for a live read on AMD, and the gate checks every field.</p>
+  <h1>{{ 'Read a tally sheet from a photo' if up else 'Pick a real sheet' }}</h1>
+  <p class="lede">{% if up %}The page was located, straightened and privacy-masked in memory; only the masked page is kept. It joins the queue for a live read on AMD, and the gate checks every field.{% else %}Real INE tally sheets, already read on AMD and privacy-masked. Open one to see the stored read, the verdict and how it's checked.{% endif %}</p>
 </div>
 
 {% if up %}
@@ -67,6 +67,19 @@
 {% else %}
 {# ---------------------------------------------------------------- pick a photo #}
 {% set fpractice = request.query_params.get('form') == 'practice' %}
+<section class="picks" id="pick" aria-label="Pick a real sheet">
+  {% for s in sheets %}
+  <a class="card pickc" href="/form/{{ s.clave }}">
+    <span class="pick-img"><img src="{{ s.img }}" alt="Masked crop of {{ s.field }} on sheet {{ s.clave }}" loading="lazy"></span>
+    <b>{{ s.title }}</b>
+    <span class="small muted"><span class="mono">{{ s.clave }}</span> · {{ s.field }}</span>
+  </a>
+  {% endfor %}
+</section>
+
+<h2 class="own-h" id="own">Or upload your own photo</h2>
+<details class="more-d own-practice"{{ ' open' if fpractice }}>
+<summary>Practice sheet (any language): print it, fill it, photograph it</summary>
 <div class="ftype" role="radiogroup" aria-label="Form type">
   <label class="ftype-opt"><input type="radio" name="ftype" value="ine" {{ '' if fpractice else 'checked' }}><span><b>INE tally sheet, type 2</b><span class="small muted">the measured form</span></span></label>
   <label class="ftype-opt"><input type="radio" name="ftype" value="practice" {{ 'checked' if fpractice else '' }}><span><b>Practice sheet (any language)</b><span class="small muted">print it, fill it, photograph it</span></span></label>
@@ -80,6 +93,7 @@
     <div class="demo-tag" role="note">{{ icon('alert') }}<b>Demonstration, not a measurement.</b></div>
   </div>
 </div>
+</details>
 <div class="grid2" style="align-items:start">
   <div>
     <div class="drop" id="drop">
@@ -125,16 +139,29 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="eyebrow">What a good photo looks like</div>
+  <details class="card tips-d">
+    <summary class="eyebrow">What a good photo looks like, and privacy</summary>
     {{ sheet_illo() }}
     <ul class="goodphoto" style="margin-top:var(--s-4)">
       {% for g in good %}<li>{{ icon('check') }}<span>{{ g }}</span></li>{% endfor %}
     </ul>
     <div class="privacy" style="margin-top:var(--s-5)">{{ icon('shield') }}<div><b>Privacy.</b> Your photo is processed in memory and never written to disk. If the form is found, only the straightened page with the names-and-signatures column blacked out is kept and sent to the model. If it is not found, nothing is kept.</div></div>
-  </div>
+  </details>
 </div>
 <style>
+.picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin: 0 0 var(--s-6); }
+.pickc { display: flex; flex-direction: column; gap: 6px; padding: 12px; color: inherit; text-decoration: none; }
+.pickc:hover { text-decoration: none; border-color: var(--accent-line); }
+.pick-img { display: flex; align-items: center; justify-content: center; height: 92px; background: #fff; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.pick-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.pickc b { font-size: .95rem; line-height: 1.3; }
+.own-h { margin: 0 0 var(--s-3); }
+.own-practice { margin: 0 0 var(--s-4); }
+.own-practice > summary { cursor: pointer; font-weight: 600; }
+.own-practice .ftype { margin-top: var(--s-3); }
+.tips-d > summary { cursor: pointer; margin: 0; }
+.tips-d[open] > summary { margin-bottom: var(--s-3); }
+@media (max-width: 560px) { .picks { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; } .pick-img { height: 70px; } .pickc { padding: 8px; } .pickc b { font-size: .85rem; } }
 .ftype { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 var(--s-4); }
 .ftype-opt { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; background: var(--card, #fff); }
 .ftype-opt > span { display: flex; flex-direction: column; }
@@ -152,7 +179,7 @@
 {% endif %}
 {% endblock %}
 {% block scripts %}
-<script src="/static/live.js?v=6"></script>
+<script src="/static/live.js?v=7"></script>
 <script>
 (function () {
   var live = document.getElementById('live');

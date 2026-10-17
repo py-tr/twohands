@@ -20,12 +20,12 @@ from twohands.priority import prioritized
 client = TestClient(app)
 PARTY = re.compile(r"(?<![A-Za-z0-9])(PAN|PRI|PRD|PVEM|PT|MC|MORENA)(?![A-Za-z0-9])")
 PARTY_CI = re.compile(r"(?<![A-Za-z0-9])(morena|pvem|verde)(?![A-Za-z0-9])", re.I)
-NAV = ["Home", "Audit your capture", "Try it", "Results"]
-FOOTER = ["Findings", "Review desk", "Request an audit", "Any polling station", "API, CLI and MCP", "Live audit", "Inbox",
-          "Keyer", "Builder", "AMD status", "Evolus", "Data and credits", "Report"]
+NAV = ["Home", "Try it", "Results"]
+FOOTER = ["Results", "Data and credits", "API", "Evolus", "Report (PDF)"]
+USER = "For INE, the 32 state institutes and their outside auditors."
 H1 = "OCR reads the number. Two Hands checks whether the whole form agrees."
 EYEBROW = "Two Hands · verifiable quality control for handwritten numbers"
-PRIMARY = "Read a real tally sheet live on AMD"
+PRIMARY = "Try it"
 PAGES = ["/", "/audit", "/audit/new", "/review", "/try", "/results", "/api", "/station", "/station?c=202451B0100",
          "/inbox", "/keyer?s=1", "/builder", "/live", "/about-data"]
 
@@ -62,27 +62,32 @@ def queue_worker(tmp_path, monkeypatch):
 
 
 # ------------------------------------------------------------------------------------------------ nav
-def test_nav_has_four_items_and_the_rest_in_the_footer(empty_worker):
+def test_nav_has_three_items_and_a_short_footer(empty_worker):
     h = client.get("/").text
     nav = _nav(h)
     assert [_text(a) for a in re.findall(r"<a [^>]*>(.*?)</a>", nav, flags=re.S)] == NAV
     assert "<details" not in nav and 'href="/check"' not in nav and "/receipt" not in nav
     links = re.search(r'<nav class="flinks".*?</nav>', h, flags=re.S).group(0)
     labels = [_text(a).split(":")[0] for a in re.findall(r"<a [^>]*>(.*?)</a>", links, flags=re.S)]
-    assert labels[:len(FOOTER)] == FOOTER
+    assert labels == FOOTER
+    for u in ("/inbox", "/keyer", "/builder", "/station", "/live", "/review", "/audit/request", "/audit\""):
+        assert f'href="{u}' not in links and f'href="{u}' not in nav, u   # still served, no longer linked here
     assert 'class="livedot' not in h          # the live pill only while the live worker runs
     for u in ("/audit", "/review", "/audit/request", "/station", "/api", "/check", "/live", "/inbox", "/keyer",
               "/builder", "/about-data"):
         assert client.get(u).status_code == 200, u
 
 
-def test_review_desk_is_a_tab_of_audit_your_capture():
-    for u in ("/audit/new", "/review"):
-        h = client.get(u).text
-        tabs = re.search(r'<nav class="tabs".*?</nav>', h, flags=re.S).group(0)
-        assert "Audit your capture" in tabs and "Review desk" in tabs and 'href="/audit/request"' in tabs
-        assert re.search(r'<a href="/audit/new" class="on">Audit your capture</a>', _nav(h))
-    assert "Request an audit" in _text(client.get("/").text)
+def test_audit_new_opens_the_finished_sample_with_own_data_folded():
+    h = client.get("/audit/new").text
+    t = _text(h)
+    assert "267 disputed fields in 6,358 checked" in t and "Run the sample audit" not in t
+    assert "/report" in h and 'href="/verify/050815B0100/OPT07"' in h
+    own = re.search(r'<details class="card au-own" id="own">.*?</details>', h, flags=re.S).group(0)
+    assert 'href="/audit/request"' in own and 'id="csv"' in own   # closed by default: no open attribute
+    assert re.search(r'<a href="/results" class="on">Results</a>', _nav(h))
+    tabs = re.search(r'<nav class="tabs".*?</nav>', client.get("/review").text, flags=re.S).group(0)
+    assert "Review desk" in tabs and 'href="/audit/request"' in tabs   # the review desk keeps its own page
 
 
 def test_no_touchless_in_titles_or_nav():
@@ -102,10 +107,10 @@ def test_first_screen_content_in_order(empty_worker):
     t = _text(first)
     from app import honest
     tiles = honest.proof_tiles(numbersmod.headline())
-    marks = [EYEBROW, H1, "The paper: 175 · The first capture keyed: 75 · The certified count: 175",
+    marks = [EYEBROW, H1, USER, "The paper: 175 · The first capture keyed: 75 · The certified count: 175",
              'In English: words: "ciento setenta y cinco" = 175 · boxes: 1 7 5',
              "certified count, by comparison", "050815B0100", "verify this receipt"]
-    marks += [x["big"] for x in tiles] + [PRIMARY, "Audit your capture", "or try your own sheet"]
+    marks += [x["big"] for x in tiles] + [PRIMARY]
     pos = [t.find(m) for m in marks]
     assert all(p >= 0 for p in pos), [m for m, p in zip(marks, pos) if p < 0]
     assert pos == sorted(pos), list(zip(marks, pos))
@@ -117,9 +122,9 @@ def test_first_screen_content_in_order(empty_worker):
     res = client.get("/results").text
     for x in tiles:
         assert f'id="{x["href"].split("#")[1]}"' in res, x["href"]
-    # the actions: a live read of the receipt's own sheet, audit your capture, try your own sheet
-    assert 'class="btn primary lg" href="/form/050815B0100#live"' in first
-    assert 'href="/audit/new"' in first and 'href="/try"' in first
+    # one action: Try it; the how-it-works boxes are one line
+    assert 'class="btn primary lg" href="/try"' in first and first.count('class="btn') == 1
+    assert 'href="/audit/new"' not in first and "steps5" not in h and 'id="how"' in first
     # removed: the replay animation, any pilot number, the word touchless
     assert 'id="reader"' not in h and "loopData" not in h and "hero.js" not in h
     assert "pilot" not in t.lower() and "touchless" not in t.lower() and "spike" not in t.lower()
@@ -235,7 +240,7 @@ def test_second_screen_measured_not_promised():
               f"1 in {H['model_one_in']} vs 1 in {H['acc_one_in']}", f"1 in {H['yield_one_in']} vs 1 in {H['random_one_in']}"):
         assert s in m, s
     h = client.get("/results").text
-    assert "/static/builder.webm" in h and "/audit/request" in h and "/audit/request" in client.get("/").text
+    assert "/static/builder.webm" in h and "/audit/request" in h
 
 
 def test_builder_clip_is_small():
@@ -353,12 +358,12 @@ def test_phone_first_screen(server):
             b = box(sel)
             assert b and b["y"] + b["height"] <= fold, (sel, b)
         assert box(".n-disp") is None and box(".nav a") is None
-        assert pg.locator(".f-actions .btn:visible").count() == 2
+        assert pg.locator(".f-actions .btn:visible").count() == 1
         assert pg.inner_text(".f-actions .btn.primary").strip() == PRIMARY
         assert box("#rcard")["y"] < box(".f-actions .btn.primary")["y"] < box("#proof")["y"]
-        for sel in ("#how", "#strip") if pg.locator("#strip").count() else ("#how",):
-            b = box(sel)
-            assert b and b["y"] >= fold, (sel, b)
+        if pg.locator("#strip").count():
+            b = box("#strip")
+            assert b and b["y"] >= fold, ("#strip", b)
         rc = pg.locator("#rcard .rslide.on .rvals")
         assert float(pg.evaluate("e => parseFloat(getComputedStyle(e).fontSize)", rc.element_handle())) >= 13
     finally:
@@ -369,7 +374,7 @@ def test_phone_first_screen(server):
 
 @pytest.mark.parametrize("w,h", [(1366, 768), (1366, 900), (1280, 800), (1440, 900)])
 def test_desktop_first_screen(server, w, h):
-    """Desktop fold: the hook, the receipt, the three proof tiles and both first-screen buttons."""
+    """Desktop fold: the hook, the receipt, the three proof tiles and the Try it button."""
     sync = pytest.importorskip("playwright.sync_api")
     try:
         p = sync.sync_playwright().start()
@@ -382,7 +387,7 @@ def test_desktop_first_screen(server, w, h):
         pg.evaluate("document.fonts.ready.then(() => true)")
         assert pg.evaluate("document.documentElement.scrollWidth") <= w
         boxes = {}
-        for sel in (".f-h1", "#rcard", "#proof", ".f-actions .btn.primary", ".f-actions .f-second"):
+        for sel in (".f-h1", "#rcard", "#proof", ".f-actions .btn.primary"):
             el = pg.locator(sel).first
             b = el.bounding_box() if el.is_visible() else None
             assert b and b["y"] + b["height"] <= h, (sel, b)

@@ -1,31 +1,8 @@
-{% extends "base.html" %}
-{% from "_icons.html" import icon %}
-{% block title %}Audit your capture · Two Hands{% endblock %}
-{% block content %}
-<nav class="tabs" aria-label="Audit your capture"><a href="/audit/new" class="on">Audit your capture</a><a href="/review">Review desk</a><a class="btn sm primary tab-cta" href="/audit/request">Request an audit</a></nav>
-<section class="page-head au-head">
-  <div class="eyebrow">Audit your capture</div>
-  <h1>Check keyed data against its paper</h1>
-  <p class="lede">Bring the keyed data (a CSV) and the scans. You get back every field where the paper disagrees with the keyed data, ordered by evidence, each with its photo, for a person to decide.</p>
-</section>
-
-<section class="au-sample card">
-  <div>
-    <div class="eyebrow" style="margin-bottom:6px">Sample audit · no upload, no model call</div>
-    <h2>Run the sample audit</h2>
-    <p class="muted" style="margin:6px 0 0">The official first capture of the {{ H.forms or 300 }} pre-registered forms (the PREP 2024 values, as a keyed CSV with INE's own column names) against the stored Gemma reads of their masked pages. The report is ready in seconds.</p>
-    <ul class="buyers" style="margin-top:10px">
-      <li><b>The strong-evidence tier is a confirmed capture error 12 of 18 times.</b></li>
-      <li><b>The full dispute list reproduces in half a second.</b></li>
-    </ul>
-    <p class="tiny muted" style="margin:4px 0 0">Measured on the sample: 18 fields in the strong tier, 12 adjudicated as capture errors (results/adjudication/verdicts.json); <code>capture_audit.run</code> checks 6,358 fields and lists 267 disputes in 0.42 to 0.48 s on a laptop CPU.</p>
-  </div>
-  <div class="au-sample-go">
-    <button class="btn primary lg" id="sample" data-act>{{ icon('play') }}Run the sample audit</button>
-    <a class="small" href="/audit/sample.csv" download>Download the sample keyed CSV</a>
-  </div>
-</section>
-
+{#- Bring your own data: the keyed-CSV upload, column mapping and scans (was /audit/new), and the request form link,
+    folded into one closed panel under the finished sample audit. Needs flist, M. -#}
+<details class="card au-own" id="own">
+  <summary><b>Bring your own data</b> <span class="small muted">audit your own keyed capture against its paper, or request an audit</span></summary>
+  <p class="small" style="margin:12px 0 0">Bring the keyed data (a CSV) and the scans. You get back every field where the paper disagrees with the keyed data, ordered by evidence, each with its photo, for a person to decide. <a href="/audit/sample.csv" download>Download the sample keyed CSV</a> to see the format, or <a href="/audit/request">request an audit</a>.</p>
 <section class="au-grid">
   <div class="card au-steps">
     <h2 style="margin-bottom:4px">Your own audit</h2>
@@ -77,18 +54,11 @@
     {% if M %}<p class="tiny" style="margin:14px 0 0">{{ M.yield }}</p>{% endif %}
   </aside>
 </section>
-{% endblock %}
-{% block scripts %}
+</details>
 <script>
 (function () {
   var P = null, $ = function (id) { return document.getElementById(id); };
   function msg(el, t, bad) { el.textContent = t || ''; el.classList.toggle('bad', !!bad); }
-  $('sample').addEventListener('click', function () {
-    var b = this; b.disabled = true; b.lastChild.textContent = 'Running the sample audit…';
-    fetch('/api/audit/sample', {method: 'POST'}).then(function (r) { return r.json(); })
-      .then(function (j) { location.href = j.url; })
-      .catch(function () { b.disabled = false; b.lastChild.textContent = 'Run the sample audit'; });
-  });
   function opt(sel, cols, chosen, none) {
     sel.innerHTML = '';
     if (none) { var o = document.createElement('option'); o.value = ''; o.textContent = 'not in the file'; sel.appendChild(o); }
@@ -149,4 +119,3 @@
   });
 })();
 </script>
-{% endblock %}

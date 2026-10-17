@@ -56,9 +56,10 @@ def _methods(H: dict, L: dict) -> dict:
 
 @router.get("/audit/new", response_class=HTMLResponse)
 def audit_new(request: Request):
-    H = numbersmod.headline()
-    return _t().TemplateResponse(request, "audit_new.html", {"nav": "auditnew", "flist": _flist(), "H": H,
-                                                             "M": _methods(H, numbersmod.lines(H))})
+    """The sample audit, already finished (the stored one in app/state/audits, else made now and kept: no model call),
+    with "bring your own data" (the CSV upload and the request form) in one closed panel at the bottom."""
+    a = _audit_or_404(_sample_audit_id())
+    return _t().TemplateResponse(request, "audit_run.html", {"nav": "auditnew", **_ctx(request, a)})
 
 
 @router.post("/api/audit")

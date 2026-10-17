@@ -5,14 +5,14 @@
 {% block content %}
 <div class="sec-head page-head au-head" style="align-items:flex-end">
   <div>
-    <div class="eyebrow">Audit your capture · {{ 'Sample audit' if a.source == 'sample' else 'Your audit' }}</div>
+    <div class="eyebrow">{{ 'Now on 300 sheets · the sample audit' if a.source == 'sample' else 'Audit your capture · Your audit' }}</div>
     <h1>{{ R.disputed|int }} disputed fields in {{ R.checked|int }} checked</h1>
     <p class="lede">{{ a.name }}: {{ R.forms_keyed|int }} forms in the keyed file, {{ R.forms_read|int }} with a read of the paper. On {{ R.disputed|int }} fields of {{ R.disputed_forms }} forms the paper, as the model reads it, disagrees with the keyed value. Ordered by evidence; each needs a person to look at its photo.</p>
   </div>
   <div class="actions" style="margin-top:0">
     <a class="btn dark" href="/audit/{{ a.id }}/report" target="_blank" rel="noopener">{{ icon('forms') }}Printable report</a>
     <a class="btn" href="/audit/{{ a.id }}/report.csv" download>{{ icon('download') }}Export CSV</a>
-    <a class="btn" href="/audit/new">New audit</a>
+    {% if a.source == 'sample' %}<a class="btn" href="/verify/050815B0100/OPT07" target="_blank" rel="noopener" title="One field's Merkle receipt (JSON): Option 07 of 050815B0100, keyed 75, the paper 175">{{ icon('shield') }}A receipt</a><a class="btn" href="#own">Bring your own data</a>{% else %}<a class="btn" href="/audit/new">New audit</a>{% endif %}
   </div>
 </div>
 
@@ -78,6 +78,7 @@
           <td class="au-ev"><span class="chip {{ tierchip[d.tier] }}">{{ d.tier }} · {{ d.score }}</span>
             <ul>{% for s in d.signals %}<li class="{{ 'pos' if s.pts > 0 else 'neg' }}">{{ s.text }}</li>{% endfor %}</ul>
             {% if d.adjudicated %}<div class="tiny muted">Our adjudication: {{ d.adjudicated.label }}{% if d.adjudicated.paper is not none %}; paper {{ d.adjudicated.paper }}{% endif %}</div>{% endif %}
+            <a class="tiny" href="/audit/{{ a.id }}/receipt/{{ d.key }}" target="_blank" rel="noopener">receipt</a>
           </td>
           <td class="au-mk"><div class="au-mkb" role="group" aria-label="Mark {{ d.form }} {{ d.name }}">
             <button class="{{ 'on' if d.mark == 'confirmed' }}" data-mark="confirmed" data-act>{{ icon('check') }}Confirmed</button>
@@ -93,6 +94,7 @@
 </div>
 
 {% if M %}<p class="tiny" style="margin-top:22px"><b>Method.</b> {{ M.yield }} {{ M.recall }} "Capture error" means the keyed value does not match the paper, nothing more.</p>{% endif %}
+{% if a.source == 'sample' %}{% include "_audit_own.html" %}{% endif %}
 {% endblock %}
 {% block scripts %}
 <script>

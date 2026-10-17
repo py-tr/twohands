@@ -52,7 +52,7 @@ window.LiveJob = function (root) {
   var ICON_ALERT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>';
   var ICON_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>';
   function banner(kind, html, retry) {
-    msg.innerHTML = '<div class="banner ' + (kind === 'ok' ? 'ok' : '') + '" role="status">' + (kind === 'ok' ? ICON_OK : ICON_ALERT) +
+    msg.innerHTML = '<div class="banner ' + (kind === 'ok' ? 'ok' : (kind === 'loud' ? 'loud' : '')) + '" role="' + (kind === 'loud' ? 'alert' : 'status') + '">' + (kind === 'ok' ? ICON_OK : ICON_ALERT) +
       '<div class="grow">' + html + '</div>' + (retry ? '<button class="btn sm" data-retry>Retry</button>' : '') + '</div>';
     var r = msg.querySelector('[data-retry]'); if (r) r.addEventListener('click', start);
   }
@@ -100,7 +100,8 @@ window.LiveJob = function (root) {
       } else if (ev.type === 'error') {
         step(current || 'send', 'fail', '');
         var busy = ev.code === 'endpoint_busy';
-        banner('warn', busy ? esc(ev.msg).replace(/^(AMD endpoint busy)/, '<b>$1</b>') : '<b>Live read did not finish.</b> ' + esc(ev.msg), true);
+        if (root.dataset.stored && ev.fallback) banner('loud', '<b>' + (busy ? 'AMD endpoint busy' : 'AMD read did not finish') + ': showing the stored read from ' + esc(root.dataset.stored) + '.</b> ' + esc(ev.msg), true);
+        else banner('warn', busy ? esc(ev.msg).replace(/^(AMD endpoint busy)/, '<b>$1</b>') : '<b>Live read did not finish.</b> ' + esc(ev.msg), true);
         tiles.hidden = true;
         fallback(ev.fallback);
       } else if (ev.type === 'done') stop();
@@ -117,7 +118,8 @@ window.LiveJob = function (root) {
       if (res.ok) { attach(res.j.job, res.j.position); return; }
       stop(); tiles.hidden = true; if (steps) steps.hidden = true;
       var code = res.j.refused, retry = code === 'endpoint' || code === 'busy';
-      banner('warn', code === 'endpoint' ? esc(res.j.message).replace(/^(AMD endpoint busy)/, '<b>$1</b>') :
+      if (root.dataset.stored && (code === 'endpoint' || code === 'budget' || code === 'off')) banner('loud', '<b>' + (code === 'endpoint' ? 'AMD endpoint busy' : 'Live read not available') + ': showing the stored read from ' + esc(root.dataset.stored) + '.</b> ' + esc(res.j.message), retry);
+      else banner('warn', code === 'endpoint' ? esc(res.j.message).replace(/^(AMD endpoint busy)/, '<b>$1</b>') :
         '<b>' + (code === 'busy' ? 'Queue full.' : 'Live read not available.') + '</b> ' + esc(res.j.message), retry);
       if (code === 'endpoint' || code === 'budget' || code === 'off') fallback(root.dataset.fallback);
     }).catch(function () { stop(); banner('warn', 'Could not reach the server.', true); });

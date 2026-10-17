@@ -23,19 +23,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/style.css?v=19">
+<link rel="stylesheet" href="/static/style.css?v=20">
 </head>
 <body>
-{% set amd = amd_status() %}
 {% set la = live_audit_block() %}
 <header class="top">
   <div class="wrap">
     <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="/" class="{{ 'on' if nav == 'home' }}">Home</a>
-      <a href="/audit/new" class="{{ 'on' if nav in ('auditnew', 'review', 'request') }}">Audit your capture</a>
-      <a href="/try" class="{{ 'on' if nav == 'try' }}">Try it</a>
-      <a href="/results" class="{{ 'on' if nav == 'results' }}">Results</a>
+      <a href="/try" class="{{ 'on' if nav in ('try', 'forms') }}">Try it</a>
+      <a href="/results" class="{{ 'on' if nav in ('results', 'audit', 'auditnew') }}">Results</a>
     </nav>
     {% if live_running is defined and live_running() %}<a class="livedot live" href="/live" title="{{ la.status.text if la else 'Live audit on AMD' }}"><span class="ldot"></span><span class="ltxt">Live</span></a>{% endif %}
     <button class="menubtn" id="menubtn" aria-label="Menu" aria-expanded="false" aria-controls="nav">{{ icon('menu') }}</button>
@@ -48,7 +46,7 @@
   <div class="fbar">
     <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
     <nav class="flinks" aria-label="More pages">
-      <a href="/audit">Findings</a><a href="/review">Review desk</a><a href="/audit/request">Request an audit</a><a href="/station">Any polling station</a><a href="/api">API, CLI and MCP</a><a href="/live">Live audit</a><a href="/inbox">Inbox</a><a href="/keyer">Keyer</a><a href="/builder">Builder</a><a href="/results#amd"><span class="pdot {{ amd.state }}"></span>AMD status: {{ amd.label }}</a><a href="/results#evolus">Evolus</a><a href="/about-data">Data and credits</a><a title="The technical report (PDF)" href="/report.pdf">Report</a>{% for label, url in submission_links() %}<a href="{{ url }}" rel="noopener">{{ label }}</a>{% endfor %}
+      <a href="/results">Results</a><a href="/about-data">Data and credits</a><a href="/api">API</a><a href="/results#evolus">Evolus</a><a title="The technical report (PDF)" href="/report.pdf">Report (PDF)</a>
     </nav>
   </div>
   <div class="base">

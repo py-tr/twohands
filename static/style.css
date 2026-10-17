@@ -848,6 +848,7 @@ section.st-ans { margin-top: var(--s-6); }
 .conf .ok { color: var(--ok); }
 .conf .pend { color: var(--warn); font-weight: 600; }
 .f-two { margin: 6px 0 0; font-size: .98rem; font-weight: 600; color: var(--ink-2); }
+.f-user { margin: 8px 0 0; font-size: 1.05rem; font-weight: 650; color: var(--accent-ink); }
 .f-reg { margin: 12px 0 0; font-size: 1.04rem; color: var(--ink-2); max-width: 52em; line-height: 1.55; }
 .f-reg a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--line); }
 .f-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-5); margin-top: var(--s-5); align-items: stretch; }
@@ -917,7 +918,8 @@ section.st-ans { margin-top: var(--s-6); }
   .f-eyebrow { font-size: .68rem; margin-bottom: 6px; }
   .f-two { font-size: .9rem; font-weight: 500; }
   .f-hero { display: contents; }
-  .fold > .f-h1, .fold > .f-eyebrow, .fold > .f-two { order: 0; }
+  .fold > .f-h1, .fold > .f-eyebrow, .fold > .f-user, .fold > .f-two { order: 0; }
+  .f-user { font-size: .9rem; margin-top: 4px; }
   .fold #rcard { order: 1; margin-top: 12px; }
   .fold .f-actions { order: 2; }
   .fold .proof { order: 3; margin-top: 14px; }
@@ -953,3 +955,10 @@ section.st-ans { margin-top: var(--s-6); }
 .more-d > summary { cursor: pointer; color: var(--muted); font-size: var(--t-sm); font-weight: 560; width: fit-content; max-width: 100%; }
 .more-d > summary:hover { color: var(--ink); }
 .more-d[open] > summary { margin-bottom: 10px; }
+
+/* The sample audit opens finished; "bring your own data" is one closed panel under it */
+.au-own { margin-top: var(--s-6); padding: 16px 20px; }
+.au-own > summary { cursor: pointer; }
+.au-own[open] > summary { margin-bottom: 4px; }
+.au-own .au-grid { margin-top: var(--s-4); }
+.au-own .au-steps, .au-own .au-what { box-shadow: none; }

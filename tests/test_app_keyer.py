@@ -105,6 +105,7 @@ def test_reveal_scores_against_the_paper():
 
 
 def test_overview_links_the_keyer_and_check_is_unchanged():
-    assert 'href="/keyer"' in client.get("/").text   # in the More menu
+    assert client.get("/keyer", follow_redirects=False).status_code in (200, 302, 303, 307)   # served, not linked
+    assert 'href="/keyer"' not in client.get("/").text
     html = client.get("/check?i=0").text
     assert "Spot check" in html and "/check/img/0.jpg" in html and "keyer" not in html

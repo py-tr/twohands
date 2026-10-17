@@ -297,7 +297,7 @@ def test_buyer_slot_hidden_until_result_clears_the_threshold(tmp_path, monkeypat
     b = honest.buyer_card()
     assert b and b["ours_pct"] == 93.0
     h = client.get("/").text   # the head-to-head is the first proof tile, beside the receipt, before the actions
-    assert h.index('id="rcard"') < h.index('id="buyer"') < h.index('class="f-actions"') < h.index('id="how"')
+    assert h.index('id="how"') < h.index('id="rcard"') < h.index('id="buyer"') < h.index('class="f-actions"')
 
 
 def test_judge_from_an_audit_report(votes, tmp_path, monkeypatch):

@@ -1,7 +1,7 @@
 """Submission links (repo, live demo, video, sample audit report, slides) from the one file that holds them.
 
 submission/links.json is filled once at submission; scripts/fill_links.py copies it into README.md and
-submission/lablab.md, and the site footer reads it here. Empty values are links not published yet and are skipped.
+submission/lablab.md; the sheet page's source-code link reads it here (app/sheet.py). Empty values are links not published yet and are skipped.
 """
 from __future__ import annotations
 
