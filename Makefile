@@ -18,6 +18,7 @@ eval:
 	python scripts/ieebcs_score.py --check
 	python scripts/ballot_stock.py --check
 	python scripts/confirm100_score.py --check
+	python scripts/gemma_tf_reads2.py score-b4 --check
 	python scripts/ine_metric.py --check
 	python scripts/national_counts.py --check
 	python scripts/price_check.py --check

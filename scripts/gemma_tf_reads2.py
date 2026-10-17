@@ -4,6 +4,7 @@ AMD Token Factory, and their scoring.
     python scripts/gemma_tf_reads2.py b4             # read B -> results/calls_gemma_b4.jsonl (resumable by clave)
     python scripts/gemma_tf_reads2.py colima         # Colima -> results/colima/calls_gemma.jsonl (resumable by clave)
     python scripts/gemma_tf_reads2.py score-b4       # -> results/gemma_b4_300.json + .md (no model call)
+    python scripts/gemma_tf_reads2.py score-b4 --check  # recompute; exit 1 if the committed files differ (make eval)
     python scripts/gemma_tf_reads2.py score-colima   # -> results/colima/colima_audit.json + .md + audit report (no model call)
 
 Reads refuse to start unless the amendment is committed at HEAD with PROTOCOL.md unchanged (they wait up to 2 h for a
@@ -197,6 +198,13 @@ class Truth:
                 return v
         return None
 
+    def label(self, k, f) -> str:
+        """Who decided a field's verdict: the stored "by", else the earlier adjudication (the AI adjudicator on the crop)."""
+        v = self.verdict(k, f) or {}
+        by = v.get("by") or "AI adjudicator"
+        return {"AI adjudicator": "AI adjudicator's reading", "certified count": "confirmed by the certified count",
+                "person": "confirmed by a person"}.get(by, by)
+
     def judge(self, k, f, value) -> str:
         v = self.verdict(k, f)
         if v:
@@ -244,14 +252,15 @@ def tier_errors(acc: list, src: dict, T: Truth, graded: list, keys: list) -> dic
             j = T.judge(k, f, d[f])
             res[j] += 1
             if j == "wrong":
-                wrong.append(f"{k}__{f} read {d[f]}, capture {T.capture(k, f)}")
+                wrong.append(f"{k}__{f} read {d[f]}, capture {T.capture(k, f)} [{T.label(k, f)}]")
             elif j == "pending":
                 pend.append(f"{k}__{f}")
     return {"fields": n, "errors": res["wrong"], "undecided": res["undecided"], "pending": len(pend),
             "ci": list(wilson(res["wrong"], n)) if n else None, "wrong": wrong, "pending_fields": pend}
 
 
-def cmd_score_b4(_a) -> int:
+def cmd_score_b4(a) -> int:
+    check = bool(getattr(a, "check", False))
     s = schemamod.load()
     keys = s["keys"]
     graded = [f["key"] for f in s["fields"] if f.get("csv")]
@@ -262,6 +271,7 @@ def cmd_score_b4(_a) -> int:
     with (REPO / "app" / "data" / "audit_sample_prep300.csv").open(encoding="utf-8", newline="") as fh:
         prep = {r["CLAVE_CASILLA"]: r for r in csv.DictReader(fh)}
     store = jload(V8, {})
+    stored = copy.deepcopy(store)
     T = Truth([jload(ADJ / "verdicts.json", {}), jload(ADJ / "verdicts_bakeoff.json", {}), store], prep, s)
 
     def frozen(r):
@@ -288,8 +298,9 @@ def cmd_score_b4(_a) -> int:
     pending = settle(want, T, s, store, lambda k: REPO / "data" / "masked" / f"{k}.jpg", ADJ,
                      lambda k, f: {"A_6tiles": digits(A.get(k), keys).get(f), "B_4tiles": digits(B.get(k), keys).get(f),
                                    "qwen": digits(Q.get(k), keys).get(f) if usable(Q.get(k)) else None})
-    V8.write_text(json.dumps(store, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-    (ADJ / "amendment8_pending.json").write_text(json.dumps(pending, indent=1) + "\n", encoding="utf-8")
+    if not check:
+        V8.write_text(json.dumps(store, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+        (ADJ / "amendment8_pending.json").write_text(json.dumps(pending, indent=1) + "\n", encoding="utf-8")
     tiers = compute()
 
     def shared(X, Y):
@@ -306,7 +317,8 @@ def cmd_score_b4(_a) -> int:
                     one_wrong += 1
                 elif jx == jy == "pending" and dx[f] == dy[f]:
                     pend_same += 1
-        return {"both_wrong_same_value": len(both_wrong_same), "list": both_wrong_same, "only_one_wrong": one_wrong,
+        return {"both_wrong_same_value": len(both_wrong_same), "list": both_wrong_same,
+                "of_which_both_blank": sum(x.endswith(" both read None") for x in both_wrong_same), "only_one_wrong": one_wrong,
                 "both_same_vs_capture_not_adjudicated": pend_same}
 
     def agreement(X, forms):
@@ -328,7 +340,9 @@ def cmd_score_b4(_a) -> int:
     def cost_lat(X):
         rows = [X[k] for k in claves if k in X and not X[k].get("no_call")]
         lat = [r["latency_s"] for r in rows if r.get("latency_s")]
-        return {"cost_usd": round(sum(r.get("cost_usd") or 0 for r in rows), 5),
+        cost = sum(r.get("cost_usd") or 0 for r in rows)
+        return {"cost_usd": round(cost, 5), "calls": len(rows),
+                "cost_per_form_usd": round(cost / len(rows), 6) if rows else None,
                 "mean_latency_s": round(sum(lat) / len(lat), 1) if lat else None}
 
     res = {"amendment": "PROTOCOL.md Amendment 8 (secondary; the primary is unchanged)", "ts": now(),
@@ -344,6 +358,22 @@ def cmd_score_b4(_a) -> int:
                         "A_6tiles": tiers["gemma_6tiles_alone"], "B_4tiles": tiers["gemma_4tiles_alone"],
                         "cost_latency": {"A_6tiles": cost_lat(A), "B_4tiles": cost_lat(B)}},
            "pending_adjudication": len(pending)}
+    if check:
+        mism = []
+        old = jload(R / "gemma_b4_300.json", None)
+        if not old or {**old, "ts": None} != json.loads(json.dumps({**res, "ts": None}, ensure_ascii=False)):
+            mism.append("results/gemma_b4_300.json")
+        mdp = R / "gemma_b4_300.md"
+        if not mdp.is_file() or mdp.read_text(encoding="utf-8") != md_b4(res):
+            mism.append("results/gemma_b4_300.md")
+        if store != stored or pending:
+            mism.append("results/adjudication/verdicts_amendment8.json (new disagreements to settle)")
+        gg = res["a_two_reader"]["gemma_gemma"]
+        ev = " ".join((REPO / "docs" / "EVALUATION.md").read_text(encoding="utf-8").replace("*", "").split())
+        if f"{gg['accepted']} forms, {gg['errors']} wrong of {gg['fields']:,} accepted fields" not in ev:
+            mism.append("docs/EVALUATION.md (the Amendment 8 line)")
+        print(f"gemma_b4 --check: {len(mism)} mismatches" + (f" ({', '.join(mism)})" if mism else ""))
+        return 1 if mism else 0
     (R / "gemma_b4_300.json").write_text(json.dumps(res, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     (R / "gemma_b4_300.md").write_text(md_b4(res), encoding="utf-8")
     print(md_b4(res).split("\n\n")[1])
@@ -354,6 +384,13 @@ def _t(t: dict) -> str:
     ci = f"{100 * t['ci'][0]:.2f}% to {100 * t['ci'][1]:.2f}%" if t.get("ci") else "-"
     return (f"| {t['accepted']} | {t['movil']} / {t['escaner']} | {t['fields']:,} | {t['errors']} ({ci}) | "
             f"{t['pending']} | {t['undecided']} |")
+
+
+def _pub(text: str) -> str:
+    """Published wording: "<clave> <field name>" with vote rows as Option NN (the JSON keeps INE's column names)."""
+    import re
+    from twohands.adjudicate import label
+    return re.sub(r"(\d{6}[A-Z]\d{4})__([A-Z_]+)", lambda m: f"{m.group(1)} {label(m.group(2))}", text)
 
 
 def md_b4(d: dict) -> str:
@@ -372,21 +409,27 @@ def md_b4(d: dict) -> str:
          "| tier | accepted | Movil / Escaner | accepted fields | wrong (Wilson 95%) | awaiting adjudication | paper does not settle |",
          "|---|---|---|---|---|---|---|",
          "| Gemma+Gemma (A + B) " + _t(gg), "| Gemma+Qwen (A + Qwen) " + _t(gq), "",
+         _pub("Wrong accepted fields, each with who decided: Gemma+Gemma " + ("; ".join(gg["wrong"]) or "none") +
+              "; Gemma+Qwen " + ("; ".join(gq["wrong"]) or "none") + "."), "",
          f"As reported before: {a['reported_gemma_qwen']}.", "",
          f"Shared mistakes (both reads wrong with the same value): Gemma+Gemma {sm['both_wrong_same_value']}, "
-         f"Gemma+Qwen {a['shared_mistakes']['gemma_qwen']['both_wrong_same_value']}; only one read wrong: Gemma+Gemma "
+         f"Gemma+Qwen {a['shared_mistakes']['gemma_qwen']['both_wrong_same_value']} (of which both read the field as blank: "
+         f"{sm['of_which_both_blank']} and {a['shared_mistakes']['gemma_qwen']['of_which_both_blank']}); "
+         "these count only fields with a verdict on the photo, i.e. where read A differs from the capture. "
+         f"Only one read wrong (fields with a verdict only, so not comparable between tiers): Gemma+Gemma "
          f"{sm['only_one_wrong']}, Gemma+Qwen {a['shared_mistakes']['gemma_qwen']['only_one_wrong']}.",
-         ("**Same-model reads share mistakes**: " + "; ".join(sm["list"])) if sm["both_wrong_same_value"] else
+         _pub("**Same-model reads share mistakes**: " + "; ".join(sm["list"])) if sm["both_wrong_same_value"] else
          "No shared same-value mistake between the two Gemma reads among adjudicated fields.", "",
          "## (b) Tiling ablation: page + 4 vs page + 6 tiles, same forms", "",
-         "| read | field agreement with the capture (both parsed) | accepted, frozen gate | accepted fields | wrong (Wilson 95%) | awaiting | cost | mean latency |",
+         "| read | field agreement with the capture (both parsed) | accepted, frozen gate | accepted fields | wrong (Wilson 95%) | awaiting | cost (stored per row) | mean latency per form |",
          "|---|---|---|---|---|---|---|---|"]
     for k, lab in (("A_6tiles", "page + 6 tiles (A)"), ("B_4tiles", "page + 4 tiles (B)")):
         ag, t, cl = b["agreement_both_parsed"][k], b[k], b["cost_latency"][k]
         rate = f"{100 * ag['rate']:.2f}%" if ag["rate"] is not None else "-"
         ci = f"{100 * t['ci'][0]:.2f}% to {100 * t['ci'][1]:.2f}%" if t.get("ci") else "-"
         L.append(f"| {lab} | {ag['agree']:,} / {ag['fields']:,} ({rate}) | {t['accepted']} / 300 | {t['fields']:,} | "
-                 f"{t['errors']} ({ci}) | {t['pending']} | ${cl['cost_usd']} | {cl['mean_latency_s']} s |")
+                 f"{t['errors']} ({ci}) | {t['pending']} | ${cl['cost_usd']} (${cl['cost_per_form_usd']} per form, {cl['calls']} calls) | "
+                 f"{cl['mean_latency_s']} s |")
     L += ["", f"Forms both reads parsed: {b['agreement_both_parsed']['forms']}. Pending adjudication: "
           f"{d['pending_adjudication']} fields (`results/adjudication/amendment8_pending.json`); the AI adjudicator's verdicts "
           "go to `results/adjudication/verdicts_amendment8.json`, labelled by who decided.", ""]
@@ -563,6 +606,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=("b4", "colima", "score-b4", "score-colima"))
     ap.add_argument("--no-report", action="store_true", help="score-colima: skip the /audit/new report")
+    ap.add_argument("--check", action="store_true", help="score-b4: recompute and compare with the committed files")
     a = ap.parse_args(argv)
     return {"b4": cmd_b4, "colima": cmd_colima, "score-b4": cmd_score_b4, "score-colima": cmd_score_colima}[a.cmd](a)
 

@@ -105,6 +105,36 @@ disagreement with PREP (3 fields) was adjudicated from crops by the AI adjudicat
 person" from the stored answers): `results/confirm100.md`, `results/adjudication_confirm100/`. Evidence for v2 across
 both sets, 1 wrong field in 1,518 accepted, is 1,034 post-hoc (the 300) plus 484 pre-registered (this run).
 
+### Two Gemma reads as the two hands (Amendment 8, secondary)
+
+Amendment 8 was committed (`77f6025`) before read B existed. Read A is the stored Gemma-4-31B-IT read of the 300 (page +
+6 tiles); read B is a new Gemma-4-31B-IT read on AMD Token Factory of the same masked pages with page + 4 tiles,
+temperature 0 (prompt sha256 `54014b0f04f7...`). Read B has 300 rows: 289 read, 11 unlocated pages routed before any
+call, no API errors, no reply cut at `max_tokens`. The primary and the headline rule are unchanged. The amendment sets
+no pass/fail criterion; the result is reported whatever it shows.
+
+**(a) Two-reader tier (Amendment 2 d rule, read A + read B): 128 forms, 5 wrong of 2,816 accepted fields** (Wilson 95%
+0.08% to 0.41%; 82 phone photos, 46 scans; 3 accepted fields where the paper is ambiguous or unreadable are not counted
+as wrong). On the same 300, Gemma+Qwen: 89 forms, 0 wrong of 1,958 (0.00% to 0.20%), the same as reported above.
+All 5 wrong fields already had a verdict, the **AI adjudicator's reading** of the masked crop, which agrees with the
+official capture in each case. No new disagreement needed settling, so nothing is awaiting adjudication. In every case
+both Gemma reads gave the same wrong value: unused ballots 200 vs 206 and representatives 100 vs 0 (090955C0200),
+unused ballots 370 vs 371 (154476C0300) and 47 vs 247 (160026B0100), ballots taken from the boxes 716 vs 316
+(201201B0100). **Same-model reads share mistakes.** Among fields with a verdict on the photo, both reads are wrong with
+the same value on 130 fields for Gemma+Gemma (36 of them both blank) and on 36 for Gemma+Qwen (21 both blank). The 239 /
+239 case the amendment named (010469C0400 unused ballots, paper 234) is one of them; it is not in the accepted tier.
+
+**(b) Tiling ablation, page + 4 vs page + 6 tiles, the same 289 parsed forms.** These numbers choose nothing; the
+production tiling stays page + 6.
+
+| Read | Agreement with the capture | Accepted, frozen gate | Accepted fields wrong (Wilson 95%) | Cost per form | Mean latency |
+|---|---|---|---|---|---|
+| Page + 6 tiles (A) | 5,879 / 6,087 (96.58%) | 55 / 300 | 2 of 1,210 (0.04% to 0.60%) | $0.000144 | 87.0 s |
+| Page + 4 tiles (B) | 5,858 / 6,087 (96.24%) | 14 / 300 | 0 of 308 (0.00% to 1.23%) | $0.000125 | 51.5 s |
+
+Agreement counts the graded fields that have a numeric capture. Sources: `results/gemma_b4_300.md` and `.json`,
+built by `scripts/gemma_tf_reads2.py score-b4` (no model call); `make eval` re-checks them (`score-b4 --check`).
+
 ### Behind "1 in 5 vs at least 1 in 122"
 
 On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). Recall on confirmed capture errors therefore rests on 1 field: it is unmeasured.
