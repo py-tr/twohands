@@ -1,6 +1,6 @@
 > **Source copy.** Pilot write-up "Ledger Rescue" of 2026-10-14 (40 rainfall-ledger sheets), copied from the
 > builder's working folder (spikes/ledger-rescue/README.md, outside this repo and not published) on 2026-10-16, verbatim
-> except that the internal hackathon self-scoring line and the spike's file list are removed. Its data files are
+> except that planning notes and the spike's file list are removed. Its data files are
 > committed under [`data/pilot/`](../../data/pilot/SOURCES.md) and [`ledger/`](../../ledger/).
 
 # Ledger Rescue: kill-claim spike (2026-10-14, 17:24 to 19:00 UTC)

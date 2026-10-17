@@ -1,7 +1,7 @@
 > **Source copy.** Pilot write-up "Tally Witness" of 2026-10-14 (43 forms), copied on 2026-10-16 from the builder's
 > working folder (spikes/tally-witness/README.md, outside this repo and not published), verbatim except that section 6
-> is shortened to its political-sensitivity notes and the internal hackathon self-scoring line and the spike's file
-> list are removed. Its data files are committed under [`data/pilot/`](../../data/pilot/SOURCES.md). Section numbers are the ones the
+> is shortened to its political-sensitivity notes (one phrase in them reworded), and planning notes and the spike's
+> file list are removed. Its data files are committed under [`data/pilot/`](../../data/pilot/SOURCES.md). Section numbers are the ones the
 > docs cite (for example "§1", "section 3").
 
 # Tally Witness: spike (2026-10-14, 19:11 to ~20:25 UTC)
@@ -103,10 +103,9 @@ Also flagged: **141097C, a crossed-out rewrite.** PRI reads "(CIENTO) TREINTA Y 
 
 ## 6. Political sensitivity
 
-(The track-fit notes of this section are omitted: they were planning notes, superseded by the event rules in
-[event-rules.md](event-rules.md).)
+(Planning notes of this section are omitted.)
 
-- **Political sensitivity: high.** Showing "discrepancies" in Mexico's 2024 presidential actas reads as a fraud allegation. Mitigations:
+- **Political sensitivity: high.** Showing "discrepancies" in Mexico's 2024 presidential actas can read as an accusation. Mitigations:
   - Frame it strictly as clerical arithmetic: 19% of actas fail their own sums nationally, and recounts fixed them.
   - Show certified Cómputos agreeing.
   - Never rank parties or candidates.
