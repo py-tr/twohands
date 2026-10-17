@@ -11,9 +11,9 @@
 .how-flow li.ok { background: var(--ok-soft); border-color: var(--ok-line); color: var(--ok); }
 .how-flow li.warn { background: var(--warn-soft); border-color: var(--warn-line); color: var(--warn); }
 .how-flow .arr { padding: 0; border: 0; background: none; color: var(--faint); }
-.how-steps { list-style: none; margin: var(--s-6) 0 0; padding: 0; max-width: 46em; counter-reset: how; }
+.how-steps { list-style: none; margin: var(--s-6) 0 0; padding: 0; max-width: 46em; }
 .how-steps li { position: relative; padding: 0 0 var(--s-5) 52px; }
-.how-steps li::before { counter-increment: how; content: counter(how); position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--surface); border: 1px solid var(--accent-line); color: var(--accent-ink); font: 600 var(--t-sm)/32px var(--mono); text-align: center; }
+.how-steps li::before { content: attr(data-n); position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--surface); border: 1px solid var(--accent-line); color: var(--accent-ink); font: 600 var(--t-sm)/32px var(--mono); text-align: center; }
 .how-steps li:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 38px; bottom: 4px; width: 1px; background: var(--line); }
 .how-steps h2 { font-size: var(--t-lg); margin: 4px 0 4px; }
 .how-steps p { margin: 0 0 4px; color: var(--ink-2); }
@@ -35,57 +35,57 @@
 </section>
 
 <ol class="how-steps">
-  <li>
+  <li data-n="1">
     <h2>Locate and mask</h2>
     <p>The page is straightened onto its layout and the names-and-signatures column is blacked out before anything is stored or sent to a model.</p>
     <a class="see" href="/form/050815B0100">See a masked sheet</a>
   </li>
-  <li>
+  <li data-n="2">
     <h2>Read on AMD</h2>
     <p>One request to Gemma-4-31B-IT on AMD returns every field twice, from the digit boxes and from the words, plus each row's printed label.</p>
     <a class="see" href="/form/122655C0100">See a read sheet</a>
   </li>
-  <li>
+  <li data-n="3">
     <h2>The gate</h2>
     <p>Code, not the model, decides: row labels in place, words = digits, the 17 vote rows sum to TOTAL, and the sheet's sections agree.</p>
     <a class="see" href="/form/122655C0100#checked">See every check on that sheet</a>
   </li>
-  <li>
+  <li data-n="4">
     <h2>A second reader, optional</h2>
     <p>In two-reader mode Qwen3.8-27B, also on AMD, must agree field by field; it can only withhold acceptance, never override.</p>
     <a class="see" href="/results#tiers">See the measured tiers</a>
   </li>
-  <li>
+  <li data-n="5">
     <h2>Accepted or routed</h2>
     <p>Every check passes: accepted, nothing to key. Any check fails: the form goes to a person with the failing field named.</p>
     <a class="see" href="/trace">See one of each, end to end</a>
   </li>
-  <li>
+  <li data-n="6">
     <h2>A person settles it</h2>
     <p>On the review desk a person types the value from the crop of the photo, and the identities re-check at once.</p>
     <a class="see" href="/trace#routed">See a routed form</a>
   </li>
-  <li>
+  <li data-n="7">
     <h2>A receipt for every disputed field</h2>
     <p>Each field is a Merkle leaf with its crop's hash; the report's root is anchored in Bitcoin with OpenTimestamps, so anyone can verify one field alone.</p>
     <a class="see" href="/form/122655C0100#checked">Verify a receipt</a>
   </li>
-  <li>
+  <li data-n="8">
     <h2>Audit at scale</h2>
     <p>An auditor uploads keyed data and scans; disputes come back strongest evidence first, with crops, a CSV and a printable report.</p>
     <a class="see" href="/audit/new">Open the sample audit</a>
   </li>
-  <li>
+  <li data-n="9">
     <h2>Cases on Evolus</h2>
     <p>Each strong finding opens a case: the Intake clerk on Gemma drafts it, and a script, not the model, scores the evidence.</p>
     <a class="see" href="/results#evolus">See the Evolus runs</a>
   </li>
-  <li>
+  <li data-n="10">
     <h2>Web app, API, CLI, MCP</h2>
     <p>The same core behind the web app, a JSON API, a command-line tool and an MCP server.</p>
     <a class="see" href="/api">See the API</a>
   </li>
-  <li>
+  <li data-n="11">
     <h2>Any form that adds up</h2>
     <p>A form type is one schema file: fields, mask, tiles and identities. The check is the form's own arithmetic, so it isn't tied to elections. Proven on two form types: Mexico's tally sheets and UK rainfall ledgers (1850-1960), no retraining. Next: tally sheets in at least 7 more countries that publish their images, and the monthly health-facility reports behind DHIS2, used in 70+ countries.</p>
     <p class="tiny">Also fits: pharmacy and stock registers, timesheets.</p>
