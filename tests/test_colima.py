@@ -105,4 +105,9 @@ def test_recall_pitch_is_scoped_and_in_every_pitch_text():
     assert f"{k} of {k + m}" in c and "not total recall" in c
     lim = colima.recall_limit(R)
     assert f"{k} of {k + m} certified-detectable" in lim and "one state" in lim and "not total recall" in lim
+    ch, pr = colima.recall_checked(R), colima.recall_proof(R)
+    assert ch == f"recall {k} of {k + m} on the capture errors the certified count reveals (one state, pre-registered)"
+    assert pr == f"Recall {k} of {k + m} on certified-detectable errors (pre-registered)"
+    assert "recall_checked" in colima.DOCS["README.md"] and "recall_proof" in colima.DOCS["submission/lablab.md"]
+    assert colima.recall_checked({"complete": False}) == colima.recall_proof({"complete": False}) == ""
     assert colima.recall_doc_mismatches() == [] and colima.recall_page_mismatches() == []

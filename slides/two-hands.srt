@@ -35,191 +35,191 @@ Verified: it proves the record is unchanged.
 Not that the reading is right.
 
 10
-00:00:33,000 --> 00:00:40,318
+00:00:33,000 --> 00:00:38,078
 1,270 real tally sheets, read by Gemma on AMD.
 
 11
-00:00:40,368 --> 00:00:46,950
+00:00:38,128 --> 00:00:42,694
 49 capture errors, confirmed by the certified count.
 
 12
-00:00:47,000 --> 00:00:50,200
-$1 per sheet audited.
+00:00:42,744 --> 00:00:47,822
+On the state's own local actas, 91.6% field match,
 
 13
-00:00:50,250 --> 00:00:55,400
-The first step: a paid shadow-mode pilot,
+00:00:47,872 --> 00:00:52,950
+where the AI tool the state bought scored 63%.
 
 14
-00:00:55,450 --> 00:00:59,950
-on one state's count in 2027.
+00:00:53,000 --> 00:00:56,200
+$1 per sheet audited.
 
 15
-00:01:00,000 --> 00:01:01,950
-Measured, not promised.
+00:00:56,250 --> 00:01:01,400
+The first step: a paid shadow-mode pilot,
 
 16
-00:01:02,000 --> 00:01:06,450
-300 random forms, chosen before any model read.
+00:01:01,450 --> 00:01:05,950
+on one state's count in 2027.
 
 17
-00:01:06,500 --> 00:01:11,950
-52 fields where the capture does not match the paper.
+00:01:06,000 --> 00:01:07,950
+Measured, not promised.
 
 18
-00:01:12,000 --> 00:01:16,950
-Then we tested the fix on 100 new forms.
+00:01:08,000 --> 00:01:12,450
+300 random forms, chosen before any model read.
 
 19
-00:01:17,000 --> 00:01:20,450
-Zero wrong, in 484 accepted fields.
+00:01:12,500 --> 00:01:17,950
+52 fields where the capture does not match the paper.
 
 20
-00:01:20,500 --> 00:01:24,950
-With 95% confidence, fewer than 1 in 100.
+00:01:18,000 --> 00:01:22,950
+Then we tested the fix on 100 new forms.
 
 21
-00:01:25,000 --> 00:01:27,354
-This is the product.
+00:01:23,000 --> 00:01:26,450
+Zero wrong, in 484 accepted fields.
 
 22
-00:01:27,404 --> 00:01:32,162
-An auditor brings the typed data and the scans.
+00:01:26,500 --> 00:01:30,950
+With 95% confidence, fewer than 1 in 100.
 
 23
-00:01:32,212 --> 00:01:36,488
-Here, the sample: 6,000 fields, checked in seconds.
+00:01:31,000 --> 00:01:33,354
+This is the product.
 
 24
-00:01:36,538 --> 00:01:38,892
-267 disputes, strongest first.
+00:01:33,404 --> 00:01:38,162
+An auditor brings the typed data and the scans.
 
 25
-00:01:38,942 --> 00:01:42,738
-Each has its photo and a receipt.
+00:01:38,212 --> 00:01:42,488
+Here, the sample: 6,000 fields, checked in seconds.
 
 26
-00:01:42,788 --> 00:01:46,104
-One fingerprint seals the whole report.
+00:01:42,538 --> 00:01:44,892
+267 disputes, strongest first.
 
 27
-00:01:46,154 --> 00:01:49,950
-Change one number, and the check fails.
+00:01:44,942 --> 00:01:48,738
+Each has its photo and a receipt.
 
 28
-00:01:50,000 --> 00:01:52,450
-A whole state: Colima.
+00:01:48,788 --> 00:01:52,104
+One fingerprint seals the whole report.
 
 29
-00:01:52,500 --> 00:01:57,950
-Gemma on AMD read all 982 sheets for 14 cents.
+00:01:52,154 --> 00:01:55,950
+Change one number, and the check fails.
 
 30
-00:01:58,000 --> 00:02:00,236
-Now a live read.
+00:01:56,000 --> 00:01:58,450
+A whole state: Colima.
 
 31
-00:02:00,286 --> 00:02:04,807
-One request to Gemma, on the AMD Token Factory.
+00:01:58,500 --> 00:02:03,950
+Gemma on AMD read all 982 sheets for 14 cents.
 
 32
-00:02:04,857 --> 00:02:09,379
-We cut the wait. The timer stays on screen.
+00:02:04,000 --> 00:02:06,236
+Now a live read.
 
 33
-00:02:09,429 --> 00:02:11,664
-It took 90 seconds.
+00:02:06,286 --> 00:02:10,807
+One request to Gemma, on the AMD Token Factory.
 
 34
-00:02:11,714 --> 00:02:13,950
-Every check holds: accepted.
+00:02:10,857 --> 00:02:15,379
+We cut the wait. The timer stays on screen.
 
 35
-00:02:14,000 --> 00:02:16,835
-Arithmetic has no language.
+00:02:15,429 --> 00:02:17,664
+It took 90 seconds.
 
 36
-00:02:16,885 --> 00:02:24,335
-I filled this practice sheet by hand, in Czech and in English.
+00:02:17,714 --> 00:02:19,950
+Every check holds: accepted.
 
 37
-00:02:24,385 --> 00:02:28,950
-This is a demonstration, not a measurement.
+00:02:20,000 --> 00:02:22,835
+Arithmetic has no language.
 
 38
-00:02:29,000 --> 00:02:33,450
-Each strong finding becomes a case in Evolus.
+00:02:22,885 --> 00:02:30,335
+I filled this practice sheet by hand, in Czech and in English.
 
 39
-00:02:33,500 --> 00:02:39,450
-The agent runs on Gemma, on AMD, and drafts the finding.
+00:02:30,385 --> 00:02:34,950
+This is a demonstration, not a measurement.
 
 40
-00:02:39,500 --> 00:02:43,950
-A script, not the model, scores the evidence.
+00:02:35,000 --> 00:02:39,450
+Each strong finding becomes a case in Evolus.
 
 41
-00:02:44,000 --> 00:02:45,950
-The auditor decides.
+00:02:39,500 --> 00:02:45,450
+The agent runs on Gemma, on AMD, and drafts the finding.
 
 42
-00:02:46,000 --> 00:02:48,685
-Who pays? Mexico's preliminary counts:
+00:02:45,500 --> 00:02:49,950
+A script, not the model, scores the evidence.
 
 43
-00:02:48,735 --> 00:02:52,788
-INE, 32 state institutes, and their outside auditors.
+00:02:50,000 --> 00:02:51,950
+The auditor decides.
 
 44
-00:02:52,838 --> 00:02:58,259
-On 6 June 2027, 32 local elections join the federal midterm.
+00:02:52,000 --> 00:02:54,750
+Who pays? Mexico's preliminary counts:
 
 45
-00:02:58,309 --> 00:03:01,906
-Each state picks its operator by December.
+00:02:54,800 --> 00:02:58,950
+INE, 32 state institutes, and their outside auditors.
 
 46
-00:03:01,956 --> 00:03:06,009
-The pilot runs beside the state's own capture;
+00:02:59,000 --> 00:03:04,550
+On 6 June 2027, 32 local elections join the federal midterm.
 
 47
-00:03:06,059 --> 00:03:08,744
-nothing in its process changes.
+00:03:04,600 --> 00:03:08,750
+The pilot runs beside the state's own capture;
 
 48
-00:03:08,794 --> 00:03:12,391
-Next: 7 more countries publish these sheets,
+00:03:08,800 --> 00:03:11,550
+nothing in its process changes.
 
 49
-00:03:12,441 --> 00:03:16,950
-and health reporting in 70+ countries runs on DHIS2.
+00:03:11,600 --> 00:03:15,283
+Next: 7 more countries publish these sheets,
 
 50
-00:03:17,000 --> 00:03:21,350
-Most paper records are private, by law or by contract:
+00:03:15,333 --> 00:03:19,950
+and health reporting in 70+ countries runs on DHIS2.
 
 51
-00:03:21,400 --> 00:03:24,150
-patient charts, loan files, drug registers,
+00:03:20,000 --> 00:03:24,238
+Most paper records are private, by law or by contract:
 
 52
-00:03:24,200 --> 00:03:28,150
-so nobody can publish an error rate on them.
+00:03:24,288 --> 00:03:26,967
+patient charts, loan files, drug registers,
 
 53
-00:03:28,200 --> 00:03:31,350
-Mexico's tally sheets are the clearest exception:
+00:03:27,017 --> 00:03:30,865
+so nobody can publish an error rate on them.
 
 54
-00:03:31,400 --> 00:03:36,550
-the photo, the keyed value and the certified count are all public.
+00:03:30,915 --> 00:03:33,984
+Mexico's tally sheets are the clearest exception:
 
 55
-00:03:36,600 --> 00:03:38,950
-That's why we measured there.
+00:03:34,034 --> 00:03:39,052
+the photo, the keyed value and the certified count are all public.
 
 56
-00:03:39,000 --> 00:03:42,950
+00:03:39,102 --> 00:03:42,950
 Elections are our proof set, not our only market.
 
 57

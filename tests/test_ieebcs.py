@@ -208,6 +208,24 @@ def test_runner_refuses_a_manifest_for_other_forms(tmp_path, monkeypatch):
                      "--limit", "1", "--out", str(tmp_path)]) == 3
 
 
+def test_first_screen_lines_from_the_score_file():
+    """The short head-to-head (README "Against the incumbent", lablab "Proof in three lines", the Measured slide):
+    every number from results/ieebcs/score.json, and each doc carries its line verbatim."""
+    import json
+    p = REPO / "results" / "ieebcs" / "score.json"
+    if not p.is_file():
+        return
+    sc = json.loads(p.read_text(encoding="utf-8"))
+    s, pr = SC.short_line(sc), SC.proof_line(sc)
+    assert f"{sc['a_raw']['pct']:.1f}% of fields match the published values" in s and "62.84%" in s
+    assert f"random {sc['n_actas']} actas" in s and "beat" not in s + pr
+    assert pr.startswith(f"Against the incumbent: {sc['a_raw']['pct']:.1f}% field match") and "(same metric)." in pr
+    fake = {**sc, "a_raw": {**sc["a_raw"], "pct": 12.34}, "n_actas": 7}
+    assert "12.3% of fields" in SC.short_line(fake) and "random 7 actas" in SC.short_line(fake)
+    for doc, want in SC.doc_lines(sc):
+        assert want in " ".join((REPO / doc).read_text(encoding="utf-8").replace("**", "").split()), doc
+
+
 def test_score_template_until_the_run():
     if not (REPO / "results" / "ieebcs" / "calls_gemma.jsonl").is_file():
         assert SC.score("gemma") is None

@@ -68,6 +68,7 @@ def confirmation(H: dict, answers: Optional[dict] = None) -> Optional[dict]:
     phrase = person_phrase(checked, len(rest), person, unread)
     head = f"{len(cert)} confirmed by the certified count · {len(rest)} judged from the photo by the AI adjudicator"
     return {"total": len(items), "certified": len(cert), "person": person, "person_disagree": disagree, "ai_only": ai,
+            "unread": unread, "differ": disagree - unread,
             "ai_total": len(rest), "checked": checked, "state": state, "note": phrase, "person_phrase": phrase,
             "text": f"{head} ({phrase})", "readme": f"{head} ({DOC_WHO}; {phrase})",
             "doc_tail": f"{len(rest)} judged from the photo by the AI adjudicator ({DOC_WHO}; {phrase})"}
@@ -102,6 +103,35 @@ def confirmation_in_doc(text: str, H: dict) -> bool:
     head = re.escape(c["doc_tail"][:c["doc_tail"].rindex("(") + 1])
     m = re.search(head + re.escape(DOC_WHO + "; ") + PERSON_RE.format(n=c["ai_total"]) + r"\)", flat)
     return bool(m) and (m.group(2) is None or int(m.group(3)) <= int(m.group(2)) <= c["ai_total"])
+
+
+# The first-screen line of the same person check (README "Checked" bullet, lablab.md "Proof in three lines"): how many
+# of the AI-judged disputes the person read differently. Stated only once every one of them has been answered.
+REREAD = {"readme": "a person re-read the AI-judged disputes blind: {d} read differently",
+          "lablab": "a person's blind re-read of the AI-judged disputes: {d} read differently"}
+
+
+def reread_expected(text: str, H: dict, key: str) -> Optional[str]:
+    """The REREAD[key] line a doc must carry. With the answers on this machine (app/state/spotcheck.json): from them,
+    once the check is done (else None). Without them (a fresh clone): from the doc's own committed person-check phrase,
+    which confirmation_in_doc checks; it must be complete, and its differ count is the one stated."""
+    from app import spotcheck
+    c = confirmation(H)
+    if not c:
+        return None
+    if spotcheck.FILE.is_file():
+        return REREAD[key].format(d=c["differ"]) if c["state"] == "done" else None
+    flat = " ".join(text.replace("**", "").replace("`", "").split())
+    m = re.search(PERSON_RE.format(n=c["ai_total"]), flat)
+    if not m or m.group(2) is None or int(m.group(2)) != c["ai_total"]:
+        return None
+    d = re.search(r"(\d+) read differently", m.group(0))
+    return REREAD[key].format(d=int(d.group(1)) if d else 0)
+
+
+def reread_in_doc(text: str, H: dict, key: str) -> bool:
+    want = reread_expected(text, H, key)
+    return want is not None and want in " ".join(text.replace("**", "").replace("`", "").split())
 
 
 # ------------------------------------------------------------------------------------------- (a) tiers in the rule's words

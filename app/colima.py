@@ -239,12 +239,30 @@ def recall_pitch(R: Optional[dict] = None) -> str:
 
 
 def recall_clause(R: Optional[dict] = None) -> str:
-    """The short clause of the README's "Real data" bullet and lablab.md's opening ("" until scored)."""
+    """The short scoped clause (no doc requires it since the V16 first screen: recall_checked, recall_proof)."""
     R = recall_result() if R is None else R
     if not R or not R.get("complete"):
         return ""
     k, m = R["caught"], R["missed"]
     return f"recall on certified-detectable errors {k} of {k + m} (Colima, pre-registered; not total recall)"
+
+
+def recall_checked(R: Optional[dict] = None) -> str:
+    """The recall clause of the README's "Checked" bullet ("" until scored)."""
+    R = recall_result() if R is None else R
+    if not R or not R.get("complete"):
+        return ""
+    k, m = R["caught"], R["missed"]
+    return f"recall {k} of {k + m} on the capture errors the certified count reveals (one state, pre-registered)"
+
+
+def recall_proof(R: Optional[dict] = None) -> str:
+    """The recall clause of lablab.md's "Proof in three lines" and the "Measured, not promised" slide ("" until scored)."""
+    R = recall_result() if R is None else R
+    if not R or not R.get("complete"):
+        return ""
+    k, m = R["caught"], R["missed"]
+    return f"Recall {k} of {k + m} on certified-detectable errors (pre-registered)"
 
 
 def recall_limit(R: Optional[dict] = None) -> str:
@@ -376,6 +394,8 @@ def lines(F: Optional[dict] = None) -> Optional[dict]:
         "recall_pitch": recall_pitch(),
         "recall_clause": recall_clause(),
         "recall_limit": recall_limit(),
+        "recall_checked": recall_checked(),
+        "recall_proof": recall_proof(),
     }
 
 
@@ -403,16 +423,19 @@ def write_report() -> None:
 
 
 # doc -> the line keys it must carry, word for word (whitespace and ** ignored)
-DOCS = {"README.md": ("lablab", "scans", "recall_pitch", "recall_clause"),
-        "submission/lablab.md": ("lablab", "recall_limit", "recall_clause"), "slides/slides.md": ("slide", "recall_pitch"),
+DOCS = {"README.md": ("lablab", "scans", "recall_pitch", "recall_checked"),
+        "submission/lablab.md": ("lablab", "recall_limit", "recall_proof"),
+        "slides/slides.md": ("slide", "recall_pitch", "recall_proof"),
         "slides/two-hands.srt": ("caption",),
         "docs/EVALUATION.md": ("replication", "kinds", "tiers", "recall", "recall_pitch")}
-RECALL_KEYS = ("recall_pitch", "recall_clause", "recall_limit")
+RECALL_KEYS = ("recall_pitch", "recall_clause", "recall_limit", "recall_checked", "recall_proof")
 
 
 def recall_doc_mismatches() -> list[str]:
-    """The Amendment 9 recall lines (recall_pitch, recall_clause, recall_limit) in every doc that must carry them, word for word."""
-    L = {"recall_pitch": recall_pitch(), "recall_clause": recall_clause(), "recall_limit": recall_limit()}
+    """The Amendment 9 recall lines (recall_pitch, recall_limit, recall_checked, recall_proof) in every doc that must
+    carry them, word for word."""
+    L = {"recall_pitch": recall_pitch(), "recall_clause": recall_clause(), "recall_limit": recall_limit(),
+         "recall_checked": recall_checked(), "recall_proof": recall_proof()}
     bad = []
     for doc, keys in DOCS.items():
         keys = [k for k in keys if k in RECALL_KEYS]

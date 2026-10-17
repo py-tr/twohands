@@ -17,6 +17,8 @@ Every number typed from a paper form, checked against the photo of that paper, w
 check the model against the source. We check the record against the paper. A vision model on AMD reads the form;
 the form's own arithmetic decides what to trust; every dispute arrives with its crop.
 
+**Proof in three lines.** 1,270 real tally sheets read on AMD; 49 capture errors confirmed by the certified count. Against the incumbent: 91.6% field match on Baja California Sur's local actas vs 62.84% for the Google Document AI reading the state bought (same metric). Recall 27 of 28 on certified-detectable errors (pre-registered); a person's blind re-read of the AI-judged disputes: 0 read differently.
+
 Verifiable quality control for handwritten numbers: the model reads, the form's own arithmetic decides what passes, people review the rest, every accepted value gets a receipt.
 
 **Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no
@@ -26,7 +28,7 @@ The certified count is the official result. An independent demonstration, not an
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
 the official double-keyed capture: the model found 52 fields where the capture does not match the paper, 22 of them
 confirmed by the certified count and 30 judged from the photo by the AI adjudicator (the builder's model, which could
-see both values; checked by a person: 30 of 30, 27 agree, 3 unreadable to the person); recall on certified-detectable errors 27 of 28 (Colima, pre-registered; not total recall). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
+see both values; checked by a person: 30 of 30, 27 agree, 3 unreadable to the person). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
 Public ground truth is also why every number here can be re-derived by anyone: the images, the keyed values and the certified count are INE's, the scripts are ours (make eval).
 
 Mexico's rule already asks for this job. In INE's PREP process every tally sheet gets a second capture by a

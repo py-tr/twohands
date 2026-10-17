@@ -45,6 +45,10 @@ THEIRS_ACTAS = 2020   # the population both are drawn from (PROTOCOL_IEEBCS.md 3
 # The one-line head-to-head quoted in the docs (the Competition row of the "Business at a glance" table and its
 # slide); generated from score.json by line(), and --check requires it verbatim in each of these files.
 LINE_DOCS = ("README.md", "submission/lablab.md", "slides/slides.md")
+# The same result, short, on the first screen: short_line() in the README's "Against the incumbent" bullet, proof_line()
+# in lablab.md's "Proof in three lines" and on the "Measured, not promised" slide; --check requires each verbatim.
+SHORT_DOCS = ("README.md",)
+PROOF_DOCS = ("submission/lablab.md", "slides/slides.md")
 
 
 def wilson(k: int, n: int, z: float = 1.96):
@@ -196,6 +200,25 @@ def line(sc: dict) -> str:
             f"capture rather than the published values).")
 
 
+def short_line(sc: dict) -> str:
+    """The README's first-screen "Against the incumbent" bullet (metric 5a, rounded to one decimal)."""
+    return (f"on Baja California Sur's 2024 local actas, {sc['a_raw']['pct']:.1f}% of fields match the published "
+            f"values, on the same per-field metric where the state's purchased Google Document AI reading scored "
+            f"{THEIRS['pct']}% (pre-registered random {sc['n_actas']} actas)")
+
+
+def proof_line(sc: dict) -> str:
+    """lablab.md's "Proof in three lines" and the "Measured, not promised" slide."""
+    return (f"Against the incumbent: {sc['a_raw']['pct']:.1f}% field match on Baja California Sur's local actas vs "
+            f"{THEIRS['pct']}% for the Google Document AI reading the state bought (same metric).")
+
+
+def doc_lines(sc: dict) -> list[tuple[str, str]]:
+    """(doc, line) for every place the head-to-head must appear verbatim."""
+    return ([(d, line(sc)) for d in LINE_DOCS] + [(d, short_line(sc)) for d in SHORT_DOCS]
+            + [(d, proof_line(sc)) for d in PROOF_DOCS])
+
+
 def write_md(text: str) -> None:
     md = MD.read_text(encoding="utf-8")
     i, j = md.index(BEGIN) + len(BEGIN), md.index(END)
@@ -258,9 +281,8 @@ def main(argv=None) -> int:
         if sc is not None:
             committed = json.loads((RES / "score.json").read_text(encoding="utf-8")) if (RES / "score.json").is_file() else None
             mism += int(committed != sc)
-            want = line(sc)
-            for doc in LINE_DOCS:
-                body = re.sub(r"\s+", " ", (REPO / doc).read_text(encoding="utf-8"))
+            for doc, want in doc_lines(sc):
+                body = re.sub(r"\s+", " ", (REPO / doc).read_text(encoding="utf-8").replace("**", ""))
                 if want not in body:
                     print(f"  - {doc}: missing the current head-to-head line: {want}")
                     mism += 1

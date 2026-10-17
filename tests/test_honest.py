@@ -214,6 +214,36 @@ def test_readme_first_screen_matches_the_computed_lines(no_spotcheck):
     assert "no person" not in first and "touchless" not in first.lower()
 
 
+def test_reread_line_from_the_answers_or_the_committed_phrase(tmp_path, monkeypatch):
+    """The first-screen "0 read differently" (README "Checked", lablab "Proof in three lines"): from the person's
+    answers once every AI-judged field is answered; on a fresh clone (no answers file), from the doc's own committed
+    person-check phrase; never while the check is incomplete."""
+    rest = [x for x in H["keying_list"] if not x["cert_agrees"]]
+    V = spotcheck.load_verdicts()
+    def agree(x):
+        p = V[f"{x['clave']}__{x['field']}"]["paper"]
+        return {"digits": p if isinstance(p, int) else None, "blank": p == "blank"}
+    ans = {f"{x['clave']}__{x['field']}": agree(x) for x in rest}
+    k0, k1 = f"{rest[0]['clave']}__{rest[0]['field']}", f"{rest[1]['clave']}__{rest[1]['field']}"
+    ans[k0], ans[k1] = {"digits": 99999}, {"digits": None, "cant_tell": True}
+    f = tmp_path / "spotcheck.json"
+    f.write_text(json.dumps(ans), encoding="utf-8")
+    monkeypatch.setattr(spotcheck, "FILE", f)
+    c = honest.confirmation(H)
+    assert (c["state"], c["differ"], c["unread"]) == ("done", 1, 1)
+    assert honest.reread_expected("", H, "readme") == "a person re-read the AI-judged disputes blind: 1 read differently"
+    f.write_text(json.dumps({k: v for k, v in ans.items() if k != k0}), encoding="utf-8")
+    assert honest.reread_expected("", H, "lablab") is None          # incomplete: no first-screen claim
+    monkeypatch.setattr(spotcheck, "FILE", tmp_path / "absent.json")
+    n = len(rest)
+    doc = f"(x; checked by a person: {n} of {n}, {n - 3} agree, 3 unreadable to the person). "           "a person's blind re-read of the AI-judged disputes: 0 read differently."
+    assert honest.reread_in_doc(doc, H, "lablab")
+    assert not honest.reread_in_doc(doc.replace("3 unreadable to the person", "1 unreadable to the person, 2 read differently"), H, "lablab")
+    assert honest.reread_expected(f"checked by a person: 5 of {n}, 5 agree", H, "readme") is None
+    for d in ("README.md", "submission/lablab.md"):
+        assert honest.reread_in_doc((honest.REPO / d).read_text(encoding="utf-8"), H, "readme" if d == "README.md" else "lablab")
+
+
 def test_model_line_in_the_amd_box():
     h = client.get("/").text
     box = h[h.index('id="amd"'):h.index('id="any-form"')]

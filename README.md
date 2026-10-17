@@ -4,7 +4,9 @@ OCR reads the number. Two Hands checks whether the whole form agrees.
 
 A model reads; the form's own arithmetic decides what passes; people review the rest with the photo; accepted values get receipts.
 
-- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300, a whole state); 49 capture errors confirmed by the certified count, each with its photo; recall on certified-detectable errors 27 of 28 (Colima, pre-registered; not total recall).
+- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300, a whole state); 49 capture errors confirmed by the certified count, each with its photo.
+- **Against the incumbent:** on Baja California Sur's 2024 local actas, 91.6% of fields match the published values, on the same per-field metric where the state's purchased Google Document AI reading scored 62.84% (pre-registered random 300 actas).
+- **Checked:** recall 27 of 28 on the capture errors the certified count reveals (one state, pre-registered); a person re-read the AI-judged disputes blind: 0 read differently.
 - **Why Gemma:** same 300 forms, same gate, on AMD Token Factory: 1.8x the forms Qwen3.8-27B accepts at the same error rate, 4.6x cheaper, 2.8x faster ([the table](#why-gemma)).
 - **Re-derive it:** images, keyed values and certified counts are public (INE); [`make eval`](#reproduce-every-number) recomputes every number offline.
 

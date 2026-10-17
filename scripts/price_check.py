@@ -68,6 +68,36 @@ def measured_lines(H: dict) -> list[str]:
     ]
 
 
+def first_screen(H: dict) -> dict:
+    """The proof lines of the README's first screen (bullets "Real data", "Against the incumbent", "Checked") and of
+    lablab.md's "Proof in three lines", composed from the same computed pieces: sheets read and certified-confirmed
+    errors (measured_lines), the BCS head-to-head (results/ieebcs/score.json via scripts/ieebcs_score.short_line /
+    proof_line), the Colima recall (app/colima.recall_checked / recall_proof) and the person's blind re-read of the
+    AI-judged disputes (app/honest.reread_expected: data-driven, or the doc's committed state on a fresh clone).
+    Returns {doc: [required line, ...]}; a None piece makes the line unsatisfiable (reported as missing)."""
+    from app import colima, honest
+    from scripts import ieebcs_score
+    sheets, confirmed = measured_lines(H)[:2]
+    sheets = sheets.rsplit(" read ", 1)[1].split(" ", 1)[0]          # "1,270"
+    confirmed = confirmed.split(" ", 1)[0]                           # "49"
+    sc = json.loads((REPO / "results" / "ieebcs" / "score.json").read_text(encoding="utf-8"))
+    out = {}
+    for doc, key in (("README.md", "readme"), ("submission/lablab.md", "lablab")):
+        rr = honest.reread_expected((REPO / doc).read_text(encoding="utf-8"), H, key) or "(person re-read not complete)"
+        if key == "readme":
+            out[doc] = [
+                (f"Real data: Gemma on AMD read {sheets} real handwritten tally sheets (a pre-registered random 300, a "
+                 f"whole state); {confirmed} capture errors confirmed by the certified count, each with its photo."),
+                f"Against the incumbent: {ieebcs_score.short_line(sc)}.",
+                f"Checked: {colima.recall_checked()}; {rr}.",
+            ]
+        else:
+            out[doc] = [(f"Proof in three lines. {sheets} real tally sheets read on AMD; {confirmed} capture errors "
+                         f"confirmed by the certified count. {ieebcs_score.proof_line(sc)} {colima.recall_proof()}; "
+                         f"{rr}.")]
+    return out
+
+
 def glance_table(text: str) -> list[str]:
     t = text.replace("\r\n", "\n")
     i = t.find("**Business at a glance.**")
@@ -133,8 +163,11 @@ def check() -> list[str]:
         for m in measured_lines(H):
             if " ".join(m.split()) not in s:
                 bad.append(f"{doc}: missing the measured line '{m[:70]}...'")
+    for doc, must in first_screen(H).items():   # the first-screen proof lines, composed from computed pieces
+        s = " ".join((REPO / doc).read_text(encoding="utf-8").replace("**", "").split())
+        bad += [f"{doc}: missing the first-screen proof line '{m}'" for m in must if " ".join(m.split()) not in s]
     from app import colima   # the Amendment 9 recall line (app/colima.recall_pitch) and the first-screen clause
-    bad += [f"{m} (app/colima.recall_pitch / recall_clause)" for m in colima.recall_doc_mismatches()]
+    bad += [f"{m} (app/colima recall lines)" for m in colima.recall_doc_mismatches()]
     if " ".join(buyer.MARKET_SIZE.split()) not in " ".join((REPO / "docs/BUSINESS.md").read_text(encoding="utf-8").split()):
         bad.append("docs/BUSINESS.md: missing the market-size line")
     m = buyer.ine_metric()
