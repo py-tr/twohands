@@ -6,6 +6,7 @@ AMD Token Factory, and their scoring.
     python scripts/gemma_tf_reads2.py score-b4       # -> results/gemma_b4_300.json + .md (no model call)
     python scripts/gemma_tf_reads2.py score-b4 --check  # recompute; exit 1 if the committed files differ (make eval)
     python scripts/gemma_tf_reads2.py score-colima   # -> results/colima/colima_audit.json + .md + audit report (no model call)
+    python scripts/gemma_tf_reads2.py score-colima --check  # recompute; exit 1 if the committed files differ (make eval)
 
 Reads refuse to start unless the amendment is committed at HEAD with PROTOCOL.md unchanged (they wait up to 2 h for a
 clean working copy, since another session may be editing it). Budget: twohands.amd.chat's bulk share
@@ -215,8 +216,10 @@ class Truth:
         return "right" if value == self.capture(k, f) else "pending"
 
 
-def settle(pending: set, T: Truth, s: dict, store: dict, page_of, crop_dir: Path, reads_of) -> list[dict]:
-    """Certified count for what it covers (written to ``store``), crops for the AI adjudicator for the rest."""
+def settle(pending: set, T: Truth, s: dict, store: dict, page_of, crop_dir: Path, reads_of,
+           need_match: bool = False, make_crops: bool = True) -> list[dict]:
+    """Certified count for what it covers (written to ``store``), crops for the AI adjudicator for the rest.
+    ``need_match`` (Amendment 8b): the certified count settles a field only when it equals a read or the capture."""
     from twohands.adjudicate import COMP_ALIAS, boxes, crop, crop_name, load_comp
     comp = load_comp({x.split("__")[0] for x in pending})
     fs = {f["key"]: f for f in s["fields"]}
@@ -229,13 +232,14 @@ def settle(pending: set, T: Truth, s: dict, store: dict, page_of, crop_dir: Path
         cval = iv(str(cp.get(col, "")).strip()) if (cp and col) else None
         obs = (cp.get("OBSERVACIONES") or "").strip()
         reads = reads_of(k, f)
-        if cval is not None and "Recuento" not in obs:
+        if cval is not None and "Recuento" not in obs and (
+                not need_match or cval == T.capture(k, f) or cval in reads.values()):
             store[x] = {"form_id": k, "field": f, "verdict": "paper", "paper": cval, "by": "certified count",
                         "evidence": f"Computos {col} = {cval} ({obs or 'cotejo'}); capture {T.capture(k, f)}; reads {reads}"}
             continue
         page = page_of(k)
         cpath = crop_dir / crop_name(k, f)
-        if page and page.is_file() and not cpath.exists():
+        if make_crops and page and page.is_file() and not cpath.exists():
             cpath.parent.mkdir(parents=True, exist_ok=True)
             crop(page, bx[f], cpath)
         out.append({"key": x, "crop": cpath.relative_to(REPO).as_posix(), "capture": T.capture(k, f),
@@ -436,13 +440,60 @@ def md_b4(d: dict) -> str:
     return "\n".join(L)
 
 
+SAMPLE_SEED, SAMPLE_N = 20261017, 80
+COLIMA_FILES = ("colima_audit.json", "colima_audit.md", "verdicts.json", "pending.json", "adjudication_sample.json",
+                "SHEET.md", "audit_report.html", "audit_report.csv")
+SAMPLE_METHOD = ("every disagreement on a field some gate accepts (census: these decide the error counts), then a seeded "
+                 "random draw from the rest up to 80 in all: random.Random(20261017).sample(sorted keys, 80 - census)")
+
+
+def colima_sets() -> dict:
+    """Colima forms that are also in another set: the 300, the confirmation 100, the calibration 150, the pilot 43."""
+    from twohands.sample import SPIKE_SAMPLE
+    out = collections.defaultdict(list)
+    for name, p in (("the 300", R / "manifest.json"), ("confirmation 100", R / "manifest_confirm100.json"),
+                    ("calibration 150", R / "calibration_manifest.json")):
+        for it in jload(p, {}).get("items", []):
+            out[it["clave"]].append(name)
+    for it in jload(SPIKE_SAMPLE, []):
+        out[it["clave"]].append("pilot 43")
+    return out
+
+
+def colima_sample(population: list, census: set) -> dict:
+    """Which disagreements the AI adjudicator reads (SAMPLE_METHOD). Deterministic from the population and the seed."""
+    import random
+    cen = sorted(x for x in population if x in census)
+    rest = sorted(x for x in population if x not in census)
+    draw = random.Random(SAMPLE_SEED).sample(rest, min(max(0, SAMPLE_N - len(cen)), len(rest)))
+    return {"seed": SAMPLE_SEED, "n": SAMPLE_N, "method": SAMPLE_METHOD, "population": len(population),
+            "census_accepted_fields": cen, "random_draw": sorted(draw), "not_sampled": len(rest) - len(draw)}
+
+
+def colima_fp_mismatch() -> list[str]:
+    """The fingerprint recorded in colima_audit.json must be the one the saved HTML and CSV reports print."""
+    fp = (jload(COLIMA / "colima_audit.json", {}).get("audit_report") or {}).get("fingerprint_sha256")
+    bad = []
+    for n in ("audit_report.html", "audit_report.csv"):
+        p = COLIMA / n
+        if not fp or not p.is_file() or fp not in p.read_text(encoding="utf-8", errors="replace"):
+            bad.append(f"results/colima/{n} (fingerprint)")
+    return bad
+
+
 def cmd_score_colima(a) -> int:
+    check = bool(getattr(a, "check", False))
+    from twohands.sample import PREP_CSV, load_rows
+    if check and not PREP_CSV.is_file():   # data/raw/ is not committed (gitignored)
+        miss = [f"results/colima/{n}" for n in COLIMA_FILES if not (COLIMA / n).is_file()] + colima_fp_mismatch()
+        print("colima --check: raw PREP CSV absent, not recomputed; committed files "
+              + ("present, report fingerprint consistent" if not miss else "MISMATCH: " + ", ".join(miss)))
+        return 1 if miss else 0
     s = schemamod.load()
     keys = s["keys"]
     graded = [f["key"] for f in s["fields"] if f.get("csv")]
     prepared = colima_prepared()
     G = last(COLIMA / "calls_gemma.jsonl")
-    from twohands.sample import PREP_CSV, load_rows
     rows = [r for r in load_rows(PREP_CSV) if r["CLAVE_CASILLA"].strip("'")[:2] == "06"
             and str(r.get("TIPO_ACTA", "")).strip() == "2"]
     prep = {r["CLAVE_CASILLA"].strip("'"): r for r in rows}
@@ -450,89 +501,170 @@ def cmd_score_colima(a) -> int:
     layout = {k: (prepared[k].get("info") or {}).get("layout") or "unknown" for k in ok}
     read = [k for k in ok if usable(G.get(k))]
     store = jload(COLIMA / "verdicts.json", {})
+    stored = copy.deepcopy(store)
     T = Truth([store], prep, s)
-    others = set()
-    for name in ("manifest.json", "manifest_confirm100.json"):
-        others |= {it["clave"] for it in jload(R / name, {}).get("items", [])}
+    sets = colima_sets()
+    gd = {k: digits(G[k], keys) for k in read}
+    # Amendment 8b: the certified count confirms a field only when it equals Gemma's reading or the capture's
+    for x, v in list(store.items()):
+        if v.get("by") == "certified count":
+            k, f = x.split("__")
+            if v.get("paper") not in ((gd.get(k) or {}).get(f), T.capture(k, f)):
+                del store[x]
 
     def parsed(k):
         F = G[k].get("fields") or {}
         return {"values": [{"label": (F.get(x) or {}).get("label"), "n": (F.get(x) or {}).get("n"),
                             "w": (F.get(x) or {}).get("w")} for x in keys]}
 
-    def v3(k):
+    def g1(k):
+        g = gate(parsed(k), s)
+        return g.accepted, g.accepted, g.codes
+
+    def g2(k):
+        g = gate_v2(parsed(k), s, "v2")
+        return g.accepted, g.accepted, g.codes
+
+    def g3(k):
         pr = prep.get(k, {})
         g = gate_v3(parsed(k), s, tipo=k[6], lista_nominal=iv(str(pr.get("LISTA_NOMINAL", "")).strip()),
                     allowance=iv(str(pr.get("REPRESENTANTES_PP_CI", "")).strip()), second=None)
-        return g.others_accepted, g.sobrantes_accepted
+        return g.others_accepted, g.sobrantes_accepted, [c for c, m in zip(g.v1.codes, g.v1.reasons) if m in g.reasons]
 
-    gates = {"v1 (frozen gate, primary)": lambda k: (gate(parsed(k), s).accepted,) * 2,
-             "v2 (Amendment 3)": lambda k: (gate_v2(parsed(k), s, "v2").accepted,) * 2,
-             "v3 (Amendment 7; no second reader, so SOBRANTES always to a person)": v3}
+    def shaped(fn):
+        # parsed() rebuilds one value per schema row, so a read with the wrong number of values ("shape", recorded by
+        # the frozen run in route_codes) is routed here as the run routed it; v2 and v3 never relax a shape failure
+        def g(k):
+            if "shape" in (G[k].get("route_codes") or []):
+                oth, sob, codes = fn(k)
+                return False, False, sorted(set(codes) | {"shape"})
+            return fn(k)
+        return g
+
+    gates = {"v1 (frozen gate, primary)": shaped(g1), "v2 (Amendment 3)": shaped(g2),
+             "v3 (Amendment 7; no second reader, so SOBRANTES always to a person)": shaped(g3)}
+    dec = {name: {k: fn(k) for k in read} for name, fn in gates.items()}
+
+    def acc_fields(name):
+        out = set()
+        for k in read:
+            oth, sob, _ = dec[name][k]
+            if oth:
+                out |= {f"{k}__{f}" for f in graded if not (f == "SOBRANTES" and not sob)}
+        return out
+
+    acc = {name: acc_fields(name) for name in gates}
 
     def compute():
         out = {}
-        for name, fn in gates.items():
-            o = {"forms_accepted": 0, "touchless": 0, "movil": 0, "escaner": 0, "fields": 0, "errors": [],
-                 "pending": [], "undecided": 0, "route_causes": collections.Counter()}
+        for name in gates:
+            o = {"forms_accepted": 0, "touchless": 0, "movil": 0, "escaner": 0, "sobrantes_to_person": 0, "routed": 0,
+                 "fields": 0, "errors": [], "errors_by_label": collections.Counter(), "pending": [], "undecided": [],
+                 "route_causes": collections.Counter()}
             for k in read:
-                oth, sob = fn(k)
+                oth, sob, codes = dec[name][k]
                 if not oth:
-                    for c in G[k].get("route_codes") or []:
+                    o["routed"] += 1
+                    for c in sorted(set(codes)):
                         o["route_causes"][c] += 1
                     continue
                 o["forms_accepted"] += 1
                 o["touchless"] += bool(sob)
+                o["sobrantes_to_person"] += not sob
                 o[layout[k]] = o.get(layout[k], 0) + 1
-                d = digits(G[k], keys)
                 for f in graded:
                     if f == "SOBRANTES" and not sob:
                         continue
                     o["fields"] += 1
-                    j = T.judge(k, f, d[f])
+                    j = T.judge(k, f, gd[k][f])
                     if j == "wrong":
-                        o["errors"].append(f"{k}__{f} read {d[f]}, capture {T.capture(k, f)}")
+                        lab = T.label(k, f)
+                        o["errors"].append(f"{k}__{f} read {gd[k][f]}, capture {T.capture(k, f)}, paper "
+                                           f"{paper_of(T.verdict(k, f))[1]} [{lab}]")
+                        o["errors_by_label"][lab] += 1
                     elif j == "pending":
                         o["pending"].append(f"{k}__{f}")
                     elif j == "undecided":
-                        o["undecided"] += 1
+                        o["undecided"].append(f"{k}__{f}")
             o["ci"] = list(wilson(len(o["errors"]), o["fields"])) if o["fields"] else None
-            o["route_causes"] = dict(o["route_causes"].most_common())
+            o["errors_by_label"] = dict(sorted(o["errors_by_label"].items()))
+            o["route_causes"] = dict(sorted(o["route_causes"].items(), key=lambda kv: (-kv[1], kv[0])))
             out[name] = o
         return out
 
     # every disagreement with the capture on a graded field of a read form, labelled
-    dis = {f"{k}__{f}" for k in read for f in graded if digits(G[k], keys)[f] != T.capture(k, f)}
+    dis = {f"{k}__{f}" for k in read for f in graded if gd[k][f] != T.capture(k, f)}
     pending = settle({x for x in dis if x not in store}, T, s, store,
                      lambda k: REPO / (prepared[k].get("image") or ""), COLIMA / "crops",
-                     lambda k, f: {"gemma": digits(G.get(k), keys).get(f)})
-    COLIMA.mkdir(parents=True, exist_ok=True)
-    (COLIMA / "verdicts.json").write_text(json.dumps(store, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-    (COLIMA / "pending.json").write_text(json.dumps(pending, indent=1) + "\n", encoding="utf-8")
-    labels = collections.Counter()
-    for x in dis:
+                     lambda k, f: {"gemma": gd[k].get(f)}, need_match=True, make_crops=not check)
+    population = sorted(x for x in dis if (store.get(x) or {}).get("by") != "certified count")
+    samp = colima_sample(population, set().union(*acc.values()))
+    in_sample = set(samp["census_accepted_fields"]) | set(samp["random_draw"])
+    for p in pending:
+        p["in_sample"] = p["key"] in in_sample
+        p["gates_accepting"] = [n.split(" ")[0] for n in gates if p["key"] in acc[n]]
+    labels, amb = collections.Counter(), []
+    for x in sorted(dis):
         v = store.get(x)
         if not v:
-            labels["awaiting the AI adjudicator"] += 1
+            labels["awaiting the AI adjudicator" + (" (in the sample)" if x in in_sample else " (not sampled)")] += 1
             continue
         by = v.get("by", "AI adjudicator")
         st, p = paper_of(v)
         if st == "undecided":
             labels["paper ambiguous or unreadable"] += 1
+            amb.append({"key": x, "crop": v.get("crop"), "evidence": v.get("evidence")})
             continue
         k, f = x.split("__")
-        side = "model right (capture error)" if digits(G[k], keys)[f] == p else (
+        side = "model right (capture error)" if gd[k][f] == p else (
             "capture right (model misread)" if T.capture(k, f) == p else "neither")
         lab = {"certified count": "confirmed by the certified count", "person": "confirmed by a person"}.get(
             by, "AI adjudicator's reading")
         labels[f"{lab}: {side}"] += 1
+    adjudicated = sorted(x for x in in_sample if x in store)
     res = {"amendment": "PROTOCOL.md Amendment 8b", "ts": now(), "prep_rows": len(prep), "located": len(ok),
            "rows": sum(k in G for k in ok), "read": len(read), "not_read": [k for k in ok if k not in G],
+           "unparsed": [k for k in ok if k in G and k not in read],
            "no_image_or_not_located": sorted(k for k in prep if k not in set(ok)),
-           "also_in_other_sets": sorted(k for k in ok if k in others),
-           "disagreements": len(dis), "labels": dict(sorted(labels.items())), "gates": compute(),
-           "complete": all(k in G for k in ok)}
-    if not a.no_report:
+           "also_in_other_sets": {k: sets[k] for k in ok if k in sets},
+           "disagreements": len(dis), "labels": dict(sorted(labels.items())), "paper_ambiguous_or_unreadable": amb,
+           "adjudication_sample": {"seed": SAMPLE_SEED, "n": len(in_sample), "method": SAMPLE_METHOD,
+                                   "population": samp["population"], "census": len(samp["census_accepted_fields"]),
+                                   "random_draw": len(samp["random_draw"]), "adjudicated": len(adjudicated),
+                                   "pending_in_sample": len(in_sample) - len(adjudicated),
+                                   "not_sampled_pending": sum(1 for p in pending if not p["in_sample"])},
+           "gates": compute(), "complete": all(k in G for k in ok)}
+    sheet = sheet_colima(samp, store, T, gd, acc, gates)
+    if check:
+        old = jload(COLIMA / "colima_audit.json", {})
+        res["audit_report"] = old.get("audit_report")
+        mism = []
+        if {**old, "ts": None} != json.loads(json.dumps({**res, "ts": None}, ensure_ascii=False)):
+            mism.append("results/colima/colima_audit.json")
+        for name, text in (("colima_audit.md", md_colima(res)), ("SHEET.md", sheet),
+                           ("adjudication_sample.json", json.dumps(samp, indent=1) + "\n"),
+                           ("pending.json", json.dumps(pending, indent=1) + "\n")):
+            p = COLIMA / name
+            if not p.is_file() or p.read_text(encoding="utf-8") != text:
+                mism.append(f"results/colima/{name}")
+        if store != stored:
+            mism.append("results/colima/verdicts.json (verdicts to add or drop)")
+        mism += colima_fp_mismatch()
+        v1 = res["gates"]["v1 (frozen gate, primary)"]
+        ev = " ".join((REPO / "docs" / "EVALUATION.md").read_text(encoding="utf-8").replace("*", "").split())
+        if f"{v1['forms_accepted']} of {res['prep_rows']} presidential actas" not in ev or \
+                f"{len(v1['errors'])} wrong of {v1['fields']:,} accepted fields" not in ev:
+            mism.append("docs/EVALUATION.md (the Colima line)")
+        print(f"colima --check: {len(mism)} mismatches" + (f" ({', '.join(mism)})" if mism else ""))
+        return 1 if mism else 0
+    COLIMA.mkdir(parents=True, exist_ok=True)
+    (COLIMA / "verdicts.json").write_text(json.dumps(store, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    (COLIMA / "pending.json").write_text(json.dumps(pending, indent=1) + "\n", encoding="utf-8")
+    (COLIMA / "adjudication_sample.json").write_text(json.dumps(samp, indent=1) + "\n", encoding="utf-8")
+    (COLIMA / "SHEET.md").write_text(sheet, encoding="utf-8")
+    if a.no_report:
+        res["audit_report"] = jload(COLIMA / "colima_audit.json", {}).get("audit_report")
+    else:
         try:
             res["audit_report"] = audit_report(prep, rows)
         except Exception as e:  # noqa: BLE001
@@ -541,6 +673,31 @@ def cmd_score_colima(a) -> int:
     (COLIMA / "colima_audit.md").write_text(md_colima(res), encoding="utf-8")
     print(md_colima(res).split("\n\n")[1])
     return 0
+
+
+def sheet_colima(samp: dict, store: dict, T: Truth, gd: dict, acc: dict, gates: dict) -> str:
+    """The adjudication sheet of the sampled disagreements (format of results/adjudication_confirm100/SHEET.md)."""
+    from twohands.adjudicate import crop_name, label
+    L = ["# Adjudication sheet, Colima (PROTOCOL.md Amendment 8b)", "",
+         "Disagreements between Gemma and the first capture (PREP) on graded fields that the certified count does not "
+         "settle. Crops are cut from masked pages only (left of the privacy mask).",
+         f"Sample: {samp['method']}; population {samp['population']} fields, census {len(samp['census_accepted_fields'])}, "
+         f"random draw {len(samp['random_draw'])}, not sampled {samp['not_sampled']} (listed as pending in `pending.json`).",
+         "Verdict: model_right, capture_right, neither (the paper shows a third value), paper_ambiguous or unreadable.",
+         "Label: **AI adjudicator's reading** (an AI model, the builder's model, on the masked crop; it could see both values; "
+         "not blinded; never presented as confirmed). Vote rows are named Option 01 to Option 15 in printed order "
+         "(machine files keep INE's column names).", "",
+         "| clave | field | Gemma | PREP | in | gates accepting | verdict | paper | evidence (what is written) | crop |",
+         "|---|---|---|---|---|---|---|---|---|---|"]
+    cen = set(samp["census_accepted_fields"])
+    for x in sorted(cen | set(samp["random_draw"])):
+        k, f = x.split("__")
+        v = store.get(x) or {}
+        ga = ", ".join(n.split(" ")[0] for n in gates if x in acc[n]) or "routed"
+        L.append(f"| {k} | {label(f)} | {gd[k][f]} | {T.capture(k, f)} | {'census' if x in cen else 'draw'} | {ga} | "
+                 f"{v.get('verdict', 'pending')} | {v.get('paper', '-')} | {(v.get('evidence') or '').replace('|', '/')} | "
+                 f"![](crops/{crop_name(k, f)}) |")
+    return "\n".join(L) + "\n"
 
 
 def audit_report(prep: dict, rows: list[dict]) -> dict:
@@ -571,34 +728,67 @@ def audit_report(prep: dict, rows: list[dict]) -> dict:
     R_ = ca.run(au)
     out.update({k: R_[k] for k in ("forms_keyed", "forms_read", "checked", "disputed", "disputed_forms", "tiers")})
     out["unread"] = len(R_["unread"])
+    fp = ca.fingerprint(au, R_)
+    out.update({"fingerprint_sha256": fp["sha256"], "content_sha256": fp["content_sha256"],
+                "merkle_root": fp["merkle_root"], "merkle_n": fp["merkle_n"]})
     return out
 
 
 def md_colima(d: dict) -> str:
     v1 = d["gates"]["v1 (frozen gate, primary)"]
+    pend = len(v1["pending"])
+    bylab = "; ".join(f"{n} {lab}" for lab, n in v1["errors_by_label"].items())
     head = (f"**Colima, {'whole state' if d['complete'] else 'PARTIAL (' + str(d['rows']) + ' of ' + str(d['located']) + ' read)'}: "
             f"{v1['forms_accepted']} of {d['prep_rows']} presidential actas accepted under the frozen gate "
             f"({d['located']} located), {len(v1['errors'])} wrong of {v1['fields']:,} accepted fields"
-            f"{' (' + str(len(v1['pending'])) + ' awaiting adjudication: not final)' if v1['pending'] else ''}.**")
+            f"{' (' + bylab + ')' if bylab else ''}"
+            f"{' (' + str(pend) + ' awaiting adjudication: not final)' if pend else ''}.**")
     L = ["# Colima, complete-state audit on the AMD Token Factory (PROTOCOL.md Amendment 8b)", "", head, "",
-         "Gemma-4-31B-IT, frozen prompt, page + 6 tiles, temperature 0. Gates as pre-registered: v1 primary, v2, v3.", "",
-         "| gate | forms accepted | touchless | Movil / Escaner | accepted fields | wrong (Wilson 95%) | awaiting adjudication |",
-         "|---|---|---|---|---|---|---|"]
+         "Gemma-4-31B-IT, frozen prompt, page + 6 tiles, temperature 0, one read per form. Truth: the certified count "
+         "(Computos, cotejo forms only, and only where it equals Gemma's reading or the capture's), else the AI "
+         "adjudicator's reading of the masked crop; a field where Gemma equals the capture counts as right. "
+         "Gates as pre-registered: v1 primary, v2, v3. There is no second reader for Colima, so v3's two-read rule fails "
+         "on every form and every unused-ballots field goes to a person under v3.", "",
+         "| gate | forms accepted (% of PREP rows / of located) | touchless | Movil / Escaner | accepted fields | wrong (Wilson 95%) | wrong by label | awaiting adjudication | paper ambiguous |",
+         "|---|---|---|---|---|---|---|---|---|"]
     for name, o in d["gates"].items():
         ci = f"{100 * o['ci'][0]:.2f}% to {100 * o['ci'][1]:.2f}%" if o.get("ci") else "-"
-        L.append(f"| {name} | {o['forms_accepted']} | {o['touchless']} | {o.get('movil', 0)} / {o.get('escaner', 0)} | "
-                 f"{o['fields']:,} | {len(o['errors'])} ({ci}) | {len(o['pending'])} |")
-    L += ["", f"Disagreements with the first capture on graded fields: {d['disagreements']}, by label:", ""]
+        fa = o["forms_accepted"]
+        L.append(f"| {name} | {fa} ({100 * fa / d['prep_rows']:.1f}% / {100 * fa / d['located']:.1f}%) | {o['touchless']} | "
+                 f"{o.get('movil', 0)} / {o.get('escaner', 0)} | {o['fields']:,} | {len(o['errors'])} ({ci}) | "
+                 f"{'; '.join(f'{n} {lab}' for lab, n in o['errors_by_label'].items()) or '-'} | {len(o['pending'])} | "
+                 f"{len(o['undecided'])} |")
+    L += ["", "Wrong accepted fields, each with who decided:", ""]
+    for name, o in d["gates"].items():
+        L.append(_pub(f"- {name.split(' ')[0]}: " + ("; ".join(o["errors"]) or "none")))
+    L += ["", "Route causes (forms routed, by cause; a form can have several):", ""]
+    for name, o in d["gates"].items():
+        rc = ", ".join(f"{c} {n}" for c, n in o["route_causes"].items())
+        L.append(f"- {name.split(' ')[0]}: {o['routed']} forms routed ({rc})"
+                 + (f"; {o['sobrantes_to_person']} accepted forms send unused ballots to a person" if o["sobrantes_to_person"] else ""))
+    sa = d["adjudication_sample"]
+    L += ["", f"Disagreements with the first capture on graded fields: {d['disagreements']}, by label (never pooled):", ""]
     L += [f"- {k}: {v}" for k, v in d["labels"].items()]
-    L += ["", f"PREP rows {d['prep_rows']}; located {d['located']}; not located or no image "
-          f"{len(d['no_image_or_not_located'])} (routed, never replaced); also in other sets (flagged, not double-counted): "
-          f"{len(d['also_in_other_sets'])}.", ""]
+    L += ["", f"AI adjudication: {sa['n']} of the {sa['population']} disagreements the certified count does not settle "
+          f"({sa['method']}; census {sa['census']}, draw {sa['random_draw']}); {sa['adjudicated']} adjudicated, "
+          f"{sa['pending_in_sample']} of the sample still pending, {sa['not_sampled_pending']} not sampled and pending "
+          "(`results/colima/pending.json`). Sheet: `results/colima/SHEET.md`; verdicts: `results/colima/verdicts.json`.", ""]
+    if d["paper_ambiguous_or_unreadable"]:
+        L += ["Paper ambiguous or unreadable (excluded from both error counts):", ""]
+        L += [_pub(f"- {x['key']}: {x.get('evidence') or ''}") + f" (`{x.get('crop')}`)" for x in d["paper_ambiguous_or_unreadable"]]
+        L.append("")
+    oth = d["also_in_other_sets"]
+    L += [f"PREP rows {d['prep_rows']}; located {d['located']}; read and parsed {d['read']}; not located or no image "
+          f"{len(d['no_image_or_not_located'])} (routed, never replaced: listed in the JSON); also in other sets (flagged, "
+          f"not double-counted): {len(oth)}" + (" (" + "; ".join(f"{k}: {', '.join(v)}" for k, v in oth.items()) + ")" if oth else "")
+          + ".", ""]
     ar = d.get("audit_report") or {}
     if ar:
         L += [f"Report from the /audit/new generator: `results/colima/audit_report.html` / `.csv` (audit {ar.get('audit_id')}): "
               f"{ar.get('forms_read')} forms read, {ar.get('checked')} fields checked, {ar.get('disputed')} disputed on "
-              f"{ar.get('disputed_forms')} forms; tiers {ar.get('tiers')}." if "error" not in ar else
-              f"Audit report generator failed: {ar['error']}", ""]
+              f"{ar.get('disputed_forms')} forms; tiers {ar.get('tiers')}; report fingerprint (SHA-256) "
+              f"`{ar.get('fingerprint_sha256')}`, Merkle root of the disputes `{ar.get('merkle_root')}`."
+              if "error" not in ar else f"Audit report generator failed: {ar['error']}", ""]
     return "\n".join(L)
 
 
@@ -606,7 +796,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=("b4", "colima", "score-b4", "score-colima"))
     ap.add_argument("--no-report", action="store_true", help="score-colima: skip the /audit/new report")
-    ap.add_argument("--check", action="store_true", help="score-b4: recompute and compare with the committed files")
+    ap.add_argument("--check", action="store_true", help="score-b4 / score-colima: recompute and compare with the committed files")
     a = ap.parse_args(argv)
     return {"b4": cmd_b4, "colima": cmd_colima, "score-b4": cmd_score_b4, "score-colima": cmd_score_colima}[a.cmd](a)
 

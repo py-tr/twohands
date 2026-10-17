@@ -1,0 +1,1650 @@
+{
+ "060009B0100__PAN_PRI": {
+  "form_id": "060009B0100",
+  "field": "PAN_PRI",
+  "verdict": "paper",
+  "paper": 3,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI = 3 (Cotejo (Levantada en Casilla)); capture 3; reads {'gemma': 2}"
+ },
+ "060009B0100__PRI": {
+  "form_id": "060009B0100",
+  "field": "PRI",
+  "verdict": "paper",
+  "paper": 59,
+  "by": "certified count",
+  "evidence": "Computos PRI = 59 (Cotejo (Levantada en Casilla)); capture 59; reads {'gemma': 39}"
+ },
+ "060012C0100__VOTARON": {
+  "form_id": "060012C0100",
+  "field": "VOTARON",
+  "verdict": "capture_right",
+  "paper": 392,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Trescientos noventa y dos', digit boxes 3 9 and a looped 2",
+  "crop": "results/colima/crops/060012C0100__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060018B0100__NO_REGISTRADAS": {
+  "form_id": "060018B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 2,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 2 (Cotejo (Levantada en Casilla)); capture 2; reads {'gemma': 10}"
+ },
+ "060018B0100__NULOS": {
+  "form_id": "060018B0100",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 10,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 10 (Cotejo (Levantada en Casilla)); capture 10; reads {'gemma': 287}"
+ },
+ "060018B0100__TOTAL": {
+  "form_id": "060018B0100",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 287,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 287 (Cotejo (Levantada en Casilla)); capture 287; reads {'gemma': None}"
+ },
+ "060024C0100__VOTARON": {
+  "form_id": "060024C0100",
+  "field": "VOTARON",
+  "verdict": "paper_ambiguous",
+  "paper": null,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3, an open 'c' stroke, 2: the middle box reads as 6 or 0",
+  "crop": "results/colima/crops/060024C0100__VOTARON.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060024C0200__SOBRANTES": {
+  "form_id": "060024C0200",
+  "field": "SOBRANTES",
+  "verdict": "paper_ambiguous",
+  "paper": null,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 8 and a flat-topped stroke with a curved base that reads as 3 or 2 (the first 3 is written round)",
+  "crop": "results/colima/crops/060024C0200__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060026B0100__NO_REGISTRADAS": {
+  "form_id": "060026B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060026B0100__PAN_PRD": {
+  "form_id": "060026B0100",
+  "field": "PAN_PRD",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRD = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060026B0100__PRD": {
+  "form_id": "060026B0100",
+  "field": "PRD",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PRD = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060026B0100__PVEM": {
+  "form_id": "060026B0100",
+  "field": "PVEM",
+  "verdict": "paper",
+  "paper": 10,
+  "by": "certified count",
+  "evidence": "Computos PVEM = 10 (Cotejo (Levantada en Casilla)); capture 10; reads {'gemma': 70}"
+ },
+ "060026B0100__PVEM_PT_MORENA": {
+  "form_id": "060026B0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "paper",
+  "paper": 14,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT_MORENA = 14 (Cotejo (Levantada en Casilla)); capture 14; reads {'gemma': 74}"
+ },
+ "060031C0100__SACADOS": {
+  "form_id": "060031C0100",
+  "field": "SACADOS",
+  "verdict": "capture_right",
+  "paper": 298,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Doscientos noventa y ocho', digit boxes 2 9 8",
+  "crop": "results/colima/crops/060031C0100__SACADOS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060036C0100__PVEM_PT_MORENA": {
+  "form_id": "060036C0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "capture_right",
+  "paper": 18,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Dieciocho', digit boxes 0 1 8",
+  "crop": "results/colima/crops/060036C0100__OPT12.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060058B0100__SOBRANTES": {
+  "form_id": "060058B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 208,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Doscientos ocho', digit boxes 2 0 8",
+  "crop": "results/colima/crops/060058B0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060060C0100__PRI": {
+  "form_id": "060060C0100",
+  "field": "PRI",
+  "verdict": "paper",
+  "paper": 29,
+  "by": "certified count",
+  "evidence": "Computos PRI = 29 (Cotejo (Levantada en Casilla)); capture 29; reads {'gemma': 24}"
+ },
+ "060064B0100__MORENA": {
+  "form_id": "060064B0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 138,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 138 (Cotejo (Levantada en Casilla)); capture 38; reads {'gemma': 138}"
+ },
+ "060064B0100__SOBRANTES": {
+  "form_id": "060064B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 232,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'doscientos treinta y dos', digit boxes 2 3 2",
+  "crop": "results/colima/crops/060064B0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060064B0100__TOTAL": {
+  "form_id": "060064B0100",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 365,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 365 (Cotejo (Levantada en Casilla)); capture 365; reads {'gemma': 355}"
+ },
+ "060066C0100__PT_MORENA": {
+  "form_id": "060066C0100",
+  "field": "PT_MORENA",
+  "verdict": "capture_right",
+  "paper": 4,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'cuatro', digit boxes 0 0 4 (blurred photo)",
+  "crop": "results/colima/crops/060066C0100__OPT15.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060067C0100__PVEM_PT_MORENA": {
+  "form_id": "060067C0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "capture_right",
+  "paper": 13,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words read as 'trece', digit boxes 0 1 3",
+  "crop": "results/colima/crops/060067C0100__OPT12.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060069C0100__MC": {
+  "form_id": "060069C0100",
+  "field": "MC",
+  "verdict": "paper",
+  "paper": 43,
+  "by": "certified count",
+  "evidence": "Computos MC = 43 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 43}"
+ },
+ "060069C0100__MORENA": {
+  "form_id": "060069C0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 145,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 145 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 145}"
+ },
+ "060069C0100__NO_REGISTRADAS": {
+  "form_id": "060069C0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 3,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 3 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 3}"
+ },
+ "060069C0100__NULOS": {
+  "form_id": "060069C0100",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 11,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 11 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 11}"
+ },
+ "060069C0100__PAN": {
+  "form_id": "060069C0100",
+  "field": "PAN",
+  "verdict": "paper",
+  "paper": 49,
+  "by": "certified count",
+  "evidence": "Computos PAN = 49 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 49}"
+ },
+ "060069C0100__PAN_PRD": {
+  "form_id": "060069C0100",
+  "field": "PAN_PRD",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRD = 1 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 1}"
+ },
+ "060069C0100__PAN_PRI": {
+  "form_id": "060069C0100",
+  "field": "PAN_PRI",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI = 1 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 1}"
+ },
+ "060069C0100__PAN_PRI_PRD": {
+  "form_id": "060069C0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "paper",
+  "paper": 9,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI_PRD = 9 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 9}"
+ },
+ "060069C0100__PRD": {
+  "form_id": "060069C0100",
+  "field": "PRD",
+  "verdict": "paper",
+  "paper": 3,
+  "by": "certified count",
+  "evidence": "Computos PRD = 3 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 3}"
+ },
+ "060069C0100__PRI": {
+  "form_id": "060069C0100",
+  "field": "PRI",
+  "verdict": "paper",
+  "paper": 32,
+  "by": "certified count",
+  "evidence": "Computos PRI = 32 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 32}"
+ },
+ "060069C0100__PRI_PRD": {
+  "form_id": "060069C0100",
+  "field": "PRI_PRD",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PRI_PRD = 1 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 1}"
+ },
+ "060069C0100__PT": {
+  "form_id": "060069C0100",
+  "field": "PT",
+  "verdict": "paper",
+  "paper": 8,
+  "by": "certified count",
+  "evidence": "Computos PT = 8 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 8}"
+ },
+ "060069C0100__PT_MORENA": {
+  "form_id": "060069C0100",
+  "field": "PT_MORENA",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PT_MORENA = 1 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 1}"
+ },
+ "060069C0100__PVEM": {
+  "form_id": "060069C0100",
+  "field": "PVEM",
+  "verdict": "paper",
+  "paper": 21,
+  "by": "certified count",
+  "evidence": "Computos PVEM = 21 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 21}"
+ },
+ "060069C0100__PVEM_MORENA": {
+  "form_id": "060069C0100",
+  "field": "PVEM_MORENA",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PVEM_MORENA = 1 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 1}"
+ },
+ "060069C0100__PVEM_PT": {
+  "form_id": "060069C0100",
+  "field": "PVEM_PT",
+  "verdict": "paper",
+  "paper": 6,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT = 6 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 6}"
+ },
+ "060069C0100__TOTAL": {
+  "form_id": "060069C0100",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 357,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 357 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 357}"
+ },
+ "060073E0103__VOTARON": {
+  "form_id": "060073E0103",
+  "field": "VOTARON",
+  "verdict": "capture_right",
+  "paper": 373,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'trescientos setenta y tres', digit boxes 3 7 and a last box written over; the words give 373",
+  "crop": "results/colima/crops/060073E0103__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060077B0100__PAN_PRI_PRD": {
+  "form_id": "060077B0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "paper",
+  "paper": 7,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI_PRD = 7 (Cotejo (Levantada en Casilla)); capture 7; reads {'gemma': 9}"
+ },
+ "060077B0100__PT": {
+  "form_id": "060077B0100",
+  "field": "PT",
+  "verdict": "paper",
+  "paper": 4,
+  "by": "certified count",
+  "evidence": "Computos PT = 4 (Cotejo (Levantada en Casilla)); capture 4; reads {'gemma': 7}"
+ },
+ "060085E0200__SOBRANTES": {
+  "form_id": "060085E0200",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 144,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Ciento cuarenta y cuatro', digit boxes 1 4 4",
+  "crop": "results/colima/crops/060085E0200__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060085E0300__PAN": {
+  "form_id": "060085E0300",
+  "field": "PAN",
+  "verdict": "capture_right",
+  "paper": 9,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'nueve', digit boxes 0 0 9",
+  "crop": "results/colima/crops/060085E0300__OPT01.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060093E0100__PAN": {
+  "form_id": "060093E0100",
+  "field": "PAN",
+  "verdict": "capture_right",
+  "paper": 39,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Treinta y nueve', digit boxes 0 3 9",
+  "crop": "results/colima/crops/060093E0100__OPT01.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060093E0100__PAN_PRD": {
+  "form_id": "060093E0100",
+  "field": "PAN_PRD",
+  "verdict": "capture_right",
+  "paper": 0,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Cero', digit boxes 0 0 0",
+  "crop": "results/colima/crops/060093E0100__OPT10.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060093E0100__SOBRANTES": {
+  "form_id": "060093E0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 143,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 1 4 3",
+  "crop": "results/colima/crops/060093E0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060094C0100__PAN_PRI_PRD": {
+  "form_id": "060094C0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "capture_right",
+  "paper": 9,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Nueve', digit boxes 0 0 9",
+  "crop": "results/colima/crops/060094C0100__OPT08.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060099B0100__SOBRANTES": {
+  "form_id": "060099B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 131,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 1 3 1",
+  "crop": "results/colima/crops/060099B0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060100B0100__SOBRANTES": {
+  "form_id": "060100B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 227,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Doscientos veintisiete', digit boxes 2 2 7",
+  "crop": "results/colima/crops/060100B0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060100B0100__VOTARON": {
+  "form_id": "060100B0100",
+  "field": "VOTARON",
+  "verdict": "capture_right",
+  "paper": 341,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Trescientos cuarenta y uno', digit boxes 3 4 1",
+  "crop": "results/colima/crops/060100B0100__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060100C0200__PVEM_PT_MORENA": {
+  "form_id": "060100C0200",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "paper",
+  "paper": 16,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT_MORENA = 16 (Cotejo (Levantada en Casilla)); capture 16; reads {'gemma': 76}"
+ },
+ "060111B0100__SOBRANTES": {
+  "form_id": "060111B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 291,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 2 9 1",
+  "crop": "results/colima/crops/060111B0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060125E0100__MORENA": {
+  "form_id": "060125E0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 157,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 157 (Cotejo (Levantada en Casilla)); capture 157; reads {'gemma': 153}"
+ },
+ "060128C0100__PAN_PRI_PRD": {
+  "form_id": "060128C0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "paper",
+  "paper": 2,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI_PRD = 2 (Cotejo (Levantada en Casilla)); capture 2; reads {'gemma': 62}"
+ },
+ "060138B0100__PAN": {
+  "form_id": "060138B0100",
+  "field": "PAN",
+  "verdict": "neither",
+  "paper": 61,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Sesenta y uno', digit boxes 0 6 1 (the capture is blank)",
+  "crop": "results/colima/crops/060138B0100__OPT01.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060138C0200__MORENA": {
+  "form_id": "060138C0200",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 158,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 158 (Cotejo (Levantada en Casilla)); capture 158; reads {'gemma': 758}"
+ },
+ "060138C0200__PAN_PRD": {
+  "form_id": "060138C0200",
+  "field": "PAN_PRD",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRD = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060138C0200__PVEM_MORENA": {
+  "form_id": "060138C0200",
+  "field": "PVEM_MORENA",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PVEM_MORENA = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060138C0200__PVEM_PT": {
+  "form_id": "060138C0200",
+  "field": "PVEM_PT",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060138E0102__PVEM_PT": {
+  "form_id": "060138E0102",
+  "field": "PVEM_PT",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 11}"
+ },
+ "060139E0203__PAN_PRD": {
+  "form_id": "060139E0203",
+  "field": "PAN_PRD",
+  "verdict": "capture_right",
+  "paper": 0,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Cero', digit boxes 0 0 and a short stroke in the last box; the words give 0",
+  "crop": "results/colima/crops/060139E0203__OPT10.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060146E0100__PRI": {
+  "form_id": "060146E0100",
+  "field": "PRI",
+  "verdict": "paper",
+  "paper": 33,
+  "by": "certified count",
+  "evidence": "Computos PRI = 33 (Cotejo (Levantada en Casilla)); capture 33; reads {'gemma': 83}"
+ },
+ "060146E0204__NULOS": {
+  "form_id": "060146E0204",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 6,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 6 (Cotejo (Levantada en Casilla)); capture 6; reads {'gemma': 96}"
+ },
+ "060151B0100__SOBRANTES": {
+  "form_id": "060151B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 229,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Doscientos veintinueve', digit boxes 2 2 9",
+  "crop": "results/colima/crops/060151B0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060152E0501__PAN": {
+  "form_id": "060152E0501",
+  "field": "PAN",
+  "verdict": "paper",
+  "paper": 25,
+  "by": "certified count",
+  "evidence": "Computos PAN = 25 (Cotejo (Levantada en Casilla)); capture 25; reads {'gemma': 23}"
+ },
+ "060156B0100__PVEM_PT_MORENA": {
+  "form_id": "060156B0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "capture_right",
+  "paper": 8,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Ocho', digit boxes 0 0 8",
+  "crop": "results/colima/crops/060156B0100__OPT12.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060158B0100__VOTARON": {
+  "form_id": "060158B0100",
+  "field": "VOTARON",
+  "verdict": "model_right",
+  "paper": 372,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Trecientos setenta y dos', digit boxes 3 7 2",
+  "crop": "results/colima/crops/060158B0100__VOTARON.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060167E0200__PAN_PRI": {
+  "form_id": "060167E0200",
+  "field": "PAN_PRI",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060167E0200__PRI": {
+  "form_id": "060167E0200",
+  "field": "PRI",
+  "verdict": "paper",
+  "paper": 18,
+  "by": "certified count",
+  "evidence": "Computos PRI = 18 (Cotejo (Levantada en Casilla)); capture 18; reads {'gemma': 78}"
+ },
+ "060167E0200__PT_MORENA": {
+  "form_id": "060167E0200",
+  "field": "PT_MORENA",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PT_MORENA = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060167E0200__PVEM_PT_MORENA": {
+  "form_id": "060167E0200",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "paper",
+  "paper": 11,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT_MORENA = 11 (Cotejo (Levantada en Casilla)); capture 11; reads {'gemma': 77}"
+ },
+ "060171B0100__MC": {
+  "form_id": "060171B0100",
+  "field": "MC",
+  "verdict": "paper",
+  "paper": 61,
+  "by": "certified count",
+  "evidence": "Computos MC = 61 (Cotejo (Levantada en Casilla)); capture 31; reads {'gemma': 61}"
+ },
+ "060178C0100__PAN_PRD": {
+  "form_id": "060178C0100",
+  "field": "PAN_PRD",
+  "verdict": "model_right",
+  "paper": 1,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint page; words 'uno', digit boxes 0 0 1",
+  "crop": "results/colima/crops/060178C0100__OPT10.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060178C0100__PRI_PRD": {
+  "form_id": "060178C0100",
+  "field": "PRI_PRD",
+  "verdict": "model_right",
+  "paper": 0,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint page; words 'cero', digit boxes 0 0 0",
+  "crop": "results/colima/crops/060178C0100__OPT11.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060178C0100__PVEM_MORENA": {
+  "form_id": "060178C0100",
+  "field": "PVEM_MORENA",
+  "verdict": "model_right",
+  "paper": 6,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint page; words 'Seis', digit boxes 0 0 6; the certified count is a recount, not this paper",
+  "crop": "results/colima/crops/060178C0100__OPT14.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060178C0100__SACADOS": {
+  "form_id": "060178C0100",
+  "field": "SACADOS",
+  "verdict": "paper_ambiguous",
+  "paper": null,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "very faint page; words partly legible ('... sesenta y seis'?), digit boxes not legible",
+  "crop": "results/colima/crops/060178C0100__SACADOS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060178C0100__SOBRANTES": {
+  "form_id": "060178C0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 308,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "very faint page; words read as 'trecientos ocho', only the last digit box legible (8)",
+  "crop": "results/colima/crops/060178C0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060178C0100__VOTARON": {
+  "form_id": "060178C0100",
+  "field": "VOTARON",
+  "verdict": "neither",
+  "paper": 362,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint page; words 'Trecientos sesenta y dos', digit boxes 3 6 2",
+  "crop": "results/colima/crops/060178C0100__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060179C0100__SOBRANTES": {
+  "form_id": "060179C0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 217,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 2 1 7",
+  "crop": "results/colima/crops/060179C0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060182B0100__VOTARON": {
+  "form_id": "060182B0100",
+  "field": "VOTARON",
+  "verdict": "model_right",
+  "paper": 283,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Docientos ochenta y tres', digit boxes 2 8 and a flat-topped 3",
+  "crop": "results/colima/crops/060182B0100__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060183B0100__PVEM_PT_MORENA": {
+  "form_id": "060183B0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT_MORENA = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 7}"
+ },
+ "060188B0100__MORENA": {
+  "form_id": "060188B0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 134,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 134 (Cotejo (Levantada en Casilla)); capture 134; reads {'gemma': 139}"
+ },
+ "060188C0100__MC": {
+  "form_id": "060188C0100",
+  "field": "MC",
+  "verdict": "paper",
+  "paper": 40,
+  "by": "certified count",
+  "evidence": "Computos MC = 40 (Cotejo (Levantada en Casilla)); capture 40; reads {'gemma': 10}"
+ },
+ "060188C0100__MORENA": {
+  "form_id": "060188C0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 149,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 149 (Cotejo (Levantada en Casilla)); capture 149; reads {'gemma': 40}"
+ },
+ "060188C0100__NO_REGISTRADAS": {
+  "form_id": "060188C0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 0,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 0 (Cotejo (Levantada en Casilla)); capture 0; reads {'gemma': 3}"
+ },
+ "060188C0100__NULOS": {
+  "form_id": "060188C0100",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 13,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 13 (Cotejo (Levantada en Casilla)); capture 13; reads {'gemma': 0}"
+ },
+ "060188C0100__PAN_PRI": {
+  "form_id": "060188C0100",
+  "field": "PAN_PRI",
+  "verdict": "paper",
+  "paper": 0,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI = 0 (Cotejo (Levantada en Casilla)); capture 0; reads {'gemma': 1}"
+ },
+ "060188C0100__PAN_PRI_PRD": {
+  "form_id": "060188C0100",
+  "field": "PAN_PRI_PRD",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PAN_PRI_PRD = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 149}"
+ },
+ "060188C0100__PT_MORENA": {
+  "form_id": "060188C0100",
+  "field": "PT_MORENA",
+  "verdict": "paper",
+  "paper": 3,
+  "by": "certified count",
+  "evidence": "Computos PT_MORENA = 3 (Cotejo (Levantada en Casilla)); capture 3; reads {'gemma': 2}"
+ },
+ "060188C0100__PVEM_PT": {
+  "form_id": "060188C0100",
+  "field": "PVEM_PT",
+  "verdict": "paper",
+  "paper": 2,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT = 2 (Cotejo (Levantada en Casilla)); capture 2; reads {'gemma': 16}"
+ },
+ "060188C0100__PVEM_PT_MORENA": {
+  "form_id": "060188C0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "paper",
+  "paper": 16,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT_MORENA = 16 (Cotejo (Levantada en Casilla)); capture 16; reads {'gemma': 0}"
+ },
+ "060188C0100__TOTAL": {
+  "form_id": "060188C0100",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 303,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 303 (Cotejo (Levantada en Casilla)); capture 303; reads {'gemma': 13}"
+ },
+ "060193B0100__TOTAL": {
+  "form_id": "060193B0100",
+  "field": "TOTAL",
+  "verdict": "neither",
+  "paper": 104,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Ciento Cuatro', digit boxes 1 0 4; the certified count is a recount, not this paper",
+  "crop": "results/colima/crops/060193B0100__TOTAL.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060196B0100__NULOS": {
+  "form_id": "060196B0100",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 17,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 17 (Cotejo (Levantada en Casilla)); capture 17; reads {'gemma': 27}"
+ },
+ "060202C0300__SOBRANTES": {
+  "form_id": "060202C0300",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 321,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 2 1",
+  "crop": "results/colima/crops/060202C0300__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060203C0100__MC": {
+  "form_id": "060203C0100",
+  "field": "MC",
+  "verdict": "paper",
+  "paper": 24,
+  "by": "certified count",
+  "evidence": "Computos MC = 24 (Cotejo (Levantada en Casilla)); capture 25; reads {'gemma': 24}"
+ },
+ "060204B0100__VOTARON": {
+  "form_id": "060204B0100",
+  "field": "VOTARON",
+  "verdict": "capture_right",
+  "paper": 320,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 (flat-topped) 2 0",
+  "crop": "results/colima/crops/060204B0100__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060205C0100__PVEM_MORENA": {
+  "form_id": "060205C0100",
+  "field": "PVEM_MORENA",
+  "verdict": "paper",
+  "paper": 2,
+  "by": "certified count",
+  "evidence": "Computos PVEM_MORENA = 2 (Cotejo (Levantada en Casilla)); capture 2; reads {'gemma': None}"
+ },
+ "060210B0100__SOBRANTES": {
+  "form_id": "060210B0100",
+  "field": "SOBRANTES",
+  "verdict": "model_right",
+  "paper": 316,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 1 6",
+  "crop": "results/colima/crops/060210B0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060214B0100__REPRESENTANTES": {
+  "form_id": "060214B0100",
+  "field": "REPRESENTANTES",
+  "verdict": "capture_right",
+  "paper": 2,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Dos', digit boxes 0 0 2",
+  "crop": "results/colima/crops/060214B0100__REPRESENTANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060214B0100__SACADOS": {
+  "form_id": "060214B0100",
+  "field": "SACADOS",
+  "verdict": "capture_right",
+  "paper": 537,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Quinientos treinta y siete', digit boxes 5 3 7",
+  "crop": "results/colima/crops/060214B0100__SACADOS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060219B0100__NO_REGISTRADAS": {
+  "form_id": "060219B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 4}"
+ },
+ "060221B0100__SOBRANTES": {
+  "form_id": "060221B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 214,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 2 1 4",
+  "crop": "results/colima/crops/060221B0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060223C0100__SACADOS": {
+  "form_id": "060223C0100",
+  "field": "SACADOS",
+  "verdict": "capture_right",
+  "paper": 251,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Doscientos cincuenta y uno', digit boxes empty",
+  "crop": "results/colima/crops/060223C0100__SACADOS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060232E0100__TOTAL": {
+  "form_id": "060232E0100",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 210,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 210 (Cotejo (Levantada en Casilla)); capture 210; reads {'gemma': 270}"
+ },
+ "060233E0100__PAN": {
+  "form_id": "060233E0100",
+  "field": "PAN",
+  "verdict": "capture_right",
+  "paper": 13,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint; words 'Trece', digit boxes 1 3 in the last two",
+  "crop": "results/colima/crops/060233E0100__OPT01.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060233E0100__SOBRANTES": {
+  "form_id": "060233E0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 237,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words '... treinta y siete', digit boxes 2 3 7",
+  "crop": "results/colima/crops/060233E0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060235B0100__NO_REGISTRADAS": {
+  "form_id": "060235B0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "capture_right",
+  "paper": 0,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Cero', digit boxes 0 0 0",
+  "crop": "results/colima/crops/060235B0100__NO_REGISTRADAS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060235B0100__PT_MORENA": {
+  "form_id": "060235B0100",
+  "field": "PT_MORENA",
+  "verdict": "capture_right",
+  "paper": 3,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Tres', digit boxes 0 0 3",
+  "crop": "results/colima/crops/060235B0100__OPT15.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060239C0100__SOBRANTES": {
+  "form_id": "060239C0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 247,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Doscientos cuarenta y siete', digit boxes 2 4 7",
+  "crop": "results/colima/crops/060239C0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060242B0100__SOBRANTES": {
+  "form_id": "060242B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 307,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 0 7",
+  "crop": "results/colima/crops/060242B0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060243C0100__SOBRANTES": {
+  "form_id": "060243C0100",
+  "field": "SOBRANTES",
+  "verdict": "paper_ambiguous",
+  "paper": null,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; a 1 written left of the three boxes, then 6 1 2 in the boxes: 1612 or 612",
+  "crop": "results/colima/crops/060243C0100__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060246C0300__TOTAL": {
+  "form_id": "060246C0300",
+  "field": "TOTAL",
+  "verdict": "capture_right",
+  "paper": 364,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Trescientos sesenta y cuatro', digit boxes 3 6 4; the certified count is a recount, not this paper",
+  "crop": "results/colima/crops/060246C0300__TOTAL.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060248B0100__SOBRANTES": {
+  "form_id": "060248B0100",
+  "field": "SOBRANTES",
+  "verdict": "model_right",
+  "paper": 309,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 0 9 (the 9 a closed loop with a tail)",
+  "crop": "results/colima/crops/060248B0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060248E0203__PRD": {
+  "form_id": "060248E0203",
+  "field": "PRD",
+  "verdict": "paper",
+  "paper": 2,
+  "by": "certified count",
+  "evidence": "Computos PRD = 2 (Cotejo (Levantada en Casilla)); capture 2; reads {'gemma': 6}"
+ },
+ "060248E0203__SOBRANTES": {
+  "form_id": "060248E0203",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 346,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 4 6",
+  "crop": "results/colima/crops/060248E0203__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060248E0208__SACADOS": {
+  "form_id": "060248E0208",
+  "field": "SACADOS",
+  "verdict": "capture_right",
+  "paper": 384,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 8 4 (an open-topped 4)",
+  "crop": "results/colima/crops/060248E0208__SACADOS.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060248E0208__SOBRANTES": {
+  "form_id": "060248E0208",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 344,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 4 4",
+  "crop": "results/colima/crops/060248E0208__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060248E0208__TOTAL": {
+  "form_id": "060248E0208",
+  "field": "TOTAL",
+  "verdict": "capture_right",
+  "paper": 384,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 8 4 (an open-topped 4); the certified count is a recount, not this paper",
+  "crop": "results/colima/crops/060248E0208__TOTAL.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060250C0100__MORENA": {
+  "form_id": "060250C0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 163,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 163 (Cotejo (Levantada en Casilla)); capture 165; reads {'gemma': 163}"
+ },
+ "060250C0100__PT": {
+  "form_id": "060250C0100",
+  "field": "PT",
+  "verdict": "paper",
+  "paper": 11,
+  "by": "certified count",
+  "evidence": "Computos PT = 11 (Cotejo (Levantada en Casilla)); capture 44; reads {'gemma': 11}"
+ },
+ "060250C0100__PVEM": {
+  "form_id": "060250C0100",
+  "field": "PVEM",
+  "verdict": "paper",
+  "paper": 27,
+  "by": "certified count",
+  "evidence": "Computos PVEM = 27 (Cotejo (Levantada en Casilla)); capture 7; reads {'gemma': 27}"
+ },
+ "060251C0200__PRD": {
+  "form_id": "060251C0200",
+  "field": "PRD",
+  "verdict": "paper_ambiguous",
+  "paper": null,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Cero'; digit boxes 0, a pinched loop that reads as 8 or 0, 0",
+  "crop": "results/colima/crops/060251C0200__OPT03.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060251C0200__SOBRANTES": {
+  "form_id": "060251C0200",
+  "field": "SOBRANTES",
+  "verdict": "model_right",
+  "paper": "blank",
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes empty",
+  "crop": "results/colima/crops/060251C0200__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060252C0100__PVEM_PT_MORENA": {
+  "form_id": "060252C0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "capture_right",
+  "paper": 17,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Diesisiete', digit boxes 0 1 7",
+  "crop": "results/colima/crops/060252C0100__OPT12.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060252C0100__SACADOS": {
+  "form_id": "060252C0100",
+  "field": "SACADOS",
+  "verdict": "capture_right",
+  "paper": 336,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 3 6",
+  "crop": "results/colima/crops/060252C0100__SACADOS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060252C0200__PRD": {
+  "form_id": "060252C0200",
+  "field": "PRD",
+  "verdict": "capture_right",
+  "paper": 3,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Tres', digit boxes 0 0 3",
+  "crop": "results/colima/crops/060252C0200__OPT03.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060259C0100__NO_REGISTRADAS": {
+  "form_id": "060259C0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 0,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 0 (Cotejo (Levantada en Casilla)); capture None; reads {'gemma': 0}"
+ },
+ "060259C0100__PT_MORENA": {
+  "form_id": "060259C0100",
+  "field": "PT_MORENA",
+  "verdict": "paper",
+  "paper": 0,
+  "by": "certified count",
+  "evidence": "Computos PT_MORENA = 0 (Cotejo (Levantada en Casilla)); capture 0; reads {'gemma': 14}"
+ },
+ "060259C0100__PVEM_MORENA": {
+  "form_id": "060259C0100",
+  "field": "PVEM_MORENA",
+  "verdict": "paper",
+  "paper": 14,
+  "by": "certified count",
+  "evidence": "Computos PVEM_MORENA = 14 (Cotejo (Levantada en Casilla)); capture 14; reads {'gemma': 1}"
+ },
+ "060259C0100__PVEM_PT": {
+  "form_id": "060259C0100",
+  "field": "PVEM_PT",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 0}"
+ },
+ "060260C0200__NULOS": {
+  "form_id": "060260C0200",
+  "field": "NULOS",
+  "verdict": "capture_right",
+  "paper": 4,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint; no words; digit boxes 0 0 4; the certified count is a recount, not this paper",
+  "crop": "results/colima/crops/060260C0200__NULOS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060260C0200__PRD": {
+  "form_id": "060260C0200",
+  "field": "PRD",
+  "verdict": "capture_right",
+  "paper": 3,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint; no words; digit boxes 0 0 3",
+  "crop": "results/colima/crops/060260C0200__OPT03.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060260C0200__PT": {
+  "form_id": "060260C0200",
+  "field": "PT",
+  "verdict": "capture_right",
+  "paper": 8,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint; no words; digit boxes 0 0 8",
+  "crop": "results/colima/crops/060260C0200__OPT05.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060263B0100__PAN_PRI": {
+  "form_id": "060263B0100",
+  "field": "PAN_PRI",
+  "verdict": "capture_right",
+  "paper": 1,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Uno', last digit box a 1 with a flag",
+  "crop": "results/colima/crops/060263B0100__OPT09.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060263B0100__PRD": {
+  "form_id": "060263B0100",
+  "field": "PRD",
+  "verdict": "capture_right",
+  "paper": 1,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Uno', last digit box a 1 with a flag",
+  "crop": "results/colima/crops/060263B0100__OPT03.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060264C0100__SACADOS": {
+  "form_id": "060264C0100",
+  "field": "SACADOS",
+  "verdict": "model_right",
+  "paper": "blank",
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes empty",
+  "crop": "results/colima/crops/060264C0100__SACADOS.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060264C0200__SOBRANTES": {
+  "form_id": "060264C0200",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 380,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 8 0",
+  "crop": "results/colima/crops/060264C0200__SOBRANTES.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060271C0100__PVEM": {
+  "form_id": "060271C0100",
+  "field": "PVEM",
+  "verdict": "capture_right",
+  "paper": 45,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Cuarenta y cinco', digit boxes 0 4 5",
+  "crop": "results/colima/crops/060271C0100__OPT04.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060280E0104__PAN": {
+  "form_id": "060280E0104",
+  "field": "PAN",
+  "verdict": "paper",
+  "paper": 19,
+  "by": "certified count",
+  "evidence": "Computos PAN = 19 (Cotejo (Levantada en Casilla)); capture 10; reads {'gemma': 19}"
+ },
+ "060290C0400__PT": {
+  "form_id": "060290C0400",
+  "field": "PT",
+  "verdict": "capture_right",
+  "paper": 16,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words read as 'dieciseis', digit boxes 0 1 6",
+  "crop": "results/colima/crops/060290C0400__OPT05.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060290C0400__PVEM_PT": {
+  "form_id": "060290C0400",
+  "field": "PVEM_PT",
+  "verdict": "paper_ambiguous",
+  "paper": null,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words unclear (possibly 'cuatro'); digit boxes 0 0 and a last box written over (4 and 6 superimposed)",
+  "crop": "results/colima/crops/060290C0400__OPT13.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060290C0400__SOBRANTES": {
+  "form_id": "060290C0400",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 364,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Trescientos sesenta y cuatro', digit boxes 3 6 4",
+  "crop": "results/colima/crops/060290C0400__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060291C0400__MC": {
+  "form_id": "060291C0400",
+  "field": "MC",
+  "verdict": "model_right",
+  "paper": 36,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'treinta y seis', digit boxes 0 3 6",
+  "crop": "results/colima/crops/060291C0400__OPT06.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060291C0400__SOBRANTES": {
+  "form_id": "060291C0400",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 387,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes 3 8 7 (a 7 with a crossbar)",
+  "crop": "results/colima/crops/060291C0400__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060302C0100__PRD": {
+  "form_id": "060302C0100",
+  "field": "PRD",
+  "verdict": "paper",
+  "paper": 0,
+  "by": "certified count",
+  "evidence": "Computos PRD = 0 (Cotejo (Levantada en Casilla)); capture 60; reads {'gemma': 0}"
+ },
+ "060311C0100__PT": {
+  "form_id": "060311C0100",
+  "field": "PT",
+  "verdict": "paper",
+  "paper": 18,
+  "by": "certified count",
+  "evidence": "Computos PT = 18 (Cotejo (Levantada en Casilla)); capture 19; reads {'gemma': 18}"
+ },
+ "060317C0100__PRD": {
+  "form_id": "060317C0100",
+  "field": "PRD",
+  "verdict": "paper",
+  "paper": 0,
+  "by": "certified count",
+  "evidence": "Computos PRD = 0 (Cotejo (Levantada en Casilla)); capture 0; reads {'gemma': 6}"
+ },
+ "060321C0100__PAN": {
+  "form_id": "060321C0100",
+  "field": "PAN",
+  "verdict": "paper",
+  "paper": 8,
+  "by": "certified count",
+  "evidence": "Computos PAN = 8 (Cotejo (Levantada en Casilla)); capture 8; reads {'gemma': 9}"
+ },
+ "060337C0200__NULOS": {
+  "form_id": "060337C0200",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 4,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 4 (Cotejo (Levantada en Casilla)); capture 4; reads {'gemma': 9}"
+ },
+ "060345B0100__PVEM": {
+  "form_id": "060345B0100",
+  "field": "PVEM",
+  "verdict": "paper",
+  "paper": 16,
+  "by": "certified count",
+  "evidence": "Computos PVEM = 16 (Cotejo (Levantada en Casilla)); capture 16; reads {'gemma': 6}"
+ },
+ "060350C0100__MORENA": {
+  "form_id": "060350C0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 90,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 90 (Cotejo (Levantada en Casilla)); capture 90; reads {'gemma': 96}"
+ },
+ "060358B0100__MORENA": {
+  "form_id": "060358B0100",
+  "field": "MORENA",
+  "verdict": "capture_right",
+  "paper": 142,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Ciento cuarenta y dos', digit boxes 1 4 2; the certified count is a recount, not this paper",
+  "crop": "results/colima/crops/060358B0100__OPT07.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060369C0100__SACADOS": {
+  "form_id": "060369C0100",
+  "field": "SACADOS",
+  "verdict": "capture_right",
+  "paper": 291,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Doscientos noventa y uno', digit boxes 2 9 and a last box written over; the words give 291",
+  "crop": "results/colima/crops/060369C0100__SACADOS.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060374B0100__SOBRANTES": {
+  "form_id": "060374B0100",
+  "field": "SOBRANTES",
+  "verdict": "capture_right",
+  "paper": 179,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Ciento setenta y nueve', digit boxes 1 7 9",
+  "crop": "results/colima/crops/060374B0100__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ },
+ "060375B0100__PVEM_PT": {
+  "form_id": "060375B0100",
+  "field": "PVEM_PT",
+  "verdict": "model_right",
+  "paper": 1,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint; words 'uno', digit boxes 0 0 1",
+  "crop": "results/colima/crops/060375B0100__OPT13.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060375B0100__VOTARON": {
+  "form_id": "060375B0100",
+  "field": "VOTARON",
+  "verdict": "capture_right",
+  "paper": 437,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "faint; words '... treinta y siete', digit boxes 4 3 7",
+  "crop": "results/colima/crops/060375B0100__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060377C0100__NULOS": {
+  "form_id": "060377C0100",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 4,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 4 (Cotejo (Levantada en Casilla)); capture 4; reads {'gemma': 9}"
+ },
+ "060387C0100__NO_REGISTRADAS": {
+  "form_id": "060387C0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 3}"
+ },
+ "060387C0100__NULOS": {
+  "form_id": "060387C0100",
+  "field": "NULOS",
+  "verdict": "paper",
+  "paper": 2,
+  "by": "certified count",
+  "evidence": "Computos VOTOS NULOS = 2 (Cotejo (Levantada en Casilla)); capture 2; reads {'gemma': 1}"
+ },
+ "060387C0100__PRI_PRD": {
+  "form_id": "060387C0100",
+  "field": "PRI_PRD",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PRI_PRD = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 0}"
+ },
+ "060387C0100__PT_MORENA": {
+  "form_id": "060387C0100",
+  "field": "PT_MORENA",
+  "verdict": "paper",
+  "paper": 3,
+  "by": "certified count",
+  "evidence": "Computos PT_MORENA = 3 (Cotejo (Levantada en Casilla)); capture 3; reads {'gemma': 2}"
+ },
+ "060387C0100__PVEM_MORENA": {
+  "form_id": "060387C0100",
+  "field": "PVEM_MORENA",
+  "verdict": "paper",
+  "paper": 2,
+  "by": "certified count",
+  "evidence": "Computos PVEM_MORENA = 2 (Cotejo (Levantada en Casilla)); capture 2; reads {'gemma': 1}"
+ },
+ "060387C0100__PVEM_PT": {
+  "form_id": "060387C0100",
+  "field": "PVEM_PT",
+  "verdict": "paper",
+  "paper": 1,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT = 1 (Cotejo (Levantada en Casilla)); capture 1; reads {'gemma': 14}"
+ },
+ "060387C0100__PVEM_PT_MORENA": {
+  "form_id": "060387C0100",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "paper",
+  "paper": 14,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT_MORENA = 14 (Cotejo (Levantada en Casilla)); capture 14; reads {'gemma': 1}"
+ },
+ "060387C0100__TOTAL": {
+  "form_id": "060387C0100",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 452,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 452 (Cotejo (Levantada en Casilla)); capture 452; reads {'gemma': 2}"
+ },
+ "060388C0100__PT_MORENA": {
+  "form_id": "060388C0100",
+  "field": "PT_MORENA",
+  "verdict": "paper",
+  "paper": 3,
+  "by": "certified count",
+  "evidence": "Computos PT_MORENA = 3 (Cotejo (Levantada en Casilla)); capture 3; reads {'gemma': 2}"
+ },
+ "060390C0100__MORENA": {
+  "form_id": "060390C0100",
+  "field": "MORENA",
+  "verdict": "paper",
+  "paper": 157,
+  "by": "certified count",
+  "evidence": "Computos MORENA = 157 (Cotejo (Levantada en Casilla)); capture 157; reads {'gemma': 187}"
+ },
+ "060390C0100__NO_REGISTRADAS": {
+  "form_id": "060390C0100",
+  "field": "NO_REGISTRADAS",
+  "verdict": "paper",
+  "paper": 0,
+  "by": "certified count",
+  "evidence": "Computos CANDIDATO/A NO REGISTRADO/A = 0 (Cotejo (Levantada en Casilla)); capture 0; reads {'gemma': 6}"
+ },
+ "060390C0100__TOTAL": {
+  "form_id": "060390C0100",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 357,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 357 (Cotejo (Levantada en Casilla)); capture 357; reads {'gemma': 367}"
+ },
+ "060394C0300__PVEM_PT_MORENA": {
+  "form_id": "060394C0300",
+  "field": "PVEM_PT_MORENA",
+  "verdict": "paper",
+  "paper": 8,
+  "by": "certified count",
+  "evidence": "Computos PVEM_PT_MORENA = 8 (Cotejo (Levantada en Casilla)); capture 8; reads {'gemma': 3}"
+ },
+ "060394C0300__TOTAL": {
+  "form_id": "060394C0300",
+  "field": "TOTAL",
+  "verdict": "paper",
+  "paper": 388,
+  "by": "certified count",
+  "evidence": "Computos TOTAL_VOTOS_CALCULADOS = 388 (Cotejo (Levantada en Casilla)); capture 388; reads {'gemma': 338}"
+ },
+ "060396B0100__VOTARON": {
+  "form_id": "060396B0100",
+  "field": "VOTARON",
+  "verdict": "paper_ambiguous",
+  "paper": null,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "no words; digit boxes written over several times (3, 7, then 8 or 4), with other figures above the field",
+  "crop": "results/colima/crops/060396B0100__VOTARON.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060398B0100__PT_MORENA": {
+  "form_id": "060398B0100",
+  "field": "PT_MORENA",
+  "verdict": "capture_right",
+  "paper": 2,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Dos', digit boxes 0 0 and a 2 written over a 1",
+  "crop": "results/colima/crops/060398B0100__OPT15.jpg",
+  "sample": "seeded draw (20261017)"
+ },
+ "060399C0200__SOBRANTES": {
+  "form_id": "060399C0200",
+  "field": "SOBRANTES",
+  "verdict": "model_right",
+  "paper": 338,
+  "by": "AI adjudicator",
+  "adjudicator": "AI (an AI model), on the masked crop; not blinded; never presented as confirmed",
+  "evidence": "words 'Trecientos treinta y ocho', digit boxes 3 3 8",
+  "crop": "results/colima/crops/060399C0200__SOBRANTES.jpg",
+  "sample": "census (gate-accepted field)"
+ }
+}

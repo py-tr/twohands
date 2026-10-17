@@ -135,6 +135,32 @@ production tiling stays page + 6.
 Agreement counts the graded fields that have a numeric capture. Sources: `results/gemma_b4_300.md` and `.json`,
 built by `scripts/gemma_tf_reads2.py score-b4` (no model call); `make eval` re-checks them (`score-b4 --check`).
 
+### Colima, the whole state (Amendment 8b)
+
+Amendment 8b was committed (`77f6025`) before any Colima read. Gemma-4-31B-IT on AMD Token Factory read every located
+presidential casilla acta of Colima once (frozen prompt, page + 6 tiles, temperature 0): 982 of the 1,017 in the PREP
+file, all 982 parsed. The 35 with no image or not located are routed and listed, never replaced. Two forms are also in
+other sets (one in the 300, one in the calibration set); they are flagged and not counted twice in any pooled figure.
+
+**Frozen gate (v1, primary): 381 of 1017 presidential actas accepted (267 phone photos, 114 scans), 13 wrong of 8,382
+accepted fields** (Wilson 95% 0.09% to 0.27%; 11 of the 13 on scans). All 13 rest on the **AI adjudicator's reading** of
+the masked crop (an AI model, not a person, not blinded), which agrees with the first capture in each: 9 unused-ballots
+fields, 2 ballots-taken-from-the-boxes fields, 1 TOTAL and 1 vote row. 3 accepted fields where the paper is ambiguous are
+not counted. v2 (Amendment 3): 344 forms, 7 wrong of 7,568 accepted fields (0.04% to 0.19%). v3 (Amendment 7): 388
+forms, 4 wrong of 8,148 (0.02% to 0.13%); Colima has no second reader, so v3 sends every unused-ballots field to a person
+(0 touchless).
+
+Every disagreement between Gemma and the first capture on a graded field (510) carries one label. 96 are **confirmed by
+the certified count** (cotejo forms, where the count equals one of the two values): in 69 the capture matches it, in 27
+Gemma does and the capture does not match the paper. The AI adjudicator read a sample of 80 of the other 414: every one
+on a field some gate accepts (21), plus a seeded random draw of 59 from the rest (seed 20261017). Of the 80, the
+capture matches the paper in 58, Gemma in 12, neither in 3, and 7 are ambiguous or unreadable. The other 334 are listed
+as not yet adjudicated; none is on an accepted field, so no error count above depends on them.
+
+Sources: `results/colima/colima_audit.md` and `.json` (`scripts/gemma_tf_reads2.py score-colima`, no model call), the
+adjudication sheet `results/colima/SHEET.md` with every crop, and the report from the site's own capture-audit generator
+(`results/colima/audit_report.html` / `.csv`, with its fingerprint). `make eval` re-checks them (`score-colima --check`).
+
 ### Behind "1 in 5 vs at least 1 in 122"
 
 On the forms settled by comparison, 23 fields differ between the certified count and the first capture. 16 are council corrections or blank rows, where the paper shows the capture's value, so a faithful read cannot dispute them. The model disputed all 7 of the rest (1 confirmed capture error, 6 where the paper is ambiguous). Recall on confirmed capture errors therefore rests on 1 field: it is unmeasured.

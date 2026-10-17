@@ -1,0 +1,252 @@
+{
+ "amendment": "PROTOCOL.md Amendment 8b",
+ "ts": "2026-10-17T00:56:36Z",
+ "prep_rows": 1017,
+ "located": 982,
+ "rows": 982,
+ "read": 982,
+ "not_read": [],
+ "unparsed": [],
+ "no_image_or_not_located": [
+  "060070C0100",
+  "060071B0100",
+  "060139E0204",
+  "060152E0100",
+  "060152E0102",
+  "060156C0100",
+  "060159B0100",
+  "060162C0100",
+  "060176B0100",
+  "060177B0100",
+  "060177C0100",
+  "060202C0100",
+  "060203B0100",
+  "060206C0200",
+  "060213B0100",
+  "060221C0100",
+  "060226B0100",
+  "060230E0100",
+  "060234C0300",
+  "060236E0304",
+  "060239B0100",
+  "060250C0400",
+  "060250E0102",
+  "060260B0100",
+  "060260C0100",
+  "060289B0100",
+  "060290C0300",
+  "060291B0100",
+  "060321B0100",
+  "060326B0100",
+  "060337C0100",
+  "060378C0200",
+  "060384C0200",
+  "060385B0100",
+  "060397C0100"
+ ],
+ "also_in_other_sets": {
+  "060022C0100": [
+   "calibration 150"
+  ],
+  "060079C0300": [
+   "the 300"
+  ]
+ },
+ "disagreements": 510,
+ "labels": {
+  "AI adjudicator's reading: capture right (model misread)": 58,
+  "AI adjudicator's reading: model right (capture error)": 12,
+  "AI adjudicator's reading: neither": 3,
+  "awaiting the AI adjudicator (not sampled)": 334,
+  "confirmed by the certified count: capture right (model misread)": 69,
+  "confirmed by the certified count: model right (capture error)": 27,
+  "paper ambiguous or unreadable": 7
+ },
+ "paper_ambiguous_or_unreadable": [
+  {
+   "key": "060024C0100__VOTARON",
+   "crop": "results/colima/crops/060024C0100__VOTARON.jpg",
+   "evidence": "no words; digit boxes 3, an open 'c' stroke, 2: the middle box reads as 6 or 0"
+  },
+  {
+   "key": "060024C0200__SOBRANTES",
+   "crop": "results/colima/crops/060024C0200__SOBRANTES.jpg",
+   "evidence": "no words; digit boxes 3 8 and a flat-topped stroke with a curved base that reads as 3 or 2 (the first 3 is written round)"
+  },
+  {
+   "key": "060178C0100__SACADOS",
+   "crop": "results/colima/crops/060178C0100__SACADOS.jpg",
+   "evidence": "very faint page; words partly legible ('... sesenta y seis'?), digit boxes not legible"
+  },
+  {
+   "key": "060243C0100__SOBRANTES",
+   "crop": "results/colima/crops/060243C0100__SOBRANTES.jpg",
+   "evidence": "no words; a 1 written left of the three boxes, then 6 1 2 in the boxes: 1612 or 612"
+  },
+  {
+   "key": "060251C0200__PRD",
+   "crop": "results/colima/crops/060251C0200__OPT03.jpg",
+   "evidence": "words 'Cero'; digit boxes 0, a pinched loop that reads as 8 or 0, 0"
+  },
+  {
+   "key": "060290C0400__PVEM_PT",
+   "crop": "results/colima/crops/060290C0400__OPT13.jpg",
+   "evidence": "words unclear (possibly 'cuatro'); digit boxes 0 0 and a last box written over (4 and 6 superimposed)"
+  },
+  {
+   "key": "060396B0100__VOTARON",
+   "crop": "results/colima/crops/060396B0100__VOTARON.jpg",
+   "evidence": "no words; digit boxes written over several times (3, 7, then 8 or 4), with other figures above the field"
+  }
+ ],
+ "adjudication_sample": {
+  "seed": 20261017,
+  "n": 80,
+  "method": "every disagreement on a field some gate accepts (census: these decide the error counts), then a seeded random draw from the rest up to 80 in all: random.Random(20261017).sample(sorted keys, 80 - census)",
+  "population": 414,
+  "census": 21,
+  "random_draw": 59,
+  "adjudicated": 80,
+  "pending_in_sample": 0,
+  "not_sampled_pending": 334
+ },
+ "gates": {
+  "v1 (frozen gate, primary)": {
+   "forms_accepted": 381,
+   "touchless": 381,
+   "movil": 267,
+   "escaner": 114,
+   "sobrantes_to_person": 0,
+   "routed": 601,
+   "fields": 8382,
+   "errors": [
+    "060058B0100__SOBRANTES read 268, capture 208, paper 208 [AI adjudicator's reading]",
+    "060111B0100__SOBRANTES read 29, capture 291, paper 291 [AI adjudicator's reading]",
+    "060151B0100__SOBRANTES read 227, capture 229, paper 229 [AI adjudicator's reading]",
+    "060239C0100__SOBRANTES read 47, capture 247, paper 247 [AI adjudicator's reading]",
+    "060242B0100__SOBRANTES read 30, capture 307, paper 307 [AI adjudicator's reading]",
+    "060248E0208__SOBRANTES read 44, capture 344, paper 344 [AI adjudicator's reading]",
+    "060248E0208__SACADOS read 381, capture 384, paper 384 [AI adjudicator's reading]",
+    "060248E0208__TOTAL read 381, capture 384, paper 384 [AI adjudicator's reading]",
+    "060290C0400__SOBRANTES read 369, capture 364, paper 364 [AI adjudicator's reading]",
+    "060290C0400__PT read 10, capture 16, paper 16 [AI adjudicator's reading]",
+    "060291C0400__SOBRANTES read 301, capture 387, paper 387 [AI adjudicator's reading]",
+    "060369C0100__SACADOS read 294, capture 291, paper 291 [AI adjudicator's reading]",
+    "060374B0100__SOBRANTES read 79, capture 179, paper 179 [AI adjudicator's reading]"
+   ],
+   "errors_by_label": {
+    "AI adjudicator's reading": 13
+   },
+   "pending": [],
+   "undecided": [
+    "060024C0100__VOTARON",
+    "060024C0200__SOBRANTES",
+    "060290C0400__PVEM_PT"
+   ],
+   "route_causes": {
+    "identity": 418,
+    "label": 164,
+    "words": 151,
+    "empty": 131,
+    "shape": 5
+   },
+   "ci": [
+    0.00091,
+    0.00265
+   ]
+  },
+  "v2 (Amendment 3)": {
+   "forms_accepted": 344,
+   "touchless": 344,
+   "movil": 247,
+   "escaner": 97,
+   "sobrantes_to_person": 0,
+   "routed": 638,
+   "fields": 7568,
+   "errors": [
+    "060058B0100__SOBRANTES read 268, capture 208, paper 208 [AI adjudicator's reading]",
+    "060111B0100__SOBRANTES read 29, capture 291, paper 291 [AI adjudicator's reading]",
+    "060151B0100__SOBRANTES read 227, capture 229, paper 229 [AI adjudicator's reading]",
+    "060239C0100__SOBRANTES read 47, capture 247, paper 247 [AI adjudicator's reading]",
+    "060290C0400__SOBRANTES read 369, capture 364, paper 364 [AI adjudicator's reading]",
+    "060290C0400__PT read 10, capture 16, paper 16 [AI adjudicator's reading]",
+    "060374B0100__SOBRANTES read 79, capture 179, paper 179 [AI adjudicator's reading]"
+   ],
+   "errors_by_label": {
+    "AI adjudicator's reading": 7
+   },
+   "pending": [],
+   "undecided": [
+    "060024C0200__SOBRANTES",
+    "060290C0400__PVEM_PT"
+   ],
+   "route_causes": {
+    "identity": 418,
+    "unchecked": 179,
+    "label": 164,
+    "words": 151,
+    "empty": 131,
+    "shape": 5
+   },
+   "ci": [
+    0.00045,
+    0.00191
+   ]
+  },
+  "v3 (Amendment 7; no second reader, so SOBRANTES always to a person)": {
+   "forms_accepted": 388,
+   "touchless": 0,
+   "movil": 272,
+   "escaner": 116,
+   "sobrantes_to_person": 388,
+   "routed": 594,
+   "fields": 8148,
+   "errors": [
+    "060248E0208__SACADOS read 381, capture 384, paper 384 [AI adjudicator's reading]",
+    "060248E0208__TOTAL read 381, capture 384, paper 384 [AI adjudicator's reading]",
+    "060290C0400__PT read 10, capture 16, paper 16 [AI adjudicator's reading]",
+    "060369C0100__SACADOS read 294, capture 291, paper 291 [AI adjudicator's reading]"
+   ],
+   "errors_by_label": {
+    "AI adjudicator's reading": 4
+   },
+   "pending": [],
+   "undecided": [
+    "060024C0100__VOTARON",
+    "060290C0400__PVEM_PT"
+   ],
+   "route_causes": {
+    "identity": 418,
+    "label": 164,
+    "words": 136,
+    "empty": 127,
+    "shape": 5
+   },
+   "ci": [
+    0.00019,
+    0.00126
+   ]
+  }
+ },
+ "complete": true,
+ "audit_report": {
+  "audit_id": "a4aff8e574023",
+  "audit_report.html": 200,
+  "audit_report.csv": 200,
+  "forms_keyed": 1017,
+  "forms_read": 982,
+  "checked": 21604,
+  "disputed": 510,
+  "disputed_forms": 238,
+  "tiers": {
+   "strong": 64,
+   "medium": 193,
+   "weak": 253
+  },
+  "unread": 35,
+  "fingerprint_sha256": "5b3b610ed4a98d0d6484527b5746cb59da687394d66a689f3e32e93bcfcfe62b",
+  "content_sha256": "0aea02354ea6156be1eeacf9d62e5b7c81a51d0b04fc3ebac58af29ef73674e6",
+  "merkle_root": "f92ffa9246f0c75758bc6d5e855129fe837d667c6ba4d2bf4bce4db501ac5e43",
+  "merkle_n": 510
+ }
+}

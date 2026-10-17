@@ -1,0 +1,519 @@
+position,form,field,keyed value,model digits,model words,evidence,score,evidence signals,auditor mark,crop
+1,060369C0100,Ballots taken from the boxes,291,294,294,strong,10,model digits and words agree (294); the keyed value breaks section 5 = section 7 (294 vs 291); the model's value satisfies it; the keyed value breaks section 7 = TOTAL (291 vs 294); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060369C0100/SACADOS.jpg?pad=0.02&label=0
+2,060031C0100,Ballots taken from the boxes,298,248,248,strong,9,model digits and words agree (248); the keyed value breaks section 5 = section 7 (248 vs 298); the model's value satisfies it; the keyed value breaks section 7 = TOTAL (298 vs 248); the model's value satisfies it,,/crop/060031C0100/SACADOS.jpg?pad=0.02&label=0
+3,060059C0100,Ballots taken from the boxes,287,387,387,strong,9,model digits and words agree (387); the keyed value breaks section 5 = section 7 (387 vs 287); the model's value satisfies it; the keyed value breaks section 7 = TOTAL (287 vs 387); the model's value satisfies it,,/crop/060059C0100/SACADOS.jpg?pad=0.02&label=0
+4,060069C0100,Ballots taken from the boxes,no data,357,357,strong,8,model digits and words agree (357); keyed as no data; the model read a value; the model's value satisfies section 5 = section 7; the model's value satisfies section 7 = TOTAL,,/crop/060069C0100/SACADOS.jpg?pad=0.02&label=0
+5,060248E0208,Ballots taken from the boxes,384,381,,strong,8,model read digits 381; no words read; the keyed value breaks section 5 = section 7 (381 vs 384); the model's value satisfies it; the keyed value breaks section 7 = TOTAL (384 vs 381); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060248E0208/SACADOS.jpg?pad=0.02&label=0
+6,060248E0208,TOTAL,384,381,,strong,8,model read digits 381; no words read; the keyed value breaks rows sum to TOTAL (381 vs 384); the model's value satisfies it; the keyed value breaks section 7 = TOTAL (381 vs 384); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060248E0208/TOTAL.jpg?pad=0.02&label=0
+7,060158B0100,Voters on the list,362,372,372,strong,7,model digits and words agree (372); the keyed value breaks voters + representatives = section 5 (364 vs 374); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060158B0100/VOTARON.jpg?pad=0.02&label=0
+8,060250C0100,Option 04,7,27,27,strong,7,model digits and words agree (27); the keyed value breaks rows sum to TOTAL (423 vs 443); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060250C0100/OPT04.jpg?pad=0.02&label=0
+9,060250C0100,Option 05,44,11,11,strong,7,model digits and words agree (11); the keyed value breaks rows sum to TOTAL (476 vs 443); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060250C0100/OPT05.jpg?pad=0.02&label=0
+10,060250C0100,Option 07,165,163,163,strong,7,model digits and words agree (163); the keyed value breaks rows sum to TOTAL (445 vs 443); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060250C0100/OPT07.jpg?pad=0.02&label=0
+11,060252C0100,Ballots taken from the boxes,336,236,,strong,7,model read digits 236; no words read; the keyed value breaks section 5 = section 7 (236 vs 336); the model's value satisfies it; the keyed value breaks section 7 = TOTAL (336 vs 236); the model's value satisfies it,,/crop/060252C0100/SACADOS.jpg?pad=0.02&label=0
+12,060290C0400,Option 05,16,10,10,strong,7,model digits and words agree (10); the keyed value breaks rows sum to TOTAL (420 vs 414); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060290C0400/OPT05.jpg?pad=0.02&label=0
+13,060290C0400,Option 13,4,6,6,strong,7,model digits and words agree (6); the keyed value breaks rows sum to TOTAL (412 vs 414); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060290C0400/OPT13.jpg?pad=0.02&label=0
+14,060291C0400,Option 06,30,36,36,strong,7,model digits and words agree (36); the keyed value breaks rows sum to TOTAL (278 vs 284); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060291C0400/OPT06.jpg?pad=0.02&label=0
+15,060302C0100,Option 03,60,0,0,strong,7,model digits and words agree (0); the keyed value breaks rows sum to TOTAL (354 vs 294); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060302C0100/OPT03.jpg?pad=0.02&label=0
+16,060311C0100,Option 05,19,18,18,strong,7,model digits and words agree (18); the keyed value breaks rows sum to TOTAL (367 vs 366); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060311C0100/OPT05.jpg?pad=0.02&label=0
+17,060023C0100,Voters on the list,418,408,408,strong,6,model digits and words agree (408); the keyed value breaks voters + representatives = section 5 (422 vs 412); the model's value satisfies it,,/crop/060023C0100/VOTARON.jpg?pad=0.02&label=0
+18,060059C0100,Representatives who voted,3,103,103,strong,6,model digits and words agree (103); the keyed value breaks voters + representatives = section 5 (287 vs 387); the model's value satisfies it,,/crop/060059C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+19,060069C0100,Voters on the list,illegible,351,351,strong,6,model digits and words agree (351); keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060069C0100/VOTARON.jpg?pad=0.02&label=0
+20,060069C0100,Representatives who voted,illegible,6,6,strong,6,model digits and words agree (6); keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060069C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+21,060069C0100,TOTAL,illegible,357,357,strong,6,model digits and words agree (357); keyed as illegible; the model read a value; the model's value satisfies section 7 = TOTAL,,/crop/060069C0100/TOTAL.jpg?pad=0.02&label=0
+22,060073E0103,Voters on the list,373,372,372,strong,6,model digits and words agree (372); the keyed value breaks voters + representatives = section 5 (376 vs 375); the model's value satisfies it,,/crop/060073E0103/VOTARON.jpg?pad=0.02&label=0
+23,060077B0100,Voters on the list,218,518,518,strong,6,model digits and words agree (518); the keyed value breaks voters + representatives = section 5 (222 vs 522); the model's value satisfies it,,/crop/060077B0100/VOTARON.jpg?pad=0.02&label=0
+24,060086B0100,Option 07,130,132,132,strong,6,model digits and words agree (132); the keyed value breaks rows sum to TOTAL (270 vs 272); the model's value satisfies it,,/crop/060086B0100/OPT07.jpg?pad=0.02&label=0
+25,060086B0100,Option 14,2,3,3,strong,6,model digits and words agree (3); the keyed value breaks rows sum to TOTAL (271 vs 272); the model's value satisfies it,,/crop/060086B0100/OPT14.jpg?pad=0.02&label=0
+26,060087E0100,Voters on the list,110,120,120,strong,6,model digits and words agree (120); the keyed value breaks voters + representatives = section 5 (114 vs 124); the model's value satisfies it,,/crop/060087E0100/VOTARON.jpg?pad=0.02&label=0
+27,060100B0100,Voters on the list,341,291,291,strong,6,model digits and words agree (291); the keyed value breaks voters + representatives = section 5 (342 vs 292); the model's value satisfies it,,/crop/060100B0100/VOTARON.jpg?pad=0.02&label=0
+28,060103C0100,Voters on the list,253,353,353,strong,6,model digits and words agree (353); the keyed value breaks voters + representatives = section 5 (260 vs 360); the model's value satisfies it,,/crop/060103C0100/VOTARON.jpg?pad=0.02&label=0
+29,060126C0200,Ballots taken from the boxes,341,391,391,strong,6,model digits and words agree (391); the keyed value breaks section 7 = TOTAL (341 vs 391); the model's value satisfies it,,/crop/060126C0200/SACADOS.jpg?pad=0.02&label=0
+30,060126C0200,TOTAL,341,391,391,strong,6,model digits and words agree (391); the keyed value breaks section 7 = TOTAL (391 vs 341); the model's value satisfies it,,/crop/060126C0200/TOTAL.jpg?pad=0.02&label=0
+31,060130C0100,Voters on the list,illegible,338,338,strong,6,model digits and words agree (338); keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060130C0100/VOTARON.jpg?pad=0.02&label=0
+32,060130C0100,Representatives who voted,illegible,3,3,strong,6,model digits and words agree (3); keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060130C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+33,060141B0100,Representatives who voted,3,2,2,strong,6,model digits and words agree (2); the keyed value breaks voters + representatives = section 5 (440 vs 439); the model's value satisfies it,,/crop/060141B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+34,060152E0501,Voters on the list,258,250,250,strong,6,model digits and words agree (250); the keyed value breaks voters + representatives = section 5 (263 vs 255); the model's value satisfies it,,/crop/060152E0501/VOTARON.jpg?pad=0.02&label=0
+35,060156B0100,Voters on the list,37,237,237,strong,6,model digits and words agree (237); the keyed value breaks voters + representatives = section 5 (43 vs 243); the model's value satisfies it,,/crop/060156B0100/VOTARON.jpg?pad=0.02&label=0
+36,060160C0100,Option 04,43,13,13,strong,6,model digits and words agree (13); the keyed value breaks rows sum to TOTAL (380 vs 350); the model's value satisfies it,,/crop/060160C0100/OPT04.jpg?pad=0.02&label=0
+37,060171B0100,Option 06,31,61,61,strong,6,model digits and words agree (61); the keyed value breaks rows sum to TOTAL (306 vs 336); the model's value satisfies it,,/crop/060171B0100/OPT06.jpg?pad=0.02&label=0
+38,060178C0100,Voters on the list,382,262,262,strong,6,model digits and words agree (262); the keyed value breaks voters + representatives = section 5 (384 vs 264); the model's value satisfies it,,/crop/060178C0100/VOTARON.jpg?pad=0.02&label=0
+39,060178C0100,Ballots taken from the boxes,illegible,264,264,strong,6,model digits and words agree (264); keyed as illegible; the model read a value; the model's value satisfies section 5 = section 7,,/crop/060178C0100/SACADOS.jpg?pad=0.02&label=0
+40,060223C0100,Voters on the list,251,250,250,strong,6,model digits and words agree (250); the keyed value breaks voters + representatives = section 5 (252 vs 251); the model's value satisfies it,,/crop/060223C0100/VOTARON.jpg?pad=0.02&label=0
+41,060233E0100,Voters on the list,192,92,92,strong,6,model digits and words agree (92); the keyed value breaks voters + representatives = section 5 (195 vs 95); the model's value satisfies it,,/crop/060233E0100/VOTARON.jpg?pad=0.02&label=0
+42,060246C0300,Ballots taken from the boxes,364,369,369,strong,6,model digits and words agree (369); the keyed value breaks section 7 = TOTAL (364 vs 369); the model's value satisfies it,,/crop/060246C0300/SACADOS.jpg?pad=0.02&label=0
+43,060246C0300,TOTAL,364,369,369,strong,6,model digits and words agree (369); the keyed value breaks section 7 = TOTAL (369 vs 364); the model's value satisfies it,,/crop/060246C0300/TOTAL.jpg?pad=0.02&label=0
+44,060250E0101,Unregistered candidates,4,1,1,strong,6,model digits and words agree (1); the keyed value breaks rows sum to TOTAL (403 vs 400); the model's value satisfies it,,/crop/060250E0101/NO_REGISTRADAS.jpg?pad=0.02&label=0
+45,060251C0200,Voters on the list,5,397,397,strong,6,model digits and words agree (397); the keyed value breaks voters + representatives = section 5 (10 vs 402); the model's value satisfies it,,/crop/060251C0200/VOTARON.jpg?pad=0.02&label=0
+46,060251C0200,Representatives who voted,402,5,5,strong,6,model digits and words agree (5); the keyed value breaks voters + representatives = section 5 (799 vs 402); the model's value satisfies it,,/crop/060251C0200/REPRESENTANTES.jpg?pad=0.02&label=0
+47,060252C0100,TOTAL,336,236,236,strong,6,model digits and words agree (236); the keyed value breaks section 7 = TOTAL (236 vs 336); the model's value satisfies it,,/crop/060252C0100/TOTAL.jpg?pad=0.02&label=0
+48,060259B0100,Voters on the list,284,289,289,strong,6,model digits and words agree (289); the keyed value breaks voters + representatives = section 5 (289 vs 294); the model's value satisfies it,,/crop/060259B0100/VOTARON.jpg?pad=0.02&label=0
+49,060259C0100,Option 13,1,0,0,strong,6,model digits and words agree (0); the keyed value breaks rows sum to TOTAL (289 vs 288); the model's value satisfies it,,/crop/060259C0100/OPT13.jpg?pad=0.02&label=0
+50,060259C0100,Option 14,14,1,1,strong,6,model digits and words agree (1); the keyed value breaks rows sum to TOTAL (301 vs 288); the model's value satisfies it,,/crop/060259C0100/OPT14.jpg?pad=0.02&label=0
+51,060259C0100,Option 15,0,14,14,strong,6,model digits and words agree (14); the keyed value breaks rows sum to TOTAL (274 vs 288); the model's value satisfies it,,/crop/060259C0100/OPT15.jpg?pad=0.02&label=0
+52,060259C0100,Unregistered candidates,no data,0,0,strong,6,model digits and words agree (0); keyed as no data; the model read a value; the model's value satisfies rows sum to TOTAL,,/crop/060259C0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+53,060290B0100,TOTAL,425,475,475,strong,6,model digits and words agree (475); the keyed value breaks section 7 = TOTAL (475 vs 425); the model's value satisfies it,,/crop/060290B0100/TOTAL.jpg?pad=0.02&label=0
+54,060295B0100,Null votes,1,7,7,strong,6,model digits and words agree (7); the keyed value breaks rows sum to TOTAL (389 vs 395); the model's value satisfies it,,/crop/060295B0100/NULOS.jpg?pad=0.02&label=0
+55,060335B0100,Option 07,32,132,132,strong,6,model digits and words agree (132); the keyed value breaks rows sum to TOTAL (146 vs 246); the model's value satisfies it,,/crop/060335B0100/OPT07.jpg?pad=0.02&label=0
+56,060375B0100,Voters on the list,437,407,407,strong,6,model digits and words agree (407); the keyed value breaks voters + representatives = section 5 (437 vs 407); the model's value satisfies it,,/crop/060375B0100/VOTARON.jpg?pad=0.02&label=0
+57,060375B0100,Representatives who voted,5,0,0,strong,6,model digits and words agree (0); the keyed value breaks voters + representatives = section 5 (412 vs 407); the model's value satisfies it,,/crop/060375B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+58,060376C0300,Representatives who voted,4,64,64,strong,6,model digits and words agree (64); the keyed value breaks voters + representatives = section 5 (300 vs 360); the model's value satisfies it,,/crop/060376C0300/REPRESENTANTES.jpg?pad=0.02&label=0
+59,060381B0100,Voters on the list,264,364,364,strong,6,model digits and words agree (364); the keyed value breaks voters + representatives = section 5 (267 vs 367); the model's value satisfies it,,/crop/060381B0100/VOTARON.jpg?pad=0.02&label=0
+60,060390C0100,TOTAL,357,367,367,strong,6,model digits and words agree (367); the keyed value breaks section 7 = TOTAL (367 vs 357); the model's value satisfies it,,/crop/060390C0100/TOTAL.jpg?pad=0.02&label=0
+61,060396B0100,Voters on the list,illegible,374,374,strong,6,model digits and words agree (374); keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060396B0100/VOTARON.jpg?pad=0.02&label=0
+62,060396B0100,Representatives who voted,illegible,4,4,strong,6,model digits and words agree (4); keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060396B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+63,060397B0100,Voters on the list,327,307,307,strong,6,model digits and words agree (307); the keyed value breaks voters + representatives = section 5 (330 vs 310); the model's value satisfies it,,/crop/060397B0100/VOTARON.jpg?pad=0.02&label=0
+64,060397C0200,Null votes,0,8,8,strong,6,model digits and words agree (8); the keyed value breaks rows sum to TOTAL (322 vs 330); the model's value satisfies it,,/crop/060397C0200/NULOS.jpg?pad=0.02&label=0
+65,060024C0100,Voters on the list,302,362,,medium,5,model read digits 362; no words read; the keyed value breaks voters + representatives = section 5 (307 vs 367); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060024C0100/VOTARON.jpg?pad=0.02&label=0
+66,060280E0104,Option 01,10,19,,medium,5,model read digits 19; no words read; the keyed value breaks rows sum to TOTAL (244 vs 253); the model's value satisfies it; the model's read of this form passes every check of the gate,,/crop/060280E0104/OPT01.jpg?pad=0.02&label=0
+67,060399C0200,Unused ballots,illegible,338,338,medium,5,model digits and words agree (338); keyed as illegible; the model read a value; the model's read of this form passes every check of the gate,,/crop/060399C0200/SOBRANTES.jpg?pad=0.02&label=0
+68,060024C0200,Unused ballots,382,383,383,medium,4,model digits and words agree (383); the model's read of this form passes every check of the gate,,/crop/060024C0200/SOBRANTES.jpg?pad=0.02&label=0
+69,060034B0100,Representatives who voted,17,4,,medium,4,model read digits 4; no words read; the keyed value breaks voters + representatives = section 5 (390 vs 377); the model's value satisfies it,,/crop/060034B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+70,060058B0100,Unused ballots,208,268,268,medium,4,model digits and words agree (268); the model's read of this form passes every check of the gate,,/crop/060058B0100/SOBRANTES.jpg?pad=0.02&label=0
+71,060060C0400,Unused ballots,no data,7,7,medium,4,model digits and words agree (7); keyed as no data; the model read a value,,/crop/060060C0400/SOBRANTES.jpg?pad=0.02&label=0
+72,060067C0100,Unused ballots,illegible,200,200,medium,4,model digits and words agree (200); keyed as illegible; the model read a value,,/crop/060067C0100/SOBRANTES.jpg?pad=0.02&label=0
+73,060069C0100,Unused ballots,illegible,331,331,medium,4,model digits and words agree (331); keyed as illegible; the model read a value,,/crop/060069C0100/SOBRANTES.jpg?pad=0.02&label=0
+74,060069C0100,Option 01,illegible,49,49,medium,4,model digits and words agree (49); keyed as illegible; the model read a value,,/crop/060069C0100/OPT01.jpg?pad=0.02&label=0
+75,060069C0100,Option 02,illegible,32,32,medium,4,model digits and words agree (32); keyed as illegible; the model read a value,,/crop/060069C0100/OPT02.jpg?pad=0.02&label=0
+76,060069C0100,Option 03,illegible,3,3,medium,4,model digits and words agree (3); keyed as illegible; the model read a value,,/crop/060069C0100/OPT03.jpg?pad=0.02&label=0
+77,060069C0100,Option 04,illegible,21,21,medium,4,model digits and words agree (21); keyed as illegible; the model read a value,,/crop/060069C0100/OPT04.jpg?pad=0.02&label=0
+78,060069C0100,Option 05,illegible,8,8,medium,4,model digits and words agree (8); keyed as illegible; the model read a value,,/crop/060069C0100/OPT05.jpg?pad=0.02&label=0
+79,060069C0100,Option 06,illegible,43,43,medium,4,model digits and words agree (43); keyed as illegible; the model read a value,,/crop/060069C0100/OPT06.jpg?pad=0.02&label=0
+80,060069C0100,Option 07,illegible,145,145,medium,4,model digits and words agree (145); keyed as illegible; the model read a value,,/crop/060069C0100/OPT07.jpg?pad=0.02&label=0
+81,060069C0100,Option 08,illegible,9,9,medium,4,model digits and words agree (9); keyed as illegible; the model read a value,,/crop/060069C0100/OPT08.jpg?pad=0.02&label=0
+82,060069C0100,Option 09,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060069C0100/OPT09.jpg?pad=0.02&label=0
+83,060069C0100,Option 10,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060069C0100/OPT10.jpg?pad=0.02&label=0
+84,060069C0100,Option 11,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060069C0100/OPT11.jpg?pad=0.02&label=0
+85,060069C0100,Option 12,illegible,27,27,medium,4,model digits and words agree (27); keyed as illegible; the model read a value,,/crop/060069C0100/OPT12.jpg?pad=0.02&label=0
+86,060069C0100,Option 13,illegible,6,6,medium,4,model digits and words agree (6); keyed as illegible; the model read a value,,/crop/060069C0100/OPT13.jpg?pad=0.02&label=0
+87,060069C0100,Option 14,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060069C0100/OPT14.jpg?pad=0.02&label=0
+88,060069C0100,Option 15,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060069C0100/OPT15.jpg?pad=0.02&label=0
+89,060069C0100,Unregistered candidates,illegible,3,3,medium,4,model digits and words agree (3); keyed as illegible; the model read a value,,/crop/060069C0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+90,060069C0100,Null votes,illegible,11,11,medium,4,model digits and words agree (11); keyed as illegible; the model read a value,,/crop/060069C0100/NULOS.jpg?pad=0.02&label=0
+91,060070B0100,Ballots taken from the boxes,illegible,355,355,medium,4,model digits and words agree (355); keyed as illegible; the model read a value,,/crop/060070B0100/SACADOS.jpg?pad=0.02&label=0
+92,060073C0200,Representatives who voted,1,4,,medium,4,model read digits 4; no words read; the keyed value breaks voters + representatives = section 5 (286 vs 289); the model's value satisfies it,,/crop/060073C0200/REPRESENTANTES.jpg?pad=0.02&label=0
+93,060085E0100,Representatives who voted,37,7,,medium,4,model read digits 7; no words read; the keyed value breaks voters + representatives = section 5 (166 vs 136); the model's value satisfies it,,/crop/060085E0100/REPRESENTANTES.jpg?pad=0.02&label=0
+94,060085E0300,Voters on the list,illegible,285,285,medium,4,model digits and words agree (285); keyed as illegible; the model read a value,,/crop/060085E0300/VOTARON.jpg?pad=0.02&label=0
+95,060086B0100,Voters on the list,illegible,273,,medium,4,model read digits 273; no words read; keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060086B0100/VOTARON.jpg?pad=0.02&label=0
+96,060111B0100,Unused ballots,291,29,29,medium,4,model digits and words agree (29); the model's read of this form passes every check of the gate,,/crop/060111B0100/SOBRANTES.jpg?pad=0.02&label=0
+97,060126C0100,Voters on the list,225,320,,medium,4,model read digits 320; no words read; the keyed value breaks voters + representatives = section 5 (231 vs 326); the model's value satisfies it,,/crop/060126C0100/VOTARON.jpg?pad=0.02&label=0
+98,060130C0100,Unused ballots,illegible,218,218,medium,4,model digits and words agree (218); keyed as illegible; the model read a value,,/crop/060130C0100/SOBRANTES.jpg?pad=0.02&label=0
+99,060133B0100,Representatives who voted,illegible,6,,medium,4,model read digits 6; no words read; keyed as illegible; the model read a value; the model's value satisfies voters + representatives = section 5,,/crop/060133B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+100,060138B0100,Option 01,illegible,67,67,medium,4,model digits and words agree (67); keyed as illegible; the model read a value,,/crop/060138B0100/OPT01.jpg?pad=0.02&label=0
+101,060138B0100,Option 02,illegible,58,58,medium,4,model digits and words agree (58); keyed as illegible; the model read a value,,/crop/060138B0100/OPT02.jpg?pad=0.02&label=0
+102,060151B0100,Unused ballots,229,227,227,medium,4,model digits and words agree (227); the model's read of this form passes every check of the gate,,/crop/060151B0100/SOBRANTES.jpg?pad=0.02&label=0
+103,060174C0100,TOTAL,190,290,,medium,4,model read digits 290; no words read; the keyed value breaks rows sum to TOTAL (290 vs 190); the model's value satisfies it,,/crop/060174C0100/TOTAL.jpg?pad=0.02&label=0
+104,060178C0100,Option 05,illegible,0,0,medium,4,model digits and words agree (0); keyed as illegible; the model read a value,,/crop/060178C0100/OPT05.jpg?pad=0.02&label=0
+105,060183B0100,Representatives who voted,1,7,,medium,4,model read digits 7; no words read; the keyed value breaks voters + representatives = section 5 (306 vs 312); the model's value satisfies it,,/crop/060183B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+106,060190B0100,Option 13,0,9,,medium,4,model read digits 9; no words read; the keyed value breaks rows sum to TOTAL (333 vs 342); the model's value satisfies it,,/crop/060190B0100/OPT13.jpg?pad=0.02&label=0
+107,060202B0100,Ballots taken from the boxes,illegible,624,624,medium,4,model digits and words agree (624); keyed as illegible; the model read a value,,/crop/060202B0100/SACADOS.jpg?pad=0.02&label=0
+108,060205C0100,Option 13,no data,2,2,medium,4,model digits and words agree (2); keyed as no data; the model read a value,,/crop/060205C0100/OPT13.jpg?pad=0.02&label=0
+109,060221B0100,Voters on the list,305,309,,medium,4,model read digits 309; no words read; the keyed value breaks voters + representatives = section 5 (305 vs 309); the model's value satisfies it,,/crop/060221B0100/VOTARON.jpg?pad=0.02&label=0
+110,060224B0100,Unregistered candidates,no data,0,0,medium,4,model digits and words agree (0); keyed as no data; the model read a value,,/crop/060224B0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+111,060233E0100,Option 02,illegible,7,7,medium,4,model digits and words agree (7); keyed as illegible; the model read a value,,/crop/060233E0100/OPT02.jpg?pad=0.02&label=0
+112,060233E0100,Option 12,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060233E0100/OPT12.jpg?pad=0.02&label=0
+113,060239C0100,Unused ballots,247,47,47,medium,4,model digits and words agree (47); the model's read of this form passes every check of the gate,,/crop/060239C0100/SOBRANTES.jpg?pad=0.02&label=0
+114,060243B0100,Option 07,no data,46,46,medium,4,model digits and words agree (46); keyed as no data; the model read a value,,/crop/060243B0100/OPT07.jpg?pad=0.02&label=0
+115,060252C0100,Voters on the list,332,232,,medium,4,model read digits 232; no words read; the keyed value breaks voters + representatives = section 5 (336 vs 236); the model's value satisfies it,,/crop/060252C0100/VOTARON.jpg?pad=0.02&label=0
+116,060269C0100,Voters on the list,357,359,,medium,4,model read digits 359; no words read; the keyed value breaks voters + representatives = section 5 (359 vs 361); the model's value satisfies it,,/crop/060269C0100/VOTARON.jpg?pad=0.02&label=0
+117,060271C0100,Representatives who voted,0,100,,medium,4,model read digits 100; no words read; the keyed value breaks voters + representatives = section 5 (495 vs 595); the model's value satisfies it,,/crop/060271C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+118,060284C0100,Voters on the list,218,208,,medium,4,model read digits 208; no words read; the keyed value breaks voters + representatives = section 5 (219 vs 209); the model's value satisfies it,,/crop/060284C0100/VOTARON.jpg?pad=0.02&label=0
+119,060290C0400,Unused ballots,364,369,369,medium,4,model digits and words agree (369); the model's read of this form passes every check of the gate,,/crop/060290C0400/SOBRANTES.jpg?pad=0.02&label=0
+120,060329C0200,Voters on the list,298,228,,medium,4,model read digits 228; no words read; the keyed value breaks voters + representatives = section 5 (300 vs 230); the model's value satisfies it,,/crop/060329C0200/VOTARON.jpg?pad=0.02&label=0
+121,060329C0200,Representatives who voted,0,2,,medium,4,model read digits 2; no words read; the keyed value breaks voters + representatives = section 5 (228 vs 230); the model's value satisfies it,,/crop/060329C0200/REPRESENTANTES.jpg?pad=0.02&label=0
+122,060374B0100,Unused ballots,179,79,79,medium,4,model digits and words agree (79); the model's read of this form passes every check of the gate,,/crop/060374B0100/SOBRANTES.jpg?pad=0.02&label=0
+123,060375B0100,Ballots taken from the boxes,illegible,442,442,medium,4,model digits and words agree (442); keyed as illegible; the model read a value,,/crop/060375B0100/SACADOS.jpg?pad=0.02&label=0
+124,060375B0100,Option 01,illegible,103,103,medium,4,model digits and words agree (103); keyed as illegible; the model read a value,,/crop/060375B0100/OPT01.jpg?pad=0.02&label=0
+125,060375B0100,Option 02,illegible,0,0,medium,4,model digits and words agree (0); keyed as illegible; the model read a value,,/crop/060375B0100/OPT02.jpg?pad=0.02&label=0
+126,060375B0100,Option 03,illegible,0,0,medium,4,model digits and words agree (0); keyed as illegible; the model read a value,,/crop/060375B0100/OPT03.jpg?pad=0.02&label=0
+127,060375B0100,Option 04,illegible,4,4,medium,4,model digits and words agree (4); keyed as illegible; the model read a value,,/crop/060375B0100/OPT04.jpg?pad=0.02&label=0
+128,060375B0100,Option 05,illegible,6,6,medium,4,model digits and words agree (6); keyed as illegible; the model read a value,,/crop/060375B0100/OPT05.jpg?pad=0.02&label=0
+129,060375B0100,Option 06,illegible,2,2,medium,4,model digits and words agree (2); keyed as illegible; the model read a value,,/crop/060375B0100/OPT06.jpg?pad=0.02&label=0
+130,060375B0100,Option 07,illegible,78,78,medium,4,model digits and words agree (78); keyed as illegible; the model read a value,,/crop/060375B0100/OPT07.jpg?pad=0.02&label=0
+131,060375B0100,Option 08,illegible,9,9,medium,4,model digits and words agree (9); keyed as illegible; the model read a value,,/crop/060375B0100/OPT08.jpg?pad=0.02&label=0
+132,060375B0100,Option 09,illegible,6,6,medium,4,model digits and words agree (6); keyed as illegible; the model read a value,,/crop/060375B0100/OPT09.jpg?pad=0.02&label=0
+133,060375B0100,Option 10,illegible,0,0,medium,4,model digits and words agree (0); keyed as illegible; the model read a value,,/crop/060375B0100/OPT10.jpg?pad=0.02&label=0
+134,060375B0100,Option 11,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060375B0100/OPT11.jpg?pad=0.02&label=0
+135,060375B0100,Option 12,illegible,7,7,medium,4,model digits and words agree (7); keyed as illegible; the model read a value,,/crop/060375B0100/OPT12.jpg?pad=0.02&label=0
+136,060375B0100,Option 13,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060375B0100/OPT13.jpg?pad=0.02&label=0
+137,060375B0100,Option 14,illegible,2,2,medium,4,model digits and words agree (2); keyed as illegible; the model read a value,,/crop/060375B0100/OPT14.jpg?pad=0.02&label=0
+138,060375B0100,Option 15,illegible,1,1,medium,4,model digits and words agree (1); keyed as illegible; the model read a value,,/crop/060375B0100/OPT15.jpg?pad=0.02&label=0
+139,060375B0100,Unregistered candidates,illegible,2,2,medium,4,model digits and words agree (2); keyed as illegible; the model read a value,,/crop/060375B0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+140,060375B0100,Null votes,illegible,8,8,medium,4,model digits and words agree (8); keyed as illegible; the model read a value,,/crop/060375B0100/NULOS.jpg?pad=0.02&label=0
+141,060375B0100,TOTAL,illegible,222,222,medium,4,model digits and words agree (222); keyed as illegible; the model read a value,,/crop/060375B0100/TOTAL.jpg?pad=0.02&label=0
+142,060394C0300,Ballots taken from the boxes,388,338,388,medium,4,model digits 338 and words 388 disagree; the keyed value breaks section 5 = section 7 (338 vs 388); the model's value satisfies it; the keyed value breaks section 7 = TOTAL (388 vs 338); the model's value satisfies it,,/crop/060394C0300/SACADOS.jpg?pad=0.02&label=0
+143,060396B0100,Unused ballots,illegible,74,74,medium,4,model digits and words agree (74); keyed as illegible; the model read a value,,/crop/060396B0100/SOBRANTES.jpg?pad=0.02&label=0
+144,060018B0100,Unregistered candidates,2,10,10,medium,3,model digits and words agree (10),,/crop/060018B0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+145,060018B0100,Null votes,10,287,287,medium,3,model digits and words agree (287),,/crop/060018B0100/NULOS.jpg?pad=0.02&label=0
+146,060023C0200,Unused ballots,398,390,390,medium,3,model digits and words agree (390),,/crop/060023C0200/SOBRANTES.jpg?pad=0.02&label=0
+147,060031C0100,TOTAL,298,248,248,medium,3,model digits and words agree (248); the keyed value satisfies rows sum to TOTAL; the model's breaks it (298 vs 248); the keyed value breaks section 7 = TOTAL (248 vs 298); the model's value satisfies it,,/crop/060031C0100/TOTAL.jpg?pad=0.02&label=0
+148,060036C0100,Option 12,18,0,0,medium,3,model digits and words agree (0),,/crop/060036C0100/OPT12.jpg?pad=0.02&label=0
+149,060036C0100,Option 13,3,18,18,medium,3,model digits and words agree (18),,/crop/060036C0100/OPT13.jpg?pad=0.02&label=0
+150,060036C0100,Option 14,7,3,3,medium,3,model digits and words agree (3),,/crop/060036C0100/OPT14.jpg?pad=0.02&label=0
+151,060036C0100,Option 15,4,7,7,medium,3,model digits and words agree (7),,/crop/060036C0100/OPT15.jpg?pad=0.02&label=0
+152,060036C0100,Unregistered candidates,0,4,4,medium,3,model digits and words agree (4),,/crop/060036C0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+153,060036C0100,Null votes,7,0,0,medium,3,model digits and words agree (0),,/crop/060036C0100/NULOS.jpg?pad=0.02&label=0
+154,060052B0100,Voters on the list,0,600,600,medium,3,model digits and words agree (600),,/crop/060052B0100/VOTARON.jpg?pad=0.02&label=0
+155,060059C0100,Unused ballots,293,93,93,medium,3,model digits and words agree (93),,/crop/060059C0100/SOBRANTES.jpg?pad=0.02&label=0
+156,060059C0100,TOTAL,287,387,387,medium,3,model digits and words agree (387); the keyed value satisfies rows sum to TOTAL; the model's breaks it (287 vs 387); the keyed value breaks section 7 = TOTAL (387 vs 287); the model's value satisfies it,,/crop/060059C0100/TOTAL.jpg?pad=0.02&label=0
+157,060064B0100,Ballots taken from the boxes,365,265,265,medium,3,model digits and words agree (265),,/crop/060064B0100/SACADOS.jpg?pad=0.02&label=0
+158,060064B0100,Option 07,38,138,138,medium,3,model digits and words agree (138),,/crop/060064B0100/OPT07.jpg?pad=0.02&label=0
+159,060066C0100,Option 09,1,7,7,medium,3,model digits and words agree (7),,/crop/060066C0100/OPT09.jpg?pad=0.02&label=0
+160,060066C0100,Option 10,1,7,7,medium,3,model digits and words agree (7),,/crop/060066C0100/OPT10.jpg?pad=0.02&label=0
+161,060070B0100,Unused ballots,218,278,278,medium,3,model digits and words agree (278),,/crop/060070B0100/SOBRANTES.jpg?pad=0.02&label=0
+162,060077B0100,Unused ballots,228,47,47,medium,3,model digits and words agree (47),,/crop/060077B0100/SOBRANTES.jpg?pad=0.02&label=0
+163,060085E0200,Unused ballots,144,744,744,medium,3,model digits and words agree (744),,/crop/060085E0200/SOBRANTES.jpg?pad=0.02&label=0
+164,060090E0100,Option 04,7,17,17,medium,3,model digits and words agree (17),,/crop/060090E0100/OPT04.jpg?pad=0.02&label=0
+165,060090E0100,Option 06,7,17,17,medium,3,model digits and words agree (17),,/crop/060090E0100/OPT06.jpg?pad=0.02&label=0
+166,060093E0100,Option 01,39,31,31,medium,3,model digits and words agree (31),,/crop/060093E0100/OPT01.jpg?pad=0.02&label=0
+167,060099B0100,Unused ballots,131,130,130,medium,3,model digits and words agree (130),,/crop/060099B0100/SOBRANTES.jpg?pad=0.02&label=0
+168,060100B0100,Unused ballots,227,22,22,medium,3,model digits and words agree (22),,/crop/060100B0100/SOBRANTES.jpg?pad=0.02&label=0
+169,060105E0100,Option 05,29,20,20,medium,3,model digits and words agree (20),,/crop/060105E0100/OPT05.jpg?pad=0.02&label=0
+170,060109B0100,Option 13,1,7,7,medium,3,model digits and words agree (7),,/crop/060109B0100/OPT13.jpg?pad=0.02&label=0
+171,060109B0100,Option 15,1,7,7,medium,3,model digits and words agree (7),,/crop/060109B0100/OPT15.jpg?pad=0.02&label=0
+172,060114B0100,Unused ballots,114,14,14,medium,3,model digits and words agree (14),,/crop/060114B0100/SOBRANTES.jpg?pad=0.02&label=0
+173,060120C0200,Option 10,1,7,7,medium,3,model digits and words agree (7),,/crop/060120C0200/OPT10.jpg?pad=0.02&label=0
+174,060125E0100,Voters on the list,331,231,231,medium,3,model digits and words agree (231),,/crop/060125E0100/VOTARON.jpg?pad=0.02&label=0
+175,060126C0200,Option 07,168,162,162,medium,3,model digits and words agree (162),,/crop/060126C0200/OPT07.jpg?pad=0.02&label=0
+176,060138C0200,Option 07,158,758,758,medium,3,model digits and words agree (758),,/crop/060138C0200/OPT07.jpg?pad=0.02&label=0
+177,060138C0200,Option 10,1,7,7,medium,3,model digits and words agree (7),,/crop/060138C0200/OPT10.jpg?pad=0.02&label=0
+178,060138C0200,Option 13,1,7,7,medium,3,model digits and words agree (7),,/crop/060138C0200/OPT13.jpg?pad=0.02&label=0
+179,060138C0200,Option 14,1,7,7,medium,3,model digits and words agree (7),,/crop/060138C0200/OPT14.jpg?pad=0.02&label=0
+180,060139E0200,Unused ballots,331,337,337,medium,3,model digits and words agree (337),,/crop/060139E0200/SOBRANTES.jpg?pad=0.02&label=0
+181,060139E0201,Unused ballots,348,398,398,medium,3,model digits and words agree (398),,/crop/060139E0201/SOBRANTES.jpg?pad=0.02&label=0
+182,060141C0100,Unused ballots,320,230,230,medium,3,model digits and words agree (230),,/crop/060141C0100/SOBRANTES.jpg?pad=0.02&label=0
+183,060143B0100,Option 06,30,36,36,medium,3,model digits and words agree (36),,/crop/060143B0100/OPT06.jpg?pad=0.02&label=0
+184,060152E0501,Unused ballots,294,244,244,medium,3,model digits and words agree (244),,/crop/060152E0501/SOBRANTES.jpg?pad=0.02&label=0
+185,060178C0100,Unused ballots,308,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/SOBRANTES.jpg?pad=0.02&label=0
+186,060178C0100,Option 01,17,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/OPT01.jpg?pad=0.02&label=0
+187,060178C0100,Option 02,14,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/OPT02.jpg?pad=0.02&label=0
+188,060178C0100,Option 03,21,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/OPT03.jpg?pad=0.02&label=0
+189,060178C0100,Option 04,82,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/OPT04.jpg?pad=0.02&label=0
+190,060178C0100,Option 06,58,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/OPT06.jpg?pad=0.02&label=0
+191,060178C0100,Option 10,0,1,1,medium,3,model digits and words agree (1),,/crop/060178C0100/OPT10.jpg?pad=0.02&label=0
+192,060178C0100,Option 11,1,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/OPT11.jpg?pad=0.02&label=0
+193,060178C0100,Option 13,5,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/OPT13.jpg?pad=0.02&label=0
+194,060178C0100,Option 14,0,6,6,medium,3,model digits and words agree (6),,/crop/060178C0100/OPT14.jpg?pad=0.02&label=0
+195,060178C0100,Option 15,6,1,1,medium,3,model digits and words agree (1),,/crop/060178C0100/OPT15.jpg?pad=0.02&label=0
+196,060178C0100,Unregistered candidates,1,0,0,medium,3,model digits and words agree (0),,/crop/060178C0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+197,060178C0100,Null votes,0,7,7,medium,3,model digits and words agree (7),,/crop/060178C0100/NULOS.jpg?pad=0.02&label=0
+198,060178C0100,TOTAL,366,151,151,medium,3,model digits and words agree (151),,/crop/060178C0100/TOTAL.jpg?pad=0.02&label=0
+199,060182B0100,Voters on the list,287,283,283,medium,3,model digits and words agree (283),,/crop/060182B0100/VOTARON.jpg?pad=0.02&label=0
+200,060188C0100,Option 08,1,149,149,medium,3,model digits and words agree (149),,/crop/060188C0100/OPT08.jpg?pad=0.02&label=0
+201,060188C0100,Option 09,0,1,1,medium,3,model digits and words agree (1),,/crop/060188C0100/OPT09.jpg?pad=0.02&label=0
+202,060188C0100,Option 12,16,0,0,medium,3,model digits and words agree (0),,/crop/060188C0100/OPT12.jpg?pad=0.02&label=0
+203,060188C0100,Option 13,2,16,16,medium,3,model digits and words agree (16),,/crop/060188C0100/OPT13.jpg?pad=0.02&label=0
+204,060188C0100,Option 15,3,2,2,medium,3,model digits and words agree (2),,/crop/060188C0100/OPT15.jpg?pad=0.02&label=0
+205,060188C0100,Unregistered candidates,0,3,3,medium,3,model digits and words agree (3),,/crop/060188C0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+206,060188C0100,Null votes,13,0,0,medium,3,model digits and words agree (0),,/crop/060188C0100/NULOS.jpg?pad=0.02&label=0
+207,060196B0100,Unused ballots,156,256,256,medium,3,model digits and words agree (256),,/crop/060196B0100/SOBRANTES.jpg?pad=0.02&label=0
+208,060210C0100,Option 06,28,27,27,medium,3,model digits and words agree (27),,/crop/060210C0100/OPT06.jpg?pad=0.02&label=0
+209,060214B0100,Ballots taken from the boxes,537,539,539,medium,3,model digits and words agree (539),,/crop/060214B0100/SACADOS.jpg?pad=0.02&label=0
+210,060214C0100,Ballots taken from the boxes,537,539,539,medium,3,model digits and words agree (539),,/crop/060214C0100/SACADOS.jpg?pad=0.02&label=0
+211,060216C0100,Unused ballots,366,306,306,medium,3,model digits and words agree (306),,/crop/060216C0100/SOBRANTES.jpg?pad=0.02&label=0
+212,060226E0200,Option 06,19,14,14,medium,3,model digits and words agree (14),,/crop/060226E0200/OPT06.jpg?pad=0.02&label=0
+213,060233E0100,Unused ballots,237,7,7,medium,3,model digits and words agree (7),,/crop/060233E0100/SOBRANTES.jpg?pad=0.02&label=0
+214,060233E0100,Ballots taken from the boxes,195,95,95,medium,3,model digits and words agree (95); the keyed value breaks section 5 = section 7 (95 vs 195); the model's value satisfies it; the keyed value satisfies section 7 = TOTAL; the model's breaks it (95 vs 195),,/crop/060233E0100/SACADOS.jpg?pad=0.02&label=0
+215,060233E0100,Option 01,13,3,3,medium,3,model digits and words agree (3),,/crop/060233E0100/OPT01.jpg?pad=0.02&label=0
+216,060233E0100,Option 04,34,37,37,medium,3,model digits and words agree (37),,/crop/060233E0100/OPT04.jpg?pad=0.02&label=0
+217,060233E0100,Option 06,16,17,17,medium,3,model digits and words agree (17),,/crop/060233E0100/OPT06.jpg?pad=0.02&label=0
+218,060233E0100,Option 15,1,0,0,medium,3,model digits and words agree (0),,/crop/060233E0100/OPT15.jpg?pad=0.02&label=0
+219,060235B0100,Option 04,33,0,0,medium,3,model digits and words agree (0),,/crop/060235B0100/OPT04.jpg?pad=0.02&label=0
+220,060235B0100,Option 05,21,33,33,medium,3,model digits and words agree (33),,/crop/060235B0100/OPT05.jpg?pad=0.02&label=0
+221,060235B0100,Option 06,39,21,21,medium,3,model digits and words agree (21),,/crop/060235B0100/OPT06.jpg?pad=0.02&label=0
+222,060235B0100,Option 07,130,34,34,medium,3,model digits and words agree (34),,/crop/060235B0100/OPT07.jpg?pad=0.02&label=0
+223,060235B0100,Option 08,0,130,130,medium,3,model digits and words agree (130),,/crop/060235B0100/OPT08.jpg?pad=0.02&label=0
+224,060235B0100,Option 09,3,0,0,medium,3,model digits and words agree (0),,/crop/060235B0100/OPT09.jpg?pad=0.02&label=0
+225,060235B0100,Option 10,0,3,3,medium,3,model digits and words agree (3),,/crop/060235B0100/OPT10.jpg?pad=0.02&label=0
+226,060235B0100,Option 12,14,0,0,medium,3,model digits and words agree (0),,/crop/060235B0100/OPT12.jpg?pad=0.02&label=0
+227,060235B0100,Option 13,3,14,14,medium,3,model digits and words agree (14),,/crop/060235B0100/OPT13.jpg?pad=0.02&label=0
+228,060235B0100,Option 14,7,3,3,medium,3,model digits and words agree (3),,/crop/060235B0100/OPT14.jpg?pad=0.02&label=0
+229,060235B0100,Option 15,3,7,7,medium,3,model digits and words agree (7),,/crop/060235B0100/OPT15.jpg?pad=0.02&label=0
+230,060235B0100,Unregistered candidates,0,3,3,medium,3,model digits and words agree (3),,/crop/060235B0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+231,060235B0100,Null votes,10,0,0,medium,3,model digits and words agree (0),,/crop/060235B0100/NULOS.jpg?pad=0.02&label=0
+232,060248E0101,Option 07,21,121,121,medium,3,model digits and words agree (121),,/crop/060248E0101/OPT07.jpg?pad=0.02&label=0
+233,060252C0100,Option 12,17,14,14,medium,3,model digits and words agree (14),,/crop/060252C0100/OPT12.jpg?pad=0.02&label=0
+234,060252C0200,Option 02,36,76,76,medium,3,model digits and words agree (76),,/crop/060252C0200/OPT02.jpg?pad=0.02&label=0
+235,060253B0100,Option 07,171,141,141,medium,3,model digits and words agree (141),,/crop/060253B0100/OPT07.jpg?pad=0.02&label=0
+236,060267E0200,Null votes,4,9,9,medium,3,model digits and words agree (9),,/crop/060267E0200/NULOS.jpg?pad=0.02&label=0
+237,060269C0200,Unused ballots,279,229,229,medium,3,model digits and words agree (229),,/crop/060269C0200/SOBRANTES.jpg?pad=0.02&label=0
+238,060271C0100,Option 05,52,32,32,medium,3,model digits and words agree (32),,/crop/060271C0100/OPT05.jpg?pad=0.02&label=0
+239,060277C0300,Option 05,14,19,19,medium,3,model digits and words agree (19),,/crop/060277C0300/OPT05.jpg?pad=0.02&label=0
+240,060277C0400,Ballots taken from the boxes,315,316,316,medium,3,model digits and words agree (316); the keyed value breaks section 5 = section 7 (316 vs 315); the model's value satisfies it; the keyed value satisfies section 7 = TOTAL; the model's breaks it (316 vs 315),,/crop/060277C0400/SACADOS.jpg?pad=0.02&label=0
+241,060290B0100,Ballots taken from the boxes,425,475,475,medium,3,model digits and words agree (475); the keyed value satisfies section 5 = section 7; the model's breaks it (425 vs 475); the keyed value breaks section 7 = TOTAL (425 vs 475); the model's value satisfies it,,/crop/060290B0100/SACADOS.jpg?pad=0.02&label=0
+242,060295B0100,Unused ballots,327,27,27,medium,3,model digits and words agree (27),,/crop/060295B0100/SOBRANTES.jpg?pad=0.02&label=0
+243,060298C0100,Option 07,180,186,186,medium,3,model digits and words agree (186),,/crop/060298C0100/OPT07.jpg?pad=0.02&label=0
+244,060316C0100,Option 02,27,28,28,medium,3,model digits and words agree (28),,/crop/060316C0100/OPT02.jpg?pad=0.02&label=0
+245,060351B0100,Voters on the list,337,344,344,medium,3,model digits and words agree (344),,/crop/060351B0100/VOTARON.jpg?pad=0.02&label=0
+246,060354B0100,Option 02,87,57,57,medium,3,model digits and words agree (57),,/crop/060354B0100/OPT02.jpg?pad=0.02&label=0
+247,060362C0100,Unused ballots,304,369,369,medium,3,model digits and words agree (369),,/crop/060362C0100/SOBRANTES.jpg?pad=0.02&label=0
+248,060375B0100,Unused ballots,186,0,0,medium,3,model digits and words agree (0),,/crop/060375B0100/SOBRANTES.jpg?pad=0.02&label=0
+249,060387C0100,Option 11,1,0,0,medium,3,model digits and words agree (0),,/crop/060387C0100/OPT11.jpg?pad=0.02&label=0
+250,060387C0100,Option 12,14,1,1,medium,3,model digits and words agree (1),,/crop/060387C0100/OPT12.jpg?pad=0.02&label=0
+251,060387C0100,Option 13,1,14,14,medium,3,model digits and words agree (14),,/crop/060387C0100/OPT13.jpg?pad=0.02&label=0
+252,060387C0100,Option 14,2,1,1,medium,3,model digits and words agree (1),,/crop/060387C0100/OPT14.jpg?pad=0.02&label=0
+253,060387C0100,Option 15,3,2,2,medium,3,model digits and words agree (2),,/crop/060387C0100/OPT15.jpg?pad=0.02&label=0
+254,060387C0100,Unregistered candidates,1,3,3,medium,3,model digits and words agree (3),,/crop/060387C0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+255,060387C0100,Null votes,2,1,1,medium,3,model digits and words agree (1),,/crop/060387C0100/NULOS.jpg?pad=0.02&label=0
+256,060390C0100,Ballots taken from the boxes,357,367,367,medium,3,model digits and words agree (367); the keyed value satisfies section 5 = section 7; the model's breaks it (357 vs 367); the keyed value breaks section 7 = TOTAL (357 vs 367); the model's value satisfies it,,/crop/060390C0100/SACADOS.jpg?pad=0.02&label=0
+257,060390C0100,Option 07,157,187,187,medium,3,model digits and words agree (187),,/crop/060390C0100/OPT07.jpg?pad=0.02&label=0
+258,060210B0100,Unused ballots,310,316,,weak,2,model read digits 316; no words read; the model's read of this form passes every check of the gate,,/crop/060210B0100/SOBRANTES.jpg?pad=0.02&label=0
+259,060242B0100,Unused ballots,307,30,,weak,2,model read digits 30; no words read; the model's read of this form passes every check of the gate,,/crop/060242B0100/SOBRANTES.jpg?pad=0.02&label=0
+260,060243C0100,Unused ballots,no data,1612,,weak,2,model read digits 1612; no words read; keyed as no data; the model read a value,,/crop/060243C0100/SOBRANTES.jpg?pad=0.02&label=0
+261,060248B0100,Unused ballots,305,309,,weak,2,model read digits 309; no words read; the model's read of this form passes every check of the gate,,/crop/060248B0100/SOBRANTES.jpg?pad=0.02&label=0
+262,060248E0208,Unused ballots,344,44,,weak,2,model read digits 44; no words read; the model's read of this form passes every check of the gate,,/crop/060248E0208/SOBRANTES.jpg?pad=0.02&label=0
+263,060280C0200,Unused ballots,illegible,441,,weak,2,model read digits 441; no words read; keyed as illegible; the model read a value,,/crop/060280C0200/SOBRANTES.jpg?pad=0.02&label=0
+264,060291C0400,Unused ballots,387,301,,weak,2,model read digits 301; no words read; the model's read of this form passes every check of the gate,,/crop/060291C0400/SOBRANTES.jpg?pad=0.02&label=0
+265,060012C0100,Voters on the list,392,390,392,weak,1,model digits 390 and words 392 disagree; the keyed value breaks voters + representatives = section 5 (394 vs 392); the model's value satisfies it,,/crop/060012C0100/VOTARON.jpg?pad=0.02&label=0
+266,060046C0100,Unused ballots,165,166,,weak,1,model read digits 166; no words read,,/crop/060046C0100/SOBRANTES.jpg?pad=0.02&label=0
+267,060060E0105,Voters on the list,354,351,,weak,1,model read digits 351; no words read,,/crop/060060E0105/VOTARON.jpg?pad=0.02&label=0
+268,060060E0105,Representatives who voted,4,604,,weak,1,model read digits 604; no words read,,/crop/060060E0105/REPRESENTANTES.jpg?pad=0.02&label=0
+269,060093E0100,Unused ballots,143,186,,weak,1,model read digits 186; no words read,,/crop/060093E0100/SOBRANTES.jpg?pad=0.02&label=0
+270,060093E0100,Option 07,78,72,,weak,1,model read digits 72; no words read,,/crop/060093E0100/OPT07.jpg?pad=0.02&label=0
+271,060139E0203,Unused ballots,330,237,,weak,1,model read digits 237; no words read,,/crop/060139E0203/SOBRANTES.jpg?pad=0.02&label=0
+272,060202C0300,Unused ballots,321,32,,weak,1,model read digits 32; no words read,,/crop/060202C0300/SOBRANTES.jpg?pad=0.02&label=0
+273,060203C0100,Option 06,25,24,25,weak,1,model digits 24 and words 25 disagree; the keyed value breaks rows sum to TOTAL (231 vs 230); the model's value satisfies it,,/crop/060203C0100/OPT06.jpg?pad=0.02&label=0
+274,060204B0100,Voters on the list,320,520,,weak,1,model read digits 520; no words read,,/crop/060204B0100/VOTARON.jpg?pad=0.02&label=0
+275,060204B0100,Representatives who voted,3,108,,weak,1,model read digits 108; no words read,,/crop/060204B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+276,060208B0100,Voters on the list,216,215,216,weak,1,model digits 215 and words 216 disagree; the keyed value breaks voters + representatives = section 5 (219 vs 218); the model's value satisfies it,,/crop/060208B0100/VOTARON.jpg?pad=0.02&label=0
+277,060221B0100,Unused ballots,214,209,,weak,1,model read digits 209; no words read,,/crop/060221B0100/SOBRANTES.jpg?pad=0.02&label=0
+278,060228B0100,Unused ballots,265,268,,weak,1,model read digits 268; no words read,,/crop/060228B0100/SOBRANTES.jpg?pad=0.02&label=0
+279,060236E0303,Unused ballots,481,480,,weak,1,model read digits 480; no words read,,/crop/060236E0303/SOBRANTES.jpg?pad=0.02&label=0
+280,060248C0300,Option 12,13,15,13,weak,1,model digits 15 and words 13 disagree; the keyed value breaks rows sum to TOTAL (438 vs 440); the model's value satisfies it,,/crop/060248C0300/OPT12.jpg?pad=0.02&label=0
+281,060248E0203,Unused ballots,346,396,,weak,1,model read digits 396; no words read,,/crop/060248E0203/SOBRANTES.jpg?pad=0.02&label=0
+282,060258C0300,Voters on the list,357,354,357,weak,1,model digits 354 and words 357 disagree; the keyed value breaks voters + representatives = section 5 (358 vs 355); the model's value satisfies it,,/crop/060258C0300/VOTARON.jpg?pad=0.02&label=0
+283,060260C0200,Option 03,3,5,,weak,1,model read digits 5; no words read,,/crop/060260C0200/OPT03.jpg?pad=0.02&label=0
+284,060260C0200,Option 05,8,68,,weak,1,model read digits 68; no words read,,/crop/060260C0200/OPT05.jpg?pad=0.02&label=0
+285,060260C0200,Option 07,16,176,,weak,1,model read digits 176; no words read,,/crop/060260C0200/OPT07.jpg?pad=0.02&label=0
+286,060260C0200,Option 09,2,0,,weak,1,model read digits 0; no words read,,/crop/060260C0200/OPT09.jpg?pad=0.02&label=0
+287,060260C0200,Option 12,15,5,,weak,1,model read digits 5; no words read,,/crop/060260C0200/OPT12.jpg?pad=0.02&label=0
+288,060260C0200,Option 14,3,5,,weak,1,model read digits 5; no words read,,/crop/060260C0200/OPT14.jpg?pad=0.02&label=0
+289,060260C0200,Option 15,1,4,,weak,1,model read digits 4; no words read,,/crop/060260C0200/OPT15.jpg?pad=0.02&label=0
+290,060260C0200,Null votes,4,47,,weak,1,model read digits 47; no words read,,/crop/060260C0200/NULOS.jpg?pad=0.02&label=0
+291,060280E0100,Unused ballots,326,376,,weak,1,model read digits 376; no words read,,/crop/060280E0100/SOBRANTES.jpg?pad=0.02&label=0
+292,060309B0100,Unused ballots,289,287,,weak,1,model read digits 287; no words read,,/crop/060309B0100/SOBRANTES.jpg?pad=0.02&label=0
+293,060316C0300,Unused ballots,403,405,,weak,1,model read digits 405; no words read,,/crop/060316C0300/SOBRANTES.jpg?pad=0.02&label=0
+294,060329C0200,Unused ballots,475,75,,weak,1,model read digits 75; no words read,,/crop/060329C0200/SOBRANTES.jpg?pad=0.02&label=0
+295,060372B0100,Voters on the list,450,456,450,weak,1,model digits 456 and words 450 disagree; the keyed value breaks voters + representatives = section 5 (454 vs 460); the model's value satisfies it,,/crop/060372B0100/VOTARON.jpg?pad=0.02&label=0
+296,060373B0100,Unused ballots,211,200,,weak,1,model read digits 200; no words read,,/crop/060373B0100/SOBRANTES.jpg?pad=0.02&label=0
+297,060389B0100,Ballots taken from the boxes,468,473,,weak,1,model read digits 473; no words read; the keyed value breaks section 5 = section 7 (473 vs 468); the model's value satisfies it; the keyed value satisfies section 7 = TOTAL; the model's breaks it (473 vs 468),,/crop/060389B0100/SACADOS.jpg?pad=0.02&label=0
+298,060394C0300,Voters on the list,385,335,385,weak,1,model digits 335 and words 385 disagree; the keyed value breaks voters + representatives = section 5 (388 vs 338); the model's value satisfies it,,/crop/060394C0300/VOTARON.jpg?pad=0.02&label=0
+299,060394C0300,TOTAL,388,338,388,weak,1,model digits 338 and words 388 disagree; the keyed value breaks section 7 = TOTAL (338 vs 388); the model's value satisfies it,,/crop/060394C0300/TOTAL.jpg?pad=0.02&label=0
+300,060397C0200,Voters on the list,331,333,331,weak,1,model digits 333 and words 331 disagree; the keyed value breaks voters + representatives = section 5 (334 vs 336); the model's value satisfies it,,/crop/060397C0200/VOTARON.jpg?pad=0.02&label=0
+301,060003B0100,Null votes,10,6,6,weak,0,model digits and words agree (6); the keyed value satisfies rows sum to TOTAL; the model's breaks it (335 vs 339),,/crop/060003B0100/NULOS.jpg?pad=0.02&label=0
+302,060008C0100,Option 15,1,2,2,weak,0,model digits and words agree (2); the keyed value satisfies rows sum to TOTAL; the model's breaks it (324 vs 323),,/crop/060008C0100/OPT15.jpg?pad=0.02&label=0
+303,060036C0100,TOTAL,371,7,7,weak,0,model digits and words agree (7); the keyed value satisfies section 7 = TOTAL; the model's breaks it (371 vs 7),,/crop/060036C0100/TOTAL.jpg?pad=0.02&label=0
+304,060038C0100,Voters on the list,243,293,293,weak,0,model digits and words agree (293); the keyed value satisfies voters + representatives = section 5; the model's breaks it (294 vs 244),,/crop/060038C0100/VOTARON.jpg?pad=0.02&label=0
+305,060053B0100,Representatives who voted,6,0,0,weak,0,model digits and words agree (0); the keyed value satisfies voters + representatives = section 5; the model's breaks it (401 vs 407),,/crop/060053B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+306,060060C0100,Option 02,29,24,24,weak,0,model digits and words agree (24); the keyed value satisfies rows sum to TOTAL; the model's breaks it (294 vs 299),,/crop/060060C0100/OPT02.jpg?pad=0.02&label=0
+307,060064B0100,TOTAL,365,355,355,weak,0,model digits and words agree (355); the keyed value satisfies rows sum to TOTAL; the model's breaks it (365 vs 355),,/crop/060064B0100/TOTAL.jpg?pad=0.02&label=0
+308,060067C0100,Option 12,13,12,12,weak,0,model digits and words agree (12); the keyed value satisfies rows sum to TOTAL; the model's breaks it (283 vs 284),,/crop/060067C0100/OPT12.jpg?pad=0.02&label=0
+309,060073E0103,Option 08,7,9,9,weak,0,model digits and words agree (9); the keyed value satisfies rows sum to TOTAL; the model's breaks it (375 vs 373),,/crop/060073E0103/OPT08.jpg?pad=0.02&label=0
+310,060075C0100,Option 07,118,128,128,weak,0,model digits and words agree (128); the keyed value satisfies rows sum to TOTAL; the model's breaks it (310 vs 300),,/crop/060075C0100/OPT07.jpg?pad=0.02&label=0
+311,060093E0100,TOTAL,283,228,228,weak,0,model digits and words agree (228); the keyed value satisfies section 7 = TOTAL; the model's breaks it (283 vs 228),,/crop/060093E0100/TOTAL.jpg?pad=0.02&label=0
+312,060099B0100,Voters on the list,158,153,153,weak,0,model digits and words agree (153); the keyed value satisfies voters + representatives = section 5; the model's breaks it (158 vs 163),,/crop/060099B0100/VOTARON.jpg?pad=0.02&label=0
+313,060125E0100,Option 07,157,153,153,weak,0,model digits and words agree (153); the keyed value satisfies rows sum to TOTAL; the model's breaks it (335 vs 339),,/crop/060125E0100/OPT07.jpg?pad=0.02&label=0
+314,060139E0200,Option 01,110,10,10,weak,0,model digits and words agree (10); the keyed value satisfies rows sum to TOTAL; the model's breaks it (350 vs 450),,/crop/060139E0200/OPT01.jpg?pad=0.02&label=0
+315,060139E0203,Option 06,73,72,72,weak,0,model digits and words agree (72); the keyed value satisfies rows sum to TOTAL; the model's breaks it (438 vs 439),,/crop/060139E0203/OPT06.jpg?pad=0.02&label=0
+316,060156B0100,Option 12,8,0,0,weak,0,model digits and words agree (0); the keyed value satisfies rows sum to TOTAL; the model's breaks it (237 vs 245),,/crop/060156B0100/OPT12.jpg?pad=0.02&label=0
+317,060171B0100,Voters on the list,333,303,303,weak,0,model digits and words agree (303); the keyed value satisfies voters + representatives = section 5; the model's breaks it (306 vs 336),,/crop/060171B0100/VOTARON.jpg?pad=0.02&label=0
+318,060178C0100,Option 12,0,5,5,weak,0,model digits and words agree (5); the keyed value satisfies rows sum to TOTAL; the model's breaks it (156 vs 151),,/crop/060178C0100/OPT12.jpg?pad=0.02&label=0
+319,060188C0100,TOTAL,303,13,13,weak,0,model digits and words agree (13); the keyed value satisfies section 7 = TOTAL; the model's breaks it (303 vs 13),,/crop/060188C0100/TOTAL.jpg?pad=0.02&label=0
+320,060206B0100,Option 02,20,80,80,weak,0,model digits and words agree (80); the keyed value satisfies rows sum to TOTAL; the model's breaks it (354 vs 294),,/crop/060206B0100/OPT02.jpg?pad=0.02&label=0
+321,060214B0100,Representatives who voted,2,12,12,weak,0,model digits and words agree (12); the keyed value satisfies voters + representatives = section 5; the model's breaks it (301 vs 291),,/crop/060214B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+322,060235B0100,Voters on the list,287,282,282,weak,0,model digits and words agree (282); the keyed value satisfies voters + representatives = section 5; the model's breaks it (286 vs 291),,/crop/060235B0100/VOTARON.jpg?pad=0.02&label=0
+323,060235B0100,TOTAL,291,10,10,weak,0,model digits and words agree (10); the keyed value satisfies section 7 = TOTAL; the model's breaks it (291 vs 10),,/crop/060235B0100/TOTAL.jpg?pad=0.02&label=0
+324,060237B0100,Option 04,31,311,311,weak,0,model digits and words agree (311); the keyed value satisfies rows sum to TOTAL; the model's breaks it (613 vs 333),,/crop/060237B0100/OPT04.jpg?pad=0.02&label=0
+325,060246B0100,Null votes,298,288,288,weak,0,model digits and words agree (288); the keyed value satisfies rows sum to TOTAL; the model's breaks it (663 vs 673),,/crop/060246B0100/NULOS.jpg?pad=0.02&label=0
+326,060248E0203,Option 03,2,6,6,weak,0,model digits and words agree (6); the keyed value satisfies rows sum to TOTAL; the model's breaks it (384 vs 380),,/crop/060248E0203/OPT03.jpg?pad=0.02&label=0
+327,060269C0200,Representatives who voted,4,104,104,weak,0,model digits and words agree (104); the keyed value satisfies voters + representatives = section 5; the model's breaks it (455 vs 355),,/crop/060269C0200/REPRESENTANTES.jpg?pad=0.02&label=0
+328,060280C0200,Option 07,167,187,187,weak,0,model digits and words agree (187); the keyed value satisfies rows sum to TOTAL; the model's breaks it (351 vs 331),,/crop/060280C0200/OPT07.jpg?pad=0.02&label=0
+329,060323C0100,Representatives who voted,1,4,4,weak,0,model digits and words agree (4); the keyed value satisfies voters + representatives = section 5; the model's breaks it (200 vs 197),,/crop/060323C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+330,060344C0100,Option 15,1,7,7,weak,0,model digits and words agree (7); the keyed value satisfies rows sum to TOTAL; the model's breaks it (291 vs 285),,/crop/060344C0100/OPT15.jpg?pad=0.02&label=0
+331,060350C0100,Option 07,90,96,96,weak,0,model digits and words agree (96); the keyed value satisfies rows sum to TOTAL; the model's breaks it (255 vs 249),,/crop/060350C0100/OPT07.jpg?pad=0.02&label=0
+332,060358B0100,Option 07,142,42,42,weak,0,model digits and words agree (42); the keyed value satisfies rows sum to TOTAL; the model's breaks it (324 vs 424),,/crop/060358B0100/OPT07.jpg?pad=0.02&label=0
+333,060377C0100,Null votes,4,9,9,weak,0,model digits and words agree (9); the keyed value satisfies rows sum to TOTAL; the model's breaks it (248 vs 243),,/crop/060377C0100/NULOS.jpg?pad=0.02&label=0
+334,060387C0100,TOTAL,452,2,2,weak,0,model digits and words agree (2); the keyed value satisfies section 7 = TOTAL; the model's breaks it (452 vs 2),,/crop/060387C0100/TOTAL.jpg?pad=0.02&label=0
+335,060388C0100,Option 15,3,2,2,weak,0,model digits and words agree (2); the keyed value satisfies rows sum to TOTAL; the model's breaks it (441 vs 442),,/crop/060388C0100/OPT15.jpg?pad=0.02&label=0
+336,060018B0100,TOTAL,287,,,weak,-1,model saw the boxes blank or faint,,/crop/060018B0100/TOTAL.jpg?pad=0.02&label=0
+337,060064B0100,Unused ballots,232,,232,weak,-1,model saw the boxes blank or faint,,/crop/060064B0100/SOBRANTES.jpg?pad=0.02&label=0
+338,060064B0100,Voters on the list,363,,273,weak,-1,model saw the boxes blank or faint,,/crop/060064B0100/VOTARON.jpg?pad=0.02&label=0
+339,060064B0100,Representatives who voted,2,,2,weak,-1,model saw the boxes blank or faint,,/crop/060064B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+340,060073C0200,Ballots taken from the boxes,289,,,weak,-1,model saw the boxes blank or faint,,/crop/060073C0200/SACADOS.jpg?pad=0.02&label=0
+341,060074C0100,Ballots taken from the boxes,351,,351,weak,-1,model saw the boxes blank or faint,,/crop/060074C0100/SACADOS.jpg?pad=0.02&label=0
+342,060093E0100,Option 09,3,,1,weak,-1,model saw the boxes blank or faint,,/crop/060093E0100/OPT09.jpg?pad=0.02&label=0
+343,060100E0100,Unregistered candidates,3,,3,weak,-1,model saw the boxes blank or faint,,/crop/060100E0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+344,060125B0100,Ballots taken from the boxes,446,,,weak,-1,model saw the boxes blank or faint,,/crop/060125B0100/SACADOS.jpg?pad=0.02&label=0
+345,060179C0100,Unused ballots,217,,,weak,-1,model saw the boxes blank or faint,,/crop/060179C0100/SOBRANTES.jpg?pad=0.02&label=0
+346,060180C0100,Ballots taken from the boxes,217,,,weak,-1,model saw the boxes blank or faint,,/crop/060180C0100/SACADOS.jpg?pad=0.02&label=0
+347,060204B0100,Ballots taken from the boxes,316,,,weak,-1,model saw the boxes blank or faint,,/crop/060204B0100/SACADOS.jpg?pad=0.02&label=0
+348,060205C0100,Option 14,2,,,weak,-1,model saw the boxes blank or faint,,/crop/060205C0100/OPT14.jpg?pad=0.02&label=0
+349,060215C0200,Unregistered candidates,17,,17,weak,-1,model saw the boxes blank or faint,,/crop/060215C0200/NO_REGISTRADAS.jpg?pad=0.02&label=0
+350,060221B0100,Ballots taken from the boxes,302,,,weak,-1,model saw the boxes blank or faint,,/crop/060221B0100/SACADOS.jpg?pad=0.02&label=0
+351,060223C0100,Ballots taken from the boxes,251,,251,weak,-1,model saw the boxes blank or faint,,/crop/060223C0100/SACADOS.jpg?pad=0.02&label=0
+352,060236E0301,Ballots taken from the boxes,303,,,weak,-1,model saw the boxes blank or faint,,/crop/060236E0301/SACADOS.jpg?pad=0.02&label=0
+353,060243B0100,Option 06,46,,,weak,-1,model saw the boxes blank or faint,,/crop/060243B0100/OPT06.jpg?pad=0.02&label=0
+354,060243C0100,Ballots taken from the boxes,363,,,weak,-1,model saw the boxes blank or faint,,/crop/060243C0100/SACADOS.jpg?pad=0.02&label=0
+355,060248E0101,Ballots taken from the boxes,380,,,weak,-1,model saw the boxes blank or faint,,/crop/060248E0101/SACADOS.jpg?pad=0.02&label=0
+356,060250E0101,Ballots taken from the boxes,400,,,weak,-1,model saw the boxes blank or faint,,/crop/060250E0101/SACADOS.jpg?pad=0.02&label=0
+357,060251B0100,Ballots taken from the boxes,406,,,weak,-1,model saw the boxes blank or faint,,/crop/060251B0100/SACADOS.jpg?pad=0.02&label=0
+358,060251C0200,Unused ballots,397,,,weak,-1,model saw the boxes blank or faint,,/crop/060251C0200/SOBRANTES.jpg?pad=0.02&label=0
+359,060251C0500,Null votes,illegible,8,7,weak,-1,model digits 8 and words 7 disagree; keyed as illegible; the model read a value,,/crop/060251C0500/NULOS.jpg?pad=0.02&label=0
+360,060264C0100,Ballots taken from the boxes,309,,,weak,-1,model saw the boxes blank or faint,,/crop/060264C0100/SACADOS.jpg?pad=0.02&label=0
+361,060264C0200,Unused ballots,380,,,weak,-1,model saw the boxes blank or faint,,/crop/060264C0200/SOBRANTES.jpg?pad=0.02&label=0
+362,060264C0200,Representatives who voted,1,,,weak,-1,model saw the boxes blank or faint,,/crop/060264C0200/REPRESENTANTES.jpg?pad=0.02&label=0
+363,060367B0100,Ballots taken from the boxes,283,,,weak,-1,model saw the boxes blank or faint,,/crop/060367B0100/SACADOS.jpg?pad=0.02&label=0
+364,060009B0100,Option 02,59,39,59,weak,-2,model digits 39 and words 59 disagree,,/crop/060009B0100/OPT02.jpg?pad=0.02&label=0
+365,060009B0100,Option 09,3,2,3,weak,-2,model digits 2 and words 3 disagree,,/crop/060009B0100/OPT09.jpg?pad=0.02&label=0
+366,060026B0100,Option 03,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060026B0100/OPT03.jpg?pad=0.02&label=0
+367,060026B0100,Option 04,10,70,10,weak,-2,model digits 70 and words 10 disagree,,/crop/060026B0100/OPT04.jpg?pad=0.02&label=0
+368,060026B0100,Option 10,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060026B0100/OPT10.jpg?pad=0.02&label=0
+369,060026B0100,Option 12,14,74,14,weak,-2,model digits 74 and words 14 disagree,,/crop/060026B0100/OPT12.jpg?pad=0.02&label=0
+370,060026B0100,Unregistered candidates,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060026B0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+371,060036B0100,Unused ballots,380,386,380,weak,-2,model digits 386 and words 380 disagree,,/crop/060036B0100/SOBRANTES.jpg?pad=0.02&label=0
+372,060038C0100,Option 09,2,7,2,weak,-2,model digits 7 and words 2 disagree,,/crop/060038C0100/OPT09.jpg?pad=0.02&label=0
+373,060038C0100,Option 13,0,6,0,weak,-2,model digits 6 and words 0 disagree,,/crop/060038C0100/OPT13.jpg?pad=0.02&label=0
+374,060038C0100,Option 15,2,7,2,weak,-2,model digits 7 and words 2 disagree,,/crop/060038C0100/OPT15.jpg?pad=0.02&label=0
+375,060046C0100,Representatives who voted,4,104,,weak,-2,model read digits 104; no words read; the keyed value satisfies voters + representatives = section 5; the model's breaks it (387 vs 287),,/crop/060046C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+376,060060E0107,Ballots taken from the boxes,354,1,,weak,-2,model read digits 1; no words read; the keyed value satisfies section 7 = TOTAL; the model's breaks it (1 vs 354),,/crop/060060E0107/SACADOS.jpg?pad=0.02&label=0
+377,060066B0100,Unused ballots,232,21,732,weak,-2,model digits 21 and words 732 disagree,,/crop/060066B0100/SOBRANTES.jpg?pad=0.02&label=0
+378,060066C0100,Option 15,4,9,4,weak,-2,model digits 9 and words 4 disagree,,/crop/060066C0100/OPT15.jpg?pad=0.02&label=0
+379,060068C0100,Unused ballots,280,286,280,weak,-2,model digits 286 and words 280 disagree,,/crop/060068C0100/SOBRANTES.jpg?pad=0.02&label=0
+380,060073C0200,Option 01,34,31,34,weak,-2,model digits 31 and words 34 disagree,,/crop/060073C0200/OPT01.jpg?pad=0.02&label=0
+381,060073C0200,Option 02,22,21,22,weak,-2,model digits 21 and words 22 disagree,,/crop/060073C0200/OPT02.jpg?pad=0.02&label=0
+382,060073C0200,Option 07,134,131,134,weak,-2,model digits 131 and words 134 disagree,,/crop/060073C0200/OPT07.jpg?pad=0.02&label=0
+383,060074C0100,Unused ballots,298,293,294,weak,-2,model digits 293 and words 294 disagree,,/crop/060074C0100/SOBRANTES.jpg?pad=0.02&label=0
+384,060077B0100,Option 05,4,7,4,weak,-2,model digits 7 and words 4 disagree,,/crop/060077B0100/OPT05.jpg?pad=0.02&label=0
+385,060077B0100,Option 08,7,9,7,weak,-2,model digits 9 and words 7 disagree,,/crop/060077B0100/OPT08.jpg?pad=0.02&label=0
+386,060085E0300,Option 01,9,0,9,weak,-2,model digits 0 and words 9 disagree,,/crop/060085E0300/OPT01.jpg?pad=0.02&label=0
+387,060085E0300,Option 05,9,0,9,weak,-2,model digits 0 and words 9 disagree,,/crop/060085E0300/OPT05.jpg?pad=0.02&label=0
+388,060090E0100,Option 01,118,18,118,weak,-2,model digits 18 and words 118 disagree,,/crop/060090E0100/OPT01.jpg?pad=0.02&label=0
+389,060090E0100,Option 03,3,13,10,weak,-2,model digits 13 and words 10 disagree,,/crop/060090E0100/OPT03.jpg?pad=0.02&label=0
+390,060093E0100,Option 06,42,12,42,weak,-2,model digits 12 and words 42 disagree,,/crop/060093E0100/OPT06.jpg?pad=0.02&label=0
+391,060093E0100,Option 12,1,5,1,weak,-2,model digits 5 and words 1 disagree,,/crop/060093E0100/OPT12.jpg?pad=0.02&label=0
+392,060103C0200,Unused ballots,236,536,236,weak,-2,model digits 536 and words 236 disagree,,/crop/060103C0200/SOBRANTES.jpg?pad=0.02&label=0
+393,060107B0100,Representatives who voted,4,104,,weak,-2,model read digits 104; no words read; the keyed value satisfies voters + representatives = section 5; the model's breaks it (420 vs 320),,/crop/060107B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+394,060120C0200,Option 13,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060120C0200/OPT13.jpg?pad=0.02&label=0
+395,060120C0200,Option 14,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060120C0200/OPT14.jpg?pad=0.02&label=0
+396,060122C0100,Option 08,7,67,7,weak,-2,model digits 67 and words 7 disagree,,/crop/060122C0100/OPT08.jpg?pad=0.02&label=0
+397,060122C0100,Option 12,17,77,87,weak,-2,model digits 77 and words 87 disagree,,/crop/060122C0100/OPT12.jpg?pad=0.02&label=0
+398,060125E0100,Representatives who voted,8,68,8,weak,-2,model digits 68 and words 8 disagree,,/crop/060125E0100/REPRESENTANTES.jpg?pad=0.02&label=0
+399,060139E0203,Option 10,0,1,0,weak,-2,model digits 1 and words 0 disagree,,/crop/060139E0203/OPT10.jpg?pad=0.02&label=0
+400,060146B0100,Unused ballots,281,287,281,weak,-2,model digits 287 and words 281 disagree,,/crop/060146B0100/SOBRANTES.jpg?pad=0.02&label=0
+401,060146E0204,Null votes,6,96,6,weak,-2,model digits 96 and words 6 disagree,,/crop/060146E0204/NULOS.jpg?pad=0.02&label=0
+402,060147C0200,Voters on the list,414,419,,weak,-2,model read digits 419; no words read; the keyed value satisfies voters + representatives = section 5; the model's breaks it (424 vs 419),,/crop/060147C0200/VOTARON.jpg?pad=0.02&label=0
+403,060150B0100,Representatives who voted,7,102,,weak,-2,model read digits 102; no words read; the keyed value satisfies voters + representatives = section 5; the model's breaks it (430 vs 335),,/crop/060150B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+404,060167E0200,Option 02,18,78,18,weak,-2,model digits 78 and words 18 disagree,,/crop/060167E0200/OPT02.jpg?pad=0.02&label=0
+405,060167E0200,Option 09,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060167E0200/OPT09.jpg?pad=0.02&label=0
+406,060167E0200,Option 12,11,77,11,weak,-2,model digits 77 and words 11 disagree,,/crop/060167E0200/OPT12.jpg?pad=0.02&label=0
+407,060167E0200,Option 15,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060167E0200/OPT15.jpg?pad=0.02&label=0
+408,060180C0100,Option 05,9,0,9,weak,-2,model digits 0 and words 9 disagree,,/crop/060180C0100/OPT05.jpg?pad=0.02&label=0
+409,060180C0100,Option 07,79,70,79,weak,-2,model digits 70 and words 79 disagree,,/crop/060180C0100/OPT07.jpg?pad=0.02&label=0
+410,060181B0100,Representatives who voted,3,7,3,weak,-2,model digits 7 and words 3 disagree,,/crop/060181B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+411,060182C0100,Voters on the list,283,287,283,weak,-2,model digits 287 and words 283 disagree,,/crop/060182C0100/VOTARON.jpg?pad=0.02&label=0
+412,060182C0100,Representatives who voted,4,604,4,weak,-2,model digits 604 and words 4 disagree,,/crop/060182C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+413,060188C0100,Option 06,40,10,40,weak,-2,model digits 10 and words 40 disagree,,/crop/060188C0100/OPT06.jpg?pad=0.02&label=0
+414,060188C0100,Option 07,149,40,44,weak,-2,model digits 40 and words 44 disagree,,/crop/060188C0100/OPT07.jpg?pad=0.02&label=0
+415,060209C0100,Option 04,11,17,11,weak,-2,model digits 17 and words 11 disagree,,/crop/060209C0100/OPT04.jpg?pad=0.02&label=0
+416,060215C0200,Ballots taken from the boxes,263,253,,weak,-2,model read digits 253; no words read; the keyed value satisfies section 7 = TOTAL; the model's breaks it (253 vs 263),,/crop/060215C0200/SACADOS.jpg?pad=0.02&label=0
+417,060215C0200,Option 14,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060215C0200/OPT14.jpg?pad=0.02&label=0
+418,060221B0100,Option 15,3,5,3,weak,-2,model digits 5 and words 3 disagree,,/crop/060221B0100/OPT15.jpg?pad=0.02&label=0
+419,060228E0300,Option 10,0,6,0,weak,-2,model digits 6 and words 0 disagree,,/crop/060228E0300/OPT10.jpg?pad=0.02&label=0
+420,060228E0300,Option 14,0,6,0,weak,-2,model digits 6 and words 0 disagree,,/crop/060228E0300/OPT14.jpg?pad=0.02&label=0
+421,060246C0100,Option 12,14,19,14,weak,-2,model digits 19 and words 14 disagree,,/crop/060246C0100/OPT12.jpg?pad=0.02&label=0
+422,060248E0203,Representatives who voted,2,92,,weak,-2,model read digits 92; no words read; the keyed value satisfies voters + representatives = section 5; the model's breaks it (470 vs 380),,/crop/060248E0203/REPRESENTANTES.jpg?pad=0.02&label=0
+423,060250E0100,Option 04,45,95,15,weak,-2,model digits 95 and words 15 disagree,,/crop/060250E0100/OPT04.jpg?pad=0.02&label=0
+424,060251B0100,Unregistered candidates,1,2,1,weak,-2,model digits 2 and words 1 disagree,,/crop/060251B0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+425,060251C0500,Option 07,196,197,196,weak,-2,model digits 197 and words 196 disagree,,/crop/060251C0500/OPT07.jpg?pad=0.02&label=0
+426,060252C0200,Option 03,3,7,3,weak,-2,model digits 7 and words 3 disagree,,/crop/060252C0200/OPT03.jpg?pad=0.02&label=0
+427,060253B0100,Unused ballots,324,224,324,weak,-2,model digits 224 and words 324 disagree,,/crop/060253B0100/SOBRANTES.jpg?pad=0.02&label=0
+428,060254B0100,Option 02,54,59,54,weak,-2,model digits 59 and words 54 disagree,,/crop/060254B0100/OPT02.jpg?pad=0.02&label=0
+429,060263B0100,Option 03,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060263B0100/OPT03.jpg?pad=0.02&label=0
+430,060263B0100,Option 09,1,7,1,weak,-2,model digits 7 and words 1 disagree,,/crop/060263B0100/OPT09.jpg?pad=0.02&label=0
+431,060271C0100,Option 04,45,95,45,weak,-2,model digits 95 and words 45 disagree,,/crop/060271C0100/OPT04.jpg?pad=0.02&label=0
+432,060284B0100,Option 10,3,8,3,weak,-2,model digits 8 and words 3 disagree,,/crop/060284B0100/OPT10.jpg?pad=0.02&label=0
+433,060284C0100,Unused ballots,209,201,209,weak,-2,model digits 201 and words 209 disagree,,/crop/060284C0100/SOBRANTES.jpg?pad=0.02&label=0
+434,060284C0100,Ballots taken from the boxes,219,209,219,weak,-2,model digits 209 and words 219 disagree; the keyed value breaks section 5 = section 7 (209 vs 219); the model's value satisfies it; the keyed value satisfies section 7 = TOTAL; the model's breaks it (209 vs 219),,/crop/060284C0100/SACADOS.jpg?pad=0.02&label=0
+435,060290B0100,Option 15,7,2,7,weak,-2,model digits 2 and words 7 disagree,,/crop/060290B0100/OPT15.jpg?pad=0.02&label=0
+436,060290B0100,Null votes,3,5,3,weak,-2,model digits 5 and words 3 disagree,,/crop/060290B0100/NULOS.jpg?pad=0.02&label=0
+437,060291C0600,Ballots taken from the boxes,271,272,,weak,-2,model read digits 272; no words read; the keyed value satisfies section 7 = TOTAL; the model's breaks it (272 vs 271),,/crop/060291C0600/SACADOS.jpg?pad=0.02&label=0
+438,060309B0100,Option 05,17,617,17,weak,-2,model digits 617 and words 17 disagree,,/crop/060309B0100/OPT05.jpg?pad=0.02&label=0
+439,060309B0100,Option 06,44,49,45,weak,-2,model digits 49 and words 45 disagree,,/crop/060309B0100/OPT06.jpg?pad=0.02&label=0
+440,060309B0100,Option 07,219,279,219,weak,-2,model digits 279 and words 219 disagree,,/crop/060309B0100/OPT07.jpg?pad=0.02&label=0
+441,060309B0100,Option 15,1,9,1,weak,-2,model digits 9 and words 1 disagree,,/crop/060309B0100/OPT15.jpg?pad=0.02&label=0
+442,060317C0100,Option 03,0,6,0,weak,-2,model digits 6 and words 0 disagree,,/crop/060317C0100/OPT03.jpg?pad=0.02&label=0
+443,060324B0100,Option 12,11,17,11,weak,-2,model digits 17 and words 11 disagree,,/crop/060324B0100/OPT12.jpg?pad=0.02&label=0
+444,060329C0200,Option 12,11,1,,weak,-2,model read digits 1; no words read; the keyed value satisfies rows sum to TOTAL; the model's breaks it (290 vs 300),,/crop/060329C0200/OPT12.jpg?pad=0.02&label=0
+445,060335C0200,Unused ballots,414,474,414,weak,-2,model digits 474 and words 414 disagree,,/crop/060335C0200/SOBRANTES.jpg?pad=0.02&label=0
+446,060370B0100,Unused ballots,290,90,200,weak,-2,model digits 90 and words 200 disagree,,/crop/060370B0100/SOBRANTES.jpg?pad=0.02&label=0
+447,060374C0200,Representatives who voted,4,14,4,weak,-2,model digits 14 and words 4 disagree,,/crop/060374C0200/REPRESENTANTES.jpg?pad=0.02&label=0
+448,060382C0200,Unused ballots,261,262,261,weak,-2,model digits 262 and words 261 disagree,,/crop/060382C0200/SOBRANTES.jpg?pad=0.02&label=0
+449,060390C0100,Unregistered candidates,0,6,0,weak,-2,model digits 6 and words 0 disagree,,/crop/060390C0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+450,060391C0300,Option 09,0,6,0,weak,-2,model digits 6 and words 0 disagree,,/crop/060391C0300/OPT09.jpg?pad=0.02&label=0
+451,060394C0300,Option 12,8,3,8,weak,-2,model digits 3 and words 8 disagree,,/crop/060394C0300/OPT12.jpg?pad=0.02&label=0
+452,060397B0100,Ballots taken from the boxes,327,307,,weak,-2,model read digits 307; no words read; the keyed value satisfies section 7 = TOTAL; the model's breaks it (307 vs 327),,/crop/060397B0100/SACADOS.jpg?pad=0.02&label=0
+453,060398B0100,Option 13,5,6,5,weak,-2,model digits 6 and words 5 disagree,,/crop/060398B0100/OPT13.jpg?pad=0.02&label=0
+454,060398B0100,Option 14,1,5,1,weak,-2,model digits 5 and words 1 disagree,,/crop/060398B0100/OPT14.jpg?pad=0.02&label=0
+455,060398B0100,Option 15,2,1,2,weak,-2,model digits 1 and words 2 disagree,,/crop/060398B0100/OPT15.jpg?pad=0.02&label=0
+456,060093E0100,Option 10,0,,0,weak,-3,keyed 0 where the model saw an empty row (the blank = 0 convention),,/crop/060093E0100/OPT10.jpg?pad=0.02&label=0
+457,060093E0100,Option 11,0,,0,weak,-3,keyed 0 where the model saw an empty row (the blank = 0 convention),,/crop/060093E0100/OPT11.jpg?pad=0.02&label=0
+458,060152E0300,Ballots taken from the boxes,378,376,376,weak,-3,model digits and words agree (376); the keyed value satisfies section 5 = section 7; the model's breaks it (378 vs 376); the keyed value satisfies section 7 = TOTAL; the model's breaks it (376 vs 378),,/crop/060152E0300/SACADOS.jpg?pad=0.02&label=0
+459,060258C0100,Representatives who voted,0,,0,weak,-3,keyed 0 where the model saw an empty row (the blank = 0 convention),,/crop/060258C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+460,060265B0100,Representatives who voted,0,,,weak,-3,keyed 0 where the model saw an empty row (the blank = 0 convention),,/crop/060265B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+461,060380C0100,TOTAL,390,370,370,weak,-3,model digits and words agree (370); the keyed value satisfies rows sum to TOTAL; the model's breaks it (390 vs 370); the keyed value satisfies section 7 = TOTAL; the model's breaks it (390 vs 370),,/crop/060380C0100/TOTAL.jpg?pad=0.02&label=0
+462,060381B0100,Ballots taken from the boxes,367,370,370,weak,-3,model digits and words agree (370); the keyed value satisfies section 5 = section 7; the model's breaks it (367 vs 370); the keyed value satisfies section 7 = TOTAL; the model's breaks it (370 vs 367),,/crop/060381B0100/SACADOS.jpg?pad=0.02&label=0
+463,060024C0500,Option 03,1,7,1,weak,-5,model digits 7 and words 1 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (403 vs 397),,/crop/060024C0500/OPT03.jpg?pad=0.02&label=0
+464,060046C0100,Ballots taken from the boxes,287,283,,weak,-5,model read digits 283; no words read; the keyed value satisfies section 5 = section 7; the model's breaks it (287 vs 283); the keyed value satisfies section 7 = TOTAL; the model's breaks it (283 vs 287),,/crop/060046C0100/SACADOS.jpg?pad=0.02&label=0
+465,060065E0101,Ballots taken from the boxes,329,373,,weak,-5,model read digits 373; no words read; the keyed value satisfies section 5 = section 7; the model's breaks it (329 vs 373); the keyed value satisfies section 7 = TOTAL; the model's breaks it (373 vs 329),,/crop/060065E0101/SACADOS.jpg?pad=0.02&label=0
+466,060066B0100,Representatives who voted,6,0,6,weak,-5,model digits 0 and words 6 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (321 vs 327),,/crop/060066B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+467,060068C0100,Option 03,4,64,4,weak,-5,model digits 64 and words 4 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (405 vs 345),,/crop/060068C0100/OPT03.jpg?pad=0.02&label=0
+468,060069C0500,Option 01,46,16,46,weak,-5,model digits 16 and words 46 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (302 vs 332),,/crop/060069C0500/OPT01.jpg?pad=0.02&label=0
+469,060094C0100,Option 08,9,7,9,weak,-5,model digits 7 and words 9 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (482 vs 484),,/crop/060094C0100/OPT08.jpg?pad=0.02&label=0
+470,060100C0200,Option 12,16,76,16,weak,-5,model digits 76 and words 16 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (414 vs 354),,/crop/060100C0200/OPT12.jpg?pad=0.02&label=0
+471,060105B0100,Option 03,8,6,8,weak,-5,model digits 6 and words 8 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (337 vs 339),,/crop/060105B0100/OPT03.jpg?pad=0.02&label=0
+472,060111C0200,Representatives who voted,4,604,4,weak,-5,model digits 604 and words 4 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (953 vs 353),,/crop/060111C0200/REPRESENTANTES.jpg?pad=0.02&label=0
+473,060128C0100,Option 08,2,62,2,weak,-5,model digits 62 and words 2 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (314 vs 254),,/crop/060128C0100/OPT08.jpg?pad=0.02&label=0
+474,060135B0100,Option 02,86,96,86,weak,-5,model digits 96 and words 86 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (337 vs 327),,/crop/060135B0100/OPT02.jpg?pad=0.02&label=0
+475,060138E0102,Option 13,1,11,1,weak,-5,model digits 11 and words 1 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (410 vs 400),,/crop/060138E0102/OPT13.jpg?pad=0.02&label=0
+476,060139E0203,Option 15,3,2,3,weak,-5,model digits 2 and words 3 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (438 vs 439),,/crop/060139E0203/OPT15.jpg?pad=0.02&label=0
+477,060140C0200,Voters on the list,1,61,1,weak,-5,model digits 61 and words 1 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (478 vs 418),,/crop/060140C0200/VOTARON.jpg?pad=0.02&label=0
+478,060146E0100,Option 02,33,83,33,weak,-5,model digits 83 and words 33 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (367 vs 317),,/crop/060146E0100/OPT02.jpg?pad=0.02&label=0
+479,060152E0501,Option 01,25,23,15,weak,-5,model digits 23 and words 15 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (260 vs 262),,/crop/060152E0501/OPT01.jpg?pad=0.02&label=0
+480,060162B0100,Voters on the list,371,376,371,weak,-5,model digits 376 and words 371 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (381 vs 376),,/crop/060162B0100/VOTARON.jpg?pad=0.02&label=0
+481,060170C0100,Option 08,4,9,4,weak,-5,model digits 9 and words 4 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (368 vs 363),,/crop/060170C0100/OPT08.jpg?pad=0.02&label=0
+482,060182B0100,Representatives who voted,4,604,4,weak,-5,model digits 604 and words 4 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (887 vs 287),,/crop/060182B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+483,060182B0100,Option 08,3,5,3,weak,-5,model digits 5 and words 3 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (292 vs 290),,/crop/060182B0100/OPT08.jpg?pad=0.02&label=0
+484,060183B0100,Option 12,1,7,1,weak,-5,model digits 7 and words 1 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (312 vs 306),,/crop/060183B0100/OPT12.jpg?pad=0.02&label=0
+485,060188B0100,Option 07,134,139,134,weak,-5,model digits 139 and words 134 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (297 vs 292),,/crop/060188B0100/OPT07.jpg?pad=0.02&label=0
+486,060196B0100,Null votes,17,27,17,weak,-5,model digits 27 and words 17 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (303 vs 293),,/crop/060196B0100/NULOS.jpg?pad=0.02&label=0
+487,060202C0200,Option 07,154,184,154,weak,-5,model digits 184 and words 154 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (355 vs 325),,/crop/060202C0200/OPT07.jpg?pad=0.02&label=0
+488,060206C0100,Voters on the list,291,292,291,weak,-5,model digits 292 and words 291 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (294 vs 293),,/crop/060206C0100/VOTARON.jpg?pad=0.02&label=0
+489,060219B0100,Unregistered candidates,1,4,1,weak,-5,model digits 4 and words 1 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (310 vs 307),,/crop/060219B0100/NO_REGISTRADAS.jpg?pad=0.02&label=0
+490,060234B0100,Representatives who voted,3,8,5,weak,-5,model digits 8 and words 5 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (337 vs 332),,/crop/060234B0100/REPRESENTANTES.jpg?pad=0.02&label=0
+491,060237C0200,Option 03,4,9,4,weak,-5,model digits 9 and words 4 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (355 vs 350),,/crop/060237C0200/OPT03.jpg?pad=0.02&label=0
+492,060251C0200,Option 03,0,80,0,weak,-5,model digits 80 and words 0 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (484 vs 404),,/crop/060251C0200/OPT03.jpg?pad=0.02&label=0
+493,060251C0500,TOTAL,393,391,,weak,-5,model read digits 391; no words read; the keyed value satisfies rows sum to TOTAL; the model's breaks it (393 vs 391); the keyed value satisfies section 7 = TOTAL; the model's breaks it (393 vs 391),,/crop/060251C0500/TOTAL.jpg?pad=0.02&label=0
+494,060253B0100,TOTAL,399,319,399,weak,-5,model digits 319 and words 399 disagree; the keyed value satisfies section 7 = TOTAL; the model's breaks it (399 vs 319),,/crop/060253B0100/TOTAL.jpg?pad=0.02&label=0
+495,060267E0200,Option 02,21,27,21,weak,-5,model digits 27 and words 21 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (273 vs 267),,/crop/060267E0200/OPT02.jpg?pad=0.02&label=0
+496,060316C0100,Representatives who voted,1,201,1,weak,-5,model digits 201 and words 1 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (466 vs 266),,/crop/060316C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+497,060321C0100,Option 01,8,9,8,weak,-5,model digits 9 and words 8 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (350 vs 349),,/crop/060321C0100/OPT01.jpg?pad=0.02&label=0
+498,060337C0200,Null votes,4,9,4,weak,-5,model digits 9 and words 4 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (287 vs 282),,/crop/060337C0200/NULOS.jpg?pad=0.02&label=0
+499,060345B0100,Option 04,16,6,16,weak,-5,model digits 6 and words 16 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (404 vs 414),,/crop/060345B0100/OPT04.jpg?pad=0.02&label=0
+500,060366B0100,Ballots taken from the boxes,283,285,283,weak,-5,model digits 285 and words 283 disagree; the keyed value satisfies section 7 = TOTAL; the model's breaks it (285 vs 283),,/crop/060366B0100/SACADOS.jpg?pad=0.02&label=0
+501,060375C0100,Representatives who voted,3,2,3,weak,-5,model digits 2 and words 3 disagree; the keyed value satisfies voters + representatives = section 5; the model's breaks it (420 vs 421),,/crop/060375C0100/REPRESENTANTES.jpg?pad=0.02&label=0
+502,060375C0100,Option 05,5,6,5,weak,-5,model digits 6 and words 5 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (421 vs 420),,/crop/060375C0100/OPT05.jpg?pad=0.02&label=0
+503,060375C0200,Ballots taken from the boxes,417,415,,weak,-5,model read digits 415; no words read; the keyed value satisfies section 5 = section 7; the model's breaks it (417 vs 415); the keyed value satisfies section 7 = TOTAL; the model's breaks it (415 vs 417),,/crop/060375C0200/SACADOS.jpg?pad=0.02&label=0
+504,060128B0100,TOTAL,293,292,293,weak,-8,model digits 292 and words 293 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (293 vs 292); the keyed value satisfies section 7 = TOTAL; the model's breaks it (293 vs 292),,/crop/060128B0100/TOTAL.jpg?pad=0.02&label=0
+505,060146C0100,Ballots taken from the boxes,353,352,353,weak,-8,model digits 352 and words 353 disagree; the keyed value satisfies section 5 = section 7; the model's breaks it (353 vs 352); the keyed value satisfies section 7 = TOTAL; the model's breaks it (352 vs 353),,/crop/060146C0100/SACADOS.jpg?pad=0.02&label=0
+506,060193B0100,TOTAL,107,109,104,weak,-8,model digits 109 and words 104 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (107 vs 109); the keyed value satisfies section 7 = TOTAL; the model's breaks it (107 vs 109),,/crop/060193B0100/TOTAL.jpg?pad=0.02&label=0
+507,060232E0100,TOTAL,210,270,210,weak,-8,model digits 270 and words 210 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (210 vs 270); the keyed value satisfies section 7 = TOTAL; the model's breaks it (210 vs 270),,/crop/060232E0100/TOTAL.jpg?pad=0.02&label=0
+508,060250C0200,TOTAL,447,448,447,weak,-8,model digits 448 and words 447 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (447 vs 448); the keyed value satisfies section 7 = TOTAL; the model's breaks it (447 vs 448),,/crop/060250C0200/TOTAL.jpg?pad=0.02&label=0
+509,060316C0100,TOTAL,265,262,265,weak,-8,model digits 262 and words 265 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (265 vs 262); the keyed value satisfies section 7 = TOTAL; the model's breaks it (265 vs 262),,/crop/060316C0100/TOTAL.jpg?pad=0.02&label=0
+510,060359B0100,Ballots taken from the boxes,464,469,464,weak,-8,model digits 469 and words 464 disagree; the keyed value satisfies section 5 = section 7; the model's breaks it (464 vs 469); the keyed value satisfies section 7 = TOTAL; the model's breaks it (469 vs 464),,/crop/060359B0100/SACADOS.jpg?pad=0.02&label=0
+
+# report fingerprint (SHA-256),5b3b610ed4a98d0d6484527b5746cb59da687394d66a689f3e32e93bcfcfe62b
+# mode,standard
+# report content (SHA-256),0aea02354ea6156be1eeacf9d62e5b7c81a51d0b04fc3ebac58af29ef73674e6
+# Merkle root of the disputes (SHA-256),f92ffa9246f0c75758bc6d5e855129fe837d667c6ba4d2bf4bce4db501ac5e43
+# input: keyed file (keyed.csv),6296d4253a590ba665187a3b428d42c66e2faf07bf75effd56e01c1b378a6aff
+# input: stored Gemma reads (calls_gemma.jsonl),0b0dcfc0047b801c919b649f9fcb5655e4c7a00415cd2ba1aa40079fb18c6778
+# input: photo adjudication (verdicts.json),882624d93a4d025928cf6274504ed052d7e87d3988c73715c6ffc7ecd0864d27

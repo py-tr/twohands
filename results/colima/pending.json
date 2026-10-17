@@ -1,0 +1,4010 @@
+[
+ {
+  "key": "060003B0100__NULOS",
+  "crop": "results/colima/crops/060003B0100__NULOS.jpg",
+  "capture": 10,
+  "computos": 10,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060008C0100__PT_MORENA",
+  "crop": "results/colima/crops/060008C0100__OPT15.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060023C0100__VOTARON",
+  "crop": "results/colima/crops/060023C0100__VOTARON.jpg",
+  "capture": 418,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 408
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060023C0200__SOBRANTES",
+  "crop": "results/colima/crops/060023C0200__SOBRANTES.jpg",
+  "capture": 398,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 390
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060024C0500__PRD",
+  "crop": "results/colima/crops/060024C0500__OPT03.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060031C0100__TOTAL",
+  "crop": "results/colima/crops/060031C0100__TOTAL.jpg",
+  "capture": 298,
+  "computos": 298,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 248
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060034B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060034B0100__REPRESENTANTES.jpg",
+  "capture": 17,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 4
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060036B0100__SOBRANTES",
+  "crop": "results/colima/crops/060036B0100__SOBRANTES.jpg",
+  "capture": 380,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 386
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060036C0100__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060036C0100__NO_REGISTRADAS.jpg",
+  "capture": 0,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 4
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060036C0100__NULOS",
+  "crop": "results/colima/crops/060036C0100__NULOS.jpg",
+  "capture": 7,
+  "computos": 8,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060036C0100__PT_MORENA",
+  "crop": "results/colima/crops/060036C0100__OPT15.jpg",
+  "capture": 4,
+  "computos": 4,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060036C0100__PVEM_MORENA",
+  "crop": "results/colima/crops/060036C0100__OPT14.jpg",
+  "capture": 7,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 3
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060036C0100__PVEM_PT",
+  "crop": "results/colima/crops/060036C0100__OPT13.jpg",
+  "capture": 3,
+  "computos": 4,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 18
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060036C0100__TOTAL",
+  "crop": "results/colima/crops/060036C0100__TOTAL.jpg",
+  "capture": 371,
+  "computos": 372,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060038C0100__PAN_PRI",
+  "crop": "results/colima/crops/060038C0100__OPT09.jpg",
+  "capture": 2,
+  "computos": 2,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060038C0100__PT_MORENA",
+  "crop": "results/colima/crops/060038C0100__OPT15.jpg",
+  "capture": 2,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060038C0100__PVEM_PT",
+  "crop": "results/colima/crops/060038C0100__OPT13.jpg",
+  "capture": 0,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060038C0100__VOTARON",
+  "crop": "results/colima/crops/060038C0100__VOTARON.jpg",
+  "capture": 243,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 293
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060046C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060046C0100__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 104
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060046C0100__SACADOS",
+  "crop": "results/colima/crops/060046C0100__SACADOS.jpg",
+  "capture": 287,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 283
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060046C0100__SOBRANTES",
+  "crop": "results/colima/crops/060046C0100__SOBRANTES.jpg",
+  "capture": 165,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 166
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060052B0100__VOTARON",
+  "crop": "results/colima/crops/060052B0100__VOTARON.jpg",
+  "capture": 0,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 600
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060053B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060053B0100__REPRESENTANTES.jpg",
+  "capture": 6,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060059C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060059C0100__REPRESENTANTES.jpg",
+  "capture": 3,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 103
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060059C0100__SACADOS",
+  "crop": "results/colima/crops/060059C0100__SACADOS.jpg",
+  "capture": 287,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 387
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060059C0100__SOBRANTES",
+  "crop": "results/colima/crops/060059C0100__SOBRANTES.jpg",
+  "capture": 293,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 93
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060059C0100__TOTAL",
+  "crop": "results/colima/crops/060059C0100__TOTAL.jpg",
+  "capture": 287,
+  "computos": 287,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 387
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060060C0400__SOBRANTES",
+  "crop": "results/colima/crops/060060C0400__SOBRANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060060E0105__REPRESENTANTES",
+  "crop": "results/colima/crops/060060E0105__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 604
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060060E0105__VOTARON",
+  "crop": "results/colima/crops/060060E0105__VOTARON.jpg",
+  "capture": 354,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 351
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060060E0107__SACADOS",
+  "crop": "results/colima/crops/060060E0107__SACADOS.jpg",
+  "capture": 354,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 1
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060064B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060064B0100__REPRESENTANTES.jpg",
+  "capture": 2,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060064B0100__SACADOS",
+  "crop": "results/colima/crops/060064B0100__SACADOS.jpg",
+  "capture": 365,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 265
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060064B0100__VOTARON",
+  "crop": "results/colima/crops/060064B0100__VOTARON.jpg",
+  "capture": 363,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060065E0101__SACADOS",
+  "crop": "results/colima/crops/060065E0101__SACADOS.jpg",
+  "capture": 329,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 373
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060066B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060066B0100__REPRESENTANTES.jpg",
+  "capture": 6,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060066B0100__SOBRANTES",
+  "crop": "results/colima/crops/060066B0100__SOBRANTES.jpg",
+  "capture": 232,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 21
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060066C0100__PAN_PRD",
+  "crop": "results/colima/crops/060066C0100__OPT10.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060066C0100__PAN_PRI",
+  "crop": "results/colima/crops/060066C0100__OPT09.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060067C0100__SOBRANTES",
+  "crop": "results/colima/crops/060067C0100__SOBRANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 200
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060068C0100__PRD",
+  "crop": "results/colima/crops/060068C0100__OPT03.jpg",
+  "capture": 4,
+  "computos": 4,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 64
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060068C0100__SOBRANTES",
+  "crop": "results/colima/crops/060068C0100__SOBRANTES.jpg",
+  "capture": 280,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 286
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060069C0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060069C0100__OPT12.jpg",
+  "capture": null,
+  "computos": 22,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 27
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060069C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060069C0100__REPRESENTANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060069C0100__SACADOS",
+  "crop": "results/colima/crops/060069C0100__SACADOS.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 357
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060069C0100__SOBRANTES",
+  "crop": "results/colima/crops/060069C0100__SOBRANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 331
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060069C0100__VOTARON",
+  "crop": "results/colima/crops/060069C0100__VOTARON.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 351
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060069C0500__PAN",
+  "crop": "results/colima/crops/060069C0500__OPT01.jpg",
+  "capture": 46,
+  "computos": 46,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 16
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060070B0100__SACADOS",
+  "crop": "results/colima/crops/060070B0100__SACADOS.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 355
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060070B0100__SOBRANTES",
+  "crop": "results/colima/crops/060070B0100__SOBRANTES.jpg",
+  "capture": 218,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 278
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060073C0200__MORENA",
+  "crop": "results/colima/crops/060073C0200__OPT07.jpg",
+  "capture": 134,
+  "computos": 133,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 131
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060073C0200__PAN",
+  "crop": "results/colima/crops/060073C0200__OPT01.jpg",
+  "capture": 34,
+  "computos": 34,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 31
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060073C0200__PRI",
+  "crop": "results/colima/crops/060073C0200__OPT02.jpg",
+  "capture": 22,
+  "computos": 22,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 21
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060073C0200__REPRESENTANTES",
+  "crop": "results/colima/crops/060073C0200__REPRESENTANTES.jpg",
+  "capture": 1,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 4
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060073C0200__SACADOS",
+  "crop": "results/colima/crops/060073C0200__SACADOS.jpg",
+  "capture": 289,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060073E0103__PAN_PRI_PRD",
+  "crop": "results/colima/crops/060073E0103__OPT08.jpg",
+  "capture": 7,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 9
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060074C0100__SACADOS",
+  "crop": "results/colima/crops/060074C0100__SACADOS.jpg",
+  "capture": 351,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060074C0100__SOBRANTES",
+  "crop": "results/colima/crops/060074C0100__SOBRANTES.jpg",
+  "capture": 298,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 293
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060075C0100__MORENA",
+  "crop": "results/colima/crops/060075C0100__OPT07.jpg",
+  "capture": 118,
+  "computos": 118,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 128
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060077B0100__SOBRANTES",
+  "crop": "results/colima/crops/060077B0100__SOBRANTES.jpg",
+  "capture": 228,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 47
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060077B0100__VOTARON",
+  "crop": "results/colima/crops/060077B0100__VOTARON.jpg",
+  "capture": 218,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 518
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060085E0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060085E0100__REPRESENTANTES.jpg",
+  "capture": 37,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060085E0300__PT",
+  "crop": "results/colima/crops/060085E0300__OPT05.jpg",
+  "capture": 9,
+  "computos": 9,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060085E0300__VOTARON",
+  "crop": "results/colima/crops/060085E0300__VOTARON.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 285
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060086B0100__MORENA",
+  "crop": "results/colima/crops/060086B0100__OPT07.jpg",
+  "capture": 130,
+  "computos": 132,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 132
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060086B0100__PVEM_MORENA",
+  "crop": "results/colima/crops/060086B0100__OPT14.jpg",
+  "capture": 2,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 3
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060086B0100__VOTARON",
+  "crop": "results/colima/crops/060086B0100__VOTARON.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 273
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060087E0100__VOTARON",
+  "crop": "results/colima/crops/060087E0100__VOTARON.jpg",
+  "capture": 110,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 120
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060090E0100__MC",
+  "crop": "results/colima/crops/060090E0100__OPT06.jpg",
+  "capture": 7,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 17
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060090E0100__PAN",
+  "crop": "results/colima/crops/060090E0100__OPT01.jpg",
+  "capture": 118,
+  "computos": 18,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 18
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060090E0100__PRD",
+  "crop": "results/colima/crops/060090E0100__OPT03.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 13
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060090E0100__PVEM",
+  "crop": "results/colima/crops/060090E0100__OPT04.jpg",
+  "capture": 7,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 17
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060093E0100__MC",
+  "crop": "results/colima/crops/060093E0100__OPT06.jpg",
+  "capture": 42,
+  "computos": 42,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 12
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060093E0100__MORENA",
+  "crop": "results/colima/crops/060093E0100__OPT07.jpg",
+  "capture": 78,
+  "computos": 78,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 72
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060093E0100__PAN_PRI",
+  "crop": "results/colima/crops/060093E0100__OPT09.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060093E0100__PRI_PRD",
+  "crop": "results/colima/crops/060093E0100__OPT11.jpg",
+  "capture": 0,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060093E0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060093E0100__OPT12.jpg",
+  "capture": 1,
+  "computos": 5,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060093E0100__TOTAL",
+  "crop": "results/colima/crops/060093E0100__TOTAL.jpg",
+  "capture": 283,
+  "computos": 283,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 228
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060099B0100__VOTARON",
+  "crop": "results/colima/crops/060099B0100__VOTARON.jpg",
+  "capture": 158,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 153
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060100E0100__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060100E0100__NO_REGISTRADAS.jpg",
+  "capture": 3,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060103C0100__VOTARON",
+  "crop": "results/colima/crops/060103C0100__VOTARON.jpg",
+  "capture": 253,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 353
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060103C0200__SOBRANTES",
+  "crop": "results/colima/crops/060103C0200__SOBRANTES.jpg",
+  "capture": 236,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 536
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060105B0100__PRD",
+  "crop": "results/colima/crops/060105B0100__OPT03.jpg",
+  "capture": 8,
+  "computos": 8,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060105E0100__PT",
+  "crop": "results/colima/crops/060105E0100__OPT05.jpg",
+  "capture": 29,
+  "computos": 29,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 20
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060107B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060107B0100__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 104
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060109B0100__PT_MORENA",
+  "crop": "results/colima/crops/060109B0100__OPT15.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060109B0100__PVEM_PT",
+  "crop": "results/colima/crops/060109B0100__OPT13.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060111C0200__REPRESENTANTES",
+  "crop": "results/colima/crops/060111C0200__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 604
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060114B0100__SOBRANTES",
+  "crop": "results/colima/crops/060114B0100__SOBRANTES.jpg",
+  "capture": 114,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 14
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060120C0200__PAN_PRD",
+  "crop": "results/colima/crops/060120C0200__OPT10.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060120C0200__PVEM_MORENA",
+  "crop": "results/colima/crops/060120C0200__OPT14.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060120C0200__PVEM_PT",
+  "crop": "results/colima/crops/060120C0200__OPT13.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060122C0100__PAN_PRI_PRD",
+  "crop": "results/colima/crops/060122C0100__OPT08.jpg",
+  "capture": 7,
+  "computos": 8,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 67
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060122C0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060122C0100__OPT12.jpg",
+  "capture": 17,
+  "computos": 17,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 77
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060125B0100__SACADOS",
+  "crop": "results/colima/crops/060125B0100__SACADOS.jpg",
+  "capture": 446,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060125E0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060125E0100__REPRESENTANTES.jpg",
+  "capture": 8,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 68
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060125E0100__VOTARON",
+  "crop": "results/colima/crops/060125E0100__VOTARON.jpg",
+  "capture": 331,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 231
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060126C0100__VOTARON",
+  "crop": "results/colima/crops/060126C0100__VOTARON.jpg",
+  "capture": 225,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 320
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060126C0200__MORENA",
+  "crop": "results/colima/crops/060126C0200__OPT07.jpg",
+  "capture": 168,
+  "computos": 168,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 162
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060126C0200__SACADOS",
+  "crop": "results/colima/crops/060126C0200__SACADOS.jpg",
+  "capture": 341,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 391
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060126C0200__TOTAL",
+  "crop": "results/colima/crops/060126C0200__TOTAL.jpg",
+  "capture": 341,
+  "computos": 346,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 391
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060128B0100__TOTAL",
+  "crop": "results/colima/crops/060128B0100__TOTAL.jpg",
+  "capture": 293,
+  "computos": 286,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 292
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060130C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060130C0100__REPRESENTANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 3
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060130C0100__SOBRANTES",
+  "crop": "results/colima/crops/060130C0100__SOBRANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 218
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060130C0100__VOTARON",
+  "crop": "results/colima/crops/060130C0100__VOTARON.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 338
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060133B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060133B0100__REPRESENTANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060135B0100__PRI",
+  "crop": "results/colima/crops/060135B0100__OPT02.jpg",
+  "capture": 86,
+  "computos": 86,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 96
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060138B0100__PRI",
+  "crop": "results/colima/crops/060138B0100__OPT02.jpg",
+  "capture": null,
+  "computos": 59,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 58
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060139E0200__PAN",
+  "crop": "results/colima/crops/060139E0200__OPT01.jpg",
+  "capture": 110,
+  "computos": 110,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 10
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060139E0200__SOBRANTES",
+  "crop": "results/colima/crops/060139E0200__SOBRANTES.jpg",
+  "capture": 331,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 337
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060139E0201__SOBRANTES",
+  "crop": "results/colima/crops/060139E0201__SOBRANTES.jpg",
+  "capture": 348,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 398
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060139E0203__MC",
+  "crop": "results/colima/crops/060139E0203__OPT06.jpg",
+  "capture": 73,
+  "computos": 73,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 72
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060139E0203__PT_MORENA",
+  "crop": "results/colima/crops/060139E0203__OPT15.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060139E0203__SOBRANTES",
+  "crop": "results/colima/crops/060139E0203__SOBRANTES.jpg",
+  "capture": 330,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 237
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060140C0200__VOTARON",
+  "crop": "results/colima/crops/060140C0200__VOTARON.jpg",
+  "capture": 1,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 61
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060141B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060141B0100__REPRESENTANTES.jpg",
+  "capture": 3,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060141C0100__SOBRANTES",
+  "crop": "results/colima/crops/060141C0100__SOBRANTES.jpg",
+  "capture": 320,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 230
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060143B0100__MC",
+  "crop": "results/colima/crops/060143B0100__OPT06.jpg",
+  "capture": 30,
+  "computos": 36,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 36
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060146B0100__SOBRANTES",
+  "crop": "results/colima/crops/060146B0100__SOBRANTES.jpg",
+  "capture": 281,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 287
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060146C0100__SACADOS",
+  "crop": "results/colima/crops/060146C0100__SACADOS.jpg",
+  "capture": 353,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 352
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060147C0200__VOTARON",
+  "crop": "results/colima/crops/060147C0200__VOTARON.jpg",
+  "capture": 414,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 419
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060150B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060150B0100__REPRESENTANTES.jpg",
+  "capture": 7,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 102
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060152E0300__SACADOS",
+  "crop": "results/colima/crops/060152E0300__SACADOS.jpg",
+  "capture": 378,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 376
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060152E0501__SOBRANTES",
+  "crop": "results/colima/crops/060152E0501__SOBRANTES.jpg",
+  "capture": 294,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 244
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060152E0501__VOTARON",
+  "crop": "results/colima/crops/060152E0501__VOTARON.jpg",
+  "capture": 258,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 250
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060156B0100__VOTARON",
+  "crop": "results/colima/crops/060156B0100__VOTARON.jpg",
+  "capture": 37,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 237
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060160C0100__PVEM",
+  "crop": "results/colima/crops/060160C0100__OPT04.jpg",
+  "capture": 43,
+  "computos": 13,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 13
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060162B0100__VOTARON",
+  "crop": "results/colima/crops/060162B0100__VOTARON.jpg",
+  "capture": 371,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 376
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060170C0100__PAN_PRI_PRD",
+  "crop": "results/colima/crops/060170C0100__OPT08.jpg",
+  "capture": 4,
+  "computos": 4,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 9
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060171B0100__VOTARON",
+  "crop": "results/colima/crops/060171B0100__VOTARON.jpg",
+  "capture": 333,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 303
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060174C0100__TOTAL",
+  "crop": "results/colima/crops/060174C0100__TOTAL.jpg",
+  "capture": 190,
+  "computos": 295,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 290
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__MC",
+  "crop": "results/colima/crops/060178C0100__OPT06.jpg",
+  "capture": 58,
+  "computos": 56,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060178C0100__NO_REGISTRADAS.jpg",
+  "capture": 1,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__NULOS",
+  "crop": "results/colima/crops/060178C0100__NULOS.jpg",
+  "capture": 0,
+  "computos": 8,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PAN",
+  "crop": "results/colima/crops/060178C0100__OPT01.jpg",
+  "capture": 17,
+  "computos": 17,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PRD",
+  "crop": "results/colima/crops/060178C0100__OPT03.jpg",
+  "capture": 21,
+  "computos": 21,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PRI",
+  "crop": "results/colima/crops/060178C0100__OPT02.jpg",
+  "capture": 14,
+  "computos": 14,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PT",
+  "crop": "results/colima/crops/060178C0100__OPT05.jpg",
+  "capture": null,
+  "computos": 20,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PT_MORENA",
+  "crop": "results/colima/crops/060178C0100__OPT15.jpg",
+  "capture": 6,
+  "computos": 2,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 1
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PVEM",
+  "crop": "results/colima/crops/060178C0100__OPT04.jpg",
+  "capture": 82,
+  "computos": 81,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PVEM_PT",
+  "crop": "results/colima/crops/060178C0100__OPT13.jpg",
+  "capture": 5,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060178C0100__OPT12.jpg",
+  "capture": 0,
+  "computos": 5,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060178C0100__TOTAL",
+  "crop": "results/colima/crops/060178C0100__TOTAL.jpg",
+  "capture": 366,
+  "computos": 366,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 151
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060180C0100__MORENA",
+  "crop": "results/colima/crops/060180C0100__OPT07.jpg",
+  "capture": 79,
+  "computos": 80,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 70
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060180C0100__PT",
+  "crop": "results/colima/crops/060180C0100__OPT05.jpg",
+  "capture": 9,
+  "computos": 9,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060180C0100__SACADOS",
+  "crop": "results/colima/crops/060180C0100__SACADOS.jpg",
+  "capture": 217,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060181B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060181B0100__REPRESENTANTES.jpg",
+  "capture": 3,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060182B0100__PAN_PRI_PRD",
+  "crop": "results/colima/crops/060182B0100__OPT08.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060182B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060182B0100__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 604
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060182C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060182C0100__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 604
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060182C0100__VOTARON",
+  "crop": "results/colima/crops/060182C0100__VOTARON.jpg",
+  "capture": 283,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 287
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060183B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060183B0100__REPRESENTANTES.jpg",
+  "capture": 1,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060190B0100__PVEM_PT",
+  "crop": "results/colima/crops/060190B0100__OPT13.jpg",
+  "capture": 0,
+  "computos": 6,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 9
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060196B0100__SOBRANTES",
+  "crop": "results/colima/crops/060196B0100__SOBRANTES.jpg",
+  "capture": 156,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 256
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060202B0100__SACADOS",
+  "crop": "results/colima/crops/060202B0100__SACADOS.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 624
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060202C0200__MORENA",
+  "crop": "results/colima/crops/060202C0200__OPT07.jpg",
+  "capture": 154,
+  "computos": 153,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 184
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060204B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060204B0100__REPRESENTANTES.jpg",
+  "capture": 3,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 108
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060204B0100__SACADOS",
+  "crop": "results/colima/crops/060204B0100__SACADOS.jpg",
+  "capture": 316,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060205C0100__PVEM_PT",
+  "crop": "results/colima/crops/060205C0100__OPT13.jpg",
+  "capture": null,
+  "computos": 0,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060206B0100__PRI",
+  "crop": "results/colima/crops/060206B0100__OPT02.jpg",
+  "capture": 20,
+  "computos": 20,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 80
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060206C0100__VOTARON",
+  "crop": "results/colima/crops/060206C0100__VOTARON.jpg",
+  "capture": 291,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 292
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060208B0100__VOTARON",
+  "crop": "results/colima/crops/060208B0100__VOTARON.jpg",
+  "capture": 216,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 215
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060209C0100__PVEM",
+  "crop": "results/colima/crops/060209C0100__OPT04.jpg",
+  "capture": 11,
+  "computos": 10,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 17
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060210C0100__MC",
+  "crop": "results/colima/crops/060210C0100__OPT06.jpg",
+  "capture": 28,
+  "computos": 28,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 27
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060214C0100__SACADOS",
+  "crop": "results/colima/crops/060214C0100__SACADOS.jpg",
+  "capture": 537,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 539
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060215C0200__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060215C0200__NO_REGISTRADAS.jpg",
+  "capture": 17,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060215C0200__PVEM_MORENA",
+  "crop": "results/colima/crops/060215C0200__OPT14.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060215C0200__SACADOS",
+  "crop": "results/colima/crops/060215C0200__SACADOS.jpg",
+  "capture": 263,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 253
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060216C0100__SOBRANTES",
+  "crop": "results/colima/crops/060216C0100__SOBRANTES.jpg",
+  "capture": 366,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 306
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060221B0100__PT_MORENA",
+  "crop": "results/colima/crops/060221B0100__OPT15.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060221B0100__SACADOS",
+  "crop": "results/colima/crops/060221B0100__SACADOS.jpg",
+  "capture": 302,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060221B0100__VOTARON",
+  "crop": "results/colima/crops/060221B0100__VOTARON.jpg",
+  "capture": 305,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 309
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060223C0100__VOTARON",
+  "crop": "results/colima/crops/060223C0100__VOTARON.jpg",
+  "capture": 251,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 250
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060224B0100__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060224B0100__NO_REGISTRADAS.jpg",
+  "capture": null,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060226E0200__MC",
+  "crop": "results/colima/crops/060226E0200__OPT06.jpg",
+  "capture": 19,
+  "computos": 19,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 14
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060228B0100__SOBRANTES",
+  "crop": "results/colima/crops/060228B0100__SOBRANTES.jpg",
+  "capture": 265,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 268
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060228E0300__PAN_PRD",
+  "crop": "results/colima/crops/060228E0300__OPT10.jpg",
+  "capture": 0,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060228E0300__PVEM_MORENA",
+  "crop": "results/colima/crops/060228E0300__OPT14.jpg",
+  "capture": 0,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060233E0100__MC",
+  "crop": "results/colima/crops/060233E0100__OPT06.jpg",
+  "capture": 16,
+  "computos": 16,
+  "computos_obs": "Recuento (Para recuento-SC)",
+  "reads": {
+   "gemma": 17
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060233E0100__PRI",
+  "crop": "results/colima/crops/060233E0100__OPT02.jpg",
+  "capture": null,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SC)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060233E0100__PT_MORENA",
+  "crop": "results/colima/crops/060233E0100__OPT15.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SC)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060233E0100__PVEM",
+  "crop": "results/colima/crops/060233E0100__OPT04.jpg",
+  "capture": 34,
+  "computos": 35,
+  "computos_obs": "Recuento (Para recuento-SC)",
+  "reads": {
+   "gemma": 37
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060233E0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060233E0100__OPT12.jpg",
+  "capture": null,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SC)",
+  "reads": {
+   "gemma": 1
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060233E0100__SACADOS",
+  "crop": "results/colima/crops/060233E0100__SACADOS.jpg",
+  "capture": 195,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SC)",
+  "reads": {
+   "gemma": 95
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060233E0100__VOTARON",
+  "crop": "results/colima/crops/060233E0100__VOTARON.jpg",
+  "capture": 192,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SC)",
+  "reads": {
+   "gemma": 92
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060234B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060234B0100__REPRESENTANTES.jpg",
+  "capture": 3,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 8
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__MC",
+  "crop": "results/colima/crops/060235B0100__OPT06.jpg",
+  "capture": 39,
+  "computos": 38,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 21
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__MORENA",
+  "crop": "results/colima/crops/060235B0100__OPT07.jpg",
+  "capture": 130,
+  "computos": 129,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 34
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__NULOS",
+  "crop": "results/colima/crops/060235B0100__NULOS.jpg",
+  "capture": 10,
+  "computos": 9,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PAN_PRD",
+  "crop": "results/colima/crops/060235B0100__OPT10.jpg",
+  "capture": 0,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 3
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PAN_PRI",
+  "crop": "results/colima/crops/060235B0100__OPT09.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PAN_PRI_PRD",
+  "crop": "results/colima/crops/060235B0100__OPT08.jpg",
+  "capture": 0,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 130
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PT",
+  "crop": "results/colima/crops/060235B0100__OPT05.jpg",
+  "capture": 21,
+  "computos": 21,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 33
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PVEM",
+  "crop": "results/colima/crops/060235B0100__OPT04.jpg",
+  "capture": 33,
+  "computos": 34,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PVEM_MORENA",
+  "crop": "results/colima/crops/060235B0100__OPT14.jpg",
+  "capture": 7,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 3
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PVEM_PT",
+  "crop": "results/colima/crops/060235B0100__OPT13.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 14
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060235B0100__OPT12.jpg",
+  "capture": 14,
+  "computos": 14,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__TOTAL",
+  "crop": "results/colima/crops/060235B0100__TOTAL.jpg",
+  "capture": 291,
+  "computos": 289,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 10
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060235B0100__VOTARON",
+  "crop": "results/colima/crops/060235B0100__VOTARON.jpg",
+  "capture": 287,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 282
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060236E0301__SACADOS",
+  "crop": "results/colima/crops/060236E0301__SACADOS.jpg",
+  "capture": 303,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060236E0303__SOBRANTES",
+  "crop": "results/colima/crops/060236E0303__SOBRANTES.jpg",
+  "capture": 481,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 480
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060237B0100__PVEM",
+  "crop": "results/colima/crops/060237B0100__OPT04.jpg",
+  "capture": 31,
+  "computos": 31,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 311
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060237C0200__PRD",
+  "crop": "results/colima/crops/060237C0200__OPT03.jpg",
+  "capture": 4,
+  "computos": 4,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 9
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060243B0100__MC",
+  "crop": "results/colima/crops/060243B0100__OPT06.jpg",
+  "capture": 46,
+  "computos": 47,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060243B0100__MORENA",
+  "crop": "results/colima/crops/060243B0100__OPT07.jpg",
+  "capture": null,
+  "computos": 176,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 46
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060243C0100__SACADOS",
+  "crop": "results/colima/crops/060243C0100__SACADOS.jpg",
+  "capture": 363,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060246B0100__NULOS",
+  "crop": "results/colima/crops/060246B0100__NULOS.jpg",
+  "capture": 298,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 288
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060246C0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060246C0100__OPT12.jpg",
+  "capture": 14,
+  "computos": 16,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 19
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060246C0300__SACADOS",
+  "crop": "results/colima/crops/060246C0300__SACADOS.jpg",
+  "capture": 364,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 369
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060248C0300__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060248C0300__OPT12.jpg",
+  "capture": 13,
+  "computos": 15,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 15
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060248E0101__MORENA",
+  "crop": "results/colima/crops/060248E0101__OPT07.jpg",
+  "capture": 21,
+  "computos": 146,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 121
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060248E0101__SACADOS",
+  "crop": "results/colima/crops/060248E0101__SACADOS.jpg",
+  "capture": 380,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060248E0203__REPRESENTANTES",
+  "crop": "results/colima/crops/060248E0203__REPRESENTANTES.jpg",
+  "capture": 2,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 92
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060250C0200__TOTAL",
+  "crop": "results/colima/crops/060250C0200__TOTAL.jpg",
+  "capture": 447,
+  "computos": 447,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 448
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060250E0100__PVEM",
+  "crop": "results/colima/crops/060250E0100__OPT04.jpg",
+  "capture": 45,
+  "computos": 45,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 95
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060250E0101__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060250E0101__NO_REGISTRADAS.jpg",
+  "capture": 4,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 1
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060250E0101__SACADOS",
+  "crop": "results/colima/crops/060250E0101__SACADOS.jpg",
+  "capture": 400,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060251B0100__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060251B0100__NO_REGISTRADAS.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060251B0100__SACADOS",
+  "crop": "results/colima/crops/060251B0100__SACADOS.jpg",
+  "capture": 406,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060251C0200__REPRESENTANTES",
+  "crop": "results/colima/crops/060251C0200__REPRESENTANTES.jpg",
+  "capture": 402,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060251C0200__VOTARON",
+  "crop": "results/colima/crops/060251C0200__VOTARON.jpg",
+  "capture": 5,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 397
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060251C0500__MORENA",
+  "crop": "results/colima/crops/060251C0500__OPT07.jpg",
+  "capture": 196,
+  "computos": 195,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 197
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060251C0500__NULOS",
+  "crop": "results/colima/crops/060251C0500__NULOS.jpg",
+  "capture": null,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 8
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060251C0500__TOTAL",
+  "crop": "results/colima/crops/060251C0500__TOTAL.jpg",
+  "capture": 393,
+  "computos": 392,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 391
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060252C0100__TOTAL",
+  "crop": "results/colima/crops/060252C0100__TOTAL.jpg",
+  "capture": 336,
+  "computos": 336,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 236
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060252C0100__VOTARON",
+  "crop": "results/colima/crops/060252C0100__VOTARON.jpg",
+  "capture": 332,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 232
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060252C0200__PRI",
+  "crop": "results/colima/crops/060252C0200__OPT02.jpg",
+  "capture": 36,
+  "computos": 37,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 76
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060253B0100__MORENA",
+  "crop": "results/colima/crops/060253B0100__OPT07.jpg",
+  "capture": 171,
+  "computos": 172,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 141
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060253B0100__SOBRANTES",
+  "crop": "results/colima/crops/060253B0100__SOBRANTES.jpg",
+  "capture": 324,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 224
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060253B0100__TOTAL",
+  "crop": "results/colima/crops/060253B0100__TOTAL.jpg",
+  "capture": 399,
+  "computos": 399,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 319
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060254B0100__PRI",
+  "crop": "results/colima/crops/060254B0100__OPT02.jpg",
+  "capture": 54,
+  "computos": 55,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 59
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060258C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060258C0100__REPRESENTANTES.jpg",
+  "capture": 0,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060258C0300__VOTARON",
+  "crop": "results/colima/crops/060258C0300__VOTARON.jpg",
+  "capture": 357,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 354
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060259B0100__VOTARON",
+  "crop": "results/colima/crops/060259B0100__VOTARON.jpg",
+  "capture": 284,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 289
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060260C0200__MORENA",
+  "crop": "results/colima/crops/060260C0200__OPT07.jpg",
+  "capture": 16,
+  "computos": 217,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 176
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060260C0200__PAN_PRI",
+  "crop": "results/colima/crops/060260C0200__OPT09.jpg",
+  "capture": 2,
+  "computos": 2,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060260C0200__PT_MORENA",
+  "crop": "results/colima/crops/060260C0200__OPT15.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 4
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060260C0200__PVEM_MORENA",
+  "crop": "results/colima/crops/060260C0200__OPT14.jpg",
+  "capture": 3,
+  "computos": 9,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060260C0200__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060260C0200__OPT12.jpg",
+  "capture": 15,
+  "computos": 15,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060264C0200__REPRESENTANTES",
+  "crop": "results/colima/crops/060264C0200__REPRESENTANTES.jpg",
+  "capture": 1,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060265B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060265B0100__REPRESENTANTES.jpg",
+  "capture": 0,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060267E0200__NULOS",
+  "crop": "results/colima/crops/060267E0200__NULOS.jpg",
+  "capture": 4,
+  "computos": 9,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 9
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060267E0200__PRI",
+  "crop": "results/colima/crops/060267E0200__OPT02.jpg",
+  "capture": 21,
+  "computos": 21,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 27
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060269C0100__VOTARON",
+  "crop": "results/colima/crops/060269C0100__VOTARON.jpg",
+  "capture": 357,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 359
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060269C0200__REPRESENTANTES",
+  "crop": "results/colima/crops/060269C0200__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 104
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060269C0200__SOBRANTES",
+  "crop": "results/colima/crops/060269C0200__SOBRANTES.jpg",
+  "capture": 279,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 229
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060271C0100__PT",
+  "crop": "results/colima/crops/060271C0100__OPT05.jpg",
+  "capture": 52,
+  "computos": 32,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 32
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060271C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060271C0100__REPRESENTANTES.jpg",
+  "capture": 0,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 100
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060277C0300__PT",
+  "crop": "results/colima/crops/060277C0300__OPT05.jpg",
+  "capture": 14,
+  "computos": 14,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 19
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060277C0400__SACADOS",
+  "crop": "results/colima/crops/060277C0400__SACADOS.jpg",
+  "capture": 315,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 316
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060280C0200__MORENA",
+  "crop": "results/colima/crops/060280C0200__OPT07.jpg",
+  "capture": 167,
+  "computos": 167,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 187
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060280C0200__SOBRANTES",
+  "crop": "results/colima/crops/060280C0200__SOBRANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 441
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060280E0100__SOBRANTES",
+  "crop": "results/colima/crops/060280E0100__SOBRANTES.jpg",
+  "capture": 326,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 376
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060284B0100__PAN_PRD",
+  "crop": "results/colima/crops/060284B0100__OPT10.jpg",
+  "capture": 3,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 8
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060284C0100__SACADOS",
+  "crop": "results/colima/crops/060284C0100__SACADOS.jpg",
+  "capture": 219,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 209
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060284C0100__SOBRANTES",
+  "crop": "results/colima/crops/060284C0100__SOBRANTES.jpg",
+  "capture": 209,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 201
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060284C0100__VOTARON",
+  "crop": "results/colima/crops/060284C0100__VOTARON.jpg",
+  "capture": 218,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 208
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060290B0100__NULOS",
+  "crop": "results/colima/crops/060290B0100__NULOS.jpg",
+  "capture": 3,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060290B0100__PT_MORENA",
+  "crop": "results/colima/crops/060290B0100__OPT15.jpg",
+  "capture": 7,
+  "computos": 6,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060290B0100__SACADOS",
+  "crop": "results/colima/crops/060290B0100__SACADOS.jpg",
+  "capture": 425,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 475
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060290B0100__TOTAL",
+  "crop": "results/colima/crops/060290B0100__TOTAL.jpg",
+  "capture": 425,
+  "computos": 425,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 475
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060291C0600__SACADOS",
+  "crop": "results/colima/crops/060291C0600__SACADOS.jpg",
+  "capture": 271,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 272
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060295B0100__NULOS",
+  "crop": "results/colima/crops/060295B0100__NULOS.jpg",
+  "capture": 1,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060295B0100__SOBRANTES",
+  "crop": "results/colima/crops/060295B0100__SOBRANTES.jpg",
+  "capture": 327,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 27
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060298C0100__MORENA",
+  "crop": "results/colima/crops/060298C0100__OPT07.jpg",
+  "capture": 180,
+  "computos": 180,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 186
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060309B0100__MC",
+  "crop": "results/colima/crops/060309B0100__OPT06.jpg",
+  "capture": 44,
+  "computos": 44,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 49
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060309B0100__MORENA",
+  "crop": "results/colima/crops/060309B0100__OPT07.jpg",
+  "capture": 219,
+  "computos": 221,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 279
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060309B0100__PT",
+  "crop": "results/colima/crops/060309B0100__OPT05.jpg",
+  "capture": 17,
+  "computos": 17,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 617
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060309B0100__PT_MORENA",
+  "crop": "results/colima/crops/060309B0100__OPT15.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 9
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060309B0100__SOBRANTES",
+  "crop": "results/colima/crops/060309B0100__SOBRANTES.jpg",
+  "capture": 289,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 287
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060316C0100__PRI",
+  "crop": "results/colima/crops/060316C0100__OPT02.jpg",
+  "capture": 27,
+  "computos": 28,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 28
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060316C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060316C0100__REPRESENTANTES.jpg",
+  "capture": 1,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 201
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060316C0100__TOTAL",
+  "crop": "results/colima/crops/060316C0100__TOTAL.jpg",
+  "capture": 265,
+  "computos": 266,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 262
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060316C0300__SOBRANTES",
+  "crop": "results/colima/crops/060316C0300__SOBRANTES.jpg",
+  "capture": 403,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 405
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060323C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060323C0100__REPRESENTANTES.jpg",
+  "capture": 1,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 4
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060324B0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060324B0100__OPT12.jpg",
+  "capture": 11,
+  "computos": 11,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 17
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060329C0200__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060329C0200__OPT12.jpg",
+  "capture": 11,
+  "computos": 11,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 1
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060329C0200__REPRESENTANTES",
+  "crop": "results/colima/crops/060329C0200__REPRESENTANTES.jpg",
+  "capture": 0,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060329C0200__SOBRANTES",
+  "crop": "results/colima/crops/060329C0200__SOBRANTES.jpg",
+  "capture": 475,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 75
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060329C0200__VOTARON",
+  "crop": "results/colima/crops/060329C0200__VOTARON.jpg",
+  "capture": 298,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 228
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060335B0100__MORENA",
+  "crop": "results/colima/crops/060335B0100__OPT07.jpg",
+  "capture": 32,
+  "computos": 121,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 132
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060335C0200__SOBRANTES",
+  "crop": "results/colima/crops/060335C0200__SOBRANTES.jpg",
+  "capture": 414,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 474
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060344C0100__PT_MORENA",
+  "crop": "results/colima/crops/060344C0100__OPT15.jpg",
+  "capture": 1,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060351B0100__VOTARON",
+  "crop": "results/colima/crops/060351B0100__VOTARON.jpg",
+  "capture": 337,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 344
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060354B0100__PRI",
+  "crop": "results/colima/crops/060354B0100__OPT02.jpg",
+  "capture": 87,
+  "computos": 87,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 57
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060359B0100__SACADOS",
+  "crop": "results/colima/crops/060359B0100__SACADOS.jpg",
+  "capture": 464,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 469
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060362C0100__SOBRANTES",
+  "crop": "results/colima/crops/060362C0100__SOBRANTES.jpg",
+  "capture": 304,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 369
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060366B0100__SACADOS",
+  "crop": "results/colima/crops/060366B0100__SACADOS.jpg",
+  "capture": 283,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 285
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060367B0100__SACADOS",
+  "crop": "results/colima/crops/060367B0100__SACADOS.jpg",
+  "capture": 283,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": null
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060370B0100__SOBRANTES",
+  "crop": "results/colima/crops/060370B0100__SOBRANTES.jpg",
+  "capture": 290,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 90
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060372B0100__VOTARON",
+  "crop": "results/colima/crops/060372B0100__VOTARON.jpg",
+  "capture": 450,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 456
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060373B0100__SOBRANTES",
+  "crop": "results/colima/crops/060373B0100__SOBRANTES.jpg",
+  "capture": 211,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 200
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060374C0200__REPRESENTANTES",
+  "crop": "results/colima/crops/060374C0200__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 14
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__MC",
+  "crop": "results/colima/crops/060375B0100__OPT06.jpg",
+  "capture": null,
+  "computos": 32,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__MORENA",
+  "crop": "results/colima/crops/060375B0100__OPT07.jpg",
+  "capture": null,
+  "computos": 79,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 78
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__NO_REGISTRADAS",
+  "crop": "results/colima/crops/060375B0100__NO_REGISTRADAS.jpg",
+  "capture": null,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__NULOS",
+  "crop": "results/colima/crops/060375B0100__NULOS.jpg",
+  "capture": null,
+  "computos": 10,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 8
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PAN",
+  "crop": "results/colima/crops/060375B0100__OPT01.jpg",
+  "capture": null,
+  "computos": 183,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 103
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PAN_PRD",
+  "crop": "results/colima/crops/060375B0100__OPT10.jpg",
+  "capture": null,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PAN_PRI",
+  "crop": "results/colima/crops/060375B0100__OPT09.jpg",
+  "capture": null,
+  "computos": 6,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PAN_PRI_PRD",
+  "crop": "results/colima/crops/060375B0100__OPT08.jpg",
+  "capture": null,
+  "computos": 9,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 9
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PRD",
+  "crop": "results/colima/crops/060375B0100__OPT03.jpg",
+  "capture": null,
+  "computos": 5,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PRI",
+  "crop": "results/colima/crops/060375B0100__OPT02.jpg",
+  "capture": null,
+  "computos": 97,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PRI_PRD",
+  "crop": "results/colima/crops/060375B0100__OPT11.jpg",
+  "capture": null,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 1
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PT",
+  "crop": "results/colima/crops/060375B0100__OPT05.jpg",
+  "capture": null,
+  "computos": 6,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PT_MORENA",
+  "crop": "results/colima/crops/060375B0100__OPT15.jpg",
+  "capture": null,
+  "computos": 1,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 1
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PVEM",
+  "crop": "results/colima/crops/060375B0100__OPT04.jpg",
+  "capture": null,
+  "computos": 4,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 4
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PVEM_MORENA",
+  "crop": "results/colima/crops/060375B0100__OPT14.jpg",
+  "capture": null,
+  "computos": 2,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__PVEM_PT_MORENA",
+  "crop": "results/colima/crops/060375B0100__OPT12.jpg",
+  "capture": null,
+  "computos": 7,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 7
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060375B0100__REPRESENTANTES.jpg",
+  "capture": 5,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__SACADOS",
+  "crop": "results/colima/crops/060375B0100__SACADOS.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 442
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__SOBRANTES",
+  "crop": "results/colima/crops/060375B0100__SOBRANTES.jpg",
+  "capture": 186,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 0
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375B0100__TOTAL",
+  "crop": "results/colima/crops/060375B0100__TOTAL.jpg",
+  "capture": null,
+  "computos": 444,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 222
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375C0100__PT",
+  "crop": "results/colima/crops/060375C0100__OPT05.jpg",
+  "capture": 5,
+  "computos": 5,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375C0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060375C0100__REPRESENTANTES.jpg",
+  "capture": 3,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 2
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060375C0200__SACADOS",
+  "crop": "results/colima/crops/060375C0200__SACADOS.jpg",
+  "capture": 417,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 415
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060376C0300__REPRESENTANTES",
+  "crop": "results/colima/crops/060376C0300__REPRESENTANTES.jpg",
+  "capture": 4,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 64
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060380C0100__TOTAL",
+  "crop": "results/colima/crops/060380C0100__TOTAL.jpg",
+  "capture": 390,
+  "computos": 390,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 370
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060381B0100__SACADOS",
+  "crop": "results/colima/crops/060381B0100__SACADOS.jpg",
+  "capture": 367,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 370
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060381B0100__VOTARON",
+  "crop": "results/colima/crops/060381B0100__VOTARON.jpg",
+  "capture": 264,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 364
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060382C0200__SOBRANTES",
+  "crop": "results/colima/crops/060382C0200__SOBRANTES.jpg",
+  "capture": 261,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 262
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060389B0100__SACADOS",
+  "crop": "results/colima/crops/060389B0100__SACADOS.jpg",
+  "capture": 468,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 473
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060390C0100__SACADOS",
+  "crop": "results/colima/crops/060390C0100__SACADOS.jpg",
+  "capture": 357,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 367
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060391C0300__PAN_PRI",
+  "crop": "results/colima/crops/060391C0300__OPT09.jpg",
+  "capture": 0,
+  "computos": 0,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060394C0300__SACADOS",
+  "crop": "results/colima/crops/060394C0300__SACADOS.jpg",
+  "capture": 388,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 338
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060394C0300__VOTARON",
+  "crop": "results/colima/crops/060394C0300__VOTARON.jpg",
+  "capture": 385,
+  "computos": null,
+  "computos_obs": "Cotejo (Levantada en Casilla)",
+  "reads": {
+   "gemma": 335
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060396B0100__REPRESENTANTES",
+  "crop": "results/colima/crops/060396B0100__REPRESENTANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 4
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060396B0100__SOBRANTES",
+  "crop": "results/colima/crops/060396B0100__SOBRANTES.jpg",
+  "capture": null,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 74
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060397B0100__SACADOS",
+  "crop": "results/colima/crops/060397B0100__SACADOS.jpg",
+  "capture": 327,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 307
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060397B0100__VOTARON",
+  "crop": "results/colima/crops/060397B0100__VOTARON.jpg",
+  "capture": 327,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 307
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060397C0200__NULOS",
+  "crop": "results/colima/crops/060397C0200__NULOS.jpg",
+  "capture": 0,
+  "computos": 8,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 8
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060397C0200__VOTARON",
+  "crop": "results/colima/crops/060397C0200__VOTARON.jpg",
+  "capture": 331,
+  "computos": null,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 333
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060398B0100__PVEM_MORENA",
+  "crop": "results/colima/crops/060398B0100__OPT14.jpg",
+  "capture": 1,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 5
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ },
+ {
+  "key": "060398B0100__PVEM_PT",
+  "crop": "results/colima/crops/060398B0100__OPT13.jpg",
+  "capture": 5,
+  "computos": 3,
+  "computos_obs": "Recuento (Para recuento-SRA)",
+  "reads": {
+   "gemma": 6
+  },
+  "in_sample": false,
+  "gates_accepting": []
+ }
+]

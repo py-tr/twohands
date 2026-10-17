@@ -5,6 +5,7 @@
 #   python scripts/ieebcs_score.py --check (the BCS head-to-head block of results/ieebcs_head_to_head.md; empty until the run);
 #   python scripts/ballot_stock.py --check (gate v3 bands and results/ballot_stock.md, Amendment 7);
 #   python scripts/confirm100_score.py --check (the pre-registered 100-form confirmation, results/confirm100.md);
+#   python scripts/gemma_tf_reads2.py score-colima --check (the Colima whole-state audit, Amendment 8b, results/colima/);
 #   python scripts/ine_metric.py --check (INE's 2024 acceptance metric as we read it, results/ine_metric.md);
 #   python scripts/national_counts.py --check (the cost of the problem from INE's 2024 files, results/national_counts.md);
 #   python scripts/price_check.py --check (the price, from app/pricing.py, in every doc that states it);
@@ -19,6 +20,7 @@ eval:
 	python scripts/ballot_stock.py --check
 	python scripts/confirm100_score.py --check
 	python scripts/gemma_tf_reads2.py score-b4 --check
+	python scripts/gemma_tf_reads2.py score-colima --check
 	python scripts/ine_metric.py --check
 	python scripts/national_counts.py --check
 	python scripts/price_check.py --check
