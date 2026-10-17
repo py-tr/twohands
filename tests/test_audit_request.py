@@ -57,7 +57,7 @@ def test_form_shows_fields_price_and_turnaround():
 
 
 def test_linked_from_report_and_overview():
-    assert 'href="/audit/request"' in client.get("/").text
+    assert 'href="/audit/request"' in client.get("/audit/new").text   # in the "Bring your own data" panel
     aid = client.post("/api/audit/sample").json()["id"]
     assert 'href="/audit/request"' in client.get(f"/audit/{aid}/report").text
 

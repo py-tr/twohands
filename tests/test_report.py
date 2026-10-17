@@ -45,7 +45,7 @@ def test_key_numbers_and_framing(text):
 
 def test_site_links_the_report():
     c = TestClient(app)
-    assert 'href="/report.pdf">Report<' in c.get("/").text
+    assert 'href="/report.pdf">Report (PDF)<' in c.get("/").text
     r = c.get("/report.pdf")
     if (REPO / "report" / "two-hands-report.pdf").is_file():
         assert r.status_code == 200 and r.content[:5] == b"%PDF-"
