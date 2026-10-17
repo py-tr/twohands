@@ -67,4 +67,4 @@ def test_results_page_shows_the_table_and_the_caught_misreads():
     assert W.lead() in s and "Wrong of accepted fields" in s and "0 of 1,958" in s
     for c in W.caught():
         assert c["url"].replace("&", "&amp;") in s or c["url"] in s
-    assert "Gemma vs the other readers" in client.get("/").text
+    assert 'href="/results#gemma">Gemma vs the other readers' in h   # the open-models card moved from Home to /results

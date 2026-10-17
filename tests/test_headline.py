@@ -41,10 +41,13 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     home, inbox, res, aud = (_text(u) for u in ("/", "/inbox", "/results", "/audit"))
     for t in (home, res, aud, inbox):
         assert "keying error" not in t.lower()
+    assert "The paper: 175 · The first capture keyed: 75 · The certified count: 175" in home   # the receipt card (random 300)
+    # "Measured, not promised" moved from Home to /results (Home is the product page): its cards are checked there
+    home = res[res.index("Measured, not promised"):]
+    home = home[:home.index("The cost of the problem")]
     for t in (home, res, aud):
         assert L["breakdown"] in t
     assert L["honest"] in home and L["preliminary"] in home
-    assert "The paper: 175 · The first capture keyed: 75 · The certified count: 175" in home   # the receipt card (random 300)
     for k in ("keying", "yield"):
         assert L[k]["label"] in home and (L[k]["small"] or "") in home
     assert gate_label(L) in home and (L["gate"]["small"] or "") in home   # the tiers in the regulation's words
@@ -61,7 +64,7 @@ def test_overview_inbox_results_audit_agree_to_the_digit():
     # hero: 52 first, then the gate line with both tiers in one sentence (primary first), then the honest sentence
     assert home.index(L["keying"]["label"]) < home.index(gate_label(L)) < home.index(L["honest"])
     assert L["gate"]["label"].startswith("One reader: ") and "Two readers that must agree" in L["gate"]["label"]
-    assert L["gate_note"] in client.get("/").text and L["why_gemma"] in home   # the note is the card's tooltip
+    assert L["gate_note"] in client.get("/results").text and L["why_gemma"] in res   # the note is the card's tooltip
     assert L["label_cost"] in res and L["harmonised"] in res
     rc = H["receipt"]
     assert (rc["paper"], rc["prep"], rc["certified"], rc["cert_mode"]) == (175, "75", 175, "Cotejo")

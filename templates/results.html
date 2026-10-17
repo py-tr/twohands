@@ -16,7 +16,7 @@
     <div><div class="eyebrow" style="margin-bottom:4px">Technical report</div><b>Everything on this page, with method, sources and limits, as one PDF.</b></div>
     <a class="btn primary" href="/report.pdf">{{ icon('download') }}Report (PDF)</a>
   </div>
-  <p class="small res-jump">On this page: <a href="#colima">Colima, the whole state</a> · <a href="#gemma">Gemma vs the other readers</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a> · <a href="/trace">Execution trace: two real forms, request to receipt</a></p>
+  <p class="small res-jump">On this page: <a href="#colima">Colima, the whole state</a> · <a href="#gemma">Gemma vs the other readers</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#measured">The four headline figures</a> · <a href="#cost-of-problem">The cost of the problem</a> · <a href="#who-pays">Who pays</a> · <a href="#amd-models">Open models on AMD</a> · <a href="#any-form">Any form</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a> · <a href="/trace">Execution trace: two real forms, request to receipt</a></p>
 </section>
 
 <section style="margin-top:20px">
@@ -34,7 +34,7 @@
   </div>
 </section>
 
-<section>
+<section id="random300">
   <div class="sec-head"><div><h2>Pre-registered random run: {{ H.forms }} forms</h2><p>Gemma-4-31B-IT on AMD, frozen prompt and gate. Graded against the official two-person capture (PREP) on the {{ H.graded_per_form }} fields it keys; every disagreement settled on the photo.</p></div></div>
   <div class="card" style="padding:6px 8px">
     <div class="tablewrap">
@@ -258,6 +258,8 @@
     </div>
   </div>
 </section>
+
+{% include "_background.html" %}
 
 <section id="all-runs">
   <details class="allruns">

@@ -1,4 +1,5 @@
 """The IEEBCS head-to-head placement (PROTOCOL_IEEBCS.md section 10) and the plumbing check helper (section 11)."""
+import html as htmlmod
 import json
 import re
 
@@ -55,15 +56,17 @@ def test_three_variants_by_the_strict_figure(scorefile, pct, home, buyer):
     r = C.card("results")
     assert r is not None and r["ours_pct"] == pct                  # Results shows it in every case (section 8)
     assert (r["why"] is not None) == (not buyer)                   # below 80%: the reading of why
-    h, res = client.get("/").text, client.get("/results").text
-    assert ('id="buyer"' in h) == home and ('id="buyer-benchmark"' in h) == buyer and 'id="ieebcs"' in res
+    h, res = client.get("/").text, client.get("/results").text   # Home: the proof tile; the buyer slot is on /results
+    assert ('id="buyer"' in h) == home and ('id="buyer-benchmark"' in res) == buyer and 'id="ieebcs"' in res
     for c in filter(None, (C.card("home"), C.card("buyer"), r)):
         assert c["footnote"] == C.FOOTNOTE
     assert C.FOOTNOTE in _text(res).replace("&#39;", "'").replace("&quot;", '"')
     if home:
         t = _text(h).replace("&#39;", "'")
-        assert f"{pct}% of all fields" in t and "62.84%" in t and C.FOOTNOTE in t
-        assert h.index('id="rcard"') < h.index('id="strip"') < h.index('class="f-actions"') < h.index('id="buyer"')
+        tile = re.search(r'<a class="card ptile" id="buyer".*?</a>', h, flags=re.S).group(0)
+        assert f"{pct:.1f}% vs 62.84%" in _text(tile) and C.FOOTNOTE in htmlmod.unescape(tile)
+        assert 'href="/results#ieebcs"' in tile
+        assert h.index('id="rcard"') < h.index('id="buyer"') < h.index('class="f-actions"')
 
 
 def test_reading_of_why_adds_up(scorefile):

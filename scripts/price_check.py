@@ -110,7 +110,7 @@ def glance_table(text: str) -> list[str]:
         elif rows:
             break
     return rows
-SCAN = list(DOCS) + ["templates/home.html", "templates/audit_request.html", "templates/audit_report.html"]
+SCAN = list(DOCS) + ["templates/home.html", "templates/_background.html", "templates/audit_request.html", "templates/audit_report.html"]
 
 
 def sentences(text: str) -> list[str]:

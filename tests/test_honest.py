@@ -46,7 +46,7 @@ def test_confirmation_breakdown_is_computed_and_pending_without_a_person(no_spot
     line = (f"{H['cert_agree']} confirmed by the certified count · {H['keying_errors'] - H['cert_agree']} judged from "
             f"the photo by the AI adjudicator (person check in progress at /check)")
     assert c["text"] == line and "0 checked" not in c["readme"]
-    for u in ("/", "/audit"):
+    for u in ("/results", "/audit"):   # the "Measured, not promised" card moved from Home to /results
         t = _text(client.get(u).text)
         assert line in t, u
 
@@ -114,14 +114,14 @@ def test_judge_rate_limit_and_unknown(votes):
 
 # ------------------------------------------------------------------------------------------------ (a) tiers
 def test_tiers_in_the_regulations_words():
-    t = _text(client.get("/").text)
-    assert "accepted at second capture" in t
     for bad in ("no person", "touchless"):
-        assert bad not in t.lower()
+        assert bad not in _text(client.get("/").text).lower()
+    t = _text(client.get("/results").text)   # the tiers and the regulated step moved from Home to /results
+    assert "accepted at second capture" in t
     assert "no person" not in _text(client.get("/inbox").text).lower()
     assert "no person" not in honest.gate_label(numbersmod.lines(H))
-    first = re.search(r'<section class="first".*?</section>', client.get("/").text, flags=re.S).group(0)
-    assert honest.REG_LINE in _text(first)
+    reg = re.search(r'<section id="who-pays".*?</section>', client.get("/results").text, flags=re.S).group(0)
+    assert honest.REG_LINE in _text(reg)
     assert f"1 disputed field in {H['yield_one_in']} is a confirmed capture error ({H['keying_errors']} of {H['disagree']})" in t
 
 
@@ -179,8 +179,8 @@ def test_outage_window_is_computed_from_the_endpoint_log(tmp_path):
 
 def test_reader_now_names_the_current_model_on_amd():
     assert honest.reader_now() == "reader now: Gemma-4-31B-IT on AMD Token Factory"   # conftest: Gemma is listed
-    h = client.get("/").text
-    assert "reader now: Gemma-4-31B-IT on AMD Token Factory" in _text(h[h.index('id="amd"'):h.index('id="any-form"')])
+    h = client.get("/results").text   # the open-models card moved from Home to /results
+    assert "reader now: Gemma-4-31B-IT on AMD Token Factory" in _text(h[h.index('id="amd-models"'):h.index('id="any-form"')])
 
 
 def test_model_line_names_an_open_outage_and_omits_the_bench_until_it_ran(tmp_path, monkeypatch):
@@ -245,8 +245,8 @@ def test_reread_line_from_the_answers_or_the_committed_phrase(tmp_path, monkeypa
 
 
 def test_model_line_in_the_amd_box():
-    h = client.get("/").text
-    box = h[h.index('id="amd"'):h.index('id="any-form"')]
+    h = client.get("/results").text
+    box = h[h.index('id="amd-models"'):h.index('id="any-form"')]
     assert honest.model_line() in _text(box)
 
 
@@ -295,8 +295,8 @@ def test_buyer_slot_hidden_until_result_clears_the_threshold(tmp_path, monkeypat
     f.write_text(json.dumps(res))
     b = honest.buyer_card()
     assert b and b["ours_pct"] == 93.0
-    h = client.get("/").text
-    assert h.index('id="rcard"') < h.index('id="strip"') < h.index('class="f-actions"') < h.index('id="buyer"')
+    h = client.get("/").text   # the head-to-head is the first proof tile, beside the receipt, before the actions
+    assert h.index('id="rcard"') < h.index('id="buyer"') < h.index('class="f-actions"') < h.index('id="strip"')
 
 
 def test_judge_from_an_audit_report(votes, tmp_path, monkeypatch):
@@ -315,3 +315,13 @@ def test_judge_from_an_audit_report(votes, tmp_path, monkeypatch):
     assert (r["agree"], r["paper"], r["verdict"], r["adjudicated"]) == (False, x["paper"], "model_right", True)
     assert json.loads(votes.read_text(encoding="utf-8").splitlines()[0])["item"] == f"{x['clave']}__{code}"
     assert client.get(f"/judge/{x['clave']}/{code}?a=a0123456789ab").status_code == 404
+
+
+def test_home_proof_tiles_match_the_docs_first_screen():
+    """Home's sheets-read and certified-confirmed tile is the same pair scripts/price_check.measured_lines requires in
+    the README and lablab.md, recomputed independently there."""
+    from scripts import price_check
+    sheets, confirmed = price_check.measured_lines(H)[:2]
+    tile = next(t for t in honest.proof_tiles(H) if t["id"] == "proof-sheets")
+    assert sheets.endswith(f"read {tile['big']} real handwritten tally sheets")
+    assert tile["text"].startswith("real tally sheets read on AMD; " + confirmed)

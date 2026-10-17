@@ -99,5 +99,6 @@ def test_pages_show_it(client):
     assert 'id="confirm100"' in h and "tier-c100-v3" in h and "tier-v2-pooled" in h and "post-hoc" in h
     assert "digit insertion (3114 for 314)" in h
     home = client.get("/").text
-    assert "fix confirmed on 100 fresh forms: 0 wrong of 484" in home
-    assert "1,518" not in home                           # the pooled figure is never a headline
+    m = h[h.index('id="measured"'):h.index('id="cost-of-problem"')]   # "Measured, not promised" moved to /results
+    assert "fix confirmed on 100 fresh forms: 0 wrong of 484" in m
+    assert "1,518" not in home and "1,518" not in m      # the pooled figure is never a headline

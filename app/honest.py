@@ -338,3 +338,57 @@ def buyer_card() -> Optional[dict]:
     scripts/ieebcs_score.py writes); only when its strict per-field match reaches the pre-registered home_threshold."""
     from app import ieebcs_card
     return ieebcs_card.card("home")
+
+
+# ------------------------------------------------------------------------------------------- (e) Home's three proof tiles
+_SHEETS: dict = {}
+
+
+def sheets_read() -> int:
+    """Distinct parsed sheets Gemma read on AMD: the pre-registered random 300 and Colima (results/calls_gemma.jsonl,
+    results/colima/calls_gemma.jsonl). The same count scripts/price_check.measured_lines requires in the docs."""
+    paths = [RESULTS / "calls_gemma.jsonl", RESULTS / "colima" / "calls_gemma.jsonl"]
+    key = tuple((str(p), p.stat().st_mtime_ns if p.is_file() else None) for p in paths)
+    if _SHEETS.get("key") != key:
+        ids = set()
+        for p in paths:
+            if p.is_file():
+                for ln in p.read_text(encoding="utf-8").splitlines():
+                    if ln.strip():
+                        r = json.loads(ln)
+                        if r.get("parsed_ok"):
+                            ids.add(r["form_id"])
+        _SHEETS.update(key=key, n=len(ids))
+    return _SHEETS["n"]
+
+
+def confirmed_by_certified(H: dict) -> int:
+    """Capture errors confirmed by the certified count: the random 300's (headline.json) + Colima's (app/colima.py)."""
+    from app import colima
+    return H["cert_agree"] + ((colima.facts() or {}).get("cert_capture", 0))
+
+
+def proof_tiles(H: dict) -> list[dict]:
+    """Home's three proof tiles, each one line and a link to its evidence on /results, composed from the same pieces
+    as the README's first screen and lablab.md's "Proof in three lines" (scripts/price_check.first_screen): the BCS
+    head-to-head (results/ieebcs/score.json, shown only when its Home placement rule places it), the Colima recall
+    (Amendment 9, only once scored), sheets read and certified-confirmed errors."""
+    from app import colima, ieebcs_card
+    out = []
+    c = buyer_card()
+    if c:
+        out.append({"id": "buyer", "tier": c["tier"], "big": f"{c['ours_pct']:.1f}%", "vs": f"{c['theirs_pct']}%",
+                    "text": ("field match on Baja California Sur's 2024 local actas, vs the Google Document AI "
+                             "reading the state bought (same metric)"),
+                    "href": "/results#ieebcs", "title": c["footnote"]})
+    R = colima.recall_result()
+    if R and R.get("complete"):
+        k, m = R["caught"], R["missed"]
+        out.append({"id": "proof-recall", "big": f"{k} of {k + m}",
+                    "text": "certified-detectable capture errors caught (Colima, pre-registered; not total recall)",
+                    "href": "/results#colima", "title": colima.recall_pitch(R)})
+    out.append({"id": "proof-sheets", "big": f"{sheets_read():,}",
+                "text": (f"real tally sheets read on AMD; {confirmed_by_certified(H)} capture errors confirmed by the "
+                         f"certified count"),
+                "href": "/results#random300", "title": None})
+    return out

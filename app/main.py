@@ -190,7 +190,7 @@ def results(request: Request):
     return page(request, "results.html", "results", n=n, H=n["H"], L=n["L"], pilot=pilot, appendix=appendix, live=live,
                 G=gatesmod.table(), colima=colimamod.block(),
                 lm=s.ledger_metrics(), meta=s.ledger.get("meta", {}), queue_n=len(q),
-                resolved=sum(1 for x in q if x["review"]))
+                resolved=sum(1 for x in q if x["review"]), ls=livestatusmod.status(s), schema=storemod.schema())
 
 
 # ------------------------------------------------------------------------------------------- images (masked only)

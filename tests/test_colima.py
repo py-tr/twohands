@@ -34,8 +34,9 @@ def test_results_block_and_home_card():
     L = colima.lines()
     assert 'id="colima"' in r and L["replication"] in r and L["v1"] in r
     assert L["ledger"].replace("'", "&#39;") in r or L["ledger"] in r
-    home = client.get("/").text
-    assert L["card"] in home and 'href="/results#colima"' in home
+    home = client.get("/").text   # Home's recall tile links the Colima block; the free-sample card moved to /results
+    assert 'href="/results#colima"' in home
+    assert L["card"] in r[r.index('id="who-pays"'):]
     for u in ("/results/colima/report.html", "/results/colima/report.csv", "/results/colima/colima_audit.md"):
         assert client.get(u).status_code == 200, u
     assert client.get("/results/colima/../../.env").status_code == 404

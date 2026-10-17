@@ -22,9 +22,9 @@ PARTY = re.compile(r"(?<![A-Za-z0-9])(PAN|PRI|PRD|PVEM|PT|MC|MORENA)(?![A-Za-z0-
 PARTY_CI = re.compile(r"(?<![A-Za-z0-9])(morena|pvem|verde)(?![A-Za-z0-9])", re.I)
 SIX = ["Home", "Findings", "Audit your capture", "Try it", "Results", "API"]
 MORE = ["Inbox", "Keyer", "Builder", "AMD status", "Evolus", "Data and credits"]
-H1 = "Receipts for every number keyed from paper."
-SUB = "A vision model on AMD reads the form; the form's own arithmetic decides; every dispute comes with its photo."
-DIFF = "Others check the model against the source. We check the record against the paper."
+H1 = "OCR reads the number. Two Hands checks whether the whole form agrees."
+EYEBROW = "Two Hands · verifiable quality control for handwritten numbers"
+PRIMARY = "Read a real tally sheet live on AMD"
 PAGES = ["/", "/audit", "/audit/new", "/review", "/try", "/results", "/api", "/station", "/station?c=202451B0100",
          "/inbox", "/keyer?s=1", "/builder", "/live", "/about-data"]
 
@@ -94,23 +94,31 @@ def test_no_touchless_in_titles_or_nav():
 
 # ------------------------------------------------------------------------------------------------ first screen
 def test_first_screen_content_in_order(empty_worker):
+    """Home is the product page: the hook, a real receipt, three proof tiles that link to their evidence on /results,
+    the actions. The background that used to follow moved to /results (tests below check it there)."""
     h = client.get("/").text
     first = re.search(r'<section class="first".*?</section>', h, flags=re.S).group(0)
     t = _text(first)
-    H = numbersmod.headline()
-    from app.honest import REG_LINE
-    # H1, the regulated step, the receipt card first, then the live strip (third in the hero), then the actions
-    marks = [H1, "Two hands: two independent readers, and the paper's own arithmetic as the referee.", REG_LINE,
-             "The paper: 175 · The first capture keyed: 75 · The certified count: 175",
+    from app import honest
+    tiles = honest.proof_tiles(numbersmod.headline())
+    marks = [EYEBROW, H1, "The paper: 175 · The first capture keyed: 75 · The certified count: 175",
              'In English: words: "ciento setenta y cinco" = 175 · boxes: 1 7 5',
-             "certified count, by comparison", "050815B0100", "verify this receipt",
-             f"{H['forms']} audited in total", f"{H['forms']} in the pre-registered sample",
-             "reader: Gemma-4-31B-IT (sample) on AMD Token Factory", "Pick any polling station",
-             "Audit your capture", DIFF]
+             "certified count, by comparison", "050815B0100", "verify this receipt"]
+    marks += [x["big"] for x in tiles] + [PRIMARY, "Audit your capture", "or try your own sheet"]
     pos = [t.find(m) for m in marks]
     assert all(p >= 0 for p in pos), [m for m, p in zip(marks, pos) if p < 0]
     assert pos == sorted(pos), list(zip(marks, pos))
     assert h.count("<h1") == 1 and f">{H1}</h1>" in h
+    # the three tiles: the head-to-head, the recall, sheets read and certified-confirmed errors, each to its evidence
+    assert [x["href"] for x in tiles] == ["/results#ieebcs", "/results#colima", "/results#random300"]
+    assert "91.6% vs 62.84%" in t and "27 of 28" in t
+    assert "1,270 real tally sheets read on AMD; 49 capture errors confirmed by the certified count" in t
+    res = client.get("/results").text
+    for x in tiles:
+        assert f'id="{x["href"].split("#")[1]}"' in res, x["href"]
+    # the actions: a live read of the receipt's own sheet, audit your capture, try your own sheet
+    assert 'class="btn primary lg" href="/form/050815B0100#live"' in first
+    assert 'href="/audit/new"' in first and 'href="/try"' in first
     # removed: the replay animation, any pilot number, the word touchless
     assert 'id="reader"' not in h and "loopData" not in h and "hero.js" not in h
     assert "pilot" not in t.lower() and "touchless" not in t.lower() and "spike" not in t.lower()
@@ -118,6 +126,30 @@ def test_first_screen_content_in_order(empty_worker):
     assert 'id="rcard"' in first and 'href="/audit"' in first and 'href="/verify/050815B0100/OPT07"' in first
     # the faint-pencil TOTAL is the second card, enhanced for display and labelled so
     assert '/crop/enhanced/070207C0100/TOTAL.jpg' in first and "enhanced for display" in first
+
+
+def test_home_is_short_and_the_background_moved_to_results():
+    """Home stays under 350 words of copy (the first receipt slide only: the others are hidden until they rotate);
+    every section that left Home is on /results under its old id, and Home links to it."""
+    h = client.get("/").text
+    main = re.search(r"<main>(.*)</main>", h, flags=re.S).group(1)
+    first, rest = main.split('<div class="rslide" data-i="1"', 1)
+    rest = rest[rest.index('<div class="proof"'):]
+    words = len(_text(first + rest).split())
+    assert words <= 350, words
+    res = client.get("/results").text
+    for i in ("measured", "cost-of-problem", "who-pays", "ine-buyer", "offer-2027", "market-lines", "price-lines",
+              "market-size", "next-markets", "amd-models", "any-form", "reg"):
+        assert f'id="{i}"' in res and f'id="{i}"' not in h, i
+    for i in ("cost-of-problem", "who-pays", "amd-models", "any-form"):
+        assert f'href="/results#{i}"' in h, i
+    heads = [_text(x) for x in re.findall(r"<h[23][^>]*>(.*?)</h[23]>", res, flags=re.S)]
+    for s in ("Measured, not promised", "The cost of the problem", "Who pays, and what runs on AMD",
+              "Open models on the AMD endpoint", "Any form that checks itself"):
+        assert heads.count(s) == 1, s
+    assert "(proposed)" in _text(res)   # the price keeps its qualifier where it moved
+    js = client.get("/static/home.js").text   # old Home anchors are forwarded to /results
+    assert "'who-pays'" in js and "'ine-buyer'" in js and "'any-form'" in js and "location.replace" in js
 
 
 def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
@@ -138,7 +170,7 @@ def test_strip_uses_live_numbers_once_the_worker_has_audited(monkeypatch):
     assert s["states_complete"].startswith("1 of 32 states complete")
     assert s["reader_model"] == "Gemma-4-31B-IT (sample), Qwen3.8-27B (live)"
     t = _text(client.get("/").text)
-    first = t.split("Measured, not promised")[0]
+    first = t.split("Background:")[0]
     assert f"{H['forms'] + 41} audited in total" in first and "1 states complete" in first
     assert "12.5 % of Baja California Sur so far" in first and "of 32" not in first
     assert f"{H['forms']} in the pre-registered sample · 41 live since" in first and "updated" in first
@@ -172,16 +204,17 @@ def test_default_receipt_and_rotation_order(empty_worker):
 
 
 def test_second_screen_measured_not_promised():
-    t = _text(client.get("/").text)
-    m = t[t.index("Measured, not promised"):t.index("How it works")]
+    t = _text(client.get("/results").text)   # moved from Home to /results
+    m = t[t.index("Measured, not promised"):]
+    m = m[:m.index("The cost of the problem")]
     H = numbersmod.headline()
     T = numbersmod.tiers()["tiers"]["two_reader"]
     for s in (f"{H['keying_errors']}", f"{H['cert_agree']} of {H['cert_covered']}", f"{H['accepted_pct']}%",
               f"{H['acc_model_wrong']} of {H['acc_fields']:,}", f"{T['errors']} of {T['fields']:,}",
               f"1 in {H['model_one_in']} vs 1 in {H['acc_one_in']}", f"1 in {H['yield_one_in']} vs 1 in {H['random_one_in']}"):
         assert s in m, s
-    h = client.get("/").text
-    assert "/static/builder.webm" in h and "/audit/request" in h
+    h = client.get("/results").text
+    assert "/static/builder.webm" in h and "/audit/request" in h and "/audit/request" in client.get("/").text
 
 
 def test_builder_clip_is_small():
@@ -295,13 +328,14 @@ def test_phone_first_screen(server):
 
         assert pg.evaluate("document.documentElement.scrollWidth") <= 390
         assert box("#menubtn") and box(".brand")
-        for sel in (".f-h1", "#reg", "#rcard", ".n-aud", ".f-actions .btn.primary"):
+        for sel in (".f-h1", "#rcard", ".f-actions .btn.primary"):
             b = box(sel)
             assert b and b["y"] + b["height"] <= fold, (sel, b)
-        assert box(".n-disp") is None and box(".f-second") is None and box(".nav a") is None
-        assert pg.locator(".f-actions .btn:visible").count() == 1
-        assert pg.inner_text(".f-actions .btn.primary").strip() == "Pick any polling station"
-        for sel in (".below-fold .f-sub", ".below-fold .f-diff", "#measured"):
+        assert box(".n-disp") is None and box(".nav a") is None
+        assert pg.locator(".f-actions .btn:visible").count() == 2
+        assert pg.inner_text(".f-actions .btn.primary").strip() == PRIMARY
+        assert box("#rcard")["y"] < box(".f-actions .btn.primary")["y"] < box("#proof")["y"]
+        for sel in ("#how", "#strip"):
             b = box(sel)
             assert b and b["y"] >= fold, (sel, b)
         rc = pg.locator("#rcard .rslide.on .rvals")
@@ -314,7 +348,7 @@ def test_phone_first_screen(server):
 
 @pytest.mark.parametrize("w,h", [(1366, 768), (1366, 900), (1280, 800), (1440, 900)])
 def test_desktop_first_screen(server, w, h):
-    """Desktop fold: the receipt, the counter and both first-screen buttons; the buyer's benchmark card (when shown) under them."""
+    """Desktop fold: the hook, the receipt, the three proof tiles and both first-screen buttons."""
     sync = pytest.importorskip("playwright.sync_api")
     try:
         p = sync.sync_playwright().start()
@@ -327,27 +361,28 @@ def test_desktop_first_screen(server, w, h):
         pg.evaluate("document.fonts.ready.then(() => true)")
         assert pg.evaluate("document.documentElement.scrollWidth") <= w
         boxes = {}
-        for sel in (".f-h1", "#rcard", "#strip", ".f-actions .btn.primary", ".f-actions .f-second"):
+        for sel in (".f-h1", "#rcard", "#proof", ".f-actions .btn.primary", ".f-actions .f-second"):
             el = pg.locator(sel).first
             b = el.bounding_box() if el.is_visible() else None
             assert b and b["y"] + b["height"] <= h, (sel, b)
             boxes[sel] = b
-        assert pg.inner_text(".f-actions .btn.primary").strip() == "Pick any polling station"
-        if pg.locator("#buyer").count():
-            assert pg.locator("#buyer").bounding_box()["y"] > boxes[".f-actions .btn.primary"]["y"]
+        assert pg.inner_text(".f-actions .btn.primary").strip() == PRIMARY
+        assert pg.locator(".ptile").count() == 3   # the proof tiles sit beside the receipt, above the actions
+        assert pg.locator(".ptile").last.bounding_box()["y"] < boxes[".f-actions .btn.primary"]["y"]
     finally:
         br.close()
         p.stop()
 
-def test_prep_procedure_note_under_the_counter():
-    h = client.get("/").text
-    first = re.search(r'<section class="first".*?</section>', h, flags=re.S).group(0)
-    t = _text(first)
+def test_prep_procedure_note_on_results():
+    """The regulated step (numeral 33), its sources and the compute cost moved with the buyer section to /results."""
+    h = client.get("/results").text
+    sec = re.search(r'<section id="who-pays".*?</section>', h, flags=re.S).group(0)
+    t = _text(sec)
     b = numbersmod.home(ST.storemod.get_store())["business"]["per_1000_g"]
     from app.honest import REG_LINE
     note = f"The second capture costs {b} of AMD compute per 1,000 forms."
-    assert note in t and t.index(REG_LINE) < t.index("audited in total") < t.index(note)
-    assert "CGex202311-03-ap-8-a.pdf" in first and 'href="/business.md"' in first
+    assert note in t and t.index(REG_LINE) < t.index(note)
+    assert "CGex202311-03-ap-8-a.pdf" in sec and 'href="/business.md"' in sec
     assert client.get("/business.md").status_code == 200
 
 

@@ -1,0 +1,148 @@
+{# Background moved from Home to /results (Home is the product page): "Measured, not promised", the cost of the
+   problem, who pays (the regulated step, the INE card, the market lines, the IEEBCS buyer slot, the proposed price),
+   the open models on the AMD endpoint, and any form that checks itself. Every number is computed, as it was on Home.
+   Needs n, H, L, ls and schema in the context (app/main.py results()). #}
+{% from "_icons.html" import icon, source %}
+{% from "_ieebcs_card.html" import ieebcs_buyer %}
+{% set b = n.business %}
+{% if H %}
+<section id="measured">
+  <div class="sec-head"><div><h2>Measured, not promised</h2><p>A pre-registered random sample of {{ H.forms }} forms: sample, prompt and gate committed before any model read; every disagreement settled on the photo.</p></div><a class="btn sm" href="#limits">Method and limits {{ icon('arrow') }}</a></div>
+  <div class="grid4 measured">
+    <div class="card stat">
+      <div class="v">{{ L.keying.value }}</div>
+      <div class="l">{{ L.keying.label }}</div>
+      {% set CF = honest.confirmation(H) %}{% if CF %}<div class="conf" id="conf52"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <span title="The AI adjudicator is the builder's model, which could see both values; it judged from the photo.">{{ CF.ai_total }} judged from the photo by the AI adjudicator</span> <a class="pend" href="/check">({{ CF.person_phrase }})</a></div>{% endif %}
+      <div class="s">{{ L.keying.small }}</div>
+      <div class="s"><b>{{ H.cert_agree }} of {{ H.cert_covered }}</b> confirmed by the certified count where it covers the field. {{ L.keying.small2 }}</div>
+      <div class="s"><b>{{ L.preliminary }}</b></div>
+      <div class="src">{{ source("results/adjudication/SUMMARY.md + CERTIFIED.md (app/data/headline.json)") }}</div>
+    </div>
+    <div class="card stat" title="{{ L.gate_note }}">
+      {% set t2 = (n.T.tiers.two_reader if n.T else None) %}
+      <div class="v">{{ H.accepted_pct }}%{% if t2 %} · {{ '%.0f'|format(100 * t2.accepted / n.T.forms) }}%{% endif %}</div>
+      <div class="l">of forms accepted at second capture: one reader, {{ H.acc_model_wrong }} of {{ H.acc_fields|int }} accepted fields wrong{% if t2 %}; two readers, {{ t2.errors }} of {{ t2.fields|int }}{% endif %}</div>
+      <div class="s">{{ honest.gate_label(L) }}</div>
+      {% if n.confirm100 and n.confirm100.chip %}<div class="s"><a class="chip ok" id="c100chip" style="white-space:normal;text-decoration:none" href="/results#confirm100" title="{{ n.confirm100.wilson }}">{{ n.confirm100.chip }}</a></div>{% endif %}
+      {% if L.gate.small %}<details class="s"><summary>Status of each tier, and how "wrong" was checked</summary>{{ L.gate.small }}</details>{% endif %}
+      <div class="src">{{ source("app/data/headline.json (one reader, primary) + app/data/two_reader_300.json (two readers, Amendment 2 d)") }}</div>
+    </div>
+    <div class="card stat">
+      <div class="v">1 in {{ H.model_one_in }} <span class="vs-word">vs</span> 1 in {{ H.acc_one_in }}</div>
+      <div class="l">{{ L.rate.label }}</div>
+      <div class="s">{{ L.rate.small }}</div>
+      <div class="s">{{ L.honest }}</div>
+      <div class="src">{{ source("results/adjudication/SUMMARY.md (app/data/headline.json)") }}</div>
+    </div>
+    <div class="card stat">
+      <div class="v">1 in {{ H.yield_one_in }} <span class="vs-word">vs</span> 1 in {{ H.random_one_in }}</div>
+      <div class="l">{{ L.yield.value }} {{ L.yield.label }}</div>
+      {% if L.yield.small %}<details class="s"><summary>Who judged the 52; recall</summary>{{ L.yield.small }}</details>{% endif %}
+      <div class="src">{{ source("results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md") }}</div>
+    </div>
+  </div>
+  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them.{% if L.two_readers %} {{ L.two_readers }}{% endif %} {{ L.recall }}</p>
+</section>
+{% endif %}
+
+{% set CL = buyer.cost_lines(H) %}{% if CL %}
+<section id="cost-of-problem">
+  <div class="sec-head"><div><h2>The cost of the problem</h2><p>From INE's own 2024 files. Clerical only: no party, no totals.</p></div></div>
+  <div class="card">
+    <p style="margin:0 0 8px"><b>{{ CL.main }}</b></p>
+    <p class="small" style="margin:0 0 6px">{{ CL.preliminary }} {{ CL.rowsum }} {{ CL.illegible }}</p>
+    {% set SY = buyer.synthesis(H) %}{% if SY %}<p class="small muted" style="margin:6px 0">{{ SY }}</p>{% endif %}
+    <div style="margin-top:8px">{{ source(CL.source) }}</div>
+  </div>
+</section>
+{% endif %}
+<section id="who-pays">
+  <div class="sec-head"><div><h2>Who pays, and what runs on AMD</h2><p>The regulated step the product fits, the buyer, the proposed price, and the measured compute behind it.</p></div><a class="btn sm" href="/audit/request">Request an audit {{ icon('arrow') }}</a></div>
+  {% set rl = honest.REG_LINE.split('(numeral 33)') %}
+  <p class="small" id="reg">{{ rl[0] }}<a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">(numeral 33)</a>{{ rl[1] }}</p>
+  <p class="tiny muted" id="reg-sources" style="margin:4px 0 14px">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms. <b>{{ pricing.texts().price }}</b> · <a href="/audit/request">request an audit</a></p>
+  <div class="grid2">
+    <div class="card">
+{% set PT = pricing.texts() %}{% set IC = buyer.ine_card() %}
+      <div class="eyebrow">Who pays</div>
+      <h3 id="ine-buyer">{{ IC.title }}</h3>
+      <ul class="buyers" style="margin:8px 0 8px">
+        {% for t, pg in IC.lines %}<li>{{ t }} <span class="muted small">(<a href="{{ IC.url }}" target="_blank" rel="noopener">INE report</a>, {{ pg }})</span></li>{% endfor %}
+      </ul>
+      <p style="margin:8px 0"><b>{{ IC.pilot }}</b>{% if IC.colima %} <a href="{{ IC.colima.href }}">{{ IC.colima.text }}</a>{% endif %}</p>
+      <p class="small" style="margin:8px 0" id="offer-2027"><b>{{ buyer.OFFER_2027 }}</b> {{ buyer.forms_line() }}{% set cl = buyer.contact_line() %}{% if cl %} <span class="muted">{{ cl }}</span>{% endif %}</p>
+      {% if IC.score %}<div class="vs" id="ine-metric" style="margin:10px 0">
+        <div><p class="small" style="margin:0">{{ IC.score }}</p><p class="tiny muted" style="margin:4px 0 0"><i>{{ IC.label }}</i></p></div>
+        <div class="mid">·</div>
+        <div><p class="small" style="margin:0"><b>{{ IC.beside }}</b></p></div>
+      </div>{% endif %}
+      <p class="small" style="margin:8px 0"><b>1 disputed field in {{ H.yield_one_in }} is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }}): the second capture finds what the first one keyed wrong, with the photo.</b> Auditors check the count's system; nobody checks the captured numbers against the paper, because by hand it does not pay.</p>
+      <div style="margin:6px 0 12px">{{ source(IC.source ~ ". Metric: " ~ IC.def_src ~ ".") }}</div>
+      <ol class="buyers" id="market-lines">
+        {% for m in buyer.market_lines() %}<li>{{ m.text }} <span class="muted tiny">({{ m.source }})</span></li>{% endfor %}
+      </ol>
+      {{ ieebcs_buyer(ieebcs_card("buyer")) }}
+      <div class="vs" style="margin-top:14px">
+        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">measured AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, {{ H.read }} reads)</div></div>
+        <div class="mid">·</div>
+        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">{{ PT.price_long }}</div></div>
+      </div>
+      <p class="small" style="margin:8px 0" id="price-lines">Anchor: {{ PT.anchor }}. Costs: {{ PT.compute }}; {{ PT.review }}; plus hosting and sales. Examples: {{ PT.ex_morelos }}; {{ PT.ex_largest }}; {{ PT.ex_federal }}. {{ PT.self_serve }} FX {{ PT.fx }}.</p>
+      <p class="small" style="margin-bottom:6px">{{ L.product }} A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field.</p>
+      <p class="small" style="margin:8px 0" id="market-size">{{ buyer.MARKET_SIZE }} <span class="muted tiny">({{ buyer.MARKET_SIZE_SRC }})</span></p>
+      <p class="small" style="margin:8px 0 4px"><b>Next markets, not measured:</b></p>
+      <ol class="buyers small" id="next-markets">{% for m in buyer.NEXT_MARKETS %}<li>{{ m.text }} <span class="muted tiny">({{ m.source }})</span></li>{% endfor %}</ol>
+      <div class="actions" style="margin:10px 0 4px"><a class="btn sm primary" href="/audit/request">{{ icon('audit') }}Request an audit</a><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/station">{{ icon('search') }}Pick any polling station</a></div>
+      <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". 2027: " ~ cited.window_2027.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". Price: " ~ cited.price_proposal.source ~ "; " ~ pricing.SOURCES.ine ~ "; " ~ pricing.SOURCES.morelos ~ "; wage: " ~ pricing.SOURCES.wage ~ "; ceilings: " ~ pricing.SOURCES.ceiling ~ "; FX: " ~ pricing.SOURCES.fx ~ ". Row sums: " ~ cited.base_rate.source ~ ".") }}</div>
+    </div>
+
+    <div class="card" id="amd-models">
+      <div class="eyebrow">What runs on AMD</div>
+      <h3>Open models on the AMD endpoint</h3>
+      <p class="small muted">{{ cited.endpoint.text }}. Every measured read went through it, and the live audit reads through it now.</p>
+      <p class="small" id="modelline" style="margin:8px 0 0"><b>{{ honest.model_line() }}</b></p>
+      <p class="small" id="readernow" style="margin:4px 0 0">{{ honest.reader_now() }}</p>
+      {% for m in n.amd.models %}
+      <div class="amd-model">
+        <div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div>
+        <div class="figs">
+          {{ '%.0f'|format(m.secs) }} s mean latency per form<br>
+          {{ m.cpf|usd(6) }} per form<br>
+          {% if m.tokens %}<span class="muted">{{ '{:,.0f}'.format(m.tokens.prompt) }} tokens in, {{ '{:,.0f}'.format(m.tokens.completion) }} out</span>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      <dl class="kv" style="margin-top:14px">
+        <dt>Input per form</dt><dd>1 masked page + zoomed tiles, one request</dd>
+        <dt>Live audit</dt><dd>{% if ls.kind == 'live' %}{{ ls.forms_audited|int }} forms so far, reader {{ ls.reader_model }}{% else %}not started yet{% endif %} · <a href="/live">status</a></dd>
+      </dl>
+      {% if L.why_gemma %}<p class="small" style="margin:12px 0 0">{{ L.why_gemma }} <a href="/results#gemma">Gemma vs the other readers</a></p>{% endif %}
+      <div style="margin-top:14px">{{ source("Latency and cost: Gemma, means over the reads of the pre-registered run (results/calls_gemma.jsonl); Qwen, means over the 43 pilot reads.") }}</div>
+    </div>
+  </div>
+</section>
+
+<section id="any-form">
+  <div class="sec-head"><div><h2>Any form that checks itself</h2><p>A new form type is a schema file, not code: draw the fields, write the identities, test it live.</p></div><a class="btn sm" href="/builder">Open the builder {{ icon('arrow') }}</a></div>
+  <div class="anyform">
+    <div class="card gifcard">
+      <video class="builder-gif" src="/static/builder.webm" poster="/static/builder-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="20 seconds of the schema builder: fields drawn, an identity written, the form tested"></video>
+    </div>
+    <div class="anyform-side">
+      <div class="card">
+        <span class="chip accent">Polling-station tally sheets · Mexico 2024</span>
+        <p class="small" style="margin:10px 0 0">Every number written twice, four identities. {{ H.forms }} forms pre-registered, {{ H.fields|int }} fields graded against the official two-person capture and the certified count.</p>
+      </div>
+      <div class="card">
+        <span class="chip accent">Rainfall ledgers · UK 1850-1960</span>
+        <p class="small" style="margin:10px 0 0">Twelve months must add up to the year. {{ n.ledger.acc_ok|int }} of {{ n.ledger.acc_cells|int }} accepted cells right against the transcription by {{ cited.volunteers.text }} (spike, 40 sheets). <a href="/forms#ledgers">Open a ledger sheet</a></p>
+      </div>
+      <div class="card">
+        <p class="small" style="margin:0 0 6px">The identities the gate applies to the tally sheet, verbatim from its schema:</p>
+<div class="code">identities:
+{% for i in schema.identities %}  - name: "{{ i.name }}"   sum: {{ i.sum if i.sum is string else '[' ~ i.sum|join(', ') ~ ']' }}   equals: [{{ i.equals|join(', ') }}]
+{% endfor %}</div>
+      </div>
+    </div>
+  </div>
+</section>
