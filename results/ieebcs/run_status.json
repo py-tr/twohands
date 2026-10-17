@@ -1,0 +1,9 @@
+{
+ "ts": "2026-10-16T17:25:15Z",
+ "model": "gemma",
+ "done": 300,
+ "n": 300,
+ "accepted": 52,
+ "daily_cost_used_usd": 0.020055565983057022,
+ "cost_usd_this_model": 0.029687
+}

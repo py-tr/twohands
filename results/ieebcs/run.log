@@ -1,0 +1,304 @@
+2026-10-16T14:55:57Z run start: 300 actas, schema mx_bcs_dl_2024, models gemma, prompt 58a92aec76c6, out results/ieebcs, pid 492
+2026-10-16T14:55:57Z prepare: 300 done, 0 to fetch
+2026-10-16T14:55:59Z gemma: pass 1, 0 done, 300 to read
+2026-10-16T14:56:23Z gemma 030042B010003_3be25802 route stop 24.3s err=False [1/300, eta 2.0 h] TOTAL digits 227 != words 222; section 7 = TOTAL: 229 != 227
+2026-10-16T14:56:25Z gemma 030041C010003_61ea4009 route stop 25.9s err=False [2/300, eta 1.1 h] section 5 = section 7: 248 != 231
+2026-10-16T14:56:53Z gemma 030073B010003_2d44aa12 ACCEPT stop 28.0s err=False [3/300, eta 1.5 h] 
+2026-10-16T14:56:53Z gemma 030003C020003_06373cc7 route stop 29.3s err=False [4/300, eta 1.1 h] section 5 = section 7: 338 != 337
+2026-10-16T14:57:18Z gemma 030004B010003_f3c87cce route stop 25.0s err=False [5/300, eta 1.3 h] CC_PAN_PRI_PRD_PRS_PHBCS digits 96 != words 86; MC digits 110 != words 112
+2026-10-16T14:57:32Z gemma 030001C010003_236ffb33 route stop 38.4s err=False [6/300, eta 1.3 h] section 5 = section 7: 219 != 221
+2026-10-16T14:57:46Z gemma 030067B010003_83ed42cf route stop 27.6s err=False [7/300, eta 1.3 h] section 5 = section 7: 340 != 339
+2026-10-16T14:57:54Z gemma 030043C010003_2bbe59df ACCEPT stop 22.1s err=False [8/300, eta 1.2 h] 
+2026-10-16T14:58:38Z gemma 030032B010003_d87780bd route stop 51.3s err=False [9/300, eta 1.4 h] CC_PT_PVEM_MORENA_NABCS digits 186 != words 180; rows sum to TOTAL: 329 != 323
+2026-10-16T14:59:13Z gemma 030055B010003_59d52bb4 route stop 34.3s err=False [10/300, eta 1.6 h] section 5 = section 7: 222 != 223
+2026-10-16T14:59:51Z gemma 030044C010003_7c8dace7 route stop 117.3s err=False [11/300, eta 1.7 h] votaron + representantes = section 5: 225 != 433; section 5 = section 7: 433 != 225
+2026-10-16T14:59:52Z gemma 030017B010003_2d4d4b9a route stop 38.6s err=False [12/300, eta 1.6 h] NO_REGISTRADOS digits empty; section 5 = section 7: 299 != 298
+2026-10-16T15:00:24Z gemma 030007B010003_e3a31134 route stop 32.5s err=False [13/300, eta 1.6 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T15:00:28Z gemma 030022B010003_9665f3db route stop 36.6s err=False [14/300, eta 1.5 h] rows sum to TOTAL: 252 != 253
+2026-10-16T15:01:39Z gemma 030061C010003_85e32e50 route stop 74.5s err=False [15/300, eta 1.8 h] VOTARON digits empty; PERSONAS_Y_REP digits empty
+2026-10-16T15:01:57Z gemma 030040B010003_2adf8474 route stop 88.4s err=False [16/300, eta 1.8 h] row label mismatch at position 7 (CC_PT_PVEM_MORENA_NABCS): read 'PAN+PRI+PRD'; section 5 = section 7: 353 != 352
+2026-10-16T15:02:15Z gemma 030028C030003_3f9f452a route stop 35.8s err=False [17/300, eta 1.7 h] section 5 = section 7: 301 != 300
+2026-10-16T15:02:44Z gemma 030499B010003_fd8e06d1 route stop 47.5s err=False [18/300, eta 1.8 h] section 5 = section 7: 315 != 316
+2026-10-16T15:03:35Z gemma 030084B010003_babc6099 route stop 78.4s err=False [19/300, eta 1.9 h] VOTARON digits 93 != words 94; SACADOS digits empty
+2026-10-16T15:03:55Z gemma 030093B010003_96a9b4e2 route stop 71.0s err=False [20/300, eta 1.9 h] PERSONAS_Y_REP digits empty; SACADOS digits empty
+2026-10-16T15:04:43Z gemma 030500C010003_d9fd6534 ACCEPT stop 47.9s err=False [21/300, eta 1.9 h] 
+2026-10-16T15:07:16Z gemma 030094C040003_4c4ae572 route stop 221.0s err=False [22/300, eta 2.4 h] NO_REGISTRADOS digits empty; section 5 = section 7: 421 != 418
+2026-10-16T15:07:50Z gemma 030118B010003_a6486ae6 ACCEPT stop 185.0s err=False [23/300, eta 2.4 h] 
+2026-10-16T15:15:33Z gemma 030092B010003_a47a506e route stop 463.1s err=False [24/300, eta 3.8 h] CC_PT_PVEM_MORENA_NABCS digits 88 != words 80; NULOS digits 62 != words 2
+2026-10-16T15:16:37Z gemma 030120B010003_aec7c2a8 route stop 561.7s err=False [25/300, eta 3.8 h] NO_REGISTRADOS digits empty
+2026-10-16T15:16:52Z gemma 030095B010003_ef4d6dcb route stop 78.6s err=False [26/300, eta 3.7 h] section 5 = section 7: 221 != 220; section 7 = TOTAL: 220 != 213
+2026-10-16T15:17:19Z gemma 030496B010003_15c70080 ACCEPT stop 40.5s err=False [27/300, eta 3.6 h] 
+2026-10-16T15:18:29Z gemma 030076C010003_02f1dc37 ACCEPT stop 96.7s err=False [28/300, eta 3.6 h] 
+2026-10-16T15:18:42Z gemma 030085E010003_e03a001f ACCEPT stop 83.0s err=False [29/300, eta 3.5 h] 
+2026-10-16T15:19:06Z gemma 030096B010003_84afb004 route stop 37.1s err=False [30/300, eta 3.5 h] NO_REGISTRADOS digits empty; votaron + representantes = section 5: 326 != 0
+2026-10-16T15:20:01Z gemma 030458B010003_e9f7cc01 route stop 78.2s err=False [31/300, eta 3.5 h] section 5 = section 7: 282 != 280
+2026-10-16T15:20:18Z gemma 030280C020003_aa889343 route stop 72.1s err=False [32/300, eta 3.4 h] SACADOS digits empty; rows sum to TOTAL: 311 != 307
+2026-10-16T15:20:36Z gemma 030490B010003_d12be337 route stop 34.4s err=False [33/300, eta 3.3 h] section 5 = section 7: 315 != 313
+2026-10-16T15:20:53Z gemma 030492C020003_d0182c33 route stop 34.8s err=False [34/300, eta 3.2 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T15:24:29Z gemma 030278C010003_43233b3d route stop 216.4s err=False [35/300, eta 3.6 h] VOTARON digits 236 != words 237; PERSONAS_Y_REP digits 236 != words 237
+2026-10-16T15:26:01Z gemma 030487C020003_7c77cb65 route stop 91.5s err=False [36/300, eta 3.7 h] NO_REGISTRADOS digits 6 != words 0; rows sum to TOTAL: 297 != 291
+2026-10-16T15:26:09Z gemma 030479C010003_dd4b2808 route stop 332.1s err=False [37/300, eta 3.6 h] section 5 = section 7: 308 != 309
+2026-10-16T15:29:07Z gemma 030210C030003_0988c549 route stop 186.2s err=False [38/300, eta 3.8 h] section 5 = section 7: 460 != 457
+2026-10-16T15:29:19Z gemma 030162B010003_cd24e654 route stop 189.9s err=False [39/300, eta 3.7 h] SACADOS digits empty
+2026-10-16T15:38:04Z gemma 030156E010403_e8cf97c0 route stop 537.2s err=False [40/300, eta 4.6 h] rows sum to TOTAL: 290 != 289; section 5 = section 7: 290 != 289
+2026-10-16T15:38:05Z gemma 030193B010003_211cd192 ACCEPT stop 525.1s err=False [41/300, eta 4.4 h] 
+2026-10-16T15:38:59Z gemma 030156E010203_c48c4234 ACCEPT stop 54.9s err=False [42/300, eta 4.4 h] 
+2026-10-16T15:40:04Z gemma 030202B010003_cdf44606 route stop 64.4s err=False [43/300, eta 4.4 h] section 5 = section 7: 379 != 377
+2026-10-16T15:40:40Z gemma 030450B010003_cdc62b99 route stop 36.4s err=False [44/300, eta 4.3 h] section 7 = TOTAL: 356 != 367
+2026-10-16T15:40:40Z gemma 030248S000007_cc7d5ae4 route None Nones err=False [45/300, eta 4.2 h] layout not covered: special-station acta: printed layout not covered by the schemas (PROTOCOL_IEEBCS 3.3); not downloaded, not read, its fie
+2026-10-16T15:40:44Z gemma 030280C010003_ccf6640a route stop 158.9s err=False [46/300, eta 4.1 h] VOTARON digits 309 != words 312
+2026-10-16T15:41:32Z gemma 030474B010003_acec1881 route stop 46.5s err=False [47/300, eta 4.1 h] section 5 = section 7: 157 != 136
+2026-10-16T15:41:55Z gemma 030489C010003_5d5f4961 route stop 74.3s err=False [48/300, eta 4.0 h] SACADOS digits empty; rows sum to TOTAL: 388 != 389
+2026-10-16T15:42:29Z gemma 030446C020003_24993ec5 route stop 57.6s err=False [49/300, eta 4.0 h] section 5 = section 7: 398 != 400
+2026-10-16T15:42:59Z gemma 030246B010003_9869531f route stop 64.6s err=False [50/300, eta 3.9 h] SACADOS digits empty; votaron + representantes = section 5: 229 != 460
+2026-10-16T15:43:47Z gemma 030265B010003_955d8056 route stop 46.5s err=False [51/300, eta 3.9 h] MC digits empty; FXM digits empty
+2026-10-16T15:43:48Z gemma 030227C010003_12c78a18 route stop 78.9s err=False [52/300, eta 3.8 h] section 5 = section 7: 406 != 408
+2026-10-16T15:44:34Z gemma 030212C010003_f8a006f7 route stop 47.0s err=False [53/300, eta 3.8 h] section 5 = section 7: 347 != 350
+2026-10-16T15:45:44Z gemma 030218C010003_844fef19 route stop 70.7s err=False [54/300, eta 3.8 h] section 5 = section 7: 459 != 461
+2026-10-16T15:45:44Z gemma 030484C030003_68e05e27 ACCEPT stop 116.0s err=False [55/300, eta 3.7 h] 
+2026-10-16T15:47:42Z gemma 030492B010003_8c1bc995 route stop 116.9s err=False [56/300, eta 3.8 h] section 5 = section 7: 362 != 350; section 7 = TOTAL: 350 != 338
+2026-10-16T15:47:46Z gemma 030184B010003_23e6ef33 ACCEPT stop 120.7s err=False [57/300, eta 3.7 h] 
+2026-10-16T15:48:18Z gemma 030444B010003_ee6290d3 route stop 35.2s err=False [58/300, eta 3.6 h] rows sum to TOTAL: 354 != 355; section 5 = section 7: 358 != 355
+2026-10-16T15:48:23Z gemma 030210C040003_ae3bd9ba route stop 36.5s err=False [59/300, eta 3.6 h] SOBRANTES digits 225 != words 275; CC_PT_PVEM_MORENA_NABCS digits 168 != words 165
+2026-10-16T15:48:51Z gemma 030470C040003_90698d91 route stop 28.0s err=False [60/300, eta 3.5 h] SOBRANTES digits 335 != words 375
+2026-10-16T15:48:59Z gemma 030271B010003_68f15e1e route stop 41.0s err=False [61/300, eta 3.5 h] section 5 = section 7: 373 != 369
+2026-10-16T15:49:49Z gemma 030122B010003_3e1b6574 route stop 58.8s err=False [62/300, eta 3.4 h] section 5 = section 7: 218 != 215
+2026-10-16T15:50:32Z gemma 030281B010003_d39ab7b8 route stop 92.3s err=False [63/300, eta 3.4 h] PERSONAS_Y_REP digits empty
+2026-10-16T15:50:57Z gemma 030268E010003_24cbe8b7 ACCEPT stop 25.2s err=False [64/300, eta 3.4 h] 
+2026-10-16T15:51:00Z gemma 030199B010003_9454df30 route stop 69.7s err=False [65/300, eta 3.3 h] section 5 = section 7: 339 != 340
+2026-10-16T15:51:41Z gemma 030192B010003_abe52b61 route stop 40.8s err=False [66/300, eta 3.3 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T15:51:46Z gemma 030218B010003_8f7b3d3d route stop 49.1s err=False [67/300, eta 3.2 h] section 5 = section 7: 428 != 426; section 7 = TOTAL: 426 != 427
+2026-10-16T15:52:06Z gemma 030470C030003_f97550d5 ACCEPT stop 23.9s err=False [68/300, eta 3.2 h] 
+2026-10-16T15:52:13Z gemma 030209B010003_00e24a52 ACCEPT stop 26.4s err=False [69/300, eta 3.1 h] 
+2026-10-16T15:52:28Z gemma 030144B010003_f71891b1 route stop 22.7s err=False [70/300, eta 3.1 h] SACADOS digits empty; TOTAL digits 349 != words 344
+2026-10-16T15:53:00Z gemma 030262B010003_df634cd8 route stop 30.5s err=False [71/300, eta 3.1 h] rows sum to TOTAL: 134 != 124; section 5 = section 7: 135 != 124
+2026-10-16T15:53:07Z gemma 030481C010003_0da4cc19 ACCEPT stop 54.8s err=False [72/300, eta 3.0 h] 
+2026-10-16T15:53:25Z gemma 030488C020003_76dfd38d route stop 17.1s err=False [73/300, eta 3.0 h] read has 14 values, form has 13; row label mismatch at position 11 (NO_REGISTRADOS): read 'MOVIMIENTO LABORISTA'
+2026-10-16T15:53:43Z gemma 030479C020003_647fcb9c route stop 18.6s err=False [74/300, eta 2.9 h] section 5 = section 7: 297 != 289; section 7 = TOTAL: 289 != 297
+2026-10-16T15:53:53Z gemma 030494C010003_fd8b59d4 route stop 53.4s err=False [75/300, eta 2.9 h] rows sum to TOTAL: 316 != 306; section 5 = section 7: 313 != 306
+2026-10-16T15:54:14Z gemma 030486C010003_8412c07d route stop 20.8s err=False [76/300, eta 2.9 h] section 5 = section 7: 290 != 292
+2026-10-16T15:54:37Z gemma 030133B010003_ab5e3990 route stop 22.8s err=False [77/300, eta 2.8 h] NO_REGISTRADOS digits empty; section 5 = section 7: 195 != 189
+2026-10-16T15:54:37Z gemma 030146B010003_658700e6 route stop 53.2s err=False [78/300, eta 2.8 h] rows sum to TOTAL: 310 != 311; votaron + representantes = section 5: 5 != 310
+2026-10-16T15:55:05Z gemma 030165B010003_1190ea7e route stop 28.3s err=False [79/300, eta 2.8 h] section 5 = section 7: 270 != 275; section 7 = TOTAL: 275 != 270
+2026-10-16T15:55:25Z gemma 030256B010003_158f590b route stop 19.9s err=False [80/300, eta 2.7 h] section 5 = section 7: 380 != 382
+2026-10-16T15:55:35Z gemma 030214B010003_7a165a3e route stop 57.1s err=False [81/300, eta 2.7 h] rows sum to TOTAL: 304 != 305
+2026-10-16T15:55:39Z gemma 030273B010003_e6e97827 route stop 14.1s err=False [82/300, eta 2.6 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T15:56:35Z gemma 030478C010003_d1be14c6 route stop 55.0s err=False [83/300, eta 2.6 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T15:56:39Z gemma 030228C020003_e3df46f0 route stop 63.3s err=False [84/300, eta 2.6 h] SOBRANTES digits 223 != words 220; section 5 = section 7: 395 != 392
+2026-10-16T15:57:35Z gemma 030445C010003_7e52c881 ACCEPT stop 59.8s err=False [85/300, eta 2.6 h] 
+2026-10-16T15:57:52Z gemma 030269C010003_91eeb064 route stop 73.2s err=False [86/300, eta 2.6 h] REPRESENTANTES digits empty
+2026-10-16T15:58:15Z gemma 030250B010003_39eb30b2 route stop 39.7s err=False [87/300, eta 2.5 h] votaron + representantes = section 5: 5 != 301
+2026-10-16T15:58:41Z gemma 030454B010003_021d25d2 route stop 26.4s err=False [88/300, eta 2.5 h] section 5 = section 7: 339 != 340
+2026-10-16T15:58:52Z gemma 030140B010003_f33c2b63 ACCEPT stop 58.8s err=False [89/300, eta 2.5 h] 
+2026-10-16T15:59:02Z gemma 030474C010003_359a3498 route stop 21.0s err=False [90/300, eta 2.5 h] TOTAL digits 196 != words 190; rows sum to TOTAL: 190 != 196
+2026-10-16T15:59:16Z gemma 030385B010003_f257e21a route stop 24.4s err=False [91/300, eta 2.4 h] SACADOS digits empty; rows sum to TOTAL: 330 != 318
+2026-10-16T15:59:25Z gemma 030316C010003_c6a55cdf route stop 22.2s err=False [92/300, eta 2.4 h] CC_PT_PVEM_MORENA_NABCS digits 56 != words 66; section 5 = section 7: 412 != 417
+2026-10-16T15:59:54Z gemma 030334B010003_eb2b8b52 route stop 37.2s err=False [93/300, eta 2.4 h] section 5 = section 7: 157 != 1; section 7 = TOTAL: 1 != 157
+2026-10-16T15:59:57Z gemma 030296B010003_5e3bbd92 route stop 31.9s err=False [94/300, eta 2.3 h] section 5 = section 7: 423 != 434
+2026-10-16T16:00:23Z gemma 030400C010003_e29f9ad6 route stop 21.8s err=False [95/300, eta 2.3 h] rows sum to TOTAL: 208 != 200; section 5 = section 7: 206 != 204
+2026-10-16T16:00:37Z gemma 030510B010003_5b573323 route stop 43.6s err=False [96/300, eta 2.3 h] SOBRANTES digits 308 != words 208; section 5 = section 7: 441 != 442
+2026-10-16T16:01:58Z gemma 030297B010003_8597ad80 route stop 94.5s err=False [97/300, eta 2.3 h] rows sum to TOTAL: 266 != 265; section 5 = section 7: 266 != 265
+2026-10-16T16:01:59Z gemma 030366B010003_2d8d443f route stop 81.6s err=False [98/300, eta 2.3 h] SOBRANTES digits 308 != words 38; NO_REGISTRADOS digits empty
+2026-10-16T16:02:27Z gemma 030527C010003_640447b9 route stop 27.0s err=False [99/300, eta 2.2 h] section 5 = section 7: 356 != 342
+2026-10-16T16:02:46Z gemma 030294C020003_48b76d55 route stop 48.7s err=False [100/300, eta 2.2 h] section 5 = section 7: 486 != 499
+2026-10-16T16:03:14Z gemma 030363C020003_7b0cdd63 route stop 27.5s err=False [101/300, eta 2.2 h] SACADOS digits empty; NO_REGISTRADOS digits empty
+2026-10-16T16:03:15Z gemma 030423B010003_aa1bc41c route stop 47.9s err=False [102/300, eta 2.2 h] section 5 = section 7: 218 != 203
+2026-10-16T16:03:35Z gemma 030404C020003_a8f4e197 route stop 19.0s err=False [103/300, eta 2.2 h] SACADOS digits 256 != words 250; TOTAL digits 267 != words 237
+2026-10-16T16:03:52Z gemma 030379B010003_61e231e3 route stop 16.8s err=False [104/300, eta 2.1 h] CC_PAN_PRI_PRD_PRS_PHBCS digits 88 != words 80; CC_PT_PVEM_MORENA_NABCS digits 129 != words 121
+2026-10-16T16:04:02Z gemma 030405C010003_a57c9a9e route stop 47.9s err=False [105/300, eta 2.1 h] NO_REGISTRADOS digits 7 != words 1; rows sum to TOTAL: 372 != 366
+2026-10-16T16:04:18Z gemma 030390C010003_6cba458d route stop 26.0s err=False [106/300, eta 2.1 h] section 5 = section 7: 296 != 294
+2026-10-16T16:05:02Z gemma 030424B010003_45538a63 route stop 60.2s err=False [107/300, eta 2.1 h] TOTAL digits 219 != words 213; section 5 = section 7: 212 != 219
+2026-10-16T16:05:02Z gemma 030291S000007_9a21b24d route None Nones err=False [108/300, eta 2.0 h] layout not covered: special-station acta: printed layout not covered by the schemas (PROTOCOL_IEEBCS 3.3); not downloaded, not read, its fie
+2026-10-16T16:05:22Z gemma 030328C030003_39d89b73 ACCEPT stop 62.6s err=False [109/300, eta 2.0 h] 
+2026-10-16T16:05:25Z gemma 030510C010003_f0b41d59 route stop 23.0s err=False [110/300, eta 2.0 h] section 5 = section 7: 453 != 456
+2026-10-16T16:05:25Z gemma 030514C020003_8496bd41 route None Nones err=False [111/300, eta 2.0 h] form not located: no candidate passed the landmark check after 11 tries: printed boxes not where expected (sec6_header, sec6_digits_mid, sec
+2026-10-16T16:05:46Z gemma 030294B010003_cc5ac2a5 route stop 20.1s err=False [112/300, eta 2.0 h] section 5 = section 7: 482 != 479
+2026-10-16T16:06:41Z gemma 030321B010003_114eee59 route stop 54.7s err=False [113/300, eta 2.0 h] rows sum to TOTAL: 325 != 326; section 5 = section 7: 325 != 326
+2026-10-16T16:06:42Z gemma 030359B010003_dcd8e38c route stop 80.0s err=False [114/300, eta 1.9 h] CC_PAN_PRI_PRD_PRS_PHBCS digits 128 != words 108; CC_PT_PVEM_MORENA_NABCS digits 132 != words 150
+2026-10-16T16:07:20Z gemma 030361C020003_ca21f778 route stop 38.2s err=False [115/300, eta 1.9 h] section 5 = section 7: 376 != 371
+2026-10-16T16:07:59Z gemma 030324C010003_c1e3185d ACCEPT stop 77.5s err=False [116/300, eta 1.9 h] 
+2026-10-16T16:08:07Z gemma 030410B010003_897c4a69 route stop 47.3s err=False [117/300, eta 1.9 h] section 5 = section 7: 314 != 310
+2026-10-16T16:09:07Z gemma 030375C040003_6347df1d route stop 59.7s err=False [118/300, eta 1.9 h] section 5 = section 7: 344 != 329
+2026-10-16T16:10:15Z gemma 030411B010003_45158474 route stop 135.1s err=False [119/300, eta 1.9 h] section 7 = TOTAL: 461 != 460
+2026-10-16T16:10:50Z gemma 030389C010003_1410eaaf route stop 103.0s err=False [120/300, eta 1.9 h] SACADOS digits empty
+2026-10-16T16:12:04Z gemma 030380C040003_7af2004f route stop 108.5s err=False [121/300, eta 1.9 h] section 5 = section 7: 282 != 279
+2026-10-16T16:12:24Z gemma 030295B010003_15ebc45a route stop 93.1s err=False [122/300, eta 1.9 h] SACADOS digits empty; CC_PAN_PRI_PRD_PRS_PHBCS digits 168 != words 167
+2026-10-16T16:13:02Z gemma 030521C010003_24f64932 route stop 37.5s err=False [123/300, eta 1.8 h] section 5 = section 7: 260 != 270
+2026-10-16T16:13:08Z gemma 030525C030003_52801eb6 route stop 64.3s err=False [124/300, eta 1.8 h] SACADOS digits empty; votaron + representantes = section 5: 524 != 423
+2026-10-16T16:13:47Z gemma 030290B010003_3e194499 ACCEPT stop 45.1s err=False [125/300, eta 1.8 h] 
+2026-10-16T16:13:58Z gemma 030406B010003_dd29a240 route stop 49.6s err=False [126/300, eta 1.8 h] section 5 = section 7: 265 != 257
+2026-10-16T16:14:35Z gemma 030413B010003_01fb2521 route stop 36.3s err=False [127/300, eta 1.8 h] SOBRANTES digits empty; SACADOS digits empty
+2026-10-16T16:15:19Z gemma 030421C010003_fb67dac5 route stop 91.4s err=False [128/300, eta 1.8 h] section 5 = section 7: 219 != 218
+2026-10-16T16:15:46Z gemma 030388B010003_7238e66f route stop 71.3s err=False [129/300, eta 1.8 h] NO_REGISTRADOS digits empty; section 5 = section 7: 333 != 334
+2026-10-16T16:16:50Z gemma 030361C010003_4f488d34 route stop 63.4s err=False [130/300, eta 1.8 h] section 5 = section 7: 379 != 380
+2026-10-16T16:16:54Z gemma 030304C020003_f70648d0 route stop 94.1s err=False [131/300, eta 1.7 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T16:17:41Z gemma 030504C020003_573ddd81 route stop 51.2s err=False [132/300, eta 1.7 h] read has 14 values, form has 13; row label mismatch at position 8 (MC): read 'MORENA'
+2026-10-16T16:17:45Z gemma 030437B010003_75d5da4c route stop 50.6s err=False [133/300, eta 1.7 h] REPRESENTANTES digits 603 != words 3; NO_REGISTRADOS digits empty
+2026-10-16T16:17:45Z gemma 030400S000007_ba4b35b9 route None Nones err=False [134/300, eta 1.7 h] layout not covered: special-station acta: printed layout not covered by the schemas (PROTOCOL_IEEBCS 3.3); not downloaded, not read, its fie
+2026-10-16T16:18:51Z gemma 030365B010003_df24f55d route stop 68.6s err=False [135/300, eta 1.7 h] section 5 = section 7: 338 != 340
+2026-10-16T16:19:15Z gemma 030316C020003_d325d251 route stop 89.9s err=False [136/300, eta 1.7 h] NO_REGISTRADOS digits 11 != words 1; rows sum to TOTAL: 432 != 422
+2026-10-16T16:19:47Z gemma 030307B010003_874e574e route stop 32.5s err=False [137/300, eta 1.7 h] votaron + representantes = section 5: 130 != 246; section 5 = section 7: 246 != 130
+2026-10-16T16:19:49Z gemma 030517C010003_81e67da5 route stop 58.2s err=False [138/300, eta 1.6 h] section 5 = section 7: 256 != 253
+2026-10-16T16:20:36Z gemma 030325C010003_4218113a route stop 47.5s err=False [139/300, eta 1.6 h] SACADOS digits empty; votaron + representantes = section 5: 5 != 262
+2026-10-16T16:20:36Z gemma 030397C030003_4b09d853 route stop 47.0s err=False [140/300, eta 1.6 h] SOBRANTES digits 324 != words 374; ML digits 19 != words 16
+2026-10-16T16:21:47Z gemma 030363B010003_4366f7bd route stop 71.1s err=False [141/300, eta 1.6 h] NO_REGISTRADOS digits empty
+2026-10-16T16:23:11Z gemma 030512B010003_a49d14f7 ACCEPT stop 83.5s err=False [142/300, eta 1.6 h] 
+2026-10-16T16:23:32Z gemma 030409C010003_f45555ab route stop 175.8s err=False [143/300, eta 1.6 h] section 5 = section 7: 252 != 242
+2026-10-16T16:24:19Z gemma 030311B010003_f3bf4185 route stop 46.5s err=False [144/300, eta 1.6 h] section 7 = TOTAL: 310 != 282
+2026-10-16T16:24:48Z gemma 030539C020003_38a2c5cf route stop 96.3s err=False [145/300, eta 1.6 h] section 5 = section 7: 314 != 312
+2026-10-16T16:25:11Z gemma 030342B010003_42e4646a ACCEPT stop 52.6s err=False [146/300, eta 1.6 h] 
+2026-10-16T16:25:26Z gemma 030346B010003_9339774d ACCEPT stop 37.1s err=False [147/300, eta 1.6 h] 
+2026-10-16T16:25:44Z gemma 030338E010003_f8150668 route stop 33.1s err=False [148/300, eta 1.5 h] REPRESENTANTES digits 5 != words 105; PERSONAS_Y_REP digits empty
+2026-10-16T16:26:07Z gemma 030340B010003_d9d9e871 ACCEPT stop 40.8s err=False [149/300, eta 1.5 h] 
+2026-10-16T16:27:10Z gemma 030012B010002_ed0fba4b ACCEPT stop 85.6s err=False [150/300, eta 1.5 h] 
+2026-10-16T16:28:03Z gemma 030043C010002_a69b4760 route stop 115.0s err=False [151/300, eta 1.5 h] TOTAL digits 195 != words 190; section 5 = section 7: 194 != 195
+2026-10-16T16:28:11Z gemma 030013C010002_d8503baa route stop 60.3s err=False [152/300, eta 1.5 h] section 5 = section 7: 286 != 283
+2026-10-16T16:29:03Z gemma 030009B010002_1afece7a route stop 59.4s err=False [153/300, eta 1.5 h] SACADOS digits empty; ML digits 10 != words 12
+2026-10-16T16:29:26Z gemma 030073B010002_f2b10af5 ACCEPT stop 75.1s err=False [154/300, eta 1.5 h] 
+2026-10-16T16:30:37Z gemma 030016C010002_0efb2c38 route stop 71.3s err=False [155/300, eta 1.5 h] section 5 = section 7: 275 != 274
+2026-10-16T16:30:52Z gemma 030042C010002_b9afdccd route stop 108.1s err=False [156/300, eta 1.5 h] section 5 = section 7: 271 != 267
+2026-10-16T16:31:27Z gemma 030051B010002_dbb1b781 ACCEPT stop 34.7s err=False [157/300, eta 1.4 h] 
+2026-10-16T16:31:34Z gemma 030058B010002_9af603a8 route stop 56.5s err=False [158/300, eta 1.4 h] SOBRANTES digits 243 != words 246; TOTAL digits 310 != words 283
+2026-10-16T16:31:58Z gemma 030026B010002_f98c1179 route stop 24.7s err=False [159/300, eta 1.4 h] SACADOS digits empty
+2026-10-16T16:32:19Z gemma 030044C010002_72353ecf route stop 50.8s err=False [160/300, eta 1.4 h] votaron + representantes = section 5: 233 != 433; section 5 = section 7: 433 != 225
+2026-10-16T16:32:23Z gemma 030059B010002_0c2b9adb route stop 24.1s err=False [161/300, eta 1.4 h] section 5 = section 7: 249 != 250
+2026-10-16T16:33:54Z gemma 030022C020002_e331e437 route stop 90.0s err=False [162/300, eta 1.4 h] section 5 = section 7: 243 != 244
+2026-10-16T16:34:16Z gemma 030007C010002_bfee5bba route stop 116.9s err=False [163/300, eta 1.4 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T16:34:25Z gemma 030048C010002_4cc04b04 route stop 31.2s err=False [164/300, eta 1.4 h] section 5 = section 7: 306 != 300
+2026-10-16T16:34:48Z gemma 030040B010002_bcebb3f5 route stop 22.4s err=False [165/300, eta 1.3 h] rows sum to TOTAL: 354 != 352; section 5 = section 7: 353 != 352
+2026-10-16T16:35:10Z gemma 030107B010002_3bacb66e route stop 21.8s err=False [166/300, eta 1.3 h] REPRESENTANTES digits 63 != words 3; PERSONAS_Y_REP digits 233 != words 234
+2026-10-16T16:35:12Z gemma 030008B010002_c8b56668 ACCEPT stop 55.6s err=False [167/300, eta 1.3 h] 
+2026-10-16T16:35:38Z gemma 030110B010002_2e214d7e route stop 26.4s err=False [168/300, eta 1.3 h] NO_REGISTRADOS digits empty
+2026-10-16T16:36:41Z gemma 030097B010002_969c8426 ACCEPT stop 90.1s err=False [169/300, eta 1.3 h] 
+2026-10-16T16:36:43Z gemma 030108C010002_cf3bc688 route stop 64.6s err=False [170/300, eta 1.3 h] section 5 = section 7: 324 != 323
+2026-10-16T16:37:12Z gemma 030118B010002_11d2834c ACCEPT stop 28.9s err=False [171/300, eta 1.3 h] 
+2026-10-16T16:38:22Z gemma 030082C010002_c7f52e24 route stop 100.1s err=False [172/300, eta 1.3 h] NO_REGISTRADOS digits empty
+2026-10-16T16:38:30Z gemma 030098C020002_b872d884 route stop 77.7s err=False [173/300, eta 1.3 h] REPRESENTANTES digits 64 != words 4; SACADOS digits empty
+2026-10-16T16:39:08Z gemma 030094C020002_7dacd10e route stop 46.2s err=False [174/300, eta 1.2 h] section 5 = section 7: 378 != 382
+2026-10-16T16:39:47Z gemma 030116B010002_999cfb77 route stop 75.6s err=False [175/300, eta 1.2 h] ML digits empty; NO_REGISTRADOS digits empty
+2026-10-16T16:40:33Z gemma 030498B010002_0777887a route stop 84.5s err=False [176/300, eta 1.2 h] NO_REGISTRADOS digits empty; section 5 = section 7: 322 != 323
+2026-10-16T16:40:33Z gemma 030080B010002_454aed59 route stop 46.6s err=False [177/300, eta 1.2 h] section 5 = section 7: 5 != 334
+2026-10-16T16:41:01Z gemma 030119B010002_18d97ae5 ACCEPT stop 27.8s err=False [178/300, eta 1.2 h] 
+2026-10-16T16:41:45Z gemma 030184B010002_e42351a9 ACCEPT stop 44.2s err=False [179/300, eta 1.2 h] 
+2026-10-16T16:41:49Z gemma 030077C010002_8d4fde2a route stop 74.8s err=False [180/300, eta 1.2 h] section 5 = section 7: 259 != 258
+2026-10-16T16:42:24Z gemma 030444B010002_1f611308 route stop 38.8s err=False [181/300, eta 1.2 h] SOBRANTES digits 310 != words 312; section 5 = section 7: 358 != 357
+2026-10-16T16:42:24Z gemma 030213C010002_405beb4b route stop 35.4s err=False [182/300, eta 1.2 h] SOBRANTES digits 590 != words 275; section 5 = section 7: 378 != 382
+2026-10-16T16:42:52Z gemma 030249B010002_97b9bac8 route stop 26.7s err=False [183/300, eta 1.1 h] NO_REGISTRADOS digits empty; section 5 = section 7: 263 != 259
+2026-10-16T16:42:54Z gemma 030287B010002_04f9ebb4 ACCEPT stop 29.4s err=False [184/300, eta 1.1 h] 
+2026-10-16T16:43:16Z gemma 030129C010002_1c5467ef route stop 24.4s err=False [185/300, eta 1.1 h] SACADOS digits empty; NULOS digits 17 != words 14
+2026-10-16T16:43:17Z gemma 030468B010002_b8f3b83c route stop 22.3s err=False [186/300, eta 1.1 h] section 5 = section 7: 229 != 228; section 7 = TOTAL: 228 != 225
+2026-10-16T16:43:54Z gemma 030470C020002_51204282 route stop 37.2s err=False [187/300, eta 1.1 h] SOBRANTES digits 361 != words 341; VOTARON digits 227 != words 277
+2026-10-16T16:43:57Z gemma 030179C010002_69665c6c route stop 40.2s err=False [188/300, eta 1.1 h] SOBRANTES digits empty; SACADOS digits empty
+2026-10-16T16:44:19Z gemma 030479C030002_c4f191d5 ACCEPT stop 24.5s err=False [189/300, eta 1.1 h] 
+2026-10-16T16:44:22Z gemma 030157C010002_d4f87f4d ACCEPT stop 24.9s err=False [190/300, eta 1.0 h] 
+2026-10-16T16:45:06Z gemma 030470C040002_28cb4bac route stop 46.5s err=False [191/300, eta 1.0 h] CC_PAN_PRI_PRD_PRS_PHBCS digits 84 != words 87
+2026-10-16T16:45:10Z gemma 030153B010002_95661f32 ACCEPT stop 48.1s err=False [192/300, eta 1.0 h] 
+2026-10-16T16:45:39Z gemma 030247B010002_56464f5d route stop 28.5s err=False [193/300, eta 1.0 h] section 5 = section 7: 285 != 251
+2026-10-16T16:46:06Z gemma 030461C010002_d0814af4 route stop 26.1s err=False [194/300, eta 1.0 h] VOTARON digits empty; REPRESENTANTES digits empty
+2026-10-16T16:46:37Z gemma 030191B010002_27e11613 ACCEPT stop 31.0s err=False [195/300, eta 1.0 h] 
+2026-10-16T16:46:56Z gemma 030281C020002_239f1bc3 route stop 109.7s err=False [196/300, eta 1.0 h] SACADOS digits empty
+2026-10-16T16:47:11Z gemma 030464C010002_92f1d024 route stop 33.5s err=False [197/300, eta 1.0 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T16:47:30Z gemma 030474B010002_833b5ecc route stop 33.6s err=False [198/300, eta 1.0 h] section 5 = section 7: 157 != 135
+2026-10-16T16:48:01Z gemma 030156E010202_03d7d827 route stop 31.5s err=False [199/300, eta 0.9 h] CC_PAN_PRI_PRD_PRS_PHBCS digits 99 != words 49; rows sum to TOTAL: 336 != 286
+2026-10-16T16:48:46Z gemma 030461B010002_097ccb81 ACCEPT stop 93.6s err=False [200/300, eta 0.9 h] 
+2026-10-16T16:48:56Z gemma 030203C010002_4dfd059b route stop 54.3s err=False [201/300, eta 0.9 h] section 5 = section 7: 250 != 254
+2026-10-16T16:49:43Z gemma 030233B010002_6ac3a9f0 route stop 45.5s err=False [202/300, eta 0.9 h] section 5 = section 7: 416 != 417
+2026-10-16T16:49:46Z gemma 030210B010002_6f09c777 route stop 60.5s err=False [203/300, eta 0.9 h] section 5 = section 7: 431 != 432
+2026-10-16T16:50:11Z gemma 030228C010002_8a85fc3f route stop 28.0s err=False [204/300, eta 0.9 h] section 5 = section 7: 379 != 378
+2026-10-16T16:50:13Z gemma 030232C010002_82acde2c route stop 26.8s err=False [205/300, eta 0.9 h] section 5 = section 7: 300 != 305
+2026-10-16T16:50:36Z gemma 030465B010002_aedd1140 ACCEPT stop 25.1s err=False [206/300, eta 0.9 h] 
+2026-10-16T16:50:53Z gemma 030179B010002_7a7385b3 ACCEPT stop 38.8s err=False [207/300, eta 0.9 h] 
+2026-10-16T16:50:55Z gemma 030124C010002_d8cf6ea2 route stop 18.7s err=False [208/300, eta 0.8 h] SACADOS digits 326 != words 13325; CC_PAN_PRI_PRD_PRS_PHBCS digits 146 != words 147
+2026-10-16T16:51:19Z gemma 030193C010002_aa823478 route stop 24.2s err=False [209/300, eta 0.8 h] SACADOS digits empty; rows sum to TOTAL: 343 != 347
+2026-10-16T16:52:03Z gemma 030264B010002_6e7e0eab ACCEPT stop 70.5s err=False [210/300, eta 0.8 h] 
+2026-10-16T16:52:42Z gemma 030202C010002_24607861 route stop 82.1s err=False [211/300, eta 0.8 h] section 5 = section 7: 363 != 364
+2026-10-16T16:52:47Z gemma 030182C010002_e52befe2 route stop 43.7s err=False [212/300, eta 0.8 h] PERSONAS_Y_REP digits 246 != words 247; section 5 = section 7: 246 != 245
+2026-10-16T16:53:37Z gemma 030215B010002_051e7826 route stop 49.5s err=False [213/300, eta 0.8 h] votaron + representantes = section 5: 283 != 300; section 5 = section 7: 300 != 441
+2026-10-16T16:53:47Z gemma 030487C020002_e90ddac1 route stop 64.5s err=False [214/300, eta 0.8 h] section 5 = section 7: 290 != 292
+2026-10-16T16:54:53Z gemma 030445B010002_b0bccb49 ACCEPT stop 74.9s err=False [215/300, eta 0.8 h] 
+2026-10-16T16:55:00Z gemma 030267E010002_a6327d9b ACCEPT stop 73.3s err=False [216/300, eta 0.8 h] 
+2026-10-16T16:55:21Z gemma 030469C010002_376039e9 ACCEPT stop 28.4s err=False [217/300, eta 0.8 h] 
+2026-10-16T16:55:25Z gemma 030245B010002_50d472d4 ACCEPT stop 24.3s err=False [218/300, eta 0.7 h] 
+2026-10-16T16:55:55Z gemma 030197C020002_f174cc12 route stop 32.2s err=False [219/300, eta 0.7 h] rows sum to TOTAL: 403 != 408
+2026-10-16T16:56:14Z gemma 030493B010002_15178075 route stop 19.8s err=False [220/300, eta 0.7 h] VOTARON digits 326 != words 327
+2026-10-16T16:56:17Z gemma 030162C010002_8a2923c5 ACCEPT stop 52.6s err=False [221/300, eta 0.7 h] 
+2026-10-16T16:56:48Z gemma 030137C010002_0cc93ff1 route stop 29.7s err=False [222/300, eta 0.7 h] read has 14 values, form has 13; row label mismatch at position 11 (NO_REGISTRADOS): read 'MOVIMIENTO LABORISTA'
+2026-10-16T16:57:34Z gemma 030476B010002_13494e5c route stop 79.0s err=False [223/300, eta 0.7 h] VOTARON digits empty; REPRESENTANTES digits empty
+2026-10-16T16:57:38Z gemma 030282B010002_39c156b7 route stop 49.5s err=False [224/300, eta 0.7 h] votaron + representantes = section 5: 238 != 258; section 5 = section 7: 258 != 259
+2026-10-16T16:58:13Z gemma 030174C010002_13bb1f2e ACCEPT stop 35.8s err=False [225/300, eta 0.7 h] 
+2026-10-16T16:58:15Z gemma 030267B010002_fad217f9 route stop 41.2s err=False [226/300, eta 0.7 h] read has 15 values, form has 14; row label mismatch at position 11 (PES): read 'MOVIMIENTO LABORISTA'
+2026-10-16T16:58:15Z gemma 030248S000005_0da3a81a route None Nones err=False [227/300, eta 0.7 h] layout not covered: special-station acta: printed layout not covered by the schemas (PROTOCOL_IEEBCS 3.3); not downloaded, not read, its fie
+2026-10-16T16:58:47Z gemma 030188B010002_94d118d6 route stop 31.8s err=False [228/300, eta 0.6 h] section 5 = section 7: 482 != 489
+2026-10-16T16:59:25Z gemma 030222B010002_a34a226b route stop 38.0s err=False [229/300, eta 0.6 h] section 5 = section 7: 343 != 341
+2026-10-16T16:59:31Z gemma 030283C010002_7a9e469c route stop 76.7s err=False [230/300, eta 0.6 h] SACADOS digits empty
+2026-10-16T16:59:51Z gemma 030283C030002_d6da6ab7 route stop 26.0s err=False [231/300, eta 0.6 h] section 5 = section 7: 256 != 258
+2026-10-16T17:00:13Z gemma 030477B010002_ced73a48 ACCEPT stop 41.0s err=False [232/300, eta 0.6 h] 
+2026-10-16T17:00:26Z gemma 030126B010002_8c922c27 route stop 35.0s err=False [233/300, eta 0.6 h] VOTARON digits 414 != words 427; rows sum to TOTAL: 428 != 427
+2026-10-16T17:00:43Z gemma 030462B010002_13b72498 route stop 30.1s err=False [234/300, eta 0.6 h] ML digits 9 != words 8; rows sum to TOTAL: 240 != 239
+2026-10-16T17:01:08Z gemma 030288C010002_94d205d3 route stop 42.1s err=False [235/300, eta 0.6 h] rows sum to TOTAL: 359 != 360; section 5 = section 7: 365 != 361
+2026-10-16T17:01:34Z gemma 030466C010002_e219e245 route stop 50.0s err=False [236/300, eta 0.6 h] MC digits 31 != words 38; rows sum to TOTAL: 249 != 248
+2026-10-16T17:01:53Z gemma 030174B010002_50d98a9c route stop 44.8s err=False [237/300, eta 0.6 h] SOBRANTES digits empty; MC digits 29 != words 27
+2026-10-16T17:01:55Z gemma 030121B010002_7e2a994d route stop 20.8s err=False [238/300, eta 0.5 h] NULOS digits 14 != words 11; rows sum to TOTAL: 392 != 389
+2026-10-16T17:02:16Z gemma 030159B010002_23beb5ac ACCEPT stop 22.7s err=False [239/300, eta 0.5 h] 
+2026-10-16T17:02:19Z gemma 030447B010002_8c03d8a7 route stop 22.9s err=False [240/300, eta 0.5 h] SOBRANTES digits empty; NO_REGISTRADOS digits empty
+2026-10-16T17:02:41Z gemma 030220C010002_5a1626ac route stop 24.7s err=False [241/300, eta 0.5 h] section 7 = TOTAL: 363 != 361
+2026-10-16T17:03:01Z gemma 030511C010002_534d3cd2 route stop 41.6s err=False [242/300, eta 0.5 h] rows sum to TOTAL: 234 != 235
+2026-10-16T17:03:01Z gemma 030331C030002_c2d3e892 route stop 19.8s err=False [243/300, eta 0.5 h] NULOS digits 10 != words 12; rows sum to TOTAL: 368 != 366
+2026-10-16T17:03:41Z gemma 030324B010002_c10c8dfc route stop 39.2s err=False [244/300, eta 0.5 h] votaron + representantes = section 5: 326 != 5; section 5 = section 7: 5 != 334
+2026-10-16T17:03:43Z gemma 030532B010002_9c9c30e6 route stop 41.3s err=False [245/300, eta 0.5 h] rows sum to TOTAL: 376 != 382; section 5 = section 7: 375 != 382
+2026-10-16T17:04:09Z gemma 030307E010002_b4d8f9b6 route stop 27.6s err=False [246/300, eta 0.5 h] VOTARON digits 66 != words 60; MC digits empty
+2026-10-16T17:04:36Z gemma 030320B010002_82eb56bb route stop 52.3s err=False [247/300, eta 0.5 h] section 5 = section 7: 322 != 320
+2026-10-16T17:04:38Z gemma 030329B010002_6c7073aa route stop 27.7s err=False [248/300, eta 0.4 h] section 5 = section 7: 315 != 1; section 7 = TOTAL: 1 != 314
+2026-10-16T17:05:28Z gemma 030333C050002_703693aa route stop 52.6s err=False [249/300, eta 0.4 h] SOBRANTES digits 348 != words 347; NO_REGISTRADOS digits 1 != words 0
+2026-10-16T17:07:38Z gemma 030427C010002_3e41b5c6 route stop 180.7s err=False [250/300, eta 0.4 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T17:07:39Z gemma 030380C040002_87c051d1 route stop 130.8s err=False [251/300, eta 0.4 h] votaron + representantes = section 5: 278 != 275
+2026-10-16T17:08:18Z gemma 030309E010002_cbc6b8e7 route stop 38.2s err=False [252/300, eta 0.4 h] votaron + representantes = section 5: 332 != 0; section 5 = section 7: 0 != 117
+2026-10-16T17:08:20Z gemma 030528B010002_0662d343 route stop 40.2s err=False [253/300, eta 0.4 h] votaron + representantes = section 5: 141 != 294; section 5 = section 7: 294 != 141
+2026-10-16T17:08:55Z gemma 030510B010002_90e9fb99 route stop 34.8s err=False [254/300, eta 0.4 h] SOBRANTES digits 308 != words 338; section 5 = section 7: 441 != 442
+2026-10-16T17:09:40Z gemma 030539C020002_fa7f927a route stop 44.6s err=False [255/300, eta 0.4 h] section 5 = section 7: 314 != 313
+2026-10-16T17:09:41Z gemma 030310B010002_fd06e9ad route stop 82.9s err=False [256/300, eta 0.4 h] SACADOS digits 401 != words 400; section 5 = section 7: 403 != 401
+2026-10-16T17:10:35Z gemma 030300C010002_c43461c1 route stop 54.3s err=False [257/300, eta 0.4 h] rows sum to TOTAL: 388 != 393
+2026-10-16T17:10:43Z gemma 030407C020002_72cc2e71 route stop 62.3s err=False [258/300, eta 0.4 h] section 5 = section 7: 312 != 315
+2026-10-16T17:11:01Z gemma 030525B010002_e28a0156 route stop 26.7s err=False [259/300, eta 0.4 h] votaron + representantes = section 5: 410 != 0; section 5 = section 7: 0 != 413
+2026-10-16T17:11:06Z gemma 030356C010002_11ec3e58 route stop 22.0s err=False [260/300, eta 0.3 h] section 5 = section 7: 279 != 276
+2026-10-16T17:11:34Z gemma 030361B010002_837c0092 route stop 28.0s err=False [261/300, eta 0.3 h] section 5 = section 7: 346 != 362
+2026-10-16T17:11:55Z gemma 030399B010002_e11e75dc route stop 20.8s err=False [262/300, eta 0.3 h] section 5 = section 7: 282 != 274
+2026-10-16T17:12:41Z gemma 030389B010002_4a5f569e route stop 45.4s err=False [263/300, eta 0.3 h] section 5 = section 7: 214 != 213
+2026-10-16T17:12:42Z gemma 030388C010002_bda257c8 route stop 100.8s err=False [264/300, eta 0.3 h] TOTAL digits 370 != words 170; rows sum to TOTAL: 391 != 370
+2026-10-16T17:13:08Z gemma 030380B010002_f6be3969 route stop 25.0s err=False [265/300, eta 0.3 h] section 7 = TOTAL: 307 != 315
+2026-10-16T17:13:35Z gemma 030326C010002_060ec1b3 route stop 27.2s err=False [266/300, eta 0.3 h] section 5 = section 7: 306 != 307
+2026-10-16T17:13:39Z gemma 030328B010002_2bcd67fe route stop 57.3s err=False [267/300, eta 0.3 h] section 5 = section 7: 344 != 342
+2026-10-16T17:14:02Z gemma 030317B010002_2b284706 route stop 26.5s err=False [268/300, eta 0.3 h] SACADOS digits empty; NO_REGISTRADOS digits empty
+2026-10-16T17:14:10Z gemma 030365B010002_a63d89b3 route stop 30.6s err=False [269/300, eta 0.3 h] section 5 = section 7: 338 != 344
+2026-10-16T17:14:48Z gemma 030534B010002_8ae5310d route stop 45.1s err=False [270/300, eta 0.3 h] SACADOS digits empty; NO_REGISTRADOS digits 7 != words 1
+2026-10-16T17:14:50Z gemma 030373C010002_c7da2b49 route stop 39.7s err=False [271/300, eta 0.2 h] SOBRANTES digits 320 != words 327; SACADOS digits empty
+2026-10-16T17:15:28Z gemma 030426B010002_3ec2f1ef route stop 38.7s err=False [272/300, eta 0.2 h] section 5 = section 7: 215 != 219
+2026-10-16T17:15:45Z gemma 030294B010002_f518602f route stop 55.8s err=False [273/300, eta 0.2 h] section 5 = section 7: 482 != 481
+2026-10-16T17:15:49Z gemma 030428B010002_5c6b6c0e route stop 20.5s err=False [274/300, eta 0.2 h] SOBRANTES digits 306 != words 316; SACADOS digits empty
+2026-10-16T17:16:06Z gemma 030410B010002_26140da1 route stop 21.6s err=False [275/300, eta 0.2 h] section 5 = section 7: 314 != 312
+2026-10-16T17:16:26Z gemma 030521C020002_bf989aff route stop 19.2s err=False [276/300, eta 0.2 h] section 5 = section 7: 250 != 251
+2026-10-16T17:16:51Z gemma 030370C010002_d3c7e800 route stop 25.6s err=False [277/300, eta 0.2 h] PES digits 10 != words 12; section 5 = section 7: 297 != 299
+2026-10-16T17:16:58Z gemma 030318B010002_5b7b31d8 route stop 67.8s err=False [278/300, eta 0.2 h] SACADOS digits empty
+2026-10-16T17:17:21Z gemma 030533B010002_34380d85 route stop 29.0s err=False [279/300, eta 0.2 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T17:18:07Z gemma 030405C020002_a84c7a9c route stop 46.4s err=False [280/300, eta 0.2 h] section 5 = section 7: 344 != 7; section 7 = TOTAL: 7 != 344
+2026-10-16T17:18:11Z gemma 030378C010002_8e03182e route stop 72.1s err=False [281/300, eta 0.2 h] section 5 = section 7: 280 != 278
+2026-10-16T17:19:09Z gemma 030321C010002_2f666605 route stop 61.4s err=False [282/300, eta 0.2 h] section 5 = section 7: 314 != 317
+2026-10-16T17:19:23Z gemma 030412C070002_831d39d7 route stop 72.1s err=False [283/300, eta 0.1 h] rows sum to TOTAL: 271 != 273
+2026-10-16T17:20:06Z gemma 030412C010002_17b2ccf4 route stop 56.4s err=False [284/300, eta 0.1 h] votaron + representantes = section 5: 288 != 289; section 5 = section 7: 289 != 287
+2026-10-16T17:20:10Z gemma 030385C010002_e59e24f2 route stop 46.7s err=False [285/300, eta 0.1 h] SOBRANTES digits 372 != words 342; ML digits 30 != words 18
+2026-10-16T17:20:50Z gemma 030303B010002_b25a500d route stop 43.8s err=False [286/300, eta 0.1 h] REPRESENTANTES digits empty; rows sum to TOTAL: 287 != 286
+2026-10-16T17:20:59Z gemma 030525C020002_b4ae4118 route stop 48.9s err=False [287/300, eta 0.1 h] SACADOS digits empty
+2026-10-16T17:21:45Z gemma 030436B010002_c211618d route stop 45.7s err=False [288/300, eta 0.1 h] VOTARON digits 237 != words 234; votaron + representantes = section 5: 239 != 236
+2026-10-16T17:21:53Z gemma 030372C020002_cd6d1603 route stop 62.0s err=False [289/300, eta 0.1 h] section 5 = section 7: 247 != 249
+2026-10-16T17:22:14Z gemma 030323C010002_4befb33f route stop 29.1s err=False [290/300, eta 0.1 h] rows sum to TOTAL: 369 != 368
+2026-10-16T17:22:20Z gemma 030326B010002_9909ed4f route stop 26.7s err=False [291/300, eta 0.1 h] section 5 = section 7: 316 != 317
+2026-10-16T17:22:35Z gemma 030321C020002_8b6d3571 ACCEPT stop 19.7s err=False [292/300, eta 0.1 h] 
+2026-10-16T17:22:40Z gemma 030316C010002_9b70c199 route stop 20.3s err=False [293/300, eta 0.1 h] section 5 = section 7: 412 != 409; section 7 = TOTAL: 409 != 415
+2026-10-16T17:23:39Z gemma 030324C020002_2edec7ad route stop 58.3s err=False [294/300, eta 0.1 h] NO_REGISTRADOS digits empty; section 5 = section 7: 337 != 334
+2026-10-16T17:23:50Z gemma 030398C010002_588d8de0 ACCEPT stop 74.6s err=False [295/300, eta 0.0 h] 
+2026-10-16T17:24:20Z gemma 030520B010002_69517ef3 route stop 39.7s err=False [296/300, eta 0.0 h] SOBRANTES digits empty; VOTARON digits empty
+2026-10-16T17:24:51Z gemma 030347B010002_1e55c805 route stop 60.9s err=False [297/300, eta 0.0 h] votaron + representantes = section 5: 209 != 212; section 7 = TOTAL: 212 != 217
+2026-10-16T17:25:03Z gemma 030341B010002_7dec52f3 ACCEPT stop 43.6s err=False [298/300, eta 0.0 h] 
+2026-10-16T17:25:03Z gemma 030342S000006_87a9f814 route None Nones err=False [299/300, eta 0.0 h] layout not covered: special-station acta: printed layout not covered by the schemas (PROTOCOL_IEEBCS 3.3); not downloaded, not read, its fie
+2026-10-16T17:25:15Z gemma 030344C010002_aa2b3221 route stop 24.0s err=False [300/300, eta 0.0 h] REPRESENTANTES digits empty; section 5 = section 7: 403 != 401
+2026-10-16T17:25:15Z run complete
