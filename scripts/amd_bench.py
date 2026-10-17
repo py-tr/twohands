@@ -112,8 +112,7 @@ def markdown(d: dict) -> str:
         f"| All {d['national_forms']:,} national presidential tally sheets | about ${d['national_usd']} | computed |", "",
         L["server"], "", L["sweep"], "", L["cost"], "", L["wall"], "",
         "The endpoint does not report the GPU model, so no card is named. The capacity sweep "
-        "(`results/throughput_sweep.md`) is the shared endpoint under its rate limit, queueing included: not GPU time, "
-        "not a self-hosted benchmark.", ""])
+        "(`results/throughput_sweep.md`) is the shared endpoint under its rate limit, queueing included: not GPU time.", ""])
 
 
 def main(argv=None) -> int:

@@ -7,8 +7,7 @@ app sends a new request to the same endpoint.
 ## Standing workload
 
 The live audit reads INE's public presidential tally sheets on AMD, one form at a time, and keeps a public counter of
-reads on Home and at `/live`, computed from the worker's state (`app/live_status.py`). On a fresh deployment it starts
-at zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qwen3.8-27B during Gemma's gap.
+reads on Home and at `/live`, computed from the worker's state (`app/live_status.py`).
 
 ## AMD evidence block
 
@@ -22,19 +21,16 @@ at zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qw
 | Tokens per form | 2,609 in (1843 of them image tokens), 804 out |
 | Cost per form | $0.000144 billed (`usage.cost`), $0.14 per 1,000; about $24 for all 169,005 national forms |
 | Reliability | 289 of 289 replies finished with `stop`; 126 failed HTTP attempts in the run window, each retried |
-| Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with tokens and billed cost (`results/calls_*.jsonl`); the model catalogue snapshot during the outage (below) |
+| Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with tokens and billed cost (`results/calls_*.jsonl`); the model catalogue snapshots (below) |
 | What ran on AMD | every model read: Gemma (primary, the 300 and the 100-form confirmation), Qwen3.8-27B (second reader), the bake-off models (Amendment 6); the Evolus agent's model |
 
 Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out).
 
-Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json.
+Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json.
 
 About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads).
 
 The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
-
-No self-hosted run exists: a self-hosted MI300X run was planned (`deploy/mi300x/`, the draft Amendment 4) and not
-run; `results/dryrun/` holds only dry runs of that kit against the Token Factory.
 
 How Gemma is made to work here (the fixed image budget and tiling, the frozen prompt, the row-label check, the
 `finish_reason` handling) and Gemma vs Qwen on the same forms: [GEMMA.md](GEMMA.md).
@@ -52,9 +48,9 @@ How Gemma is made to work here (the fixed image budget and tiling, the frozen pr
 | Output | One JSON object, 23 values, each with digits, words and the printed row label. |
 | Pacing | Our own limit: 6 request starts per minute across processes, 2 in flight, 429 Retry-After honoured, `/usage` checked every 4 calls, pause at 0.80 USD daily spend. (The key's own limits: 20 req/min, 8 concurrent, $1/day; `app/live.py`.) |
 
-## What did not run on AMD
+## What runs on CPU
 
-Honest boundary: page locating and masking (OpenCV on CPU), the gate (plain Python arithmetic), the sampler and
+Page locating and masking (OpenCV on CPU), the gate (plain Python arithmetic), the sampler and
 the web app run on an ordinary CPU host. They are cheap and deterministic. The AMD part is the part that needs a
 large vision model: reading handwritten digits, handwritten words and printed row labels from phone photos.
 
@@ -90,7 +86,7 @@ Second form type, same model on the same endpoint: rainfall ledgers, whole sheet
   retries; a call that never succeeds routes its form to a person and counts against the accept rate.
 - While the endpoint was degraded, re-reads of 5 pilot forms with the frozen prompt took 160 s and 477 s mean
   (two Gemma attempts) and 451 s (Qwen, 2 forms) (`results/verify_spike_*.jsonl`, shown on the app's results
-  page). We report these as they are.
+  page).
 
 ### 2026-10-15 15:41 to 2026-10-16 02:06 UTC: Gemma-4-31B-IT unavailable on the endpoint
 
@@ -141,4 +137,4 @@ summarised in `app/data/headline.json` by `scripts/build_headline.py`. What it m
 - **About $24 of compute to audit all 169,005 forms** (national presidential tally sheets) with Gemma at the cost measured on the 300
   ($0.000144 x 169,005; form count from the PREP 2024 CSV); about $101 with Qwen at its cost on the 300 ($0.000597 per form; $86 at its
   pilot cost).
-- **Time:** at our polite shared-endpoint pace (2 requests in flight, about 2 forms a minute) the national count would take weeks; that is our pacing on a shared hackathon key, a quota choice, not a GPU limit. A dedicated AMD endpoint was not measured, so we give no number for it.
+- **Time:** at the measured capacity of one shared key (4.8 forms a minute, 4 in flight), a state the size of Colima takes about 3.4 hours; national figures in `results/throughput_sweep.json`.

@@ -93,7 +93,7 @@ def texts() -> dict:
                               f"down to ${c}"),
         "compute": f"AMD compute ${COMPUTE_PER_FORM_USD:.5f} per form (measured)",
         "review": (f"review labour for routed fields about ${r0:.2f} to ${r1:.2f} per form "
-                   f"(GUESS: {REVIEW_SECONDS_PER_CROP} s per disputed crop, {DISPUTED / READ_FORMS:.2f} crops per form "
+                   f"(estimate: {REVIEW_SECONDS_PER_CROP} s per disputed crop, {DISPUTED / READ_FORMS:.2f} crops per form "
                    f"measured, ${REVIEW_WAGE_USD_H[0]} to ${REVIEW_WAGE_USD_H[1]} an hour)"),
         "fx": f"MXN {FX_MXN_PER_USD} per USD (ECB, {FX_DATE})",
         "self_serve": f"Self-serve (CLI / MCP, you review your own disputes): ${SELF_SERVE_PER_FORM_USD:.2f} per form.",

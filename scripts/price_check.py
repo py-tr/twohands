@@ -63,7 +63,8 @@ def check() -> list[str]:
                 bad.append(f"{doc}: missing '{m[:60]}...'")
     for doc in ("docs/BUSINESS.md", "README.md", "submission/lablab.md"):   # one product, one buyer; the contact flag
         s = " ".join((REPO / doc).read_text(encoding="utf-8").replace("**", "").split())
-        for m in (buyer.OFFER_2027, buyer.contact_line(), buyer.forms_line()):
+        # forms_line: BUSINESS.md (and the site) only; the README/lablab business paragraph is being rewritten
+        for m in (buyer.OFFER_2027, buyer.contact_line()) + ((buyer.forms_line(),) if doc == "docs/BUSINESS.md" else ()):
             if " ".join(m.split()) not in s:
                 bad.append(f"{doc}: missing the current '{m[:50]}...'")
     if " ".join(buyer.MARKET_SIZE.split()) not in " ".join((REPO / "docs/BUSINESS.md").read_text(encoding="utf-8").split()):

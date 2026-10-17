@@ -274,8 +274,8 @@ def test_no_language_capability_claims():
                 assert '"' in ln[:m.start()] and '"' in ln[m.end():], (p.name, ln[:160])
 
 
-def test_language_claim_line_on_the_volume_slide_and_business():
+def test_language_claim_scoped_on_the_volume_slide_and_business():
     slides = (REPO / "slides" / "slides.md").read_text(encoding="utf-8")
     vol = slides.split("<!-- Slide 10b: volume -->", 1)[1].split("<!--", 1)[0]
-    assert LINE in vol
-    assert LINE in (REPO / "docs" / "BUSINESS.md").read_text(encoding="utf-8")
+    assert "Measured on Spanish handwriting and English ledgers" in vol   # the slide states only what was measured
+    assert LINE in (REPO / "docs" / "BUSINESS.md").read_text(encoding="utf-8")   # the full limit, with the business case

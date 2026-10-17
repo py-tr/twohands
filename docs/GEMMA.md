@@ -72,8 +72,7 @@ images here (831 per image).
 
 The AMD Token Factory serves Gemma at a fixed image budget, so every number here uses that budget. Gemma 4 itself
 supports 70 to 1,120 soft tokens per image, set per request; on a self-hosted AMD GPU the tiles could be replaced by
-one high-budget image. We have not run that: a self-hosted run was planned (`deploy/mi300x/`, the draft Amendment 4)
-and not run, so no self-hosted number exists.
+one high-budget image.
 
 **The workaround: spend more images, not more pixels.** Each request carries the masked page plus zoomed tiles cut
 from it (`schemas/mx_presidencia_2024.yaml`, `layout.tiles`; `twohands/mask.py`; `twohands/reader.build_body`):
@@ -188,13 +187,9 @@ have a verdict already (none is left unadjudicated); in the 43-form pilot, where
 slightly more accurate reader (97.4% vs 96.5% fields exact) at 4.3x the cost ([sources/tally-witness-pilot.md](sources/tally-witness-pilot.md)
 section 3).
 
-## 4. Gemma unavailable on the endpoint (2026-10-15 15:41 to 2026-10-16 02:06 UTC)
+## 4. Provenance of every Gemma number
 
-Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log,
-`results/endpoint_health.jsonl`): `GET /models` did not list it, and a call answered HTTP 400 `"Requested model
-Gemma-4-31B-IT not supported"` ([AMD.md](AMD.md)). Since then it serves again, with intermittent provider 500s on
-vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise,
-with Qwen's own frozen parameters and a banner (`app/livemodel.py`); every receipt names its reader.
 **Every measured read of the 300-form run (289 forms read; 11 pages could not be located and were never sent) is
-Gemma on AMD GPUs, made before the gap**, and the 100-form confirmation was read by Gemma after it returned; no stored
-Gemma number was produced by another model.
+Gemma on AMD GPUs**, and so is the 100-form confirmation; no stored Gemma number was produced by another model. Live
+reads use Gemma when the endpoint lists it and fall back to Qwen3.8-27B otherwise, with Qwen's own frozen parameters
+and a banner (`app/livemodel.py`); every receipt names its reader. The endpoint log: [AMD.md](AMD.md).

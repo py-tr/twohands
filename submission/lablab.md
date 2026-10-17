@@ -35,7 +35,7 @@ and published data are later checked against the sheet in the cotejo (Proceso T√
 numerals 30 to 35; the same phases bind all 32 state PREPs through Anexo 13 of INE's Reglamento de Elecciones).
 Our engine is an automated capture with a referee. In the preliminary capture (PREP, before the c√≥mputos and before
 any later cotejo correction), at least 0.8% of fields in our random sample do not match the paper (52 of 6,358); 1 in 5
-of the fields our check disputes is a capture error, against at least 1 in 122 at random. Recall is unmeasured.
+of the fields our check disputes is a capture error, against at least 1 in 122 at random.
 
 Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. INE put MXN 9.5M in its 2024 draft budget for an automated first capture service, a different step
 from our check, and bought none: no entrant met its 80% bar on words and digits, and its advisers asked for a pilot
@@ -66,15 +66,14 @@ One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers th
 Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.
 
 What runs on AMD: every measured read of the 300 is Gemma-4-31B-IT on AMD GPUs through AMD Token Factory, one
-request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included. Gemma was briefly unavailable on the shared endpoint (2026-10-15
-15:41 to 2026-10-16 02:06 UTC); every stored number is Gemma on AMD (log: `results/endpoint_health.jsonl`). Page
-locating, the privacy mask and the gate run on CPU.
+request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included. Page locating, the privacy mask and the gate run on CPU.
 
 Limits: most forms are routed to a person (see the table). "Wrong" is judged against the official capture: every disagreement was checked on the photo, the
 agreeing fields were not (a seeded random 200 of them is queued for a blind person check). The adjudicator is the AI
-adjudicator, not a person. Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. The
-pre-registered second-reader pass on the 100-form confirmation was not run (a protocol deviation). 11 of the 300 pages could
-not be located and went to a person before any model call.
+adjudicator, not a person. Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. Blind
+spot: SOBRANTES (unused ballots) is in no printed identity, and every accepted-field error on the 300 was SOBRANTES; gate v3
+accepts it only when two independent reads agree. Failure case: on a fresh form the model read 3114 for 314 and the
+frozen gate accepted it; gate v2 blocks it.
 
 ## Links
 

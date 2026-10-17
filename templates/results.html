@@ -177,7 +177,7 @@
   {% endif %}
   <div class="card" style="margin-top:14px">
     <p class="small" style="margin:0">Gemma-4-31B-IT reads each field twice, the handwritten digits and the amount written in Spanish words, plus the printed label of each row, on phone photos and faint pencil. It gets a fixed ~{{ gq.img_g }} tokens per image whatever the resolution, so each request is the page plus 6 zoomed tiles (the vote rows at ~8x the page's token density); on rainfall ledgers that took Gemma from 79% to 97% of cells right. Frozen prompt <code>{{ gq.prompt }}…</code>; the first complete JSON is parsed, a reply cut at <code>max_tokens</code> is never accepted.</p>
-    <p class="tiny muted" style="margin:10px 0 0">Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
+    <p class="tiny muted" style="margin:10px 0 0">Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
     <div style="margin-top:10px">{{ source("app/data/bakeoff_300.json (scripts/bakeoff.py report), results/calls_gemma.jsonl, results/adjudication/certified.json; via app/why_gemma.py, checked by scripts/why_gemma.py --check (make eval). Tiling: docs/sources/ledger-rescue-pilot.md. docs/GEMMA.md.") }}</div>
   </div>
 </section>
@@ -235,7 +235,7 @@
 </section>
 
 <section id="failure">
-  <div class="sec-head"><div><h2>One failure, shown honestly</h2><p>The arithmetic gate has a blind spot: an error that keeps the arithmetic true.</p></div></div>
+  <div class="sec-head"><div><h2>The failure case, in full</h2><p>The arithmetic gate has a blind spot: an error that keeps the arithmetic true.</p></div></div>
   <div class="card callout bad" style="border-left-width:4px">
     <h3>Silent column shift on a rainfall ledger</h3>
     <p class="small" style="margin-top:8px">Read as one image, {{ meta.model }} put Balcombe Gables' 1887 values under 1886, and so on along the row. Every shifted column still sums to its total, so the checksum accepted wrong cells: on that reader, {{ si.acc_col_cells - si.acc_col_exact }} of {{ si.acc_col_cells }} accepted cells were wrong ({{ si.cells|int }} cells read, {{ si.cell_acc }}% right overall). Zoomed tiles removed it ({{ lm.acc_cells - lm.acc_ok }} of {{ lm.acc_cells|int }} accepted cells wrong; spike, 40 sheets), but tiling is a mitigation, not a proof.</p>

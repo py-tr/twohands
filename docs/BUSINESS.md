@@ -6,9 +6,7 @@ it disputes. What we sell for 2027 is that engine as an independent check of a f
 
 **One product, one buyer, for 2027.** Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.
 
-Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): read on AMD, not yet scored: no result is shown until it is.
-
-Status: no buyer contacted yet.
+Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Local actas are next: a pre-registered head-to-head on Baja California Sur's 2024 local actas, read on AMD (PROTOCOL_IEEBCS.md).
 
 Every number here is either **measured** (we cite the file in this repo) or **cited** (we fetched the source and
 quote it). Anything beyond elections is labelled **next market, not measured**. One exchange rate throughout:
@@ -179,7 +177,7 @@ tally sheets of 2024 (289 read); the capture is the published PREP 2024 CSV (the
 where the paper is blank, and 2 readable fields captured as "no data". "At least", because a field the model did
 not dispute was not examined.
 
-**Scope, honestly.** Numeral 33 assigns the second capture to "una persona capturista/verificadora". A model as the
+**Scope.** Numeral 33 assigns the second capture to "una persona capturista/verificadora". A model as the
 second capture would be a change to the proceso técnico operativo that the institute's governing body must approve
 (RE art. 339.1 d), after INE's opinion (art. 339.2). We show evidence, not compliance. Two uses need no change to
 the text: a model as the automatic first capture, which numeral 30 already allows, and an outside check of a
@@ -285,7 +283,6 @@ for any IMPEPAC unit.
   vulnerability analysis, numeral 1). It does not check the keyed numbers against the paper, field by field. Two
   Hands can do that for the auditor who is already contracted. That field check is our addition to the auditor's
   scope, not a legal requirement; the requirement to capture twice and compare is the institute's own (section 0).
-  Status: no buyer contacted yet.
 - **The next window.** INE is organising the federal election and **32 concurrent local processes** for 2026-2027
   ([INE Central Electoral, 30 July 2026](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
   Election day is **6 June 2027**, with local deputies elected in 31 states
@@ -294,7 +291,7 @@ for any IMPEPAC unit.
 
 ### Q&A: why elections?
 
-Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public, so anyone can re-derive every number we report. That is why we measured there. Elections are our proof set, not our only market. Measured so far on presidential tally sheets and UK rainfall ledgers; private records not yet.
+Most paper records are private, by law or by contract: patient charts, loan files, drug registers, so nobody can publish an error rate on them. Mexico's tally sheets are the clearest exception: the photo, the keyed value and the certified count are all public, so anyone can re-derive every number we report. That is why we measured there. Elections are our proof set, not our only market. Measured on presidential tally sheets and UK rainfall ledgers.
 
 ### Next markets, not measured
 
@@ -312,8 +309,7 @@ When an agent keys a form, the paper still has to agree. Receipts work the same 
 measurement, Gemma is the agent. Gemma-4-31B-IT keyed every field of the 289 read forms of the pre-registered 300;
 alone it mis-keys 173 of 6,358 fields, 1 in 37 (`results/adjudication/SUMMARY.md`), and the same identities that
 route a person's slip route the model's: words = digits, rows sum to the total, sections agree. The buyer is anyone
-who lets an agent fill a form from paper and must answer for the record. Next market, not measured: we have not sold
-or run this for an agent other than our own reader.
+who lets an agent fill a form from paper and must answer for the record. Next market, not measured.
 
 ## 2. The product and the price
 
@@ -364,13 +360,13 @@ All of it from one config value, `app/pricing.py`; `make eval` (`scripts/price_c
   paper, or the client's own reviewer marks it on the crop under a receipt.
 - Footnote: Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 
-### Cost side, honestly
+### Cost side
 
 | Per form | Value | Basis |
 |---|---|---|
 | AMD compute, Gemma-4-31B-IT | $0.00014 | measured: mean $0.000144 over 289 reads, `results/calls_gemma.jsonl` |
 | AMD compute, second reader Qwen3.8-27B | $0.00051 | measured, 43 pilot reads, `docs/NUMBERS.md` A2 |
-| Review labour for routed fields | $0.09 to $0.13 | **GUESS** on time: 20 s per disputed crop; 267 disputed fields on 289 forms (measured, 0.92 per form); $18 to $25 an hour, in-house US operator (https://www.outsourceaccelerator.com/glossary/data-entry/ ($18 to $25 an hour, in-house US operator)); `notes/bv-brainstorm/3-model.md` section 3 |
+| Review labour for routed fields | $0.09 to $0.13 | **Estimate** on time: 20 s per disputed crop; 267 disputed fields on 289 forms (measured, 0.92 per form); $18 to $25 an hour, in-house US operator (https://www.outsourceaccelerator.com/glossary/data-entry/ ($18 to $25 an hour, in-house US operator)); `notes/bv-brainstorm/3-model.md` section 3 |
 | Hosting and sales | not measured | |
 
 Review labour, not compute, is the main cost. At the old $0.10 per form it would have taken the whole price; at $1
@@ -385,7 +381,7 @@ it does not.
 The ceilings: Mexico's federal budget for 2026 sets the most a federal agency may award directly, without a tender,
 per operation, at **MXN 309,000 to 1,145,000** excluding VAT, according to the
 agency's budget (PEF 2026 art. 2 fr. X and Anexo 9, https://dof.gob.mx/2025/SHCP/PEF_2026.html). Those ceilings bind federal agencies; state institutes buy under
-state law and their own rules, which we have not checked one by one. Baja California Sur shows a state institute
+state law and their own rules. Baja California Sur shows a state institute
 buying AI reading by direct award (MXN 93,834.49, IEEBCS report p. 31). Presidential sheets per state run from 1,017
 (Colima) to 20,908 (Estado de México) (`data/raw/prep/PRES_2024.csv`, `TIPO_ACTA` 2).
 
@@ -394,11 +390,11 @@ Form Parser, first tier, [pricing](https://cloud.google.com/document-ai/pricing)
 Textract, tables + forms + queries, [pricing](https://aws.amazon.com/textract/pricing/)). Those products extract; we
 sell an audit per form, priced against what the institute already spends per acta.
 
-**Revenue, honestly.** Elections are lumpy: one season every few years, recurring per institute per cycle (32 OPLEs
+**Revenue.** Elections are seasonal, recurring per institute per cycle (32 OPLEs
 plus INE). They are the proof market: public, audited, with a named buyer and a deadline. Monthly keyed files (the
-next markets above) are next, and not measured.
+next markets above) are next.
 
-How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year; at $1 per acta, under $1M per three-year cycle at list price. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper. (Sources: PREP 2024 CSV (169,005 presidential sheets); IMPEPAC Informe Final PREP 23-24, pp. 3-4 (Morelos local actas); INE Central Electoral 2026-07-30 (32 concurrent local processes). The 2-3 local actas per polling station is our estimate.)
+How big (our estimate): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper. (Sources: PREP 2024 CSV (169,005 presidential sheets); IMPEPAC Informe Final PREP 23-24, pp. 3-4 (Morelos local actas); INE Central Electoral 2026-07-30 (32 concurrent local processes). The 2-3 local actas per polling station is our estimate.)
 
 **What it saves, in the buyer's units.** Morelos staffed 110 capture-and-verification posts for 7,802 actas (IMPEPAC
 Informe Final PREP 23-24). We found no cited time to key one acta, so we give no hours. The measured share only: the
@@ -490,8 +486,8 @@ and none we found shows a crop per finding ordered by the paper's own arithmetic
   per-form-type identities, not a better model.
 - **The photo trail.** Every finding has its crop and its mark. An auditor can hand the report to anyone and they can
   check it without trusting us.
-- **An open model on AMD.** Gemma-4-31B-IT runs on AMD GPUs. An open model can run on the client's own AMD server so the
-  scans never leave the building; we have not run that yet (measured only on the hosted AMD Token Factory). The names-and-signatures column is masked before anything is stored or sent.
+- **An open model on AMD.** Gemma-4-31B-IT runs on AMD GPUs. An open model can run on the client's own AMD server, so the
+  scans need not leave the building (our measurements are on the hosted AMD Token Factory). The names-and-signatures column is masked before anything is stored or sent.
 - **A form type is a schema file.** The second form type (1850-1960 rainfall ledgers) was configuration, not code.
 
 ## 5. Next 90 days

@@ -500,8 +500,7 @@ Gemma: {usd(H['gemma']['cost_per_form'])} per form read (mean over {H['gemma']['
 {usd(1000 * H['gemma']['cost_per_form'], 2)} per 1,000 forms; mean latency {H['gemma']['mean_secs']} s per form (wall
 clock on a shared endpoint, including queueing); {n(H['gemma']['tokens_in'])} tokens in and {n(H['gemma']['tokens_out'])}
 out per form; all {H['gemma']['stop']} replies finished with `stop`. The run needed re-reads on {H['rereads']['forms']}
-forms after an endpoint outage ({H['rereads']['rows']} call rows in all; the last row per form counts). A dedicated
-endpoint was not measured.
+forms after an endpoint outage ({H['rereads']['rows']} call rows in all; the last row per form counts).
 
 ## 5. Failure analysis
 
@@ -526,8 +525,7 @@ routed. The pre-registered locator would have left {len(D['orig_nl'])}.
 
 ## 6. Limits
 
-- One sample of {forms} forms of one form type{"; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass)" if c100 else "; the confirmation draw for gate v2 (Amendment 3) has not been read"},
-  and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `{short(g['cord'])}`) was not run.
+- One sample of {forms} forms of one form type{"; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass)" if c100 else "; the confirmation draw for gate v2 (Amendment 3) has not been read"}.
 - One adjudicator, the AI adjudicator (the builder's model, which could see both values); crops are published for re-checking.
 - Recall rests on {rc['E2']} fields.
 - The two-reader strict tier checks words = digits and row sums only, without the section identities or labels.

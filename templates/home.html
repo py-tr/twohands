@@ -62,7 +62,7 @@
 
 {% if H %}
 <section id="measured">
-  <div class="sec-head"><div><h2>Measured, not promised</h2><p>A pre-registered random sample of {{ H.forms }} forms: sample, prompt and gate committed before any model read; every disagreement settled on the photo.</p></div><a class="btn sm" href="/results">Method and caveats {{ icon('arrow') }}</a></div>
+  <div class="sec-head"><div><h2>Measured, not promised</h2><p>A pre-registered random sample of {{ H.forms }} forms: sample, prompt and gate committed before any model read; every disagreement settled on the photo.</p></div><a class="btn sm" href="/results">Method and limits {{ icon('arrow') }}</a></div>
   <div class="grid4 measured">
     <div class="card stat">
       <div class="v">{{ L.keying.value }}</div>
@@ -137,7 +137,7 @@
         {% for t, pg in IC.lines %}<li>{{ t }} <span class="muted small">(<a href="{{ IC.url }}" target="_blank" rel="noopener">INE report</a>, {{ pg }})</span></li>{% endfor %}
       </ul>
       <p style="margin:8px 0"><b>{{ IC.pilot }}</b>{% if IC.colima %} <a href="{{ IC.colima.href }}">{{ IC.colima.text }}</a>{% endif %}</p>
-      <p class="small" style="margin:8px 0" id="offer-2027"><b>{{ buyer.OFFER_2027 }}</b> {{ buyer.forms_line() }} <span class="muted">{{ buyer.contact_line() }}</span></p>
+      <p class="small" style="margin:8px 0" id="offer-2027"><b>{{ buyer.OFFER_2027 }}</b> {{ buyer.forms_line() }}{% set cl = buyer.contact_line() %}{% if cl %} <span class="muted">{{ cl }}</span>{% endif %}</p>
       {% if IC.score %}<div class="vs" id="ine-metric" style="margin:10px 0">
         <div><p class="small" style="margin:0">{{ IC.score }}</p><p class="tiny muted" style="margin:4px 0 0"><i>{{ IC.label }}</i></p></div>
         <div class="mid">·</div>

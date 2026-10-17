@@ -17,10 +17,10 @@ Run window: 2026-10-15T05:56:11Z to 2026-10-15T11:49:05Z UTC. Forms: 300; reads 
 
 Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out).
 
-Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json.
+Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json.
 
 About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads).
 
 The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
 
-The endpoint does not report the GPU model, so no card is named. The capacity sweep (`results/throughput_sweep.md`) is the shared endpoint under its rate limit, queueing included: not GPU time, not a self-hosted benchmark.
+The endpoint does not report the GPU model, so no card is named. The capacity sweep (`results/throughput_sweep.md`) is the shared endpoint under its rate limit, queueing included: not GPU time.

@@ -76,7 +76,7 @@ def test_docs_quote_the_summary():
         assert f"{H['fields']:,}" in doc and f"1 in {H['acc_one_in']}" in doc
     for doc in (readme, ev):
         assert L["recall"] in re.sub(r"\s+", " ", doc)
-        assert f"{H['label_gate']['read_right']} of them" in doc
+    assert f"{H['label_gate']['read_right']} of them" in ev   # the label check's cost: documented with the method
     for doc in (readme, ev, slides):
         assert L["breakdown"] in re.sub(r"\s+", " ", doc) and "keying error" not in doc.lower()
     assert "up to 24 times if the model finds nearly every error" in ev and "ten times" not in ev

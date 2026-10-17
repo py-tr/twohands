@@ -55,28 +55,28 @@ If it all adds up, nobody types anything.
 If not, a person sees the rest, with the photo.
 
 15
-00:01:00,000 --> 00:01:01,768
+00:01:00,000 --> 00:01:01,950
 Measured, not promised.
 
 16
-00:01:01,818 --> 00:01:05,859
+00:01:02,000 --> 00:01:06,450
 300 random forms, chosen before any model read.
 
 17
-00:01:05,909 --> 00:01:10,859
+00:01:06,500 --> 00:01:11,950
 52 fields where the capture does not match the paper.
 
 18
-00:01:10,909 --> 00:01:15,405
+00:01:12,000 --> 00:01:16,950
 Then we tested the fix on 100 new forms.
 
 19
-00:01:15,455 --> 00:01:18,586
+00:01:17,000 --> 00:01:20,450
 Zero wrong, in 484 accepted fields.
 
 20
-00:01:18,636 --> 00:01:24,950
-That is not proof of zero. It means: fewer than 1 in 100.
+00:01:20,500 --> 00:01:24,950
+With 95% confidence, fewer than 1 in 100.
 
 21
 00:01:25,000 --> 00:01:27,354

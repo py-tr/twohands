@@ -5,7 +5,7 @@ segs = [
  (10,20,["Two Hands checks every number typed from paper, against the paper.","On AMD, 310 forms audited so far."]),
  (20,40,["Pick any polling station. 169,000 of them.","This one we have read: the page and its receipts, at once.","This one, not yet.","One click, and the reader on AMD takes it next."]),
  (40,60,["How does it work? Two hands.","The model on AMD reads every number twice: the digits, and the words.","Then the gate: the form's own arithmetic.","If it all adds up, nobody types anything.","If not, a person sees the rest, with the photo."]),
- (60,85,["Measured, not promised.","300 random forms, chosen before any model read.","52 fields where the capture does not match the paper.","Then we tested the fix on 100 new forms.","Zero wrong, in 484 accepted fields.","That is not proof of zero. It means: fewer than 1 in 100."]),
+ (60,85,["Measured, not promised.","300 random forms, chosen before any model read.","52 fields where the capture does not match the paper.","Then we tested the fix on 100 new forms.","Zero wrong, in 484 accepted fields.","With 95% confidence, fewer than 1 in 100."]),
  (85,110,["This is the product.","An auditor brings the typed data and the scans.","Here, the sample: 6,000 fields, checked in seconds.","267 disputes, strongest first.","Each has its photo and a receipt.","One fingerprint seals the whole report.","Change one number, and the check fails."]),
  (110,118,["A whole state: Colima.","Gemma on AMD read all 982 sheets for 14 cents."]),
  (118,134,["Now a live read.","One request to Gemma, on the AMD Token Factory.","We cut the wait. The timer stays on screen.","It took 90 seconds.","Every check holds: accepted."]),

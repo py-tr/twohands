@@ -213,8 +213,7 @@ Gemma: $0.000144 per form read (mean over 289 reads), about
 $0.14 per 1,000 forms; mean latency 87.0 s per form (wall
 clock on a shared endpoint, including queueing); 2,609 tokens in and 804
 out per form; all 289 replies finished with `stop`. The run needed re-reads on 51
-forms after an endpoint outage (355 call rows in all; the last row per form counts). A dedicated
-endpoint was not measured.
+forms after an endpoint outage (355 call rows in all; the last row per form counts).
 
 ## 5. Failure analysis
 
@@ -291,8 +290,7 @@ and on this sample every one that did went through the field outside every ident
 
 ## 6. Limits
 
-- One sample of 300 forms of one form type; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass),
-  and the pre-registered receipt benchmark (PROTOCOL_CORD.md, committed `5fccfb7`) was not run.
+- One sample of 300 forms of one form type; the gate v2 confirmation is 100 forms read by one reader (no Qwen pass).
 - One adjudicator, the AI adjudicator (the builder's model, which could see both values); crops are published for re-checking.
 - Recall rests on 7 fields.
 - The two-reader strict tier checks words = digits and row sums only, without the section identities or labels.

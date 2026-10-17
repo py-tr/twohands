@@ -43,11 +43,11 @@ OFFER_2027 = ("Who pays in 2027: the PREP's outside auditor or its contracted op
               "which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the "
               "institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term "
               "path, not the 2027 product.")
-MARKET_SIZE = ("How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169,005 presidential "
+MARKET_SIZE = ("How big (our estimate): about 170,000 federal actas (169,005 presidential "
                "sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three "
                "per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas "
-               "for three offices), so roughly 500,000 to 700,000 actas in a concurrent year; at $1 per acta, under $1M "
-               "per three-year cycle at list price. Mexico's PREPs are the beachhead; the same field-level check "
+               "for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the "
+               "beachhead; the same field-level check "
                "applies wherever keyed values must match paper.")
 MARKET_SIZE_SRC = ("PREP 2024 CSV (169,005 presidential sheets); IMPEPAC Informe Final PREP 23-24, pp. 3-4 (Morelos "
                    "local actas); INE Central Electoral 2026-07-30 (32 concurrent local processes). The 2-3 local actas "
@@ -58,9 +58,10 @@ CONTACT = {"contacted": False, "date": None, "who": None}   # set contacted=True
 
 
 def contact_line() -> str:
+    """Empty until the user flips CONTACT; then one dated, factual line (a proposal sent is not a sale)."""
     if not CONTACT["contacted"]:
-        return "Status: no buyer contacted yet."
-    return f"Status: first contact sent on {CONTACT['date']} to {CONTACT['who']}; nobody has bought this yet."
+        return ""
+    return f"Status: first proposal sent on {CONTACT['date']} to {CONTACT['who']}."
 
 
 def forms_line() -> str:
@@ -70,10 +71,12 @@ def forms_line() -> str:
         d = ieebcs_card.load()
     except Exception:  # noqa: BLE001
         d = None
-    status = ("scored (the head-to-head card)" if d else "read on AMD, not yet scored: no result is shown until it is")
+    local = ("Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored "
+             "(the head-to-head card)." if d else
+             "Local actas are next: a pre-registered head-to-head on Baja California Sur's 2024 local actas, read on "
+             "AMD (PROTOCOL_IEEBCS.md).")
     return ("Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The "
-            "presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is "
-            f"the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): {status}.")
+            "presidential forms we measured (and the Senate forms we read) are federal, processed by INE. " + local)
 METRIC_LABEL = ("INE's 2024 acceptance metric as we read it from the report, computed on our existing reads after they "
                 "were made; the definition was committed before computation; not the same test set or conditions as "
                 "INE's trial.")

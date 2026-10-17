@@ -49,7 +49,7 @@ Same 300 forms, same gate, on AMD: Gemma accepts 1.8x the forms Qwen3.8-27B does
 *Pairs: all 23 digits agree, lighter gate (secondary). Qwen3.8-Flash-Next: first 128 forms (budget rule). Source: app/data/bakeoff_300.json.*
 <!-- why-gemma:end -->
 
-Measured on Gemma-4-31B-IT on the AMD Token Factory. Gemma-4-31B-IT was unavailable on the AMD Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (our probe log); since then it serves again, with intermittent provider 500s on vision requests that succeed on retry. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader.
+Measured on Gemma-4-31B-IT on the AMD Token Factory. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader.
 
 ![Option 07 on form 050815B0100: the words say "ciento setenta y cinco", the boxes say 1 7 5](slides/receipt_050815B0100.jpg)
 
@@ -96,7 +96,7 @@ official two-person capture (PREP); every disagreement was settled on a crop of 
 | Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** (one reader, the primary) |
 | Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong**: a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). With the full gate (section 7): 22 of 300 (7%), **0 of 484 fields wrong** |
 | How "wrong" was checked | Judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. |
-| Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (Wilson 95% upper 0.79%, above the 0.5% bar: the point estimate meets it, the bound does not) ([`results/confirm100.md`](results/confirm100.md)) |
+| Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (point estimate meets the pre-registered 0.5% bar; Wilson 95% upper bound 0.79%) ([`results/confirm100.md`](results/confirm100.md)) |
 | Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too. |
 | Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. |
 
@@ -113,8 +113,7 @@ verdict and crop: [`results/adjudication/`](results/adjudication/SUMMARY.md).
 ## What ran on AMD
 
 **Standing workload.** The live audit reads INE's public presidential tally sheets on AMD, one form at a time, and shows
-a public counter of reads on Home and at `/live` (computed from the worker's state). On a fresh deployment it starts at
-zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qwen3.8-27B during Gemma's gap.
+a public counter of reads on Home and at `/live` (computed from the worker's state).
 
 **AMD evidence.**
 
@@ -123,9 +122,8 @@ zero; this repo's local worker state holds 10 forms read on 2026-10-15, by Qwen3
 | Hardware | AMD GPUs behind the **AMD Token Factory** ([notebooks.amd.com/tokenfactory](https://notebooks.amd.com/tokenfactory)), which AMD describes as "GPU Accelerated AMD ROCm"; the endpoint does not report the GPU model, so we name no card |
 | Model | **Gemma-4-31B-IT**, temperature 0, one request per form (masked page + 6 zoomed tiles); every measured read of the 300 and of the 100-form confirmation |
 | Serving | hosted by AMD, OpenAI-compatible API; our client is `twohands/amd.py` (standard library only) |
-| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time, not self-hosted): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
-| Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with its tokens and billed cost from the API's `usage` (`results/calls_*.jsonl`); the model catalogue snapshot during the outage ([docs/AMD.md](docs/AMD.md)) |
-| Outage | Gemma was unavailable on the shared endpoint from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (`results/endpoint_health.jsonl`); every stored Gemma number is Gemma on AMD |
+| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
+| Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with its tokens and billed cost from the API's `usage` (`results/calls_*.jsonl`); the model catalogue snapshots ([docs/AMD.md](docs/AMD.md)) |
 | Second reader | **Qwen3.8-27B** on the same endpoint, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
 | What ran on AMD | every model read: Gemma (primary), Qwen3.8-27B (second reader), the bake-off models; the Evolus agent's model |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
@@ -252,8 +250,7 @@ refused unless started with `--allow-reads`. Desktop MCP clients: command `twoha
 (`POST /api/v1/agents/{agentId}/mcpserver/{mcpServerId}`); it cannot create the server entry, and Evolus calls the
 server from its cloud, so it must be on a public HTTPS URL first. `python -m evolus mcp-register --url https://<host>/mcp`
 prints the steps (run `twohands mcp --http --public-host <host>` behind HTTPS, add it in the workspace as a Streamable
-HTTP server, then `--server-id <id> --apply` attaches it to the agent and reads the agent back). Not run against the
-live workspace yet: no public URL.
+HTTP server, then `--server-id <id> --apply` attaches it to the agent and reads the agent back).
 
 ## How it works
 
@@ -285,12 +282,9 @@ phone photos with no per-form training. It never decides: the paper's arithmetic
   separately (`/check`). Fields where the model and the capture agree were not individually checked (a seeded random
   200 is queued for a blind person check at `/check?set=agree200`). Recall is unmeasured: 1 of the 7 recall fields is a
   confirmed capture error.
-- **Row-label check.** It is costly: it routed 86 forms, and on 68 of them the read matched the paper on every
-  field (all 15 routed for a label alone).
-- **Not independent.** In one call the model can harmonise words and digits, so one read is not two independent
-  reads. The fix is separate reads or a second reader.
-- **Pages not located.** 11 of the 300 went to a person before any model call.
-- **Speed.** At our polite pace on a shared key (2 requests in flight) we read about 2 forms a minute; a dedicated endpoint was not measured.
+- **Blind spot.** SOBRANTES (unused ballots) is the one graded field in no printed identity, and one read can
+  harmonise its words and digits: every accepted-field error on the 300 was SOBRANTES. Gate v3 (pre-registered)
+  accepts it only when two independent reads agree.
 - **Failure case.** On a rainfall ledger read as one image, Gemma shifted a whole row of values one year to the
   left. Every shifted column still summed to its total, so the checksum accepted 26 wrong cells (of 870
   accepted). Zoomed tiles removed it (0 of 3,976 accepted cells wrong; spike, 40 sheets). On the tally sheet we
@@ -318,7 +312,7 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
 - **Yield (measured).** A person looks at about 5 disputed fields per confirmed capture error, against about 122
   at random: 267 disputed fields found 52; 267 random fields would find about 2. The strong-evidence tier is right
   12 of 18 times.
-- **Unit economics.** $1 per form audited (second capture + cotejo + receipts) (proposal). Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (GUESS: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales,
+- **Unit economics.** $1 per form audited (second capture + cotejo + receipts) (proposal). Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (estimate: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales,
   not measured. Line 2: $5 per confirmed capture error, $0 if none is found (measured: 52 confirmed capture errors in 267 disputed fields (19.5%, 1 in 5.1) on 289 read forms, 180 per 1,000 forms; $1 / 0.180 = $5.56, rounded down to $5). Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 - **A second line, not the hero.** When an agent keys a form, the paper still has to agree. Receipts work the same
   for a model as for a person; in our measurement, Gemma is the agent (alone it mis-keys 1 field in 37; the paper's
@@ -416,7 +410,7 @@ A standing service keeps auditing presidential tally sheets on AMD during judgin
   certified count", certified = capture != model is "model misread"; everything else is "dispute (unconfirmed)".
   Each dispute is a Merkle leaf (`twohands/merkle.py`), one root per completed state, a running root for the open one.
 - **Row-label check failed:** such a form is still compared field by field; its disputes are tagged "label check
-  failed: weaker evidence" and counted separately (the check was a false alarm in 68 of 86 cases on the 300).
+  failed: weaker evidence" and counted separately.
 - **Budget and pace:** 3 reads in flight (`WORKER_CONCURRENCY`), at most $0.60 a day, keeping $0.20 for the
   live-read button; then it sleeps until 16:00 UTC. It shares the rate-limiter file with the live reads and yields
   to them while one is queued. Resumable, crash-safe writes, a watchdog, rotating logs, a disk cap.

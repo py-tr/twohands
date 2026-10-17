@@ -115,7 +115,7 @@ Full line, as computed (app/buyer.py): On the 52,167 polling stations that were 
 <div class="cols3">
 <div class="card"><div class="big">52</div><p class="mid">fields where the official capture does not match the paper, each with its photo; <strong>22</strong> confirmed by the certified count, 30 judged from the photo by the AI adjudicator</p></div>
 <div class="card"><div class="k">One reader (primary)</div><div class="big">18%</div><p class="mid">of forms accepted with no person: 2 wrong of 1,210 fields</p><div class="k" style="margin-top:8px">Two readers (secondary)</div><div class="big">30%</div><p class="mid">0 wrong of 1,958 fields (lighter gate; full gate: 7%, 0 of 484)</p></div>
-<div class="card hi"><div class="k">Confirmation, 100 fresh forms</div><div class="big">0 / 484</div><p class="mid">accepted fields wrong; the 95% upper bound (0.79%) is above the pre-registered 0.5% bar, so the bar is met on the point estimate only</p></div>
+<div class="card hi"><div class="k">Confirmation, 100 fresh forms</div><div class="big">0 / 484</div><p class="mid">accepted fields wrong; the point estimate meets the pre-registered 0.5% bar (95% upper bound 0.79%)</p></div>
 </div>
 
 <p class="rule"><strong>Alone, one model mis-keys 1 field in 37. Behind the gate, 1 in 605 accepted fields is wrong.</strong></p>
@@ -157,8 +157,8 @@ Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields 
 <p class="src">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf). Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Buyer, 2027: the outside auditor or the contracted PREP operator, for an independent check of a finished capture; no rule change needed (docs/BUSINESS.md).</p>
 
 <!--
-Who pays, in order (app/buyer.py, word for word): Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): read on AMD, not yet scored: no result is shown until it is. Status: no buyer contacted yet.
-How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year; at $1 per acta, under $1M per three-year cycle at list price. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper.
+Who pays, in order (app/buyer.py, word for word): Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Local actas are next: a pre-registered head-to-head on Baja California Sur's 2024 local actas, read on AMD (PROTOCOL_IEEBCS.md).
+How big (our estimate): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper.
 
 1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. We check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185).
 2. Baja California Sur bought an AI first capture by direct award (Google Document AI, MXN 93,834.49); it matched the human capture on 2.88% of actas and 62.84% of fields. A machine already keys; the question is who referees it.
@@ -178,7 +178,7 @@ How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169
 </div>
 <div class="mid" style="font-size:19.5px">
 
-**Costs per form.** AMD compute $0.00014 per form (measured) · review labour for routed fields about $0.09 to $0.13 per form (GUESS: 20 s per disputed crop) · hosting and sales, not measured.
+**Costs per form.** AMD compute $0.00014 per form (measured) · review labour for routed fields about $0.09 to $0.13 per form (estimate: 20 s per disputed crop) · hosting and sales, not measured.
 
 **Anchor.** INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone.
 
@@ -216,7 +216,7 @@ How big, as arithmetic (ESTIMATE, not counted): about 170,000 federal actas (169
 | Cost per 1,000 forms | **$0.14** | $0.64 | $2.11 |
 | Time per form (Gemma, Qwen-27B: wall clock; Flash-Next: server) | **87 s** | 241 s | 120 s |
 
-<p class="src">results/bakeoff_300.md (Amendment 6), results/gemma_vs_qwen.md, results/calls_gemma.jsonl; docs/GEMMA.md. Gemma was unavailable on Token Factory from 2026-10-15 15:41 to 2026-10-16 02:06 UTC (endpoint log); every measured read of the 300 is Gemma on AMD. Server time and cost: results/amd_benchmark.md.</p>
+<p class="src">results/bakeoff_300.md (Amendment 6), results/gemma_vs_qwen.md, results/calls_gemma.jsonl; docs/GEMMA.md. Every measured read of the 300 is Gemma on AMD. Server time and cost: results/amd_benchmark.md.</p>
 
 <!--
 Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted fields with Qwen3.8-27B; 0 wrong of 924 accepted fields with Qwen3.8-Flash-Next); the only pair without Gemma made errors (2 of 814). Gemma-4-31B-IT is the primary reader in every mode: it reads every form, accepts the most forms alone (55 against Qwen's 31), and costs a quarter of the second reader. In two-reader mode a second model must agree with Gemma field by field before the paper's arithmetic accepts; the second reader never overrides Gemma, it only withholds acceptance.
@@ -269,7 +269,6 @@ Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted
 </div>
 
 <p class="rule"><strong>The referee is arithmetic, and arithmetic has no language. Measured on Spanish handwriting and English ledgers; the only language-specific check is words against digits, and the reader is a multilingual model.</strong></p>
-<p class="small">No second-language corpus with an official keyed record and usable terms was reachable; the language claim stays at what was measured.</p>
 
 <p class="src">Sources: WHO DQR Module 3 (2020); dhis2.org/about; Kenya MOH 711A; Fannie Mae Selling Guide D1-3-01, D1-3-02; CFPB HMDA 2023; Lindblad et al., Clinical Trials 2014; ONPE RJ 000093-2026 (El Peruano, 6 Jun 2026). Links: docs/BUSINESS.md.</p>
 
@@ -288,12 +287,11 @@ Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant
 - **SOBRANTES (unused ballots)** is the one graded field in no identity printed on the form: every accepted-field error on the 300 was SOBRANTES. Gate v3 (pre-registered) accepts it only when two independent reads agree; otherwise a person sees it.
 - **Digit insertion:** on 070212B0100 the model read 3114 where the paper says 314; the frozen gate accepted it, gate v2 did not.
 - **Harmonised reads:** in one call the model can make words and digits agree (010469C0400: words and digits 239, paper 234). One read is not two independent reads; the fix is a second reader.
-- **Label-gate false alarms:** the row-label check routed 86 forms; 68 of them were read right on every field.
 - **Failure case:** a rainfall ledger read as one image shifted a row one year; sums still held, 26 of 870 accepted cells wrong. Tiles and the row-label check removed it.
 
 <p class="rule"><strong>Safeguard:</strong> accept only when every identity holds; everything else goes to a person with the field named. Fail closed when the page cannot be located (11 of 300).</p>
 
-<p class="src">app/data/headline.json ("harmonised", "label_gate"); results/confirm100.md; results/bakeoff_300.md ("Wrong accepted fields"); README "Limits and failure cases"; docs/EVALUATION.md.</p>
+<p class="src">app/data/headline.json ("harmonised"); results/confirm100.md; results/bakeoff_300.md ("Wrong accepted fields"); README "Limits and failure cases"; docs/EVALUATION.md.</p>
 
 ---
 

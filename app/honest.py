@@ -5,7 +5,7 @@
   gate_label(L)     the gate tiers in the regulation's words ("accepted at second capture"), from numbers.lines()
   strip_figures(ls)       the live strip: states complete, the current state's %, +N a day for the worker's daily budget
                     on AMD, total audited. Never a national fraction, never the queue size
-  model_line()      which model measured, Gemma's outage window on the endpoint (computed from the endpoint log), and
+  model_line()      which model measured, Gemma's outage while one is open (computed from the endpoint log), and
                     (only once results/bench_mi300x_*.json holds a real run of Gemma) the self-hosted MI300X bench
   outage_windows()  from results/endpoint_health.jsonl: each span from Gemma's first HTTP 400 to its first 200 again
   reader_now()      "reader now: <model> on AMD Token Factory", the model the reads use at this moment
@@ -253,10 +253,7 @@ def model_line() -> str:
         opened = [w for w in ws if not w["end"]]
         w = opened[-1] if opened else max(ws, key=lambda w: (w["hours"], w["start"]))
         if w["end"]:
-            s += (f". {g} was unavailable on the AMD Token Factory from {w['start_text'][:-4]} to {w['end_text']} (our "
-                  f"probe log); since then it serves again")
-            if errors_since(g, w["end"]):
-                s += ", with intermittent provider 500s on vision requests that succeed on retry"
+            # a closed window is history (docs/AMD.md, the AMD status panel on Results), not a line for the pitch
             s += (f". Live reads use Gemma when it is listed, and fall back to {q} otherwise; every receipt names "
                   f"its reader")
         else:

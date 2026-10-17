@@ -317,6 +317,6 @@ the app reads, then compared with it.
 | results/manifest_confirm100.json committed before first call on the confirm100 | 693451b 2026-10-15 13:36:57Z < 2026-10-16 08:51:07Z |  | protocol | ok |
 | Amendment 6 (open-model bake-off) committed before first bake-off read | 1dd100a 2026-10-15 23:53:46Z < 2026-10-16 00:14:48Z |  | protocol | ok |
 | PROTOCOL_CORD.md committed before first CORD call | 5fccfb7 2026-10-15 14:11:09Z; no such call yet |  | protocol | ok |
-| every cited commit exists (directly or via docs/commit-map.txt) | 7 citations |  | protocol | ok |
+| every cited commit exists (directly or via docs/commit-map.txt) | 6 citations |  | protocol | ok |
 
 Second reader: 300 of 300 Qwen rows present.
