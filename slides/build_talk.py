@@ -273,10 +273,9 @@ slides.append(slide(6, """
     <tr><td>Both must agree, the paper's sums as referee</td><td class="r">89 of 300</td><td class="r ok"><b class="ok">0 of 1,958</b></td><td class="r">$0.78</td><td class="r">–</td></tr>
   </table>
   <p class="cap">Two readers: lighter gate, a secondary analysis. Qwen: +2 undecided. Source: app/data/bakeoff_300.json.</p>
-  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:56px;border-top-color:var(--line)">
-    <div class="stat"><div class="v">4.8<small> forms / min</small></div><div class="l">$0.000146 per form, shared endpoint, 4 in flight</div></div>
-    <div class="stat"><div class="v">$0.14</div><div class="l">Colima, a whole state: all 982 located presidential sheets</div></div>
-    <div class="stat"><div class="v">150<small> of 150</small></div><div class="l">Evolus "Audit finding" runs completed; the agent runs Gemma on AMD</div></div>
+  <div style="display:grid;grid-template-columns:auto 1fr;column-gap:48px;align-items:center;margin-top:64px;border-top:1px solid var(--line);padding-top:36px">
+    <div class="v acc" style="font-size:112px;font-weight:600;letter-spacing:-2.5px;line-height:1;font-variant-numeric:tabular-nums">$0.14</div>
+    <p style="font-size:34px;line-height:1.35;color:var(--ink-2)"><b>Colima, a whole state:</b> all 982 located presidential sheets, read by Gemma on AMD.</p>
   </div>
 """, "README 'Why Gemma' and 'What ran on AMD'; docs/EVOLUS.md (150 executions of real routed fields; a Script recomputes the evidence score with no AI). Every zero-error two-reader pair includes Gemma. About $24 of AMD compute to read all 169,005 national presidential tally sheets."))
 
@@ -300,14 +299,14 @@ slides.append(slide(7, f"""
 slides.append(slide(8, f"""
   <div class="kicker">Where it holds, and where it breaks</div>
   <h2>Read 3114, paper 314. <span class="acc">Gate v2 sends it to a person.</span></h2>
-  <div class="g">
-    <div class="c7">
-      {annotated(A + "crop_070212B0100_SOBRANTES.jpg", "Unused ballots on form 070212B0100: boxes 3 1 4, words line blank", 960, 744, 158, [
+  <div class="g" style="align-items:center;min-height:620px">
+    <div class="c8">
+      {annotated(A + "crop_070212B0100_SOBRANTES.jpg", "Unused ballots on form 070212B0100: boxes 3 1 4, words line blank", 1107, 744, 158, [
           (0.45, 0.64, 0.0, "Words line: blank", "no second reading to compare", INK, 0.30),
-          (0.895, 0.66, 0.62, "The paper: 314", "in digits", ACC, 0.08)], band=110)}
+          (0.895, 0.66, 0.62, "The paper: 314", "in digits", ACC, 0.08)], band=124)}
       <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
     </div>
-    <div class="c5 facts">
+    <div class="c4 facts">
       <div><div class="k">The blind spot</div><p>The model read <b class="bad">3114</b>. Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
       <div><div class="k">Held out</div><p>On 100 fresh forms the frozen gate let it through. Gate v2, digits and words both read and equal, blocked it: <b class="ok">0 wrong of 484</b>.</p></div>
       <div><div class="k">Scope</div><p>Clerical capture quality only. Most forms still go to a person. Not an official INE product.</p></div>

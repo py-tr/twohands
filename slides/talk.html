@@ -189,10 +189,9 @@ Two Hands</span><span class="n">05</span></div></section><section class="slide">
     <tr><td>Both must agree, the paper's sums as referee</td><td class="r">89 of 300</td><td class="r ok"><b class="ok">0 of 1,958</b></td><td class="r">$0.78</td><td class="r">–</td></tr>
   </table>
   <p class="cap">Two readers: lighter gate, a secondary analysis. Qwen: +2 undecided. Source: app/data/bakeoff_300.json.</p>
-  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:56px;border-top-color:var(--line)">
-    <div class="stat"><div class="v">4.8<small> forms / min</small></div><div class="l">$0.000146 per form, shared endpoint, 4 in flight</div></div>
-    <div class="stat"><div class="v">$0.14</div><div class="l">Colima, a whole state: all 982 located presidential sheets</div></div>
-    <div class="stat"><div class="v">150<small> of 150</small></div><div class="l">Evolus "Audit finding" runs completed; the agent runs Gemma on AMD</div></div>
+  <div style="display:grid;grid-template-columns:auto 1fr;column-gap:48px;align-items:center;margin-top:64px;border-top:1px solid var(--line);padding-top:36px">
+    <div class="v acc" style="font-size:112px;font-weight:600;letter-spacing:-2.5px;line-height:1;font-variant-numeric:tabular-nums">$0.14</div>
+    <p style="font-size:34px;line-height:1.35;color:var(--ink-2)"><b>Colima, a whole state:</b> all 982 located presidential sheets, read by Gemma on AMD.</p>
   </div>
 <aside class="notes">README 'Why Gemma' and 'What ran on AMD'; docs/EVOLUS.md (150 executions of real routed fields; a Script recomputes the evidence score with no AI). Every zero-error two-reader pair includes Gemma. About $24 of AMD compute to read all 169,005 national presidential tally sheets.</aside><div class="foot"><span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
 Two Hands</span><span class="n">06</span></div></section><section class="slide">
@@ -212,12 +211,12 @@ Two Hands</span><span class="n">06</span></div></section><section class="slide">
 Two Hands</span><span class="n">07</span></div></section><section class="slide">
   <div class="kicker">Where it holds, and where it breaks</div>
   <h2>Read 3114, paper 314. <span class="acc">Gate v2 sends it to a person.</span></h2>
-  <div class="g">
-    <div class="c7">
-      <div class="ann" style="width:960px;height:314px"><div class="img"><img src="talk/assets/crop_070212B0100_SOBRANTES.jpg" alt="Unused ballots on form 070212B0100: boxes 3 1 4, words line blank"></div><svg class="lines" width="960" height="314"><polyline points="144,125 144,131 720,131 720,125" fill="none" stroke="#14161b" stroke-width="2.5"/><polyline points="432,131 432,218 0,218 0,232" fill="none" stroke="#14161b" stroke-width="1.5"/><polyline points="782,129 782,135 936,135 936,129" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="859,135 859,218 595,218 595,232" fill="none" stroke="#3047c0" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:238px;border-left:2px solid #14161b;padding-left:14px">Words line: blank<span class="sm">no second reading to compare</span></div><div class="lbl" style="left:595px;top:238px;border-left:2px solid #3047c0;padding-left:14px">The paper: 314<span class="sm">in digits</span></div></div>
+  <div class="g" style="align-items:center;min-height:620px">
+    <div class="c8">
+      <div class="ann" style="width:1107px;height:359px"><div class="img"><img src="talk/assets/crop_070212B0100_SOBRANTES.jpg" alt="Unused ballots on form 070212B0100: boxes 3 1 4, words line blank"></div><svg class="lines" width="1107" height="359"><polyline points="166,144 166,150 830,150 830,144" fill="none" stroke="#14161b" stroke-width="2.5"/><polyline points="498,150 498,249 0,249 0,263" fill="none" stroke="#14161b" stroke-width="1.5"/><polyline points="902,149 902,155 1079,155 1079,149" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="991,155 991,249 686,249 686,263" fill="none" stroke="#3047c0" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:269px;border-left:2px solid #14161b;padding-left:14px">Words line: blank<span class="sm">no second reading to compare</span></div><div class="lbl" style="left:686px;top:269px;border-left:2px solid #3047c0;padding-left:14px">The paper: 314<span class="sm">in digits</span></div></div>
       <p class="cap" style="margin-top:0">Form 070212B0100, unused ballots (masked crop).</p>
     </div>
-    <div class="c5 facts">
+    <div class="c4 facts">
       <div><div class="k">The blind spot</div><p>The model read <b class="bad">3114</b>. Unused ballots sit in no identity: no sum can catch a digit inserted here.</p></div>
       <div><div class="k">Held out</div><p>On 100 fresh forms the frozen gate let it through. Gate v2, digits and words both read and equal, blocked it: <b class="ok">0 wrong of 484</b>.</p></div>
       <div><div class="k">Scope</div><p>Clerical capture quality only. Most forms still go to a person. Not an official INE product.</p></div>
