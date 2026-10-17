@@ -6,7 +6,7 @@ it disputes. What we sell for 2027 is that engine as an independent check of a f
 
 **One product, one buyer, for 2027.** Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.
 
-Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Local actas are next: a pre-registered head-to-head on Baja California Sur's 2024 local actas, read on AMD (PROTOCOL_IEEBCS.md).
+Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored (the head-to-head card).
 
 Every number here is either **measured** (we cite the file in this repo) or **cited** (we fetched the source and
 quote it). Anything beyond elections is labelled **next market, not measured**. One exchange rate throughout:
@@ -540,9 +540,9 @@ and none we found shows a crop per finding ordered by the paper's own arithmetic
 - **Political sensitivity.** Election data draws attention. We use clerical language only ("capture error",
   "Option NN"), name no party, and say plainly that the first capture is preliminary and the certified count is
   the official result.
-- **Recall is unmeasured.** On the forms the certified count settled by comparison, the model disputed 7 of 7 fields
-  where the paper differs from the capture, but only 1 of the 7 is a confirmed capture error (the other 6 are ambiguous
-  on the paper; `results/adjudication/RECALL.md`). The multiple between 1 in 5 and 1 in 122 depends on recall.
+- **Recall is measured on one kind of error, in one state.** Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall.
+  (`results/colima/recall.md`). Errors the certified count cannot reveal are not measured, and the multiple between
+  1 in 5 and 1 in 122 is not a recall estimate.
 - **The model alone is wrong on 1 field in 37.** Most disputes are model misreads (156 of 267). That is why the
   model never decides and a person opens each dispute.
 - **A model second capture needs the institute's approval.** PTO numeral 33 names a person for the second

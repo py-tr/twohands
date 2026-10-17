@@ -37,6 +37,7 @@ style: |
   .v { font-size: 64px; font-weight: 800; line-height: 1.05; color: #12324a; }
   .v.bad { color: #c2410c; text-decoration: line-through; text-decoration-thickness: 4px; }
   .rule { border-top: 2px solid #12324a; padding-top: 10px; margin-top: 12px; }
+  section.dense { font-size: 22px; }
   section.title { justify-content: center; background: #12324a; color: #f3f1ea; }
   section.title h1 { color: #fff; font-size: 58px; }
   section.title strong { color: #ffd9a8; }
@@ -160,7 +161,7 @@ Beside it, the result that decides acceptance: 0 wrong of 1,958 accepted fields 
 <p class="src">Source: INE, PREP PEF 2023-2024, "Captura Automática" report, CCOE 10th session 26-08-2024 (repositoriodocumental.ine.mx, ccoe-10se-26-08-2024-p17-1.pdf). Metric: results/ine_metric_DEFINITION.md (committed before computation), results/ine_metric.md. Buyer, 2027: the outside auditor or the contracted PREP operator, for an independent check of a finished capture; no rule change needed (docs/BUSINESS.md).</p>
 
 <!--
-Who pays, in order (app/buyer.py, word for word): Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Local actas are next: a pre-registered head-to-head on Baja California Sur's 2024 local actas, read on AMD (PROTOCOL_IEEBCS.md).
+Who pays, in order (app/buyer.py, word for word): Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored (the head-to-head card).
 How big (our estimate): about 170,000 federal actas (169,005 presidential sheets in 2024, one per polling station) plus the local actas of the 32 local processes, two to three per polling station where a state elects two or three local offices (Morelos 2024: 7,802 local actas for three offices), so roughly 500,000 to 700,000 actas in a concurrent year. Mexico's PREPs are the beachhead; the same field-level check applies wherever keyed values must match paper.
 
 1. Morelos paid MXN 26.6M for its 2024 PREP: 7,802 actas expected, 110 capture-and-verification posts, and an MXN 1.5M outside audit of the system, which by rule checks the software, not the keyed values against the paper. We check every value for $1 per acta, about 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185).
@@ -184,7 +185,7 @@ How big (our estimate): about 170,000 federal actas (169,005 presidential sheets
 | **Reviewer work** | About one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. |
 | **Capacity** | One shared AMD key: Colima's 982 sheets in about 3.4 hours, Morelos's 7,802 in about a day. |
 | **Example** | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
-| **Competition** | Second keying by a person: at least 0.8% of fields in our random sample still do not match the paper. Google Document AI (Baja California Sur, 2024) matched the human capture on 62.84% of fields. |
+| **Competition** | Second keying by a person: at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). |
 | **Next** | The same public data in at least 7 more countries (Indonesia, Colombia, Peru; Guatemala, Kenya, Argentina vote in 2027). Health reports: DHIS2 runs national reporting in 70+ countries. Not yet measured. |
 
 </div>
@@ -288,16 +289,19 @@ Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant
 
 ---
 
+<!-- _class: dense -->
+
 ## Limits and the failure case
 
 - **SOBRANTES (unused ballots)** is the one graded field in no identity printed on the form: every accepted-field error on the 300 was SOBRANTES. Gate v3 (pre-registered) accepts it only when two independent reads agree; otherwise a person sees it.
 - **Digit insertion:** on 070212B0100 the model read 3114 where the paper says 314; the frozen gate accepted it, gate v2 did not.
 - **Harmonised reads:** in one call the model can make words and digits agree (010469C0400: words and digits 239, paper 234). One read is not two independent reads; the fix is a second reader.
 - **Failure case:** a rainfall ledger read as one image shifted a row one year; sums still held, 26 of 870 accepted cells wrong. Tiles and the row-label check removed it.
+- **Recall** on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall.
 
 <p class="rule"><strong>Safeguard:</strong> accept only when every identity holds; everything else goes to a person with the field named. Fail closed when the page cannot be located (11 of 300).</p>
 
-<p class="src">app/data/headline.json ("harmonised"); results/confirm100.md; results/bakeoff_300.md ("Wrong accepted fields"); README "Limits and failure cases"; docs/EVALUATION.md.</p>
+<p class="src">app/data/headline.json ("harmonised"); results/confirm100.md; results/colima/recall.md (PROTOCOL.md Amendment 9); results/bakeoff_300.md ("Wrong accepted fields"); README "Limits and failure cases"; docs/EVALUATION.md.</p>
 
 ---
 

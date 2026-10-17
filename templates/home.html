@@ -54,6 +54,7 @@
   <p class="f-diff d-only">Others check the model against the source. We check the record against the paper.</p>
   </div>
   <div class="m-only below-fold">
+    {{ ieebcs_home(honest.buyer_card(), phone=True) }}
     <p class="f-sub">A vision model on AMD reads the form; the form's own arithmetic decides; every dispute comes with its photo.</p>
     <a class="btn dark lg" href="/audit/new">Audit your capture</a>
     <p class="f-diff">Others check the model against the source. We check the record against the paper.</p>
@@ -96,7 +97,7 @@
       <div class="src">{{ source("results/adjudication/SUMMARY.md + RECALL.md (app/data/headline.json); docs/EVALUATION.md") }}</div>
     </div>
   </div>
-  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them.{% if L.two_readers %} {{ L.two_readers }}{% endif %} Recall: {{ L.recall }}</p>
+  <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them.{% if L.two_readers %} {{ L.two_readers }}{% endif %} {{ L.recall }}</p>
 </section>
 {% endif %}
 

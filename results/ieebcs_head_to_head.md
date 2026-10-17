@@ -11,7 +11,24 @@ published proportion. The numbers below are written by `scripts/ieebcs_score.py`
 checked by `make eval`.
 
 <!-- BEGIN NUMBERS (scripts/ieebcs_score.py) -->
-Empty until the run (PROTOCOL_IEEBCS.md). No acta of the sample has been read by a model.
+**(a) Raw per-field match (gemma): 91.58%** = 3,317 of 3,622 numeric fields on all 300 actas (Wilson 95% 90.63-92.44%). Theirs: 14,501 of 23,077, 62.84% (IEEBCS, Informe final del PREP PELO 2023-2024, p. 19).
+Second: 93.25% of the 3,557 fields on the 294 of 300 pages the locator accepted (294 read and parsed).
+
+| type | actas | fields | matched | % | accepted forms |
+|---|---|---|---|---|---|
+| ayuntamientos | 149 | 1,746 | 1,576 | 90.26 | 24 |
+| diputaciones locales | 151 | 1,876 | 1,741 | 92.8 | 28 |
+
+| type and layout | actas | numeric fields per acta (min / mean / max) |
+|---|---|---|
+| ayuntamientos | mx_bcs_ayto_2024 | 132 | 7 / 11.82 / 12 |
+| ayuntamientos | mx_bcs_ayto_2024@sin_ml | 17 | 10 / 10.94 / 11 |
+| diputaciones locales | mx_bcs_dl_2024 | 87 | 7 / 12.76 / 13 |
+| diputaciones locales | mx_bcs_dl_2024@sin_pes | 64 | 11 / 11.97 / 12 |
+
+Excluded from the denominator (published value not a number): 46 fields ((blank): 12, ilegible: 9, sin dato: 25).
+
+**(b) After the gate:** 52 of 300 forms accepted (17.33%); on them, 2 of 622 fields differ from the published value (verdicts: {"unadjudicated": 2}). Fields where the published value does not match the paper (verdict model_right, all actas): 0. Adjudicator: AI reviewer (an AI model) from crops of the masked page; a person spot-checks (spotcheck.json).
 <!-- END NUMBERS -->
 
 Stack, per run: the rows carry the served model id. "Gemma-4-31B-IT" is the Token Factory; a self-hosted vLLM

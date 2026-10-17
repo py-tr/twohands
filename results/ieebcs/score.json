@@ -1,0 +1,91 @@
+{
+ "model": "gemma",
+ "n_actas": 300,
+ "theirs": {
+  "fields": 23077,
+  "matched": 14501,
+  "pct": 62.84,
+  "source": "IEEBCS, Informe final del PREP PELO 2023-2024, p. 19"
+ },
+ "served_models": [
+  "Gemma-4-31B-IT"
+ ],
+ "a_raw": {
+  "matched": 3317,
+  "fields": 3622,
+  "pct": 91.58,
+  "wilson95": [
+   90.63,
+   92.44
+  ],
+  "second_fields_of_located_pages": {
+   "matched": 3317,
+   "fields": 3557,
+   "pct": 93.25
+  },
+  "pages_read": 294,
+  "pages_located": 294
+ },
+ "by_type": {
+  "ayuntamientos": {
+   "actas": 149,
+   "matched": 1576,
+   "fields": 1746,
+   "pct": 90.26,
+   "accepted": 24
+  },
+  "diputaciones locales": {
+   "actas": 151,
+   "matched": 1741,
+   "fields": 1876,
+   "pct": 92.8,
+   "accepted": 28
+  }
+ },
+ "fields_per_acta": {
+  "ayuntamientos | mx_bcs_ayto_2024": {
+   "actas": 132,
+   "fields_min": 7,
+   "fields_max": 12,
+   "fields_mean": 11.82
+  },
+  "ayuntamientos | mx_bcs_ayto_2024@sin_ml": {
+   "actas": 17,
+   "fields_min": 10,
+   "fields_max": 11,
+   "fields_mean": 10.94
+  },
+  "diputaciones locales | mx_bcs_dl_2024": {
+   "actas": 87,
+   "fields_min": 7,
+   "fields_max": 13,
+   "fields_mean": 12.76
+  },
+  "diputaciones locales | mx_bcs_dl_2024@sin_pes": {
+   "actas": 64,
+   "fields_min": 11,
+   "fields_max": 12,
+   "fields_mean": 11.97
+  }
+ },
+ "excluded_non_numeric_published": {
+  "(blank)": 12,
+  "sin dato": 25,
+  "ilegible": 9
+ },
+ "b_gate": {
+  "accepted": 52,
+  "of": 300,
+  "accept_pct": 17.33,
+  "accepted_fields": 622,
+  "accepted_fields_differing_from_published": 2,
+  "verdicts_on_accepted_differences": {
+   "unadjudicated": 2
+  },
+  "published_value_not_the_paper (verdict model_right, all actas)": 0,
+  "verdicts_all_disagreements": {
+   "unadjudicated": 240
+  }
+ },
+ "adjudicator": "AI reviewer (an AI model) from crops of the masked page; a person spot-checks (spotcheck.json)"
+}

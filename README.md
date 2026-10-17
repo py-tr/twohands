@@ -4,7 +4,7 @@ OCR reads the number. Two Hands checks whether the whole form agrees.
 
 A model reads; the form's own arithmetic decides what passes; people review the rest with the photo; accepted values get receipts.
 
-- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300, a whole state); 49 capture errors confirmed by the certified count, each with its photo.
+- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300, a whole state); 49 capture errors confirmed by the certified count, each with its photo; recall on certified-detectable errors 27 of 28 (Colima, pre-registered; not total recall).
 - **Why Gemma:** same 300 forms, same gate, on AMD Token Factory: 1.8x the forms Qwen3.8-27B accepts at the same error rate, 4.6x cheaper, 2.8x faster ([the table](#why-gemma)).
 - **Re-derive it:** images, keyed values and certified counts are public (INE); [`make eval`](#reproduce-every-number) recomputes every number offline.
 
@@ -19,7 +19,7 @@ A model reads; the form's own arithmetic decides what passes; people review the 
 | Reviewer work | About one photo crop per sheet to look at (0.92 measured: fields where the read and the capture disagree), instead of re-keying about 22 fields. |
 | Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
 | Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
-| Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. Google Document AI, bought by Baja California Sur in 2024, matched the human capture on 62.84% of fields. Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
+| Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
 | Next | A paid shadow-mode pilot with one state for 2027. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
 | Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
 | Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). Not yet measured. |
@@ -69,8 +69,8 @@ official two-person capture (PREP); every disagreement was settled on a crop of 
 | Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong**: a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). With the full gate (section 7): 22 of 300 (7%), **0 of 484 fields wrong** |
 | How "wrong" was checked | Judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. |
 | Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (point estimate meets the pre-registered 0.5% bar; Wilson 95% upper bound 0.79%) ([`results/confirm100.md`](results/confirm100.md)) |
-| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count · 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values; checked by a person: 30 of 30, 27 agree, 3 unreadable to the person). Recall is unmeasured, so the multiple between the two rates is too. |
-| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count · 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values; checked by a person: 30 of 30, 27 agree, 3 unreadable to the person). The multiple between the two rates is not a recall estimate. |
+| Recall | Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall. (`results/colima/recall.md`) |
 
 The first capture is preliminary by design; the certified count is the official result.
 
@@ -273,8 +273,8 @@ phone photos with no per-form training. It never decides: the paper's arithmetic
 - **One reader, one adjudicator.** The adjudicator is the AI adjudicator (the builder's model, which could see both
   values), working from the photo on published crops, which anyone can re-check; person-checked counts are reported
   separately (`/check`). Fields where the model and the capture agree were not individually checked (a seeded random
-  200 is queued for a blind person check at `/check?set=agree200`). Recall is unmeasured: 1 of the 7 recall fields is a
-  confirmed capture error.
+  200 is queued for a blind person check at `/check?set=agree200`). Recall is measured only on the errors the
+  certified count reveals, in one state (27 of 28, Amendment 9); not total recall.
 - **Blind spot.** SOBRANTES (unused ballots) is the one graded field in no printed identity, and one read can
   harmonise its words and digits: every accepted-field error on the 300 was SOBRANTES. Gate v3 (pre-registered)
   accepts it only when two independent reads agree.

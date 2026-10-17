@@ -4,8 +4,9 @@
                                                    #   results/ieebcs_head_to_head.md
     python scripts/ieebcs_score.py --crops         # + a crop of the MASKED page for every field to adjudicate
                                                    #   (results/ieebcs/adjudication/, ledger adjudication.jsonl)
-    python scripts/ieebcs_score.py --check         # make eval: recompute and compare with what is committed;
-                                                   #   exit 1 on any mismatch (before the run: the empty template)
+    python scripts/ieebcs_score.py --check         # make eval: recompute and compare with what is committed, and
+                                                   #   require line() verbatim in LINE_DOCS; exit 1 on any mismatch
+                                                   #   (before the run: the empty template)
     [--model gemma|qwen]
 
 Field set (the count and vote boxes; no identification field): per acta, every field of its schema (variant) with a
@@ -26,6 +27,7 @@ import argparse
 import collections
 import json
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -39,6 +41,10 @@ MD = REPO / "results" / "ieebcs_head_to_head.md"
 ADJ = RES / "adjudication"
 BEGIN, END = "<!-- BEGIN NUMBERS (scripts/ieebcs_score.py) -->", "<!-- END NUMBERS -->"
 THEIRS = {"fields": 23077, "matched": 14501, "pct": 62.84, "source": "IEEBCS, Informe final del PREP PELO 2023-2024, p. 19"}
+THEIRS_ACTAS = 2020   # the population both are drawn from (PROTOCOL_IEEBCS.md 3.1; the report's p. 20 total)
+# The one-line head-to-head quoted in the docs (the Competition row of the "Business at a glance" table and its
+# slide); generated from score.json by line(), and --check requires it verbatim in each of these files.
+LINE_DOCS = ("README.md", "submission/lablab.md", "slides/slides.md")
 
 
 def wilson(k: int, n: int, z: float = 1.96):
@@ -179,6 +185,17 @@ def render(sc: dict | None) -> str:
     return "\n".join(lines)
 
 
+def line(sc: dict) -> str:
+    """The head-to-head in one sentence, every number from the score file (metric 5a, the strict figure)."""
+    a = sc["a_raw"]
+    return (f"On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on "
+            f"{a['pct']}% of fields (n = {a['fields']:,} fields on a pre-registered random sample of {sc['n_actas']} "
+            f"of the {THEIRS_ACTAS:,} actas; Wilson 95% {a['wilson95'][0]}-{a['wilson95'][1]}%), on the per-field "
+            f"exact-match metric where the state's purchased Google Document AI reading scored {THEIRS['pct']}% "
+            f"({THEIRS['matched']:,} of {THEIRS['fields']:,} fields on all {THEIRS_ACTAS:,} actas, against the manual "
+            f"capture rather than the published values).")
+
+
 def write_md(text: str) -> None:
     md = MD.read_text(encoding="utf-8")
     i, j = md.index(BEGIN) + len(BEGIN), md.index(END)
@@ -241,9 +258,16 @@ def main(argv=None) -> int:
         if sc is not None:
             committed = json.loads((RES / "score.json").read_text(encoding="utf-8")) if (RES / "score.json").is_file() else None
             mism += int(committed != sc)
+            want = line(sc)
+            for doc in LINE_DOCS:
+                body = re.sub(r"\s+", " ", (REPO / doc).read_text(encoding="utf-8"))
+                if want not in body:
+                    print(f"  - {doc}: missing the current head-to-head line: {want}")
+                    mism += 1
         print(f"IEEBCS head-to-head: {'no run yet (template)' if sc is None else sc['a_raw']['pct']}; mismatches: {mism}")
         return 1 if mism else 0
     if sc is not None:
+        print("line:", line(sc))
         (RES / "score.json").write_text(json.dumps(sc, indent=1, ensure_ascii=False), encoding="utf-8")
     write_md(text)
     if a.crops:

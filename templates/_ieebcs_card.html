@@ -1,7 +1,10 @@
 {# The IEEBCS head-to-head, three placements (app/ieebcs_card.py; PROTOCOL_IEEBCS.md section 10). Each macro renders
    nothing when the rule does not place the comparison in its slot, or before results/ieebcs/score.json exists. #}
-{% macro ieebcs_home(c) %}{% if c %}
-    <div class="card buyer" id="buyer" data-tier="{{ c.tier }}">
+{% macro ieebcs_home(c, phone=False) %}{% if c %}
+    {# Desktop: inside the hero grid, full width under the receipt card and the strip. Phone: that copy is hidden and
+       the same card is rendered again (phone=True) under the first-screen actions, so the fold keeps the receipt,
+       the counter and the main button. #}
+    <div class="card buyer{{ ' buyer-phone m-only' if phone else ' buyer-hero' }}" id="{{ 'buyer-m' if phone else 'buyer' }}" data-tier="{{ c.tier }}">
       <div class="eyebrow">{{ c.eyebrow }}</div>
       <p class="rvals">{{ c.text }}</p>
       <p class="tiny muted" style="margin:6px 0 8px">{{ c.footnote }}</p>

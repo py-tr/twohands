@@ -849,6 +849,9 @@ section.st-ans { margin-top: var(--s-6); }
 .strip .v .unit { font-size: .55em; font-weight: 650; letter-spacing: -0.01em; margin-left: 1px; color: var(--ink-2); }
 .strip .n-day .v { color: var(--ok); }
 .buyer { border: 1px solid var(--accent-soft); }
+.f-hero .buyer-hero { order: 2; grid-column: 1 / -1; }
+.below-fold .buyer-phone { margin: 0 0 14px; text-align: left; }
+@media (max-width: 560px) { .f-hero .buyer-hero { display: none; } }   /* the .m-only breakpoint */
 @media (max-width: 860px) {
   .f-hero { grid-template-columns: minmax(0, 1fr); }
 }

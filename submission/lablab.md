@@ -9,7 +9,7 @@ Two Hands: receipts for every keyed number
 
 ## Short description (227 characters)
 
-Gemma on AMD read 1,270 real handwritten tally sheets, a random 300 and a whole state: 49 capture errors confirmed by the certified count, each with its photo. The paper's own arithmetic decides what is accepted with no person.
+Gemma on AMD read 1,270 real handwritten tally sheets, a random 300 and a whole state: 49 capture errors confirmed by the certified count, each with its photo; recall on certified-detectable errors 27 of 28 (Colima, pre-registered; not total recall). The paper's own arithmetic decides what is accepted with no person.
 
 ## Long description
 
@@ -35,7 +35,7 @@ and published data are later checked against the sheet in the cotejo (Proceso T√
 numerals 30 to 35; the same phases bind all 32 state PREPs through Anexo 13 of INE's Reglamento de Elecciones).
 Our engine is an automated capture with a referee. In the preliminary capture (PREP, before the c√≥mputos and before
 any later cotejo correction), at least 0.8% of fields in our random sample do not match the paper (52 of 6,358); 1 in 5
-of the fields our check disputes is a capture error, against at least 1 in 122 at random. Recall is unmeasured.
+of the fields our check disputes is a capture error, against at least 1 in 122 at random. Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall.
 
 **Business at a glance.**
 
@@ -48,7 +48,7 @@ of the fields our check disputes is a capture error, against at least 1 in 122 a
 | Reviewer work | About one photo crop per sheet to look at (0.92 measured: fields where the read and the capture disagree), instead of re-keying about 22 fields. |
 | Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
 | Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
-| Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. Google Document AI, bought by Baja California Sur in 2024, matched the human capture on 62.84% of fields. Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
+| Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
 | Next | A paid shadow-mode pilot with one state for 2027. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
 | Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
 | Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). Not yet measured. |
@@ -80,7 +80,7 @@ request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip,
 locating, the privacy mask and the gate run on CPU.
 
 Limits: most forms are routed to a person (see the table). "Wrong" is judged against the official capture: every disagreement was checked on the photo, the
-agreeing fields were not (a seeded random 200 of them is queued for a blind person check). Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. The
+agreeing fields were not (a seeded random 200 of them is queued for a blind person check). Recall is measured only on the errors the certified count reveals, in one state (27 of 28); not total recall. The
 pre-registered second-reader pass on the 100-form confirmation was not run (a protocol deviation). 11 of the 300 pages could
 not be located and went to a person before any model call.
 
