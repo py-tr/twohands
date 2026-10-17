@@ -26,7 +26,7 @@ The certified count is the official result. An independent demonstration, not an
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
 the official double-keyed capture: the model found 52 fields where the capture does not match the paper, 22 of them
 confirmed by the certified count and 30 judged from the photo by the AI adjudicator (the builder's model, which could
-see both values; checked by a person: 30 of 30, 25 agree). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
+see both values; checked by a person: 30 of 30, 27 agree, 3 unreadable to the person). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
 Public ground truth is also why every number here can be re-derived by anyone: the images, the keyed values and the certified count are INE's, the scripts are ours (make eval).
 
 Mexico's rule already asks for this job. In INE's PREP process every tally sheet gets a second capture by a

@@ -51,7 +51,7 @@ def confirmation(H: dict, answers: Optional[dict] = None) -> Optional[dict]:
     verdicts = spotcheck.load_verdicts()
     cert = [x for x in items if x.get("cert_agrees")]
     rest = [x for x in items if not x.get("cert_agrees")]
-    person = disagree = 0
+    person = disagree = unread = 0
     for x in rest:
         k = f"{x['clave']}__{x['field']}"
         a = answers.get(k)
@@ -61,10 +61,11 @@ def confirmation(H: dict, answers: Optional[dict] = None) -> Optional[dict]:
             person += 1
         else:
             disagree += 1
+            unread += spotcheck.person_ambiguous(a)
     ai = len(rest) - person - disagree
     checked = person + disagree
     state = "pending" if checked == 0 else ("done" if checked == len(rest) else "in_progress")
-    phrase = person_phrase(checked, len(rest), person)
+    phrase = person_phrase(checked, len(rest), person, unread)
     head = f"{len(cert)} confirmed by the certified count · {len(rest)} judged from the photo by the AI adjudicator"
     return {"total": len(items), "certified": len(cert), "person": person, "person_disagree": disagree, "ai_only": ai,
             "ai_total": len(rest), "checked": checked, "state": state, "note": phrase, "person_phrase": phrase,
@@ -73,12 +74,18 @@ def confirmation(H: dict, answers: Optional[dict] = None) -> Optional[dict]:
 
 
 DOC_WHO = "the builder's model, which could see both values"
-PERSON_RE = r"(person check in progress at /check|checked by a person: (\d+) of {n}, (\d+) agree)"
+PERSON_RE = (r"(person check in progress at /check|checked by a person: (\d+) of {n}, (\d+) agree"
+             r"(?:, \d+ unreadable to the person)?(?:, \d+ read differently)?)")
 
 
-def person_phrase(checked: int, n: int, agree: int) -> str:
-    """The person check of the AI-adjudicated fields, as the README, lablab and the site say it."""
-    return "person check in progress at /check" if not checked else f"checked by a person: {checked} of {n}, {agree} agree"
+def person_phrase(checked: int, n: int, agree: int, unread: int = 0) -> str:
+    """The person check of the AI-adjudicated fields, as the README, lablab and the site say it. A field the person
+    could not read is counted apart from one the person read differently."""
+    if not checked:
+        return "person check in progress at /check"
+    differ = checked - agree - unread
+    return (f"checked by a person: {checked} of {n}, {agree} agree" + (f", {unread} unreadable to the person" if unread else "")
+            + (f", {differ} read differently" if differ else ""))
 
 
 def confirmation_in_doc(text: str, H: dict) -> bool:

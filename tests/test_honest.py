@@ -61,7 +61,9 @@ def test_confirmation_counts_a_persons_blind_reading(tmp_path, monkeypatch):
            f"{b['clave']}__{b['field']}": {"digits": 99999}}
     c = honest.confirmation(H, answers=ans)
     assert (c["person"], c["person_disagree"], c["ai_only"]) == (1, 1, len(rest) - 2)
-    assert c["state"] == "in_progress" and f"(checked by a person: 2 of {len(rest)}, 1 agree)" in c["text"]
+    assert c["state"] == "in_progress" and f"(checked by a person: 2 of {len(rest)}, 1 agree, 1 read differently)" in c["text"]
+    c2 = honest.confirmation(H, answers={**ans, f"{b['clave']}__{b['field']}": {"digits": None, "cant_tell": True}})
+    assert f"(checked by a person: 2 of {len(rest)}, 1 agree, 1 unreadable to the person)" in c2["text"]
     assert "judged from the photo by the AI adjudicator" in c["text"]   # the label stays for the fields not yet checked
 
 
