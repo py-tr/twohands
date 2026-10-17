@@ -4,7 +4,7 @@ OCR reads the number. Two Hands checks whether the whole form agrees.
 
 A model reads; the form's own arithmetic decides what passes; people review the rest with the photo; accepted values get receipts.
 
-- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300, a whole state); 49 capture errors confirmed by the certified count, each with its photo.
+- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (289 of a random 300 and Colima's 982, one sheet in both); 49 capture errors confirmed by the certified count, each with its photo.
 - **Against the incumbent:** on Baja California Sur's 2024 local actas, 91.6% of fields match the published values, on the same per-field metric where the state's purchased Google Document AI reading scored 62.84% (pre-registered random 300 actas).
 - **Checked:** recall 27 of 28 on the capture errors the certified count reveals (one state, pre-registered); a person re-read the AI-judged disputes blind: 0 read differently.
 - **Why Gemma:** same 300 forms, same gate, on AMD Token Factory: 1.8x the forms Qwen3.8-27B accepts at the same error rate, 4.6x cheaper, 2.8x faster ([the table](#why-gemma)).
@@ -76,7 +76,7 @@ official two-person capture (PREP); every disagreement was settled on a crop of 
 
 The first capture is preliminary by design; the certified count is the official result.
 
-One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; with the full gate, 7%, 0 wrong in 484). The one-reader figure is the pre-registered primary.
+One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; both readers on the full gate, 7% of these 300, 0 wrong in 484). The one-reader figure is the pre-registered primary. That 0 of 484 is two readers on the random 300. The deck's 0 of 484 is a separate result with the same count: one reader, gate v2, fixed before 100 fresh forms were drawn (Amendment 3), accepted 22 of them, 0 of their 484 fields wrong (Wilson 95% upper bound 0.79%).
 
 Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture. That is the secondary two-reader tier, on the lighter gate.
 
@@ -117,7 +117,7 @@ a public counter of reads on Home and at `/live` (computed from the worker's sta
 | Hardware | AMD GPUs behind the **AMD Token Factory** ([notebooks.amd.com/tokenfactory](https://notebooks.amd.com/tokenfactory)), which AMD describes as "GPU Accelerated AMD ROCm"; the endpoint does not report the GPU model, so we name no card |
 | Model | **Gemma-4-31B-IT**, temperature 0, one request per form (masked page + 6 zoomed tiles); every measured read of the 300 and of the 100-form confirmation |
 | Serving | hosted by AMD, OpenAI-compatible API; our client is `twohands/amd.py` (standard library only) |
-| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
+| Benchmark (our data, n = 289 reads) | Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. Latency per read (shared AMD endpoint, queue included): 32 s p50, 67 s p95 at 4 in flight (12 of the sweep's 44 requests); 71 s median over the 289 requests of the 300 run; 9.6 output tokens/s per request (804 out, 83 s mean round trip). Fine for an audit after the count, where nobody waits on one sheet: a state the size of Colima (982 sheets) in about 3.4 hours. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). 289 of 289 replies finished with `stop`. Table: [`results/amd_benchmark.md`](results/amd_benchmark.md) |
 | Logged | every HTTP attempt with timestamp, status and round trip (`results/endpoint_health.jsonl`); every read with its tokens and billed cost from the API's `usage` (`results/calls_*.jsonl`); the model catalogue snapshots ([docs/AMD.md](docs/AMD.md)) |
 | Second reader | **Qwen3.8-27B** on the same endpoint, reasoning effort low; it never overrides Gemma, it only withholds acceptance |
 | What ran on AMD | every model read: Gemma (primary), Qwen3.8-27B (second reader), the bake-off models; the Evolus agent's model |
@@ -361,7 +361,7 @@ Evolus team's review.
 
 The same process runs as a case on **Evolus** (Evolus Business Agents track). The masked page is the input, and an
 open model on AMD reasons over it: the agent "Intake clerk" runs **Gemma-4-31B-IT on the AMD Token Factory**,
-connected under "Your models" as an OpenAI-compatible server (requirement 2: [docs/EVOLUS.md](docs/EVOLUS.md)).
+connected under "Your models" as an OpenAI-compatible server (requirement 2: [docs/EVOLUS.md](docs/EVOLUS.md)). Each strong finding opens a case in Evolus: the agent Intake clerk, on Gemma-4-31B-IT, drafts it in the workflow Audit finding; a script, not the model, scores the evidence. 150 of 150 runs on real routed fields completed (workspace py_tr, `results/evolus/executions.jsonl`).
 
 - **Live audit (critical path):** every strong-evidence dispute the live worker finds starts one run of the workflow
   **"Audit finding"** (the clerk drafts the finding, a Script recomputes the evidence score with no AI); the case

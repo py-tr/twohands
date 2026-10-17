@@ -3,8 +3,9 @@
 {% block title %}Form {{ clave }} · Two Hands{% endblock %}
 {% set strata = {'A_clean': 'clean control', 'B_paper_sum_mismatch': 'paper rows do not sum', 'C_prep_ne_certified': 'capture differs from certified', 'D_recounted_sum_mismatch': 'recounted, rows do not sum'} %}
 {#- The sheet page tells one story: watch it run (the stored AMD read at once, a live re-read on request), what it
-    found (one verdict sentence; the official-capture line kept apart), how it's checked (the paper's checks, the
-    routed field with its crop and decision, the receipt), then the same on 300 sheets. Data: app/sheet.py. -#}
+    found (one verdict sentence, about Gemma's read), how it's checked (the paper's checks, the routed field with its
+    crop and decision, the receipt), then, under its own heading, where the official typed record is wrong, then the
+    same on 300 sheets. Data: app/sheet.py. -#}
 {% block content %}
 <div class="small muted"><a href="/try">Try it</a> / tally sheet</div>
 <div class="sec-head" style="margin-top:8px;margin-bottom:14px">
@@ -29,13 +30,6 @@
       <div class="sub">{% if verdict.ok %}Gemma's read of this sheet passes every check of the paper's own arithmetic.{% else %}Gemma's read breaks one of the paper's own checks, so the gate does not accept it.{% endif %}{% if review %} Review: <b>{{ review.status }}</b>.{% endif %}</div>
     </div>
   </div>
-  {% if caplines %}
-  <div class="sh-cap" id="capture-line">
-    <div class="sh-cap-h">The official typed record{{ ' (separate from the verdict above)' if verdict.ok }}</div>
-    {% for c in caplines %}<p>{{ c.name }}: the official capture keyed <b class="mono badv">{{ c.keyed }}</b>; the paper says <b class="mono okv">{{ c.paper }}</b>{% if c.certified is not none %} (certified count {{ c.certified }}){% endif %}.</p>{% endfor %}
-    <p class="tiny">{% if verdict.ok %}Gemma's read passes the gate; the official typed record disagrees with the paper. Two different records, two different findings.{% else %}This compares the official typed record with the paper, not Gemma's read.{% endif %}</p>
-  </div>
-  {% endif %}
 </section>
 
 <div class="viewer">
@@ -123,6 +117,14 @@
       {% with ec = evolus_case(clave), compact = false %}{% if ec %}<details class="more-d"><summary>Evolus case for this sheet</summary>{% include "_evolus.html" %}</details>{% endif %}{% endwith %}
     </div>
   </div>
+  {% if caplines %}
+  <div class="sh-cap" id="capture-line">
+    <h3 class="sh-cap-t">Separately: the official capture was wrong here</h3>
+    <div class="sh-cap-h">The official typed record (PREP), not Gemma's read</div>
+    {% for c in caplines %}<p>{{ c.name }}: the official capture keyed <b class="mono badv">{{ c.keyed }}</b>; the paper says <b class="mono okv">{{ c.paper }}</b>{% if c.certified is not none %} (certified count {{ c.certified }}){% endif %}.</p>{% endfor %}
+    <p class="tiny">{% if verdict.ok %}The verdict above is about Gemma's read: it passes the gate. This box is about the official typed record, which disagrees with the paper. Two different records, two different findings.{% else %}This compares the official typed record with the paper, not Gemma's read.{% endif %}</p>
+  </div>
+  {% endif %}
   <p class="small sh-links"><a href="/trace">{{ icon('arrow') }}Full trace: two real sheets, request to receipt</a> · <a href="{{ repo_url }}" rel="noopener">Source code</a></p>
 </section>
 
@@ -170,9 +172,10 @@
 .sh-meta svg { width: 16px; height: 16px; color: var(--ok); vertical-align: -3px; margin-right: 6px; }
 .sh-meta .sh-tag { margin-left: 8px; white-space: nowrap; }
 .sh-tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 999px; background: var(--sunken); color: var(--muted); border: 1px solid var(--line); }
-.sh-cap { margin-top: 12px; padding: 12px 16px; border-radius: 10px; border: 1px dashed var(--line); background: var(--surface); }
+.sh-cap { margin-top: 20px; padding: 12px 16px; border-radius: 10px; border: 1px dashed var(--line); background: var(--surface); }
 .sh-cap-h { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
 .sh-cap p { margin: 2px 0; }
+.sh-cap-t { margin: 0 0 6px; }
 .badv { color: var(--bad); }
 .sh-checked { margin-top: var(--s-7); }
 .sh-field + .sh-field { margin-top: 16px; }

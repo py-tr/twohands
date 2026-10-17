@@ -197,7 +197,8 @@ def gate_lines(H: dict, T: dict | None) -> dict:
                 "gemma_role": None, "checked": chk}
     t2, tg, tq = T["tiers"]["two_reader"], T["tiers"]["gemma"], T["tiers"]["qwen"]
     s7 = T["tiers"].get("two_reader_s7")
-    full = (f"; with the full gate, {pct(s7['accepted'], T['forms'])}, {s7['errors']} wrong in {s7['fields']:,}"
+    full = (f"; both readers on the full gate, {pct(s7['accepted'], T['forms'])} of these {T['forms']}, {s7['errors']} "
+            f"wrong in {s7['fields']:,}"
             if s7 else "")
     gq = storemod._jload(storemod.DATA / "gemma_vs_qwen.json", None) or {}
     share = gq.get("gemma_cost_share_of_qwen")

@@ -27,8 +27,8 @@ OUT_J, OUT_M = R / "amd_benchmark.json", R / "amd_benchmark.md"
 MODEL = "Gemma-4-31B-IT"
 NATIONAL = 169_005   # PREP 2024 CSV, presidential tally sheets (app/numbers.py CITED national_forms)
 # docs that quote the block, and the keys whose sentence each must contain word for word
-DOCS = {"docs/AMD.md": ("server", "sweep", "cost", "wall"), "README.md": ("server", "sweep", "cost"),
-        "submission/lablab.md": ("server", "sweep", "cost", "wall")}
+DOCS = {"docs/AMD.md": ("server", "sweep", "cost", "wall"), "README.md": ("server", "sweep", "cost", "latency"),
+        "submission/lablab.md": ("server", "sweep", "cost", "wall", "latency")}
 
 
 def rows(path: Path) -> list[dict]:
@@ -71,6 +71,12 @@ def compute() -> dict:
     sw = throughput_sweep.summarize()
     d["sweep"] = {k: sw[k] for k in ("measured", "best_in_flight", "best_forms_per_min", "best_http_p50_s",
                                      "best_usd_per_form", "national_hours", "arithmetic", "reads", "usd_total", "line")}
+    best = next(lv for lv in sw["levels"] if lv["in_flight"] == sw["best_in_flight"])
+    d["sweep"].update(best_http_p95_s=best["http_p95_s"], best_requests=best["forms"] + best["retries"])
+    from app import colima
+    F = colima.facts() or {}
+    d["colima_sheets"] = F.get("read")
+    d["colima_hours"] = round(F["read"] / min(sw["best_forms_per_min"], sw["rpm_limit"]) / 60, 1) if F else None
     d["lines"] = lines(d)
     return d
 
@@ -84,6 +90,14 @@ def lines(d: dict) -> dict:
         "cost": (f"About ${d['national_usd']} of AMD compute to read all {d['national_forms']:,} national presidential "
                  f"tally sheets with {MODEL} (${d['cost_per_form']:.6f} per form, the mean billed cost of "
                  f"{d['reads']} reads)."),
+        "latency": (f"Latency per read (shared AMD endpoint, queue included): {d['sweep']['best_http_p50_s']:.0f} s p50, "
+                    f"{d['sweep']['best_http_p95_s']:.0f} s p95 at {d['sweep']['best_in_flight']} in flight "
+                    f"({d['sweep']['best_requests']} of the sweep's {d['sweep']['reads']} requests); "
+                    f"{d['server_median_s']:.0f} s median over the {d['http_200']} requests of the 300 run; "
+                    f"{d['out_tok_per_s']} output tokens/s per request ({d['tokens_out_mean']:,} out, "
+                    f"{d['server_mean_s']:.0f} s mean round trip). Fine for an audit after the count, where nobody waits "
+                    f"on one sheet: a state the size of Colima ({d['colima_sheets']:,} sheets) in about "
+                    f"{d['colima_hours']} hours."),
         "wall": (f"The 300 run's {d['wall_mean_s']:.0f} s per form was wall clock under our own pacing (2 in flight), not "
                  f"GPU time; {d['server_mean_s']:.0f} s of it was the endpoint's round trip, queue included."),
     }
@@ -110,7 +124,7 @@ def markdown(d: dict) -> str:
         f"| Failed HTTP attempts in the window (retried) | {d['http_failed_attempts']} | |",
         f"| Cost per form (billed, `usage.cost`) | ${d['cost_per_form']:.6f}; ${d['cost_per_1000']:.2f} per 1,000 | {d['reads']} |",
         f"| All {d['national_forms']:,} national presidential tally sheets | about ${d['national_usd']} | computed |", "",
-        L["server"], "", L["sweep"], "", L["cost"], "", L["wall"], "",
+        L["server"], "", L["sweep"], "", L["latency"], "", L["cost"], "", L["wall"], "",
         "The endpoint does not report the GPU model, so no card is named. The capacity sweep "
         "(`results/throughput_sweep.md`) is the shared endpoint under its rate limit, queueing included: not GPU time.", ""])
 

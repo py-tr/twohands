@@ -68,10 +68,20 @@ def measured_lines(H: dict) -> list[str]:
     ]
 
 
+def sheets_parts() -> str:
+    """What the sheets-read count is made of, in the words every doc uses: the parsed sheets of the random 300, the
+    parsed sheets of Colima, and the sheets in both (counted once in the total)."""
+    a = {r["form_id"] for r in _jsonl(REPO / "results" / "calls_gemma.jsonl") if r.get("parsed_ok")}
+    b = {r["form_id"] for r in _jsonl(REPO / "results" / "colima" / "calls_gemma.jsonl") if r.get("parsed_ok")}
+    k = len(a & b)
+    both = {0: "none in both", 1: "one sheet in both"}.get(k, f"{k} sheets in both")
+    return f"{len(a)} of a random 300 and Colima's {len(b):,}, {both}"
+
+
 def first_screen(H: dict) -> dict:
     """The proof lines of the README's first screen (bullets "Real data", "Against the incumbent", "Checked") and of
     lablab.md's "Proof in three lines", composed from the same computed pieces: sheets read and certified-confirmed
-    errors (measured_lines), the BCS head-to-head (results/ieebcs/score.json via scripts/ieebcs_score.short_line /
+    errors (measured_lines) with what the sheets are made of (sheets_parts; lablab's short description too), the BCS head-to-head (results/ieebcs/score.json via scripts/ieebcs_score.short_line /
     proof_line), the Colima recall (app/colima.recall_checked / recall_proof) and the person's blind re-read of the
     AI-judged disputes (app/honest.reread_expected: data-driven, or the doc's committed state on a fresh clone).
     Returns {doc: [required line, ...]}; a None piece makes the line unsatisfiable (reported as missing)."""
@@ -86,13 +96,15 @@ def first_screen(H: dict) -> dict:
         rr = honest.reread_expected((REPO / doc).read_text(encoding="utf-8"), H, key) or "(person re-read not complete)"
         if key == "readme":
             out[doc] = [
-                (f"Real data: Gemma on AMD read {sheets} real handwritten tally sheets (a pre-registered random 300, a "
-                 f"whole state); {confirmed} capture errors confirmed by the certified count, each with its photo."),
+                (f"Real data: Gemma on AMD read {sheets} real handwritten tally sheets ({sheets_parts()}); "
+                 f"{confirmed} capture errors confirmed by the certified count, each with its photo."),
                 f"Against the incumbent: {ieebcs_score.short_line(sc)}.",
                 f"Checked: {colima.recall_checked()}; {rr}.",
             ]
         else:
-            out[doc] = [(f"Proof in three lines. {sheets} real tally sheets read on AMD; {confirmed} capture errors "
+            out[doc] = [(f"Gemma on AMD read {sheets} real handwritten tally sheets ({sheets_parts()}): {confirmed} "
+                         f"capture errors confirmed by the certified count, each with its photo."),
+                        (f"Proof in three lines. {sheets} real tally sheets read on AMD; {confirmed} capture errors "
                          f"confirmed by the certified count. {ieebcs_score.proof_line(sc)} {colima.recall_proof()}; "
                          f"{rr}.")]
     return out
