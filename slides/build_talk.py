@@ -131,38 +131,59 @@ def annotated(src: str, alt: str, width: int, iw: int, ih: int, notes, band: int
 INK, ACC, BAD, OK = "#14161b", "#3047c0", "#b3261e", "#157042"
 slides = []
 
-# 1. Title
+# 1. Title: the whole masked page once, the row highlighted, and a zoomed inset of that row
+PW, PH = 720, round(720 * 1552 / 2400)               # masked page 110922C0100, 2400 x 1552
+PX, PY = 1080, 112
+HB = (936 * PW / 2400 - 4, 347 * PH / 1552 - 4, 619 * PW / 2400 + 8, 49 * PH / 1552 + 8)  # the Option 04 row
+IX, IY, IW = 120, 520, 820                           # the inset
 slides.append(slide(1, f"""
-  <div class="g">
-    <div class="c5">
-      <div class="wordmark">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
-      <h1>Two Hands</h1>
-      <p class="lead" style="margin-top:34px;font-size:38px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
-      <p class="lead" style="margin-top:22px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
-    </div>
-    <div class="c7" style="padding-top:150px">
-      {annotated("crop_122655C0100_OPT02.jpg", "Option 02 on form 122655C0100: words 'ciento veintitres', boxes 1 2 3", 1000, 619, 127, [
-          (0.30, 0.56, 0.0, "Gemma read 23", "in digits and in words: rows sum to 366, TOTAL is 466", BAD),
-          (0.87, 0.50, 0.64, "The paper: 123", "routed to a person, with this crop", ACC)], band=110)}
-      <p class="cap" style="margin-top:0">Form 122655C0100, Option 02. INE 2024 tally sheet, privacy-masked, cropped right of the logo column.</p>
-    </div>
+  <div style="position:absolute;left:120px;top:112px;width:900px">
+    <div class="wordmark" style="margin-bottom:40px">{MARK}<span>AMD Developer Hackathon ACT III</span></div>
+    <h1 style="font-size:100px">Two Hands</h1>
+    <p class="lead" style="margin-top:26px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
+    <p class="lead" style="margin-top:12px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
   </div>
-  <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:740px">
-    <div class="stat"><div class="v">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
-    <div class="stat"><div class="v">91.6%</div><div class="l">field match, vs 62.84% for the reading the state bought</div></div>
-    <div class="stat"><div class="v">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
-    <div class="stat"><div class="v">$1</div><div class="l">per sheet audited (proposed)</div></div>
+  <div style="position:absolute;left:{PX}px;top:{PY}px;width:{PW}px">
+    <div class="frame" style="position:relative;border-radius:6px"><img src="{A}masked_110922C0100.jpg" alt="The whole tally sheet 110922C0100, privacy-masked: the names-and-signatures column is blacked out">
+      <div style="position:absolute;left:{HB[0]:.0f}px;top:{HB[1]:.0f}px;width:{HB[2]:.0f}px;height:{HB[3]:.0f}px;border:2px solid var(--accent);border-radius:3px"></div></div>
+    <p class="cap" style="margin-top:10px">Tally sheet 110922C0100 (INE 2024), privacy-masked: the names-and-signatures column is blacked out.</p>
   </div>
-""", "Gemma-4-31B-IT on AMD Token Factory. Sources: README.md headline bullets."))
+  <svg style="position:absolute;left:0;top:0;pointer-events:none" width="1920" height="1080">
+    <line x1="{PX + HB[0]:.0f}" y1="{PY + HB[1] + HB[3]:.0f}" x2="{IX + IW}" y2="{IY}" stroke="#3047c0" stroke-width="1.5"/>
+  </svg>
+  <div style="position:absolute;left:{IX}px;top:{IY}px">
+    {annotated(A + "crop_110922C0100_OPT04.jpg", "Option 04 on form 110922C0100: words 'cincuenta y uno', digit boxes", IW, 619, 127, [
+        (0.30, 0.52, 0.0, "The paper: 51", "the words: cincuenta y uno; certified count: 51", ACC),
+        (0.955, 0.52, 0.66, "Gemma read 54", "digits and words; rows sum to 329, TOTAL 326: routed", BAD)], band=96)}
+  </div>
+  <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:796px">
+    <div class="stat"><div class="v" style="font-size:60px">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">91.6%</div><div class="l">field match, vs 62.84% for the reading the state bought</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">$1</div><div class="l">per sheet audited (proposed)</div></div>
+  </div>
+""", "Form 110922C0100, Option 04 (docs/GEMMA.md 'Misreads the arithmetic caught'): Gemma read 54 in the digits and 54 in the words; the paper says 51 (the official capture keyed 51, the certified count says 51). The gate refused the form: rows sum to TOTAL, 329 != 326; with the paper's 51 it is 326 = 326. Page and crop from the app's /masked and /crop endpoints."))
 
 # 2. The problem
 slides.append(slide(2, f"""
   <div class="kicker">The problem, from INE's own files</div>
   <h2>Two official records of the same paper disagree. <span class="mute">Neither says which one is right.</span></h2>
-  {annotated("receipt_050815B0100.jpg", "Option 07 on form 050815B0100: words 'ciento setenta y cinco', boxes 1 7 5", 1300, 619, 102, [
-      (0.30, 0.58, 0.0, "The paper: 175", "in words and in boxes; the certified count says 175", ACC),
-      (0.87, 0.42, 0.68, "First capture keyed 75", "the preliminary record", BAD)], band=104)}
-  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:36px">
+  <div class="g">
+    <div class="c8">
+      {annotated("receipt_050815B0100.jpg", "Option 07 on form 050815B0100: words 'ciento setenta y cinco', boxes 1 7 5", 1080, 619, 102, [
+          (0.87, 0.42, 0.62, "The paper: 175", "in digits and in words", ACC)], band=112)}
+      <p class="cap" style="margin-top:0">Form 050815B0100, Option 07 (masked, cropped right of the logo column). One of the 52 on our random 300.</p>
+    </div>
+    <div class="c4">
+      <div style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">The two typed records of this field</div>
+      <table>
+        <tr><td style="color:var(--muted)">Typed into the preliminary count</td><td class="r" style="font-size:40px;font-weight:600;color:var(--bad)"><s>75</s></td></tr>
+        <tr><td style="color:var(--muted)">Certified count</td><td class="r" style="font-size:40px;font-weight:600">175</td></tr>
+      </table>
+      <p style="margin-top:16px;font-size:22px;color:var(--muted)">The 75 is a typing error in the database, not on the paper.</p>
+    </div>
+  </div>
+  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:34px">
     <div class="stat"><div class="v">6.5%</div><div class="l">of the 52,167 polling stations not recounted: the preliminary capture and the certified count disagree on at least one vote field</div></div>
     <div class="stat"><div class="v">19.2%</div><div class="l">of nationally captured tally forms fail their own row sum (26,336 of 137,196)</div></div>
     <div class="stat"><p style="font-size:28px;line-height:1.4;padding-top:4px">Double keying copies the paper faithfully but <b>cannot say which paper is wrong</b>. The photo can.</p></div>
@@ -170,17 +191,21 @@ slides.append(slide(2, f"""
 """, "6.5% = 3,382 of 52,167 (results/national_counts.md). 19.2% = 26,336 of 137,196 (README 'Why double keying is not enough'). The mandated audit checks the software, not the keyed values (docs/BUSINESS.md)."))
 
 # 3. How it works
-slides.append(slide(3, """
+slides.append(slide(3, f"""
   <div class="kicker">How it works</div>
   <h2>The model reads. The paper's own arithmetic decides.</h2>
-  <div class="steps" style="margin-top:150px">
+  <div class="steps" style="margin-top:10px">
     <div class="st"><div class="no">01</div><div class="t">Photo</div><p>Page located and privacy-masked before it is stored or sent</p><span class="arr">→</span></div>
     <div class="st"><div class="no">02</div><div class="t">Gemma reads</div><p>Gemma-4-31B-IT on AMD Token Factory reads every field twice: digits and words</p><span class="arr">→</span></div>
     <div class="st"><div class="no">03</div><div class="t">Arithmetic</div><p>words = digits · rows sum to TOTAL · section 5 = section 7 = TOTAL</p><span class="arr">→</span></div>
     <div class="st"><div class="no">04</div><div class="t">Accept or route</div><p>All hold: <b class="ok">accepted</b>. One fails: <b class="bad">a person</b> gets the field, with its photo</p><span class="arr">→</span></div>
     <div class="st"><div class="no">05</div><div class="t">Receipt</div><p>Each field a Merkle leaf; the root anchored with OpenTimestamps</p></div>
   </div>
-  <p style="margin-top:130px;font-size:28px;border-top:1px solid var(--line);padding-top:26px">A second reader, Qwen3.8-27B on AMD, never overrides Gemma: it can only <b>withhold</b> acceptance.</p>
+  <div class="g" style="margin-top:48px">
+    <div class="c6"><div class="frame"><img src="{A}form_accepted_head.png" alt="Form 211298B0100: Accepted: 0 fields to key"></div>
+      <p class="cap">An accepted form on the site (211298B0100): every identity holds, so nobody keys it. A second reader, Qwen3.8-27B on AMD, never overrides Gemma: it can only withhold acceptance.</p></div>
+    <div class="c6"><div class="frame"><img src="{A}form_accepted_idents.png" alt="The paper's identities on 211298B0100: 417 = 417 four times; words = digits 23 of 23"></div></div>
+  </div>
 """, "Masking: names-and-signatures column blacked out (OpenCV, CPU). The gate is plain Python. Every model read runs on AMD. Interfaces: web app, API, CLI, MCP server, Evolus workflows."))
 
 # 4. One real case
@@ -264,11 +289,11 @@ slides.append(slide(8, """
 # 9. Business
 slides.append(slide(9, f"""
   <div class="kicker">Business at a glance</div>
-  <h2>An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
+  <h2 style="margin-bottom:40px">An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
   <div class="g">
-    <div class="c6"><div class="frame" style="height:436px"><img src="{A}report_head.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root"></div>
+    <div class="c7"><div class="frame" style="height:526px"><img style="margin-top:-30px" src="{A}report_head.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root"></div>
       <p class="cap">The product: the audit report, every dispute with its photo, sealed by one Merkle root.</p></div>
-    <div class="c6 facts">
+    <div class="c5 facts">
       <div><div class="k">Buyer</div><p>INE and the 32 state institutes, each with an outside auditor.</p></div>
       <div><div class="k">Why now</div><p><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. First step: a <b>paid shadow-mode pilot</b> on one state's count.</p></div>
       <div><div class="k">One state, priced</div><p>Morelos paid MXN 26.6M to run its 2024 PREP. Our check of every sheet: about <b>MXN 143k</b>, 0.5% of that.</p></div>
@@ -299,7 +324,7 @@ slides.append(slide(10, f"""
 slides.append(slide(11, """
   <div class="kicker">Check it yourself</div>
   <h2>Every number re-derives from public data.</h2>
-  <div class="g">
+  <div class="g" style="margin-top:120px">
     <div class="c4"><div class="k" style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)">Reproduce</div>
       <pre class="cmd">make eval</pre><p style="margin-top:18px">Recomputes every number offline and checks it against what the site shows.</p></div>
     <div class="c4"><div class="k" style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)">Verify a receipt</div>
@@ -309,7 +334,7 @@ slides.append(slide(11, """
       <pre class="cmd">ots verify
 results/sample_audit_root.txt.ots</pre><p style="margin-top:18px">The report's Merkle root, anchored in Bitcoin with OpenTimestamps.</p></div>
   </div>
-  <div style="position:absolute;left:120px;right:120px;top:760px;border-top:1px solid var(--ink);padding-top:30px;display:flex;justify-content:space-between;align-items:baseline">
+  <div style="position:absolute;left:120px;right:120px;top:760px;border-top:1px solid var(--ink);padding-top:34px;display:flex;justify-content:space-between;align-items:baseline">
     <p style="font-size:40px;font-weight:600;color:var(--ink)">Two Hands. <span class="acc">Verifiable quality control for handwritten numbers.</span></p>
     <p style="font-size:28px;color:var(--muted)" class="mono">github.com/py-tr/twohands</p>
   </div>

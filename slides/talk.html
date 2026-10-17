@@ -77,31 +77,49 @@ pre.cmd { font-family: var(--mono); font-size: 24px; color: var(--ink); backgrou
 .wordmark { display: flex; align-items: center; gap: 18px; font-size: 26px; font-weight: 600; color: var(--ink); margin-bottom: 70px; }
 .wordmark svg { width: 44px; height: 44px; }
 </style></head><body><section class="slide">
-  <div class="g">
-    <div class="c5">
-      <div class="wordmark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
+  <div style="position:absolute;left:120px;top:112px;width:900px">
+    <div class="wordmark" style="margin-bottom:40px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
 <span>AMD Developer Hackathon ACT III</span></div>
-      <h1>Two Hands</h1>
-      <p class="lead" style="margin-top:34px;font-size:38px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
-      <p class="lead" style="margin-top:22px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
-    </div>
-    <div class="c7" style="padding-top:150px">
-      <div class="ann" style="width:1000px;height:315px"><div class="img"><img src="crop_122655C0100_OPT02.jpg" alt="Option 02 on form 122655C0100: words 'ciento veintitres', boxes 1 2 3"></div><svg class="lines" width="1000" height="315"><circle cx="300" cy="115" r="7" fill="none" stroke="#b3261e" stroke-width="2.5"/><polyline points="300,122 300,219 0,219 0,233" fill="none" stroke="#b3261e" stroke-width="1.5"/><circle cx="870" cy="102" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="870,110 870,219 640,219 640,233" fill="none" stroke="#3047c0" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:239px;border-left:2px solid #b3261e;padding-left:14px">Gemma read 23<span class="sm">in digits and in words: rows sum to 366, TOTAL is 466</span></div><div class="lbl" style="left:640px;top:239px;border-left:2px solid #3047c0;padding-left:14px">The paper: 123<span class="sm">routed to a person, with this crop</span></div></div>
-      <p class="cap" style="margin-top:0">Form 122655C0100, Option 02. INE 2024 tally sheet, privacy-masked, cropped right of the logo column.</p>
-    </div>
+    <h1 style="font-size:100px">Two Hands</h1>
+    <p class="lead" style="margin-top:26px;font-size:34px;color:var(--ink);font-weight:500">Verifiable quality control for handwritten numbers.</p>
+    <p class="lead" style="margin-top:12px;font-size:28px;color:var(--muted)">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
   </div>
-  <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:740px">
-    <div class="stat"><div class="v">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
-    <div class="stat"><div class="v">91.6%</div><div class="l">field match, vs 62.84% for the reading the state bought</div></div>
-    <div class="stat"><div class="v">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
-    <div class="stat"><div class="v">$1</div><div class="l">per sheet audited (proposed)</div></div>
+  <div style="position:absolute;left:1080px;top:112px;width:720px">
+    <div class="frame" style="position:relative;border-radius:6px"><img src="talk/assets/masked_110922C0100.jpg" alt="The whole tally sheet 110922C0100, privacy-masked: the names-and-signatures column is blacked out">
+      <div style="position:absolute;left:277px;top:100px;width:194px;height:23px;border:2px solid var(--accent);border-radius:3px"></div></div>
+    <p class="cap" style="margin-top:10px">Tally sheet 110922C0100 (INE 2024), privacy-masked: the names-and-signatures column is blacked out.</p>
   </div>
-<aside class="notes">Gemma-4-31B-IT on AMD Token Factory. Sources: README.md headline bullets.</aside><div class="foot"><span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
+  <svg style="position:absolute;left:0;top:0;pointer-events:none" width="1920" height="1080">
+    <line x1="1357" y1="235" x2="940" y2="520" stroke="#3047c0" stroke-width="1.5"/>
+  </svg>
+  <div style="position:absolute;left:120px;top:520px">
+    <div class="ann" style="width:820px;height:264px"><div class="img"><img src="talk/assets/crop_110922C0100_OPT04.jpg" alt="Option 04 on form 110922C0100: words 'cincuenta y uno', digit boxes"></div><svg class="lines" width="820" height="264"><circle cx="246" cy="87" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="246,94 246,182 0,182 0,196" fill="none" stroke="#3047c0" stroke-width="1.5"/><circle cx="783" cy="87" r="7" fill="none" stroke="#b3261e" stroke-width="2.5"/><polyline points="783,94 783,182 541,182 541,196" fill="none" stroke="#b3261e" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:202px;border-left:2px solid #3047c0;padding-left:14px">The paper: 51<span class="sm">the words: cincuenta y uno; certified count: 51</span></div><div class="lbl" style="left:541px;top:202px;border-left:2px solid #b3261e;padding-left:14px">Gemma read 54<span class="sm">digits and words; rows sum to 329, TOTAL 326: routed</span></div></div>
+  </div>
+  <div class="stats" style="grid-template-columns:repeat(4,1fr);position:absolute;left:120px;right:120px;top:796px">
+    <div class="stat"><div class="v" style="font-size:60px">1,270</div><div class="l">real handwritten tally sheets read by Gemma on AMD</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">91.6%</div><div class="l">field match, vs 62.84% for the reading the state bought</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">27<small> of 28</small></div><div class="l">certified-detectable capture errors caught</div></div>
+    <div class="stat"><div class="v" style="font-size:60px">$1</div><div class="l">per sheet audited (proposed)</div></div>
+  </div>
+<aside class="notes">Form 110922C0100, Option 04 (docs/GEMMA.md 'Misreads the arithmetic caught'): Gemma read 54 in the digits and 54 in the words; the paper says 51 (the official capture keyed 51, the certified count says 51). The gate refused the form: rows sum to TOTAL, 329 != 326; with the paper's 51 it is 326 = 326. Page and crop from the app's /masked and /crop endpoints.</aside><div class="foot"><span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
 Two Hands</span><span class="n">01</span></div></section><section class="slide">
   <div class="kicker">The problem, from INE's own files</div>
   <h2>Two official records of the same paper disagree. <span class="mute">Neither says which one is right.</span></h2>
-  <div class="ann" style="width:1300px;height:318px"><div class="img"><img src="receipt_050815B0100.jpg" alt="Option 07 on form 050815B0100: words 'ciento setenta y cinco', boxes 1 7 5"></div><svg class="lines" width="1300" height="318"><circle cx="390" cy="124" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="390,131 390,228 0,228 0,242" fill="none" stroke="#3047c0" stroke-width="1.5"/><circle cx="1131" cy="90" r="7" fill="none" stroke="#b3261e" stroke-width="2.5"/><polyline points="1131,97 1131,228 884,228 884,242" fill="none" stroke="#b3261e" stroke-width="1.5"/></svg><div class="lbl" style="left:0px;top:248px;border-left:2px solid #3047c0;padding-left:14px">The paper: 175<span class="sm">in words and in boxes; the certified count says 175</span></div><div class="lbl" style="left:884px;top:248px;border-left:2px solid #b3261e;padding-left:14px">First capture keyed 75<span class="sm">the preliminary record</span></div></div>
-  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:36px">
+  <div class="g">
+    <div class="c8">
+      <div class="ann" style="width:1080px;height:290px"><div class="img"><img src="receipt_050815B0100.jpg" alt="Option 07 on form 050815B0100: words 'ciento setenta y cinco', boxes 1 7 5"></div><svg class="lines" width="1080" height="290"><circle cx="940" cy="75" r="7" fill="none" stroke="#3047c0" stroke-width="2.5"/><polyline points="940,82 940,192 670,192 670,206" fill="none" stroke="#3047c0" stroke-width="1.5"/></svg><div class="lbl" style="left:670px;top:212px;border-left:2px solid #3047c0;padding-left:14px">The paper: 175<span class="sm">in digits and in words</span></div></div>
+      <p class="cap" style="margin-top:0">Form 050815B0100, Option 07 (masked, cropped right of the logo column). One of the 52 on our random 300.</p>
+    </div>
+    <div class="c4">
+      <div style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">The two typed records of this field</div>
+      <table>
+        <tr><td style="color:var(--muted)">Typed into the preliminary count</td><td class="r" style="font-size:40px;font-weight:600;color:var(--bad)"><s>75</s></td></tr>
+        <tr><td style="color:var(--muted)">Certified count</td><td class="r" style="font-size:40px;font-weight:600">175</td></tr>
+      </table>
+      <p style="margin-top:16px;font-size:22px;color:var(--muted)">The 75 is a typing error in the database, not on the paper.</p>
+    </div>
+  </div>
+  <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-top:34px">
     <div class="stat"><div class="v">6.5%</div><div class="l">of the 52,167 polling stations not recounted: the preliminary capture and the certified count disagree on at least one vote field</div></div>
     <div class="stat"><div class="v">19.2%</div><div class="l">of nationally captured tally forms fail their own row sum (26,336 of 137,196)</div></div>
     <div class="stat"><p style="font-size:28px;line-height:1.4;padding-top:4px">Double keying copies the paper faithfully but <b>cannot say which paper is wrong</b>. The photo can.</p></div>
@@ -110,14 +128,18 @@ Two Hands</span><span class="n">01</span></div></section><section class="slide">
 Two Hands</span><span class="n">02</span></div></section><section class="slide">
   <div class="kicker">How it works</div>
   <h2>The model reads. The paper's own arithmetic decides.</h2>
-  <div class="steps" style="margin-top:150px">
+  <div class="steps" style="margin-top:10px">
     <div class="st"><div class="no">01</div><div class="t">Photo</div><p>Page located and privacy-masked before it is stored or sent</p><span class="arr">→</span></div>
     <div class="st"><div class="no">02</div><div class="t">Gemma reads</div><p>Gemma-4-31B-IT on AMD Token Factory reads every field twice: digits and words</p><span class="arr">→</span></div>
     <div class="st"><div class="no">03</div><div class="t">Arithmetic</div><p>words = digits · rows sum to TOTAL · section 5 = section 7 = TOTAL</p><span class="arr">→</span></div>
     <div class="st"><div class="no">04</div><div class="t">Accept or route</div><p>All hold: <b class="ok">accepted</b>. One fails: <b class="bad">a person</b> gets the field, with its photo</p><span class="arr">→</span></div>
     <div class="st"><div class="no">05</div><div class="t">Receipt</div><p>Each field a Merkle leaf; the root anchored with OpenTimestamps</p></div>
   </div>
-  <p style="margin-top:130px;font-size:28px;border-top:1px solid var(--line);padding-top:26px">A second reader, Qwen3.8-27B on AMD, never overrides Gemma: it can only <b>withhold</b> acceptance.</p>
+  <div class="g" style="margin-top:48px">
+    <div class="c6"><div class="frame"><img src="talk/assets/form_accepted_head.png" alt="Form 211298B0100: Accepted: 0 fields to key"></div>
+      <p class="cap">An accepted form on the site (211298B0100): every identity holds, so nobody keys it. A second reader, Qwen3.8-27B on AMD, never overrides Gemma: it can only withhold acceptance.</p></div>
+    <div class="c6"><div class="frame"><img src="talk/assets/form_accepted_idents.png" alt="The paper's identities on 211298B0100: 417 = 417 four times; words = digits 23 of 23"></div></div>
+  </div>
 <aside class="notes">Masking: names-and-signatures column blacked out (OpenCV, CPU). The gate is plain Python. Every model read runs on AMD. Interfaces: web app, API, CLI, MCP server, Evolus workflows.</aside><div class="foot"><span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
 Two Hands</span><span class="n">03</span></div></section><section class="slide">
   <div class="kicker">One real sheet, request to receipt</div>
@@ -188,11 +210,11 @@ Two Hands</span><span class="n">07</span></div></section><section class="slide">
 <aside class="notes">README 'Why Gemma' and 'What ran on AMD'; docs/EVOLUS.md (150 executions of real routed fields; a Script recomputes the evidence score with no AI). Every zero-error two-reader pair includes Gemma. About $24 of AMD compute to read all 169,005 national presidential tally sheets.</aside><div class="foot"><span class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
 Two Hands</span><span class="n">08</span></div></section><section class="slide">
   <div class="kicker">Business at a glance</div>
-  <h2>An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
+  <h2 style="margin-bottom:40px">An independent check of the keyed values. <span class="mute">$1 per sheet audited (proposed).</span></h2>
   <div class="g">
-    <div class="c6"><div class="frame" style="height:436px"><img src="talk/assets/report_head.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root"></div>
+    <div class="c7"><div class="frame" style="height:526px"><img style="margin-top:-30px" src="talk/assets/report_head.png" alt="Audit report: 6,358 fields checked, 267 disputed, each with its photo; Merkle root"></div>
       <p class="cap">The product: the audit report, every dispute with its photo, sealed by one Merkle root.</p></div>
-    <div class="c6 facts">
+    <div class="c5 facts">
       <div><div class="k">Buyer</div><p>INE and the 32 state institutes, each with an outside auditor.</p></div>
       <div><div class="k">Why now</div><p><b>6 June 2027</b>: the federal midterm and 32 concurrent local elections. First step: a <b>paid shadow-mode pilot</b> on one state's count.</p></div>
       <div><div class="k">One state, priced</div><p>Morelos paid MXN 26.6M to run its 2024 PREP. Our check of every sheet: about <b>MXN 143k</b>, 0.5% of that.</p></div>
@@ -217,7 +239,7 @@ Two Hands</span><span class="n">09</span></div></section><section class="slide">
 Two Hands</span><span class="n">10</span></div></section><section class="slide">
   <div class="kicker">Check it yourself</div>
   <h2>Every number re-derives from public data.</h2>
-  <div class="g">
+  <div class="g" style="margin-top:120px">
     <div class="c4"><div class="k" style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)">Reproduce</div>
       <pre class="cmd">make eval</pre><p style="margin-top:18px">Recomputes every number offline and checks it against what the site shows.</p></div>
     <div class="c4"><div class="k" style="font-size:18px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)">Verify a receipt</div>
@@ -227,7 +249,7 @@ Two Hands</span><span class="n">10</span></div></section><section class="slide">
       <pre class="cmd">ots verify
 results/sample_audit_root.txt.ots</pre><p style="margin-top:18px">The report's Merkle root, anchored in Bitcoin with OpenTimestamps.</p></div>
   </div>
-  <div style="position:absolute;left:120px;right:120px;top:760px;border-top:1px solid var(--ink);padding-top:30px;display:flex;justify-content:space-between;align-items:baseline">
+  <div style="position:absolute;left:120px;right:120px;top:760px;border-top:1px solid var(--ink);padding-top:34px;display:flex;justify-content:space-between;align-items:baseline">
     <p style="font-size:40px;font-weight:600;color:var(--ink)">Two Hands. <span class="acc">Verifiable quality control for handwritten numbers.</span></p>
     <p style="font-size:28px;color:var(--muted)" class="mono">github.com/py-tr/twohands</p>
   </div>

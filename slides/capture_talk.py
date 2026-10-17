@@ -31,7 +31,9 @@ def clip(pg, a, b, path, pad=14):
 
 def main():
     # masked crops served by the app
-    for name, url in {"crop_070212B0100_SOBRANTES.jpg": "/crop/070212B0100/SOBRANTES.jpg?pad=0.02&label=0"}.items():
+    for name, url in {"crop_070212B0100_SOBRANTES.jpg": "/crop/070212B0100/SOBRANTES.jpg?pad=0.02&label=0",
+                      "crop_110922C0100_OPT04.jpg": "/crop/110922C0100/OPT04.jpg?pad=0.02&label=0",
+                      "masked_110922C0100.jpg": "/masked/110922C0100.jpg"}.items():
         (OUT / name).write_bytes(urllib.request.urlopen(BASE + url).read())
         print("saved", name)
     with sync_playwright() as p:
@@ -59,11 +61,13 @@ def main():
         pg.wait_for_selector(".card.au-check"); pg.wait_for_timeout(800)
         audit_url = pg.url
         pg.goto(audit_url + "/report"); pg.wait_for_timeout(1200)
-        clip(pg, "h1", "table.sum", "report_head.png", pad=40)
         item = pg.locator(".item", has_text="050815B0100").first.element_handle()
         r = pg.evaluate(BOX_JS, [item, item, 10])
         pg.screenshot(path=str(OUT / "report_item_050815B0100.png"), clip=r, full_page=True)
         print("saved report_item_050815B0100.png from", audit_url + "/report")
+        pg.set_viewport_size({"width": 700, "height": 900})  # narrower: the report text reads at slide size
+        pg.goto(audit_url + "/report"); pg.wait_for_timeout(1200)
+        clip(pg, "h1", "table.sum", "report_head.png", pad=20)
         b.close()
 
 
