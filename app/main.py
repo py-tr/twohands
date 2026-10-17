@@ -385,8 +385,8 @@ def _try_sheets() -> list[dict]:
     for clave, code, title in TRY_SHEETS:
         if s.masked_image(clave) is None or s.default_read(clave) is None:
             continue
-        img = (f"/crop/enhanced/{clave}/{code}.jpg?pad=0.012" if clave == "070207C0100"
-               else f"/crop/{clave}/{code}.jpg?pad=0.012&label=0")
+        img = (f"/crop/enhanced/{clave}/{code}.jpg?pad=0.05" if clave == "070207C0100"   # the field and the rows around it
+               else f"/crop/{clave}/{code}.jpg?pad=0.05&label=0")
         out.append({"clave": clave, "title": title, "img": img, "field": storemod.name_of(storemod.key_of(code))})
     return out
 

@@ -183,7 +183,7 @@ def test_try_page_offers_the_practice_sheet_and_keeps_ine():
     assert "Print this sheet (PDF), fill it in your language, photograph it." in re.sub(r"<[^>]+>", "", html)
     assert "Demonstration, not a measurement." in html and "/static/sheet/two-hands-sheet.pdf" in html
     assert "/api/try/practice" in html and "'/api/upload'" in html
-    assert "Use a sample photo" in html and "Click the four corner markers" in html  # INE behaviour kept
+    assert "Pick a real sheet" in html and "Click the four corner markers" in html  # INE behaviour kept
     assert 'name="ftype" value="practice" checked' in client.get("/try?form=practice").text
     assert client.get("/static/sheet/two-hands-sheet.pdf").status_code == 200
 

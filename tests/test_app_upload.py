@@ -165,7 +165,7 @@ def test_upload_ids_are_validated(env):
 
 def test_try_page_renders_and_is_neutral():
     html = client.get("/try").text
-    assert "Take a photo" in html and 'capture="environment"' in html and "Use a sample photo" in html
+    assert "Take a photo" in html and 'capture="environment"' in html and "Pick a real sheet" in html
     assert "What a good photo looks like" in html
     _clean(html, "/try")
 
