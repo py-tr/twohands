@@ -506,3 +506,37 @@ both error counts, listed with crops).
 Gemma's Colima reads as the stored reads, saved to `results/colima/` (HTML and CSV, with its fingerprint), beside the gate
 counts above (`scripts/gemma_tf_reads2.py score-colima` -> `results/colima/colima_audit.json` and `.md`). A partial
 state is never shipped as complete: if the read does not finish, its n and the forms not read are listed.
+
+## Amendment 9 (2026-10-17, before any person or AI reading of these crops): Colima recall check
+
+**Why.** Amendment 8b reports the capture errors Gemma caught. It does not say how many capture errors Gemma missed,
+because a field where Gemma agrees with the first capture (PREP) is never disputed. This check measures that, on the
+errors the certified count can see.
+
+**Candidates (from data, no reading of any image).** On the 982 Colima forms read under Amendment 8b
+(`results/colima/calls_gemma.jsonl`, usable reads), every graded field the certified count covers (the vote rows and
+TOTAL, with the column mapping of `scripts/gemma_tf_reads2.py` `settle`), on a form settled by cotejo, not recount
+(Computos Distritales row present, OBSERVACIONES without "Recuento", the certified value an integer), the same rule as
+Amendment 8b and `score-colima`, where **the certified count differs from the first capture AND Gemma's reading equals
+the capture**. Built by `scripts/colima_recall.py build`; the number of candidates is reported whatever it is.
+
+**Caught.** Fields under the same rule where the certified count differs from the capture and Gemma's reading equals the
+certified count: the "confirmed by the certified count: model right (capture error)" label of
+`results/colima/colima_audit.json` (27). Fields where the certified count differs from both are counted and listed
+apart, in neither numerator nor denominator.
+
+**The check.** Each candidate gets a crop of the masked page cut by the app's own crop code (`app/crops.crop_bytes`,
+right of the printed row-label column: no logo, no name, no signature) in `results/colima/recall_crops/`. A person
+reads them blind on `/check?set=colimarecall` (the same page as the other sets: masked crop only, no certified,
+capture or model value shown, order shuffled with a fixed seed); answers go to `app/state/spotcheck_colimarecall.json`.
+No AI reads or adjudicates these crops; the person who built the set opened two of them only to confirm the masking.
+
+**Labels, per candidate, from the person's digits.** Equal to the certified value: **capture error Gemma also missed**
+(a recall miss). Equal to the capture: **later correction by the council** (not a miss). Anything else (can't tell,
+digits and words differ, blank, another value): **ambiguous**, excluded and listed.
+
+**Result.** Recall on certified-detectable capture errors = caught / (caught + missed), with Wilson 95%; also stated:
+the number of candidates, each label's count, and (secondary) the recall with every ambiguous candidate counted as a
+miss. Computed by `scripts/colima_recall.py score` into `results/colima/recall.json` and `.md`. Until every candidate
+is answered nothing is reported: the site and the docs say the check is in progress at `/check?set=colimarecall`.
+Once complete, the result is reported whatever it shows.
