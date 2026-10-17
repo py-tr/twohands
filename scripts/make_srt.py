@@ -13,9 +13,8 @@ segs = [
  (153,176,["The proof.","Gemma on AMD read 1,270 real handwritten tally sheets.","49 capture errors, confirmed by the certified count.","Recall: 27 of 28 capture errors the certified count reveals,","in one state, pre-registered.","A person re-read the AI-judged disputes blind:","0 read differently."]),
  (176,196,["On Baja California Sur's local actas: 91.6% field match.","The Google Document AI reading the state bought","scored 62.84%.","Same per-field metric: theirs on all 2,020 actas,","ours on a random 300."]),
  (196,216,["Same 300 forms, same gate.","It accepts 1.8x the forms Qwen does,","4.6x cheaper, 2.8x faster.","A whole state: Colima.","Gemma on AMD read all 982 sheets for 14 cents."]),
- (216,237,["Where it breaks.","The first gate had a blind spot:","on fresh forms it would have accepted 3114","where the paper says 314.","Gate version two, fixed before those forms were drawn,","sent it to a person."]),
- (237,264,["The auditor looks at 4% of the fields, each with its photo.","On 6 June 2027, 32 local elections join the federal midterm.","$1 per sheet audited, proposed:","for Morelos, half a percent of what it paid to run its count.","The first step: a paid shadow-mode pilot on one state's count."]),
- (264,274,["Every number re-derives from public data, with one command.","Two Hands.","Verifiable quality control for handwritten numbers.","Running on AMD."]),
+ (216,243,["The auditor looks at 4% of the fields, each with its photo.","On 6 June 2027, 32 local elections join the federal midterm.","$1 per sheet audited, proposed:","for Morelos, half a percent of what it paid to run its count.","The first step: a paid shadow-mode pilot on one state's count."]),
+ (243,253,["Every number re-derives from public data, with one command.","Two Hands.","Verifiable quality control for handwritten numbers.","Running on AMD."]),
 ]
 def ts(t):
     ms=int(round(t*1000)); return f"{ms//3600000:02d}:{ms//60000%60:02d}:{ms//1000%60:02d},{ms%1000:03d}"

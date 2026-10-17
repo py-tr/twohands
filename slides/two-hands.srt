@@ -255,61 +255,37 @@ A whole state: Colima.
 Gemma on AMD read all 982 sheets for 14 cents.
 
 65
-00:03:36,000 --> 00:03:37,903
-Where it breaks.
-
-66
-00:03:37,953 --> 00:03:41,810
-The first gate had a blind spot:
-
-67
-00:03:41,860 --> 00:03:46,206
-on fresh forms it would have accepted 3114
-
-68
-00:03:46,256 --> 00:03:49,136
-where the paper says 314.
-
-69
-00:03:49,186 --> 00:03:54,020
-Gate version two, fixed before those forms were drawn,
-
-70
-00:03:54,070 --> 00:03:56,950
-sent it to a person.
-
-71
-00:03:57,000 --> 00:04:03,108
+00:03:36,000 --> 00:03:42,108
 The auditor looks at 4% of the fields, each with its photo.
 
-72
-00:04:03,158 --> 00:04:08,792
+66
+00:03:42,158 --> 00:03:47,792
 On 6 June 2027, 32 local elections join the federal midterm.
 
-73
-00:04:08,842 --> 00:04:11,634
+67
+00:03:47,842 --> 00:03:50,634
 $1 per sheet audited, proposed:
 
-74
-00:04:11,684 --> 00:04:18,266
+68
+00:03:50,684 --> 00:03:57,266
 for Morelos, half a percent of what it paid to run its count.
 
-75
-00:04:18,316 --> 00:04:23,950
+69
+00:03:57,316 --> 00:04:02,950
 The first step: a paid shadow-mode pilot on one state's count.
 
-76
-00:04:24,000 --> 00:04:28,117
+70
+00:04:03,000 --> 00:04:07,117
 Every number re-derives from public data, with one command.
 
-77
-00:04:28,167 --> 00:04:29,367
+71
+00:04:07,167 --> 00:04:08,367
 Two Hands.
 
-78
-00:04:29,417 --> 00:04:32,283
+72
+00:04:08,417 --> 00:04:11,283
 Verifiable quality control for handwritten numbers.
 
-79
-00:04:32,333 --> 00:04:33,950
+73
+00:04:11,333 --> 00:04:12,950
 Running on AMD.
