@@ -5,33 +5,22 @@
 {% block content %}
 {% set si = meta.single_image %}
 {% set v = H.verdicts %}
-<section class="page-head" style="margin-bottom:0">
+{% set b = n.business %}
+<section class="page-head res-head">
   <div class="eyebrow">Evaluation</div>
   <h1>What we measured, and where it breaks</h1>
-  <p class="lede">The headline is the pre-registered random sample of {{ H.forms }} forms: sample, prompt, gate and metrics were committed before any model read. Every figure for it comes from one computed summary, the same one Home, Inbox and Findings read.</p>
+  <p class="lede">Every number on this site, with its method and source. The headline run is a pre-registered random sample of {{ H.forms }} forms: sample, prompt, gate and metrics were committed before any model read. <a href="/report.pdf">{{ icon('download') }}Report (PDF)</a></p>
 </section>
 
-<section style="margin-top:24px">
-  <div class="card res-report">
-    <div><div class="eyebrow" style="margin-bottom:4px">Technical report</div><b>Everything on this page, with method, sources and limits, as one PDF.</b></div>
-    <a class="btn primary" href="/report.pdf">{{ icon('download') }}Report (PDF)</a>
-  </div>
-  <p class="small res-jump">On this page: <a href="#colima">Colima, the whole state</a> · <a href="#gemma">Gemma vs the other readers</a> · <a href="#limits">Limitations</a> · <a href="#failure">Failure case</a> · <a href="#safeguard">Safeguard</a> · <a href="#measured">The four headline figures</a> · <a href="#cost-of-problem">The cost of the problem</a> · <a href="#who-pays">Who pays</a> · <a href="#amd-models">Open models on AMD</a> · <a href="#any-form">Any form</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a> · <a href="/trace">Execution trace: two real forms, request to receipt</a></p>
-</section>
-
-<section style="margin-top:20px">
-  <div class="grid2">
-    <div class="card callout ok" style="border-left-width:4px">
-      <div class="eyebrow" style="color:var(--ok)">Business result</div>
-      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">On {{ H.read }} random forms already keyed twice, the model sent {{ H.disagree }} of {{ H.fields|int }} fields ({{ H.flag_pct }}%) to a person, and {{ H.keying_errors }} of those were fields where the official capture does not match the paper, each with its photo: {{ L.breakdown }}</p>
-      <p class="small muted">{{ L.honest }} Cost {{ n.business.cpf_g|usd(6) }} per form on AMD, so {{ n.business.per_1000_g }} per 1,000 forms.</p>
-    </div>
-    <div class="card callout warn" style="border-left-width:4px">
-      <div class="eyebrow" style="color:var(--warn)">Known limitation</div>
-      <p style="font-size:1.08rem;font-weight:560;margin-bottom:10px">One reader, one adjudicator, and recall measured on one state.</p>
-      <p class="small muted">Every disagreement was settled from the photo by the AI adjudicator (the builder's model, which could see both values) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; fields where the model and the capture agree were not individually checked (a blind check of a random 200 is at /check?set=agree200). {{ L.recall }} The multiple between 1 in 5 and 1 in 122 depends on recall on the random 300, which was not measured there; up to 24 times if the model finds nearly every error. Our pacing on a shared key reads about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
-    </div>
-  </div>
+<section class="res-sum-wrap" aria-label="Summary">
+  <ol class="res-sum" id="summary">
+    <li><a href="#random300"><span class="v num">{{ H.keying_errors }}</span><span class="l">capture errors found in {{ H.fields|int }} fields of {{ H.read }} random forms, each settled on the photo</span></a></li>
+    {% for t in honest.proof_tiles(H) if t.id != 'proof-sheets' %}<li><a href="{{ t.href.replace('/results', '') }}"><span class="v num">{{ t.big }}{% if t.vs %} <span class="vs-word">vs</span> {{ t.vs }}{% endif %}</span><span class="l">{{ t.text }}</span></a></li>
+    {% endfor %}
+    <li><a href="#tiers"><span class="v num">1 in {{ H.acc_one_in }}</span><span class="l">fields wrong on the {{ H.accepted_pct }}% of forms the gate accepted with no person (1 in {{ H.model_one_in }} for the model alone)</span></a></li>
+    <li><a href="#amd-models"><span class="v num">{{ b.per_1000_g }}</span><span class="l">measured AMD compute per 1,000 forms</span></a></li>
+  </ol>
+  <p class="small res-jump">On this page: <a href="#random300">Random 300</a> · <a href="#colima">Colima</a> · <a href="#ieebcs">Head-to-head</a> · <a href="#tiers">Gate tiers</a> · <a href="#gemma">Readers on AMD</a> · <a href="#limits">Limitations</a> · <a href="#cost-of-problem">Cost and buyer</a> · <a href="#any-form">Any form</a> · <a href="#all-runs">All runs</a> · <a href="#evolus">Evolus</a> · <a href="#amd">AMD status</a> · <a href="/trace">Execution trace</a></p>
 </section>
 
 <section id="random300">
@@ -53,7 +42,12 @@
     </table>
     </div>
   </div>
-  <p class="tiny" style="margin-top:10px">{{ source("results/calls_gemma.jsonl (last read per form), results/adjudication/SUMMARY.md, CERTIFIED.md, RECALL.md, verdicts.json; summarised in app/data/headline.json by scripts/build_headline.py") }} Sources: results/calls_gemma.jsonl and results/adjudication/. A post-hoc gate variant designed after seeing these reads is reported separately in results/posthoc_v2_300.md and is not a test of anything.</p>
+  <details class="more-d">
+    <summary>Business reading, known limitation, and sources</summary>
+    <p class="small"><b>Business result.</b> On {{ H.read }} random forms already keyed twice, the model sent {{ H.disagree }} of {{ H.fields|int }} fields ({{ H.flag_pct }}%) to a person, and {{ H.keying_errors }} of those were fields where the official capture does not match the paper, each with its photo: {{ L.breakdown }} {{ L.honest }} Cost {{ n.business.cpf_g|usd(6) }} per form on AMD, so {{ n.business.per_1000_g }} per 1,000 forms.</p>
+    <p class="small"><b>Known limitation: one reader, one adjudicator, and recall measured on one state.</b> Every disagreement was settled from the photo by the AI adjudicator (the builder's model, which could see both values) on published crops, which anyone can re-check; a blind spot-check page lets a person do so without seeing any AI or capture value. Only disagreements were checked, so errors the model shares with the capture are not counted; fields where the model and the capture agree were not individually checked (a blind check of a random 200 is at /check?set=agree200). {{ L.recall }} The multiple between 1 in 5 and 1 in 122 depends on recall on the random 300, which was not measured there; up to 24 times if the model finds nearly every error. Our pacing on a shared key reads about 2 forms a minute; a national run needs a dedicated AMD endpoint.</p>
+  <p class="tiny">{{ source("results/calls_gemma.jsonl (last read per form), results/adjudication/SUMMARY.md, CERTIFIED.md, RECALL.md, verdicts.json; summarised in app/data/headline.json by scripts/build_headline.py") }} Sources: results/calls_gemma.jsonl and results/adjudication/. A post-hoc gate variant designed after seeing these reads is reported separately in results/posthoc_v2_300.md and is not a test of anything.</p>
+  </details>
 </section>
 
 {% if colima %}
@@ -85,16 +79,19 @@
     </table>
     </div>
   </div>
-  <p class="small" style="margin-top:10px">{{ CL.tiers }}</p>
-  <details style="margin-top:6px"><summary class="small" style="cursor:pointer">The {{ CF.v1.wrong }} accepted fields that differ from the paper (v1)</summary>
+  <p class="small" style="margin-top:10px"><a class="btn sm" href="/results/colima/report.html">Full field-level report (HTML)</a> <a href="/results/colima/report.csv">CSV</a> · <a href="/check?set=colima13">blind person check of the {{ CF.v1.wrong }}</a></p>
+  <details class="more-d">
+    <summary>The gate tiers, the {{ CF.v1.wrong }} accepted fields that differ from the paper, and sources</summary>
+  <p class="small">{{ CL.tiers }}</p>
     <ul class="tiny" style="margin:6px 0 0;padding-left:18px">
       {% for e in CF.errors %}<li><span class="mono">{{ e.form }}</span> · {{ e.name }}: Gemma read {{ e.read }}, capture {{ e.capture }}, paper {{ e.paper }} ({{ e.by }})</li>{% endfor %}
     </ul>
+  <p class="tiny" style="margin-top:8px"><a href="/results/colima/colima_audit.md">colima_audit.md</a> · <a href="/results/colima/SHEET.md">adjudication sheet</a> · {{ source("results/colima/colima_audit.json and .md (scripts/gemma_tf_reads2.py score-colima, no model call), results/colima/calls_gemma.jsonl (cost), results/colima/audit_report.html (fingerprint " ~ (CF.report.fingerprint_sha256 or '')[:16] ~ "); sentences in app/colima.py, checked by score-colima --check (make eval)") }}</p>
   </details>
-  <p class="small" style="margin-top:10px"><a class="btn" href="/results/colima/report.html">Full field-level report (HTML)</a> <a href="/results/colima/report.csv">CSV</a> · <a href="/results/colima/colima_audit.md">colima_audit.md</a> · <a href="/results/colima/SHEET.md">adjudication sheet</a> · <a href="/check?set=colima13">blind person check of the {{ CF.v1.wrong }}</a></p>
-  <p class="tiny">{{ source("results/colima/colima_audit.json and .md (scripts/gemma_tf_reads2.py score-colima, no model call), results/colima/calls_gemma.jsonl (cost), results/colima/audit_report.html (fingerprint " ~ (CF.report.fingerprint_sha256 or '')[:16] ~ "); sentences in app/colima.py, checked by score-colima --check (make eval)") }}</p>
 </section>
 {% endif %}
+
+{{ ieebcs_results(ieebcs_card("results")) }}
 
 {% set T = n.T %}
 {% if G %}
@@ -144,11 +141,15 @@
     </div>
   </div>
   {% if G.takeaway %}<p class="gtake">{{ G.takeaway }}</p>{% endif %}
+  <details class="more-d">
+    <summary>The fresh 100 forms, the light gate, and sources</summary>
   {% if n.confirm100 and n.confirm100.para %}<p class="gtake" id="confirm100" data-person-checked="{{ 1 if n.confirm100.person.checked else 0 }}">{{ n.confirm100.para }}</p>
   {% if n.confirm100.held %}<p class="gtake" id="confirm100-held">{{ n.confirm100.held }}</p>{% endif %}
-  <p class="tiny">{{ source("results/confirm100.md (scripts/confirm100_score.py; crops and AI-adjudicated verdicts in results/adjudication_confirm100/), results/posthoc_v2_300.md, recomputed by make eval; the person check of the disagreement crops: /check?set=confirm100 (app/state/spotcheck_confirm100.json)") }}</p>{% endif %}
+  {% endif %}
+  {% if n.confirm100 and n.confirm100.para %}<p class="tiny">{{ source("results/confirm100.md (scripts/confirm100_score.py; crops and AI-adjudicated verdicts in results/adjudication_confirm100/), results/posthoc_v2_300.md, recomputed by make eval; the person check of the disagreement crops: /check?set=confirm100 (app/state/spotcheck_confirm100.json)") }}</p>{% endif %}
   <p class="small" style="margin-top:10px">Two readers, light gate: Gemma and Qwen read the same digits on all 23 fields, every digit field is read, the words either reader wrote down agree with those digits, and the vote rows sum to the total. It drops the row-label check and the section identities and relies on the two readers' agreement instead. The two readers agree on all 23 digits on {{ T.agree_all_23 }} forms.</p>
   <p class="tiny">{{ source("results/calls_gemma.jsonl, results/calls_qwen.jsonl (last read per form), results/adjudication/verdicts.json; app/data/two_reader_300.json by scripts/two_reader_300.py; results/posthoc_v2_300.json; both recomputed by make eval") }}</p>
+  </details>
 </section>
 {% endif %}
 
@@ -165,6 +166,8 @@
     {% for r in W.rows %}<tr{% if r.gemma %} class="hl"{% endif %}><td style="white-space:nowrap">{% if r.gemma and not r.pair %}<b>{{ r.who }}</b>{% else %}{{ r.who }}{% endif %}</td><td>{{ r.acc }}</td><td>{{ r.wrong }}</td><td>{{ r.cost }}</td><td>{{ r.time }}</td></tr>
     {% endfor %}</tbody>
   </table></div></div>
+  <details class="more-d">
+    <summary>Method, the misreads the arithmetic caught, and sources</summary>
   <p class="tiny muted">{{ W.note }}</p>
   {% if W.same_model %}<p class="small" style="margin:8px 0 0">{{ W.same_model }} <span class="tiny muted">results/gemma_b4_300.json (PROTOCOL.md Amendment 8).</span></p>{% endif %}
   {% if W.caught %}
@@ -181,6 +184,7 @@
     <p class="tiny muted" style="margin:10px 0 0">Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader. Every measured read of the 300 run is Gemma on AMD GPUs.</p>
     <div style="margin-top:10px">{{ source("app/data/bakeoff_300.json (scripts/bakeoff.py report), results/calls_gemma.jsonl, results/adjudication/certified.json; via app/why_gemma.py, checked by scripts/why_gemma.py --check (make eval). Tiling: docs/sources/ledger-rescue-pilot.md. docs/GEMMA.md.") }}</div>
   </div>
+  {% if W %}</details>{% endif %}
 </section>
 {% endif %}
 
@@ -203,7 +207,9 @@
     {% endfor %}
     </tbody>
   </table></div>
-  <h3 style="margin-top:16px">Best two-reader pairs</h3>
+  <details class="more-d">
+    <summary>The best two-reader pairs, the budget rule, and sources</summary>
+  <h3 style="margin-top:10px">Best two-reader pairs</h3>
   <div class="tablewrap"><table class="small">
     <thead><tr><th>pair</th><th>n</th><th>accepted forms</th><th>accepted-field errors</th></tr></thead>
     <tbody>
@@ -214,13 +220,14 @@
   </table></div>
   <p class="tiny muted">A model with n &lt; 300 read the first n forms of a fixed, capture-stratified shuffled order (pre-registered budget rule). Two readers: all 23 digit values agree, every digit read, words equal digits where read, rows sum to TOTAL. Disputes on accepted forms not already settled were decided by the certified count where it applies, else by an AI adjudicator on the crop.</p>
   {{ source("results/calls_*.jsonl (last read per form), results/bakeoff_plan.json, results/adjudication/verdicts*.json; app/data/bakeoff_300.json and results/bakeoff_300.md by scripts/bakeoff.py report, recomputed by make eval") }}
+  </details>
 </section>
 {% endif %}
 
-{{ ieebcs_results(ieebcs_card("results")) }}
-
 <section id="limits">
-  <div class="sec-head"><div><h2>Limitations we measured</h2></div></div>
+  <div class="sec-head"><div><h2>Limitations we measured</h2><p>The arithmetic catches any single misread; only an error that keeps every identity true passes. Each limit below is measured.</p></div></div>
+  <details class="more-d">
+    <summary>The two measured costs of the gate, and what the arithmetic cannot catch</summary>
   <div class="grid2">
     <div class="card callout warn" style="border-left-width:4px">
       <h3>The row-label check costs looks</h3>
@@ -233,6 +240,7 @@
   </div>
   <p class="small" style="margin-top:12px"><b>What the arithmetic can and cannot catch.</b> Any single misread is caught, by words = digits where both are written or by a row sum or section identity; only an error that keeps every identity true passes (a compensating pair inside one sum, a misread of unused ballots, the one field in no identity, or words and digits harmonised in one call), and every wrong field on an accepted form ({{ H.acc_model_wrong }} for Gemma{% if n.T %}, {{ n.T.tiers.qwen.errors }} for Qwen{% endif %}) is unused ballots; separate reads, a second reader and the v2 rule close it (<a href="/report.pdf">report, section 5</a>).</p>
   {% if n.confirm100 and n.confirm100.modes %}<p class="small" id="failure-modes"><b>Measured ways through the frozen gate</b> (Gemma, unused ballots): {% for m in n.confirm100.modes %}{{ m.text }} on {{ m.clave }}{{ '; ' if not loop.last else '.' }}{% endfor %} The v2 rule blocks the blank-words case and the digit insertion; only a second reader removes the harmonised read.</p>{% endif %}
+  </details>
 </section>
 
 <section id="failure">
@@ -247,15 +255,12 @@
 
 <section id="safeguard">
   <div class="sec-head"><div><h2>The safeguard: a person sees everything the paper cannot settle</h2></div></div>
-  <div class="grid2">
-    <div class="card">
-      <p>Nothing is ever corrected silently. A form is accepted only when every identity the paper carries holds; everything else goes to the <a href="/review">review desk</a> with the failing field named and its crop, and a person types one value. If the paper itself is inconsistent, the person escalates it with a note.</p>
-      <p class="small muted" style="margin:0">Review desk now: {{ queue_n }} routed forms, {{ resolved }} handled.</p>
-    </div>
-    <div class="card">
-      <p>Privacy is applied before anything else: the page is located by its corner marks and the column with officials' names and signatures is blacked out before the image is stored, sent to the model, or shown here. A page that cannot be located is not stored or sent at all; it goes to a person.</p>
+  <div class="card">
+    <p style="margin:0">Nothing is ever corrected silently. A form is accepted only when every identity the paper carries holds; everything else goes to the <a href="/review">review desk</a> with the failing field named and its crop, and a person types one value. If the paper itself is inconsistent, the person escalates it with a note. <span class="small muted">Review desk now: {{ queue_n }} routed forms, {{ resolved }} handled.</span></p>
+    <details class="more-d"><summary>Privacy and framing</summary>
+      <p class="small">Privacy is applied before anything else: the page is located by its corner marks and the column with officials' names and signatures is blacked out before the image is stored, sent to the model, or shown here. A page that cannot be located is not stored or sent at all; it goes to a person.</p>
       <p class="small muted" style="margin:0">Framing: these are clerical capture checks on a settled 2024 count; the certified count is shown wherever it covers a field, and no party is compared with another and nothing is totalled across forms.</p>
-    </div>
+    </details>
   </div>
 </section>
 
@@ -328,6 +333,7 @@
   {% set evo = evolus_info() %}
   <div class="card" style="margin-bottom:14px">
     <p style="margin:0"><b>{{ evo.line }}</b></p>
+    <details class="more-d"><summary>The blocks, the live cases and the recorded findings</summary>
     <p class="small" style="margin:6px 0 0">The agent "Intake clerk" runs on <b>{{ evo.model or 'Gemma-4-31B-IT' }}</b> on the AMD Token Factory, connected in the workspace under "Your models" as an OpenAI-compatible server. Blocks: agent "Intake clerk", workflows "Review hand-off", "Record filing" and "Audit finding", AI Tool translate{% if evo.extractor_ready %}, extractor "{{ evo.names.extractor_agent }}"{% endif %}. <span class="tiny">Name from {{ evo.source }}.</span></p>
     <p class="small" style="margin:6px 0 0"><b>In the live audit:</b> every strong-evidence dispute the <a href="/live">live worker</a> finds starts one "Audit finding" run in Evolus (at most {{ evo.cap }} a day, to protect the shared AMD key). Today: {{ evo.runs_today }} of {{ evo.cap }}. {% if evo.live_total %}{{ evo.live_total }} live cases so far, {{ evo.live_returned }} returned with a drafted finding.{% endif %}</p>
     {% if evo.routed.sent %}
@@ -347,13 +353,14 @@
       {% for c in evo.live_cases %}<li><span class="mono">{{ c.form }}</span> · {{ c.field }} · run <span class="mono">{{ (c.execution_id or '')[:8] }}</span>: <b>{{ c.run_status }}</b>, case {{ c.case_status }}{% if c.finding %}: {{ c.finding[:180] }}{% endif %}</li>{% endfor %}
     </ul>
     {% endif %}
-  </div>
-  <div class="grid3">
+  <div class="grid3" style="margin-top:12px">
     <div class="card"><h3>Accepted form</h3><p class="small" style="margin:0">Starts the workflow "Record filing": a deterministic script re-checks the paper's identities inside Evolus and files the record.</p></div>
     <div class="card"><h3>Routed form</h3><p class="small" style="margin:0">Starts "Review hand-off": the agent "Intake clerk" (an open model on the AMD Token Factory) writes the review task, the AI Tool translate turns it into Spanish, and the task reaches a person on our <a href="/review">review desk</a>, where "Send to Evolus" starts it for any routed form.</p></div>
     <div class="card"><h3>Audit findings and a third reader</h3><p class="small" style="margin:0">From an audit report, each strong-evidence field opens an "Audit finding" case with a drafted finding and a score a script recomputes. An Evolus extractor reads as a third reader, gated and compared, never trusted blindly.</p></div>
   </div>
   <p class="tiny" style="margin-top:10px">Each form page and the review desk show the form's Evolus run: id, steps and status. {{ source("docs/EVOLUS.md; evolus/ (python -m evolus setup, python -m evolus run); results/evolus_runs.jsonl, results/evolus_audit_runs.jsonl, results/evolus/executions.jsonl") }}</p>
+    </details>
+  </div>
 </section>
 
 <section id="amd">
@@ -362,9 +369,9 @@
   <div class="card amd-status">
     <span class="amdpill {{ amd.state }} on-light"><span class="pdot"></span>{{ amd.label }}</span>
     <p class="small" style="margin:10px 0 0">{{ amd.detail }}</p>
-    {% set ot = honest.outage_text() %}{% if ot %}<p class="small" id="outage" style="margin:8px 0 0">Endpoint log: {{ ot }}.</p>{% endif %}
+    {% set ot = honest.outage_text() %}{% if ot %}<details class="more-d"><summary>Endpoint log</summary><p class="small" id="outage" style="margin:0">Endpoint log: {{ ot }}.</p></details>{% endif %}
     <p class="small" style="margin:4px 0 0">{{ honest.reader_now() }}</p>
-    {% for m in n.amd.models %}<div class="amd-model"><div><div class="nm">{{ m.name }}</div><div class="role">{{ m.role }} · {{ m.basis }}</div></div><div class="figs">{{ '%.0f'|format(m.secs) }} s mean per form<br>{{ m.cpf|usd(6) }} per form</div></div>{% endfor %}
+    <p class="small" style="margin:4px 0 0">Latency and cost per model: <a href="#amd-models">open models on the AMD endpoint</a>.</p>
     <p class="tiny" style="margin:8px 0 0">{{ source("results/endpoint_health.jsonl (probes of the endpoint); app/health.py") }}</p>
   </div>
 </section>

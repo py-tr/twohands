@@ -28,7 +28,7 @@
 <section class="page-head">
   <div class="eyebrow">Live audit on AMD</div>
   <h1>A standing audit of tally sheets, one form at a time</h1>
-  <p class="lede">A worker takes INE's public PREP images in a fixed order (smallest state first), masks names and signatures in memory, reads each page on the AMD Token Factory, and compares every field with the official capture. Where they differ on a form whose certified count was settled by comparison, the certified value shows which reading the paper supports.</p>
+  <p class="lede">A worker reads INE's public PREP images on the AMD Token Factory, smallest state first, masked in memory, and compares every field with the official capture; where the certified count settled a form by comparison, it shows which reading the paper supports. <a href="/about-data">About the data</a></p>
 </section>
 
 {% if not v %}
@@ -38,14 +38,17 @@
 </section>
 {% else %}
 <section>
+  <div class="la-status {{ v.status.kind }}" id="laStatus" style="margin:0 0 16px"><span class="la-dot"></span><span>{{ v.status.text }}{% if v.status.resume_at and v.status.kind == 'warn' %} <span class="small">(next try {{ v.status.resume_at|replace('T', ' ')|replace('Z', ' UTC') }})</span>{% endif %}</span></div>
   <div class="la-nums">
     <div class="card"><span class="big-num" id="laAudited">{{ '{:,}'.format(v.audited) }}</span>forms audited on AMD so far</div>
     <div class="card"><span class="big-num" id="laDisputes">{{ '{:,}'.format(v.disputes) }}</span>disputes <span class="muted small">(fields where the model's read differs from the official capture)</span></div>
     <div class="card"><span class="big-num" id="laConfirmed">{{ '{:,}'.format(v.confirmed) }}</span>confirmed by the certified count</div>
   </div>
+  <details class="more-d">
+    <summary>How the disputes are counted</summary>
   <p class="small muted" style="margin:10px 0 0" id="laWeak">Of the {{ '{:,}'.format(v.disputes) }} disputes, {{ '{:,}'.format(v.weak) }} are on forms whose row-label check failed ({{ v.weak_text }}).</p>
-  <div class="la-status {{ v.status.kind }}" id="laStatus"><span class="la-dot"></span><span>{{ v.status.text }}{% if v.status.resume_at and v.status.kind == 'warn' %} <span class="small">(next try {{ v.status.resume_at|replace('T', ' ')|replace('Z', ' UTC') }})</span>{% endif %}</span></div>
   <p class="small muted" style="margin:10px 0 0">Of the disputes: {{ v.confirmed }} confirmed by the certified count; {{ v.model_misread }} where the certified count matches the capture (model misread); {{ v.unconfirmed }} not confirmable here (a field the certified count does not cover, or a recounted form).{% if v.not_compared %} {{ v.not_compared }} of the forms audited failed the row-label check; they are still compared field by field, and their {{ v.weak }} dispute{{ '' if v.weak == 1 else 's' }} carry the tag "{{ v.weak_text }}" ({{ v.weak_confirmed }} of them confirmed by the certified count, which is evidence on its own).{% endif %}{% if v.not_read %} {{ v.not_read }} form{{ '' if v.not_read == 1 else 's' }} could not be read (no image, or the page could not be located).{% endif %} Reader{{ 's' if v.readers|length > 1 }}: {{ v.readers|join(', ') }}{% if v.reader_now and v.reader_now not in v.readers %}; now {{ v.reader_now }}{% endif %}. Forms already in our measured samples are skipped here; they are on <a href="/results">Results</a>.</p>
+  </details>
 </section>
 
 <section class="la-grid">

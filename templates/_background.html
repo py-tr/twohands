@@ -1,13 +1,16 @@
-{# Background moved from Home to /results (Home is the product page): "Measured, not promised", the cost of the
+{# Background moved from Home to /results (Home is the product page). Here, "Measured, not promised" (collapsed: the
+   random 300 section above already states its figures), the cost of the
    problem, who pays (the regulated step, the INE card, the market lines, the IEEBCS buyer slot, the proposed price),
    the open models on the AMD endpoint, and any form that checks itself. Every number is computed, as it was on Home.
    Needs n, H, L, ls and schema in the context (app/main.py results()). #}
 {% from "_icons.html" import icon, source %}
 {% from "_ieebcs_card.html" import ieebcs_buyer %}
 {% set b = n.business %}
+
 {% if H %}
 <section id="measured">
-  <div class="sec-head"><div><h2>Measured, not promised</h2><p>A pre-registered random sample of {{ H.forms }} forms: sample, prompt and gate committed before any model read; every disagreement settled on the photo.</p></div><a class="btn sm" href="#limits">Method and limits {{ icon('arrow') }}</a></div>
+  <details class="allruns">
+    <summary><h2>Measured, not promised</h2><span class="muted small">The random 300's four headline figures as cards, each with its confirmation, caveat and source.</span></summary>
   <div class="grid4 measured">
     <div class="card stat">
       <div class="v">{{ L.keying.value }}</div>
@@ -42,6 +45,7 @@
     </div>
   </div>
   <p class="tiny" style="margin-top:12px">{{ H.read }} of {{ H.forms }} pages located and read ({{ H.unread }} went to a person before any model call); {{ H.fields|int }} fields compared; the model agreed with the official capture on {{ H.agree_pct }}% of them.{% if L.two_readers %} {{ L.two_readers }}{% endif %} {{ L.recall }}</p>
+  </details>
 </section>
 {% endif %}
 
@@ -50,22 +54,32 @@
   <div class="sec-head"><div><h2>The cost of the problem</h2><p>From INE's own 2024 files. Clerical only: no party, no totals.</p></div></div>
   <div class="card">
     <p style="margin:0 0 8px"><b>{{ CL.main }}</b></p>
+    <details class="more-d"><summary>The preliminary count, row sums and illegible fields, with sources</summary>
     <p class="small" style="margin:0 0 6px">{{ CL.preliminary }} {{ CL.rowsum }} {{ CL.illegible }}</p>
     {% set SY = buyer.synthesis(H) %}{% if SY %}<p class="small muted" style="margin:6px 0">{{ SY }}</p>{% endif %}
     <div style="margin-top:8px">{{ source(CL.source) }}</div>
+    </details>
   </div>
 </section>
 {% endif %}
 <section id="who-pays">
-  <div class="sec-head"><div><h2>Who pays, and what runs on AMD</h2><p>The regulated step the product fits, the buyer, the proposed price, and the measured compute behind it.</p></div><a class="btn sm" href="/audit/request">Request an audit {{ icon('arrow') }}</a></div>
-  {% set rl = honest.REG_LINE.split('(numeral 33)') %}
-  <p class="small" id="reg">{{ rl[0] }}<a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">(numeral 33)</a>{{ rl[1] }}</p>
-  <p class="tiny muted" id="reg-sources" style="margin:4px 0 14px">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms. <b>{{ pricing.texts().price }}</b> · <a href="/audit/request">request an audit</a></p>
+  <div class="sec-head"><div><h2>Who pays, and what runs on AMD</h2><p>The regulated step the product fits, the buyer, the proposed price, and the measured compute behind it.</p></div></div>
   <div class="grid2">
     <div class="card">
 {% set PT = pricing.texts() %}{% set IC = buyer.ine_card() %}
       <div class="eyebrow">Who pays</div>
       <h3 id="ine-buyer">{{ IC.title }}</h3>
+      <div class="vs" style="margin-top:10px">
+        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">measured AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, {{ H.read }} reads)</div></div>
+        <div class="mid">·</div>
+        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">{{ PT.price_long }}</div></div>
+      </div>
+      <div class="actions" style="margin:10px 0 4px"><a class="btn sm primary" href="/audit/request">{{ icon('audit') }}Request an audit</a><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/station">{{ icon('search') }}Pick any polling station</a></div>
+      <details class="more-d">
+        <summary>The regulated step, the buyer's own figures, the price lines and the market, with sources</summary>
+  {% set rl = honest.REG_LINE.split('(numeral 33)') %}
+  <p class="small" id="reg">{{ rl[0] }}<a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">(numeral 33)</a>{{ rl[1] }}</p>
+  <p class="tiny muted" id="reg-sources" style="margin:4px 0 14px">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms. <b>{{ pricing.texts().price }}</b> · <a href="/audit/request">request an audit</a></p>
       <ul class="buyers" style="margin:8px 0 8px">
         {% for t, pg in IC.lines %}<li>{{ t }} <span class="muted small">(<a href="{{ IC.url }}" target="_blank" rel="noopener">INE report</a>, {{ pg }})</span></li>{% endfor %}
       </ul>
@@ -82,18 +96,13 @@
         {% for m in buyer.market_lines() %}<li>{{ m.text }} <span class="muted tiny">({{ m.source }})</span></li>{% endfor %}
       </ol>
       {{ ieebcs_buyer(ieebcs_card("buyer")) }}
-      <div class="vs" style="margin-top:14px">
-        <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">measured AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, {{ H.read }} reads)</div></div>
-        <div class="mid">·</div>
-        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">{{ PT.price_long }}</div></div>
-      </div>
       <p class="small" style="margin:8px 0" id="price-lines">Anchor: {{ PT.anchor }}. Costs: {{ PT.compute }}; {{ PT.review }}; plus hosting and sales. Examples: {{ PT.ex_morelos }}; {{ PT.ex_largest }}; {{ PT.ex_federal }}. {{ PT.self_serve }} FX {{ PT.fx }}.</p>
       <p class="small" style="margin-bottom:6px">{{ L.product }} A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field.</p>
       <p class="small" style="margin:8px 0" id="market-size">{{ buyer.MARKET_SIZE }} <span class="muted tiny">({{ buyer.MARKET_SIZE_SRC }})</span></p>
       <p class="small" style="margin:8px 0 4px"><b>Next markets, not measured:</b></p>
       <ol class="buyers small" id="next-markets">{% for m in buyer.NEXT_MARKETS %}<li>{{ m.text }} <span class="muted tiny">({{ m.source }})</span></li>{% endfor %}</ol>
-      <div class="actions" style="margin:10px 0 4px"><a class="btn sm primary" href="/audit/request">{{ icon('audit') }}Request an audit</a><a class="btn sm dark" href="/audit/new">{{ icon('upload') }}Audit your capture</a><a class="btn sm" href="/station">{{ icon('search') }}Pick any polling station</a></div>
       <div style="margin-top:14px">{{ source("PREP audit: " ~ cited.prep_audit.source ~ ". 2027: " ~ cited.window_2027.source ~ ". Monitoring cost: " ~ cited.sdv_cost.source ~ ". Cost per form: " ~ b.cost_source ~ ". Price: " ~ cited.price_proposal.source ~ "; " ~ pricing.SOURCES.ine ~ "; " ~ pricing.SOURCES.morelos ~ "; wage: " ~ pricing.SOURCES.wage ~ "; ceilings: " ~ pricing.SOURCES.ceiling ~ "; FX: " ~ pricing.SOURCES.fx ~ ". Row sums: " ~ cited.base_rate.source ~ ".") }}</div>
+      </details>
     </div>
 
     <div class="card" id="amd-models">
@@ -116,7 +125,7 @@
         <dt>Input per form</dt><dd>1 masked page + zoomed tiles, one request</dd>
         <dt>Live audit</dt><dd>{% if ls.kind == 'live' %}{{ ls.forms_audited|int }} forms so far, reader {{ ls.reader_model }}{% else %}not started yet{% endif %} · <a href="/live">status</a></dd>
       </dl>
-      {% if L.why_gemma %}<p class="small" style="margin:12px 0 0">{{ L.why_gemma }} <a href="/results#gemma">Gemma vs the other readers</a></p>{% endif %}
+      <p class="small" style="margin:12px 0 0"><a href="/results#gemma">Gemma vs the other readers on AMD</a></p>
       <div style="margin-top:14px">{{ source("Latency and cost: Gemma, means over the reads of the pre-registered run (results/calls_gemma.jsonl); Qwen, means over the 43 pilot reads.") }}</div>
     </div>
   </div>
@@ -129,10 +138,6 @@
       <video class="builder-gif" src="/static/builder.webm" poster="/static/builder-poster.jpg" autoplay muted loop playsinline preload="none" aria-label="20 seconds of the schema builder: fields drawn, an identity written, the form tested"></video>
     </div>
     <div class="anyform-side">
-      <div class="card">
-        <span class="chip accent">Polling-station tally sheets · Mexico 2024</span>
-        <p class="small" style="margin:10px 0 0">Every number written twice, four identities. {{ H.forms }} forms pre-registered, {{ H.fields|int }} fields graded against the official two-person capture and the certified count.</p>
-      </div>
       <div class="card">
         <span class="chip accent">Rainfall ledgers · UK 1850-1960</span>
         <p class="small" style="margin:10px 0 0">Twelve months must add up to the year. {{ n.ledger.acc_ok|int }} of {{ n.ledger.acc_cells|int }} accepted cells right against the transcription by {{ cited.volunteers.text }} (spike, 40 sheets). <a href="/forms#ledgers">Open a ledger sheet</a></p>

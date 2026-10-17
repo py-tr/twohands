@@ -6,20 +6,12 @@
   <div class="eyebrow">Audit mode</div>
   <h1>{{ H.keying_errors }} {{ L.unit }}</h1>
   {% set CF = honest.confirmation(H) %}{% if CF %}<p class="conf" id="conf52" style="font-size:.95rem;margin:10px 0 0"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <span title="The AI adjudicator is the builder's model, which could see both values; it judged from the photo.">{{ CF.ai_total }} judged from the photo by the AI adjudicator</span> <a class="pend" href="/check">({{ CF.person_phrase }})</a>. Below each one: judge it yourself.</p>{% endif %}
-  <p class="lede">The model re-read {{ H.fields|int }} fields of {{ H.read }} randomly drawn forms that the official two-person capture had already keyed. It disagreed on {{ H.disagree }} ({{ H.flag_pct }}%). A person settled each one on the photo: in {{ H.keying_errors }} the paper shows the model's value, so the capture does not match the paper: {{ L.breakdown }}</p>
-</section>
-
-<section style="margin-top:28px">
-  <div class="grid3">
-    <div class="card stat"><div class="v">{{ H.keying_errors }}</div><div class="l">{{ L.unit }}, in {{ H.fields|int }} fields</div>{% if CF %}<div class="conf">{{ CF.text }}</div>{% endif %}<div class="s">{{ L.preliminary }}</div></div>
-    <div class="card stat"><div class="v">{{ H.cert_agree }} of {{ H.cert_covered }}</div><div class="l">confirmed by the certified count where it covers the field</div><div class="s">All {{ H.cert_differ }} differences were recounts of the ballots, not readings of this paper. The certified count does not cover sections 2, 3, 4 and 7.</div></div>
-    <div class="card stat"><div class="v">1 in {{ H.yield_one_in }}</div><div class="l">disputed fields is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }})</div><div class="s">The capture's overall error rate is at least 1 in {{ H.random_one_in }}. {{ L.recall }}</div></div>
-  </div>
+  <p class="lede">The model re-read {{ H.fields|int }} fields of {{ H.read }} randomly drawn forms that the official two-person capture had already keyed. It disagreed on {{ H.disagree }} ({{ H.flag_pct }}%). A person settled each one on the photo: in {{ H.keying_errors }} the paper shows the model's value, so the capture does not match the paper: {{ L.breakdown }} <a href="/results#random300">How this was measured</a></p>
 </section>
 
 <section>
   <div class="sec-head"><div><h2>Two faint pencil forms</h2><p>{{ ', '.join(H.faint.forms) }}</p></div></div>
-  <div class="card callout warn" style="border-left-width:4px"><p style="margin:0">{{ L.faint }}</p></div>
+  <p class="small" style="margin:0;max-width:60em">{{ L.faint }}</p>
 </section>
 
 {% if featured %}
@@ -42,16 +34,6 @@
   </div>
 </section>
 {% endif %}
-
-<section>
-  <div class="sec-head"><div><h2>The {{ H.keying_errors }} by type</h2><p>Classified from what is written on the paper and what the capture keyed.</p></div></div>
-  <div class="card" style="padding:8px 14px">
-    <table class="bytype">
-      {% for t in H.by_type %}<tr><td>{{ t.label }}</td><td class="n">{{ t.n }}</td></tr>{% endfor %}
-      <tr><td><b>All</b></td><td class="n">{{ H.keying_errors }}</td></tr>
-    </table>
-  </div>
-</section>
 
 {% for t in H.by_type if t.n %}
 <section>
@@ -82,5 +64,6 @@
 </section>
 {% endfor %}
 
-<p class="tiny" style="margin-top:28px">Method: every field where the model's digits differ from the official capture (PREP) was settled on a crop of the masked page; the certified value (Cómputos Distritales 2024) is shown where it covers the field and never overrides the paper {{ source('results/adjudication/SUMMARY.md, CERTIFIED.md, verdicts.json; app/data/headline.json') }}. Only disagreements were checked, so capture errors the model also made are not in this list; the recall line above says how many that may be. "Capture error" means the capture does not match the paper, nothing more.</p>
+<details class="more-d" style="margin-top:28px"><summary>Method and sources</summary><p class="tiny">Method: every field where the model's digits differ from the official capture (PREP) was settled on a crop of the masked page; the certified value (Cómputos Distritales 2024) is shown where it covers the field and never overrides the paper {{ source('results/adjudication/SUMMARY.md, CERTIFIED.md, verdicts.json; app/data/headline.json') }}. Only disagreements were checked, so capture errors the model also made are not in this list; the recall line below says how many that may be. "Capture error" means the capture does not match the paper, nothing more.</p>
+<p class="tiny"><b>{{ H.cert_agree }} of {{ H.cert_covered }}</b> confirmed by the certified count where it covers the field; all {{ H.cert_differ }} differences were recounts of the ballots, not readings of this paper. The certified count does not cover sections 2, 3, 4 and 7. 1 in {{ H.yield_one_in }} disputed fields is a confirmed capture error ({{ H.keying_errors }} of {{ H.disagree }}); the capture's overall error rate is at least 1 in {{ H.random_one_in }}. {{ L.preliminary }} {{ L.recall }}</p></details>
 {% endblock %}
