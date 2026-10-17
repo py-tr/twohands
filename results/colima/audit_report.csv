@@ -510,9 +510,9 @@ position,form,field,keyed value,model digits,model words,evidence,score,evidence
 509,060316C0100,TOTAL,265,262,265,weak,-8,model digits 262 and words 265 disagree; the keyed value satisfies rows sum to TOTAL; the model's breaks it (265 vs 262); the keyed value satisfies section 7 = TOTAL; the model's breaks it (265 vs 262),,/crop/060316C0100/TOTAL.jpg?pad=0.02&label=0
 510,060359B0100,Ballots taken from the boxes,464,469,464,weak,-8,model digits 469 and words 464 disagree; the keyed value satisfies section 5 = section 7; the model's breaks it (464 vs 469); the keyed value satisfies section 7 = TOTAL; the model's breaks it (469 vs 464),,/crop/060359B0100/SACADOS.jpg?pad=0.02&label=0
 
-# report fingerprint (SHA-256),5b3b610ed4a98d0d6484527b5746cb59da687394d66a689f3e32e93bcfcfe62b
+# report fingerprint (SHA-256),511a71e9ec1f31ce3f90d8a96a2f6899b5d2c22c3cd57813e316d9075623123a
 # mode,standard
-# report content (SHA-256),0aea02354ea6156be1eeacf9d62e5b7c81a51d0b04fc3ebac58af29ef73674e6
+# report content (SHA-256),69f0b9649e6bdc571f3fde130aa43de9b02f79ace2588a6a2adeaec22239dd62
 # Merkle root of the disputes (SHA-256),f92ffa9246f0c75758bc6d5e855129fe837d667c6ba4d2bf4bce4db501ac5e43
 # input: keyed file (keyed.csv),6296d4253a590ba665187a3b428d42c66e2faf07bf75effd56e01c1b378a6aff
 # input: stored Gemma reads (calls_gemma.jsonl),0b0dcfc0047b801c919b649f9fcb5655e4c7a00415cd2ba1aa40079fb18c6778

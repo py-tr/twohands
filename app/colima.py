@@ -307,7 +307,9 @@ def lines(F: Optional[dict] = None) -> Optional[dict]:
         "ledger": (f"{F['disagreements']} disputes with the first capture: {F['cert']} settled by the certified count "
                    f"(in {F['cert_capture']} of them the capture does not match the paper); {F['ai']} AI adjudicator's "
                    f"reading; {F['ambiguous']} paper ambiguous; {F['pending']} awaiting review."),
-        "complete": (f"The accepted-field error rate is complete: none of the {F['pending']} touches an accepted field."
+        "complete": ("The accepted-field error rate is complete, and every dispute carries a label." if complete_ok
+                     and not F["pending"] else
+                     f"The accepted-field error rate is complete: none of the {F['pending']} touches an accepted field."
                      if complete_ok else f"{F['pending_on_accepted']} accepted fields still await review."),
         "scans": (f"Colima accepts {v1['pct']} of forms, against {F['h_pct']}% on the national random {F['h_forms']}; "
                   + ("scans pass the gate more often and " if F["scans_pass_more"] else

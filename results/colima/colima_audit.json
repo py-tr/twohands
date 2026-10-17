@@ -1,6 +1,6 @@
 {
  "amendment": "PROTOCOL.md Amendment 8b",
- "ts": "2026-10-17T00:56:36Z",
+ "ts": "2026-10-17T13:54:26Z",
  "prep_rows": 1017,
  "located": 982,
  "rows": 982,
@@ -54,13 +54,12 @@
  },
  "disagreements": 510,
  "labels": {
-  "AI adjudicator's reading: capture right (model misread)": 58,
-  "AI adjudicator's reading: model right (capture error)": 12,
-  "AI adjudicator's reading: neither": 3,
-  "awaiting the AI adjudicator (not sampled)": 334,
+  "AI adjudicator's reading: capture right (model misread)": 236,
+  "AI adjudicator's reading: model right (capture error)": 83,
+  "AI adjudicator's reading: neither": 14,
   "confirmed by the certified count: capture right (model misread)": 69,
   "confirmed by the certified count: model right (capture error)": 27,
-  "paper ambiguous or unreadable": 7
+  "paper ambiguous or unreadable": 81
  },
  "paper_ambiguous_or_unreadable": [
   {
@@ -74,9 +73,199 @@
    "evidence": "no words; digit boxes 3 8 and a flat-topped stroke with a curved base that reads as 3 or 2 (the first 3 is written round)"
   },
   {
+   "key": "060038C0100__PAN_PRI",
+   "crop": "results/colima/crops/060038C0100__OPT09.jpg",
+   "evidence": "words 'Dos', digit boxes 0 0 and a final digit shaped like a 7 (the row above, 'Siete', has the same shape): words and digits disagree"
+  },
+  {
+   "key": "060038C0100__PT_MORENA",
+   "crop": "results/colima/crops/060038C0100__OPT15.jpg",
+   "evidence": "words 'Dos', digit boxes 0 0 and a final digit shaped like a 7 with a short foot: words and digits disagree"
+  },
+  {
+   "key": "060038C0100__PVEM_PT",
+   "crop": "results/colima/crops/060038C0100__OPT13.jpg",
+   "evidence": "words 'Cero', digit boxes 0 0 6: words and digits disagree"
+  },
+  {
+   "key": "060046C0100__SACADOS",
+   "crop": "results/colima/crops/060046C0100__SACADOS.jpg",
+   "evidence": "no words; digit boxes 2 8 and a last digit written over (3 and 7 on top of each other)"
+  },
+  {
+   "key": "060046C0100__SOBRANTES",
+   "crop": "results/colima/crops/060046C0100__SOBRANTES.jpg",
+   "evidence": "no words; digit boxes 6 and 5 clear, first digit written over in darker ink (1 or 2)"
+  },
+  {
+   "key": "060060C0400__SOBRANTES",
+   "crop": "results/colima/crops/060060C0400__SOBRANTES.jpg",
+   "evidence": "digit boxes empty; faint pencil figures '077' on the words line and another faint figure below it"
+  },
+  {
+   "key": "060067C0100__SOBRANTES",
+   "crop": "results/colima/crops/060067C0100__SOBRANTES.jpg",
+   "evidence": "no words; digit boxes 2 then two digits written over in heavy ink (0 or 8, then 0 or 9)"
+  },
+  {
+   "key": "060069C0500__PAN",
+   "crop": "results/colima/crops/060069C0500__OPT01.jpg",
+   "evidence": "words 'Cuarenta y seis', digit boxes 0 1 6: words and digits disagree"
+  },
+  {
+   "key": "060073C0200__MORENA",
+   "crop": "results/colima/crops/060073C0200__OPT07.jpg",
+   "evidence": "words 'Ciento treinta y cuatro', digit boxes 1 3 1 (faint): words and digits disagree"
+  },
+  {
+   "key": "060073C0200__PAN",
+   "crop": "results/colima/crops/060073C0200__OPT01.jpg",
+   "evidence": "words 'Treinta y cuatro', digit boxes 0 3 1 (faint): words and digits disagree"
+  },
+  {
+   "key": "060073C0200__PRI",
+   "crop": "results/colima/crops/060073C0200__OPT02.jpg",
+   "evidence": "words 'Veintidos', digit boxes 0 2 1: words and digits disagree"
+  },
+  {
+   "key": "060086B0100__MORENA",
+   "crop": "results/colima/crops/060086B0100__OPT07.jpg",
+   "evidence": "words too faint to read on a folded page; digit boxes 1 3 and a faint last digit (2 or 0)"
+  },
+  {
+   "key": "060087E0100__VOTARON",
+   "crop": "results/colima/crops/060087E0100__VOTARON.jpg",
+   "evidence": "words 'Ciento dies', digit boxes 1 2 0: words and digits disagree"
+  },
+  {
+   "key": "060093E0100__TOTAL",
+   "crop": "results/colima/crops/060093E0100__TOTAL.jpg",
+   "evidence": "words 'Doscientos ochenta y tres', digit boxes 2, a middle digit between 2 and 8, 3"
+  },
+  {
+   "key": "060105B0100__PRD",
+   "crop": "results/colima/crops/060105B0100__OPT03.jpg",
+   "evidence": "words 'Ocho', digit boxes 0 0 6: words and digits disagree"
+  },
+  {
+   "key": "060105E0100__PT",
+   "crop": "results/colima/crops/060105E0100__OPT05.jpg",
+   "evidence": "words 'Veintinueve', digit boxes 0 2 0: words and digits disagree"
+  },
+  {
+   "key": "060125B0100__SACADOS",
+   "crop": "results/colima/crops/060125B0100__SACADOS.jpg",
+   "evidence": "no words; digit boxes very faint: a first digit (1 or 4), 4, 6"
+  },
+  {
+   "key": "060126C0100__VOTARON",
+   "crop": "results/colima/crops/060126C0100__VOTARON.jpg",
+   "evidence": "no words; digit boxes faint: a first digit (2 or 3), 2, 5"
+  },
+  {
+   "key": "060128B0100__TOTAL",
+   "crop": "results/colima/crops/060128B0100__TOTAL.jpg",
+   "evidence": "words 'Dosnoventa y tres', digit boxes 2 9 and a last digit shaped between 2 and 3 (Z-like, with a stroke below)"
+  },
+  {
+   "key": "060135B0100__PRI",
+   "crop": "results/colima/crops/060135B0100__OPT02.jpg",
+   "evidence": "words 'Ochenta y seis', digit boxes 0, a middle digit between 8 and 9, 6"
+  },
+  {
+   "key": "060139E0201__SOBRANTES",
+   "crop": "results/colima/crops/060139E0201__SOBRANTES.jpg",
+   "evidence": "words 'Trescientos cuarenta y ocho', digit boxes 3, a closed-top middle digit (4 or 9), 8"
+  },
+  {
+   "key": "060146B0100__SOBRANTES",
+   "crop": "results/colima/crops/060146B0100__SOBRANTES.jpg",
+   "evidence": "words 'Doscientos ochenta y uno', digit boxes 2 8 7: words and digits disagree"
+  },
+  {
+   "key": "060152E0300__SACADOS",
+   "crop": "results/colima/crops/060152E0300__SACADOS.jpg",
+   "evidence": "words 'Trescientos setenta y ocho', digit boxes 3 7 6: words and digits disagree"
+  },
+  {
+   "key": "060156B0100__VOTARON",
+   "crop": "results/colima/crops/060156B0100__VOTARON.jpg",
+   "evidence": "words 'Doscientos treinta y siete', digit boxes 0 3 7: words and digits disagree"
+  },
+  {
+   "key": "060162B0100__VOTARON",
+   "crop": "results/colima/crops/060162B0100__VOTARON.jpg",
+   "evidence": "words 'Trecientos setenta y uno', digit boxes 3 7 and a last digit written over (1 and 6 on top of each other)"
+  },
+  {
+   "key": "060171B0100__VOTARON",
+   "crop": "results/colima/crops/060171B0100__VOTARON.jpg",
+   "evidence": "words 'Trescientos treinta y tres', digit boxes 3, a middle digit gone over in heavy ink (8 or 0), 3"
+  },
+  {
+   "key": "060174C0100__TOTAL",
+   "crop": "results/colima/crops/060174C0100__TOTAL.jpg",
+   "evidence": "no words; digit boxes with the first digit blotted out, then 9 0"
+  },
+  {
    "key": "060178C0100__SACADOS",
    "crop": "results/colima/crops/060178C0100__SACADOS.jpg",
    "evidence": "very faint page; words partly legible ('... sesenta y seis'?), digit boxes not legible"
+  },
+  {
+   "key": "060182C0100__VOTARON",
+   "crop": "results/colima/crops/060182C0100__VOTARON.jpg",
+   "evidence": "words 'Docientos ochenta y tres', digit boxes 2 8 and a last digit written over (3 and 7 on top of each other)"
+  },
+  {
+   "key": "060206B0100__PRI",
+   "crop": "results/colima/crops/060206B0100__OPT02.jpg",
+   "evidence": "words 'Veinte' written over another word, digit boxes 0, a middle digit written over (2 and 8 on top of each other), 0 gone over"
+  },
+  {
+   "key": "060206C0100__VOTARON",
+   "crop": "results/colima/crops/060206C0100__VOTARON.jpg",
+   "evidence": "words 'Docientos noventa y uno', digit boxes 2 9 and a Z-shaped last digit (2-like): words and digits disagree"
+  },
+  {
+   "key": "060208B0100__VOTARON",
+   "crop": "results/colima/crops/060208B0100__VOTARON.jpg",
+   "evidence": "words 'Docientos dies y seis', digit boxes 2 1 and a last digit written over (5 and 6 on top of each other)"
+  },
+  {
+   "key": "060223C0100__VOTARON",
+   "crop": "results/colima/crops/060223C0100__VOTARON.jpg",
+   "evidence": "words 'Doscientos cincuenta', digit boxes 2 5 1: words and digits disagree"
+  },
+  {
+   "key": "060224B0100__NO_REGISTRADAS",
+   "crop": "results/colima/crops/060224B0100__NO_REGISTRADAS.jpg",
+   "evidence": "row left blank: no words, empty digit boxes; Gemma's 0 against an empty capture is the blank=0 convention"
+  },
+  {
+   "key": "060226E0200__MC",
+   "crop": "results/colima/crops/060226E0200__OPT06.jpg",
+   "evidence": "words 'diecinueve' written over another word, digit boxes 0 1 and a last digit written over (9 and 4 on top of each other)"
+  },
+  {
+   "key": "060228B0100__SOBRANTES",
+   "crop": "results/colima/crops/060228B0100__SOBRANTES.jpg",
+   "evidence": "no words; digit boxes 2 6 and an open S-shaped last digit (5 or 8)"
+  },
+  {
+   "key": "060228E0300__PAN_PRD",
+   "crop": "results/colima/crops/060228E0300__OPT10.jpg",
+   "evidence": "words 'Cero', digit boxes 0 0 6: words and digits disagree"
+  },
+  {
+   "key": "060228E0300__PVEM_MORENA",
+   "crop": "results/colima/crops/060228E0300__OPT14.jpg",
+   "evidence": "words 'Cero', digit boxes 0 0 6: words and digits disagree"
+  },
+  {
+   "key": "060236E0303__SOBRANTES",
+   "crop": "results/colima/crops/060236E0303__SOBRANTES.jpg",
+   "evidence": "no words; digit boxes 4 8 and a last digit written over (0 and 1 on top of each other)"
   },
   {
    "key": "060243C0100__SOBRANTES",
@@ -84,9 +273,84 @@
    "evidence": "no words; a 1 written left of the three boxes, then 6 1 2 in the boxes: 1612 or 612"
   },
   {
+   "key": "060246B0100__NULOS",
+   "crop": "results/colima/crops/060246B0100__NULOS.jpg",
+   "evidence": "faint; words 'Doscientos setenta y ocho' on the null-votes row, digit boxes 2, a faint middle digit, 0"
+  },
+  {
+   "key": "060246C0300__SACADOS",
+   "crop": "results/colima/crops/060246C0300__SACADOS.jpg",
+   "evidence": "words 'Trescientos sesenta y cuatro', digit boxes 3 6 and a closed-top last digit (4 or 9)"
+  },
+  {
+   "key": "060248C0300__PVEM_PT_MORENA",
+   "crop": "results/colima/crops/060248C0300__OPT12.jpg",
+   "evidence": "words 'Trece' gone over, digit boxes 0 1 and a 5 gone over in heavy ink: words and digits disagree"
+  },
+  {
+   "key": "060250C0200__TOTAL",
+   "crop": "results/colima/crops/060250C0200__TOTAL.jpg",
+   "evidence": "words 'Cuatrocientos cuarenta y sie[te]' running into the boxes, digit boxes 4 4 and a last digit written over (7 and 8)"
+  },
+  {
+   "key": "060250E0100__PVEM",
+   "crop": "results/colima/crops/060250E0100__OPT04.jpg",
+   "evidence": "words corrected with brackets (reads like 'Cuarenta y cinco' written over), digit boxes 0, a closed-top digit (4 or 9), 5"
+  },
+  {
+   "key": "060251B0100__NO_REGISTRADAS",
+   "crop": "results/colima/crops/060251B0100__NO_REGISTRADAS.jpg",
+   "evidence": "words 'Uno' written over a struck word, digit boxes 0 0 and a last digit written over (1 and 2)"
+  },
+  {
    "key": "060251C0200__PRD",
    "crop": "results/colima/crops/060251C0200__OPT03.jpg",
    "evidence": "words 'Cero'; digit boxes 0, a pinched loop that reads as 8 or 0, 0"
+  },
+  {
+   "key": "060251C0500__MORENA",
+   "crop": "results/colima/crops/060251C0500__OPT07.jpg",
+   "evidence": "words 'Ciento noventa y seis', digit boxes 1 9 and a last digit written over (6 and 7)"
+  },
+  {
+   "key": "060251C0500__NULOS",
+   "crop": "results/colima/crops/060251C0500__NULOS.jpg",
+   "evidence": "words 'Siete nulos', digit boxes 0 0 and a last digit written over (7 and 8)"
+  },
+  {
+   "key": "060251C0500__TOTAL",
+   "crop": "results/colima/crops/060251C0500__TOTAL.jpg",
+   "evidence": "no words; digit boxes 3 9 and a last digit written over (1 and 2), with 393 written below the field"
+  },
+  {
+   "key": "060252C0200__PRI",
+   "crop": "results/colima/crops/060252C0200__OPT02.jpg",
+   "evidence": "words 'Treinta y seis', digit boxes 0 7 6: words and digits disagree"
+  },
+  {
+   "key": "060254B0100__PRI",
+   "crop": "results/colima/crops/060254B0100__OPT02.jpg",
+   "evidence": "words 'Cincuenta y cuatro', digit boxes a dash, 5 and a last digit written over (4 and 9)"
+  },
+  {
+   "key": "060258C0300__VOTARON",
+   "crop": "results/colima/crops/060258C0300__VOTARON.jpg",
+   "evidence": "words 'Trescientos cincuenta y siete', digit boxes 3 5 4: words and digits disagree"
+  },
+  {
+   "key": "060259B0100__VOTARON",
+   "crop": "results/colima/crops/060259B0100__VOTARON.jpg",
+   "evidence": "words 'Dosientos ochenta y cuatro', digit boxes 2 8 and a closed-top last digit (4 or 9)"
+  },
+  {
+   "key": "060260C0200__PVEM_MORENA",
+   "crop": "results/colima/crops/060260C0200__OPT14.jpg",
+   "evidence": "no words; digit boxes 0 0 and a faint flat-topped last digit (3 or 5)"
+  },
+  {
+   "key": "060269C0100__VOTARON",
+   "crop": "results/colima/crops/060269C0100__VOTARON.jpg",
+   "evidence": "no words; digit boxes 3 5 and a last digit written over (7 and 9)"
   },
   {
    "key": "060290C0400__PVEM_PT",
@@ -94,9 +358,114 @@
    "evidence": "words unclear (possibly 'cuatro'); digit boxes 0 0 and a last box written over (4 and 6 superimposed)"
   },
   {
+   "key": "060309B0100__PT",
+   "crop": "results/colima/crops/060309B0100__OPT05.jpg",
+   "evidence": "words 'Diecisiete', digit boxes a 6-shaped first digit, 1, 7: words and digits disagree"
+  },
+  {
+   "key": "060309B0100__PT_MORENA",
+   "crop": "results/colima/crops/060309B0100__OPT15.jpg",
+   "evidence": "words 'Uno', digit boxes 0 0 9: words and digits disagree"
+  },
+  {
+   "key": "060309B0100__SOBRANTES",
+   "crop": "results/colima/crops/060309B0100__SOBRANTES.jpg",
+   "evidence": "no words; digit boxes 2, a B-shaped 8, and a hooked last digit (7 or 1)"
+  },
+  {
+   "key": "060316C0100__PRI",
+   "crop": "results/colima/crops/060316C0100__OPT02.jpg",
+   "evidence": "words 'Veintisiete', digit boxes 0 2 and a last digit written over (7 and 8)"
+  },
+  {
+   "key": "060316C0100__REPRESENTANTES",
+   "crop": "results/colima/crops/060316C0100__REPRESENTANTES.jpg",
+   "evidence": "words 'Uno', digit boxes 2 0 1: words and digits disagree"
+  },
+  {
+   "key": "060316C0100__TOTAL",
+   "crop": "results/colima/crops/060316C0100__TOTAL.jpg",
+   "evidence": "words 'Doscientos sesenta y cinco', digit boxes 2 6 and a last digit written over (5 and 2)"
+  },
+  {
+   "key": "060323C0100__REPRESENTANTES",
+   "crop": "results/colima/crops/060323C0100__REPRESENTANTES.jpg",
+   "evidence": "no words; digit boxes 0 0 (gone over in heavy ink) and a last digit written over (1 and 4)"
+  },
+  {
+   "key": "060335B0100__MORENA",
+   "crop": "results/colima/crops/060335B0100__OPT07.jpg",
+   "evidence": "words 'Treinta y dos', digit boxes 1 3 2: words and digits disagree"
+  },
+  {
+   "key": "060359B0100__SACADOS",
+   "crop": "results/colima/crops/060359B0100__SACADOS.jpg",
+   "evidence": "words 'Cuatrocientos sesenta y cuatro', digit boxes 4 6 and a closed-top last digit (4 or 9)"
+  },
+  {
+   "key": "060362C0100__SOBRANTES",
+   "crop": "results/colima/crops/060362C0100__SOBRANTES.jpg",
+   "evidence": "words 'Trescientos cuatro', digit boxes 3 6 9: words and digits disagree"
+  },
+  {
+   "key": "060375B0100__REPRESENTANTES",
+   "crop": "results/colima/crops/060375B0100__REPRESENTANTES.jpg",
+   "evidence": "very faint page; words not legible, digit boxes 0 0 and a faint last digit (5 or 6)"
+  },
+  {
+   "key": "060375C0100__PT",
+   "crop": "results/colima/crops/060375C0100__OPT05.jpg",
+   "evidence": "words 'Cinco', digit boxes 0 0 and a last digit written over (5 and 6)"
+  },
+  {
+   "key": "060380C0100__TOTAL",
+   "crop": "results/colima/crops/060380C0100__TOTAL.jpg",
+   "evidence": "words 'Trescientos noventa', digit boxes 3 7 0: words and digits disagree"
+  },
+  {
+   "key": "060382C0200__SOBRANTES",
+   "crop": "results/colima/crops/060382C0200__SOBRANTES.jpg",
+   "evidence": "words 'Doscientos sesenta y uno', digit boxes 2 6 and a last digit written over (1 and 2)"
+  },
+  {
+   "key": "060390C0100__SACADOS",
+   "crop": "results/colima/crops/060390C0100__SACADOS.jpg",
+   "evidence": "words 'Trecientos s(i)cuenta y siete' (between sesenta and cincuenta), digit boxes 3, a middle digit between 5 and 6, 7"
+  },
+  {
+   "key": "060391C0300__PAN_PRI",
+   "crop": "results/colima/crops/060391C0300__OPT09.jpg",
+   "evidence": "words 'Cero', digit boxes 0 0 6: words and digits disagree"
+  },
+  {
+   "key": "060396B0100__REPRESENTANTES",
+   "crop": "results/colima/crops/060396B0100__REPRESENTANTES.jpg",
+   "evidence": "no words; digit boxes 0 0 and a last digit written over, with 378 written across the boxes from another field"
+  },
+  {
+   "key": "060396B0100__SOBRANTES",
+   "crop": "results/colima/crops/060396B0100__SOBRANTES.jpg",
+   "evidence": "no words; digit boxes 3 3 and a raised 3, with other figures written around the field"
+  },
+  {
    "key": "060396B0100__VOTARON",
    "crop": "results/colima/crops/060396B0100__VOTARON.jpg",
    "evidence": "no words; digit boxes written over several times (3, 7, then 8 or 4), with other figures above the field"
+  },
+  {
+   "key": "060397C0200__NULOS",
+   "crop": "results/colima/crops/060397C0200__NULOS.jpg",
+   "evidence": "words 'Ocho', digit boxes 0 0 0: words and digits disagree"
+  },
+  {
+   "key": "060398B0100__PVEM_MORENA",
+   "crop": "results/colima/crops/060398B0100__OPT14.jpg",
+   "evidence": "words 'Uno', digit boxes 0 0 5: words and digits disagree (the digits look shifted by one row)"
+  },
+  {
+   "key": "060398B0100__PVEM_PT",
+   "crop": "results/colima/crops/060398B0100__OPT13.jpg",
+   "evidence": "words 'Cinco', digit boxes 0 0 6: words and digits disagree (the digits look shifted by one row)"
   }
  ],
  "adjudication_sample": {
@@ -108,7 +477,7 @@
   "random_draw": 59,
   "adjudicated": 80,
   "pending_in_sample": 0,
-  "not_sampled_pending": 334
+  "not_sampled_pending": 0
  },
  "gates": {
   "v1 (frozen gate, primary)": {
@@ -230,7 +599,7 @@
  },
  "complete": true,
  "audit_report": {
-  "audit_id": "a4aff8e574023",
+  "audit_id": "aaf159eb1c448",
   "audit_report.html": 200,
   "audit_report.csv": 200,
   "forms_keyed": 1017,
@@ -244,8 +613,8 @@
    "weak": 253
   },
   "unread": 35,
-  "fingerprint_sha256": "5b3b610ed4a98d0d6484527b5746cb59da687394d66a689f3e32e93bcfcfe62b",
-  "content_sha256": "0aea02354ea6156be1eeacf9d62e5b7c81a51d0b04fc3ebac58af29ef73674e6",
+  "fingerprint_sha256": "511a71e9ec1f31ce3f90d8a96a2f6899b5d2c22c3cd57813e316d9075623123a",
+  "content_sha256": "69f0b9649e6bdc571f3fde130aa43de9b02f79ace2588a6a2adeaec22239dd62",
   "merkle_root": "f92ffa9246f0c75758bc6d5e855129fe837d667c6ba4d2bf4bce4db501ac5e43",
   "merkle_n": 510
  }

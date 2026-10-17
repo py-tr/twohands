@@ -154,8 +154,13 @@ Every disagreement between Gemma and the first capture on a graded field (510) c
 the certified count** (cotejo forms, where the count equals one of the two values): in 69 the capture matches it, in 27
 Gemma does and the capture does not match the paper. The AI adjudicator read a sample of 80 of the other 414: every one
 on a field some gate accepts (21), plus a seeded random draw of 59 from the rest (seed 20261017). Of the 80, the
-capture matches the paper in 58, Gemma in 12, neither in 3, and 7 are ambiguous or unreadable. The other 334 are listed
-as not yet adjudicated; none is on an accepted field, so no error count above depends on them. The accepted-field error rate is complete: none of the 334 touches an accepted field.
+capture matches the paper in 58, Gemma in 12, neither in 3, and 7 are ambiguous or unreadable. The other 334 (none on
+an accepted field, so no error count above depends on them) were then read the same way, to complete the whole-state
+ledger: the capture matches the paper in 178, Gemma in 71, neither in 11, and 74 are ambiguous or unreadable (these are
+labelled **AI adjudicator's reading** too: an AI model on the masked crop, not blinded, never presented as confirmed). The
+recall-check candidates of Amendment 9 are not among them (Gemma agreed with the capture there, so they are not
+disputes) and stay blind. All 510: 96 confirmed by the certified count, 333 AI adjudicator's reading, 81 paper ambiguous
+or unreadable, 0 awaiting review. The accepted-field error rate is complete, and every dispute carries a label.
 
 Recall check (Amendment 9): 139 fields where the certified count differs from the capture and Gemma agreed with the capture; a person's blind check is in progress at /check?set=colimarecall.
 
