@@ -68,18 +68,18 @@ kbd{font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:
     if(!ev.altKey)return;
     var m={'1':'blank','2':'cant_tell','3':'differ'}[ev.key];
     if(m){var c=document.getElementById(m);c.checked=!c.checked;ev.preventDefault();}
-    if(ev.key==='ArrowLeft'&&{{ i }}>0){location.href='/check?i={{ i - 1 }}{{ qa }}';ev.preventDefault();}
-    if(ev.key==='ArrowRight'&&{{ i + 1 }}<{{ n }}){location.href='/check?i={{ i + 1 }}{{ qa }}';ev.preventDefault();}
+    if(ev.key==='ArrowLeft'&&{{ i }}>0){location.href='/check?i={{ i - 1 }}{{ qa|safe }}';ev.preventDefault();}
+    if(ev.key==='ArrowRight'&&{{ i + 1 }}<{{ n }}){location.href='/check?i={{ i + 1 }}{{ qa|safe }}';ev.preventDefault();}
   });
   f.addEventListener('submit',function(ev){
     ev.preventDefault();e.textContent='';
     var body={digits:d.value,words:document.getElementById('words').value,
       blank:document.getElementById('blank').checked,cant_tell:document.getElementById('cant_tell').checked,
       differ:document.getElementById('differ').checked};
-    fetch('/api/check/{{ i }}{{ qs }}',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    fetch('/api/check/{{ i }}{{ qs|safe }}',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
       .then(function(r){return r.json().then(function(j){return [r.ok,j];});})
       .then(function(x){if(!x[0]){e.textContent=x[1].error||'not saved';return;}
-        location.href='/check?i='+(x[1].next>=x[1].n?x[1].n:x[1].next)+'{{ qa }}';})
+        location.href='/check?i='+(x[1].next>=x[1].n?x[1].n:x[1].next)+'{{ qa|safe }}';})
       .catch(function(){e.textContent='not saved (server unreachable)';});
   });
 })();
