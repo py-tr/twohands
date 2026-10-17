@@ -16,7 +16,7 @@ from twohands import budgets
 from twohands.ratelimit import parse_retry_after, shared
 
 TIMEOUT_S = 300
-LIVE_TIMEOUT_S = float(os.environ.get("LIVE_TIMEOUT_S", "120"))  # an interactive read: a hung request fails and retries
+LIVE_TIMEOUT_S = float(os.environ.get("LIVE_TIMEOUT_S", "180"))  # an interactive read: a hung request fails and retries
 
 
 def _cfg() -> tuple[str, str]:
