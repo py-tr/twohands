@@ -22,7 +22,7 @@ PARTY = re.compile(r"(?<![A-Za-z0-9])(PAN|PRI|PRD|PVEM|PT|MC|MORENA)(?![A-Za-z0-
 PARTY_CI = re.compile(r"(?<![A-Za-z0-9])(morena|pvem|verde)(?![A-Za-z0-9])", re.I)
 NAV = ["Home", "Audit your capture", "Try it", "Results"]
 FOOTER = ["Findings", "Review desk", "Request an audit", "Any polling station", "API, CLI and MCP", "Live audit", "Inbox",
-          "Keyer", "Builder", "AMD status", "Evolus", "Data and credits", "Report (PDF)"]
+          "Keyer", "Builder", "AMD status", "Evolus", "Data and credits", "Report"]
 H1 = "OCR reads the number. Two Hands checks whether the whole form agrees."
 EYEBROW = "Two Hands · verifiable quality control for handwritten numbers"
 PRIMARY = "Read a real tally sheet live on AMD"

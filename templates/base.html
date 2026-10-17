@@ -48,7 +48,7 @@
   <div class="fbar">
     <a class="brand" href="/"><img class="mark" src="/static/mark.svg" alt="">Two Hands</a>
     <nav class="flinks" aria-label="More pages">
-      <a href="/audit">Findings</a><a href="/review">Review desk</a><a href="/audit/request">Request an audit</a><a href="/station">Any polling station</a><a href="/api">API, CLI and MCP</a><a href="/live">Live audit</a><a href="/inbox">Inbox</a><a href="/keyer">Keyer</a><a href="/builder">Builder</a><a href="/results#amd"><span class="pdot {{ amd.state }}"></span>AMD status: {{ amd.label }}</a><a href="/results#evolus">Evolus</a><a href="/about-data">Data and credits</a><a href="/report.pdf">Report (PDF)</a>{% for label, url in submission_links() %}<a href="{{ url }}" rel="noopener">{{ label }}</a>{% endfor %}
+      <a href="/audit">Findings</a><a href="/review">Review desk</a><a href="/audit/request">Request an audit</a><a href="/station">Any polling station</a><a href="/api">API, CLI and MCP</a><a href="/live">Live audit</a><a href="/inbox">Inbox</a><a href="/keyer">Keyer</a><a href="/builder">Builder</a><a href="/results#amd"><span class="pdot {{ amd.state }}"></span>AMD status: {{ amd.label }}</a><a href="/results#evolus">Evolus</a><a href="/about-data">Data and credits</a><a title="The technical report (PDF)" href="/report.pdf">Report</a>{% for label, url in submission_links() %}<a href="{{ url }}" rel="noopener">{{ label }}</a>{% endfor %}
     </nav>
   </div>
   <div class="base">
