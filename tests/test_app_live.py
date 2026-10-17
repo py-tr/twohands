@@ -199,3 +199,46 @@ def test_live_queued_job_rechecks_budget_when_it_starts(mgr):
 
 def test_job_status_unknown_404():
     assert client.get("/api/jobs/nope").status_code == 404
+
+
+def test_live_per_visitor_daily_cap(mgr, monkeypatch):
+    """One visitor (client address) gets LIVE_MAX_READS_PER_IP live reads a UTC day, queued ones included; then the
+    read is refused as "budget" (the page falls back to the measured read) while other visitors still get theirs."""
+    s = storemod.get_store()
+    if s.masked_image(FORM) is None:
+        pytest.skip("no masked page")
+    monkeypatch.setattr(livemod, "MAX_READS_PER_IP", 2)
+    assert client.post(f"/api/live/{FORM}").status_code == 200
+    assert client.post(f"/api/live/{FORM}").status_code == 200   # queued behind the first: counts already
+    r = client.post(f"/api/live/{FORM}")
+    assert r.status_code == 503 and r.json()["refused"] == "budget" and "per visitor" in r.json()["message"]
+    mgr.gate.set()
+    drain(mgr)
+    day = next(iter(json.loads(livemod.BUDGET_FILE.read_text()).values()))
+    assert day["reads"] == 2 and list(day["ips"].values()) == [2]
+    assert "testclient" not in livemod.BUDGET_FILE.read_text()   # the address is stored hashed
+    assert client.post(f"/api/live/{FORM}").json()["refused"] == "budget"   # spent reads still count
+    tok = livemod.CLIENT_IP.set("203.0.113.9")   # another visitor is not affected
+    try:
+        job = mgr.start(FORM, s.masked_image(FORM))
+    finally:
+        livemod.CLIENT_IP.reset(tok)
+    assert job.ip and job.ip != next(iter(day["ips"]))
+    drain(mgr)
+
+
+def test_live_without_key_is_off_and_falls_back(monkeypatch, tmp_path):
+    """A fresh clone has no AMD key: the live read is refused as "off" (never "endpoint busy"), with the fallback."""
+    monkeypatch.setattr(livemod, "BUDGET_FILE", tmp_path / "budget.json")
+
+    def no_key():
+        raise RuntimeError("AMD_KEY / AMD_BASE_URL not configured")
+    m = livemod.LiveManager(reader_fn=lambda *a: {}, usage_fn=no_key, reveal_delay=0)
+    old, app.state.live = app.state.live, m
+    try:
+        if storemod.get_store().masked_image(FORM) is None:
+            pytest.skip("no masked page")
+        r = client.post(f"/api/live/{FORM}")
+    finally:
+        app.state.live = old
+    assert r.status_code == 503 and r.json()["refused"] == "off" and "no AMD key" in r.json()["message"]

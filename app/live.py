@@ -10,6 +10,12 @@ Safety rails (the AMD Token Factory key is shared with the core's batch job: 20 
     cap on reads and dollars: LIVE_MAX_USD_PER_DAY is the live share of the key's daily cap, $0.10 of $1.00
     (twohands/budgets.py; the worker keeps it as its reserve, bulk runs stop at their own $0.30). Live requests take
     the limiter's reserved live lane (4 of the 16 requests a minute).
+  * Per-visitor cap: LIVE_MAX_READS_PER_IP live reads a UTC day per client address (default 5; reads queued and
+    not yet run count too), so one visitor cannot use the day's allowance. Addresses are stored hashed. Behind the
+    Caddy proxy the client address comes from X-Forwarded-For (uvicorn FORWARDED_ALLOW_IPS, set in
+    deploy/docker-compose.prod.yml). Every refusal falls back to the form's last measured read.
+  * No key configured (a fresh clone, the static mirror): the read is refused with code "off" and the measured
+    read is shown; nothing else changes.
   * Only a privacy-masked page is ever sent; a form without one cannot be read live.
   * AMD 503 / timeout: the job ends with code "endpoint_busy"; the browser shows the last measured read of the
     form (when it has one) under an honest banner, with a retry button.
@@ -20,6 +26,8 @@ Safety rails (the AMD Token Factory key is shared with the core's batch job: 20 
 from __future__ import annotations
 
 import collections
+import contextvars
+import hashlib
 import json
 import os
 import threading
@@ -35,6 +43,7 @@ from app import store as storemod
 LIVE_MODEL = livemodel.CONFIGURED
 MIN_REMAINING_USD = float(os.environ.get("LIVE_MIN_REMAINING_USD", "0.02"))
 MAX_READS_PER_DAY = int(os.environ.get("LIVE_MAX_READS_PER_DAY", "40"))
+MAX_READS_PER_IP = int(os.environ.get("LIVE_MAX_READS_PER_IP", "5"))
 from twohands import budgets as _budgets  # noqa: E402
 MAX_USD_PER_DAY = _budgets.share("live")   # LIVE_MAX_USD_PER_DAY, default 0.10
 QUEUE_MAX = int(os.environ.get("LIVE_QUEUE_MAX", "4"))
@@ -48,6 +57,30 @@ BUSY_MARKERS = ("503", "502", "504", "timeout", "timed out", "gave up", "gaveup"
 
 
 _BUDGET_LOCK = threading.RLock()
+
+# The requesting client's address, set per HTTP request by ClientIPMiddleware (app/main.py); None outside a request.
+CLIENT_IP: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar("twohands_client_ip", default=None)
+
+
+def ip_key(ip: Optional[str]) -> Optional[str]:
+    """A short hash of the client address: enough to count reads per visitor, not to store the address."""
+    return hashlib.sha256(ip.encode("utf-8")).hexdigest()[:16] if ip else None
+
+
+class ClientIPMiddleware:
+    """Pure ASGI middleware: puts the client address (after uvicorn's proxy-header handling) in CLIENT_IP."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope.get("type") != "http":
+            return await self.app(scope, receive, send)
+        token = CLIENT_IP.set((scope.get("client") or (None,))[0])
+        try:
+            await self.app(scope, receive, send)
+        finally:
+            CLIENT_IP.reset(token)
 
 
 def _read_budget() -> dict:
@@ -115,6 +148,8 @@ class Job:
         self.kind = kind
         self.out_dir = out_dir
         self.fallback = fallback
+        self.ip = ip_key(CLIENT_IP.get())   # hashed client address, for the per-visitor cap
+        self.charged = False                # its read is already counted in the budget file
         self.state = "queued"
         self.events: list[dict] = []
         self.done = False
@@ -156,13 +191,28 @@ class LiveManager:
             b = _read_budget()
         return b.get(d, {"reads": 0, "usd": 0.0}) | {"date": d}
 
-    def _spend(self, usd: float) -> None:
+    def _spend(self, usd: float, ip: Optional[str] = None) -> None:
         d = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         with _BUDGET_LOCK:
             b = _read_budget()
             t = b.get(d, {"reads": 0, "usd": 0.0})
-            b[d] = {"reads": t["reads"] + 1, "usd": round(t["usd"] + (usd or 0.0), 6)}
+            ips = dict(t.get("ips") or {})
+            if ip:
+                ips[ip] = ips.get(ip, 0) + 1
+            b[d] = {"reads": t["reads"] + 1, "usd": round(t["usd"] + (usd or 0.0), 6)} | ({"ips": ips} if ips else {})
             _write_atomic(BUDGET_FILE, json.dumps(b, indent=1))
+
+    def _ip_reads(self, ip: Optional[str]) -> int:
+        """Reads this visitor used today plus their reads still waiting in the queue or running."""
+        if not ip:
+            return 0
+        used = (self._today().get("ips") or {}).get(ip, 0)
+        with self._lock:
+            pending = [j for j in self._queue if j.ip == ip]
+            run = self._running()
+            if run is not None and run.ip == ip and not run.charged:
+                pending.append(run)
+        return used + len(pending)
 
     def _running(self) -> Optional[Job]:
         return self.current if self.current is not None and not self.current.done else None
@@ -180,7 +230,8 @@ class LiveManager:
                 "model": pick["model"], "fallback": pick["fallback"], "banner": pick["banner"],
                 "banner_try": pick["banner_try"],
                 "queue_max": QUEUE_MAX, "reads_today": t["reads"], "usd_today": t["usd"],
-                "max_reads": MAX_READS_PER_DAY, "max_usd": MAX_USD_PER_DAY, "current": cur}
+                "max_reads": MAX_READS_PER_DAY, "max_usd": MAX_USD_PER_DAY, "max_reads_per_visitor": MAX_READS_PER_IP,
+                "current": cur}
 
     def position(self, job: Job) -> int:
         """Reads ahead of this job (the running one included); 0 once it runs, or when it is next."""
@@ -207,7 +258,13 @@ class LiveManager:
                                     "The last measured read is shown instead.")
         try:
             u = self.usage_fn() or {}
-        except Exception as e:  # noqa: BLE001  endpoint down, key missing, timeout
+        except RuntimeError as e:
+            if "not configured" in str(e):   # no AMD_KEY / AMD_BASE_URL: a fresh clone or a key-less deployment
+                raise Refused("off", "Live reads are off on this copy (no AMD key configured). "
+                                     "The last measured read of this form is shown instead.")
+            raise Refused("endpoint", f"AMD endpoint busy or not answering ({type(e).__name__}), showing the last "
+                                      "measured read of this form; retry in a minute.")
+        except Exception as e:  # noqa: BLE001  endpoint down, timeout
             raise Refused("endpoint", f"AMD endpoint busy or not answering ({type(e).__name__}), showing the last "
                                       "measured read of this form; retry in a minute.")
         rem = u.get("daily_cost_remaining_usd")
@@ -225,6 +282,11 @@ class LiveManager:
             if (1 if self._running() else 0) + len(self._queue) >= QUEUE_MAX:
                 raise Refused("busy", "The live-read queue is full (one read at a time on the shared endpoint). "
                                       "Please try again in a minute.")
+        ip = ip_key(CLIENT_IP.get())
+        if ip and self._ip_reads(ip) >= MAX_READS_PER_IP:
+            raise Refused("budget", f"You have used this demo's {MAX_READS_PER_IP} live reads for today (one shared AMD "
+                                    "key, capped per visitor). The last measured read is shown instead; every "
+                                    "measured result stays browsable.")
         self.check_budget()
         if fallback is None and kind == "form":
             fallback = clave
@@ -281,7 +343,8 @@ class LiveManager:
             job.emit(type="stage", stage="send", msg=f"Sent to {model_name} on AMD, one request")
             row = self.reader_fn(pick["key"], job.page)
             cost = ((row.get("usage") or {}).get("cost") or 0.0) if isinstance(row.get("usage"), dict) else 0.0
-            self._spend(cost)
+            self._spend(cost, job.ip)
+            job.charged = True
             if livemodel.is_withdrawn_error(row.get("error")) and not pick["fallback"]:
                 # the endpoint dropped the model between list refreshes: switch this job, and the next ones, now
                 self.chooser.mark_withdrawn(model_name)
@@ -293,7 +356,7 @@ class LiveManager:
                     job.emit(type="stage", stage="send", msg=f"Sent to {model_name} on AMD, one request")
                     row = self.reader_fn(pick["key"], job.page)
                     cost = ((row.get("usage") or {}).get("cost") or 0.0) if isinstance(row.get("usage"), dict) else 0.0
-                    self._spend(cost)
+                    self._spend(cost, job.ip)
             if row.get("error") and endpoint_busy(row.get("error")):
                 self._fail(job, "endpoint_busy", "AMD endpoint busy (503 or timeout)"
                            + (", showing the last measured read of this form; retry in a minute." if job.fallback

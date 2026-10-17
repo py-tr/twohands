@@ -119,7 +119,7 @@ window.LiveJob = function (root) {
       var code = res.j.refused, retry = code === 'endpoint' || code === 'busy';
       banner('warn', code === 'endpoint' ? esc(res.j.message).replace(/^(AMD endpoint busy)/, '<b>$1</b>') :
         '<b>' + (code === 'busy' ? 'Queue full.' : 'Live read not available.') + '</b> ' + esc(res.j.message), retry);
-      if (code === 'endpoint' || code === 'budget') fallback(root.dataset.fallback);
+      if (code === 'endpoint' || code === 'budget' || code === 'off') fallback(root.dataset.fallback);
     }).catch(function () { stop(); banner('warn', 'Could not reach the server.', true); });
   }
 

@@ -4,6 +4,8 @@ Usage:  python scripts/fill_links.py           # rewrite the blocks between <!--
         python scripts/fill_links.py --check   # exit 1 if a block is out of date
 
 links.json is the only place the links are typed; a link left empty is written as "add at submission".
+It also rewrites the closing slide's one links line in slides/slides.md (Marp treats HTML comments as speaker notes,
+so that file has no block); rebuild the PDF afterwards (deploy/DEPLOY.md, "Going public").
 """
 from __future__ import annotations
 
@@ -17,6 +19,17 @@ LINKS = REPO / "submission" / "links.json"
 TARGETS = (REPO / "README.md", REPO / "submission" / "lablab.md")
 BLOCK = re.compile(r"(<!-- links:start -->\n)(.*?)(<!-- links:end -->)", re.S)
 PENDING = "add at submission"
+SLIDES = REPO / "slides" / "slides.md"
+SLIDES_LINE = re.compile(r"^\*\*Live demo:\*\* .*$", re.M)
+
+
+def _bare(url: str) -> str:
+    return re.sub(r"^https?://", "", url).rstrip("/") if url else PENDING
+
+
+def render_slides(links: dict) -> str:
+    g = lambda k: (links.get(k) or "").strip()  # noqa: E731
+    return f"**Live demo:** {_bare(g('demo'))} · **Video:** {_bare(g('video'))} · **Repo:** {_bare(g('repo'))}"
 
 
 def _link(url: str, text: str | None = None) -> str:
@@ -55,6 +68,16 @@ def main(argv: list[str]) -> int:
             stale.append(t.name)
             if "--check" not in argv:
                 t.write_text(new, encoding="utf-8", newline="")
+    if SLIDES.is_file():
+        text = SLIDES.read_text(encoding="utf-8")
+        if len(SLIDES_LINE.findall(text)) != 1:
+            print(f"{SLIDES.name}: expected one '**Live demo:**' line", file=sys.stderr)
+            return 2
+        new = SLIDES_LINE.sub(lambda m: render_slides(links), text, count=1)
+        if new != text:
+            stale.append(SLIDES.name)
+            if "--check" not in argv:
+                SLIDES.write_text(new, encoding="utf-8", newline="")
     if "--check" in argv and stale:
         print("out of date: " + ", ".join(stale) + " (run python scripts/fill_links.py)", file=sys.stderr)
         return 1

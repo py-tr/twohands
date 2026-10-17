@@ -145,7 +145,10 @@ python -m pytest -q                     # tests
 ```
 
 The app serves the measured reads from the result files in this repo. No API key is needed to browse. The
-"Read live on AMD" button needs `AMD_KEY` and `AMD_BASE_URL` in the environment or in `.env` (never committed).
+"Read live on AMD" button needs `AMD_KEY` and `AMD_BASE_URL` in the environment or in `.env` (never committed);
+without them it says live reads are off and shows the form's last measured read. With a key, live reads are capped
+at 5 per visitor and 40 per site a day, and at $0.10 a day (`LIVE_MAX_READS_PER_IP`, `LIVE_MAX_READS_PER_DAY`,
+`LIVE_MAX_USD_PER_DAY`).
 [`.env.example`](.env.example) lists every environment variable the app, the worker, the CLI, the Evolus
 integration and the deploy scripts read, one comment each, no values.
 
@@ -427,7 +430,10 @@ rate limiter uses its own file (`app/state/ratelimit.json`), so it does not see 
 
 ## Deploy
 
-`deploy/deploy.sh user@IP [domain]` installs Docker, copies the repo (never `.env`, `data/raw`, `cache`) and your
+Step by step for a fresh Ubuntu server (Docker, clone, key, Caddy with HTTPS or plain HTTP, health check, restart,
+how the live read is capped per visitor and per day): [deploy/DEPLOY.md](deploy/DEPLOY.md).
+
+`deploy/deploy.sh user@IP [domain]` does the same from your machine: it installs Docker, copies the repo (never `.env`, `data/raw`, `cache`) and your
 `.env` (scp, mode 600), and starts the app behind Caddy: HTTPS for a domain, plain HTTP on the IP otherwise;
 variables in `deploy/.env.prod.example` (a subset of [`.env.example`](.env.example)).
 

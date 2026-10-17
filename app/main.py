@@ -26,7 +26,7 @@ from app import store as storemod
 from app import upload as uploadmod
 from app import crops
 from app.crops import field_boxes, mask_left_edge  # noqa: F401
-from app.live import LiveManager, Refused
+from app.live import ClientIPMiddleware, LiveManager, Refused
 from twohands import REPO
 
 app = FastAPI(title="Two Hands", version="1.0",
@@ -35,6 +35,7 @@ app = FastAPI(title="Two Hands", version="1.0",
 app.mount("/static", StaticFiles(directory=str(REPO / "static")), name="static")
 templates = Jinja2Templates(directory=str(REPO / "templates"))
 app.state.live = LiveManager()
+app.add_middleware(ClientIPMiddleware)   # client address for the live read's per-visitor daily cap (app/live.py)
 
 
 def st() -> storemod.Store:
