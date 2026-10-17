@@ -1,6 +1,7 @@
 """The price and the buyer lines, from ONE config (app/pricing.py, app/buyer.py), in every doc that states them. No model call.
 
     python scripts/price_check.py --check   # exit 1 on any mismatch (make eval)
+    python scripts/price_check.py --sync-person   # write the current person-check count into README and lablab.md
 
 Checks: the measured inputs in app/pricing.py equal app/data/headline.json; each doc states the current price lines word
 for word and no stale price (one price: no per-error option); the "Business at a glance" table is the same in the README
@@ -122,6 +123,11 @@ def check() -> list[str]:
     tables = {doc: glance_table((REPO / doc).read_text(encoding="utf-8")) for doc in GLANCE}
     if not all(tables.values()) or len({tuple(v) for v in tables.values()}) != 1:
         bad.append("README.md and submission/lablab.md: the 'Business at a glance' table is missing or differs")
+    from app import honest
+    for doc in GLANCE:   # the 52's AI-adjudicated part and its blind person check (app/state/spotcheck.json), computed
+        if not honest.confirmation_in_doc((REPO / doc).read_text(encoding="utf-8"), H):
+            bad.append(f"{doc}: the 52's AI-adjudicator / person-check line is not the current one "
+                       f"('{(honest.confirmation(H) or {}).get('doc_tail', '')}')")
     for doc in GLANCE:
         s = " ".join((REPO / doc).read_text(encoding="utf-8").replace("**", "").split())
         for m in measured_lines(H):
@@ -143,7 +149,27 @@ def check() -> list[str]:
     return bad
 
 
+def sync_person() -> list[str]:
+    """Rewrite the 52's person-check phrase in README.md and submission/lablab.md from app/state/spotcheck.json
+    (app/honest.person_phrase): "person check in progress at /check", then "checked by a person: N of 30, M agree"."""
+    from app import honest, numbers
+    H = numbers.headline()
+    c = honest.confirmation(H)
+    pat = re.compile(r"(which could\s+see both values; )" + honest.PERSON_RE.format(n=c["ai_total"]).replace(" ", r"\s+") + r"\)")
+    done = []
+    for doc in GLANCE:
+        p = REPO / doc
+        raw = p.read_bytes().decode("utf-8")
+        new, k = pat.subn(lambda m: m.group(1) + c["person_phrase"] + ")", raw)
+        if k == 1 and new != raw:
+            p.write_bytes(new.encode("utf-8"))
+            done.append(doc)
+    return done
+
+
 def main(argv=None) -> int:
+    if "--sync-person" in (argv if argv is not None else sys.argv[1:]):
+        print(f"price_check --sync-person: updated {sync_person() or 'nothing'}")
     bad = check()
     print(f"price_check --check: {len(bad)} mismatches" + ("".join(f"\n  - {b}" for b in bad)))
     return 1 if bad else 0

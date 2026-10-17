@@ -82,7 +82,7 @@ shows on the card.
 
 ## Routed cases in the workspace (`python -m evolus routed`, results/evolus/executions.jsonl)
 
-**Evolus workspace py_tr: 150 "Audit finding" executions of real routed fields (100 from the 300 run, 50 from Colima), 150 completed with a drafted finding (100%), 0 failed, 0 still open; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl.** Window 2026-10-17T00:53 to 2026-10-17T01:56 UTC; in all 150 the evidence score recomputed by the Evolus Script equals ours; 0 HTTP errors.
+**Evolus workspace py_tr: 150 "Audit finding" executions of real routed fields (100 from the 300 run, 50 from Colima): 150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score matches ours; model reported by Evolus: own/gemma-4-31b-it (ok). Source: results/evolus/executions.jsonl.** Window 2026-10-17T00:53 to 2026-10-17T01:56 UTC; each completed run returned a drafted finding; 0 failed, 0 still open; 0 HTTP errors.
 
 Each execution is one run of the workflow **"Audit finding"** on one real case: a field the gate refused in a
 real read of a masked form (digits that disagree with the words, the field on the right of an identity that does not

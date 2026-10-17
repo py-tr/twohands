@@ -67,7 +67,7 @@
     <div class="card stat">
       <div class="v">{{ L.keying.value }}</div>
       <div class="l">{{ L.keying.label }}</div>
-      {% set CF = honest.confirmation(H) %}{% if CF %}<div class="conf" id="conf52"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <b>{{ CF.person }} checked by a person</b>{% if CF.person_disagree %} · {{ CF.person_disagree }} read differently by a person{% endif %} · <span title="The AI adjudicator is the builder's model, which could see both values; it judged from the photo.">{{ CF.ai_only }} judged from the photo by the AI adjudicator only</span>{% if CF.note %} <span class="pend">({{ CF.note }})</span>{% endif %}</div>{% endif %}
+      {% set CF = honest.confirmation(H) %}{% if CF %}<div class="conf" id="conf52"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <span title="The AI adjudicator is the builder's model, which could see both values; it judged from the photo.">{{ CF.ai_total }} judged from the photo by the AI adjudicator</span> <a class="pend" href="/check">({{ CF.person_phrase }})</a></div>{% endif %}
       <div class="s">{{ L.keying.small }}</div>
       <div class="s"><b>{{ H.cert_agree }} of {{ H.cert_covered }}</b> confirmed by the certified count where it covers the field. {{ L.keying.small2 }}</div>
       <div class="s"><b>{{ L.preliminary }}</b></div>

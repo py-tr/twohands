@@ -50,7 +50,7 @@ footer: "Two Hands · AMD Developer Hackathon ACT III"
 
 # Two Hands: verifiable quality control for handwritten numbers
 
-<p class="lead">The model reads the form; the form's own arithmetic decides what passes; people review the rest with the photo; every accepted value gets a receipt.</p>
+<p class="lead">OCR reads the number. Two Hands checks whether the whole form agrees.</p>
 
 A second keyer that shows its proof. An open vision model, **Gemma on AMD**, re-reads every field of forms already keyed; the paper's arithmetic decides what is accepted; a person sees every disputed field with its photo.
 
@@ -71,7 +71,7 @@ A second keyer that shows its proof. An open vision model, **Gemma on AMD**, re-
 <p class="src">Form 050815B0100, Option 07, from the pre-registered random 300 (masked crop). Sources: app/data/headline.json ("receipt"); INE PREP 2024 and Cómputos Distritales 2024, free-use terms. Each receipt is Merkle-anchored: "verify this receipt" in the app.</p>
 
 <!--
-The video opens on this card. The model read 175 from both the words and the boxes; the first capture keyed 75; the certified count says 175.
+The video shows this card at 0:33, after the trace of form 122655C0100. The model read 175 from both the words and the boxes; the first capture keyed 75; the certified count says 175.
 -->
 
 ---

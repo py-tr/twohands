@@ -1,8 +1,10 @@
 # Two Hands: verifiable quality control for handwritten numbers
 
-The model reads the form; the form's own arithmetic decides what passes; people review the rest with the photo; every accepted value gets a receipt.
+OCR reads the number. Two Hands checks whether the whole form agrees.
 
-- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300 and a whole state); 49 capture errors confirmed by the certified count, each with its photo.
+A model reads; the form's own arithmetic decides what passes; people review the rest with the photo; accepted values get receipts.
+
+- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300, a whole state); 49 capture errors confirmed by the certified count, each with its photo.
 - **Why Gemma:** same 300 forms, same gate, on AMD Token Factory: 1.8x the forms Qwen3.8-27B accepts at the same error rate, 4.6x cheaper, 2.8x faster ([the table](#why-gemma)).
 - **Re-derive it:** images, keyed values and certified counts are public (INE); [`make eval`](#reproduce-every-number) recomputes every number offline.
 
@@ -22,7 +24,7 @@ The model reads the form; the form's own arithmetic decides what passes; people 
 | Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
 | Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). Not yet measured. |
 
-**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result; the preliminary capture is preliminary by design. An independent demonstration, not an official INE product.
+**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result. An independent demonstration, not an official INE product.
 
 <!-- links:start -->
 **Live demo:** add at submission · **Video:** add at submission · **Repository:** add at submission ·
@@ -39,7 +41,7 @@ The model reads the form; the form's own arithmetic decides what passes; people 
 3. [Business detail](#business-detail) (sources: [docs/BUSINESS.md](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table))
 4. [Run it](#run-it) · [Reproduce every number](#reproduce-every-number)
 5. [Audit your capture](#audit-your-capture) · [Verify a receipt](#verify-a-receipt) · [CLI](#cli) · [MCP](#mcp)
-6. [How it works](#how-it-works)
+6. [How it works](#how-it-works) · [Execution trace: two real forms, request to receipt](docs/TRACE.md) (site: `/trace`)
 7. [Limits and failure cases](#limits-and-failure-cases)
 8. [Data and privacy](#data-and-privacy) · [Data, credit and framing](#data-credit-and-framing)
 9. [Evolus](#evolus) · [Docker](#run-with-docker) · [Deploy](#deploy) · [Repo map](#repo-map)
@@ -67,7 +69,7 @@ official two-person capture (PREP); every disagreement was settled on a crop of 
 | Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong**: a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). With the full gate (section 7): 22 of 300 (7%), **0 of 484 fields wrong** |
 | How "wrong" was checked | Judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. |
 | Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (point estimate meets the pre-registered 0.5% bar; Wilson 95% upper bound 0.79%) ([`results/confirm100.md`](results/confirm100.md)) |
-| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count · 0 checked by a person · 30 judged from the photo by the AI adjudicator only (the builder's model, which could see both values; a blind person check is in progress at `/check`). Recall is unmeasured, so the multiple between the two rates is too. |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count · 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values; checked by a person: 26 of 30, 23 agree). Recall is unmeasured, so the multiple between the two rates is too. |
 | Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. |
 
 The first capture is preliminary by design; the certified count is the official result.

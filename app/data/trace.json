@@ -1,0 +1,587 @@
+{
+ "request": {
+  "model": "Gemma-4-31B-IT",
+  "endpoint": "AMD Token Factory",
+  "api": "OpenAI-compatible POST /chat/completions",
+  "prompt_sha256": "3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f",
+  "prompt_sha256_rebuilt": "3664253035b912184e24a205852e7b8e686f0abb36a4340e91834d60dc71193f",
+  "temperature": 0,
+  "max_tokens": 2000,
+  "response_format": "none",
+  "images": 7,
+  "tiles": [
+   "left_column",
+   "party_rows",
+   "coalition_rows",
+   "bottom_rows_sec7",
+   "party_logos",
+   "coalition_logos"
+  ],
+  "jpeg": "longest side at most 2400 px, quality 88",
+  "image_tokens": [
+   1843
+  ]
+ },
+ "forms": [
+  {
+   "form": "080310B0100",
+   "code": "SOBRANTES",
+   "name": "Unused ballots",
+   "kind": "accepted",
+   "crop_site": "/crop/080310B0100/SOBRANTES.jpg?pad=0.02&label=0",
+   "page_site": "/masked/080310B0100.jpg",
+   "form_site": "/form/080310B0100",
+   "crop_repo": "../results/adjudication/080310B0100__SOBRANTES.jpg",
+   "record": {
+    "ts": "2026-10-15T05:59:07Z",
+    "image": "data/masked/080310B0100.jpg",
+    "latency_s": 53.6,
+    "attempts": 1,
+    "finish_reason": "stop",
+    "prompt_tokens": 2609,
+    "completion_tokens": 810,
+    "cost_usd": 0.000145957,
+    "content_sha256": "45bd81cd8b39daf863eb110fc143c528e65333e24380063ed260e99951a30b6d",
+    "content_chars": 1765,
+    "n_items": 23
+   },
+   "raw_item": {
+    "label": "BOLETAS SOBRANTES",
+    "n": 180,
+    "w": 180
+   },
+   "position": 1,
+   "gate": {
+    "shape": "23 values, the form has 23",
+    "labels_ok": true,
+    "digits_read": "23 of 23",
+    "words": "22 of 22 fields with words read: digits = words",
+    "field_words": "digits = words",
+    "in_identities": [],
+    "identities": [
+     {
+      "name": "rows sum to TOTAL",
+      "lhs_terms": [
+       {
+        "name": "Option 01",
+        "v": 117
+       },
+       {
+        "name": "Option 02",
+        "v": 21
+       },
+       {
+        "name": "Option 03",
+        "v": 6
+       },
+       {
+        "name": "Option 04",
+        "v": 6
+       },
+       {
+        "name": "Option 05",
+        "v": 7
+       },
+       {
+        "name": "Option 06",
+        "v": 16
+       },
+       {
+        "name": "Option 07",
+        "v": 65
+       },
+       {
+        "name": "Option 08",
+        "v": 10
+       },
+       {
+        "name": "Option 09",
+        "v": 5
+       },
+       {
+        "name": "Option 10",
+        "v": 0
+       },
+       {
+        "name": "Option 11",
+        "v": 0
+       },
+       {
+        "name": "Option 12",
+        "v": 8
+       },
+       {
+        "name": "Option 13",
+        "v": 3
+       },
+       {
+        "name": "Option 14",
+        "v": 4
+       },
+       {
+        "name": "Option 15",
+        "v": 2
+       },
+       {
+        "name": "Unregistered candidates",
+        "v": 0
+       },
+       {
+        "name": "Null votes",
+        "v": 7
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "TOTAL",
+        "v": 277
+       }
+      ],
+      "lhs": 277,
+      "rhs": 277,
+      "ok": true
+     },
+     {
+      "name": "votaron + representantes = section 5",
+      "lhs_terms": [
+       {
+        "name": "Voters on the list",
+        "v": 273
+       },
+       {
+        "name": "Representatives who voted",
+        "v": 4
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "Voters + representatives",
+        "v": 277
+       }
+      ],
+      "lhs": 277,
+      "rhs": 277,
+      "ok": true
+     },
+     {
+      "name": "section 5 = section 7",
+      "lhs_terms": [
+       {
+        "name": "Voters + representatives",
+        "v": 277
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "Ballots taken from the boxes",
+        "v": 277
+       }
+      ],
+      "lhs": 277,
+      "rhs": 277,
+      "ok": true
+     },
+     {
+      "name": "section 7 = TOTAL",
+      "lhs_terms": [
+       {
+        "name": "Ballots taken from the boxes",
+        "v": 277
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "TOTAL",
+        "v": 277
+       }
+      ],
+      "lhs": 277,
+      "rhs": 277,
+      "ok": true
+     }
+    ],
+    "accepted": true,
+    "reasons": [],
+    "codes": []
+   },
+   "whatif": null,
+   "official": {
+    "keyed": "480",
+    "read": 180,
+    "words": 180,
+    "paper": 180,
+    "paper_by": "the AI adjudicator's reading of the crop: words \"CIENTO OCHENTA\", boxes 1 8 0",
+    "certified": {
+     "value": null,
+     "how": "the certified count covers the vote rows and TOTAL, not this field"
+    },
+    "form_disputes": 1
+   },
+   "receipt": {
+    "index": 42,
+    "n_leaves": 267,
+    "leaf": {
+     "form": "080310B0100",
+     "field": "SOBRANTES",
+     "keyed": "480",
+     "model": 180,
+     "words": 180,
+     "tier": "medium",
+     "crop_sha256": "e1bf660ece41a082946b06e211c5be41684abca692dbfa113bd4b01b5033507d"
+    },
+    "leaf_hash": "6d5fc26fd391fb0c70375495ed54a6d1511dc3342e2d4c442e4a0fdca3c5b7b1",
+    "proof": [
+     {
+      "side": "right",
+      "hash": "7fc780500562c07d3a7b9f4a9f93429925cd3e5ecd30d6729cf53bd2e91b099b"
+     },
+     {
+      "side": "left",
+      "hash": "85eebdae9fd6ebe2cec48060a5b64ce05aa8486e8286023eebf94cca2efcfda3"
+     },
+     {
+      "side": "right",
+      "hash": "8a56a66a35be65eae539f6e5732f3eb23dd2bee3cf483f3e3f8cfece56cba7e3"
+     },
+     {
+      "side": "left",
+      "hash": "800d2893661b694bf2fa322f30c45545085c9ee7c5e5792ed6500183714dd4be"
+     },
+     {
+      "side": "right",
+      "hash": "2a39cdb982914400e0d253d9be880440d1bd58207663bb6c8a2d3ce788e67013"
+     },
+     {
+      "side": "left",
+      "hash": "12940b49c48d44f585f54395196af75f6685bc898cfe45a2ce64d9d1092de02d"
+     },
+     {
+      "side": "right",
+      "hash": "2d220120869fd6862e540b4ad140d8c1239f51aceec69482fba04bb17bf97435"
+     },
+     {
+      "side": "right",
+      "hash": "297c803d134dee3409fbf0e80b997ce9d9c14780bcf38bf4a4b04919392176fa"
+     },
+     {
+      "side": "right",
+      "hash": "355a9c831b9a43c89a9d2fef79211aececbc49d556d971c2861dc3f6bf7b07f4"
+     }
+    ],
+    "root": "e56a8ef4f011b9e5a3b7bd91dd708580fe1a8912e3bd65f51d780a6dd5898721",
+    "root_published": "e56a8ef4f011b9e5a3b7bd91dd708580fe1a8912e3bd65f51d780a6dd5898721",
+    "verify_route": "/verify/080310B0100/SOBRANTES",
+    "checks": [
+     {
+      "label": "leaf recomputed from the record",
+      "ok": true,
+      "hash": "6d5fc26fd391fb0c"
+     },
+     {
+      "label": "crop SHA-256 matches the record",
+      "ok": true,
+      "hash": "e1bf660ece41a082"
+     },
+     {
+      "label": "path of 9 steps reaches the receipt's root",
+      "ok": true,
+      "hash": "e56a8ef4f011b9e5"
+     },
+     {
+      "label": "receipt's root matches the root given",
+      "ok": true,
+      "hash": "e56a8ef4f011b9e5"
+     }
+    ],
+    "verified": true
+   }
+  },
+  {
+   "form": "122655C0100",
+   "code": "OPT02",
+   "name": "Option 02",
+   "kind": "routed",
+   "crop_site": "/crop/122655C0100/OPT02.jpg?pad=0.02&label=0",
+   "page_site": "/masked/122655C0100.jpg",
+   "form_site": "/form/122655C0100",
+   "crop_repo": "caught/122655C0100_OPT02.jpg",
+   "record": {
+    "ts": "2026-10-15T06:38:24Z",
+    "image": "data/masked/122655C0100.jpg",
+    "latency_s": 60.7,
+    "attempts": 1,
+    "finish_reason": "stop",
+    "prompt_tokens": 2609,
+    "completion_tokens": 815,
+    "cost_usd": 0.000146307,
+    "content_sha256": "e8fc7875af26ec52cde18733b4ac7b1f92b103174850976a6f757bb2aea4aa22",
+    "content_chars": 1766,
+    "n_items": 23
+   },
+   "raw_item": {
+    "label": "(printed row logos; shown here as Option 02)",
+    "n": 23,
+    "w": 23
+   },
+   "position": 7,
+   "gate": {
+    "shape": "23 values, the form has 23",
+    "labels_ok": true,
+    "digits_read": "23 of 23",
+    "words": "23 of 23 fields with words read: digits = words",
+    "field_words": "digits = words",
+    "in_identities": [
+     "rows sum to TOTAL"
+    ],
+    "identities": [
+     {
+      "name": "rows sum to TOTAL",
+      "lhs_terms": [
+       {
+        "name": "Option 01",
+        "v": 1
+       },
+       {
+        "name": "Option 02",
+        "v": 23
+       },
+       {
+        "name": "Option 03",
+        "v": 3
+       },
+       {
+        "name": "Option 04",
+        "v": 26
+       },
+       {
+        "name": "Option 05",
+        "v": 22
+       },
+       {
+        "name": "Option 06",
+        "v": 98
+       },
+       {
+        "name": "Option 07",
+        "v": 165
+       },
+       {
+        "name": "Option 08",
+        "v": 0
+       },
+       {
+        "name": "Option 09",
+        "v": 0
+       },
+       {
+        "name": "Option 10",
+        "v": 0
+       },
+       {
+        "name": "Option 11",
+        "v": 0
+       },
+       {
+        "name": "Option 12",
+        "v": 7
+       },
+       {
+        "name": "Option 13",
+        "v": 0
+       },
+       {
+        "name": "Option 14",
+        "v": 0
+       },
+       {
+        "name": "Option 15",
+        "v": 0
+       },
+       {
+        "name": "Unregistered candidates",
+        "v": 0
+       },
+       {
+        "name": "Null votes",
+        "v": 21
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "TOTAL",
+        "v": 466
+       }
+      ],
+      "lhs": 366,
+      "rhs": 466,
+      "ok": false
+     },
+     {
+      "name": "votaron + representantes = section 5",
+      "lhs_terms": [
+       {
+        "name": "Voters on the list",
+        "v": 466
+       },
+       {
+        "name": "Representatives who voted",
+        "v": 0
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "Voters + representatives",
+        "v": 466
+       }
+      ],
+      "lhs": 466,
+      "rhs": 466,
+      "ok": true
+     },
+     {
+      "name": "section 5 = section 7",
+      "lhs_terms": [
+       {
+        "name": "Voters + representatives",
+        "v": 466
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "Ballots taken from the boxes",
+        "v": 466
+       }
+      ],
+      "lhs": 466,
+      "rhs": 466,
+      "ok": true
+     },
+     {
+      "name": "section 7 = TOTAL",
+      "lhs_terms": [
+       {
+        "name": "Ballots taken from the boxes",
+        "v": 466
+       }
+      ],
+      "rhs_terms": [
+       {
+        "name": "TOTAL",
+        "v": 466
+       }
+      ],
+      "lhs": 466,
+      "rhs": 466,
+      "ok": true
+     }
+    ],
+    "accepted": false,
+    "reasons": [
+     "rows sum to TOTAL: 366 != 466"
+    ],
+    "codes": [
+     "identity"
+    ]
+   },
+   "whatif": {
+    "identity": "rows sum to TOTAL",
+    "with": 123,
+    "lhs": 466,
+    "rhs": 466
+   },
+   "official": {
+    "keyed": "123",
+    "read": 23,
+    "words": 23,
+    "paper": 123,
+    "paper_by": "confirmed by the certified count",
+    "certified": {
+     "value": 123,
+     "how": "settled by comparison with the paper, Cotejo"
+    },
+    "form_disputes": 1
+   },
+   "receipt": {
+    "index": 145,
+    "n_leaves": 267,
+    "leaf": {
+     "form": "122655C0100",
+     "field": "OPT02",
+     "keyed": "123",
+     "model": 23,
+     "words": 23,
+     "tier": "weak",
+     "crop_sha256": "0ddd5b7520df372496cd137744a8d31be0cdffdffcfef9812b1358a3de809d5b"
+    },
+    "leaf_hash": "40c90012f177f089c23b4a4f5f56558fc2c9ed489fee719cef3c60d0e847361f",
+    "proof": [
+     {
+      "side": "left",
+      "hash": "134876b1756ecee927e725ee60966f13cbbfc8b3955072095e2f2639b2cf5fce"
+     },
+     {
+      "side": "right",
+      "hash": "b87781825f1cd133901c74b698399fc539475725db6ca863342536e3eb6f0f63"
+     },
+     {
+      "side": "right",
+      "hash": "224d88fda1f6144a223a537702ae1bc1a958a13718479a1351240ab985f8842d"
+     },
+     {
+      "side": "right",
+      "hash": "ba58cd05893fcc607a40fba41422ce3db362ebd3befb49cf3f54fe398824b1a6"
+     },
+     {
+      "side": "left",
+      "hash": "9382ecef0e39550e659cd450202a30f81250e7b871f6c6892116dc010521dffe"
+     },
+     {
+      "side": "right",
+      "hash": "f29cd346d804255b42d45aac2b6b0a381b6ae6ae2e47836ae072d63ee3d3cd73"
+     },
+     {
+      "side": "right",
+      "hash": "e3433d72e84e9f9836b00bcbef6a9132281a17a7b5551f203dc42917839b2f1f"
+     },
+     {
+      "side": "left",
+      "hash": "0691cdcdd271df7c343f3ac2eecf2b20957ea05c53c1fe4f73aeb06f49d67581"
+     },
+     {
+      "side": "right",
+      "hash": "355a9c831b9a43c89a9d2fef79211aececbc49d556d971c2861dc3f6bf7b07f4"
+     }
+    ],
+    "root": "e56a8ef4f011b9e5a3b7bd91dd708580fe1a8912e3bd65f51d780a6dd5898721",
+    "root_published": "e56a8ef4f011b9e5a3b7bd91dd708580fe1a8912e3bd65f51d780a6dd5898721",
+    "verify_route": "/verify/122655C0100/OPT02",
+    "checks": [
+     {
+      "label": "leaf recomputed from the record",
+      "ok": true,
+      "hash": "40c90012f177f089"
+     },
+     {
+      "label": "crop SHA-256 matches the record",
+      "ok": true,
+      "hash": "0ddd5b7520df3724"
+     },
+     {
+      "label": "path of 9 steps reaches the receipt's root",
+      "ok": true,
+      "hash": "e56a8ef4f011b9e5"
+     },
+     {
+      "label": "receipt's root matches the root given",
+      "ok": true,
+      "hash": "e56a8ef4f011b9e5"
+     }
+    ],
+    "verified": true
+   }
+  }
+ ],
+ "root": "e56a8ef4f011b9e5a3b7bd91dd708580fe1a8912e3bd65f51d780a6dd5898721",
+ "n_leaves": 267,
+ "source": "scripts/build_trace.py from results/calls_gemma.jsonl, app/data/audit_sample_prep300.csv, results/adjudication/, data/masked/ (no model call)"
+}

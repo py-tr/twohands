@@ -24,7 +24,7 @@ from collections import deque
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
-PAGE_RE = re.compile(r"^/(forms|audit|review|inbox|results|api|form/[A-Za-z0-9]+|ledger/[A-Za-z0-9_\-]+)?$")
+PAGE_RE = re.compile(r"^/(forms|audit|review|inbox|results|trace|api|form/[A-Za-z0-9]+|ledger/[A-Za-z0-9_\-]+)?$")
 ASSET_RE = re.compile(r"^/(static/[\w.\-]+|masked/[A-Za-z0-9]+\.jpg|crop/[A-Za-z0-9]+/[A-Za-z0-9_]+\.jpg|"
                       r"api/export\.(json|csv)|results/colima/(report\.html|report\.csv|colima_audit\.md|SHEET\.md))$")
 ATTR_RE = re.compile(r'\b(href|src|data-start)="([^"]*)"')

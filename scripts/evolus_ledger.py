@@ -3,6 +3,10 @@
     python scripts/evolus_ledger.py           # writes results/evolus/summary.json and results/evolus/summary.md
     python scripts/evolus_ledger.py --check   # the files, docs/EVOLUS.md and the site's Evolus section match the ledger
 
+The completed line ("150 of 150 completed; in all 150 the Evolus Script's own recomputation of the evidence score
+matches ours") is recounted here straight from the raw "returned" rows, apart from evolus/routed.py, and must be what
+docs/EVOLUS.md and the rendered Results page (/results#evolus) say.
+
 Input: results/evolus/executions.jsonl (append only, written by `python -m evolus routed`): one "sent" row per
 "Audit finding" execution (case id, workflow, execution id, model reported by Evolus, time) and one "returned" row
 when the run settles (status, drafted finding, score recomputed by the Evolus Script).
@@ -27,6 +31,32 @@ TEMPLATE = REPO / "templates" / "results.html"
 def compute() -> dict:
     d = routed.summary()
     return {k: v for k, v in d.items()}
+
+
+def recount() -> tuple[int, int, int]:
+    """(executions sent, completed with a finding, completed with agrees_with_app true), from the raw ledger rows: the
+    last "returned" row per execution id."""
+    sent, last = set(), {}
+    for line in routed.LEDGER.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        r = json.loads(line)
+        if r.get("event") == "sent" and r.get("execution_id"):
+            sent.add(r["execution_id"])
+        elif r.get("event") == "returned" and r.get("execution_id"):
+            last[r["execution_id"]] = r
+    done = [r for e, r in last.items() if e in sent and str(r.get("status") or "").lower() in ("completed", "succeeded")
+            and r.get("finding")]
+    return len(sent), len(done), sum(1 for r in done if (r.get("evidence") or {}).get("agrees_with_app") is True)
+
+
+def _results_page_text() -> str:
+    import html
+    import re
+    from fastapi.testclient import TestClient
+    from app.main import app
+    h = TestClient(app).get("/results").text
+    return " ".join(html.unescape(re.sub(r"<[^>]+>", " ", h)).split())
 
 
 def markdown(d: dict) -> str:
@@ -73,6 +103,16 @@ def main(argv=None) -> int:
         bad.append("docs/EVOLUS.md: missing the current ledger line")
     if "evo.routed.line" not in TEMPLATE.read_text(encoding="utf-8"):
         bad.append("templates/results.html: the Evolus section does not show the ledger line")
+    n, ok, agree = recount()
+    if (n, ok, agree) != (d["sent"], d["succeeded"], d["score_agrees"]):
+        bad.append(f"raw ledger recount {n}/{ok}/{agree} != summary {d['sent']}/{d['succeeded']}/{d['score_agrees']}")
+    if ok and agree == ok and f"in all {ok} the Evolus Script" not in d["completed_line"]:
+        bad.append("completed line does not say 'in all N' although every completed run agrees")
+    if agree != ok and "in all" in d["completed_line"]:
+        bad.append("completed line says 'in all' but the ledger does not support it")
+    for where, text in (("docs/EVOLUS.md", doc), ("/results (rendered)", _results_page_text())):
+        if d["completed_line"] not in text:
+            bad.append(f"{where}: missing '{d['completed_line']}'")
     print(f"evolus_ledger --check: {len(bad)} mismatches" + "".join(f"\n  - {b}" for b in bad))
     return 1 if bad else 0
 

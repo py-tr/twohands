@@ -1,58 +1,58 @@
 1
-00:00:00,000 --> 00:00:02,891
-The paper says 175.
+00:00:00,000 --> 00:00:02,807
+OCR reads the number.
 
 2
-00:00:02,941 --> 00:00:06,421
-The official capture typed 75.
+00:00:02,857 --> 00:00:07,950
+Two Hands checks whether the whole form agrees.
 
 3
-00:00:06,471 --> 00:00:09,950
-The certified count says 175.
+00:00:08,000 --> 00:00:13,260
+Gemma, on AMD, reads 23, in digits and in words.
 
 4
-00:00:10,000 --> 00:00:15,950
-Two Hands checks every number typed from paper, against the paper.
+00:00:13,310 --> 00:00:17,122
+The rows sum to 366, not 466.
 
 5
-00:00:16,000 --> 00:00:19,950
-On AMD, 310 forms audited so far.
+00:00:17,172 --> 00:00:19,536
+Routed to a person.
 
 6
-00:00:20,000 --> 00:00:24,274
-Pick any polling station. 169,000 of them.
+00:00:19,586 --> 00:00:21,950
+The paper says 123.
 
 7
-00:00:24,324 --> 00:00:31,301
-This one we have read: the page and its receipts, at once.
+00:00:22,000 --> 00:00:25,093
+Every field gets a receipt.
 
 8
-00:00:31,351 --> 00:00:34,004
-This one, not yet.
+00:00:25,143 --> 00:00:29,283
+Verified: it proves the record is unchanged.
 
 9
-00:00:34,054 --> 00:00:39,950
-One click, and the reader on AMD takes it next.
+00:00:29,333 --> 00:00:32,950
+Not that the reading is right.
 
 10
-00:00:40,000 --> 00:00:42,807
-How does it work? Two hands.
+00:00:33,000 --> 00:00:40,318
+1,270 real tally sheets, read by Gemma on AMD.
 
 11
-00:00:42,857 --> 00:00:48,521
-The model on AMD reads every number twice: the digits, and the words.
+00:00:40,368 --> 00:00:46,950
+49 capture errors, confirmed by the certified count.
 
 12
-00:00:48,571 --> 00:00:51,787
-Then the gate: the form's own arithmetic.
+00:00:47,000 --> 00:00:50,200
+$1 per sheet audited.
 
 13
-00:00:51,837 --> 00:00:55,460
-If it all adds up, nobody types anything.
+00:00:50,250 --> 00:00:55,400
+The first step: a paid shadow-mode pilot,
 
 14
-00:00:55,510 --> 00:00:59,950
-If not, a person sees the rest, with the photo.
+00:00:55,450 --> 00:00:59,950
+on one state's count in 2027.
 
 15
 00:01:00,000 --> 00:01:01,950
@@ -163,35 +163,35 @@ A script, not the model, scores the evidence.
 The auditor decides.
 
 42
-00:02:46,000 --> 00:02:48,646
+00:02:46,000 --> 00:02:48,685
 Who pays? Mexico's preliminary counts:
 
 43
-00:02:48,696 --> 00:02:52,689
+00:02:48,735 --> 00:02:52,788
 INE, 32 state institutes, and their outside auditors.
 
 44
-00:02:52,739 --> 00:02:58,080
+00:02:52,838 --> 00:02:58,259
 On 6 June 2027, 32 local elections join the federal midterm.
 
 45
-00:02:58,130 --> 00:03:01,675
+00:02:58,309 --> 00:03:01,906
 Each state picks its operator by December.
 
 46
-00:03:01,725 --> 00:03:03,921
-$1 per sheet audited,
+00:03:01,956 --> 00:03:06,009
+The pilot runs beside the state's own capture;
 
 47
-00:03:03,971 --> 00:03:08,863
-starting with a paid shadow-mode pilot on one state's count.
+00:03:06,059 --> 00:03:08,744
+nothing in its process changes.
 
 48
-00:03:08,913 --> 00:03:12,457
+00:03:08,794 --> 00:03:12,391
 Next: 7 more countries publish these sheets,
 
 49
-00:03:12,507 --> 00:03:16,950
+00:03:12,441 --> 00:03:16,950
 and health reporting in 70+ countries runs on DHIS2.
 
 50

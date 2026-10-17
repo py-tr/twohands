@@ -326,6 +326,18 @@ def colima_file(name: str):
     return FileResponse(p, media_type=mt)
 
 
+@app.get("/trace", response_class=HTMLResponse)
+def trace(request: Request):
+    """The end-to-end execution trace of two real forms (app/data/trace.json, written by scripts/build_trace.py; the
+    same trace as docs/TRACE.md)."""
+    import json
+    try:
+        T = json.loads((REPO / "app" / "data" / "trace.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        raise HTTPException(404, "trace not built (python scripts/build_trace.py)")
+    return page(request, "trace.html", "results", T=T)
+
+
 @app.get("/business.md")
 def business_md():
     """docs/BUSINESS.md as plain text (the PREP procedure citations the Home strip links to)."""

@@ -43,12 +43,11 @@ def test_confirmation_breakdown_is_computed_and_pending_without_a_person(no_spot
     n_cert = sum(1 for x in H["keying_list"] if x["cert_agrees"])
     assert (c["total"], c["certified"], c["person"], c["ai_only"]) == (H["keying_errors"], n_cert, 0, H["keying_errors"] - n_cert)
     assert c["certified"] == H["cert_agree"] and c["state"] == "pending"
-    assert c["text"] == (f"{H['cert_agree']} confirmed by the certified count · 0 checked by a person · "
-                         f"{H['keying_errors'] - H['cert_agree']} judged from the photo by the AI adjudicator only (person check pending)")
+    line = (f"{H['cert_agree']} confirmed by the certified count · {H['keying_errors'] - H['cert_agree']} judged from "
+            f"the photo by the AI adjudicator (person check in progress at /check)")
+    assert c["text"] == line and "0 checked" not in c["readme"]
     for u in ("/", "/audit"):
         t = _text(client.get(u).text)
-        line = (f"{H['cert_agree']} confirmed by the certified count · 0 checked by a person · "
-                f"{H['keying_errors'] - H['cert_agree']} judged from the photo by the AI adjudicator only (person check pending)")
         assert line in t, u
 
 
@@ -62,7 +61,8 @@ def test_confirmation_counts_a_persons_blind_reading(tmp_path, monkeypatch):
            f"{b['clave']}__{b['field']}": {"digits": 99999}}
     c = honest.confirmation(H, answers=ans)
     assert (c["person"], c["person_disagree"], c["ai_only"]) == (1, 1, len(rest) - 2)
-    assert c["state"] == "in_progress" and "1 checked by a person" in c["text"] and "1 read differently" in c["text"]
+    assert c["state"] == "in_progress" and f"(checked by a person: 2 of {len(rest)}, 1 agree)" in c["text"]
+    assert "judged from the photo by the AI adjudicator" in c["text"]   # the label stays for the fields not yet checked
 
 
 # ------------------------------------------------------------------------------------------------ judge this verdict
@@ -208,7 +208,7 @@ def test_readme_first_screen_matches_the_computed_lines(no_spotcheck):
     if not honest.bench_ran():
         assert "MI300X" not in readme
     assert honest.REG_LINE in readme
-    assert honest.confirmation(H)["text"].replace(" (person check pending)", "") in readme
+    assert honest.confirmation_in_doc(readme, H)          # the 52's AI-adjudicated part and its person check
     assert "no person" not in first and "touchless" not in first.lower()
 
 

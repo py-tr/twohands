@@ -5,7 +5,7 @@
 <section class="page-head" style="margin-bottom:0">
   <div class="eyebrow">Audit mode</div>
   <h1>{{ H.keying_errors }} {{ L.unit }}</h1>
-  {% set CF = honest.confirmation(H) %}{% if CF %}<p class="conf" id="conf52" style="font-size:.95rem;margin:10px 0 0"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <b>{{ CF.person }} checked by a person</b>{% if CF.person_disagree %} · {{ CF.person_disagree }} read differently by a person{% endif %} · <span title="The AI adjudicator is the builder's model, which could see both values; it judged from the photo.">{{ CF.ai_only }} judged from the photo by the AI adjudicator only</span>{% if CF.note %} <span class="pend">({{ CF.note }})</span>{% endif %}. Below each one: judge it yourself.</p>{% endif %}
+  {% set CF = honest.confirmation(H) %}{% if CF %}<p class="conf" id="conf52" style="font-size:.95rem;margin:10px 0 0"><b class="ok">{{ CF.certified }} confirmed by the certified count</b> · <span title="The AI adjudicator is the builder's model, which could see both values; it judged from the photo.">{{ CF.ai_total }} judged from the photo by the AI adjudicator</span> <a class="pend" href="/check">({{ CF.person_phrase }})</a>. Below each one: judge it yourself.</p>{% endif %}
   <p class="lede">The model re-read {{ H.fields|int }} fields of {{ H.read }} randomly drawn forms that the official two-person capture had already keyed. It disagreed on {{ H.disagree }} ({{ H.flag_pct }}%). A person settled each one on the photo: in {{ H.keying_errors }} the paper shows the model's value, so the capture does not match the paper: {{ L.breakdown }}</p>
 </section>
 

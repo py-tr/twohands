@@ -246,11 +246,23 @@ def summary(path: Optional[Path] = None) -> dict:
          "by_source": by, "models_reported": models, "score_agrees": agree,
          "window": [times[0][:16] if times else None, times[-1][:16] if times else None],
          "http_errors": sum(1 for r in ledger(path) if r.get("event") == "error")}
+    d["completed_line"] = completed_line(d)
     d["line"] = (f"Evolus workspace {d['workspace']}: {d['sent']} \"{WORKFLOW}\" executions of real routed fields "
-                 f"({by['r300']} from the 300 run, {by['colima']} from Colima), {d['succeeded']} completed with a drafted "
-                 f"finding ({rate:g}%), {d['failed']} failed, {d['open']} still open; model reported by Evolus: "
-                 f"{', '.join(models) or 'none'}. Source: results/evolus/executions.jsonl.")
+                 f"({by['r300']} from the 300 run, {by['colima']} from Colima): {d['completed_line']}"
+                 + (f"; {d['failed']} failed, {d['open']} still open" if d["failed"] or d["open"] else "")
+                 + f"; model reported by Evolus: {', '.join(models) or 'none'}. Source: results/evolus/executions.jsonl.")
     return d
+
+
+def completed_line(d: dict) -> str:
+    """"N of M completed; in all N the Evolus Script's own recomputation of the evidence score matches ours": the
+    second clause only as far as the ledger's returned evidence (agrees_with_app) supports it."""
+    s = f"{d['succeeded']} of {d['sent']} completed"
+    if not d["succeeded"]:
+        return s
+    who = (f"in all {d['succeeded']}" if d["score_agrees"] == d["succeeded"]
+           else f"in {d['score_agrees']} of {d['succeeded']}")
+    return s + f"; {who} the Evolus Script's own recomputation of the evidence score matches ours"
 
 
 # ------------------------------------------------------------------------------------------- the runner

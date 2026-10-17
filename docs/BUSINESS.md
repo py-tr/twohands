@@ -428,7 +428,7 @@ All of it from one config value, `app/pricing.py`; `make eval` (`scripts/price_c
 
 - **One price: $1 per sheet audited (proposed); first step: a paid shadow-mode pilot.** Anchored, for scale, on a line for a different step: INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone (INE CCOE report p. 4; 170,648
   actas expected, PREP 2024 CSV header).
-- The pilot: our check runs beside one state's 2027 count on its finished capture, in shadow mode: the institute's own process stays as it is, and the pilot shows what the check finds before anyone relies on it. An offer; no buyer has been contacted.
+- The pilot: our check runs beside one state's 2027 count on its finished capture, in shadow mode: the institute's own process stays as it is, and the pilot shows what the check finds before anyone relies on it. An offer.
 - Footnote: Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 
 ### Cost side

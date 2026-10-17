@@ -1,7 +1,9 @@
 """What a skeptical reader would check on the first screen and on Findings, computed, never typed in.
 
-  confirmation(H)   the 52 split by what confirms each: the certified count, a person (app/state/spotcheck.json,
-                    the blind /check), or the AI adjudicator alone; "person check pending" until a person has checked
+  confirmation(H)   the 52 split by what confirms each: the certified count, or the AI adjudicator from the photo;
+                    of the AI-adjudicated ones, how many a person checked blind (app/state/spotcheck.json, /check):
+                    "person check in progress at /check" until a person has answered one, then "checked by a person:
+                    N of 30, M agree"
   gate_label(L)     the gate tiers in the regulation's words ("accepted at second capture"), from numbers.lines()
   strip_figures(ls)       the live strip: states complete, the current state's %, +N a day for the worker's daily budget
                     on AMD, total audited. Never a national fraction, never the queue size
@@ -62,14 +64,37 @@ def confirmation(H: dict, answers: Optional[dict] = None) -> Optional[dict]:
     ai = len(rest) - person - disagree
     checked = person + disagree
     state = "pending" if checked == 0 else ("done" if checked == len(rest) else "in_progress")
-    parts = [f"{len(cert)} confirmed by the certified count", f"{person} checked by a person"]
-    if disagree:
-        parts.append(f"{disagree} read differently by a person")
-    parts.append(f"{ai} judged from the photo by the AI adjudicator only")
-    note = {"pending": "person check pending",
-            "in_progress": f"person check in progress, {checked} of {len(rest)}", "done": None}[state]
+    phrase = person_phrase(checked, len(rest), person)
+    head = f"{len(cert)} confirmed by the certified count · {len(rest)} judged from the photo by the AI adjudicator"
     return {"total": len(items), "certified": len(cert), "person": person, "person_disagree": disagree, "ai_only": ai,
-            "state": state, "note": note, "text": " · ".join(parts) + (f" ({note})" if note else "")}
+            "ai_total": len(rest), "checked": checked, "state": state, "note": phrase, "person_phrase": phrase,
+            "text": f"{head} ({phrase})", "readme": f"{head} ({DOC_WHO}; {phrase})",
+            "doc_tail": f"{len(rest)} judged from the photo by the AI adjudicator ({DOC_WHO}; {phrase})"}
+
+
+DOC_WHO = "the builder's model, which could see both values"
+PERSON_RE = r"(person check in progress at /check|checked by a person: (\d+) of {n}, (\d+) agree)"
+
+
+def person_phrase(checked: int, n: int, agree: int) -> str:
+    """The person check of the AI-adjudicated fields, as the README, lablab and the site say it."""
+    return "person check in progress at /check" if not checked else f"checked by a person: {checked} of {n}, {agree} agree"
+
+
+def confirmation_in_doc(text: str, H: dict) -> bool:
+    """A doc carries the 52's AI-adjudicated part and its person check (README, lablab). With the person check's answers on this machine
+    (app/state/spotcheck.json) it must be exactly the current line; without them (a fresh clone, where the answers
+    are not committed) any consistent state of the same split is accepted."""
+    from app import spotcheck
+    c = confirmation(H)
+    if not c:
+        return False
+    flat = " ".join(text.replace("**", "").replace("`", "").split())
+    if spotcheck.FILE.is_file():
+        return c["doc_tail"] in flat
+    head = re.escape(c["doc_tail"][:c["doc_tail"].rindex("(") + 1])
+    m = re.search(head + re.escape(DOC_WHO + "; ") + PERSON_RE.format(n=c["ai_total"]) + r"\)", flat)
+    return bool(m) and (m.group(2) is None or int(m.group(3)) <= int(m.group(2)) <= c["ai_total"])
 
 
 # ------------------------------------------------------------------------------------------- (a) tiers in the rule's words

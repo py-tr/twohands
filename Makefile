@@ -12,7 +12,8 @@
 #   python scripts/amd_bench.py --check (the AMD evidence block from our logs, and the docs that quote it);
 #   python scripts/build_agree200.py --check (the seeded blind check of 200 agreeing fields);
 #   python scripts/why_gemma.py --check (the Gemma table and the caught misreads, from app/data/bakeoff_300.json);
-#   python scripts/evolus_ledger.py --check (the Evolus routed-case count and success rate, from results/evolus/executions.jsonl)
+#   python scripts/evolus_ledger.py --check (the Evolus routed-case count and success rate, from results/evolus/executions.jsonl);
+#   python scripts/build_trace.py --check (docs/TRACE.md and /trace: two real forms, request to receipt, from stored data)
 eval:
 	python -m twohands.eval
 	python scripts/gemma_vs_qwen.py
@@ -29,6 +30,7 @@ eval:
 	python scripts/build_agree200.py --check
 	python scripts/why_gemma.py --check
 	python scripts/evolus_ledger.py --check
+	python scripts/build_trace.py --check
 
 test:
 	python -m pytest -q

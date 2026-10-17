@@ -26,7 +26,7 @@ The certified count is the official result. An independent demonstration, not an
 Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
 the official double-keyed capture: the model found 52 fields where the capture does not match the paper, 22 of them
 confirmed by the certified count and 30 judged from the photo by the AI adjudicator (the builder's model, which could
-see both values). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
+see both values; checked by a person: 26 of 30, 23 agree). Errors we did not plant, in a record we did not write, in a sample drawn before any model read.
 Public ground truth is also why every number here can be re-derived by anyone: the images, the keyed values and the certified count are INE's, the scripts are ours (make eval).
 
 Mexico's rule already asks for this job. In INE's PREP process every tally sheet gets a second capture by a
@@ -80,8 +80,7 @@ request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip,
 locating, the privacy mask and the gate run on CPU.
 
 Limits: most forms are routed to a person (see the table). "Wrong" is judged against the official capture: every disagreement was checked on the photo, the
-agreeing fields were not (a seeded random 200 of them is queued for a blind person check). The adjudicator is the AI
-adjudicator, not a person. Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. The
+agreeing fields were not (a seeded random 200 of them is queued for a blind person check). Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. The
 pre-registered second-reader pass on the 100-form confirmation was not run (a protocol deviation). 11 of the 300 pages could
 not be located and went to a person before any model call.
 
