@@ -4,7 +4,7 @@ size: 16:9
 paginate: true
 theme: default
 title: Two Hands
-description: Receipts for every number keyed from paper. Gemma on AMD.
+description: Verifiable quality control for handwritten numbers. Gemma on AMD.
 style: |
   section { justify-content: flex-start !important; font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif; font-size: 25px; line-height: 1.38; padding: 44px 64px 52px; color: #1d232b; background: #fbfaf7; justify-content: flex-start; }
   section::after { font-size: 14px; color: #8a929b; }
@@ -24,6 +24,9 @@ style: |
   .tight { font-size: 19.5px; }
   .big.s44 { font-size: 44px; }
   .small { font-size: 17px; color: #5a6470; }
+  .glance table { font-size: 15.5px; line-height: 1.28; }
+  .glance td { padding: 3px 8px; }
+  .glance thead { display: none; }
   .tag { display: inline-block; font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9a3412; background: #fdebd8; border-radius: 4px; padding: 2px 8px; margin-bottom: 10px; }
   .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 26px; }
   .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
@@ -45,9 +48,9 @@ footer: "Two Hands · AMD Developer Hackathon ACT III"
 
 <!-- _class: title -->
 
-# Two Hands: receipts for every number keyed from paper
+# Two Hands: verifiable quality control for handwritten numbers
 
-<p class="lead">Two hands: two independent readers, and the paper's own arithmetic as the referee.</p>
+<p class="lead">The model reads the form; the form's own arithmetic decides what passes; people review the rest with the photo; every accepted value gets a receipt.</p>
 
 A second keyer that shows its proof. An open vision model, **Gemma on AMD**, re-reads every field of forms already keyed; the paper's arithmetic decides what is accepted; a person sees every disputed field with its photo.
 
@@ -168,29 +171,32 @@ How big (our estimate): about 170,000 federal actas (169,005 presidential sheets
 
 ---
 
-## Price and unit economics
+## Business at a glance
 
-<div class="cols2">
-<div>
-<div class="card hi"><div class="k">Line 1 (proposal)</div><div class="big">$1</div><p class="mid">$1 per form audited (second capture + cotejo + receipts)</p></div>
-<div class="card" style="margin-top:14px"><div class="k">Line 2</div><p class="mid" style="margin:4px 0 0"><strong>$5 per confirmed capture error, $0 if none is found</strong></p></div>
-<div class="card" style="margin-top:14px"><p class="mid" style="margin:0">Free sample deliverable: Colima, the whole state (1,017 in the PREP, 982 read, 35 not located, listed), report attached.</p></div>
-</div>
-<div class="mid" style="font-size:19.5px">
+<div class="glance">
 
-**Costs per form.** AMD compute $0.00014 per form (measured) · review labour for routed fields about $0.09 to $0.13 per form (estimate: 20 s per disputed crop) · hosting and sales, not measured.
-
-**Anchor.** INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone.
-
-**Per state.**
-- Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling
-- the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest
-- the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M
+| | |
+|---|---|
+| **Buyer** | Mexico's preliminary counts (PREP): INE and the 32 state institutes, each with an outside auditor (all 26 named in 2024 were universities). At least 13 of the 17 outsourced 2024 state PREPs went to three firms. |
+| **Why now** | 6 June 2027: federal midterm and 32 concurrent local elections; each state picks its PREP operator by about 6 December 2026. INE budgeted MXN 9.5M for automated capture in 2024 and bought none (80% bar); its advisers asked for a pilot. |
+| **Product** | An independent field-by-field check of a finished capture against the photo; no rule change needed. API, CLI and MCP server. |
+| **Price** | **$1 per sheet audited (proposed); first step: a paid shadow-mode pilot** on one state's 2027 count. AMD compute: $0.00014 per sheet. |
+| **Reviewer work** | About one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. |
+| **Capacity** | One shared AMD key: Colima's 982 sheets in about 3.4 hours, Morelos's 7,802 in about a day. |
+| **Example** | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
+| **Competition** | Second keying by a person: at least 0.8% of fields in our random sample still do not match the paper. Google Document AI (Baja California Sur, 2024) matched the human capture on 62.84% of fields. |
+| **Next** | The same public data in at least 7 more countries (Indonesia, Colombia, Peru; Guatemala, Kenya, Argentina vote in 2027). Health reports: DHIS2 runs national reporting in 70+ countries. Not yet measured. |
 
 </div>
-</div>
 
-<p class="src">Line 2 basis: 52 confirmed capture errors in 267 disputed fields on 289 read forms, $1 / 0.180 = $5.56, rounded down. Review: 0.92 crops per form measured, $18 to $25 an hour. FX: MXN 18.3835 per USD (ECB, 2026-10-16). Ceilings: PEF 2026 Anexo 9. One config: app/pricing.py; docs/BUSINESS.md.</p>
+<p class="src">Free sample deliverable: Colima, the whole state (1,017 in the PREP, 982 read, 35 not located, listed), report attached. Sources: docs/BUSINESS.md, "Sources for the Business at a glance table"; price: app/pricing.py (proposal); measured numbers recomputed by make eval.</p>
+
+<!--
+Price detail (app/pricing.py, word for word): $1 per sheet audited (proposed); first step: a paid shadow-mode pilot. Anchor: INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone.
+Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (estimate: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales, not measured.
+Per state: Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling; the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest; the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M.
+FX: MXN 18.3835 per USD (ECB, 2026-10-16).
+-->
 
 ---
 

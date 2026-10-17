@@ -2,14 +2,15 @@
 
     python scripts/price_check.py --check   # exit 1 on any mismatch (make eval)
 
-Checks: the measured inputs in app/pricing.py equal app/data/headline.json; the contingency is derived, not typed; each
-doc states the current price lines word for word and no stale price; the INE-metric score is labelled, shown beside
-the accepted-set result, and never in one sentence with the 2024 entrant's 75%; no forbidden overclaim.
+Checks: the measured inputs in app/pricing.py equal app/data/headline.json; each doc states the current price lines word
+for word and no stale price (one price: no per-error option); the "Business at a glance" table is the same in the README
+and lablab.md, and every measured number in it and in their opening lines is recomputed from the raw results; the
+INE-metric score is labelled, shown beside the accepted-set result, and never in one sentence with the 2024 entrant's
+75%; no forbidden overclaim.
 """
 from __future__ import annotations
 
 import json
-import math
 import re
 import sys
 from pathlib import Path
@@ -20,14 +21,64 @@ sys.path.insert(0, str(REPO))
 from app import buyer, pricing  # noqa: E402
 
 DOCS = {
-    "docs/BUSINESS.md": ("price_long", "anchor", "contingency", "contingency_basis", "ex_morelos", "fx", "self_serve"),
-    "slides/slides.md": ("price_long", "anchor", "contingency", "ex_morelos", "ex_largest", "ex_federal"),
-    "README.md": ("price_long", "contingency", "ex_morelos"),
-    "docs/NUMBERS.md": ("price_long", "contingency", "fx"),
-    "submission/lablab.md": ("price_long", "contingency", "ex_morelos"),
+    "docs/BUSINESS.md": ("price_long", "anchor", "ex_morelos", "fx", "self_serve"),
+    "slides/slides.md": ("price_long", "anchor", "ex_morelos_short", "ex_morelos", "ex_largest", "ex_federal"),
+    "README.md": ("price_long", "ex_morelos_short", "ex_morelos"),
+    "docs/NUMBERS.md": ("price_long", "fx"),
+    "submission/lablab.md": ("price_long", "ex_morelos_short"),
 }
 STALE = ["$100 per 1,000", "per 1,000 forms audited", "about $100 to $2,100", "0.05% of", "ABBYY page costs",
-         "we would have won", "We would have won", "passed INE's test", "recount savings will", "gross margin", " margin "]
+         "we would have won", "We would have won", "passed INE's test", "recount savings will", "gross margin", " margin ",
+         "per confirmed capture error, $0", "$5 per confirmed", "Line 2", "line 2", "contingency", "per form audited"]
+GLANCE = ("README.md", "submission/lablab.md")   # the "Business at a glance" table, identical in both
+
+
+def _jsonl(p: Path) -> list[dict]:
+    return [json.loads(x) for x in p.read_text(encoding="utf-8").splitlines() if x.strip()]
+
+
+def measured_lines(H: dict) -> list[str]:
+    """The measured numbers of the README first screen and lablab.md, each recomputed from the raw results here:
+    sheets read = distinct parsed sheets of the random 300 and of Colima; capture errors confirmed by the certified count
+    = the 300's (headline.json) + Colima's (app/colima.py); crops per sheet = disputed / read (app/pricing.py, checked
+    against headline.json above); fields per sheet = graded fields per form; hours = Colima's sheets at the best
+    measured rate of the throughput sweep; Morelos's cost and its share of the PREP: app/pricing.py."""
+    from app import colima
+    from scripts import throughput_sweep
+    sheets = set()
+    for p in (REPO / "results" / "calls_gemma.jsonl", REPO / "results" / "colima" / "calls_gemma.jsonl"):
+        sheets |= {r["form_id"] for r in _jsonl(p) if r.get("parsed_ok")}
+    F = colima.facts()
+    confirmed = H["cert_agree"] + (F or {}).get("cert_capture", 0)
+    sw = throughput_sweep.summarize()
+    fpm = min(sw["best_forms_per_min"], sw["rpm_limit"])
+    colima_h = F["read"] / fpm / 60 if F else float("nan")
+    morelos_h = pricing.MORELOS["actas"] / fpm / 60
+    day = "about a day" if 18 <= morelos_h <= 36 else f"about {morelos_h:.0f} hours"
+    T = pricing.texts()
+    return [
+        f"Gemma on AMD read {len(sheets):,} real handwritten tally sheets",
+        f"{confirmed} capture errors confirmed by the certified count",
+        (f"About one photo crop per sheet to look at ({T['crops_per_sheet']} measured: fields where the read and the "
+         f"capture disagree), instead of re-keying about {H['graded_per_form']} fields."),
+        (f"One shared AMD key audits Colima's {F['read'] if F else '?'} sheets in about {colima_h:.1f} hours and "
+         f"Morelos's {pricing.MORELOS['actas']:,} in {day}."),
+        T["ex_morelos_short"],
+    ]
+
+
+def glance_table(text: str) -> list[str]:
+    t = text.replace("\r\n", "\n")
+    i = t.find("**Business at a glance.**")
+    if i < 0:
+        return []
+    rows = []
+    for ln in t[i:].split("\n")[1:]:
+        if ln.startswith("|"):
+            rows.append(ln.strip())
+        elif rows:
+            break
+    return rows
 SCAN = list(DOCS) + ["templates/home.html", "templates/audit_request.html", "templates/audit_report.html"]
 
 
@@ -40,8 +91,8 @@ def check() -> list[str]:
     H = json.loads((REPO / "app" / "data" / "headline.json").read_text(encoding="utf-8"))
     if (pricing.CONFIRMED, pricing.READ_FORMS, pricing.DISPUTED) != (H["keying_errors"], H["read"], H["disagree"]):
         bad.append("app/pricing.py measured inputs != app/data/headline.json")
-    if pricing.contingency_usd() != math.floor(pricing.PRICE_PER_FORM_USD * H["read"] / H["keying_errors"]):
-        bad.append("contingency not derived from the measured precision")
+    if pricing.texts()["crops_per_sheet"] != f"{H['disagree'] / H['read']:.2f}":
+        bad.append("crops per sheet != disputed / read in app/data/headline.json")
     cpf = (H.get("gemma") or {}).get("cost_per_form")
     if cpf is not None and round(cpf, 6) != pricing.COMPUTE_PER_FORM_USD:
         bad.append(f"compute per form {pricing.COMPUTE_PER_FORM_USD} != headline {cpf}")
@@ -63,10 +114,19 @@ def check() -> list[str]:
                 bad.append(f"{doc}: missing '{m[:60]}...'")
     for doc in ("docs/BUSINESS.md", "README.md", "submission/lablab.md"):   # one product, one buyer; the contact flag
         s = " ".join((REPO / doc).read_text(encoding="utf-8").replace("**", "").split())
-        # forms_line: BUSINESS.md (and the site) only; the README/lablab business paragraph is being rewritten
-        for m in (buyer.OFFER_2027, buyer.contact_line()) + ((buyer.forms_line(),) if doc == "docs/BUSINESS.md" else ()):
+        # OFFER_2027 and forms_line: BUSINESS.md (and the site); the README and lablab carry the glance table instead
+        more = (buyer.OFFER_2027, buyer.forms_line()) if doc == "docs/BUSINESS.md" else ()
+        for m in (buyer.contact_line(),) + more:
             if " ".join(m.split()) not in s:
                 bad.append(f"{doc}: missing the current '{m[:50]}...'")
+    tables = {doc: glance_table((REPO / doc).read_text(encoding="utf-8")) for doc in GLANCE}
+    if not all(tables.values()) or len({tuple(v) for v in tables.values()}) != 1:
+        bad.append("README.md and submission/lablab.md: the 'Business at a glance' table is missing or differs")
+    for doc in GLANCE:
+        s = " ".join((REPO / doc).read_text(encoding="utf-8").replace("**", "").split())
+        for m in measured_lines(H):
+            if " ".join(m.split()) not in s:
+                bad.append(f"{doc}: missing the measured line '{m[:70]}...'")
     if " ".join(buyer.MARKET_SIZE.split()) not in " ".join((REPO / "docs/BUSINESS.md").read_text(encoding="utf-8").split()):
         bad.append("docs/BUSINESS.md: missing the market-size line")
     m = buyer.ine_metric()

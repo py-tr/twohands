@@ -43,7 +43,7 @@
       </div>
       {% endif %}
       <p class="meta" id="stripMeta">{% for x in ls.samples %}{{ x.forms|int }} in the {{ x.name }}{{ ' · ' }}{% endfor %}{% if ls.live %}<span class="ldot{{ ' on' if ls.running }}"></span>{{ ls.live.forms|int }} live since {{ ls.live.since_text }}{% if ls.updated_min_ago is not none %} (updated {{ 'just now' if ls.updated_min_ago == 0 else ls.updated_min_ago ~ ' min ago' }}){% endif %} · {% else %}<span class="tag">measured sample</span> · {% endif %}reader: {{ ls.reader_model }} on AMD Token Factory · <a href="/live">live audit</a></p>
-      <p class="meta d-only" id="stripPrice"><b>{{ pricing.texts().price_long }}</b> · <a href="/audit/request">request an audit</a></p>
+      <p class="meta d-only" id="stripPrice"><b>{{ pricing.texts().price }}</b> · <a href="/audit/request">request an audit</a></p>
     </div>
   </div>
   <p class="fold-note d-only">Sources: <a href="{{ honest.NUMERAL_33 }}" target="_blank" rel="noopener">PTO 2023-2024, numeral 33</a>; Anexo 13; <a href="/business.md">our reading</a>. The second capture costs {{ n.business.per_1000_g }} of AMD compute per 1,000 forms.</p>
@@ -152,9 +152,9 @@
       <div class="vs" style="margin-top:14px">
         <div><div class="big-num">{{ b.per_1000_g }}</div><div class="lab small muted">measured AMD compute per 1,000 forms, {{ n.amd.models[0].name }} ({{ b.cpf_g|usd(6) }} per form, {{ H.read }} reads)</div></div>
         <div class="mid">·</div>
-        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">proposed price per form audited (second capture + cotejo + receipts)</div></div>
+        <div><div class="big-num">${{ cited.price_proposal.value }}</div><div class="lab small muted">{{ PT.price_long }}</div></div>
       </div>
-      <p class="small" style="margin:8px 0" id="price-lines">Anchor: {{ PT.anchor }}. Line 2, contingency: {{ PT.contingency }} ({{ PT.contingency_basis }}). Costs: {{ PT.compute }}; {{ PT.review }}; plus hosting and sales. Examples: {{ PT.ex_morelos }}; {{ PT.ex_largest }}; {{ PT.ex_federal }}. {{ PT.self_serve }} FX {{ PT.fx }}.</p>
+      <p class="small" style="margin:8px 0" id="price-lines">Anchor: {{ PT.anchor }}. Costs: {{ PT.compute }}; {{ PT.review }}; plus hosting and sales. Examples: {{ PT.ex_morelos }}; {{ PT.ex_largest }}; {{ PT.ex_federal }}. {{ PT.self_serve }} FX {{ PT.fx }}.</p>
       <p class="small" style="margin-bottom:6px">{{ L.product }} A person checks 1 field in {{ '%.0f'|format(H.fields / H.disagree) }} instead of every field.</p>
       <p class="small" style="margin:8px 0" id="market-size">{{ buyer.MARKET_SIZE }} <span class="muted tiny">({{ buyer.MARKET_SIZE_SRC }})</span></p>
       <p class="small" style="margin:8px 0 4px"><b>Next markets, not measured:</b></p>

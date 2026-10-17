@@ -35,7 +35,7 @@ router = APIRouter()
 log = logging.getLogger("twohands.request")
 
 REQUESTS = storemod.STATE / "requests.jsonl"
-PRICE_PER_FORM = pricingmod.PRICE_PER_FORM_USD    # $1 per form audited (app/pricing.py, the one config value)
+PRICE_PER_FORM = pricingmod.PRICE_PER_FORM_USD    # $1 per sheet audited (app/pricing.py, the one config value)
 TURNAROUND = "report within 24 hours"
 RATE_N, RATE_WINDOW_S = 5, 3600
 MAX_FORMS = 10_000_000

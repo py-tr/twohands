@@ -89,7 +89,9 @@ def test_docs_quote_the_summary():
     assert L["gemma_role"] in flat(slides)   # the slides keep the long Gemma role (speaker note)
     assert L["honest"] in flat(lab) and L["why_gemma"] in flat(lab) and L["why_gemma"] in flat(gem)
     first = readme[:readme.index("## Contents")]
-    assert L["why_gemma"] in flat(first) and "| **Gemma-4-31B-IT** |" in first   # the Gemma table on the first screen
+    assert L["why_gemma"] in flat(readme) and "| **Gemma-4-31B-IT** |" in readme   # the Gemma table, "Why Gemma"
+    assert "**Business at a glance.**" in first and "**Scope.**" in first   # the first screen: proof bullets, table, scope
+    assert first.index("**Business at a glance.**") < first.index("**Scope.**") < first.index("<!-- links:start -->")
     m = re.search(r"## Short description \((\d+) characters\)\n\n(.+)\n", lab.replace("\r\n", "\n"))
     assert m and len(m.group(2)) == int(m.group(1)) <= 255
     assert L["two_readers"] in re.sub(r"\s+", " ", ev.replace("**", ""))

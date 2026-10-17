@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 
 # ------------------------------------------------------------------ the config
-PRICE_PER_FORM_USD = 1                 # line 1: per form audited (second capture + cotejo + receipts)
+PRICE_PER_FORM_USD = 1                 # the one price: per sheet audited (proposed)
 SELF_SERVE_PER_FORM_USD = 0.10         # footnote only: CLI / MCP, the client reviews its own disputes
 FX_MXN_PER_USD = 18.3835               # ECB reference rate, 2026-10-16
 FX_DATE = "2026-10-16"
@@ -43,18 +43,12 @@ def confirmed_per_form() -> float:
     return CONFIRMED / READ_FORMS
 
 
-def contingency_usd() -> int:
-    """Line 2: the fee per confirmed capture error that bills no more than line 1 at the measured rate, rounded down:
-    $1 / (52 / 289 confirmed per form) = $5.56 -> $5."""
-    return math.floor(PRICE_PER_FORM_USD / confirmed_per_form())
-
-
 def mxn(usd: float) -> float:
     return usd * FX_MXN_PER_USD
 
 
 def quote(forms: int) -> int:
-    """$ for `forms` forms at line 1, rounded up to the dollar."""
+    """$ for `forms` forms at the price, rounded up to the dollar."""
     return math.ceil(forms * PRICE_PER_FORM_USD)
 
 
@@ -76,21 +70,14 @@ def texts() -> dict:
     """The sentences every surface states, word for word."""
     per_acta_mxn = INE_LINE_MXN / INE_ACTAS
     r0, r1 = review_per_form()
-    c = contingency_usd()
     mor = quote(MORELOS["actas"])
     big = quote(LARGEST[1])
     nat = quote(NATIONAL)
     return {
-        "price": f"${PRICE_PER_FORM_USD} per form audited",
-        "price_long": f"${PRICE_PER_FORM_USD} per form audited (second capture + cotejo + receipts)",
+        "price": f"${PRICE_PER_FORM_USD} per sheet audited (proposed)",
+        "price_long": f"${PRICE_PER_FORM_USD} per sheet audited (proposed); first step: a paid shadow-mode pilot",
         "anchor": (f"INE's own line was MXN {INE_LINE_MXN / 1e6:.1f}M for ~{round(INE_ACTAS, -4):,} actas, about MXN "
                    f"{per_acta_mxn:.0f} (~${per_acta_mxn / FX_MXN_PER_USD:.0f}) per acta for a first capture alone"),
-        "contingency": (f"${c} per confirmed capture error, $0 if none is found"),
-        "contingency_basis": (f"measured: {CONFIRMED} confirmed capture errors in {DISPUTED} disputed fields "
-                              f"({100 * CONFIRMED / DISPUTED:.1f}%, 1 in {DISPUTED / CONFIRMED:.1f}) on {READ_FORMS} read "
-                              f"forms, {1000 * confirmed_per_form():.0f} per 1,000 forms; ${PRICE_PER_FORM_USD} / "
-                              f"{confirmed_per_form():.3f} = ${PRICE_PER_FORM_USD / confirmed_per_form():.2f}, rounded "
-                              f"down to ${c}"),
         "compute": f"AMD compute ${COMPUTE_PER_FORM_USD:.5f} per form (measured)",
         "review": (f"review labour for routed fields about ${r0:.2f} to ${r1:.2f} per form "
                    f"(estimate: {REVIEW_SECONDS_PER_CROP} s per disputed crop, {DISPUTED / READ_FORMS:.2f} crops per form "
@@ -103,6 +90,12 @@ def texts() -> dict:
                        f"(MXN {mxn(big) / 1e3:,.0f}k), {ceiling_note(big)}"),
         "ex_federal": (f"the federal count, {NATIONAL:,} forms: about ${round(nat, -3):,.0f} (MXN {mxn(nat) / 1e6:.1f}M), "
                        f"{ceiling_note(nat)}; INE's own line was MXN {INE_LINE_MXN / 1e6:.1f}M"),
+        "ex_morelos_short": (f"Morelos paid MXN {MORELOS['prep_mxn'] / 1e6:.1f}M to run its 2024 PREP "
+                             f"({MORELOS['actas']:,} sheets), including an MXN {MORELOS['audit_mxn'] / 1e6:.1f}M audit of "
+                             f"the software, not of the keyed values. Our check of every sheet: about MXN "
+                             f"{mxn(mor) / 1e3:,.0f}k (${round(mor, -2):,.0f}), "
+                             f"{100 * mxn(mor) / MORELOS['prep_mxn']:.1f}% of that."),
+        "crops_per_sheet": f"{DISPUTED / READ_FORMS:.2f}",
         "morelos_audit": (f"about {100 * mxn(mor) / MORELOS['audit_mxn']:.1f}% of "
                           f"Morelos's audit line and {100 * mxn(PRICE_PER_FORM_USD) / (MORELOS['prep_mxn'] / MORELOS['actas']):.1f}% "
                           f"of its PREP cost per acta (MXN {MORELOS['prep_mxn'] / MORELOS['actas']:,.0f}, "

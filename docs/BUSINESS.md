@@ -15,6 +15,79 @@ MXN 18.3835 per USD (ECB, 2026-10-16) (https://api.frankfurter.app/latest?from=U
 **In three sentences.** The problem: INE's two official captures of the same paper disagree on 6.5% of the polling stations that were not recounted, and 19.2% of captured forms fail their own row sum. The gap: the mandated audit checks the software, not the keyed values. The appetite: INE tried to buy an automated first capture in 2024 (an MXN 9.5M draft line, unspent), set an 80% bar that no entrant met, and its advisers asked for a pilot.
 (Sources: "The cost of the problem" below; INE CCOE report pp. 4, 5, 10; RE art. 347.)
 
+## Sources for the Business at a glance table
+
+The README and the lablab.md submission open with a "Business at a glance" table. Every external fact in it is sourced
+here; every measured number in it is recomputed from the raw results by `make eval` (`scripts/price_check.py --check`).
+
+**Buyer.**
+- The preliminary count (PREP) is run by INE and by each of the 32 state institutes under the same minimum phases:
+  section 0, "The same steps bind all 32 state PREPs" (RE art. 336, 346; Anexo 13).
+- Each has an outside auditor; all 26 named in February 2024 were universities or research centres: section 1,
+  "Channel, now" ([INE annex 5, CCOE session 23-02-2024](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a5.pdf)).
+- At least 13 of the 17 outsourced 2024 state PREPs went to three firms: section 0b, "Institutes already tried to buy
+  machine reading", item 4 ([INE UTSI, Anexo 3](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/166144/ccoe-1so-23-02-2024-p19-a3.pdf)).
+
+**Why now.**
+- Election day 6 June 2027, the federal election and 32 concurrent local processes: section 1, "The next window"
+  ([INE Central Electoral, 30 July 2026](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
+- Each state picks its PREP operator (alone or with a third party) by about 6 December 2026: section 0b, item 3
+  (Anexo 13 numeral 33 punto 7, as cited in [IEPC Guerrero Acuerdo 057/SO/16-07-2026](https://www.iepcgro.mx/principal/uploads/gaceta/2026/7ord/acuerdo057.pdf)).
+- INE's MXN 9.5M draft line for automated capture, none bought, the 80% bar, the advisers' pilot recommendation:
+  section 0b, "Institutes already tried to buy machine reading"
+  ([INE CCOE report, 26-08-2024](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10).
+
+**Price, reviewer work, capacity (ours).** The price is a proposal (`app/pricing.py`, section 2). AMD compute per sheet,
+crops per sheet (267 disputed fields on 289 read sheets) and fields per sheet (6,358 on 289) are measured
+(`results/calls_gemma.jsonl`, `app/data/headline.json`); the hours are Colima's 982 and Morelos's 7,802 sheets at the best
+measured rate of the shared endpoint (`results/throughput_sweep.json`, queueing included, not GPU time).
+
+**Example.** Morelos's MXN 26.6M PREP and its MXN 1.5M audit: section 0b, item 1
+([IMPEPAC, Informe Final PREP 23-24, p. 56](https://impepac.mx/wp-content/uploads/2024/07/Informe%20Final%20PREP_23-24_V_2.0.pdf));
+the audit checks the software by rule (RE art. 347 numeral 1). MXN 143k is 7,802 sheets at $1 at the one exchange rate
+above; 0.5% is that over MXN 26.6M.
+
+**Competition.** At least 0.8% of fields do not match the paper: 52 of 6,358 on the random 300
+(`app/data/headline.json`). Baja California Sur's Google Document AI matched the human capture on 62.84% of fields:
+section 0b, "Two 2024 state PREPs"
+([IEEBCS, Informe final del PREP 2023-2024](https://www.ieebcs.org.mx/documentos/acuerdos/INFORME_FINAL_PREP_PLE_2023-2024.pdf), p. 19).
+
+**Next: elections.** Countries beyond Mexico that publish the image of each handwritten result sheet beside separately
+published keyed or preliminary values (eight found; the table says "at least 7"):
+- Indonesia, 2024: C.Hasil photos from 823,236 polling stations (TPS)
+  ([Antara, 15 Feb 2024](https://www.antaranews.com/berita/3966738/kpu-tegaskan-tak-ada-niat-manipulasi-hasil-suara-di-pemilu-2024);
+  [NU Online](https://www.nu.or.id/nasional/alasan-kpu-tak-lagi-tampilkan-grafik-data-suara-pemilu-pBoUl)). The 820,161
+  in the volume table below is KPU's 2023 planning figure for domestic TPS.
+- Colombia, March 2026 Congress: E-14 forms from 125,259 tables
+  ([La Silla Vacía](https://www.lasillavacia.com/?p=403577);
+  [Canal Trece](https://canaltrece.com.co/noticias/balance-de-la-registraduria-a-las-400-p-m-asi-avanza-el-preconteo-y-la-digitalizacion-de-los-formularios-e-14/)).
+- Peru, April 2026 general: 92,766 actas, each published as an image
+  ([El Peruano](https://elperuano.pe/noticia/293837-elecciones-2026-sigue-aqui-el-link-para-ver-en-vivo-los-resultados-de-onpe-de-la-eleccion-presidencial);
+  [El Búho, May 2026](https://elbuho.pe/2026/05/onpe-llega-al-100-del-conteo-de-actas-de-las-elecciones-generales-2026-y-se-ratifica-segunda-vuelta-entre-fujimori-y-sanchez/)).
+- Ecuador, 2025: scanned actas published in real time
+  ([Vistazo](https://www.vistazo.com/actualidad/nacional/2025-11-16-20h30-contara-55-procesamiento-actas-escrutinio-conteo-votos-consulta-popular-referendum-FG10432412)).
+- Guatemala, 2023: acta images published in the TREP
+  ([La Hora, 4 Jul 2023](https://lahora.gt/nacionales/la-hora/2023/07/04/los-resultados-coinciden-y-se-mantienen-ganadores-dicen-9-entes-que-sumaron-todas-las-actas/));
+  next first round 27 June 2027 ([Prensa Latina, 25 Jun 2026](https://www.prensa-latina.cu/2026/06/25/guatemala-elecciones-primera-vuelta-sera-el-27-de-junio-de-2027/)).
+- Kenya, 2022: Form 34A from over 46,000 polling stations on the IEBC portal
+  ([The Star](https://www.the-star.co.ke/health/2022-09-06-form-34a-system-must-stay-forever); [forms.iebc.or.ke](https://forms.iebc.or.ke/));
+  next general election 10 August 2027 ([The Standard](https://www.standardmedia.co.ke/article/2001551158/iebc-sets-august-10-2027-as-general-election-date)).
+- Argentina, 2025: scanned telegrams per table on the official results site
+  ([resultados.elecciones.gob.ar](https://resultados.elecciones.gob.ar/territorios/0/0/10);
+  [Canal 26](https://www.canal26.com/politica/2025/09/08/elecciones-buenos-aires-2025-como-consultar-los-resultados-de-tu-mesa-y-descargar-el-telegrama-oficial/));
+  next national election October 2027 ([La Nación](https://www.lanacion.com.ar/politica/elecciones-2027-cuando-se-vota-para-presidente-en-la-argentina-nid03082026/)).
+- Nigeria: Form EC8A images on IReV
+  ([Ripples Nigeria](https://www.ripplesnigeria.com/inec-clarifies-role-of-irev-ahead-of-off-cycle-polls)).
+
+**Next: health.**
+- DHIS2 is the national health information system (HMIS) in more than 70 countries ([dhis2.org/health/hmis](https://dhis2.org/health/hmis/)).
+- Ethiopia: 30,000+ public health facilities report into DHIS2 as of 2024; many record on paper forms first, entered at
+  district level ([DHIS2, 28 Feb 2025](https://dhis2.org/enhancing-healthcare-in-ethiopia-using-dhis2/)).
+- Zambia: a malaria routine data quality audit costs on average US$205 per health-facility catchment area (economic
+  cost; range 161 to 307) ([PATH/MACEPA technical brief](https://mesamalaria.org/wp-content/uploads/2026/09/MACEPA-RDQA_Costing_Technical_Brief.pdf)).
+
+**Next (second form type).** UK rainfall ledgers, 1850-1960, measured: `docs/EVALUATION.md` (Rainfall Rescue).
+
 ## 0. The regulated process
 
 ### The text
@@ -353,11 +426,9 @@ not minutes.
 
 All of it from one config value, `app/pricing.py`; `make eval` (`scripts/price_check.py`) fails if a doc says otherwise.
 
-- **Line 1: $1 per form audited (second capture + cotejo + receipts).** Anchored, for scale, on a line for a different step: INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone (INE CCOE report p. 4; 170,648
+- **One price: $1 per sheet audited (proposed); first step: a paid shadow-mode pilot.** Anchored, for scale, on a line for a different step: INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone (INE CCOE report p. 4; 170,648
   actas expected, PREP 2024 CSV header).
-- **Line 2, contingency: $5 per confirmed capture error, $0 if none is found.** Derived once from the measured precision: measured: 52 confirmed capture errors in 267 disputed fields (19.5%, 1 in 5.1) on 289 read forms, 180 per 1,000 forms; $1 / 0.180 = $5.56, rounded down to $5
-  (app/data/headline.json; notes/bv-brainstorm/3-model.md section 3 (1 in 5.1 disputed fields confirmed, 180 per 1,000 forms read)). "Confirmed" is defined by a third party: the certified count agrees with the
-  paper, or the client's own reviewer marks it on the crop under a receipt.
+- The pilot: our check runs beside one state's 2027 count on its finished capture, in shadow mode: the institute's own process stays as it is, and the pilot shows what the check finds before anyone relies on it. An offer; no buyer has been contacted.
 - Footnote: Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 
 ### Cost side
@@ -372,7 +443,7 @@ All of it from one config value, `app/pricing.py`; `make eval` (`scripts/price_c
 Review labour, not compute, is the main cost. At the old $0.10 per form it would have taken the whole price; at $1
 it does not.
 
-### What it costs a buyer (examples at line 1)
+### What it costs a buyer (examples at the price)
 
 - Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling. About 9.5% of Morelos's audit line and 0.5% of its PREP cost per acta (MXN 3,409, ~$185) (IMPEPAC Informe Final PREP 23-24, p. 56).
 - The largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest.
@@ -438,7 +509,7 @@ That is a result-sheet capture error, the thing we check. We make no claim about
 
 | | Handles handwriting? | Proves each accepted value? | Finds errors in an existing capture? | Photo evidence per finding? | Cost per form | Open model on AMD? |
 |---|---|---|---|---|---|---|
-| **Two Hands** | yes: digits and words, Spanish, phone photos (measured) | yes: the paper's identities must hold, or a person sees it | **yes, the product** | yes, crop per disputed field | $0.14 per 1,000 compute (measured); $1 per form audited proposed | yes |
+| **Two Hands** | yes: digits and words, Spanish, phone photos (measured) | yes: the paper's identities must hold, or a person sees it | **yes, the product** | yes, crop per disputed field | $0.14 per 1,000 compute (measured); $1 per sheet audited (proposed) | yes |
 | Tesseract | "it won't work very well, as Tesseract is designed for printed text" ([FAQ](https://tesseract-ocr.github.io/tessdoc/FAQ.html)) | no | no (you would build it) | no | free, self-hosted | open source, CPU |
 | ABBYY FlexiCapture | yes, ICR for handwritten fields ([page](https://www.abbyy.com/flexicapture/)) | unknown | not a stated feature | unknown | not public | no |
 | Rossum | yes, "handwriting in 30 languages" ([page](https://rossum.ai/ai-ocr-software/)) | unknown | not a stated feature | unknown | not public | no |
@@ -492,9 +563,7 @@ and none we found shows a crop per finding ordered by the paper's own arithmetic
 
 ## 5. Next 90 days
 
-1. **One pilot with a state count's auditor.** Offer the field-level check to one of the academic auditors in the
-   INE annex, on that state's 2024 PREP data and scans, free, in exchange for a written evaluation. Target: a signed
-   letter before the 2027 auditors are named.
+1. **A paid shadow-mode pilot with one state.** Offer one state institute, or its outside auditor, our check beside its 2027 count, at the price above; start from a free sample on that state's 2024 PREP data and scans, as for Colima. Target: an agreed pilot before the operators are chosen (about 6 December 2026).
 2. **The second form type for elections.** Add a local-election tally sheet schema (local deputies are elected in 31
    states in 2027) and re-run the pre-registered protocol on a fresh random sample.
 3. **A self-hosted AMD deployment.** Run Gemma-4-31B-IT on an AMD GPU server we control, measure cost per form

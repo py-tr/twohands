@@ -7,9 +7,9 @@ recomputes them.
 
 Two Hands: receipts for every keyed number
 
-## Short description (253 characters)
+## Short description (227 characters)
 
-Gemma on AMD read 300 random handwritten tally sheets: 52 fields where the official capture differs from the paper, each with its photo. With the paper's own arithmetic as referee, one reader accepts 18% of forms with no person, 2 wrong fields in 1,210.
+Gemma on AMD read 1,270 real handwritten tally sheets, a random 300 and a whole state: 49 capture errors confirmed by the certified count, each with its photo. The paper's own arithmetic decides what is accepted with no person.
 
 ## Long description
 
@@ -17,7 +17,7 @@ Every number typed from a paper form, checked against the photo of that paper, w
 check the model against the source. We check the record against the paper. A vision model on AMD reads the form;
 the form's own arithmetic decides what to trust; every dispute arrives with its crop.
 
-Two hands: two independent readers, and the paper's own arithmetic as the referee.
+Verifiable quality control for handwritten numbers: the model reads, the form's own arithmetic decides what passes, people review the rest, every accepted value gets a receipt.
 
 **Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no
 parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact.
@@ -35,14 +35,23 @@ and published data are later checked against the sheet in the cotejo (Proceso T√
 numerals 30 to 35; the same phases bind all 32 state PREPs through Anexo 13 of INE's Reglamento de Elecciones).
 Our engine is an automated capture with a referee. In the preliminary capture (PREP, before the c√≥mputos and before
 any later cotejo correction), at least 0.8% of fields in our random sample do not match the paper (52 of 6,358); 1 in 5
-of the fields our check disputes is a capture error, against at least 1 in 122 at random.
+of the fields our check disputes is a capture error, against at least 1 in 122 at random. Recall is unmeasured.
 
-Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product. INE put MXN 9.5M in its 2024 draft budget for an automated first capture service, a different step
-from our check, and bought none: no entrant met its 80% bar on words and digits, and its advisers asked for a pilot
-(INE CCOE report, 26-08-2024, pp. 4, 5, 10). Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): read on AMD, not yet scored: no result is shown until it is. Status: no buyer contacted yet.
-Price (proposal): $1 per form audited (second capture + cotejo + receipts), or $5 per confirmed capture error, $0 if none is found. INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone. Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (GUESS: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales. Example:
-Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling. Health facility reports (DHIS2), mortgage post-closing QC and clinical-trial source data
-verification are the next markets, not measured.
+**Business at a glance.**
+
+| | |
+|---|---|
+| Buyer | Mexico's preliminary counts (PREP): INE and the 32 state institutes, each with an outside auditor (all 26 named in 2024 were universities). At least 13 of the 17 outsourced state PREPs of 2024 went to three firms. |
+| Why now | 6 June 2027: the federal midterm and 32 concurrent local elections. Each state picks its PREP operator by about 6 December 2026. INE budgeted MXN 9.5M for automated capture in 2024 and bought none (no bidder met its 80% bar); its advisers asked for a pilot. |
+| Product | An independent field-by-field check of a finished capture against the photo; no rule change needed. Also an API, CLI and MCP server, for software vendors that already key these forms. |
+| Price | $1 per sheet audited (proposed); first step: a paid shadow-mode pilot on one state's 2027 count. AMD compute: $0.00014 per sheet. |
+| Reviewer work | About one photo crop per sheet to look at (0.92 measured: fields where the read and the capture disagree), instead of re-keying about 22 fields. |
+| Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
+| Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
+| Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. Google Document AI, bought by Baja California Sur in 2024, matched the human capture on 62.84% of fields. Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
+| Next | A paid shadow-mode pilot with one state for 2027. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
+| Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
+| Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). Not yet measured. |
 
 Whole state: Gemma on AMD read all 982 located presidential sheets of Colima for $0.14; 27 fields where the capture does not match the paper, each confirmed by the certified count, with a field-level report.
 
@@ -63,17 +72,18 @@ Same 300 forms, same gate, on AMD: Gemma accepts 1.8x the forms Qwen3.8-27B does
 
 One reader: 18% of forms with no person, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; with the full gate, 7%, 0 wrong in 484). The one-reader figure is the pre-registered primary.
 
-Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.
+Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture. That is the secondary two-reader tier, on the lighter gate.
 
 What runs on AMD: every measured read of the 300 is Gemma-4-31B-IT on AMD GPUs through AMD Token Factory, one
-request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included. Page locating, the privacy mask and the gate run on CPU.
+request per form. Server time per form: 83 s mean, 71 s median (HTTP round trip, shared endpoint, 289 reads of Gemma-4-31B-IT, 2,609 tokens in, 804 out). Measured capacity (shared endpoint, 2026-10-17 00:48-01:03 UTC, queueing included, not GPU time): 4 in flight, 4.8 forms/minute, 32 s median, $0.000146/form; one shared key reads a state the size of Colima (982 sheets) in about 3.4 hours; national figures in results/throughput_sweep.json. About $24 of AMD compute to read all 169,005 national presidential tally sheets with Gemma-4-31B-IT ($0.000144 per form, the mean billed cost of 289 reads). The 300 run's 87 s per form was wall clock under our own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included. Gemma was briefly unavailable on the shared endpoint (2026-10-15
+15:41 to 2026-10-16 02:06 UTC); every stored number is Gemma on AMD (log: `results/endpoint_health.jsonl`). Page
+locating, the privacy mask and the gate run on CPU.
 
 Limits: most forms are routed to a person (see the table). "Wrong" is judged against the official capture: every disagreement was checked on the photo, the
 agreeing fields were not (a seeded random 200 of them is queued for a blind person check). The adjudicator is the AI
-adjudicator, not a person. Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. Blind
-spot: SOBRANTES (unused ballots) is in no printed identity, and every accepted-field error on the 300 was SOBRANTES; gate v3
-accepts it only when two independent reads agree. Failure case: on a fresh form the model read 3114 for 314 and the
-frozen gate accepted it; gate v2 blocks it.
+adjudicator, not a person. Recall is unmeasured: of the 7 recall fields, 1 is a confirmed capture error. The
+pre-registered second-reader pass on the 100-form confirmation was not run (a protocol deviation). 11 of the 300 pages could
+not be located and went to a person before any model call.
 
 ## Links
 

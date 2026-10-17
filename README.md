@@ -1,22 +1,28 @@
-# Two Hands: receipts for every number keyed from paper
+# Two Hands: verifiable quality control for handwritten numbers
 
-Every number typed from a paper form, checked against the photo of that paper, with the photo as proof. Others
-check the model against the source. We check the record against the paper. A vision model on AMD reads the form;
-the form's own arithmetic decides what to trust; every dispute arrives with its crop.
+The model reads the form; the form's own arithmetic decides what passes; people review the rest with the photo; every accepted value gets a receipt.
 
-Two hands: two independent readers, and the paper's own arithmetic as the referee.
+- **Real data:** Gemma on AMD read 1,270 real handwritten tally sheets (a pre-registered random 300 and a whole state); 49 capture errors confirmed by the certified count, each with its photo.
+- **Why Gemma:** same 300 forms, same gate, on AMD Token Factory: 1.8x the forms Qwen3.8-27B accepts at the same error rate, 4.6x cheaper, 2.8x faster ([the table](#why-gemma)).
+- **Re-derive it:** images, keyed values and certified counts are public (INE); [`make eval`](#reproduce-every-number) recomputes every number offline.
 
-The PREP rules require a second capture and a comparison for every acta (numeral 33) and a cotejo. Two Hands checks a finished capture against the photo, field by field: it accepts what the paper's arithmetic confirms and sends the rest to a person, with the photo.
+**Business at a glance.**
 
-Measured on a pre-registered random sample of 300 handwritten tally sheets from Mexico's 2024 count, graded against
-the official double-keyed capture: the model found 52 fields where the capture does not match the paper (22
-confirmed by the certified count; the other 30 judged from the photo by the AI adjudicator, the builder's model, which could see both values; a blind person check is in progress at `/check`). Errors we did not plant, in a record we did not write, in a sample drawn
-before any model read. Public ground truth is also why every number here can be re-derived by anyone: the images, the keyed values and the certified count are INE's, the scripts are ours (`make eval`).
+| | |
+|---|---|
+| Buyer | Mexico's preliminary counts (PREP): INE and the 32 state institutes, each with an outside auditor (all 26 named in 2024 were universities). At least 13 of the 17 outsourced state PREPs of 2024 went to three firms. |
+| Why now | 6 June 2027: the federal midterm and 32 concurrent local elections. Each state picks its PREP operator by about 6 December 2026. INE budgeted MXN 9.5M for automated capture in 2024 and bought none (no bidder met its 80% bar); its advisers asked for a pilot. |
+| Product | An independent field-by-field check of a finished capture against the photo; no rule change needed. Also an API, CLI and MCP server, for software vendors that already key these forms. |
+| Price | $1 per sheet audited (proposed); first step: a paid shadow-mode pilot on one state's 2027 count. AMD compute: $0.00014 per sheet. |
+| Reviewer work | About one photo crop per sheet to look at (0.92 measured: fields where the read and the capture disagree), instead of re-keying about 22 fields. |
+| Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
+| Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. Our check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
+| Competition | Second keying by a person (the rule today): at least 0.8% of fields in our random sample still do not match the paper. Google Document AI, bought by Baja California Sur in 2024, matched the human capture on 62.84% of fields. Ours accepts only what the paper's arithmetic proves and routes the rest with the photo. |
+| Next | A paid shadow-mode pilot with one state for 2027. Already measured on a second form type: UK rainfall ledgers (1850-1960). |
+| Next: elections | The same public data exists in at least 7 more countries, e.g. Indonesia (823,236 polling stations), Colombia (125,259 tables), Peru (92,766 actas); Guatemala, Kenya and Argentina also vote in 2027. |
+| Next: health | Monthly health-facility reports: DHIS2 runs national health reporting in 70+ countries; Ethiopia alone reports monthly from 30,000+ facilities, many on paper first. Funders already pay for manual re-checks (a malaria data audit in Zambia: about US$205 per facility). Not yet measured. |
 
-**Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what we measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.**
-The appetite is on record: INE put MXN 9.5M in its 2024 draft budget for an automated first capture service (PTO numeral 30), a different step from our check, and bought none: no entrant met its 80% bar on words and digits, and its advisers asked for a pilot ([INE report](https://repositoriodocumental.ine.mx/xmlui/bitstream/handle/123456789/176400/ccoe-10se-26-08-2024-p17-1.pdf), pp. 4, 5, 10).
-Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms we measured (and the Senate forms we read) are federal, processed by INE. Our local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): read on AMD, not yet scored: no result is shown until it is. Status: no buyer contacted yet.
-Price (proposal): **$1 per form audited (second capture + cotejo + receipts)**, or $5 per confirmed capture error, $0 if none is found. INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone.
+**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result; the preliminary capture is preliminary by design. An independent demonstration, not an official INE product.
 
 <!-- links:start -->
 **Live demo:** add at submission · **Video:** add at submission · **Repository:** add at submission ·
@@ -26,13 +32,57 @@ Price (proposal): **$1 per form audited (second capture + cotejo + receipts)**, 
 (links are kept in [`submission/links.json`](submission/links.json))
 <!-- links:end -->
 
-**Scope.** Clerical capture quality only: whether a typed number matches its paper. No results, no parties (vote rows are Option 01 to Option 15), no totals, no claim about any outcome; we did not assess vote impact. The certified count is the official result; the preliminary capture is preliminary by design. An independent demonstration, not an official INE product.
+## Contents
 
-| 52 | 1 in 5 |
+1. [Headline: the pre-registered 300](#headline-the-pre-registered-300)
+2. [Why Gemma](#why-gemma) · [What ran on AMD](#what-ran-on-amd)
+3. [Business detail](#business-detail) (sources: [docs/BUSINESS.md](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table))
+4. [Run it](#run-it) · [Reproduce every number](#reproduce-every-number)
+5. [Audit your capture](#audit-your-capture) · [Verify a receipt](#verify-a-receipt) · [CLI](#cli) · [MCP](#mcp)
+6. [How it works](#how-it-works)
+7. [Limits and failure cases](#limits-and-failure-cases)
+8. [Data and privacy](#data-and-privacy) · [Data, credit and framing](#data-credit-and-framing)
+9. [Evolus](#evolus) · [Docker](#run-with-docker) · [Deploy](#deploy) · [Repo map](#repo-map)
+
+## Headline: the pre-registered 300
+
+The PREP rules require a second capture and a comparison for every acta (numeral 33) and a cotejo. Two Hands checks a finished capture against the photo, field by field: it accepts what the paper's arithmetic confirms and sends the rest to a person, with the photo.
+
+![Option 07 on form 050815B0100: the words say "ciento setenta y cinco", the boxes say 1 7 5](slides/receipt_050815B0100.jpg)
+
+*Form 050815B0100, Option 07 (masked page, cropped right of the logo column). The paper says 175, the first
+capture keyed 75, the certified count says 175. One of the 52.*
+
+Mexico's 2024 polling-station tally sheets (INE). Sample, prompt, gate and metrics were committed before any model
+read (`PROTOCOL.md`, Amendments 1-3). Gemma-4-31B-IT on AMD read every page. Every field was compared with the
+official two-person capture (PREP); every disagreement was settled on a crop of the masked photo.
+
+| | Pre-registered random sample, n = 300 |
 |---|---|
-| fields where the official capture does not match the paper, each with its photo: 22 confirmed by the certified count · 0 checked by a person · 30 judged from the photo by the AI adjudicator only (the builder's model, which could see both values; a blind person check is in progress at `/check`) | disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). |
+| Pages located and read | 289 (11 went to a person before any model call) |
+| Fields compared with the official capture | 6,358; the model agrees on 95.80% and disputes **267 (4.2%)** |
+| **Fields where the official capture does not match the paper** | **52**: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. The certified count covers 31 and confirms the paper on 22; all 9 differences were recounts |
+| The model alone | wrong on 173 of 6,358 fields: about **1 in 37** |
+| Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** (one reader, the primary) |
+| Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong**: a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). With the full gate (section 7): 22 of 300 (7%), **0 of 484 fields wrong** |
+| How "wrong" was checked | Judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. |
+| Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (point estimate meets the pre-registered 0.5% bar; Wilson 95% upper bound 0.79%) ([`results/confirm100.md`](results/confirm100.md)) |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count · 0 checked by a person · 30 judged from the photo by the AI adjudicator only (the builder's model, which could see both values; a blind person check is in progress at `/check`). Recall is unmeasured, so the multiple between the two rates is too. |
+| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. |
 
-**Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.**
+The first capture is preliminary by design; the certified count is the official result.
+
+One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; with the full gate, 7%, 0 wrong in 484). The one-reader figure is the pre-registered primary.
+
+Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture. That is the secondary two-reader tier, on the lighter gate.
+
+Whole state: Gemma on AMD read all 982 located presidential sheets of Colima for $0.14; 27 fields where the capture does not match the paper, each confirmed by the certified count, with a field-level report. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). Every number: [`results/colima/colima_audit.md`](results/colima/colima_audit.md) (Amendment 8b).
+
+Every number above is computed by `scripts/build_headline.py` into `app/data/headline.json`, which the web app
+reads. Details: [docs/EVALUATION.md](docs/EVALUATION.md). Sources: [docs/NUMBERS.md](docs/NUMBERS.md). Every
+verdict and crop: [`results/adjudication/`](results/adjudication/SUMMARY.md).
+
+## Why Gemma
 
 <!-- why-gemma:start -->
 Same 300 forms, same gate, on AMD: Gemma accepts 1.8x the forms Qwen3.8-27B does at the same error rate, 4.6x cheaper and 2.8x faster, with no truncated answers. Every zero-error two-reader pair includes Gemma; the only pair without it made errors (2 of 814).
@@ -50,65 +100,6 @@ Same 300 forms, same gate, on AMD: Gemma accepts 1.8x the forms Qwen3.8-27B does
 <!-- why-gemma:end -->
 
 Measured on Gemma-4-31B-IT on the AMD Token Factory. Live reads use Gemma when it is listed, and fall back to Qwen3.8-27B otherwise; every receipt names its reader.
-
-![Option 07 on form 050815B0100: the words say "ciento setenta y cinco", the boxes say 1 7 5](slides/receipt_050815B0100.jpg)
-
-*Form 050815B0100, Option 07 (masked page, cropped right of the logo column). The paper says 175, the first
-capture keyed 75, the certified count says 175. One of the 52.*
-
-## Contents
-
-1. [Who pays](#who-pays)
-2. [Headline: the pre-registered 300](#headline-the-pre-registered-300)
-3. [What ran on AMD](#what-ran-on-amd)
-4. [Run it](#run-it) · [Reproduce every number](#reproduce-every-number)
-5. [Audit your capture](#audit-your-capture) · [Verify a receipt](#verify-a-receipt) · [CLI](#cli) · [MCP](#mcp)
-6. [How it works](#how-it-works)
-7. [Limits and failure cases](#limits-and-failure-cases)
-8. [Business detail](#business-detail)
-9. [Data and privacy](#data-and-privacy) · [Data, credit and framing](#data-credit-and-framing)
-10. [Evolus](#evolus) · [Docker](#run-with-docker) · [Deploy](#deploy) · [Repo map](#repo-map)
-
-## Who pays
-
-| | |
-|---|---|
-| **Buyer** | The state institutes (OPLEs) that run the regulated second capture; PREP vendors (three firms ran at least 13 of 17 outsourced 2024 state PREPs) and the outside auditors are the channel. Next markets, not measured: health facility reports (DHIS2), mortgage post-closing QC, clinical-trial source data verification |
-| **Price** | Proposal: $1 per form audited (second capture + cotejo + receipts); or $5 per confirmed capture error, $0 if none is found. INE's own line was MXN 9.5M for ~170,000 actas, about MXN 56 (~$3) per acta for a first capture alone |
-| **Measured cost on AMD** | $0.14 per 1,000 forms (Gemma, 289 reads); $0.65 with the second reader (Qwen, 43 pilot reads) |
-| **Proof** | Pre-registered random 300; every dispute with its photo; `make eval` recomputes every number offline (commit hashes remapped once: [docs/HISTORY.md](docs/HISTORY.md)) |
-
-Product, in one line: give us your keyed data and the scans; you get the 4% of fields to look at, each with its
-photo. Full case, with every source: [docs/BUSINESS.md](docs/BUSINESS.md).
-
-## Headline: the pre-registered 300
-
-Mexico's 2024 polling-station tally sheets (INE). Sample, prompt, gate and metrics were committed before any model
-read (`PROTOCOL.md`, Amendments 1-3). Gemma-4-31B-IT on AMD read every page. Every field was compared with the
-official two-person capture (PREP); every disagreement was settled on a crop of the masked photo.
-
-| | Pre-registered random sample, n = 300 |
-|---|---|
-| Pages located and read | 289 (11 went to a person before any model call) |
-| Fields compared with the official capture | 6,358; the model agrees on 95.80% and disputes **267 (4.2%)** |
-| **Fields where the official capture does not match the paper** | **52**: 17 wrong numbers typed; 27 readable fields recorded as illegible, 23 of them on two faint pencil forms; 6 numbers typed where the paper is blank; 2 other. Each with its photo. The certified count covers 31 and confirms the paper on 22; all 9 differences were recounts |
-| The model alone | wrong on 173 of 6,358 fields: about **1 in 37** |
-| Forms the gate accepts with no person | 55 of 300 (18%): **2 of 1,210 fields wrong, about 1 in 605** (one reader, the primary) |
-| Two readers that must agree, the paper's sums as referee | 89 of 300 (30%): **0 of 1,958 fields wrong**: a secondary analysis, defined (Amendment 2) after the one-reader result was seen and before the second reader ran; it uses the lighter gate (no section checks). With the full gate (section 7): 22 of 300 (7%), **0 of 484 fields wrong** |
-| How "wrong" was checked | Judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. |
-| Pre-registered confirmation, 100 fresh forms (Amendment 3) | gate v2 accepted 22 forms: **0 of 484 fields wrong**, judged against the official capture with every disagreement checked on the photo (point estimate meets the pre-registered 0.5% bar; Wilson 95% upper bound 0.79%) ([`results/confirm100.md`](results/confirm100.md)) |
-| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). Recall is unmeasured, so the multiple between the two rates is too. |
-| Recall | On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. Recall on confirmed capture errors rests on 1 field: it is unmeasured. |
-
-The first capture is preliminary by design; the certified count is the official result.
-
-One reader: 18% of forms accepted at second capture, 2 wrong fields in 1,210. Two readers that must agree, with the paper's sums as referee: 30%, 0 wrong in 1,958 (secondary, lighter gate; with the full gate, 7%, 0 wrong in 484). The one-reader figure is the pre-registered primary.
-
-Whole state: Gemma on AMD read all 982 located presidential sheets of Colima for $0.14; 27 fields where the capture does not match the paper, each confirmed by the certified count, with a field-level report. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). Every number: [`results/colima/colima_audit.md`](results/colima/colima_audit.md) (Amendment 8b).
-
-Every number above is computed by `scripts/build_headline.py` into `app/data/headline.json`, which the web app
-reads. Details: [docs/EVALUATION.md](docs/EVALUATION.md). Sources: [docs/NUMBERS.md](docs/NUMBERS.md). Every
-verdict and crop: [`results/adjudication/`](results/adjudication/SUMMARY.md).
 
 ## What ran on AMD
 
@@ -200,7 +191,7 @@ budget guard.
 (`app/data/audit_sample_prep300.csv`, built by `scripts/build_audit_sample.py`) against the stored Gemma reads. No
 model call; 6,358 fields checked; the same 267 disputes as `results/adjudication/`. 12 of the 18 ranked strong are
 confirmed capture errors, 13 of the 169 ranked weak (the rule was written before that check, on the same forms).
-To have us run one on your forms: `/audit/request` ($1 per form audited, report within 24 hours).
+To have us run one on your forms: `/audit/request` ($1 per sheet audited, proposed; report within 24 hours).
 
 ## Verify a receipt
 
@@ -306,14 +297,13 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
   The audit covers the computer system; we add the field-by-field check against the paper.
 - **Next window.** The federal election and 32 concurrent local processes, election day 6 June 2027
   ([INE](https://centralelectoral.ine.mx/2026/07/30/perfila-ine-organizar-el-proceso-electoral-federal-y-32-concurrentes-2026-2027/)).
-- **Size of one job (at $1 per form audited).** Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling; the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest; the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M. Federal
+- **Size of one job (at $1 per sheet audited).** Morelos, 7,802 forms: about $7,800 (MXN 143k), under the lowest federal direct-award ceiling; the largest state (Estado de México), 20,908 forms: about $20,900 (MXN 384k), over the lowest federal direct-award ceiling, under the highest; the federal count, 169,005 forms: about $169,000 (MXN 3.1M), over every federal direct-award ceiling: a tender; INE's own line was MXN 9.5M. Federal
   direct-award ceilings: MXN 309,000 to 1,145,000 ([PEF 2026 Anexo 9](https://dof.gob.mx/2025/SHCP/PEF_2026.html));
   states buy under their own rules.
 - **Yield (measured).** A person looks at about 5 disputed fields per confirmed capture error, against about 122
   at random: 267 disputed fields found 52; 267 random fields would find about 2. The strong-evidence tier is right
   12 of 18 times.
-- **Unit economics.** $1 per form audited (second capture + cotejo + receipts) (proposal). Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (estimate: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales,
-  not measured. Line 2: $5 per confirmed capture error, $0 if none is found (measured: 52 confirmed capture errors in 267 disputed fields (19.5%, 1 in 5.1) on 289 read forms, 180 per 1,000 forms; $1 / 0.180 = $5.56, rounded down to $5). Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
+- **Unit economics.** $1 per sheet audited (proposed); first step: a paid shadow-mode pilot. Costs: AMD compute $0.00014 per form (measured); review labour for routed fields about $0.09 to $0.13 per form (estimate: 20 s per disputed crop, 0.92 crops per form measured, $18 to $25 an hour); hosting and sales, not measured. Self-serve (CLI / MCP, you review your own disputes): $0.10 per form.
 - **A second line, not the hero.** When an agent keys a form, the paper still has to agree. Receipts work the same
   for a model as for a person; in our measurement, Gemma is the agent (alone it mis-keys 1 field in 37; the paper's
   arithmetic catches it the same way).

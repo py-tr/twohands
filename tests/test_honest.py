@@ -203,11 +203,12 @@ def test_model_line_names_an_open_outage_and_omits_the_bench_until_it_ran(tmp_pa
 def test_readme_first_screen_matches_the_computed_lines(no_spotcheck):
     readme = re.sub(r"\s+", " ", (honest.REPO / "README.md").read_text(encoding="utf-8"))
     first = readme[:readme.index("## Contents")]
-    assert honest.model_line() in first                       # the real results dir: with or without the bench clause
+    # the first screen is the proof bullets and the business table; the computed lines follow under ## Contents
+    assert honest.model_line() in readme                      # the real results dir: with or without the bench clause
     if not honest.bench_ran():
-        assert "MI300X" not in first
-    assert honest.REG_LINE in first
-    assert honest.confirmation(H)["text"].replace(" (person check pending)", "") in first
+        assert "MI300X" not in readme
+    assert honest.REG_LINE in readme
+    assert honest.confirmation(H)["text"].replace(" (person check pending)", "") in readme
     assert "no person" not in first and "touchless" not in first.lower()
 
 

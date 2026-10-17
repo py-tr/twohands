@@ -52,7 +52,7 @@ def test_form_shows_fields_price_and_turnaround():
     h = r.text
     for name in ("org", "email", "forms", "form_type", "where", "link", "deadline", 'name="website"'):
         assert f'name="{name}"' in h or name in h
-    assert "$1" in h and "per form audited" in h and "Report within 24 hours" in h
+    assert "$1" in h and "per sheet audited" in h and "Report within 24 hours" in h
     _clean(h, "/audit/request")
 
 
