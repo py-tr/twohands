@@ -52,13 +52,10 @@ def main():
         clip(pg, "h1", ".verdict.ok", "form_accepted_head.png", pad=8)
         clip(pg, ".idents:not([data-live-ids]) .ident >> nth=0", ".idents:not([data-live-ids]) .ident >> nth=-1", "form_accepted_idents.png", pad=6)
 
-        # Sample audit: run it, then the printable report
+        # Sample audit: /audit/new opens it finished; then the printable report
         pg.set_viewport_size({"width": 1180, "height": 900})
-        pg.goto(BASE + "/audit/new"); pg.wait_for_timeout(500)
-        with pg.expect_navigation():
-            pg.get_by_role("button", name="Run the sample audit").first.click()
-        pg.wait_for_selector(".card.au-check"); pg.wait_for_timeout(800)
-        audit_url = pg.url
+        pg.goto(BASE + "/audit/new"); pg.wait_for_selector(".card.au-check"); pg.wait_for_timeout(800)
+        audit_url = BASE + pg.get_attribute('a[href$="/report"]', "href").rsplit("/report", 1)[0]
         pg.goto(audit_url + "/report"); pg.wait_for_timeout(1200)
         item = pg.locator(".item", has_text="050815B0100").first.element_handle()
         r = pg.evaluate(BOX_JS, [item, item, 10])
