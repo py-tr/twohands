@@ -56,6 +56,11 @@ FILE_C13 = REPO / "app" / "state" / "spotcheck_colima13.json"
 DIR_CR = REPO / "results" / "colima" / "recall_crops"
 FILE_CR = REPO / "app" / "state" / "spotcheck_colimarecall.json"
 SETS = ("main", "confirm100", "agree200", "colima13", "colimarecall")
+# Committed copies of the answers with neutral field codes (Option NN as OPTnn, never a party name): a checkout without
+# app/state/ reads these, so it shows the same wording (written by `python -m app.spotcheck --sync`, checked by
+# scripts/price_check.py --check). Used only while the answers file is at its default place (tests point it elsewhere).
+COMMITTED = {"main": ADJ / "person_check.json", "colima13": REPO / "results" / "colima" / "person_check_colima13.json"}
+_DEFAULT = {"main": FILE, "colima13": FILE_C13}
 _lock = threading.Lock()
 router = APIRouter()
 
@@ -127,10 +132,68 @@ def queue(set_: Optional[str] = None) -> list[str]:
 
 
 def load(set_: Optional[str] = None) -> dict:
+    """The answers on this machine (app/state/), else the committed neutral copy (a fresh clone), else {}."""
     try:
         return json.loads(answers_file(set_).read_text(encoding="utf-8"))
     except (OSError, ValueError):
+        pass
+    s = _set(set_)
+    if s in COMMITTED and answers_file(s) == _DEFAULT[s]:
+        return {_raw_item(k): v for k, v in (_committed(s).get("answers") or {}).items()}
+    return {}
+
+
+def has_answers(set_: Optional[str] = None) -> bool:
+    return bool(load(set_))
+
+
+def _neutral_item(item: str) -> str:
+    from app.store import code_of
+    clave, key = item.split("__", 1)
+    return f"{clave}__{code_of(key)}"
+
+
+def _raw_item(item: str) -> str:
+    from app.store import key_of
+    clave, code = item.split("__", 1)
+    return f"{clave}__{key_of(code) or code}"
+
+
+def _committed(s: str) -> dict:
+    try:
+        return json.loads(COMMITTED[s].read_text(encoding="utf-8"))
+    except (OSError, ValueError):
         return {}
+
+
+def committed_copy(s: str) -> Optional[dict]:
+    """The neutral copy the live answers file implies (None without the live file)."""
+    try:
+        live = json.loads(answers_file(s).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return {"set": "/check" if s == "main" else f"/check?set={s}",
+            "answers": {_neutral_item(k): live[k] for k in sorted(live, key=_neutral_item)}}
+
+
+def committed_mismatches() -> list[str]:
+    """With the live answers on this machine, each committed copy must equal them."""
+    bad = []
+    for s, p in COMMITTED.items():
+        want = committed_copy(s)
+        if want is not None and _committed(s) != want:
+            bad.append(f"{p.relative_to(REPO).as_posix()} differs from the answers in app/state/ (python -m app.spotcheck --sync)")
+    return bad
+
+
+def sync_committed() -> list[str]:
+    done = []
+    for s, p in COMMITTED.items():
+        want = committed_copy(s)
+        if want is not None and _committed(s) != want:
+            p.write_text(json.dumps(want, ensure_ascii=False, indent=1) + chr(10), encoding="utf-8")
+            done.append(p.relative_to(REPO).as_posix())
+    return done
 
 
 def save_answer(item: str, ans: dict, set_: Optional[str] = None) -> None:
@@ -322,3 +385,12 @@ def _neutral(res: dict) -> dict:
         d["item"] = f"{clave} · {_field_of(d['item'])}"
         d["evidence"] = neutralize(d.get("evidence", ""))
     return res
+
+
+if __name__ == "__main__":   # python -m app.spotcheck --sync: write the committed neutral copies from app/state/
+    import sys
+    if "--sync" in sys.argv[1:]:
+        print(f"spotcheck --sync: updated {sync_committed() or 'nothing'}")
+    bad = committed_mismatches()
+    print(f"spotcheck committed copies: {len(bad)} mismatches" + "".join(f"\n  - {b}" for b in bad))
+    sys.exit(1 if bad else 0)

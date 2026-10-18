@@ -50,11 +50,11 @@ reads the same file) from `results/calls_gemma.jsonl` (last read per form) and `
 | The model alone | wrong on 173 of 6,358 fields (156 + 17): about 1 in 37 |
 | Accepted with no person (frozen gate, primary) | 55 of 300 (18%): 27 phone photos, 28 scans |
 | Accepted fields wrong after adjudication | **2 of 1,210** (about 1 in 605; Wilson 95% 0.04% to 0.60%), so the headline rule (error rate <= 0.5%) keeps the single-reader tier |
-| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values). The multiple between the two rates is not a recall estimate. |
+| Yield of a disputed field | 1 in 5 disputed fields is a confirmed capture error (52 of 267). The capture's overall error rate is at least 1 in 122 (52 of 6,358 found so far). Of the 52: 22 confirmed by the certified count, 30 judged from the photo by the AI adjudicator (the builder's model, which could see both values); checked by a person: 30 of 30, 27 agree, 3 unreadable to the person (`results/adjudication/person_check.json`). The multiple between the two rates is not a recall estimate. |
 | Recall | Recall on the capture errors the certified count reveals, Colima (pre-registered, a person's blind check): 27 of 28 caught, 96% (Wilson 95% 82-99%). One state, certified-detectable errors only; not total recall. (`results/colima/recall.md`, PROTOCOL.md Amendment 9.) Earlier, on the random 300: On the forms the certified count settled by comparison, it differs from the first capture on 23 fields; judged on the paper, 16 of them are council corrections or blank rows (the paper shows the capture's value), and the model disputed 7 of the other 7: 1 a confirmed capture error, 6 where the paper is ambiguous. On these forms recall on confirmed capture errors rests on 1 field, too few to measure; the measured recall is the Colima check. (`results/adjudication/RECALL.md`) |
 
 **Alone, one model mis-keys 1 field in 37. Two models that agree, refereed by the paper, mis-keyed 0 of 1,958 accepted fields against the official capture.** Wrong is judged against the official capture; every disagreement checked on the photo; fields where the model and the capture agree were not individually checked. On accepted fields the
-pair made 1 error and the model 2; we never claim the model beats the pair. The first capture is preliminary by
+model alone made 2 errors, Qwen alone 1, the pair 0 (`results/two_reader_300.md`); we never claim the model beats the pair. The first capture is preliminary by
 design; the certified count is the official result.
 
 ### Two readers (Amendment 2, secondary)
@@ -100,9 +100,8 @@ is exactly the error v2 exists to stop; v2b (secondary) accepted 29 with 0 wrong
 before these reads) accepted the other 22 fields on 24 forms, 0 of 504 wrong, but no Qwen pass was run on the 100, so its
 two-read rule sends every unused-ballots field to a person (0 touchless); with words + ballot stock alone, 21 of the 24
 would be touchless and both wrong unused-ballot reads (3114 vs 314, 207 vs 217) are caught. Every accepted-field
-disagreement with PREP (3 fields) was adjudicated from crops by the AI adjudicator (an AI model), labelled as such
-(person check pending: the blind queue `/check?set=confirm100`; the Results page and docs/REPORT.md switch to "checked by a
-person" from the stored answers): `results/confirm100.md`, `results/adjudication_confirm100/`. Evidence for v2 across
+disagreement with PREP (3 fields) was adjudicated from crops by the AI adjudicator (an AI model), labelled as such, and
+checked by a person (3 of 3 agree, `results/adjudication_confirm100/person_check.json`): `results/confirm100.md`, `results/adjudication_confirm100/`. Evidence for v2 across
 both sets, 1 wrong field in 1,518 accepted, is 1,034 post-hoc (the 300) plus 484 pre-registered (this run).
 
 ### Two Gemma reads as the two hands (Amendment 8, secondary)
@@ -145,7 +144,7 @@ other sets (one in the 300, one in the calibration set); they are flagged and no
 **Frozen gate (v1, primary): 381 of 1017 presidential actas accepted (267 phone photos, 114 scans), 13 wrong of 8,382
 accepted fields** (Wilson 95% 0.09% to 0.27%; 11 of the 13 on scans). All 13 rest on the **AI adjudicator's reading** of
 the masked crop (an AI model, not a person, not blinded), which agrees with the first capture in each; a person's blind check
-of the 13 is queued at `/check?set=colima13`. 9 of the 13 are unused ballots, the one field outside every identity; the other 4 (2 ballots taken from the boxes, 1 TOTAL, 1 Option 05) sit inside an identity and passed because the read kept every identity true (a compensating or harmonised read, as in the 239/239 case): the gate's blind spot made visible. 3 accepted fields where the paper is ambiguous are
+of the 13 is done: 13 answered, 12 agree, 1 ambiguous to the person (digits and words differ; `results/colima/person_check_colima13.json`). 9 of the 13 are unused ballots, the one field outside every identity; the other 4 (2 ballots taken from the boxes, 1 TOTAL, 1 Option 05) sit inside an identity and passed because the read kept every identity true (a compensating or harmonised read, as in the 239/239 case): the gate's blind spot made visible. 3 accepted fields where the paper is ambiguous are
 not counted. One reader, frozen gate: 2 wrong of 1,210 accepted fields on 300 random forms (0.17%), 13 of 8,382 on a whole state (0.16%). v2 (Amendment 3): 344 forms, 7 wrong of 7,568 accepted fields (0.04% to 0.19%). v3 (Amendment 7): 388
 forms, 4 wrong of 8,148 (0.02% to 0.13%); Colima has no second reader, so v3 sends every unused-ballots field to a person
 (0 touchless). v1 is the primary (the headline rule); v2 and v3 are pre-registered in Amendment 8b and shown beside it. The two-reader tier was not run on Colima (single reader); 0 of 1,958 remains a 300-form result.

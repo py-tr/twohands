@@ -1,0 +1,597 @@
+{
+ "set": "/check",
+ "answers": {
+  "010469C0400__SOBRANTES": {
+   "digits": 234,
+   "words": 234,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:05:46Z"
+  },
+  "021600C0100__SACADOS": {
+   "digits": 601,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:03:57Z"
+  },
+  "021626B0100__OPT04": {
+   "digits": null,
+   "words": 18,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:31:20Z"
+  },
+  "021626B0100__OPT05": {
+   "digits": null,
+   "words": 28,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:31:50Z"
+  },
+  "021626B0100__OPT08": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-16T10:40:01Z"
+  },
+  "021937C0100__OPT04": {
+   "digits": 11,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-16T10:40:06Z"
+  },
+  "021937C0100__OPT06": {
+   "digits": 11,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:14:38Z"
+  },
+  "050397B0100__SACADOS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:20:49Z"
+  },
+  "050815B0100__OPT07": {
+   "digits": 175,
+   "words": 175,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:04:07Z"
+  },
+  "070144C0200__OPT11": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:14:42Z"
+  },
+  "070154C0100__OPT07": {
+   "digits": 354,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:05:57Z"
+  },
+  "070207C0100__OPT04": {
+   "digits": 33,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:16:19Z"
+  },
+  "070207C0100__OPT06": {
+   "digits": 47,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:20:39Z"
+  },
+  "070207C0100__OPT08": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:20:47Z"
+  },
+  "070207C0100__OPT10": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:30:27Z"
+  },
+  "070207C0100__OPT11": {
+   "digits": null,
+   "words": 0,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:27:07Z"
+  },
+  "070207C0100__OPT12": {
+   "digits": 8,
+   "words": 8,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:25:08Z"
+  },
+  "070207C0100__OPT13": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:25:15Z"
+  },
+  "070207C0100__SACADOS": {
+   "digits": 416,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:51:02Z"
+  },
+  "070207C0100__TOTAL": {
+   "digits": 416,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:03:32Z"
+  },
+  "070470E0100__VOTARON": {
+   "digits": 420,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:10:20Z"
+  },
+  "080305B0100__OPT02": {
+   "digits": 15,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:51:39Z"
+  },
+  "080310B0100__SOBRANTES": {
+   "digits": 180,
+   "words": 180,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:51:17Z"
+  },
+  "080336B0100__SACADOS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:16:14Z"
+  },
+  "090955C0200__REPRESENTANTES": {
+   "digits": 0,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:14:45Z"
+  },
+  "093831B0100__NO_REGISTRADAS": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:08:50Z"
+  },
+  "093831B0100__NULOS": {
+   "digits": 9,
+   "words": 9,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-16T10:39:29Z"
+  },
+  "093831B0100__OPT03": {
+   "digits": 7,
+   "words": 7,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:08:42Z"
+  },
+  "093831B0100__OPT04": {
+   "digits": 11,
+   "words": 11,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:21:22Z"
+  },
+  "093831B0100__OPT05": {
+   "digits": 8,
+   "words": 8,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:00:41Z"
+  },
+  "093831B0100__OPT06": {
+   "digits": 39,
+   "words": 39,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:06:03Z"
+  },
+  "093831B0100__OPT07": {
+   "digits": 199,
+   "words": 199,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:49:57Z"
+  },
+  "093831B0100__OPT08": {
+   "digits": 7,
+   "words": 7,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-16T10:40:38Z"
+  },
+  "093831B0100__OPT09": {
+   "digits": 1,
+   "words": 1,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:24:47Z"
+  },
+  "093831B0100__OPT10": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-16T10:39:41Z"
+  },
+  "093831B0100__OPT13": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:21:26Z"
+  },
+  "093831B0100__OPT14": {
+   "digits": 2,
+   "words": 2,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:56:38Z"
+  },
+  "093831B0100__OPT15": {
+   "digits": 5,
+   "words": 5,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:20:30Z"
+  },
+  "093831B0100__SACADOS": {
+   "digits": null,
+   "words": 388,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:29:52Z"
+  },
+  "093831B0100__TOTAL": {
+   "digits": 383,
+   "words": 383,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:54:34Z"
+  },
+  "094821C0200__REPRESENTANTES": {
+   "digits": 2,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:10:13Z"
+  },
+  "094821C0200__SACADOS": {
+   "digits": 388,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:51:10Z"
+  },
+  "094821C0200__TOTAL": {
+   "digits": 388,
+   "words": 388,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:30:42Z"
+  },
+  "111666B0100__OPT11": {
+   "digits": null,
+   "words": null,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:02:15Z"
+  },
+  "122292C0100__NO_REGISTRADAS": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:20:53Z"
+  },
+  "131324C0200__NULOS": {
+   "digits": 15,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": true,
+   "ts": "2026-10-17T13:20:24Z"
+  },
+  "131468C0100__SACADOS": {
+   "digits": 354,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:01:06Z"
+  },
+  "131468C0100__TOTAL": {
+   "digits": 354,
+   "words": 354,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-16T10:40:16Z"
+  },
+  "140330C0200__NULOS": {
+   "digits": 14,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:05:31Z"
+  },
+  "140330C0200__OPT08": {
+   "digits": 2,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:26:41Z"
+  },
+  "142210C0400__SACADOS": {
+   "digits": null,
+   "words": null,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:16:23Z"
+  },
+  "151606C0100__SOBRANTES": {
+   "digits": 244,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:02:31Z"
+  },
+  "154237C0200__SACADOS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:03:54Z"
+  },
+  "155673C0300__VOTARON": {
+   "digits": null,
+   "words": null,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:05:36Z"
+  },
+  "162776C0100__SACADOS": {
+   "digits": 344,
+   "words": 344,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:14:34Z"
+  },
+  "202005C0200__OPT07": {
+   "digits": 75,
+   "words": 75,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:00:23Z"
+  },
+  "212668C0300__SOBRANTES": {
+   "digits": 379,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:03:36Z"
+  },
+  "220225C0200__OPT07": {
+   "digits": 240,
+   "words": 240,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:02:40Z"
+  },
+  "220313C0300__SACADOS": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:54:43Z"
+  },
+  "220497B0100__NO_REGISTRADAS": {
+   "digits": null,
+   "words": null,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:05:53Z"
+  },
+  "220497B0100__OPT13": {
+   "digits": null,
+   "words": null,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T12:56:54Z"
+  },
+  "230252B0100__SACADOS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:00:25Z"
+  },
+  "230696B0100__TOTAL": {
+   "digits": 307,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": true,
+   "ts": "2026-10-17T12:59:40Z"
+  },
+  "230957B0100__REPRESENTANTES": {
+   "digits": 3,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:10:08Z"
+  },
+  "241393C0100__SACADOS": {
+   "digits": null,
+   "words": null,
+   "blank": false,
+   "cant_tell": true,
+   "differ": false,
+   "ts": "2026-10-17T13:15:56Z"
+  },
+  "250767B0100__REPRESENTANTES": {
+   "digits": 3,
+   "words": 3,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:02:46Z"
+  },
+  "250767B0100__SOBRANTES": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:59:46Z"
+  },
+  "250767B0100__VOTARON": {
+   "digits": 390,
+   "words": 390,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:54:48Z"
+  },
+  "253737B0100__SACADOS": {
+   "digits": null,
+   "words": null,
+   "blank": true,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:56:44Z"
+  },
+  "270281B0100__SACADOS": {
+   "digits": 344,
+   "words": 344,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:54:23Z"
+  },
+  "270281B0100__TOTAL": {
+   "digits": 344,
+   "words": 344,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-16T10:39:54Z"
+  },
+  "301477B0100__OPT07": {
+   "digits": 128,
+   "words": 128,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:20:17Z"
+  },
+  "301480B0100__SACADOS": {
+   "digits": 422,
+   "words": 422,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:51:55Z"
+  },
+  "304034C0100__SACADOS": {
+   "digits": 0,
+   "words": 0,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:08:31Z"
+  }
+ }
+}

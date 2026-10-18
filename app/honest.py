@@ -98,7 +98,7 @@ def confirmation_in_doc(text: str, H: dict) -> bool:
     if not c:
         return False
     flat = " ".join(text.replace("**", "").replace("`", "").split())
-    if spotcheck.FILE.is_file():
+    if spotcheck.has_answers():
         return c["doc_tail"] in flat
     head = re.escape(c["doc_tail"][:c["doc_tail"].rindex("(") + 1])
     m = re.search(head + re.escape(DOC_WHO + "; ") + PERSON_RE.format(n=c["ai_total"]) + r"\)", flat)
@@ -119,7 +119,7 @@ def reread_expected(text: str, H: dict, key: str) -> Optional[str]:
     c = confirmation(H)
     if not c:
         return None
-    if spotcheck.FILE.is_file():
+    if spotcheck.has_answers():
         return REREAD[key].format(d=c["differ"]) if c["state"] == "done" else None
     flat = " ".join(text.replace("**", "").replace("`", "").split())
     m = re.search(PERSON_RE.format(n=c["ai_total"]), flat)

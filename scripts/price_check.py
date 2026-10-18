@@ -62,7 +62,7 @@ def measured_lines(H: dict) -> list[str]:
         f"{confirmed} capture errors confirmed by the certified count",
         (f"About one photo crop per sheet to look at ({T['crops_per_sheet']} measured: fields where the read and the "
          f"capture disagree), instead of re-keying about {H['graded_per_form']} fields."),
-        (f"One shared AMD key audits Colima's {F['read'] if F else '?'} sheets in about {colima_h:.1f} hours and "
+        (f"One shared AMD key audits Colima's {F['read'] if F else '?'} located sheets (of {F['prep_rows'] if F else '?':,}) in about {colima_h:.1f} hours and "
          f"Morelos's {pricing.MORELOS['actas']:,} in {day}."),
         T["ex_morelos_short"],
     ]
@@ -180,6 +180,8 @@ def check() -> list[str]:
         bad += [f"{doc}: missing the first-screen proof line '{m}'" for m in must if " ".join(m.split()) not in s]
     from app import colima   # the Amendment 9 recall line (app/colima.recall_pitch) and the first-screen clause
     bad += [f"{m} (app/colima recall lines)" for m in colima.recall_doc_mismatches()]
+    from app import spotcheck   # the committed neutral copies of the person's answers equal app/state/ (when present)
+    bad += spotcheck.committed_mismatches()
     if " ".join(buyer.MARKET_SIZE.split()) not in " ".join((REPO / "docs/BUSINESS.md").read_text(encoding="utf-8").split()):
         bad.append("docs/BUSINESS.md: missing the market-size line")
     m = buyer.ine_metric()

@@ -1,0 +1,109 @@
+{
+ "set": "/check?set=colima13",
+ "answers": {
+  "060058B0100__SOBRANTES": {
+   "digits": 208,
+   "words": 208,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:53:51Z"
+  },
+  "060111B0100__SOBRANTES": {
+   "digits": 291,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:52:46Z"
+  },
+  "060151B0100__SOBRANTES": {
+   "digits": 229,
+   "words": 229,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:57:12Z"
+  },
+  "060239C0100__SOBRANTES": {
+   "digits": 247,
+   "words": 247,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:54:32Z"
+  },
+  "060242B0100__SOBRANTES": {
+   "digits": 307,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:52:54Z"
+  },
+  "060248E0208__SACADOS": {
+   "digits": 384,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:50:57Z"
+  },
+  "060248E0208__SOBRANTES": {
+   "digits": 344,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T12:48:47Z"
+  },
+  "060248E0208__TOTAL": {
+   "digits": 384,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:53:58Z"
+  },
+  "060290C0400__OPT05": {
+   "digits": 16,
+   "words": 16,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:53:43Z"
+  },
+  "060290C0400__SOBRANTES": {
+   "digits": 364,
+   "words": 364,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:53:13Z"
+  },
+  "060291C0400__SOBRANTES": {
+   "digits": 387,
+   "words": null,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:53:55Z"
+  },
+  "060369C0100__SACADOS": {
+   "digits": 294,
+   "words": 291,
+   "blank": false,
+   "cant_tell": false,
+   "differ": true,
+   "ts": "2026-10-17T13:58:51Z"
+  },
+  "060374B0100__SOBRANTES": {
+   "digits": 179,
+   "words": 179,
+   "blank": false,
+   "cant_tell": false,
+   "differ": false,
+   "ts": "2026-10-17T13:54:14Z"
+  }
+ }
+}
