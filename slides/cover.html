@@ -1,48 +1,44 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Two Hands cover</title>
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --navy: #12324a; --ink: #f3f1ea; --muted: #b9c6d2; --accent: #ffd9a8; --paper: #fbfaf7; --red: #c2410c; }
-  html, body { margin: 0; height: 100%; }
-  body { width: 1920px; background: var(--navy); color: var(--ink); font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
-         display: flex; align-items: center; overflow: hidden; }
-  .wrap { display: grid; grid-template-columns: 900px 820px; gap: 72px; padding: 0 64px 0 64px; align-items: center; }
-  .brand { font-size: 34px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 26px; }
-  h1 { font-size: 92px; line-height: 1.04; margin: 0 0 34px; font-weight: 800; color: #fff; }
-  .sub { font-size: 40px; line-height: 1.3; color: var(--muted); margin: 0 0 44px; }
-  .badge { display: inline-flex; align-items: center; gap: 16px; font-size: 40px; font-weight: 700; color: var(--navy);
-           background: var(--accent); border-radius: 14px; padding: 14px 28px; }
-  .card { background: var(--paper); border-radius: 26px; padding: 34px 34px 30px; color: #1d232b; box-shadow: 0 24px 60px rgba(0,0,0,.35); }
-  .card img { width: 100%; display: block; border-radius: 10px; border: 2px solid #e3e0d8; }
-  .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 26px; }
-  .cell { border: 3px solid #e3e0d8; border-radius: 16px; padding: 16px 18px 12px; text-align: left; }
-  .cell.bad { border-color: var(--red); }
-  .cell.ok { border-color: var(--navy); }
-  .k { font-size: 24px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #5a6470; }
-  .v { font-size: 108px; font-weight: 800; line-height: 1.0; color: var(--navy); }
-  .bad .v { color: var(--red); text-decoration: line-through; text-decoration-thickness: 8px; }
-  .cap { font-size: 24px; color: #5a6470; margin-top: 18px; }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div>
-    <div class="brand">Two Hands</div>
-    <h1>Receipts for every number keyed from paper</h1>
-    <p class="sub">Two independent readers, and the paper's own arithmetic as the referee.</p>
-    <span class="badge">Gemma on AMD</span>
-  </div>
-  <div class="card">
-    <img src="receipt_050815B0100.jpg" alt="Handwritten row: words 'ciento setenta y cinco', boxes 1 7 5">
-    <div class="row">
-      <div class="cell"><div class="k">Paper</div><div class="v">175</div></div>
-      <div class="cell bad"><div class="k">Keyed</div><div class="v">75</div></div>
-      <div class="cell ok"><div class="k">Certified</div><div class="v">175</div></div>
-    </div>
-    <div class="cap">Form 050815B0100, Option 07 · INE PREP 2024, masked crop</div>
-  </div>
+:root { --bg:#f5f5f2; --ink:#14161b; --ink2:#2c3039; --muted:#5f6673; --line:#e2e2dc; --accent:#3047c0; --bad:#b3261e; }
+html,body { margin:0; }
+body { width:1920px; height:1080px; background:var(--bg); font-family:Inter,"Segoe UI",sans-serif; color:var(--ink);
+       position:relative; overflow:hidden; }
+.left { position:absolute; left:120px; top:150px; width:880px; }
+.brand { display:flex; align-items:center; gap:18px; font-size:30px; font-weight:600; color:var(--ink2); }
+.brand svg { width:52px; height:52px; }
+h1 { font-size:150px; line-height:1; margin:56px 0 28px; letter-spacing:-4px; font-weight:700; }
+.tag { font-size:46px; line-height:1.2; font-weight:500; color:var(--accent); margin:0 0 36px; }
+.hook { font-size:32px; line-height:1.4; color:var(--ink2); margin:0; max-width:820px; }
+.stats { position:absolute; left:120px; bottom:110px; display:flex; gap:64px; border-top:2px solid var(--ink); padding-top:26px; }
+.stat b { display:block; font-size:58px; font-weight:700; letter-spacing:-1px; }
+.stat span { font-size:22px; color:var(--muted); }
+.page { position:absolute; right:110px; top:90px; width:640px; height:560px; overflow:hidden; border:1px solid var(--line);
+        box-shadow:0 18px 50px rgba(20,22,27,.14); background:#fff; }
+.page img { width:100%; display:block; }
+.zoom { position:absolute; right:110px; top:560px; width:700px; background:#fff; border:1px solid var(--line);
+        box-shadow:0 24px 60px rgba(20,22,27,.22); padding:18px 18px 22px; }
+.zoom img { width:100%; display:block; }
+.rec { display:flex; gap:40px; margin-top:16px; font-size:26px; }
+.rec .bad { color:var(--bad); font-weight:700; } .rec .ok { color:var(--accent); font-weight:700; }
+.foot { position:absolute; right:110px; bottom:44px; font-size:22px; color:var(--muted); }
+</style></head><body>
+<div class="left">
+  <div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3047c0"/><path d="M9 9h6v14H9zM17 9h6v14h-6z" fill="none" stroke="#fff" stroke-width="2"/><path d="M11.5 16l1.5 1.5 3-3.5" fill="none" stroke="#fff" stroke-width="0"/><path d="M19 16.2l1.6 1.6 3-3.6" fill="none" stroke="#fff" stroke-width="0"/><circle cx="12" cy="16" r="1.6" fill="#fff"/><circle cx="20" cy="16" r="1.6" fill="#fff"/></svg>
+<span>Gemma on AMD</span></div>
+  <h1>Two Hands</h1>
+  <p class="tag">Verifiable quality control for handwritten numbers.</p>
+  <p class="hook">OCR reads the number. Two Hands checks whether the whole form agrees, and sends only what fails to a person.</p>
 </div>
-</body>
-</html>
+<div class="stats">
+  <div class="stat"><b>1,270</b><span>real tally sheets read on AMD</span></div>
+  <div class="stat"><b>49</b><span>typing errors confirmed</span></div>
+  <div class="stat"><b>91.6%</b><span>vs 62.84% for the AI a state bought</span></div>
+</div>
+<div class="page"><img src="file:///./slides/talk/assets/masked_080310B0100_left.jpg"></div>
+<div class="zoom"><img src="file:///./slides/talk/assets/crop_080310B0100_SOBRANTES.jpg">
+  <div class="rec"><span>Official record: <span class="bad">480</span></span><span>The paper: <span class="ok">180</span></span><span>Gemma read: <span class="ok">180</span></span></div>
+</div>
+<div class="foot">AMD Developer Hackathon ACT III</div>
+</body></html>
