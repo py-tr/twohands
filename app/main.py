@@ -37,6 +37,17 @@ templates = Jinja2Templates(directory=str(REPO / "templates"))
 app.state.live = LiveManager()
 app.add_middleware(ClientIPMiddleware)   # client address for the live read's per-visitor daily cap (app/live.py)
 
+@app.middleware("http")
+async def head_as_get(request, call_next):
+    """Answer HEAD like GET without a body, so link checkers see 200 instead of 405."""
+    if request.method != "HEAD":
+        return await call_next(request)
+    request.scope["method"] = "GET"
+    resp = await call_next(request)
+    headers = {k: v for k, v in resp.headers.items() if k.lower() != "content-length"}
+    return Response(status_code=resp.status_code, headers=headers)
+
+
 
 def st() -> storemod.Store:
     return storemod.get_store()
