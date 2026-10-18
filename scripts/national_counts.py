@@ -5,7 +5,7 @@
 
 Inputs (read-only): data/raw/prep/PRES_2024.csv (PREP final cut, 03/06/2024 20:05,
 https://prep2024.ine.mx/publicacion/nacional/assets/20240603_2005_PREP.zip) and data/raw/computos/PRES_2024.csv (Cómputos
-Distritales, cut 08/06/2024 20:30). Ported from notes/bv-brainstorm/scripts4/prep_counts.py and cotejo_diff.py.
+Distritales, cut 08/06/2024 20:30).
 
 Measures:
 - "Ilegible" fields (17 vote fields + 4 count fields + total) and the actas carrying at least one, on captured actas;

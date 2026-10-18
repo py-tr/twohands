@@ -213,7 +213,7 @@ FX: MXN 18.3835 per USD (ECB, 2026-10-16).
 
 <div class="cols3">
 <div class="card hi"><div class="k">All 169,005 national forms</div><div class="big s44">~$24</div><p class="small" style="margin:4px 0 0">of AMD compute ($0.000144 per form, measured)</p></div>
-<div class="card"><div class="k">Server time per form</div><div class="big s44">83 s</div><p class="small" style="margin:4px 0 0">HTTP round trip on the shared endpoint; 87 s wall clock includes my own pacing</p></div>
+<div class="card"><div class="k">Server time per form</div><div class="big s44">83 s</div><p class="small" style="margin:4px 0 0">HTTP round trip on the shared endpoint; 87 s wall clock includes fixed pacing</p></div>
 <div class="card"><div class="k">Tokens per form</div><div class="big s44">2,609 / 804</div><p class="small" style="margin:4px 0 0">in / out; 289 of 289 replies end in stop</p></div>
 </div>
 

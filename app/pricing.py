@@ -33,7 +33,7 @@ SOURCES = {
                "uploads/2024/07/Informe%20Final%20PREP_23-24_V_2.0.pdf",
     "wage": "https://www.outsourceaccelerator.com/glossary/data-entry/ ($18 to $25 an hour, in-house US operator)",
     "ceiling": "PEF 2026 art. 2 fr. X and Anexo 9, https://dof.gob.mx/2025/SHCP/PEF_2026.html",
-    "precision": "app/data/headline.json; notes/bv-brainstorm/3-model.md section 3 (1 in 5.1 disputed fields confirmed, "
+    "precision": "app/data/headline.json (1 in 5.1 disputed fields confirmed, "
                  "180 per 1,000 forms read)",
 }
 
