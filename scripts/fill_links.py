@@ -5,7 +5,7 @@ Usage:  python scripts/fill_links.py           # rewrite the blocks between <!--
 
 links.json is the only place the links are typed; a link left empty is written as "add at submission".
 It also rewrites the closing slide's one links line in slides/slides.md (Marp treats HTML comments as speaker notes,
-so that file has no block); rebuild the PDF afterwards (deploy/DEPLOY.md, "Going public").
+so that file has no block); rebuild the PDF afterwards.
 """
 from __future__ import annotations
 

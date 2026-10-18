@@ -13,7 +13,7 @@ from twohands import REPO
 
 ADJ = REPO / "results" / "adjudication"
 ROOT_FILE = REPO / "results" / "sample_audit_root.txt"
-REPO_URL = "https://github.com/py-tr/twohands"   # deploy/DEPLOY.md; submission/links.json "repo" wins when filled
+REPO_URL = "https://github.com/py-tr/twohands"   # submission/links.json "repo" wins when filled
 # The pilot's reads (spike runs) were made on 2026-10-14 (docs/sources/tally-witness-pilot.md, "Tally Witness: spike")
 PILOT_DATE = "2026-10-14"
 IDENT_SAY = {"rows sum to TOTAL": ("Rows sum to {l}", "TOTAL says {r}"),

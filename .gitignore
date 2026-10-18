@@ -15,7 +15,6 @@ results/run_status.json
 app/state/uploads/
 app/state/live_budget.json
 out/
-!deploy/.env.prod.example
 !.env.example
 app/state/audits/
 app/state/requests.jsonl

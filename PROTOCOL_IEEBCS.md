@@ -241,3 +241,5 @@ metrics are computed after it, on all actas, and the check and fix are reported 
 Also fixed now: the one acta the locator rejected, and the special-station actas with no schema, count as unmatched in
 the strict denominator (section 5), and the strict figure is the one used in the comparison line and the placement rule
 (section 10).
+
+Note 2026-10-18: largest-remainder allocation over the 10 strata gives 151 diputaciones / 149 ayuntamientos (the manifest as committed); 150/150 was the expected split by election. Amendments 4 and 5 of PROTOCOL.md were drafted, never merged or run; this run was served by the AMD Token Factory. The self-hosting scripts referenced above (deploy/mi300x) are not part of the public repository; no number in it comes from them.

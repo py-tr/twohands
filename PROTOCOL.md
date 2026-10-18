@@ -540,3 +540,5 @@ the number of candidates, each label's count, and (secondary) the recall with ev
 miss. Computed by `scripts/colima_recall.py score` into `results/colima/recall.json` and `.md`. Until every candidate
 is answered nothing is reported: the site and the docs say the check is in progress at `/check?set=colimarecall`.
 Once complete, the result is reported whatever it shows.
+
+Note 2026-10-18: Amendments 4 and 5 were drafted, never merged or run; no self-hosted read and no 3,000-form read exists. Where cited, read "no second arm". The self-hosting scripts referenced above (deploy/mi300x) are not part of the public repository; no number in it comes from them.

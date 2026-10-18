@@ -5,7 +5,7 @@ The key's daily cap (TWOHANDS_KEY_DAILY_USD, $1.00; it resets at 16:00 UTC) is s
     role     share   who                                                     enforced where
     worker   $0.60   the live audit worker (twohands/worker.py)              worker.Budget: own spend today >= share
     bulk     $0.30   anything launched by twohands.run, scripts/             amd.chat: before each request, the role's
-                     confirm_read.py or deploy/mi300x/orchestrate.py         spend today (spend ledger) >= share ->
+                     confirm_read.py                                         spend today (spend ledger) >= share ->
                      (every amd.chat call that is not worker or live)        sleep until the reset (+3 min)
     live     $0.10   the site's live-read button (app/live.py)               LiveManager.check_budget: its own daily
                                                                              dollars (LIVE_MAX_USD_PER_DAY) >= share

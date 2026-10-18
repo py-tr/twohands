@@ -13,7 +13,7 @@ Safety rails (the AMD Token Factory key is shared with the core's batch job: 20 
   * Per-visitor cap: LIVE_MAX_READS_PER_IP live reads a UTC day per client address (default 5; reads queued and
     not yet run count too), so one visitor cannot use the day's allowance. Addresses are stored hashed. Behind the
     Caddy proxy the client address comes from X-Forwarded-For (uvicorn FORWARDED_ALLOW_IPS, set in
-    deploy/docker-compose.prod.yml). Every refusal falls back to the form's last measured read.
+    the production compose file). Every refusal falls back to the form's last measured read.
   * No key configured (a fresh clone, the static mirror): the read is refused with code "off" and the measured
     read is shown; nothing else changes.
   * Only a privacy-masked page is ever sent; a form without one cannot be read live.

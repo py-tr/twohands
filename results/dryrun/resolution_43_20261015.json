@@ -100,5 +100,5 @@
   "arm": "none",
   "why": "no arm accepts more forms without more accepted-field errors than the baseline"
  },
- "note": "The AMD Token Factory runs Gemma at a fixed image budget, so the 300's numbers and the public live read use that budget; the higher budget was measured on our self-hosted MI300X."
+ "note": "The AMD Token Factory runs Gemma at a fixed image budget, so the 300's numbers and the public live read use that budget; the higher budget was planned for a self-hosted MI300X (dry run only, results/dryrun/), never measured."
 }

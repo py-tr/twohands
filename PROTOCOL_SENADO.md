@@ -175,3 +175,5 @@ equal).
   README or in the demo.
 - Deviations are recorded in `results/senado/RUN.md` with their time and reason. None is made after looking at
   outcomes.
+
+Note 2026-10-18: Gemma pass complete on the Token Factory (100 reads, 25 accepted); adjudication not done before the deadline, so per section 9 no Senate result is shown. Deviation: RUN.md was not written.

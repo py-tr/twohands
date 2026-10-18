@@ -8,7 +8,7 @@ rewritten here. Instead, the selected rows are copied verbatim into the quaranti
 line, and budgets.spent() skips every row listed there. Undo = delete the quarantine file.
 
 Selection (deliberately narrow; the 2026-10-16 incident): rows of ONE process id whose every row costs exactly the given
-amount (a fake per-call cost from a test double, e.g. tests/test_orchestrate.py's 0.001), within a given time window.
+amount (a fake per-call cost from a test double, e.g. a test's 0.001), within a given time window.
 A real process's costs vary call to call, so a pid with a constant cost over hundreds of rows is not a real reader.
 """
 from __future__ import annotations
@@ -58,7 +58,7 @@ def main(argv=None) -> int:
         return 0
     q = budgets.quarantine_file(led)
     note = {"note": f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}: {len(new)} fake rows from a pytest run "
-                    f"(pid {a.pid}, every row ${a.usd}: the test double's usage.cost in tests/test_orchestrate.py) written "
+                    f"(pid {a.pid}, every row ${a.usd}: the test double's usage.cost) written "
                     "into the real ledger before tests/conftest.py isolated TWOHANDS_SPEND_FILE. Copied here verbatim; "
                     "budgets.spent() skips them. The ledger itself is not rewritten. Undo: delete this file.",
             "pid": a.pid, "usd_each": a.usd, "n": len(new)}
