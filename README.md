@@ -451,7 +451,7 @@ rate limiter uses its own file (`app/state/ratelimit.json`), so it does not see 
 Run locally: `python run_app.py`; or with Docker: `docker compose up`, keys from `.env` (see [`.env.example`](.env.example)).
 
 `python -m app.export_static out/ --main-url URL` writes a static mirror (relative links, masked images only, live
-parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push to main.
+parts off), for any static file host.
 
 ## Repo map
 
