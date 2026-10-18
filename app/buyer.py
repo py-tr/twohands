@@ -71,8 +71,9 @@ def forms_line() -> str:
         d = ieebcs_card.load()
     except Exception:  # noqa: BLE001
         d = None
-    local = ("My local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored "
-             "(the head-to-head card)." if d else
+    local = ("My local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md; result in "
+             f"`results/ieebcs_head_to_head.md`: Gemma matched the published values on {d['a_raw']['pct']:.2f}% of "
+             f"fields, against Document AI's {d['theirs']['pct']:.2f}% match with the manual capture)." if d else
              "Local actas are next: a pre-registered head-to-head on Baja California Sur's 2024 local actas, read on "
              "AMD (PROTOCOL_IEEBCS.md).")
     return ("Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The "
@@ -186,7 +187,7 @@ NEXT_MARKETS = [
     {"k": "hmis",
      "text": ("Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source "
               "documents against what was keyed into the national database, and DHIS2 is the national health data "
-              "system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: "
+              "system in 70+ countries (dhis2.org/health/hmis); the monthly forms carry their own totals (Kenya MOH 711A: "
               "new + re-visits = total)."),
      "source": ("WHO, Data Quality Review Module 3 (2020), https://cdn.who.int/media/docs/default-source/data-quality-"
                 "pages/2021_dqa_module-3_site-assessment-framework.pdf; https://dhis2.org/about/; MOH 711A, "

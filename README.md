@@ -16,12 +16,12 @@ A model reads; the form's own arithmetic decides what passes; people review the 
 
 | | |
 |---|---|
-| Buyer | Mexico's preliminary counts (PREP): INE and the 32 state institutes, each with an outside auditor (all 26 named in 2024 were universities). At least 13 of the 17 outsourced state PREPs of 2024 went to three firms. |
+| Buyer | Mexico's preliminary counts (PREP): INE and the 32 state institutes, each with an outside auditor (all 26 named in 2024 were universities or research centres). At least 13 of the 17 outsourced state PREPs of 2024 went to three firms. |
 | Why now | 6 June 2027: the federal midterm and 32 concurrent local elections. Each state picks its PREP operator by about 6 December 2026. INE budgeted MXN 9.5M for automated capture in 2024 and bought none (no bidder met its 80% bar); its advisers asked for a pilot. |
 | Product | An independent field-by-field check of a finished capture against the photo; no rule change needed. Also an API, CLI and MCP server, for software vendors that already key these forms. |
 | Price | $1 per sheet audited (proposed); first step: a paid shadow-mode pilot on one state's 2027 count. AMD compute: $0.00014 per sheet. |
 | Reviewer work | About one photo crop per sheet to look at (0.92 measured: fields where the read and the capture disagree), instead of re-keying about 22 fields. |
-| Capacity | One shared AMD key audits Colima's 982 sheets in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
+| Capacity | One shared AMD key audits Colima's 982 located sheets (of 1,017) in about 3.4 hours and Morelos's 7,802 in about a day. A check of a finished capture, not election-night capture. |
 | Example | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. My check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
 | Competition | Second keying by a person (the rule today): at least 0.8% of fields in my random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). Two Hands accepts only what the paper's arithmetic proves and routes the rest with the photo. |
 | Next | A paid shadow-mode pilot with one state for 2027. The check is the form's own arithmetic, so it isn't tied to elections. Proven on two form types: Mexico's tally sheets and UK rainfall ledgers (1850-1960), no retraining. Next: tally sheets in [at least 7 more countries](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table) that publish their images, and the monthly health-facility reports behind DHIS2, used in [70+ countries](docs/BUSINESS.md#sources-for-the-business-at-a-glance-table). |
@@ -125,7 +125,7 @@ a public counter of reads on Home and at `/live` (computed from the worker's sta
 | What ran on AMD | every model read: Gemma (primary), Qwen3.8-27B (second reader), the bake-off models; the Evolus agent's model |
 | Not on AMD | page locating and masking (OpenCV, CPU), the gate (plain Python), the web app |
 
-The 300 run's 87 s per form was wall clock under my own pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
+The 300 run's 87 s per form was wall clock with fixed pacing (2 in flight), not GPU time; 83 s of it was the endpoint's round trip, queue included.
 
 Two Gemma misreads the arithmetic caught, each with its masked crop: [docs/GEMMA.md](docs/GEMMA.md#misreads-the-arithmetic-caught).
 
@@ -332,13 +332,13 @@ Full write-up, including the 43-form pilot: [docs/EVALUATION.md](docs/EVALUATION
   for a model as for a person; in my measurement, Gemma is the agent (alone it mis-keys 1 field in 37; the paper's
   arithmetic catches it the same way).
 - **Next markets, not measured** (sources in [docs/BUSINESS.md](docs/BUSINESS.md#next-markets-not-measured)):
-  1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
+  1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 70+ countries (dhis2.org/health/hmis); the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
   2. US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
   3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism I measured on election forms.
 - **Competition.** OCR and IDP platforms (Tesseract, ABBYY, Rossum, Hypatos, UiPath, Textract, Document AI)
   extract; none says it audits an existing capture with a crop per finding.
 - **Same job elsewhere (volume, not measured).** Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by me. One result sheet per polling station: Nigeria
-  176,846, Kenya 46,229, India 1,052,664, Indonesia 820,161, Peru 92,766; sources in
+  176,846, Kenya 46,229, India 1,052,664, Indonesia 820,161 domestic (823,236 in all), Peru 92,766; sources in
   [docs/BUSINESS.md](docs/BUSINESS.md#the-same-job-in-other-countries-volume-only-not-measured).
 - **Why double keying is not enough.** It copies the paper faithfully but cannot say which paper is wrong: 19.2% of
   nationally captured tally forms (26,336 of 137,196) fail their own row sum. Table in
@@ -410,7 +410,7 @@ the library), `EVOLUS_REVIEWER_EMAIL`, `TWOHANDS_GATE_TOKEN`, `TWOHANDS_PUBLIC_U
 ## Live audit
 
 A standing service keeps auditing presidential tally sheets on AMD during judging: `python -m twohands.worker run`
-(`twohands/worker.py`; the `worker` service in `deploy/docker-compose.prod.yml`). Status at **/live**, sources at
+(`twohands/worker.py`). Status at **/live**, sources at
 **/about-data**, three numbers on the Overview.
 
 - **Order:** smallest state first (Colima); inside a state, forms whose certified count was settled by comparison
@@ -425,8 +425,8 @@ A standing service keeps auditing presidential tally sheets on AMD during judgin
   Each dispute is a Merkle leaf (`twohands/merkle.py`), one root per completed state, a running root for the open one.
 - **Row-label check failed:** such a form is still compared field by field; its disputes are tagged "label check
   failed: weaker evidence" and counted separately.
-- **Budget and pace:** 3 reads in flight (`WORKER_CONCURRENCY`), at most $0.60 a day, keeping $0.20 for the
-  live-read button; then it sleeps until 16:00 UTC. It shares the rate-limiter file with the live reads and yields
+- **Budget and pace:** 3 reads in flight (`WORKER_CONCURRENCY`), at most $0.60 a day (the live-read button has its own
+  $0.10 share, `twohands/budgets.py`); then it sleeps until 16:00 UTC. It shares the rate-limiter file with the live reads and yields
   to them while one is queued. Resumable, crash-safe writes, a watchdog, rotating logs, a disk cap.
 - **Separate:** it never writes `results/`; `make eval` never reads `live_audit/`.
 - **Contact** (for INE or any operator of the source, as the User-Agent says): the maintainers of this repository,
@@ -448,12 +448,7 @@ rate limiter uses its own file (`app/state/ratelimit.json`), so it does not see 
 
 ## Deploy
 
-Step by step for a fresh Ubuntu server (Docker, clone, key, Caddy with HTTPS or plain HTTP, health check, restart,
-how the live read is capped per visitor and per day): [deploy/DEPLOY.md](deploy/DEPLOY.md).
-
-`deploy/deploy.sh user@IP [domain]` does the same from your machine: it installs Docker, copies the repo (never `.env`, `data/raw`, `cache`) and your
-`.env` (scp, mode 600), and starts the app behind Caddy: HTTPS for a domain, plain HTTP on the IP otherwise;
-variables in `deploy/.env.prod.example` (a subset of [`.env.example`](.env.example)).
+Run locally: `python run_app.py`; or with Docker: `docker compose up`, keys from `.env` (see [`.env.example`](.env.example)).
 
 `python -m app.export_static out/ --main-url URL` writes a static mirror (relative links, masked images only, live
 parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push to main.
@@ -467,7 +462,7 @@ parts off); `.github/workflows/pages.yml` publishes it to GitHub Pages on push t
 | `app/`, `templates/`, `static/` | FastAPI web app: viewer, review desk, audit gallery, results, live read |
 | `ledger/` | the rainfall-ledger snapshot (second form type) |
 | `results/` | manifest, prepare log, run log, every raw model call |
-| `PROTOCOL.md` | the pre-registered protocol for the 300-form run, with Amendments 1-3 and 6-8 (drafts 4 and 5 in their own files) |
+| `PROTOCOL.md` | the pre-registered protocol for the 300-form run, with Amendments 1-3 and 6-9 (Amendments 4 and 5 were drafted, never merged or run) |
 | `scripts/build_headline.py` | computes every headline number into `app/data/headline.json` (+ adjudication SUMMARY, RECALL) |
 | `submission/lablab.md` | the submission page text |
 | `submission/links.json` | the one place the submission links (repo, demo, video, sample report, slides) are kept |

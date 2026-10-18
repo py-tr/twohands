@@ -6,7 +6,7 @@ it disputes. What I sell for 2027 is that engine as an independent check of a fi
 
 **One product, one buyer, for 2027.** Who pays in 2027: the PREP's outside auditor or its contracted operator, for an independent check of a finished capture, field by field against the photo. It needs no rule change: it is an outside check, which is what I measured. A model as the regulated second capture (PTO numeral 33) needs the institute's governing body to approve it after INE's opinion (RE art. 339); that is the longer-term path, not the 2027 product.
 
-Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms I measured (and the Senate forms I read) are federal, processed by INE. My local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md): scored (the head-to-head card).
+Which form: state institutes (OPLEs) process local actas (governor, local deputies, municipalities). The presidential forms I measured (and the Senate forms I read) are federal, processed by INE. My local evidence is the Baja California Sur head-to-head on local actas (PROTOCOL_IEEBCS.md; result in `results/ieebcs_head_to_head.md`: Gemma matched the published values on 91.58% of fields, against Document AI's 62.84% match with the manual capture).
 
 Every number here is either **measured** (I cite the file in this repo) or **cited** (I fetched the source and
 quote it). Anything beyond elections is labelled **next market, not measured**. One exchange rate throughout:
@@ -39,7 +39,7 @@ here; every measured number in it is recomputed from the raw results by `make ev
 
 **Price, reviewer work, capacity (mine).** The price is a proposal (`app/pricing.py`, section 2). AMD compute per sheet,
 crops per sheet (267 disputed fields on 289 read sheets) and fields per sheet (6,358 on 289) are measured
-(`results/calls_gemma.jsonl`, `app/data/headline.json`); the hours are Colima's 982 and Morelos's 7,802 sheets at the best
+(`results/calls_gemma.jsonl`, `app/data/headline.json`); the hours are Colima's 982 located sheets (of 1,017) and Morelos's 7,802 sheets at the best
 measured rate of the shared endpoint (`results/throughput_sweep.json`, queueing included, not GPU time).
 
 **Example.** Morelos's MXN 26.6M PREP and its MXN 1.5M audit: section 0b, item 1
@@ -370,7 +370,7 @@ Most paper records are private, by law or by contract: patient charts, loan file
 
 A rule already forces a check of keyed data against paper in each; I have measured none of them.
 
-1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total). Source: WHO, Data Quality Review Module 3 (2020), https://cdn.who.int/media/docs/default-source/data-quality-pages/2021_dqa_module-3_site-assessment-framework.pdf; https://dhis2.org/about/; MOH 711A, https://tciurbanhealth.org/wp-content/uploads/2017/06/M2_-_MOH_711A_Facility_integrated_Form-3.pdf.
+1. Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 70+ countries (dhis2.org/health/hmis); the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total). Source: WHO, Data Quality Review Module 3 (2020), https://cdn.who.int/media/docs/default-source/data-quality-pages/2021_dqa_module-3_site-assessment-framework.pdf; https://dhis2.org/about/; MOH 711A, https://tciurbanhealth.org/wp-content/uploads/2017/06/M2_-_MOH_711A_Facility_integrated_Form-3.pdf.
 2. US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023. Source: Fannie Mae Selling Guide D1-3-01 and D1-3-02 (04/01/2026), https://selling-guide.fanniemae.com/sel/d1-3-01/lender-post-closing-quality-control-review-process; CFPB, https://www.consumerfinance.gov/data-research/hmda/summary-of-2023-data-on-mortgage-lending/.
 3. Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism I measured on election forms. Source: Medidata/TransCelerate, Clinical Leader Nov 2014, https://www.clinicalleader.com/doc/medidata-transcelerate-biopharma-inc-clinical-trial-0001; Lindblad et al., Clinical Trials 2014; 11: 205-217.
 
@@ -437,7 +437,7 @@ All of it from one config value, `app/pricing.py`; `make eval` (`scripts/price_c
 |---|---|---|
 | AMD compute, Gemma-4-31B-IT | $0.00014 | measured: mean $0.000144 over 289 reads, `results/calls_gemma.jsonl` |
 | AMD compute, second reader Qwen3.8-27B | $0.00051 | measured, 43 pilot reads, `docs/NUMBERS.md` A2 |
-| Review labour for routed fields | $0.09 to $0.13 | **Estimate** on time: 20 s per disputed crop; 267 disputed fields on 289 forms (measured, 0.92 per form); $18 to $25 an hour, in-house US operator (https://www.outsourceaccelerator.com/glossary/data-entry/ ($18 to $25 an hour, in-house US operator)); `notes/bv-brainstorm/3-model.md` section 3 |
+| Review labour for routed fields | $0.09 to $0.13 | **Estimate** on time: 20 s per disputed crop; 267 disputed fields on 289 forms (measured, 0.92 per form); $18 to $25 an hour, in-house US operator (https://www.outsourceaccelerator.com/glossary/data-entry/ ($18 to $25 an hour, in-house US operator)) |
 | Hosting and sales | not measured | |
 
 Review labour, not compute, is the main cost. At the old $0.10 per form it would have taken the whole price; at $1

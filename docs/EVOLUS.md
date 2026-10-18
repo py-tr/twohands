@@ -16,7 +16,7 @@ the Evolus CTO at the kickoff; quoted in [sources/event-rules.md](sources/event-
 
 ## Requirement 2: the main agent's model
 
-**Confirmed by the Evolus team (Discord, 2026-10-16, LazyLoad):** "Token Factory works fine on Evolus and does count for the Track."
+**Confirmed by the Evolus team (Discord, 2026-10-16, an Evolus team member):** "Token Factory works fine on Evolus and does count for the Track."
 
 
 The Evolus agent's model is Gemma-4-31B-IT on the AMD Token Factory, connected under 'Your models' as an
@@ -27,7 +27,7 @@ for ACT III.
 Sources, quoted in [sources/event-rules.md](sources/event-rules.md): the event page's Evolus block, "Bring your own model. Event workspaces run
 their agents on the model each team connects: an open model through a vLLM endpoint on AMD Developer Cloud, or any
 OpenAI-compatible provider" (page refresh of 2026-10-13; the Requirements line on the same page still says
-"through your own vLLM endpoint on AMD Developer Cloud"); and AMD (Maharshi, AMD admin, lablab Discord, 2026-10-15 ~18:11 UTC):
+"through your own vLLM endpoint on AMD Developer Cloud"); and AMD (an AMD admin, lablab Discord, 2026-10-15 ~18:11 UTC):
 "for hackathon no cloud credits needed only apikey from notebooks.amd.com/tokenfactory". Evolus then confirmed it (above).
 
 Both agents ("Intake clerk", "Tally sheet reader") were moved from Qwen3.8-27B to Gemma-4-31B-IT on 2026-10-16
@@ -160,8 +160,9 @@ clerk ran on Qwen3.8-27B: on 2026-10-15 Gemma-4-31B-IT was not on the Token Fact
 running after 6 min is recorded as `timeout` and the next field starts; the next call collects it without sending it
 again (one case did this, then completed). Evolus kept a workflow audit for each run, which is where the auditor's
 status goes.
+The file also holds 3 cases sent on 2026-10-16 (21 in all, all completed).
 
-## What a judge sees in the workspace
+## What a reviewer sees in the workspace
 
 | Name in the workspace | Block | What it does |
 |---|---|---|

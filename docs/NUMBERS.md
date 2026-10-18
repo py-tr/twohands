@@ -3,7 +3,7 @@
 Vote rows are shown as "Option 01" to "Option 15" (printed order). The app never shows party names, in HTML or in JSON.
 The app computes measured numbers at request time (`app/store.py`, `app/numbers.py`) from results files. It does not
 type them in. Cited context numbers are constants in `app/numbers.py` (`CITED`), and each one carries its source.
-This file lists both kinds. Values below are as of 2026-10-15; if a results file changes, the page changes with it.
+This file lists both kinds. Values below are as of 2026-10-17; if a results file changes, the page changes with it.
 
 ## A. Headline: the pre-registered 300 (one computed summary)
 

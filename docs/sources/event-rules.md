@@ -56,8 +56,8 @@ channel or server and the author's role.
 | Date (UTC) | Author (role) | Statement |
 |---|---|---|
 | 2026-10-13 | lablab organisers, #announcements | "ACTIII is hosted on notebooks.amd.com/tokenfactory - there is no billing or credit card info needed there" · "Developers dont need the $100 credit to participate in the ActIII hackathon. Just the api from the tokenfactory." |
-| 2026-10-14 | Maharshi (AMD, admin) | "no, its not a requirement to use it on AMD dev cloud. In fact, we are giving free apikeys for teams registered for lablab ActIII on notebooks.amd.com/tokenfactory" |
+| 2026-10-14 | an AMD admin | "no, its not a requirement to use it on AMD dev cloud. In fact, we are giving free apikeys for teams registered for lablab ActIII on notebooks.amd.com/tokenfactory" |
 | 2026-10-14 | lablab organisers, #announcements | Google DeepMind joins: "You can now build with Gemma, Google DeepMind's family of open models, running on AMD GPUs [...] Teams building with Gemma can compete for a dedicated Google prize" |
-| 2026-10-15 ~18:11 | Maharshi (AMD, admin) | "folks with gemma4 issues, the team is currently reviewing and will get back. for hackathon no cloud credits needed only apikey from notebooks.amd.com/tokenfactory." |
-| 2026-10-16 | LazyLoad (Evolus team) | A custom MCP server can be added manually from the workspace's Connectors page; the Evolus workspace name must be shown clearly in the app or the presentation; the workspace and the model endpoint must stay online until Nov 15 for evaluation; for a dockerized app: README with docker compose, `.env.example`, video end to end. (Paraphrase of several messages.) |
-| 2026-10-16 | LazyLoad (Evolus team) | "Token Factory works fine on Evolus and does count for the Track." |
+| 2026-10-15 ~18:11 | an AMD admin | "folks with gemma4 issues, the team is currently reviewing and will get back. for hackathon no cloud credits needed only apikey from notebooks.amd.com/tokenfactory." |
+| 2026-10-16 | an Evolus team member | A custom MCP server can be added manually from the workspace's Connectors page; the Evolus workspace name must be shown clearly in the app or the presentation; the workspace and the model endpoint must stay online until Nov 15 for evaluation; for a dockerized app: README with docker compose, `.env.example`, video end to end. (Paraphrase of several messages.) |
+| 2026-10-16 | an Evolus team member | "Token Factory works fine on Evolus and does count for the Track." |

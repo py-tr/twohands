@@ -35,10 +35,8 @@ Registration of the live-read photo: corner markers + orientation template, scor
 - Result: **no answer.** The AMD endpoint returned HTTP 500 on both attempts of the read's short retry budget
   (10.2 s, then 146.2 s; `results/endpoint_health.jsonl`, kind "live", 11:31:01Z and 11:33:33Z) while the Senate
   run chain was reading on the same endpoint. Error: `GaveUp: gave up after 2 attempts`; 170.7 s; no usage billed.
-- Gate: `no parseable read` -> **routed to a person**, not accepted. Fail-closed as designed, but this is not a
-  read of the words: **the synthetic live read did not happen.**
-- To repeat it when the endpoint is quiet: `python scripts/practice_demo.py --live` (one read; writes
-  `results/practice_sheet_demo.json`, then update this file).
+- Gate: `no parseable read` -> **routed to a person**, not accepted. Fail-closed as designed; this is not a
+  read of the words, so no live read of the synthetic sheet is reported.
 
 ## What the gate guarantees here (verified in code and tests)
 

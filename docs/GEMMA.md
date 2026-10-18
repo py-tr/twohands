@@ -137,8 +137,8 @@ A warning on the hackathon Discord: Gemma on this endpoint can keep generating a
    reply routes the form to a person.
 
 Measured on the 300 run: **289 of 289 Gemma reads finished with `stop`**, completion tokens 804 mean and 841 at
-most, no trailing text after the JSON on any read, no parse failure. The same defences matter more for Qwen: 37 of
-its 250 replies so far hit its 6,000-token cap (`length`) and were routed, never accepted
+most, no trailing text after the JSON on any read, no parse failure. The same defences matter more for Qwen: 50 of
+its 289 replies hit its 6,000-token cap (`length`) and were routed, never accepted
 (`results/gemma_vs_qwen.md`).
 
 ### 2.5 Latency, tokens and cost per form (measured)

@@ -1,6 +1,6 @@
 # Commit history note
 
-On 2026-10-17, before the repository was made public, its history was cleaned: drafts and working notes that held personal or internal details were removed, and author emails were replaced with the GitHub no-reply address. File contents and the author and committer dates of every commit are unchanged (check any pair below with `git log -1 --format='%aI %cI' <hash>`); every commit hash changed. The original history is kept as a git bundle and is available to the organisers on request. `PROTOCOL.md` is append-only, so it still cites the original hashes. Every commit that touched a protocol file maps as follows (commit times in CEST, as committed):
+On 2026-10-17, before the repository was made public, its history was cleaned: drafts and working notes that held personal or internal details were removed, and author emails were replaced with the GitHub no-reply address. File contents and the author and committer dates of every commit are unchanged (check any pair below with `git log -1 --format='%aI %cI' <hash>`); every commit hash changed. The original history is kept as a git bundle and is available on request. `PROTOCOL.md` is append-only, so it still cites the original hashes. Every commit that PROTOCOL*.md cites maps as follows (commit times in CEST, as committed):
 
 | Original | Now | Committed | What |
 |---|---|---|---|

@@ -176,7 +176,8 @@ def line(d: dict) -> str:
             f"({g['accepted_wrong']} of {g['accepted_fields']} accepted fields wrong), Qwen {q['touchless']} "
             f"({q['accepted_wrong']} of {q['accepted_fields']} wrong, {q['accepted_not_adjudicated']} not yet adjudicated); "
             f"Gemma {usd(g['cost_per_read_usd'])} per form vs Qwen {usd(q['cost_per_read_usd'])} "
-            f"(about 1/{round(1 / d['gemma_cost_share_of_qwen'])}), {g['mean_latency_s']:.0f} s vs {q['mean_latency_s']:.0f} s.")
+            f"(about 1/{round(1 / d['gemma_cost_share_of_qwen'])} per answered read; "
+            f"{q['cost_per_form_all_attempts_usd'] / g['cost_per_form_all_attempts_usd']:.1f}x on all attempts), {g['mean_latency_s']:.0f} s vs {q['mean_latency_s']:.0f} s.")
 
 
 def markdown(d: dict) -> str:

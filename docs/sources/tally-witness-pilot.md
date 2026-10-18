@@ -3,6 +3,8 @@
 > is shortened to its political-sensitivity notes (one phrase in them reworded), and planning notes and the spike's
 > file list are removed. Its data files are committed under [`data/pilot/`](../../data/pilot/SOURCES.md). Section numbers are the ones the
 > docs cite (for example "§1", "section 3").
+>
+> **Superseded:** the final computation is `results/national_counts.md` (3,382 of 52,167 not-recounted stations, 6.5%).
 
 # Tally Witness: spike (2026-10-14, 19:11 to ~20:25 UTC)
 

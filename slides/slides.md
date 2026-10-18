@@ -180,12 +180,12 @@ How big (my estimate): about 170,000 federal actas (169,005 presidential sheets 
 
 | | |
 |---|---|
-| **Buyer** | Mexico's preliminary counts (PREP): INE and the 32 state institutes, each with an outside auditor (all 26 named in 2024 were universities). At least 13 of the 17 outsourced 2024 state PREPs went to three firms. |
+| **Buyer** | Mexico's preliminary counts (PREP): INE and the 32 state institutes, each with an outside auditor (all 26 named in 2024 were universities or research centres). At least 13 of the 17 outsourced 2024 state PREPs went to three firms. |
 | **Why now** | 6 June 2027: federal midterm and 32 concurrent local elections; each state picks its PREP operator by about 6 December 2026. INE budgeted MXN 9.5M for automated capture in 2024 and bought none (80% bar); its advisers asked for a pilot. |
 | **Product** | An independent field-by-field check of a finished capture against the photo; no rule change needed. API, CLI and MCP server. |
 | **Price** | **$1 per sheet audited (proposed); first step: a paid shadow-mode pilot** on one state's 2027 count. AMD compute: $0.00014 per sheet. |
 | **Reviewer work** | About one photo crop per sheet (0.92 measured) instead of re-keying about 22 fields. |
-| **Capacity** | One shared AMD key: Colima's 982 sheets in about 3.4 hours, Morelos's 7,802 in about a day. |
+| **Capacity** | One shared AMD key: Colima's 982 located sheets (of 1,017) in about 3.4 hours, Morelos's 7,802 in about a day. |
 | **Example** | Morelos paid MXN 26.6M to run its 2024 PREP (7,802 sheets), including an MXN 1.5M audit of the software, not of the keyed values. My check of every sheet: about MXN 143k ($7,800), 0.5% of that. |
 | **Competition** | Second keying by a person: at least 0.8% of fields in my random sample still do not match the paper. On Baja California Sur's 2024 local actas, Gemma on AMD matched the published PREP values on 91.58% of fields (n = 3,622 fields on a pre-registered random sample of 300 of the 2,020 actas; Wilson 95% 90.63-92.44%), on the per-field exact-match metric where the state's purchased Google Document AI reading scored 62.84% (14,501 of 23,077 fields on all 2,020 actas, against the manual capture rather than the published values). |
 | **Next** | The same public data in at least 7 more countries (Indonesia, Colombia, Peru; Guatemala, Kenya, Argentina vote in 2027). Health reports: DHIS2 runs national reporting in 70+ countries. The check is the form's own arithmetic, so it isn't tied to elections. |
@@ -270,7 +270,7 @@ Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted
 
 <div class="mid">
 
-1. **Health facility reports (DHIS2):** WHO's Data Quality Review recounts paper source documents against what was keyed; DHIS2 runs in 80+ countries; monthly forms carry their own totals.
+1. **Health facility reports (DHIS2):** WHO's Data Quality Review recounts paper source documents against what was keyed; DHIS2 runs in 70+ countries; monthly forms carry their own totals.
 2. **US mortgage post-closing QC:** lenders re-check at least 10% of closed loans against source documents every month; 4.4 million closed-end originations in 2023.
 3. **Clinical-trial source data verification:** it corrects 1.1% of site data while monitoring takes 15-30% of trial costs.
 4. **Peru:** ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant; not measured by me.
@@ -283,7 +283,7 @@ Gemma-4-31B-IT is in both zero-error two-reader pairs (0 wrong of 1,958 accepted
 
 <!--
 Word for word (app/buyer.py):
-Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 80+ low- and middle-income countries; the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
+Health facility monthly reports (HMIS / DHIS2): WHO's Data Quality Review recounts the paper source documents against what was keyed into the national database, and DHIS2 is the national health data system in 70+ countries (dhis2.org/health/hmis); the monthly forms carry their own totals (Kenya MOH 711A: new + re-visits = total).
 US mortgage post-closing QC: Fannie Mae's Selling Guide makes lenders re-check at least 10% of the loans they close (or a statistical sample) every month, plus targeted selections, against the source documents; 4.4 million closed-end originations in 2023.
 Clinical-trial source data verification: a 7,000-trial analysis found it corrects 1.1% of site-entered data, while monitoring and verification take 15-30% of trial costs; pointing the monitor at the fields the paper disputes is the mechanism I measured on election forms.
 Peru: ONPE's 2026 rule keys every acta twice, one of them by a virtual assistant ("una de ellas, por un asistente virtual"); same process, second country, by regulation; not measured by me.

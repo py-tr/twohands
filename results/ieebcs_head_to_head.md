@@ -32,7 +32,7 @@ Excluded from the denominator (published value not a number): 46 fields ((blank)
 <!-- END NUMBERS -->
 
 Stack, per run: the rows carry the served model id. "Gemma-4-31B-IT" is the Token Factory; a self-hosted vLLM
-server on an AMD Instinct MI300X serves "google/gemma-4-31B-it" (`scripts/endpoint_switch.py`), and only rows with
+server on an AMD Instinct MI300X would serve "google/gemma-4-31B-it" (`scripts/endpoint_switch.py`), and only rows with
 that id may be called MI300X reads. PROTOCOL_IEEBCS.md section 4 allows either; this run is the Token Factory.
 
 ## What is and is not comparable (PROTOCOL_IEEBCS.md section 6)
@@ -50,17 +50,3 @@ that id may be called MI300X reads. PROTOCOL_IEEBCS.md section 4 allows either; 
   our pipeline.
 - Fields whose published value is not a number ('sin dato', 'ilegible', blank) are out of our denominator (count
   above); we do not know how their 62.84% treated them.
-
-## Wording for the page (only after the run, Results / buyer section / slide, never the hero)
-> In 2024 Baja California Sur's PREP used commercial cloud OCR for its first capture: 14,501 of 23,077 fields matched
-> the manual capture, 62.84% (final report, p. 19). On a pre-registered sample of 300 of the same published actas,
-> Gemma on AMD matched the published values on X% of all fields (Y% of pages the locator accepted). Same images;
-> reference and pipeline differ, as stated on Results; their per-field output is not published, so it could not be
-> re-scored.
-
-Short form: "Commercial cloud OCR as the first capture in the 2024 BCS PREP: 62.84% of fields matched the manual
-capture (IEEBCS final report, p. 19). Open Gemma on AMD, on 300 of the same state's actas, against the same published
-values: X%."
-
-X = (a) of the numbers block; Y = the read-page share where "pages the locator accepted" = located pages. Clerical
-wording only: a mismatch is a difference between a reading and a published number, nothing more.
