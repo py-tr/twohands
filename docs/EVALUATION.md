@@ -106,7 +106,7 @@ both sets, 1 wrong field in 1,518 accepted, is 1,034 post-hoc (the 300) plus 484
 
 ### Two Gemma reads as the two hands (Amendment 8, secondary)
 
-Amendment 8 was committed (`37e2d51`) before read B existed. Read A is the stored Gemma-4-31B-IT read of the 300 (page +
+Amendment 8 was committed (`4029cac`) before read B existed. Read A is the stored Gemma-4-31B-IT read of the 300 (page +
 6 tiles); read B is a new Gemma-4-31B-IT read on AMD Token Factory of the same masked pages with page + 4 tiles,
 temperature 0 (prompt sha256 `54014b0f04f7...`). Read B has 300 rows: 289 read, 11 unlocated pages routed before any
 call, no API errors, no reply cut at `max_tokens`. The primary and the headline rule are unchanged. The amendment sets
@@ -136,7 +136,7 @@ built by `scripts/gemma_tf_reads2.py score-b4` (no model call); `make eval` re-c
 
 ### Colima, the whole state (Amendment 8b)
 
-Amendment 8b was committed (`37e2d51`) before any Colima read. Gemma-4-31B-IT on AMD Token Factory read every located
+Amendment 8b was committed (`4029cac`) before any Colima read. Gemma-4-31B-IT on AMD Token Factory read every located
 presidential casilla acta of Colima once (frozen prompt, page + 6 tiles, temperature 0): 982 of the 1,017 in the PREP
 file, all 982 parsed. The 35 with no image or not located are routed and listed, never replaced. Two forms are also in
 other sets (one in the 300, one in the calibration set); they are flagged and not counted twice in any pooled figure.
