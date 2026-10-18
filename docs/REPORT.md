@@ -50,11 +50,11 @@ id, excluding the 43 pilot forms. Stratified by state x capture type, proportion
 
 | Document | Commit | Committed | Governs | First governed call |
 |---|---|---|---|---|
-| PROTOCOL.md (sample, privacy, readers, gate, metrics, headline rule) | `f85ca1f` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
-| results/manifest.json (the 300) | `f85ca1f` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
-| Amendment 1: the page locator | `ddfabe9` | 2026-10-15 01:29:19Z | preparation of the 300 | first successful Gemma read 2026-10-15 05:56:11Z |
-| Amendment 2: secondary analyses (two-reader tiers, adjudication of every disagreement) | `56fe2e1` | 2026-10-15 10:36:46Z | Qwen pass, adjudication | Qwen 2026-10-15 11:53:45Z; first adjudication commit 2026-10-15 10:37:43Z |
-| Amendment 3: gate v2 and a fresh 100-form confirmation draw | `693451b` | 2026-10-15 13:36:57Z | the confirmation 100 | 2026-10-16 08:51:07Z |
+| PROTOCOL.md (sample, privacy, readers, gate, metrics, headline rule) | `ae103dd` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
+| results/manifest.json (the 300) | `ae103dd` | 2026-10-15 01:09:08Z | the 300 | Gemma 2026-10-15 01:38:17Z |
+| Amendment 1: the page locator | `6081edf` | 2026-10-15 01:29:19Z | preparation of the 300 | first successful Gemma read 2026-10-15 05:56:11Z |
+| Amendment 2: secondary analyses (two-reader tiers, adjudication of every disagreement) | `54dd69a` | 2026-10-15 10:36:46Z | Qwen pass, adjudication | Qwen 2026-10-15 11:53:45Z; first adjudication commit 2026-10-15 10:37:43Z |
+| Amendment 3: gate v2 and a fresh 100-form confirmation draw | `f790f6f` | 2026-10-15 13:36:57Z | the confirmation 100 | 2026-10-16 08:51:07Z |
 
 PROTOCOL.md is append-only (`make eval` checks that no commit deletes a line of it). Amendment 1 changed only the
 locator, before any successful read of the 300: the pre-registered locator left 52 of 300 pages

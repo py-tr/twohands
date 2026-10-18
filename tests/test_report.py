@@ -36,7 +36,7 @@ def test_every_gate_variant_in_one_table(text):
 
 def test_key_numbers_and_framing(text):
     for s in ("267 of 6,358", "**52**", "1 in 5", "n = 7", "65% to 100%", "239 in digits", "234 in both",
-              "covers 31 of the 52", "f85ca1f", "ddfabe9", "56fe2e1", "693451b"):
+              "covers 31 of the 52", "ae103dd", "6081edf", "54dd69a", "f790f6f"):
         assert s in text, s
     for line in text.splitlines():
         if line.startswith("#"):

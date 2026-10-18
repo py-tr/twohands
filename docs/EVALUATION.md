@@ -26,9 +26,9 @@ What we measured, how, and where it breaks. Every number has a source file; the 
 
 ## Pre-registered random run: 300 forms (the headline)
 
-The protocol (`PROTOCOL.md`) was committed in `f85ca1f` before any of the 300 was sent to a model. It fixes the
+The protocol (`PROTOCOL.md`) was committed in `ae103dd` before any of the 300 was sent to a model. It fixes the
 sample (stratified by state x capture type, seed 20261015, manifest sha256 `605af977...e081`), the prompt (sha256
-`3664253035b9...`), the gate, the metrics and the headline rule. **Amendment 1** (commit `ddfabe9`) replaced only
+`3664253035b9...`), the gate, the metrics and the headline rule. **Amendment 1** (commit `6081edf`) replaced only
 the page locator, also before any model read of the 300: the original locator left 52 of 300 pages unlocated (50 of
 them phone photos). The new locator was tuned on the 43 pilot forms and a **fresh calibration set of 150** (seed
 20261016, disjoint from the 300): **143 of 150 located and correctly aligned** by an eye audit of every page (Wilson
@@ -107,7 +107,7 @@ both sets, 1 wrong field in 1,518 accepted, is 1,034 post-hoc (the 300) plus 484
 
 ### Two Gemma reads as the two hands (Amendment 8, secondary)
 
-Amendment 8 was committed (`77f6025`) before read B existed. Read A is the stored Gemma-4-31B-IT read of the 300 (page +
+Amendment 8 was committed (`37e2d51`) before read B existed. Read A is the stored Gemma-4-31B-IT read of the 300 (page +
 6 tiles); read B is a new Gemma-4-31B-IT read on AMD Token Factory of the same masked pages with page + 4 tiles,
 temperature 0 (prompt sha256 `54014b0f04f7...`). Read B has 300 rows: 289 read, 11 unlocated pages routed before any
 call, no API errors, no reply cut at `max_tokens`. The primary and the headline rule are unchanged. The amendment sets
@@ -137,7 +137,7 @@ built by `scripts/gemma_tf_reads2.py score-b4` (no model call); `make eval` re-c
 
 ### Colima, the whole state (Amendment 8b)
 
-Amendment 8b was committed (`77f6025`) before any Colima read. Gemma-4-31B-IT on AMD Token Factory read every located
+Amendment 8b was committed (`37e2d51`) before any Colima read. Gemma-4-31B-IT on AMD Token Factory read every located
 presidential casilla acta of Colima once (frozen prompt, page + 6 tiles, temperature 0): 982 of the 1,017 in the PREP
 file, all 982 parsed. The 35 with no image or not located are routed and listed, never replaced. Two forms are also in
 other sets (one in the 300, one in the calibration set); they are flagged and not counted twice in any pooled figure.
@@ -259,7 +259,7 @@ every PREP (Reglamento de Elecciones art. 347), and in 2024 UNAM centres audited
 
 ## Known limitations
 
-- A receipt-audit run on the public CORD benchmark was pre-registered (commit 5fccfb7) and not run for lack of time.
+- A receipt-audit run on the public CORD benchmark was pre-registered (commit 28940df) and not run for lack of time.
 - The pre-registered Qwen pass on the 100-form confirmation (Amendment 3) was not run: a protocol deviation.
 
 - **One reader, one adjudicator.** Every disagreement was settled from the photo by the AI adjudicator (the builder's
